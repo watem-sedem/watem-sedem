@@ -1,0 +1,141 @@
+object Hoofdscherm_CN_form: THoofdscherm_CN_form
+  Left = 504
+  Height = 296
+  Top = 290
+  Width = 324
+  Caption = 'CN_WS v. 2016a (single event)'
+  ClientHeight = 276
+  ClientWidth = 324
+  Color = clBtnFace
+  Font.CharSet = ANSI_CHARSET
+  Font.Height = -13
+  Font.Name = 'MS Sans Serif'
+  Font.Pitch = fpVariable
+  Font.Quality = fqDraft
+  Menu = MainMenu1
+  OnClose = FormClose
+  OnCreate = FormCreate
+  LCLVersion = '1.4.4.0'
+  object StatusBar1: TStatusBar
+    Left = 0
+    Height = 23
+    Top = 253
+    Width = 324
+    Panels = <>
+  end
+  object GroupBox1: TGroupBox
+    Left = 24
+    Height = 104
+    Top = 8
+    Width = 280
+    Caption = '1) Select model version'
+    ClientHeight = 83
+    ClientWidth = 276
+    Font.CharSet = ANSI_CHARSET
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    ParentFont = False
+    TabOrder = 1
+    object CheckBox1: TCheckBox
+      Left = 16
+      Height = 20
+      Top = 32
+      Width = 201
+      Caption = 'Use simplified model version *'
+      OnChange = CheckBox1Change
+      TabOrder = 0
+    end
+    object CheckBox2: TCheckBox
+      Left = 16
+      Height = 20
+      Top = 8
+      Width = 152
+      Caption = 'Use full model version'
+      OnChange = CheckBox2Change
+      TabOrder = 1
+    end
+    object Label1: TLabel
+      Left = 16
+      Height = 13
+      Top = 64
+      Width = 209
+      Caption = '* Without time-dependent runoff calculations'
+      Font.CharSet = ANSI_CHARSET
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Pitch = fpVariable
+      Font.Quality = fqDraft
+      ParentColor = False
+      ParentFont = False
+    end
+  end
+  object GroupBox2: TGroupBox
+    Left = 24
+    Height = 56
+    Top = 120
+    Width = 280
+    Caption = '2) Select model input'
+    ClientHeight = 35
+    ClientWidth = 276
+    Font.CharSet = ANSI_CHARSET
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    ParentFont = False
+    TabOrder = 2
+    object Input: TButton
+      Left = 80
+      Height = 23
+      Top = 8
+      Width = 112
+      Caption = 'Select input'
+      OnClick = InputClick
+      TabOrder = 0
+    end
+  end
+  object GroupBox3: TGroupBox
+    Left = 24
+    Height = 57
+    Top = 184
+    Width = 280
+    Caption = '3) Run model'
+    ClientHeight = 36
+    ClientWidth = 276
+    Font.CharSet = ANSI_CHARSET
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    ParentFont = False
+    TabOrder = 3
+    object CnRun: TButton
+      Left = 80
+      Height = 23
+      Top = 8
+      Width = 112
+      Caption = 'Run model'
+      OnClick = CnRunClick
+      TabOrder = 0
+    end
+  end
+  object MainMenu1: TMainMenu
+    left = 16
+    top = 184
+    object MenuItem8: TMenuItem
+      Caption = 'About'
+    end
+  end
+  object OpenDialog1: TOpenDialog
+    Filter = 'Idrisi vector|*.vec'
+    left = 72
+    top = 184
+  end
+  object SaveDialog1: TSaveDialog
+    Filter = 'Idrisi32|*.rst'
+    left = 272
+    top = 184
+  end
+end

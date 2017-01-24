@@ -1,0 +1,128 @@
+object Form1: TForm1
+  Left = 359
+  Height = 259
+  Top = 313
+  Width = 432
+  Caption = 'Form1'
+  ClientHeight = 239
+  ClientWidth = 432
+  Menu = MainMenu1
+  LCLVersion = '1.0.14.0'
+  object Label1: TLabel
+    Left = 184
+    Height = 16
+    Top = 16
+    Width = 73
+    Caption = 'Rainfall (mm)'
+    ParentColor = False
+  end
+  object Label2: TLabel
+    Left = 184
+    Height = 16
+    Top = 56
+    Width = 154
+    Caption = 'Antecedent 5D Rainfall (mm)'
+    ParentColor = False
+  end
+  object Label3: TLabel
+    Left = 184
+    Height = 16
+    Top = 96
+    Width = 79
+    Caption = 'Duration (min)'
+    ParentColor = False
+  end
+  object Label4: TLabel
+    Left = 184
+    Height = 16
+    Top = 128
+    Width = 86
+    Caption = 'Max I10 (mm/h)'
+    ParentColor = False
+  end
+  object Edit1: TEdit
+    Left = 312
+    Height = 23
+    Top = 8
+    Width = 81
+    TabOrder = 0
+    Text = '10'
+  end
+  object Edit2: TEdit
+    Left = 312
+    Height = 23
+    Top = 48
+    Width = 81
+    TabOrder = 1
+    Text = '38'
+  end
+  object Edit3: TEdit
+    Left = 312
+    Height = 23
+    Top = 88
+    Width = 81
+    TabOrder = 2
+    Text = '2'
+  end
+  object Edit4: TEdit
+    Left = 312
+    Height = 23
+    Top = 120
+    Width = 81
+    TabOrder = 4
+    Text = '16'
+  end
+  object Test: TButton
+    Left = 32
+    Height = 23
+    Top = 66
+    Width = 75
+    Caption = 'test'
+    OnClick = testClick
+    TabOrder = 3
+  end
+  object MainMenu1: TMainMenu
+    left = 80
+    top = 184
+    object IKbeneenmenu: TMenuItem
+      Caption = 'File'
+      object MenuItemInput: TMenuItem
+        Caption = 'Input'
+        ShortCut = 16457
+        OnClick = MenuItemInputClick
+      end
+      object MenuItem2: TMenuItem
+        Caption = 'Run'
+      end
+      object MenuItemExit: TMenuItem
+        Caption = 'Exit'
+        OnClick = MenuItemExitClick
+      end
+    end
+    object MenuItem4: TMenuItem
+      Caption = 'Tools'
+      object MenuItem5: TMenuItem
+        Caption = 'Pit'
+      end
+      object MenuItem6: TMenuItem
+        Caption = 'Tillage Direction'
+      end
+    end
+    object MenuItem7: TMenuItem
+      Caption = 'Options'
+    end
+    object MenuItem8: TMenuItem
+      Caption = 'About'
+    end
+  end
+  object OpenDialog1: TOpenDialog
+    Filter = 'Idrisi vector|*.vec'
+    left = 224
+    top = 160
+  end
+  object SaveDialog1: TSaveDialog
+    Filter = 'Idrisi32|*.rst'
+    left = 312
+    top = 168
+  end
+end
