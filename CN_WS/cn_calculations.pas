@@ -48,98 +48,98 @@ implementation
 //******************************************************************************
 Procedure ReadRainfallFile (var Raindata: TRainRecordArray; Rainfallfilename: string);
 var
-TimeSeries_output, I10TimeSeries: IntegerArray;
-Cumul_Rain, Cumul_Interp, RainfallSeries_output,I10RainfallSeries, I10Series: FloatArray;
-teller, i, j, nr, Timestep_rain, Fill_num: integer;
-x : double;
-datafile: textfile;
-a, b, c: string;
-Z:FloatArray2;
+  TimeSeries_output, I10TimeSeries: IntegerArray;
+  Cumul_Rain, Cumul_Interp, RainfallSeries_output,I10RainfallSeries, I10Series: FloatArray;
+  teller, i, j, nr, Timestep_rain, Fill_num: integer;
+  x : double;
+  datafile: textfile;
+  a, b, c: string;
+  Z:FloatArray2;
 
 begin
-teller := 0;
-assignfile(datafile, RainfallFilename);
-reset(datafile);
-while not eof(datafile) do
-begin //To determine the number of time steps and number of rows in the file
- inc(teller);
- Readln(datafile, a);
- end;
-Setlength(TimeSeries, teller); //Time in seconds
-Setlength(Rainfallseries, teller); //Regenval in mm (per timestep)
-NumberOfTimesteps := teller-1;
-
-ReadText(RainfallFilename,Z,teller,2);   // see procedure below
-
-for
-  i:=0 to NumberOfTimesteps do
-  begin
-   TimeSeries[i]:=Trunc(Z[i,0]);    //Array containing the time steps
-   RainfallSeries[i]:=Z[i,1];     //Array with the amount of rainfall (mm) per time step
+  teller := 0;
+  assignfile(datafile, RainfallFilename);
+  reset(datafile);
+  while not eof(datafile) do
+  begin //To determine the number of time steps and number of rows in the file
+   inc(teller);
+   Readln(datafile, a);
    end;
+  Setlength(TimeSeries, teller); //Time in seconds
+  Setlength(Rainfallseries, teller); //Regenval in mm (per timestep)
+  NumberOfTimesteps := teller-1;
 
-for i := 0 to NumberOfTimesteps do         // convert time min => sec
+  ReadText(RainfallFilename,Z,teller,2);   // see procedure below
+
+  for
+    i:=0 to NumberOfTimesteps do
     begin
-      TimeSeries[i] := TimeSeries[i]*60;
+     TimeSeries[i]:=Trunc(Z[i,0]);    //Array containing the time steps
+     RainfallSeries[i]:=Z[i,1];     //Array with the amount of rainfall (mm) per time step
     end;
 
-Timestep_rain := Timeseries[1]-TimeSeries[0];
-
-if (Simplified) then
-begin
-Timestep_model := Timestep_rain;
-TimeSeries_output := TimeSeries;
-RainfallSeries_output := RainfallSeries;
-end
-
-else    // interpolation of rainfall data to desired timestep
-begin
-   Setlength(Cumul_rain, NumberOfTimesteps+1);    // calculate cumulative rainfall series
-   Cumul_rain[0] := RainfallSeries[0];
-   for i := 1 to NumberOfTimesteps do
-     begin
-        Cumul_rain[i] := Cumul_rain[i-1] + RainfallSeries[i];
-     end;
-
-   // create new timeseries array
-   NumberOfTimesteps := NumberOfTimesteps*(Timestep_rain div Timestep_model);
-   Setlength(TimeSeries_output, NumberOfTimesteps+1);
-   TimeSeries_output[0] := TimeSeries[0];
-   for i := 1 to NumberOfTimesteps do
-     begin
-     TimeSeries_output[i] := TimeSeries_output[i-1] + Timestep_model;
-     end;
-
-   // interpolation of cumulative rainfall series, see function below
-   Cumul_Interp := interp(TimeSeries, TimeSeries_output, Cumul_rain);
-
-   // cumulative rainfall series is converted to new rainfall series
-   Setlength(RainfallSeries_output, NumberOfTimesteps+1);
-   RainfallSeries_output[0]:=Cumul_Interp[0];
-   for i := 1 to NumberOfTimesteps do
-     begin
-        RainfallSeries_output[i]:= Cumul_Interp[i]-Cumul_Interp[i-1];
-     end;
-
-EndTime := TimeSeries_output[NumberOfTimesteps];  // extra zeros are added to the rainfall series if necessary
-EndTime_modelSec := EndTime_model * 60;
-  if EndTime_modelSec > EndTime then
-  begin
-    Fill_num:= (EndTime_modelSec-EndTime) div Timestep_model;
-    if (EndTime_modelSec-Endtime) mod Timestep_model <> 0 then
+  for i := 0 to NumberOfTimesteps do         // convert time min => sec
       begin
-        Fill_num:=Fill_num+1;
+        TimeSeries[i] := TimeSeries[i]*60;
       end;
-    NumberOfTimesteps:=NumberOfTimesteps+Fill_num;
-    setlength(TimeSeries_output, NumberOfTimesteps+1);
-    setlength(RainfallSeries_output, NumberOfTimesteps+1);
 
-    for i:= NumberOfTimesteps-Fill_num+1 to length(TimeSeries_output)-1 do
+  Timestep_rain := Timeseries[1]-TimeSeries[0];
+
+  if (Simplified) then
+  begin
+    Timestep_model := Timestep_rain;
+    TimeSeries_output := TimeSeries;
+    RainfallSeries_output := RainfallSeries;
+  end
+
+  else    // interpolation of rainfall data to desired timestep
+  begin
+     Setlength(Cumul_rain, NumberOfTimesteps+1);    // calculate cumulative rainfall series
+     Cumul_rain[0] := RainfallSeries[0];
+     for i := 1 to NumberOfTimesteps do
+       begin
+          Cumul_rain[i] := Cumul_rain[i-1] + RainfallSeries[i];
+       end;
+
+     // create new timeseries array
+     NumberOfTimesteps := NumberOfTimesteps*(Timestep_rain div Timestep_model);
+     Setlength(TimeSeries_output, NumberOfTimesteps+1);
+     TimeSeries_output[0] := TimeSeries[0];
+     for i := 1 to NumberOfTimesteps do
+       begin
+       TimeSeries_output[i] := TimeSeries_output[i-1] + Timestep_model;
+       end;
+
+     // interpolation of cumulative rainfall series, see function below
+     Cumul_Interp := interp(TimeSeries, TimeSeries_output, Cumul_rain);
+
+     // cumulative rainfall series is converted to new rainfall series
+     Setlength(RainfallSeries_output, NumberOfTimesteps+1);
+     RainfallSeries_output[0]:=Cumul_Interp[0];
+     for i := 1 to NumberOfTimesteps do
+       begin
+          RainfallSeries_output[i]:= Cumul_Interp[i]-Cumul_Interp[i-1];
+       end;
+
+  EndTime := TimeSeries_output[NumberOfTimesteps];  // extra zeros are added to the rainfall series if necessary
+  EndTime_modelSec := EndTime_model * 60;
+    if EndTime_modelSec > EndTime then
+    begin
+      Fill_num:= (EndTime_modelSec-EndTime) div Timestep_model;
+      if (EndTime_modelSec-Endtime) mod Timestep_model <> 0 then
         begin
-          TimeSeries_output[i]:=TimeSeries_output[i-1]+Timestep_model;
-          RainfallSeries_output[i]:=0;
+          Fill_num:=Fill_num+1;
         end;
-  end;
+      NumberOfTimesteps:=NumberOfTimesteps+Fill_num;
+      setlength(TimeSeries_output, NumberOfTimesteps+1);
+      setlength(RainfallSeries_output, NumberOfTimesteps+1);
+
+      for i:= NumberOfTimesteps-Fill_num+1 to length(TimeSeries_output)-1 do
+          begin
+            TimeSeries_output[i]:=TimeSeries_output[i-1]+Timestep_model;
+            RainfallSeries_output[i]:=0;
+          end;
+    end;
 
 end;
 
@@ -301,24 +301,24 @@ end;
   // This function is used for the extrapolation of the rainfall data (see above)
   //*****************************************************************************
 
-    function extrap(xOriginal:IntegerArray; xNew:IntegerArray; yOriginal:FloatArray):FloatArray;
-    var
-      t1,t2,step,i,j: integer;
+function extrap(xOriginal:IntegerArray; xNew:IntegerArray; yOriginal:FloatArray):FloatArray;
+  var
+    t1,t2,step,i,j: integer;
 
+  begin
+    setlength(extrap, length(xNew));
+    extrap[0] := yOriginal[0];
+    t1:= xOriginal[1];
+    t2:= xNew[1];
+    step:=t2 div t1;
+    j:=1;
+    for i := 1 to length(xNew)-1 do
     begin
-      setlength(extrap, length(xNew));
-      extrap[0] := yOriginal[0];
-      t1:= xOriginal[1];
-      t2:= xNew[1];
-      step:=t2 div t1;
-      j:=1;
-      for i := 1 to length(xNew)-1 do
-      begin
-         extrap[i] := sum(yOriginal[j..j+step-1]);
-         j:=j+step;
-      end;
-
+       extrap[i] := sum(yOriginal[j..j+step-1]);
+       j:=j+step;
     end;
+
+  end;
 
 //******************************************************************************
 //In this procedure the number of outlets is determined based on the outlet map
@@ -1115,8 +1115,8 @@ end;
 //******************************************************************************
 procedure CalculateRe(var Remap:Rraster; Perceelskaart:Rraster; CNmap:Rraster; alpha,beta:double);
 var
-i,j,count, nrowPRC, ncolPRC : integer;
-Ia,S: double;
+  i,j,count, nrowPRC, ncolPRC : integer;
+  Ia,S: double;
 
 begin
 nrowPRC := nrow;

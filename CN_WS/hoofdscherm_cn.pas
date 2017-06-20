@@ -140,14 +140,14 @@ ReadInRasters;
 
 
    if not Simplified then
-   begin
-     // Courant criterium is checked
-     if Timestep_model>=resAR[1]/0.3 then
      begin
-       showmessage('Courant criterium for model stability violated! Please select a smaller timestep.');
-       Exit;
+       // Courant criterium is checked
+       if Timestep_model>=resAR[1]/0.3 then
+       begin
+         showmessage('Courant criterium for model stability violated! Please select a smaller timestep.');
+         Exit;
+       end;
      end;
-   end;
 
    if not Use_Rfactor then
    begin

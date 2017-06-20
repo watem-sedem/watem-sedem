@@ -205,14 +205,14 @@ begin
   begin
   GetGfile(BufferMap,Bufferfilename);
   for i := 1 to nrow do //The row and column of every buffer are stored in the record
-  for j := 1 to ncol do
-  begin
-     if (Buffermap[i,j] <> 0) AND (Buffermap[i,j] <= Number_of_Buffers) then
-     begin
-       BufferData[Buffermap[i,j]].row := i;
-       BufferData[Buffermap[i,j]].col := j;
-     end;
-  end;
+    for j := 1 to ncol do
+    begin
+       if (Buffermap[i,j] <> 0) AND (Buffermap[i,j] <= Number_of_Buffers) then
+       begin
+         BufferData[Buffermap[i,j]].row := i;
+         BufferData[Buffermap[i,j]].col := j;
+       end;
+    end;
   end
   else
   begin

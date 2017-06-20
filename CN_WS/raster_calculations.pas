@@ -339,10 +339,10 @@ end;
 //**************************************************************************
 Procedure DistributeRiver_Routing(i,j:integer; var FINISH:GRaster);
 var
-max : double;
-K,L,id,number,rowmin,colmin,W : integer;
-OK,OK2,check : boolean;
-r, t: integer;
+  max : double;
+  K,L,id,number,rowmin,colmin,W : integer;
+  OK,OK2,check : boolean;
+  r, t: integer;
 begin
       FINISH[i,j]:=1; //Treated cells receive a value of 1
         id:=-1;
@@ -472,11 +472,11 @@ Procedure DistributeTilDirEvent_Routing(i,j:integer; var FINISH:GRaster; Topo:bo
 // Massbalance = ???
 // Topo = wordt meegegeven vanuit CalculateUpareaOlivier
 var
-CSN,SN,MINIMUM,MINIMUM2,PART1,PART2,extremum : extended;
-K1,K2,l1,L2,ROWMIN,COLMIN,ROWMIN2,COLMIN2,K,L,z ,Area, W : integer;
-parequal,closeriver, check: boolean;
-Direction : single;
-teller,vlag, a, b, center_x, center_y, center_ID, TFSED : integer;
+  CSN,SN,MINIMUM,MINIMUM2,PART1,PART2,extremum : extended;
+  K1,K2,l1,L2,ROWMIN,COLMIN,ROWMIN2,COLMIN2,K,L,z ,Area, W : integer;
+  parequal,closeriver, check: boolean;
+  Direction : single;
+  teller,vlag, a, b, center_x, center_y, center_ID, TFSED : integer;
 begin
 closeriver:=false;
 
@@ -505,7 +505,7 @@ for K := -1 to 1 do
   closeriver := true; // The cell has a neighbouring river pixel
  end;}
 
-if closeriver then //Voor pixels die aan een rivierpixel grenzen
+if closeriver then //Voor pixels die aan een rivierpixel grenzen: neem de laagste riviercel
 BEGIN
   extremum := 99999.9;
     for K := -1 to 1 do
@@ -658,7 +658,7 @@ BEGIN
        begin
           if (PRC[i+k2,j+l2] = -6) AND (FINISH[i+K2,j+L2]=0) then // If the target cell is a grass buffer strip it receives everything
           begin
-            part2:=part1+part2; // In the distributionflux_LS procesure this is corrected for parcel connectivity
+            part2:=part1+part2; // In the distributionflux_LS procedure this is corrected for parcel connectivity
             part1:=0;
           end
           else
@@ -894,7 +894,7 @@ BEGIN
                 Routing[i,j].Target1Col := j+COLMIN;
                 Routing[i,j].Target2Row := 0;
                 Routing[i,j].Target2Col := 0;
-                Routing[i,j].Part1 := part1{ + part2};
+                Routing[i,j].Part1 := part1{ + part2};     //TODO johan -  bug?
                 Routing[i,j].Part2 := 0;
                 END
                 ELSE           // if receiving cell belongs to a different parcel
@@ -906,7 +906,7 @@ BEGIN
                 Routing[i,j].Target1Col := j+COLMIN2;
                 Routing[i,j].Target2Row := 0;
                 Routing[i,j].Target2Col := 0;
-                Routing[i,j].Part1 := part1{ + part2};
+                Routing[i,j].Part1 := part1{ + part2};    //TODO johan - bug?
                 Routing[i,j].Part2 := 0;
                 END;
 
@@ -972,7 +972,7 @@ begin
 end;
 
 
-//In the lines below the routing algorithm is adjusted for buffers (opvangbekkens?):
+// In the lines below the routing algorithm is adjusted for buffers (opvangbekkens?):
 // Target cell for each buffer pixel = center cell of the buffer it belongs to
 // Target cell for each buffer center cell = the lowest lying neighbour
 // All cells adjacent to buffer and higher then buffer => target cell = buffer cell
