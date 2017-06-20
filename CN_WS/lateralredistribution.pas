@@ -192,8 +192,11 @@ begin
     Rfactor := Rfactor / 10000;    // in MJ.mm/m².h.year
 
   if VHA then //If the user wants output per river segment
+  begin
+    numRivSeg := calcRivSeg(RivSeg);
     setlength(sedload_VHA, numRivSeg + 1);
-  //The lengt of a vector per river segment (+1) is set
+     //The lengt of a vector per river segment (+1) is set
+  end;
 
   if Include_sewer then // If sewers are included
     sewer_out_sed := 0;
