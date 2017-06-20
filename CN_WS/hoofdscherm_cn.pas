@@ -15,8 +15,8 @@ Type
 { THoofdscherm_CN_form }
 
   THoofdscherm_CN_form = class(TForm)
-    CheckBox1: TCheckBox;
-    CheckBox2: TCheckBox;
+    UseSimplifiedModelCB: TCheckBox;
+    UseFullModelCB: TCheckBox;
     CnRun: TButton;
     Input: TButton;
     GroupBox1: TGroupBox;
@@ -28,8 +28,8 @@ Type
     OpenDialog1: TOpenDialog;
     SaveDialog1: TSaveDialog;
     StatusBar1: TStatusBar;
-    procedure CheckBox1Change(Sender: TObject);
-    procedure CheckBox2Change(Sender: TObject);
+    procedure UseSimplifiedModelCBChange(Sender: TObject);
+    procedure UseFullModelCBChange(Sender: TObject);
     procedure InputClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
@@ -56,32 +56,32 @@ uses
 {$R *.lfm}
 
 
-procedure THoofdscherm_CN_form.CheckBox1Change(Sender: TObject);
+procedure THoofdscherm_CN_form.UseSimplifiedModelCBChange(Sender: TObject);
 begin
-  if CheckBox1.Checked then
+  if UseSimplifiedModelCB.Checked then
   begin
     Simplified := True;
-    CheckBox2.Checked := False;
-    CheckBox2.Enabled := False;
+    UseFullModelCB.Checked := False;
+    UseFullModelCB.Enabled := False;
   end
   else
   begin
     Simplified := False;
-    CheckBox2.Enabled := True;
+    UseFullModelCB.Enabled := True;
   end;
 end;
 
-procedure THoofdscherm_CN_form.CheckBox2Change(Sender: TObject);
+procedure THoofdscherm_CN_form.UseFullModelCBChange(Sender: TObject);
 begin
-   if CheckBox2.Checked then
+   if UseFullModelCB.Checked then
   begin
     Simplified := False;
-    CheckBox1.Checked := False;
-    CheckBox1.Enabled := False;
+    UseSimplifiedModelCB.Checked := False;
+    UseSimplifiedModelCB.Enabled := False;
   end
   else
   begin
-    CheckBox1.Enabled := True;
+    UseSimplifiedModelCB.Enabled := True;
   end;
 end;
 

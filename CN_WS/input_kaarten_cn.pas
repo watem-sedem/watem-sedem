@@ -77,12 +77,12 @@ type
     Edit3: TEdit;
     Edit30: TEdit;
     Edit31: TEdit;
-    Edit32: TEdit;
-    Edit33: TEdit;
+    kTilDefault: TEdit;
+    KTcLow_edt: TEdit;
     Edit34: TEdit;
     Edit35: TEdit;
-    Edit36: TEdit;
-    Edit37: TEdit;
+    kTcHigh_edt: TEdit;
+    kTcLimit_edt: TEdit;
     Edit38: TEdit;
     Edit39: TEdit;
     Edit4: TEdit;
@@ -90,7 +90,7 @@ type
     Edit41: TEdit;
     Edit42: TEdit;
     Edit43: TEdit;
-    Edit44: TEdit;
+    kTreshold_edt: TEdit;
     Edit45: TEdit;
     Edit5: TEdit;
     Edit6: TEdit;
@@ -218,16 +218,16 @@ type
     procedure Edit24EditingDone(Sender: TObject);
     procedure Edit27EditingDone(Sender: TObject);
     procedure Edit29EditingDone(Sender: TObject);
-    procedure Edit32EditingDone(Sender: TObject);
-    procedure Edit33EditingDone(Sender: TObject);
+    procedure kTilDefaultEditingDone(Sender: TObject);
+    procedure KTcLow_edtEditingDone(Sender: TObject);
     procedure Edit34EditingDone(Sender: TObject);
     procedure Edit35EditingDone(Sender: TObject);
-    procedure Edit36EditingDone(Sender: TObject);
-    procedure Edit37EditingDone(Sender: TObject);
+    procedure kTcHigh_edtEditingDone(Sender: TObject);
+    procedure kTcLimit_edtEditingDone(Sender: TObject);
     procedure Edit39EditingDone(Sender: TObject);
     procedure Edit40EditingDone(Sender: TObject);
     procedure Edit41EditingDone(Sender: TObject);
-    procedure Edit44EditingDone(Sender: TObject);
+    procedure kTreshold_edtEditingDone(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure SpinEdit1EditingDone(Sender: TObject);
@@ -565,22 +565,22 @@ begin
     Edit31.Text := '';
     ktil_Data_Filename:='';
     Label22.Enabled := True;
-    Edit32.Enabled := True;
+    kTilDefault.Enabled := True;
     Create_ktil := True;
     Label32.Enabled:= True;
-    Edit44.Enabled:= True;
+    kTreshold_edt.Enabled:= True;
     end
   else
   begin
     Button16.Enabled := True;
     Label22.Enabled := False;
-    Edit32.Enabled := False;
-    Edit32.Text := '';
+    kTilDefault.Enabled := False;
+    kTilDefault.Text := '';
     ktil_default := 0;
     Create_ktil := False;
     Label32.Enabled:= False;
-    Edit44.Enabled:= False;
-    Edit44.Text := '';
+    kTreshold_edt.Enabled:= False;
+    kTreshold_edt.Text := '';
     ktil_threshold := 0;
   end;
 end;
@@ -612,31 +612,31 @@ begin
     Edit45.Text := '';
     ktc_Data_Filename:='';
     Label27.Enabled := True;
-    Edit33.Enabled := True;
-    Edit33.Text := '7';
+    KTcLow_edt.Enabled := True;
+    KTcLow_edt.Text := '7';
     Create_ktc := True;
     Label33.Enabled:= True;
-    Edit36.Enabled:= True;
-    Edit36.Text := '21';
+    kTcHigh_edt.Enabled:= True;
+    kTcHigh_edt.Text := '21';
     Label34.Enabled := True;
-    Edit37.Enabled := True;
-    Edit37.Text := '0.1';
+    kTcLimit_edt.Enabled := True;
+    kTcLimit_edt.Text := '0.1';
     end
   else
   begin
     Button17.Enabled := True;
     Label27.Enabled := False;
-    Edit33.Enabled := False;
-    Edit33.Text := '';
+    KTcLow_edt.Enabled := False;
+    KTcLow_edt.Text := '';
     ktc_low := 0;
     Create_ktc := False;
     Label33.Enabled:= False;
-    Edit36.Enabled:= False;
-    Edit36.Text := '';
+    kTcHigh_edt.Enabled:= False;
+    kTcHigh_edt.Text := '';
     ktc_high := 0;
     Label34.Enabled := False;
-    Edit37.Enabled := False;
-    Edit37.Text := '';
+    kTcLimit_edt.Enabled := False;
+    kTcLimit_edt.Text := '';
     ktc_limit := 0;
   end;
 end;
@@ -828,22 +828,22 @@ begin
 end;
 
 
-procedure TInput_kaarten_cn_form.Edit32EditingDone(Sender: TObject);
+procedure TInput_kaarten_cn_form.kTilDefaultEditingDone(Sender: TObject);
 begin
-    if not TryStrToInt(Edit32.text, ktil_Default) then
+    if not TryStrToInt(kTilDefault.text, ktil_Default) then
    begin
      showmessage('This has to be an integer.');
-     Edit32.text:='';
+     kTilDefault.text:='';
    end;
 end;
 
 
-procedure TInput_kaarten_cn_form.Edit33EditingDone(Sender: TObject);
+procedure TInput_kaarten_cn_form.KTcLow_edtEditingDone(Sender: TObject);
 begin
-   if not TryStrToInt(Edit33.Text, ktc_low) then
+   if not TryStrToInt(KTcLow_edt.Text, ktc_low) then
    begin
      showmessage('This has to be an integer.');
-     Edit33.text := '7';
+     KTcLow_edt.text := '7';
    end;
 end;
 
@@ -866,21 +866,21 @@ begin
    end;
 end;
 
-procedure TInput_kaarten_cn_form.Edit36EditingDone(Sender: TObject);
+procedure TInput_kaarten_cn_form.kTcHigh_edtEditingDone(Sender: TObject);
 begin
-   if not TryStrToInt(Edit36.Text, ktc_high) then
+   if not TryStrToInt(kTcHigh_edt.Text, ktc_high) then
    begin
      showmessage('This has to be an integer.');
-     Edit36.text := '21';
+     kTcHigh_edt.text := '21';
    end;
 end;
 
-procedure TInput_kaarten_cn_form.Edit37EditingDone(Sender: TObject);
+procedure TInput_kaarten_cn_form.kTcLimit_edtEditingDone(Sender: TObject);
 begin
-   if not TryStrToFloat(Edit37.Text, ktc_limit) then
+   if not TryStrToFloat(kTcLimit_edt.Text, ktc_limit) then
    begin
      showmessage('This has to be a real number.');
-     Edit37.text := '0.1';
+     kTcLimit_edt.text := '0.1';
    end;
 end;
 
@@ -911,12 +911,12 @@ begin
    end;
 end;
 
-procedure TInput_kaarten_cn_form.Edit44EditingDone(Sender: TObject);
+procedure TInput_kaarten_cn_form.kTreshold_edtEditingDone(Sender: TObject);
 begin
-    if not TryStrToFloat(Edit44.text, ktil_threshold) then
+    if not TryStrToFloat(kTreshold_edt.text, ktil_threshold) then
   begin
     showmessage('This has to be a real number.');
-    Edit44.text:='';
+    kTreshold_edt.text:='';
   end;
 end;
 
@@ -1248,8 +1248,8 @@ begin
   end
    else
    begin
-    ktil_default := strtoint(Input_kaarten_cn_form.Edit32.Text);
-    ktil_threshold := strtofloat(Input_kaarten_cn_form.Edit44.Text);
+    ktil_default := strtoint(Input_kaarten_cn_form.kTilDefault.Text);
+    ktil_threshold := strtofloat(Input_kaarten_cn_form.kTreshold_edt.Text);
    end;
 
    if not create_ktc then
@@ -1260,9 +1260,9 @@ begin
    end
    else
    begin
-    ktc_low := strtoint(Input_kaarten_cn_form.Edit33.Text);
-    ktc_high := strtoint(Input_kaarten_cn_form.Edit36.Text);
-    ktc_limit := strtofloat(Input_kaarten_cn_form.Edit37.Text);
+    ktc_low := strtoint(Input_kaarten_cn_form.kTcLow_edt.Text);
+    ktc_high := strtoint(Input_kaarten_cn_form.kTcHigh_edt.Text);
+    ktc_limit := strtofloat(Input_kaarten_cn_form.kTcLimit_edt.Text);
    end;
 
    if not est_clay then
@@ -1445,17 +1445,17 @@ if Simplified then
     ShowMessage('P factor map' + ' not found in ' + datadir);
   if not (create_ktc) AND not (FileExists(ktc_Data_Filename)) then
     ShowMessage('ktc map' + ' not found in ' + datadir);
-  if (Create_ktc) AND (Edit33.Text = '') then
+  if (Create_ktc) AND (KTcLow_edt.Text = '') then
     ShowMessage('Missing value: kTc low');
-  if (Create_ktc) AND (Edit36.Text = '') then
+  if (Create_ktc) AND (kTcHigh_edt.Text = '') then
     ShowMessage('Missing value: kTc high');
-  if (Create_ktc) AND (Edit37.Text = '') then
+  if (Create_ktc) AND (kTcLimit_edt.Text = '') then
     ShowMessage('Missing value: kTc limit');
   if not (create_ktil) AND not (FileExists(ktil_Data_Filename)) then
     ShowMessage('ktil map' + ' not found in ' + datadir);
-  if (Create_ktil) AND (Edit32.Text = '') then
+  if (Create_ktil) AND (kTilDefault.Text = '') then
     ShowMessage('Missing value: Default ktil');
-  if (Create_ktil) AND (Edit44.Text = '') then
+  if (Create_ktil) AND (kTreshold_edt.Text = '') then
     ShowMessage('Missing value: ktil threshold');
   if (est_clay) AND (Edit34.Text = '') then
     ShowMessage('Missing value: Clay content parent material');
@@ -1616,25 +1616,25 @@ begin
   begin
       Input_kaarten_cn_form.checkbox16.Checked := True;
       Input_kaarten_cn_form.label27.Enabled := True;
-      Input_kaarten_cn_form.edit33.Enabled := True;
+      Input_kaarten_cn_form.kTcLow_edt.Enabled := True;
       Input_kaarten_cn_form.label33.Enabled := True;
-      Input_kaarten_cn_form.edit36.Enabled := True;
+      Input_kaarten_cn_form.kTcHigh_edt.Enabled := True;
       Input_kaarten_cn_form.label34.Enabled := True;
-      Input_kaarten_cn_form.edit37.Enabled := True;
+      Input_kaarten_cn_form.kTcLimit_edt.Enabled := True;
       Input_kaarten_cn_form.button17.Enabled := False;
       Input_kaarten_cn_form.edit45.Enabled := False;
       Input_kaarten_cn_form.edit45.Text := '';
       ktc_Data_Filename := '';
-      Input_kaarten_cn_form.edit33.Text := IntToStr(ktc_low);
-      Input_kaarten_cn_form.edit36.Text := IntToStr(ktc_high);
-      Input_kaarten_cn_form.edit37.Text := FloatToStr(ktc_limit);
+      Input_kaarten_cn_form.kTcLow_edt.Text := IntToStr(ktc_low);
+      Input_kaarten_cn_form.kTcHigh_edt.Text := IntToStr(ktc_high);
+      Input_kaarten_cn_form.kTcLimit_edt.Text := FloatToStr(ktc_limit);
     end
     else
       Input_kaarten_cn_form.edit45.Text := Extractfilename(ktc_Data_Filename);
 
-  Input_kaarten_cn_form.edit33.Text := IntToStr(ktc_low);
-  Input_kaarten_cn_form.edit36.Text := IntToStr(ktc_high);
-  Input_kaarten_cn_form.edit37.Text := FloatToStr(ktc_limit);
+  Input_kaarten_cn_form.kTcLow_edt.Text := IntToStr(ktc_low);
+  Input_kaarten_cn_form.kTcHigh_edt.Text := IntToStr(ktc_high);
+  Input_kaarten_cn_form.kTcLimit_edt.Text := FloatToStr(ktc_limit);
   Input_kaarten_cn_form.edit3.Text := IntToStr(PTEFValueCropland);
   Input_kaarten_cn_form.edit4.Text := IntToStr(PTEFValuePasture);
   Input_kaarten_cn_form.edit30.Text := IntToStr(PTEFValueForest);
@@ -1643,15 +1643,15 @@ begin
     begin
       Input_kaarten_cn_form.checkbox14.Checked := True;
       Input_kaarten_cn_form.label22.Enabled := True;
-      Input_kaarten_cn_form.edit32.Enabled := True;
+      Input_kaarten_cn_form.kTilDefault.Enabled := True;
       Input_kaarten_cn_form.label32.Enabled := True;
-      Input_kaarten_cn_form.edit44.Enabled := True;
+      Input_kaarten_cn_form.kTreshold_edt.Enabled := True;
       Input_kaarten_cn_form.button16.Enabled := False;
       Input_kaarten_cn_form.edit31.Enabled := False;
       Input_kaarten_cn_form.edit31.Text := '';
       ktil_Data_Filename := '';
-      Input_kaarten_cn_form.edit32.Text := IntToStr(ktil_Default);
-      Input_kaarten_cn_form.edit44.Text := FloatToStr(ktil_threshold);
+      Input_kaarten_cn_form.kTilDefault.Text := IntToStr(ktil_Default);
+      Input_kaarten_cn_form.kTreshold_edt.Text := FloatToStr(ktil_threshold);
 
     end
     else
