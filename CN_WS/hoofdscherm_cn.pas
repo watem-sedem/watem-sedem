@@ -178,6 +178,10 @@ ReadInRasters;
 
   write_maps;          // write output maps
 
+  // write routing output
+
+  Write_Routing_Table;
+
 
 
 //The memory is released for all created maps

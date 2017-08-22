@@ -9,10 +9,12 @@ uses
   Idrisi, Dialogs, LateralRedistribution;
 
 Procedure Write_maps;
+Procedure Write_Routing_Table;
 
 implementation
 
 Procedure Write_maps;
+
 
 begin
 
@@ -51,6 +53,32 @@ begin
 end;
 
 end;
+
+Procedure Write_Routing_Table;
+// writes the routing table to a textfile
+var
+  routingfile: textfile;
+  k,l : integer;
+  ny, nx : integer;
+
+begin
+  assignfile(routingfile, 'routing.txt');
+  rewrite(routingfile);
+  Writeln(routingfile, 'col;row;target1col;target1row;part1;distance1;target2col;target2row;part2;distance2');
+
+
+  for k := 1 to nrow do
+         for l := 1 to ncol do
+            Writeln(routingfile,  IntToStr(k)+';'+ IntToStr(l) + ';'
+               + IntToStr(Routing[k,l].Target1Col)  + ';' + IntToStr(Routing[k,l].Target1Row)+ ';' + floattostr(Routing[k,l].part1)+ ';' + floattostr(Routing[k,l].distance1) + ';'
+               + IntToStr(Routing[k,l].Target2Col)  + ';' + IntToStr(Routing[k,l].Target2Row)+ ';' + floattostr(Routing[k,l].part2)+ ';' + floattostr(Routing[k,l].distance2)
+            );
+
+  closefile(routingfile);
+
+end;
+
+
 
 end.
 
