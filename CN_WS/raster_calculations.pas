@@ -1022,11 +1022,7 @@ begin
            Routing[i,j].Target2Col := 0;
            Routing[i,j].Part2 := 0;
            Routing[i,j].One_Target := True;
-           if (k=0) or (l=0) then
-              Routing[i,j].Distance1 := res
-           else
-              Routing[i,j].Distance1 := sqrt(sqr(res) + sqr(res));
-
+           Routing[i,j].Distance1 := sqrt( sqr(k) + sqr(l));
            Routing[i,j].Distance2 := 0;
 
            if (buffermap[i+k,j+l] <> (buffermap[i,j]*100)) then //Check will be true when the target cell does not belong to the same buffer
