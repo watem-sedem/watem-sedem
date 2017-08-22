@@ -59,7 +59,6 @@ Procedure Write_Routing_Table;
 var
   routingfile: textfile;
   k,l : integer;
-  ny, nx : integer;
 
 begin
   assignfile(routingfile, 'routing.txt');
@@ -69,7 +68,7 @@ begin
 
   for k := 1 to nrow do
          for l := 1 to ncol do
-            Writeln(routingfile,  IntToStr(k)+';'+ IntToStr(l) + ';'
+            Writeln(routingfile,  IntToStr(l)+';'+ IntToStr(k) + ';'
                + IntToStr(Routing[k,l].Target1Col)  + ';' + IntToStr(Routing[k,l].Target1Row)+ ';' + floattostr(Routing[k,l].part1)+ ';' + floattostr(Routing[k,l].distance1) + ';'
                + IntToStr(Routing[k,l].Target2Col)  + ';' + IntToStr(Routing[k,l].Target2Row)+ ';' + floattostr(Routing[k,l].part2)+ ';' + floattostr(Routing[k,l].distance2)
             );
