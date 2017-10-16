@@ -1,3 +1,4 @@
+
 Unit ReadInParameters;
 
 {$mode objfpc}{$H+}
@@ -30,6 +31,7 @@ Type
   TBufferData = Record
     //Record containing inputdata for buffers
     Volume, Volume_dead, height_dam, height_opening, Opening_area, Qmax, Cd, area, width_dam, PTEF:
+
                                                                                               double
     ;
     row, col, ext_ID: integer;
@@ -100,6 +102,7 @@ Var
   INIfilename          : string;
   DTM_filename         : string;       {unit m}
   PARCEL_filename      : string;
+
 {unit id, 1 to 3200 for parcels, -1 for river, 0 for outside area, -2 for roads, -3 for forest, -4 for pasture, -5 for ponds}
   Rainfallfilename     : string;
   Sewerfilename        : string;
@@ -434,6 +437,7 @@ Begin
 
   {User choices}
   If (Inifile.ReadBool('User Choices','Simplified model version',false))=true Then Simplified := 
+
                                                                                                 true
   Else Simplified := false;
   If Not simplified Then
@@ -530,10 +534,12 @@ Begin
     Begin
       errorFlag := True;
       errorDummy := 
+
               'Error in data input: Clay content parent material value missing or wrong data format'
       ;
     End;
   If (Inifile.ReadBool('User Choices','Manual outlet selection',false))=true Then Outlet_select := 
+
                                                                                                 true
   Else Outlet_select := false;
   If Outlet_select And Not (FileExists(Outletfilename)) Then
@@ -559,6 +565,7 @@ Begin
   If (Inifile.ReadBool('Output maps','Write RUSLE',false))=true Then Write_RUSLE := true
   Else Write_RUSLE := false;
   If (Inifile.ReadBool('Output maps','Write sediment export',false))=true Then Write_Sediexport := 
+
                                                                                                 true
   Else Write_Sediexport := false;
   If (Inifile.ReadBool('Output maps','Write slope',false))=true Then Write_SLOPE := true
@@ -666,6 +673,7 @@ Begin
     Begin
       errorFlag := True;
       errorDummy := 
+
               'Error in data input: Parcel connectivity cropland value missing or wrong data format'
       ;
     End;
@@ -674,6 +682,7 @@ Begin
     Begin
       errorFlag := True;
       errorDummy := 
+
         'Error in data input: Parcel connectivity forest/pasture value missing or wrong data format'
       ;
     End;
@@ -682,6 +691,7 @@ Begin
     Begin
       errorFlag := True;
       errorDummy := 
+
      'Error in data input: Parcel trapping efficiency (cropland) value missing or wrong data format'
       ;
     End;
@@ -690,6 +700,7 @@ Begin
     Begin
       errorFlag := True;
       errorDummy := 
+
        'Error in data input: Parcel trapping efficiency (forest) value missing or wrong data format'
       ;
     End;
@@ -698,6 +709,7 @@ Begin
     Begin
       errorFlag := True;
       errorDummy := 
+
       'Error in data input: Parcel trapping efficiency (pasture) value missing or wrong data format'
       ;
     End;
@@ -708,6 +720,7 @@ Begin
         Begin
           errorFlag := True;
           errorDummy := 
+
                 'Error in data input: Desired timestep for model value missing or wrong data format'
           ;
         End;
@@ -716,6 +729,7 @@ Begin
         Begin
           errorFlag := True;
           errorDummy := 
+
                      'Error in data input: Final timestep output value missing or wrong data format'
           ;
         End;
@@ -793,6 +807,7 @@ Begin
             Begin
               errorFlag := True;
               errorDummy := 
+
 'Error in buffer input: the height of the opening cannot be larger than the height of the dam. Please insert correct values.'
               ;
             End;
@@ -857,6 +872,7 @@ Begin
     //The first row (headers) is read and is thus skipped below
     For i := 1 To NumberofLU Do
       For j := 1 To 6 Do
+
 
 //6 because the .txt table alsways contains 6 columns (Parcel ID - CNmax - c1 - c2 - Crop cover - Crusting stage)
         Begin

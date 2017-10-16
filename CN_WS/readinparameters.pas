@@ -1,75 +1,99 @@
-unit ReadInParameters;
+
+Unit ReadInParameters;
 
 {$mode objfpc}{$H+}
 
-interface
+Interface
 
-uses
-  Classes, SysUtils, RData_CN, GData_CN, Inifiles, Dialogs, Idrisi;
+Uses 
+Classes, SysUtils, RData_CN, GData_CN, Inifiles, Dialogs, Idrisi;
 Procedure ReadInRasters;
 Procedure Allocate_Memory;
 Procedure Release_Memory;
-procedure Readsettings(INI_filename:string);
-procedure Create_CN_map(var CNmap: RRaster;Perceelskaart:RRaster; Filename:string);
-function CalculateCN(CNmax,Cc,Cr,c1,c2:integer):single;
-procedure Create_ktil_map(var ktil: GRaster);
-procedure Create_ktc_map(var ktc: GRaster);
+Procedure Readsettings(INI_filename:String);
+Procedure Create_CN_map(Var CNmap: RRaster;Perceelskaart:RRaster; Filename:String);
+Function CalculateCN(CNmax,Cc,Cr,c1,c2:integer): single;
+Procedure Create_ktil_map(Var ktil: GRaster);
+Procedure Create_ktc_map(Var ktc: GRaster);
 
 
 //Record for model variables
-Type
-Gvector = array of smallint;
-Rvector = array of single;
 
-  TSingleArray = array of array of single;
-  TDoubleArray = array of array of double;
-  TIntArray = array of array of integer;
+Type 
+  Gvector = array Of smallint;
+  Rvector = array Of single;
+
+  TSingleArray = array Of array Of single;
+  TDoubleArray = array Of array Of double;
+  TIntArray = array Of array Of integer;
 
   // buffer data
-  TBufferData = record //Record containing inputdata for buffers
-    Volume, Volume_dead, height_dam, height_opening, Opening_area, Qmax, Cd, area, width_dam, PTEF: double;
+  TBufferData = Record
+    //Record containing inputdata for buffers
+    Volume, Volume_dead, height_dam, height_opening, Opening_area, Qmax, Cd, area, width_dam, PTEF:
+                                                                                              double
+    ;
     row, col, ext_ID: integer;
-  end;
-  TBufferDataArray = array of TBufferData; //A vector is created
+  End;
+  TBufferDataArray = array Of TBufferData;
+  //A vector is created
 
-  TRainRecord = Record //Record containing information about rainfall input
-    ID: integer; //From 1 till number of time steps
-    Time: Integer; //in seconds
-    Rain: Double; // in mm
-    Rain_fraction: double; //Fraction of rainfall that falls in each time step
-  end;
+  TRainRecord = Record
+    //Record containing information about rainfall input
+    ID: integer;
+    //From 1 till number of time steps
+    Time: Integer;
+    //in seconds
+    Rain: Double;
+    // in mm
+    Rain_fraction: double;
+    //Fraction of rainfall that falls in each time step
+  End;
 
-  TRainRecordArray = array of TRainRecord; //Record is converted to 2D matrix
+  TRainRecordArray = array Of TRainRecord;
+  //Record is converted to 2D matrix
 
-TRouting = record //Record containing information about runoff routing for each cell
-     One_Target: boolean; //Can I delete this???
-     Target1Row, Target1Col, Target2Row, Target2Col: integer;
-     Part1, Part2, Distance1, Distance2: double;
-     end;
-TRoutingArray = array of array of TRouting; //Record is converted to 3D matrix
+  TRouting = Record
+    //Record containing information about runoff routing for each cell
+    One_Target: boolean;
+    //Can I delete this???
+    Target1Row, Target1Col, Target2Row, Target2Col: integer;
+    Part1, Part2, Distance1, Distance2: double;
+  End;
+  TRoutingArray = array Of array Of TRouting;
+  //Record is converted to 3D matrix
 
 
-var
+Var 
   //internal variables
   sedprod,depprod: double;
-  WATEREROS     : RRaster;                      //water erosion (unit: mm)
-  WATEREROS_cubmeter: RRaster;                  // water erosion (unit: m³)
-  WATEREROS_kg: RRaster;                  // water erosion (unit: kg)
-  RUSLE         : RRaster;                      // result of RUSLE equation in kg/m² = POTENTIAL soil loss
-  TILEROS       : RRaster;                      //tillage erosion (unit: mm)
-  SEDI_EXPORT   : RRaster;            // sediment export in m³
-  SEDI_EXPORT_kg   : RRaster;          // sediment export in kg
-  SEDI_IN2       : RRaster;            // incoming sediment in kg
-  SEDI_OUT2      :RRaster;             // outgoing sediment in kg
+  WATEREROS     : RRaster;
+  //water erosion (unit: mm)
+  WATEREROS_cubmeter: RRaster;
+  // water erosion (unit: m³)
+  WATEREROS_kg: RRaster;
+  // water erosion (unit: kg)
+  RUSLE         : RRaster;
+  // result of RUSLE equation in kg/m² = POTENTIAL soil loss
+  TILEROS       : RRaster;
+  //tillage erosion (unit: mm)
+  SEDI_EXPORT   : RRaster;
+  // sediment export in m³
+  SEDI_EXPORT_kg   : RRaster;
+  // sediment export in kg
+  SEDI_IN2       : RRaster;
+  // incoming sediment in kg
+  SEDI_OUT2      : RRaster;
+  // outgoing sediment in kg
   //depprod2        :RRaster;             // deposition in kg
   {row2            :GRaster;
   col2            :GRaster;   }
   {Rasters to be read in--------------------------------------------------------}
-   K_factor   : GRaster;    {RUSLE K-factor map kg m² h m-² MJ-1 mm-1}
-   C_factor   : RRaster;
-   P_factor   : RRaster;
-   ktil       : GRaster;
-   ktc        : GRaster;
+  K_factor   : GRaster;    {RUSLE K-factor map kg m² h m-² MJ-1 mm-1}
+  C_factor   : RRaster;
+  P_factor   : RRaster;
+  ktil       : GRaster;
+  ktc        : GRaster;
   {End Rasters to be read in----------------------------------------------------}
 
   {Parameters to be read from ini-file------------------------------------------}
@@ -79,9 +103,11 @@ var
   {Files}
   INIfilename          : string;
   DTM_filename         : string;       {unit m}
-  PARCEL_filename      : string;       {unit id, 1 to 3200 for parcels, -1 for river, 0 for outside area, -2 for roads, -3 for forest, -4 for pasture, -5 for ponds}
+  PARCEL_filename      : string;
+{unit id, 1 to 3200 for parcels, -1 for river, 0 for outside area, -2 for roads, -3 for forest, -4 for pasture, -5 for ponds}
   Rainfallfilename     : string;
-  Sewerfilename        : string;       {indicates location of sewers. Value = efficiency for capturing water/sediment (type: double)}
+  Sewerfilename        : string;
+  {indicates location of sewers. Value = efficiency for capturing water/sediment (type: double)}
   CNmapfilename        : string;
   TILDIRfilename       : string;
   Rofilename           : string;
@@ -155,34 +181,34 @@ var
   ROW, COLUMN : Gvector;
 
   Slope,Aspect,Uparea,LS: Rraster;
-  totsurface:double;
+  totsurface: double;
 
   Routing: TRoutingArray;
   OutletArray : TIntArray;
   RainData: TRainRecordArray;
 
 
-implementation
+Implementation
 
 Procedure ReadInRasters;
-begin
-    GetRFile(DTM,DTM_Filename);
+Begin
+  GetRFile(DTM,DTM_Filename);
 
   GetRFile(PRC,PARCEL_filename);
 
-  if Include_sewer then
+  If Include_sewer Then
     GetRFile(SewerMap,Sewerfilename);
 
-  if not simplified then
-  begin
+  If Not simplified Then
+    Begin
       GetRfile(CNmap, CNmapfilename);
-  end;
+    End;
 
-  if topo = false then // als topo = false wordt de ploegrichting in rekening gebracht
-  begin
-    GetGFile(TilDir, TilDirFilename);
-    GetGfile(Ro, RoFilename);
-  end;
+  If topo = false Then // als topo = false wordt de ploegrichting in rekening gebracht
+    Begin
+      GetGFile(TilDir, TilDirFilename);
+      GetGfile(Ro, RoFilename);
+    End;
 
   GetGFile(K_factor,K_Factor_filename);
 
@@ -190,174 +216,180 @@ begin
 
   GetRFile(P_factor, Pf_Data_filename);
 
-  if Create_ktc then
+  If Create_ktc Then
     Create_ktc_map(ktc)
-  else
+  Else
     GetGFile(ktc, ktc_Data_filename);
 
-  if Create_ktil then
+  If Create_ktil Then
     Create_ktil_map(ktil)
-  else
+  Else
     GetGFile(ktil, ktil_Data_filename);
 
   //If buffers are taken into account the buffermap is loaded
-  if Include_buffer = true then
-  begin
-  GetGfile(BufferMap,Bufferfilename);
-  for i := 1 to nrow do //The row and column of every buffer are stored in the record
-    for j := 1 to ncol do
-    begin
-       if (Buffermap[i,j] <> 0) AND (Buffermap[i,j] <= Number_of_Buffers) then
-       begin
-         BufferData[Buffermap[i,j]].row := i;
-         BufferData[Buffermap[i,j]].col := j;
-       end;
-    end;
-  end
-  else
-  begin
-     // Buffermap should be map containing only zeros
-     SetDynamicGData(Buffermap);
-     SetzeroG(Buffermap);
-  end;
+  If Include_buffer = true Then
+    Begin
+      GetGfile(BufferMap,Bufferfilename);
+      For i := 1 To nrow Do
+        //The row and column of every buffer are stored in the record
+        For j := 1 To ncol Do
+          Begin
+            If (Buffermap[i,j] <> 0) And (Buffermap[i,j] <= Number_of_Buffers) Then
+              Begin
+                BufferData[Buffermap[i,j]].row := i;
+                BufferData[Buffermap[i,j]].col := j;
+              End;
+          End;
+    End
+  Else
+    Begin
+      // Buffermap should be map containing only zeros
+      SetDynamicGData(Buffermap);
+      SetzeroG(Buffermap);
+    End;
 
-  if Include_ditch = true then
+  If Include_ditch = true Then
     GetGfile(Ditch_map,Ditch_filename);
 
-  if Include_dam = true then
+  If Include_dam = true Then
     GetGfile(Dam_map,Dam_filename);
 
-  if outlet_select then
-  GetGfile(Outlet, Outletfilename);
+  If outlet_select Then
+    GetGfile(Outlet, Outletfilename);
 
-  if VHA then
-  GetGfile(RivSeg, Riversegment_filename);
+  If VHA Then
+    GetGfile(RivSeg, Riversegment_filename);
 
-// PTEF map is created
-SetDynamicGdata(PTEFmap);
-setzeroG(PTEFmap);
-for i := 1 to nrow do //The row and column of every buffer are stored in the record
-  for j := 1 to ncol do
-      begin
-           case round(PRC[i,j]) of //PRC = GRaster, dus integers.
-                 -6: PTEFmap[i,j] := PTEFValuePasture;
-                 -4: PTEFmap[i,j] := PTEFValuePasture;
-                 -3: PTEFmap[i,j] := PTEFValueForest;
-                 1..10000000000: PTEFmap[i,j] := PTEFValueCropland;
-                 else PTEFmap[i,j] := 0;
-           end;
-           end;
+  // PTEF map is created
+  SetDynamicGdata(PTEFmap);
+  setzeroG(PTEFmap);
+  For i := 1 To nrow Do
+    //The row and column of every buffer are stored in the record
+    For j := 1 To ncol Do
+      Begin
+        Case round(PRC[i,j]) Of 
+          //PRC = GRaster, dus integers.
+          -6: PTEFmap[i,j] := PTEFValuePasture;
+          -4: PTEFmap[i,j] := PTEFValuePasture;
+          -3: PTEFmap[i,j] := PTEFValueForest;
+          1..10000000000: PTEFmap[i,j] := PTEFValueCropland;
+          Else PTEFmap[i,j] := 0;
+        End;
+      End;
 
-writeGidrisi32file(ncol,nrow,datadir+'PTEFmap'+'.rst', PTEFmap);
+  writeGidrisi32file(ncol,nrow,datadir+'PTEFmap'+'.rst', PTEFmap);
 
-end;
+End;
 
 Procedure Allocate_Memory;
-var
-z : integer;
-begin
-// Create procedure to read in maps & allocate memory to global maps
 
-// Assign internal & global 2D maps
-SetDynamicRData(LS);
-SetDynamicRData(UPAREA);
-SetDynamicRData(SLOPE);
-SetDynamicRData(ASPECT);
+Var 
+  z : integer;
+Begin
+  // Create procedure to read in maps & allocate memory to global maps
 
-SetDynamicRData(WATEREROS);
-SetDynamicRData(WATEREROS_cubmeter);
-SetDynamicRData(WATEREROS_kg);
-SetDynamicRData(RUSLE);
-SetDynamicRData(SEDI_EXPORT);
-SetDynamicRData(SEDI_EXPORT_kg);
-SetDynamicRData(SEDI_IN2);
-SetDynamicRData(SEDI_OUT2);
-//SetDynamicRData(depprod2);
+  // Assign internal & global 2D maps
+  SetDynamicRData(LS);
+  SetDynamicRData(UPAREA);
+  SetDynamicRData(SLOPE);
+  SetDynamicRData(ASPECT);
+
+  SetDynamicRData(WATEREROS);
+  SetDynamicRData(WATEREROS_cubmeter);
+  SetDynamicRData(WATEREROS_kg);
+  SetDynamicRData(RUSLE);
+  SetDynamicRData(SEDI_EXPORT);
+  SetDynamicRData(SEDI_EXPORT_kg);
+  SetDynamicRData(SEDI_IN2);
+  SetDynamicRData(SEDI_OUT2);
+  //SetDynamicRData(depprod2);
 {SetDynamicGData(row2);
 SetDynamicGData(col2);  }
-SetDynamicRData(TILEROS);
-//************************
+  SetDynamicRData(TILEROS);
+  //************************
 
-end;
+End;
 
 Procedure Release_Memory;
-var
-i : integer;
-begin
-// Release memory for input rasters
-DisposeDynamicRdata(DTM);
-DisposeDynamicRdata(PRC);
-if Include_sewer then
-  DisposedynamicRData(SewerMap);
 
-if not Simplified then
-  begin
-    DisposedynamicRData(CNmap);
-  end;
+Var 
+  i : integer;
+Begin
+  // Release memory for input rasters
+  DisposeDynamicRdata(DTM);
+  DisposeDynamicRdata(PRC);
+  If Include_sewer Then
+    DisposedynamicRData(SewerMap);
 
-  if topo = false then // als topo = false wordt de ploegrichting in rekening gebracht
-     begin
-        DisposedynamicGData(TilDir);
-        DisposedynamicGData(Ro);
-     end;
+  If Not Simplified Then
+    Begin
+      DisposedynamicRData(CNmap);
+    End;
 
- DisposeDynamicGdata(K_Factor);
- DisposeDynamicRdata(C_factor);
- DisposeDynamicRdata(P_factor);
- DisposeDynamicGdata(ktil);
- DisposeDynamicGdata(ktc);
- DisposeDynamicGData(Buffermap);
+  If topo = false Then // als topo = false wordt de ploegrichting in rekening gebracht
+    Begin
+      DisposedynamicGData(TilDir);
+      DisposedynamicGData(Ro);
+    End;
 
-    if Include_ditch = true then
-     DisposeDynamicGData(Ditch_map);
+  DisposeDynamicGdata(K_Factor);
+  DisposeDynamicRdata(C_factor);
+  DisposeDynamicRdata(P_factor);
+  DisposeDynamicGdata(ktil);
+  DisposeDynamicGdata(ktc);
+  DisposeDynamicGData(Buffermap);
 
-    if Include_dam = true then
-     DisposeDynamicGData(Dam_map);
+  If Include_ditch = true Then
+    DisposeDynamicGData(Ditch_map);
 
- if outlet_select then
+  If Include_dam = true Then
+    DisposeDynamicGData(Dam_map);
+
+  If outlet_select Then
     DisposeDynamicGData(Outlet);
 
- if VHA then
-   DisposeDynamicGData(RivSeg);
+  If VHA Then
+    DisposeDynamicGData(RivSeg);
 
-// Release internal 2D rasters maps
-DisposeDynamicRdata(UPAREA);
-DisposeDynamicRdata(LS);
-DisposeDynamicRdata(SLOPE);
-DisposeDynamicRdata(ASPECT);
-DisposeDynamicRdata(WATEREROS);
-DisposeDynamicRdata(WATEREROS_cubmeter);
-DisposeDynamicRdata(WATEREROS_kg);
-DisposeDynamicRdata(RUSLE);
-DisposeDynamicRdata(SEDI_EXPORT);
-DisposeDynamicRdata(SEDI_EXPORT_kg);
-DisposeDynamicRdata(SEDI_IN2);
-DisposeDynamicRdata(SEDI_OUT2);
-//DisposeDynamicRdata(depprod2);
+  // Release internal 2D rasters maps
+  DisposeDynamicRdata(UPAREA);
+  DisposeDynamicRdata(LS);
+  DisposeDynamicRdata(SLOPE);
+  DisposeDynamicRdata(ASPECT);
+  DisposeDynamicRdata(WATEREROS);
+  DisposeDynamicRdata(WATEREROS_cubmeter);
+  DisposeDynamicRdata(WATEREROS_kg);
+  DisposeDynamicRdata(RUSLE);
+  DisposeDynamicRdata(SEDI_EXPORT);
+  DisposeDynamicRdata(SEDI_EXPORT_kg);
+  DisposeDynamicRdata(SEDI_IN2);
+  DisposeDynamicRdata(SEDI_OUT2);
+  //DisposeDynamicRdata(depprod2);
 {DisposeDynamicGdata(row2);
 DisposeDynamicGdata(col2);   }
-DisposeDynamicRdata(TILEROS);
+  DisposeDynamicRdata(TILEROS);
 
 
-if not Simplified then
-  begin
-    DisposedynamicRData(RunoffTotMap);
-    DisposedynamicRData(Remap);
-  end;
+  If Not Simplified Then
+    Begin
+      DisposedynamicRData(RunoffTotMap);
+      DisposedynamicRData(Remap);
+    End;
 
-end;
+End;
 
 //******************************************************************************
 //This procedure reads the .ini file and assigns the file + location + values
 //to the correct variables.
 //******************************************************************************
-procedure Readsettings(INI_filename:string);
-var
+Procedure Readsettings(INI_filename:String);
+
+Var 
   Inifile: Tinifile;
   Dummy_str, Buffername: string;
-  i:integer;
-begin
-  Inifile:= Tinifile.create(INI_Filename);
+  i: integer;
+Begin
+  Inifile := Tinifile.create(INI_Filename);
 
   Datadir := Inifile.readstring('Working directories', 'Input directory', Dummy_str);
   File_output_dir := Inifile.readstring('Working directories', 'Output directory', Dummy_str);
@@ -381,101 +413,143 @@ begin
   Riversegment_filename := inifile.readstring('Files', 'River segment filename', Dummy_str);
 
   // If the last character in the output directory is not a "\" this is added
-  if (File_output_dir[Length(File_output_dir)] <> '\') then
-     File_output_dir := IncludeTrailingBackslash(File_output_dir);
+  If (File_output_dir[Length(File_output_dir)] <> '\') Then
+    File_output_dir := IncludeTrailingBackslash(File_output_dir);
 
-  if (Inifile.ReadBool('User Choices','Simplified model version',false))=true then Simplified := true else Simplified:= false;
-  if (Inifile.ReadBool('User Choices','Use R factor',false))=true then Use_Rfactor := true else Use_Rfactor:= false;
-  if (Inifile.ReadBool('User Choices','Include sewers',false))=true then Include_sewer := true else Include_sewer:= false;
-  if (Inifile.ReadBool('User Choices','Include tillage',false))=true then
-  begin
-    Inc_tillage:=true;
-    topo :=false;
-    end
-  else
-  begin
-    Inc_tillage:=false;
-    topo:=true;
-  end;
-  if (Inifile.ReadBool('User Choices','Include buffers',false))=true then Include_buffer:=true else Include_buffer:=false;
-  if (Inifile.ReadBool('User Choices','Include ditches',false))=true then Include_ditch:=true else Include_ditch:=false;
-  if (Inifile.ReadBool('User Choices','Include dams',false))=true then Include_dam:=true else Include_dam:=false;
-  if (Inifile.ReadBool('User Choices','Create ktc map',false))=true then Create_ktc:=true else Create_ktc:=false;
-  if (Inifile.ReadBool('User Choices','Create ktil map',false))=true then Create_ktil:=true else Create_ktil:=false;
-  if (Inifile.ReadBool('User Choices','Estimate clay content',false))=true then est_clay:=true else est_clay:=false;
-  if (Inifile.ReadBool('User Choices','Manual outlet selection',false))=true then Outlet_select:=true else Outlet_select:=false;
-  if (Inifile.ReadBool('User Choices','Convert output',false))=true then Convert_output:=true else Convert_output:=false;
-  if (Inifile.ReadBool('User Choices','Output per VHA river segment',false))=true then VHA:=true else VHA:=false;
+  If (Inifile.ReadBool('User Choices','Simplified model version',false))=true Then Simplified := 
+                                                                                                true
+  Else Simplified := false;
+  If (Inifile.ReadBool('User Choices','Use R factor',false))=true Then Use_Rfactor := true
+  Else Use_Rfactor := false;
+  If (Inifile.ReadBool('User Choices','Include sewers',false))=true Then Include_sewer := true
+  Else Include_sewer := false;
+  If (Inifile.ReadBool('User Choices','Include tillage',false))=true Then
+    Begin
+      Inc_tillage := true;
+      topo := false;
+    End
+  Else
+    Begin
+      Inc_tillage := false;
+      topo := true;
+    End;
+  If (Inifile.ReadBool('User Choices','Include buffers',false))=true Then Include_buffer := true
+  Else Include_buffer := false;
+  If (Inifile.ReadBool('User Choices','Include ditches',false))=true Then Include_ditch := true
+  Else Include_ditch := false;
+  If (Inifile.ReadBool('User Choices','Include dams',false))=true Then Include_dam := true
+  Else Include_dam := false;
+  If (Inifile.ReadBool('User Choices','Create ktc map',false))=true Then Create_ktc := true
+  Else Create_ktc := false;
+  If (Inifile.ReadBool('User Choices','Create ktil map',false))=true Then Create_ktil := true
+  Else Create_ktil := false;
+  If (Inifile.ReadBool('User Choices','Estimate clay content',false))=true Then est_clay := true
+  Else est_clay := false;
+  If (Inifile.ReadBool('User Choices','Manual outlet selection',false))=true Then Outlet_select := 
+                                                                                                true
+  Else Outlet_select := false;
+  If (Inifile.ReadBool('User Choices','Convert output',false))=true Then Convert_output := true
+  Else Convert_output := false;
+  If (Inifile.ReadBool('User Choices','Output per VHA river segment',false))=true Then VHA := true
+  Else VHA := false;
 
-  if (Inifile.ReadBool('Output maps','Write aspect',false))=true then Write_ASPECT:=true else Write_ASPECT:=false;
-  if (Inifile.ReadBool('Output maps','Write LS factor',false))=true then Write_LS:=true else Write_LS:=false;
-  if (Inifile.ReadBool('Output maps','Write rainfall excess',false))=true then Write_RE:=true else Write_RE:=false;
-  if (Inifile.ReadBool('Output maps','Write RUSLE',false))=true then Write_RUSLE:=true else Write_RUSLE:=false;
-  if (Inifile.ReadBool('Output maps','Write sediment export',false))=true then Write_Sediexport:=true else Write_Sediexport:=false;
-  if (Inifile.ReadBool('Output maps','Write slope',false))=true then Write_SLOPE:=true else Write_SLOPE:=false;
-  if (Inifile.ReadBool('Output maps','Write tillage erosion',false))=true then Write_TILEROS:=true else Write_TILEROS:=false;
-  if (Inifile.ReadBool('Output maps','Write total runoff',false))=true then Write_TOTRUN:=true else Write_TOTRUN:=false;
-  if (Inifile.ReadBool('Output maps','Write upstream area',false))=true then Write_UPAREA:=true else Write_UPAREA:=false;
-  if (Inifile.ReadBool('Output maps','Write water erosion',false))=true then Write_WATEREROS:=true else Write_WATEREROS:=false;
+  If (Inifile.ReadBool('Output maps','Write aspect',false))=true Then Write_ASPECT := true
+  Else Write_ASPECT := false;
+  If (Inifile.ReadBool('Output maps','Write LS factor',false))=true Then Write_LS := true
+  Else Write_LS := false;
+  If (Inifile.ReadBool('Output maps','Write rainfall excess',false))=true Then Write_RE := true
+  Else Write_RE := false;
+  If (Inifile.ReadBool('Output maps','Write RUSLE',false))=true Then Write_RUSLE := true
+  Else Write_RUSLE := false;
+  If (Inifile.ReadBool('Output maps','Write sediment export',false))=true Then Write_Sediexport := 
+                                                                                                true
+  Else Write_Sediexport := false;
+  If (Inifile.ReadBool('Output maps','Write slope',false))=true Then Write_SLOPE := true
+  Else Write_SLOPE := false;
+  If (Inifile.ReadBool('Output maps','Write tillage erosion',false))=true Then Write_TILEROS := true
+  Else Write_TILEROS := false;
+  If (Inifile.ReadBool('Output maps','Write total runoff',false))=true Then Write_TOTRUN := true
+  Else Write_TOTRUN := false;
+  If (Inifile.ReadBool('Output maps','Write upstream area',false))=true Then Write_UPAREA := true
+  Else Write_UPAREA := false;
+  If (Inifile.ReadBool('Output maps','Write water erosion',false))=true Then Write_WATEREROS := true
+  Else Write_WATEREROS := false;
 
-  if not Use_Rfactor then
+  If Not Use_Rfactor Then
     AR5 := StrToFloat(Inifile.Readstring('Variables', '5-day antecedent rainfall', Dummy_str))
-  else
+  Else
     RFactor := StrToFloat(Inifile.Readstring('Variables', 'R factor', Dummy_str));
   BD := StrToInt(Inifile.Readstring('Variables', 'Bulk density', Dummy_str));
   riv_vel := StrToFloat(Inifile.Readstring('Variables', 'Stream velocity', Dummy_str));
-  if Include_sewer then
+  If Include_sewer Then
     sewer_exit := StrToInt(Inifile.Readstring('Variables', 'Sewer exit', Dummy_str));
   alpha := StrToFloat(Inifile.Readstring('Variables', 'Alpha', Dummy_str));
   beta := StrToFloat(Inifile.Readstring('Variables', 'Beta', Dummy_str));
   Number_of_Buffers := StrToInt(inifile.readstring('Variables', 'Number of buffers', Dummy_str));
-  if Create_ktc then
-  begin
-       ktc_low := StrToInt(Inifile.Readstring('Variables', 'ktc low', Dummy_str));
-       ktc_high := StrToInt(Inifile.Readstring('Variables', 'ktc high', Dummy_str));
-       ktc_limit := StrToFloat(Inifile.Readstring('Variables', 'ktc limit', Dummy_str));
-  end;
-  if Create_ktil then
-  begin
-    ktil_Default := StrToInt(Inifile.Readstring('Variables', 'ktil default', Dummy_str));
-    ktil_threshold := StrToFloat(Inifile.Readstring('Variables', 'ktil threshold', Dummy_str));
-  end;
-  if est_clay then
-    clay_parent := StrToFloat(Inifile.Readstring('Variables', 'Clay content parent material', Dummy_str));
-  TFSED_crop := StrToInt(Inifile.Readstring('Variables', 'Parcel connectivity cropland', Dummy_str));
-  TFSED_forest := StrToInt(Inifile.Readstring('Variables', 'Parcel connectivity forest', Dummy_str));
-  PTEFValueCropland :=StrToInt(Inifile.ReadString ('Variables','Parcel trapping efficiency cropland',Dummy_str));
-  PTEFValueForest :=StrToInt(Inifile.ReadString ('Variables','Parcel trapping efficiency forest',Dummy_str));
-  PTEFValuePasture :=StrToInt(Inifile.ReadString ('Variables','Parcel trapping efficiency pasture',Dummy_str));
-  Timestep_model := StrToInt(inifile.readstring('Variables', 'Desired timestep for model', Dummy_str));
+  If Create_ktc Then
+    Begin
+      ktc_low := StrToInt(Inifile.Readstring('Variables', 'ktc low', Dummy_str));
+      ktc_high := StrToInt(Inifile.Readstring('Variables', 'ktc high', Dummy_str));
+      ktc_limit := StrToFloat(Inifile.Readstring('Variables', 'ktc limit', Dummy_str));
+    End;
+  If Create_ktil Then
+    Begin
+      ktil_Default := StrToInt(Inifile.Readstring('Variables', 'ktil default', Dummy_str));
+      ktil_threshold := StrToFloat(Inifile.Readstring('Variables', 'ktil threshold', Dummy_str));
+    End;
+  If est_clay Then
+    clay_parent := StrToFloat(Inifile.Readstring('Variables', 'Clay content parent material',
+                   Dummy_str));
+  TFSED_crop := StrToInt(Inifile.Readstring('Variables', 'Parcel connectivity cropland', Dummy_str))
+  ;
+  TFSED_forest := StrToInt(Inifile.Readstring('Variables', 'Parcel connectivity forest', Dummy_str))
+  ;
+  PTEFValueCropland := StrToInt(Inifile.ReadString ('Variables',
+                       'Parcel trapping efficiency cropland',Dummy_str));
+  PTEFValueForest := StrToInt(Inifile.ReadString ('Variables','Parcel trapping efficiency forest',
+                     Dummy_str));
+  PTEFValuePasture := StrToInt(Inifile.ReadString ('Variables','Parcel trapping efficiency pasture',
+                      Dummy_str));
+  Timestep_model := StrToInt(inifile.readstring('Variables', 'Desired timestep for model', Dummy_str
+                    ));
   Endtime_model := StrToInt(inifile.readstring('Variables', 'Endtime model', Dummy_str));
-  if Convert_output then
-    Timestep_output := StrToInt(inifile.readstring('Variables', 'Final timestep output', Dummy_str));
+  If Convert_output Then
+    Timestep_output := StrToInt(inifile.readstring('Variables', 'Final timestep output', Dummy_str))
+  ;
 
-  if Include_buffer then
-  begin
-    setlength(Bufferdata, Number_of_Buffers + 1);
-    for i := 1 to Number_of_Buffers do
-    begin
-      Buffername := 'Buffer ' + IntToStr(i);
-      Bufferdata[i].Volume := StrToFloat(inifile.readstring(Buffername, 'Volume', Dummy_str));
-      Bufferdata[i].Height_dam := StrToFloat(inifile.readstring(Buffername, 'Height dam', Dummy_str));
-      Bufferdata[i].Height_opening := StrToFloat(inifile.readstring(Buffername, 'Height opening', Dummy_str));
-      Bufferdata[i].Opening_area := StrToFloat(inifile.readstring(Buffername, 'Opening area', Dummy_str));
-      Bufferdata[i].Cd := StrToFloat(inifile.readstring(Buffername, 'Discharge coefficient', Dummy_str));
-      Bufferdata[i].width_dam := StrToFloat(inifile.readstring(Buffername, 'Width dam', Dummy_str));
-      Bufferdata[i].PTEF := StrToFloat(inifile.readstring(Buffername, 'Trapping efficiency', Dummy_str));
-      Bufferdata[i].ext_ID := StrToInt(inifile.readstring(Buffername, 'Extension ID', Dummy_str));
-      if Bufferdata[i].Height_opening > Bufferdata[i].Height_dam then
-        begin
-        showmessage('Error in buffer input: the height of the opening cannot be larger than the height of the dam. Please insert correct vallues.');
-        Exit;
-        end;
-    end;
-  end;
+  If Include_buffer Then
+    Begin
+      setlength(Bufferdata, Number_of_Buffers + 1);
+      For i := 1 To Number_of_Buffers Do
+        Begin
+          Buffername := 'Buffer ' + IntToStr(i);
+          Bufferdata[i].Volume := StrToFloat(inifile.readstring(Buffername, 'Volume', Dummy_str));
+          Bufferdata[i].Height_dam := StrToFloat(inifile.readstring(Buffername, 'Height dam',
+                                      Dummy_str));
+          Bufferdata[i].Height_opening := StrToFloat(inifile.readstring(Buffername, 'Height opening'
+                                          , Dummy_str));
+          Bufferdata[i].Opening_area := StrToFloat(inifile.readstring(Buffername, 'Opening area',
+                                        Dummy_str));
+          Bufferdata[i].Cd := StrToFloat(inifile.readstring(Buffername, 'Discharge coefficient',
+                              Dummy_str));
+          Bufferdata[i].width_dam := StrToFloat(inifile.readstring(Buffername, 'Width dam',
+                                     Dummy_str));
+          Bufferdata[i].PTEF := StrToFloat(inifile.readstring(Buffername, 'Trapping efficiency',
+                                Dummy_str));
+          Bufferdata[i].ext_ID := StrToInt(inifile.readstring(Buffername, 'Extension ID', Dummy_str)
+                                  );
+          If Bufferdata[i].Height_opening > Bufferdata[i].Height_dam Then
+            Begin
+              showmessage(
+'Error in buffer input: the height of the opening cannot be larger than the height of the dam. Please insert correct vallues.'
+              );
+              Exit;
+            End;
+        End;
+    End;
 
   Inifile.Destroy;
-end;
+End;
 
 //**************************************************************************
 //This procedure is only ran when the user enters a land use map and table that
@@ -483,136 +557,149 @@ end;
 //In this procedure the CN map is calculated based on the formulas described in
 //The PhD of Kristof Van Oost
 //**************************************************************************
-procedure Create_CN_map(var CNmap: RRaster;Perceelskaart:RRaster; Filename:string);
-var
-Count, i, j, k, getal, NumberOfLU, nrowPRC, ncolPRC: integer;
-Table: textfile;
-TempName: String;
-M: GRaster;
-CN_waarden: array of single;
+Procedure Create_CN_map(Var CNmap: RRaster;Perceelskaart:RRaster; Filename:String);
 
-//The number of rows in the .txt file is counted. This way the user can define as
-//much LU classes as he wishes
-//!!The first row of the .txt file should contain headers!!
-begin
-  If  FileExists(datadir+Filename) then //Check if the .txt file exists
-    BEGIN
+Var 
+  Count, i, j, k, getal, NumberOfLU, nrowPRC, ncolPRC: integer;
+  Table: textfile;
+  TempName: String;
+  M: GRaster;
+  CN_waarden: array Of single;
+
+  //The number of rows in the .txt file is counted. This way the user can define as
+  //much LU classes as he wishes
+  //!!The first row of the .txt file should contain headers!!
+Begin
+  If  FileExists(datadir+Filename) Then //Check if the .txt file exists
+    Begin
       SetcurrentDir(datadir);
-      TempName:=Filename; // filename + extension
-      Count:=0;
+      TempName := Filename;
+      // filename + extension
+      Count := 0;
       Assignfile(Table,TempName);
       Reset(Table);
-      While not eof(Table) do //eof = end of file
-      begin
-        readln(Table);
-        Count:=Count+1; //The number of rows is counted
-      end;
+      While Not eof(Table) Do
+        //eof = end of file
+        Begin
+          readln(Table);
+          Count := Count+1;
+          //The number of rows is counted
+        End;
       Closefile(Table);
-      NumberOfLU:=Count-1; //'-1' because the first row contains headers
-    end
+      NumberOfLU := Count-1;
+      //'-1' because the first row contains headers
+    End
   Else
-  begin
-  Showmessage('De tabel met CN waarden werd niet herkend, het proramma wordt gesloten.');
-  Exit; //If the file does not extists the program is ended
-  end;
+    Begin
+      Showmessage('De tabel met CN waarden werd niet herkend, het proramma wordt gesloten.');
+      Exit;
+      //If the file does not extists the program is ended
+    End;
 
-//The numbers from the .txt file are stored in a variable (matrix) M
-//All numbers in the .txt file should be integers!!!
-SetDynamicGData(M);
-begin
-     Assignfile(Table,TempName);
-     Reset(Table);
-     readln(Table); //The first row (headers) is read and is thus skipped below
-     for i := 1 to NumberofLU do
-         for j := 1 to 6 do //6 because the .txt table alsways contains 6 columns (Parcel ID - CNmax - c1 - c2 - Crop cover - Crusting stage)
-             begin
-             read(Table, getal);
-             M[i,j] := getal;
-             end;
-end;
-closefile(Table);
+  //The numbers from the .txt file are stored in a variable (matrix) M
+  //All numbers in the .txt file should be integers!!!
+  SetDynamicGData(M);
+  Begin
+    Assignfile(Table,TempName);
+    Reset(Table);
+    readln(Table);
+    //The first row (headers) is read and is thus skipped below
+    For i := 1 To NumberofLU Do
+      For j := 1 To 6 Do
 
-//All posible CN values are calculated
-SetLength(CN_waarden,NumberofLU);
-for i:= 1 to NumberofLU do
-    begin
-        CN_Waarden[i]:=calculateCN(M[i,2],M[i,5],M[i,6],M[i,3],M[i,4]) //CalcualteCN: procedure to calculate the CN value
-    end;
+//6 because the .txt table alsways contains 6 columns (Parcel ID - CNmax - c1 - c2 - Crop cover - Crusting stage)
+        Begin
+          read(Table, getal);
+          M[i,j] := getal;
+        End;
+  End;
+  closefile(Table);
 
-//Number of rows and colums is defined
-nrowPRC := nrow; //nrow and ncol are defined based on the .RDC files in RData_CN
-ncolPRC := ncol;
+  //All posible CN values are calculated
+  SetLength(CN_waarden,NumberofLU);
+  For i:= 1 To NumberofLU Do
+    Begin
+      CN_Waarden[i] := calculateCN(M[i,2],M[i,5],M[i,6],M[i,3],M[i,4])
+                       //CalcualteCN: procedure to calculate the CN value
+    End;
 
-//Based on the .txt table and the land use map (which is being read in the main unit
-//the CN map is created
-Setlength(CNmap,NrowPRC+1, NColPRC+1); //+1 because [0] is being used by Lazarus
-for i := 1 to nrowPRC do
-    for j := 1 to ncolPRC do
-        begin
-        if Perceelskaart[i,j] = 0 then
+  //Number of rows and colums is defined
+  nrowPRC := nrow;
+  //nrow and ncol are defined based on the .RDC files in RData_CN
+  ncolPRC := ncol;
+
+  //Based on the .txt table and the land use map (which is being read in the main unit
+  //the CN map is created
+  Setlength(CNmap,NrowPRC+1, NColPRC+1);
+  //+1 because [0] is being used by Lazarus
+  For i := 1 To nrowPRC Do
+    For j := 1 To ncolPRC Do
+      Begin
+        If Perceelskaart[i,j] = 0 Then
           CNmap[i,j] := 0.0
-        else
-        begin
-        for k := 1 to NumberofLU do
-            if Perceelskaart[i,j] = M[k,1] then
-            CNmap[i,j] := CN_Waarden[k]
-        end
-        end;
+        Else
+          Begin
+            For k := 1 To NumberofLU Do
+              If Perceelskaart[i,j] = M[k,1] Then
+                CNmap[i,j] := CN_Waarden[k]
+          End
+      End;
 
-//The CN map is stored as an Idrisi map
-writeidrisi32file(ncolPRC,nrowPRC,datadir+'\CNmap'+'.rst',CNmap);
-DisposeDynamicGData(M);
-end;
+  //The CN map is stored as an Idrisi map
+  writeidrisi32file(ncolPRC,nrowPRC,datadir+'\CNmap'+'.rst',CNmap);
+  DisposeDynamicGData(M);
+End;
 
 
 //**********************************************************************
 //This procedure calculates the CN value according to the formula of KVO
 //**********************************************************************
-function CalculateCN(CNmax,Cc,Cr,c1,c2:integer):single;
-begin
- CalculateCN := CNmax - ((Cc/100)*c1) + ((Cr/5)*c2);
-end;
+Function CalculateCN(CNmax,Cc,Cr,c1,c2:integer): single;
+Begin
+  CalculateCN := CNmax - ((Cc/100)*c1) + ((Cr/5)*c2);
+End;
 
 
-procedure Create_ktil_map(var ktil: GRaster);
-var
-i,j: integer;
-begin
+Procedure Create_ktil_map(Var ktil: GRaster);
+
+Var 
+  i,j: integer;
+Begin
   SetDynamicGData(ktil);
-  for i := 1 to nrow do
-   for j := 1 to ncol do
-    begin
-      if C_factor[i,j] <= ktil_threshold then
-        ktil[i,j] := 0
-      else
-        ktil[i,j] := ktil_Default;
-    end;
+  For i := 1 To nrow Do
+    For j := 1 To ncol Do
+      Begin
+        If C_factor[i,j] <= ktil_threshold Then
+          ktil[i,j] := 0
+        Else
+          ktil[i,j] := ktil_Default;
+      End;
 
   writeGidrisi32file(ncol,nrow,datadir+'\ktilmap'+'.rst',ktil);
-end;
+End;
 
-procedure Create_ktc_map(var ktc: GRaster);
-var
-i,j: integer;
-begin
+Procedure Create_ktc_map(Var ktc: GRaster);
+
+Var 
+  i,j: integer;
+Begin
   SetDynamicGData(ktc);
-  for i := 1 to nrow do
-   for j := 1 to ncol do
-    begin
-      if C_factor[i,j] <= ktc_limit then
-        ktc[i,j] := ktc_low
-      else
-        ktc[i,j] := ktc_high;
-      // In WS, cells with PRC == -2 or -1 receive a Ktc value of 9999
-    if (PRC[i,j] = -2) or (PRC[i,j] = -1) then
-       ktc[i,j] := 9999;
-    // kTc of open water = 0 because sediment can't go any further once it's there
-  if PRC[i,j] = -5 then
-    ktc[i,j] := 0;
-    end;
+  For i := 1 To nrow Do
+    For j := 1 To ncol Do
+      Begin
+        If C_factor[i,j] <= ktc_limit Then
+          ktc[i,j] := ktc_low
+        Else
+          ktc[i,j] := ktc_high;
+        // In WS, cells with PRC == -2 or -1 receive a Ktc value of 9999
+        If (PRC[i,j] = -2) Or (PRC[i,j] = -1) Then
+          ktc[i,j] := 9999;
+        // kTc of open water = 0 because sediment can't go any further once it's there
+        If PRC[i,j] = -5 Then
+          ktc[i,j] := 0;
+      End;
 
   writeGidrisi32file(ncol,nrow,datadir+'\ktcmap'+'.rst',ktc);
-end;
+End;
 
-end.
-
+End.
