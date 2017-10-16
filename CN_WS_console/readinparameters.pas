@@ -31,7 +31,6 @@ Type
   TBufferData = Record
     //Record containing inputdata for buffers
     Volume, Volume_dead, height_dam, height_opening, Opening_area, Qmax, Cd, area, width_dam, PTEF:
-
                                                                                               double
     ;
     row, col, ext_ID: integer;
@@ -74,10 +73,10 @@ Var
   // water erosion (unit: m³)
   WATEREROS_kg: RRaster;
   // water erosion (unit: kg)
-  TILEROS       : RRaster;
-  //tillage erosion (unit: mm)
   RUSLE         : RRaster;
   // result of RUSLE equation in kg/m² = POTENTIAL soil loss
+  TILEROS       : RRaster;
+  //tillage erosion (unit: mm)
   SEDI_EXPORT   : RRaster;
   // sediment export in m³
   SEDI_EXPORT_kg   : RRaster;
@@ -200,18 +199,17 @@ Begin
   If Include_sewer Then
     GetRFile(SewerMap,Sewerfilename);
 
+  If Not Simplified Then
+    Begin
+      GetRfile(CNmap, CNmapfilename);
+    End;
   If topo = false Then // als topo = false wordt de ploegrichting in rekening gebracht
     Begin
       GetGFile(TilDir, TilDirFilename);
       GetGfile(Ro, RoFilename);
     End;
 
-  If Not Simplified Then
-    Begin
-      GetRfile(CNmap, CNmapfilename);
-    End;
-
-  GetGFile(K_factor,K_Factor_filename);
+  GetGFile(K_factor, K_Factor_filename);
   GetRFile(C_factor, Cf_Data_filename);
   GetRFile(P_factor, Pf_Data_filename);
 
@@ -435,7 +433,11 @@ Begin
   Outletfilename := inifile.readstring('Files', 'Outlet map filename', Dummy_str);
   Riversegment_filename := inifile.readstring('Files', 'River segment filename', Dummy_str);
 
-  {User choices}
+  // If the last character in the output directory is not a "\" this is added
+  If (File_output_dir[Length(File_output_dir)] <> '\') Then
+    File_output_dir := IncludeTrailingBackslash(File_output_dir);
+
+    {User choices}
   If (Inifile.ReadBool('User Choices','Simplified model version',false))=true Then Simplified := 
 
                                                                                                 true

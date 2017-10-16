@@ -85,15 +85,12 @@ Var
   // incoming sediment in kg
   SEDI_OUT2      : RRaster;
   // outgoing sediment in kg
-  //depprod2        :RRaster;             // deposition in kg
-  {row2            :GRaster;
-  col2            :GRaster;   }
   {Rasters to be read in--------------------------------------------------------}
   K_factor   : GRaster;    {RUSLE K-factor map kg m² h m-² MJ-1 mm-1}
   C_factor   : RRaster;
   P_factor   : RRaster;
-  ktil       : GRaster;
   ktc        : GRaster;
+  ktil       : GRaster;
   {End Rasters to be read in----------------------------------------------------}
 
   {Parameters to be read from ini-file------------------------------------------}
@@ -104,6 +101,7 @@ Var
   INIfilename          : string;
   DTM_filename         : string;       {unit m}
   PARCEL_filename      : string;
+
 {unit id, 1 to 3200 for parcels, -1 for river, 0 for outside area, -2 for roads, -3 for forest, -4 for pasture, -5 for ponds}
   Rainfallfilename     : string;
   Sewerfilename        : string;
@@ -126,12 +124,12 @@ Var
   Use_Rfactor          : boolean;
   Include_sewer        : boolean;
   Topo, Inc_tillage    : boolean;
+  est_clay             : boolean;
   Include_buffer       : boolean;
   Include_ditch        : boolean;
   Include_dam          : boolean;
   Create_ktc           : boolean;
   Create_ktil          : boolean;
-  est_clay             : boolean;
   Outlet_select        : boolean;
   Convert_output       : boolean;
   VHA                  : boolean;
@@ -148,18 +146,19 @@ Var
   Write_WATEREROS      : boolean;
   {Variables}
   AR5                  : double;
+  RFactor              : double;
   BD                   : integer;
   riv_vel              : double;
   sewer_exit           : integer;
   alpha                : double;
   beta                 : double;
+  clay_parent          : double;
   Number_of_Buffers    : integer;
   ktc_low              : integer;
   ktc_high             : integer;
   ktc_limit            : double;
   ktil_Default         : integer;
   ktil_threshold       : double;
-  clay_parent          : double;
   TFSED_crop           : integer;
   TFSED_forest         : integer;
   Timestep_model       : integer;
@@ -173,9 +172,8 @@ Var
   BufferData: TBufferDataArray;
   {End Parameters to be read form ini-file--------------------------------------}
 
-  RFactor: double;
-  PRC,DTM, CNmap, LU, ReMap, RunoffTotMap, SewerMap: Rraster;
-  TilDir, Ro,BufferMap, Outlet, RivSeg, Ditch_map, Dam_map, PTEFmap: GRaster;
+  PRC, DTM, CNmap, LU, ReMap, RunoffTotMap, SewerMap: Rraster;
+  TilDir, Ro, BufferMap, Outlet, RivSeg, Ditch_map, Dam_map, PTEFmap: GRaster;
   i, j, lowOutletX, lowOutletY: integer;
 
   ROW, COLUMN : Gvector;
@@ -192,28 +190,25 @@ Implementation
 
 Procedure ReadInRasters;
 Begin
-  GetRFile(DTM,DTM_Filename);
 
+  GetRFile(DTM,DTM_Filename);
   GetRFile(PRC,PARCEL_filename);
 
   If Include_sewer Then
     GetRFile(SewerMap,Sewerfilename);
 
-  If Not simplified Then
+  If Not Simplified Then
     Begin
       GetRfile(CNmap, CNmapfilename);
     End;
-
   If topo = false Then // als topo = false wordt de ploegrichting in rekening gebracht
     Begin
       GetGFile(TilDir, TilDirFilename);
       GetGfile(Ro, RoFilename);
     End;
 
-  GetGFile(K_factor,K_Factor_filename);
-
+  GetGFile(K_factor, K_Factor_filename);
   GetRFile(C_factor, Cf_Data_filename);
-
   GetRFile(P_factor, Pf_Data_filename);
 
   If Create_ktc Then
@@ -302,9 +297,6 @@ Begin
   SetDynamicRData(SEDI_EXPORT_kg);
   SetDynamicRData(SEDI_IN2);
   SetDynamicRData(SEDI_OUT2);
-  //SetDynamicRData(depprod2);
-{SetDynamicGData(row2);
-SetDynamicGData(col2);  }
   SetDynamicRData(TILEROS);
   //************************
 
@@ -364,11 +356,7 @@ Begin
   DisposeDynamicRdata(SEDI_EXPORT_kg);
   DisposeDynamicRdata(SEDI_IN2);
   DisposeDynamicRdata(SEDI_OUT2);
-  //DisposeDynamicRdata(depprod2);
-{DisposeDynamicGdata(row2);
-DisposeDynamicGdata(col2);   }
   DisposeDynamicRdata(TILEROS);
-
 
   If Not Simplified Then
     Begin
@@ -393,9 +381,25 @@ Begin
 
   Datadir := Inifile.readstring('Working directories', 'Input directory', Dummy_str);
   File_output_dir := Inifile.readstring('Working directories', 'Output directory', Dummy_str);
+  If Not DirectoryExists(File_output_dir) Then CreateDir(File_output_dir);
+  // If the last character in the output directory is not a "\" this is added
+  If (File_output_dir[Length(File_output_dir)] <> '\') Then
+    File_output_dir := IncludeTrailingBackslash(File_output_dir);
+
+  {Filenames}
   INIfilename := Inifile.Readstring('Files', '.INI filename', Dummy_str);
   DTM_filename := Inifile.Readstring('Files', 'DTM filename', Dummy_str);
+  If Not (FileExists(DTM_filename)) Then
+    Begin
+      errorFlag := True;
+      errorDummy := 'Error in data input: DTM file not found in '+datadir;
+    End;
   PARCEL_filename := Inifile.Readstring('Files', 'Parcel filename', Dummy_str);
+  If Not (FileExists(PARCEL_filename)) Then
+    Begin
+      errorFlag := True;
+      errorDummy := 'Error in data input: Parcel file not found in '+datadir;
+    End;
   Rainfallfilename := Inifile.Readstring('Files', 'Rainfall filename', Dummy_str);
   Sewerfilename := Inifile.Readstring('Files', 'Sewer map filename', Dummy_str);
   CNmapfilename := Inifile.Readstring('Files', 'CN map filename', Dummy_str);
@@ -405,8 +409,23 @@ Begin
   Ditch_filename := inifile.readstring('Files', 'Ditch map filename', Dummy_str);
   Dam_filename := inifile.readstring('Files', 'Dam map filename', Dummy_str);
   K_Factor_filename := inifile.readstring('Files', 'K factor filename', Dummy_str);
+  If Not (FileExists(K_Factor_filename)) Then
+    Begin
+      errorFlag := True;
+      errorDummy := 'Error in data input: K factor file not found in '+datadir;
+    End;
   Cf_Data_Filename := inifile.readstring('Files', 'C factor map filename', Dummy_str);
+  If Not (FileExists(Cf_Data_Filename)) Then
+    Begin
+      errorFlag := True;
+      errorDummy := 'Error in data input: C factor file not found in '+datadir;
+    End;
   Pf_Data_Filename := inifile.readstring('Files', 'P factor map filename', Dummy_str);
+  If Not (FileExists(Pf_Data_Filename)) Then
+    Begin
+      errorFlag := True;
+      errorDummy := 'Error in data input: P factor file not found in '+datadir;
+    End;
   ktc_Data_Filename := inifile.readstring('Files', 'ktc map filename', Dummy_str);
   ktil_Data_Filename := inifile.readstring('Files', 'ktil map filename', Dummy_str);
   Outletfilename := inifile.readstring('Files', 'Outlet map filename', Dummy_str);
@@ -416,6 +435,7 @@ Begin
   If (File_output_dir[Length(File_output_dir)] <> '\') Then
     File_output_dir := IncludeTrailingBackslash(File_output_dir);
 
+    {User choices}
   If (Inifile.ReadBool('User Choices','Simplified model version',false))=true Then Simplified := 
                                                                                                 true
   Else Simplified := false;
