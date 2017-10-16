@@ -8,11 +8,13 @@ unit RData_CN;
 interface
 
 uses
-  Classes, SysUtils, Dialogs;
+  Classes, SysUtils;
 
 Type
  Rraster = array of array of single ;
  TRaster_Projection=(plane,LATLONG);
+
+ ERasterException = Class(Exception);
 
 Procedure GetRfile(var Z:RRaster; Filename:string);
 Procedure SetDynamicRData(var Z:RRaster);
@@ -27,8 +29,6 @@ var
   ncolAR, nrowAR: array of integer;    // array waarin resp. nrow, ncol en
   resAR: array of double;              // res van elke ingelezen kaart wordt opgeslagen
   lengthAR: integer;
-  errorFlag2: boolean;
-  errorDummy2:string;
 
 implementation
 
@@ -120,10 +120,8 @@ begin
         delete (dumstr,1,14); //Na 14 tekens staat het data type
         if (dumstr='integer') or (dumstr='byte') then
            begin
-               errorFlag2 := True;
-               errorDummy2 := 'Error in reading one of the rasters: data type must be real !!'+chr(13)+'Please Re-enter data';
                closefile(docfileIMG);
-               exit; // Exits the current subroutine
+               Raise ERasterException.Create('Error in reading one of the rasters: data type must be real, please re-enter data');
            end;
          readln(docfileIMG, dumstr);
          delete (dumstr,1,14);
@@ -161,9 +159,7 @@ begin
      res := strtofloat(dumstr);
     if (res=0.0) then
         begin
-        errorFlag2 := True;
-        errorDummy2 := 'Error in reading one of the rasters: Resolution is invalid';
-        Exit;
+        Raise ERasterException.Create('Error in reading one of the rasters: Resolution is invalid');
         end;
 
         // Inlezen gegevens

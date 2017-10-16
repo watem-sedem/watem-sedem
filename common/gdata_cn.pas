@@ -10,6 +10,7 @@ Classes, SysUtils, Dialogs;
 
 Type 
   Graster = array Of array Of smallint;
+  ERasterException = Class(Exception);
 
 Procedure GetGFile(Var Z:GRaster; Filename:String);
 Procedure SetDynamicGData(Var Z:GRaster);
@@ -123,8 +124,8 @@ Begin
   //Na 14 tekens staat het data type
   If (dumstr='real')  Then
     Begin
-      showmessage(docNfileIMG + ': Data type must be integer !!'+chr(13)+'Please Re-enter data');
       closefile(docfileIMG);
+      Raise ERasterException.Create('Error in reading one of the rasters: data type must be integer, please re-enter data');
       exit;
     End;
   If dumstr='byte' Then

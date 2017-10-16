@@ -10,8 +10,8 @@ Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
 Menus, ComCtrls, Inifiles, Input_kaarten_cn, ReadInParameters, LateralRedistribution,
 tillage, Write_output, RData_CN;
 
-Type 
-
+Type
+  ERasterException = Class(Exception);
 
 { THoofdscherm_CN_form }
 
@@ -123,7 +123,16 @@ Procedure THoofdscherm_CN_form.CnRunClick(Sender: TObject);
 Begin
 
   //Input maps are read and assigned a filename
-  ReadInRasters;
+  try
+
+     ReadInRasters;
+  except
+  on E:ERasterException do
+  begin
+    ShowMessage(E.Message);
+  end;
+
+  end;
 
   //Check whether number of rows, number of columns and resolution are equal for all input maps
   If Not intArrayIsEqual(nrowAR) Then

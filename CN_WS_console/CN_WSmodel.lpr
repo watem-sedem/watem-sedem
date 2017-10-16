@@ -72,22 +72,22 @@ var
        Exit;
     end;
 
-    ReadInRasters;
+    try
+       ReadInRasters;
+    except
+       on E: Exception do
+       begin
+          writeln(E.Message);
+          readln;
+          Terminate;
+          Exit
+       end;
+
+    end;
 
     if errorFlag then
     begin
        ErrorMsg := errorDummy;
-       writeln(ErrorMsg);
-       writeln;
-       writeln('Press <Enter> to quit');
-       readln;
-       Terminate;
-       Exit;
-    end;
-
-    if errorFlag2 then
-    begin
-       ErrorMsg := errorDummy2;
        writeln(ErrorMsg);
        writeln;
        writeln('Press <Enter> to quit');
