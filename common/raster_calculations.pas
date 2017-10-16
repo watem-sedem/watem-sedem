@@ -6,7 +6,7 @@ Unit Raster_calculations;
 Interface
 
 Uses 
-Classes, SysUtils, Dialogs, Math, GData_CN, RData_CN, Idrisi, ReadInParameters;
+Classes, SysUtils, Dialogs, Math, GData_CN, RData_CN, ReadInParameters;
 
 
 Procedure sort(D:Rraster);
@@ -22,8 +22,8 @@ Procedure DistributeRiver_Routing(i,j:integer; Var FINISH:GRaster);
 Procedure DistributeTilDirEvent_Routing(i,j:integer; Var FINISH:GRaster; Topo:boolean);
 Function intArrayIsEqual (inputArray: Array Of Integer): boolean;
 Function doubArrayIsEqual (inputarray: Array Of double): boolean;
-Function X_Resolution(i,j:integer): double;
-Function Y_Resolution(i,j:integer): double;
+Function X_Resolution(): double;
+Function Y_Resolution(): double;
 Procedure Calculate_UpstreamArea(Var UPAREA:RRaster);
 Procedure CalculateLS(Var LS:RRaster;UPAREA:RRaster);
 Procedure DistributeFlux_LS(i,j:integer;Var Flux_IN,Flux_OUT: RRaster);
@@ -34,11 +34,10 @@ Procedure Topo_Calculations;
 
 Implementation
 
-Const 
-  WEIGTH : array[1..8] Of double = (0.353553,0.5,0.353553,0.5,0.5,0.353553,0.5,0.353553);
+Const
   Earth_DegToMeter = 111319.444444444;
 
-Function X_Resolution(i,j:integer): double;
+Function X_Resolution(): double;
 
 Var 
   Yresdeg,Xresdeg,longitude: double;
@@ -58,7 +57,7 @@ Begin
     End;
 End;
 
-Function Y_Resolution (i,j:integer): double;
+Function Y_Resolution (): double;
 Begin
   If Raster_Projection=plane Then
     Begin
@@ -258,8 +257,8 @@ Begin
   ASP := 0;
   Diffx := DTM[i-1,j]-DTM[i+1,j];
   Diffy := DTM[i,j-1]-DTM[i,j+1];
-  Slopex := Diffx/Y_Resolution(i,j);
-  Slopey := Diffy/X_Resolution(i,j);
+  Slopex := Diffx/Y_Resolution();
+  Slopey := Diffy/X_Resolution();
   If Slopex = 0.0 Then
     Begin
       If Diffy > 0.0 Then Asp := 90.0;
@@ -378,7 +377,7 @@ Procedure DistributeRiver_Routing(i,j:integer; Var FINISH:GRaster);
 
 Var 
   max : double;
-  K,L,id,number,rowmin,colmin,W : integer;
+  K,L,id,rowmin,colmin,W : integer;
   OK,OK2,check : boolean;
   r, t: integer;
 Begin
@@ -523,10 +522,10 @@ Procedure DistributeTilDirEvent_Routing(i,j:integer; Var FINISH:GRaster; Topo:bo
 
 Var 
   CSN,SN,MINIMUM,MINIMUM2,PART1,PART2,extremum : extended;
-  K1,K2,l1,L2,ROWMIN,COLMIN,ROWMIN2,COLMIN2,K,L,z ,Area, W : integer;
+  K1,K2,l1,L2,ROWMIN,COLMIN,ROWMIN2,COLMIN2,K,L, Area, W : integer;
   parequal,closeriver, check: boolean;
   Direction : single;
-  teller,vlag, a, b, center_x, center_y, center_ID, TFSED : integer;
+  center_x, center_y, center_ID: integer;
 Begin
   closeriver := false;
 
@@ -1367,7 +1366,7 @@ Begin
       i := row[teller];
       j := column[teller];
       If PRC[i,j]=0 Then continue;
-      OPPCOR := (X_resolution(i,j)*Y_resolution(i,j)) * (1 - (PTEFmap[i,j] / 100));
+      OPPCOR := (X_resolution()*Y_resolution()) * (1 - (PTEFmap[i,j] / 100));
       //bijdrage van elke cel aan de uparea
       Fluxout[i,j] := OPPCOR+UPAREA[i,j];
       // X_res * Y_res = oppervlakte 1 cel
@@ -1397,10 +1396,10 @@ Begin
           // begin matrix loop
           If (PRC[i,j] = 0) Or (PRC[i,j] = -1) Then continue;
           If Raster_projection=plane Then locres := RES
-          Else locres := (X_Resolution(i,j)+Y_Resolution(i,j))/2.0;
+          Else locres := (X_Resolution()+Y_Resolution())/2.0;
           //else fixed res is used
           ADJUST := (ABS(cos(aspect[i,j]))+ABS(sin(aspect[i,j])));
-
+          //todo johan: bepaald maar niet gebruikt!
           B := (sin(slope[i,j])/0.0896)/((3.0*power(sin(slope[i,j]),0.8))+0.56);
           //EXP:=B/(B+1);
           If UPAREA[i,j] < 10000 Then
