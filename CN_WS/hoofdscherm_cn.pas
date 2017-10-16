@@ -1,20 +1,21 @@
-unit Hoofdscherm_CN;
+
+Unit Hoofdscherm_CN;
 
 {$mode objfpc}{$H+}
 
-interface
+Interface
 
-uses
-  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  Menus, ComCtrls, Inifiles, Input_kaarten_cn, ReadInParameters, LateralRedistribution,
-  tillage, Write_output, RData_CN;
+Uses 
+Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
+Menus, ComCtrls, Inifiles, Input_kaarten_cn, ReadInParameters, LateralRedistribution,
+tillage, Write_output, RData_CN;
 
-Type
+Type 
 
 
 { THoofdscherm_CN_form }
 
-  THoofdscherm_CN_form = class(TForm)
+  THoofdscherm_CN_form = Class(TForm)
     CheckBox1: TCheckBox;
     CheckBox2: TCheckBox;
     CnRun: TButton;
@@ -28,155 +29,172 @@ Type
     OpenDialog1: TOpenDialog;
     SaveDialog1: TSaveDialog;
     StatusBar1: TStatusBar;
-    procedure CheckBox1Change(Sender: TObject);
-    procedure CheckBox2Change(Sender: TObject);
-    procedure InputClick(Sender: TObject);
-    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
-    procedure FormCreate(Sender: TObject);
-    procedure CnRunClick(Sender: TObject);
-  private
+    Procedure CheckBox1Change(Sender: TObject);
+    Procedure CheckBox2Change(Sender: TObject);
+    Procedure InputClick(Sender: TObject);
+    Procedure FormClose(Sender: TObject; Var CloseAction: TCloseAction);
+    Procedure FormCreate(Sender: TObject);
+    Procedure CnRunClick(Sender: TObject);
+    Private 
     { private declarations }
-  public
+    Public 
     { public declarations }
-  end;
+  End;
 
-var
+Var 
   Hoofdscherm_CN_form: THoofdscherm_CN_form;
   inifile: Tinifile;
   resultfile : textfile ;
   i, j: integer;
 
 
-implementation
+Implementation
 
-uses
-  CN_calculations,
-  Raster_calculations;
+Uses 
+CN_calculations,
+Raster_calculations;
 
 {$R *.lfm}
 
 
-procedure THoofdscherm_CN_form.CheckBox1Change(Sender: TObject);
-begin
-  if CheckBox1.Checked then
-  begin
-    Simplified := True;
-    CheckBox2.Checked := False;
-    CheckBox2.Enabled := False;
-  end
-  else
-  begin
-    Simplified := False;
-    CheckBox2.Enabled := True;
-  end;
-end;
+Procedure THoofdscherm_CN_form.CheckBox1Change(Sender: TObject);
+Begin
+  If CheckBox1.Checked Then
+    Begin
+      Simplified := True;
+      CheckBox2.Checked := False;
+      CheckBox2.Enabled := False;
+    End
+  Else
+    Begin
+      Simplified := False;
+      CheckBox2.Enabled := True;
+    End;
+End;
 
-procedure THoofdscherm_CN_form.CheckBox2Change(Sender: TObject);
-begin
-   if CheckBox2.Checked then
-  begin
-    Simplified := False;
-    CheckBox1.Checked := False;
-    CheckBox1.Enabled := False;
-  end
-  else
-  begin
-    CheckBox1.Enabled := True;
-  end;
-end;
+Procedure THoofdscherm_CN_form.CheckBox2Change(Sender: TObject);
+Begin
+  If CheckBox2.Checked Then
+    Begin
+      Simplified := False;
+      CheckBox1.Checked := False;
+      CheckBox1.Enabled := False;
+    End
+  Else
+    Begin
+      CheckBox1.Enabled := True;
+    End;
+End;
 
-procedure THoofdscherm_CN_form.InputClick(Sender: TObject);
-var
+Procedure THoofdscherm_CN_form.InputClick(Sender: TObject);
+
+Var 
   Input_kaarten_cn_form: TInput_kaarten_cn_form;
-begin
+Begin
   Input_kaarten_cn_form := TInput_kaarten_cn_form.Create(application);
   Input_kaarten_cn_form.Show;
 
-  if FileExists(INIfilename) then
-  begin
-    Readsettings(INIfilename); //De namen van de bestanden worden aan de variabelen gekoppeld
-    autoFill(Input_kaarten_cn_form);    //inputformulier wordt ingevuld
-  end;
+  If FileExists(INIfilename) Then
+    Begin
+      Readsettings(INIfilename);
+      //De namen van de bestanden worden aan de variabelen gekoppeld
+      autoFill(Input_kaarten_cn_form);
+      //inputformulier wordt ingevuld
+    End;
 
-end;
+End;
 
-procedure THoofdscherm_CN_form.FormClose(Sender: TObject;
-  var CloseAction: TCloseAction);
-begin
+Procedure THoofdscherm_CN_form.FormClose(Sender: TObject;
+                                         Var CloseAction: TCloseAction);
+Begin
   Application.Terminate;
-end;
+End;
 
-procedure THoofdscherm_CN_form.FormCreate(Sender: TObject);
-begin
+Procedure THoofdscherm_CN_form.FormCreate(Sender: TObject);
+Begin
   Simplified := False;
-end;
+End;
 
 //*****************************************************************************
 //By clicking the 'CnRun' button the CNmodel is run with the input parameters
 //*****************************************************************************
-procedure THoofdscherm_CN_form.CnRunClick(Sender: TObject);
+Procedure THoofdscherm_CN_form.CnRunClick(Sender: TObject);
 
-begin
+Begin
 
   //Input maps are read and assigned a filename
-ReadInRasters;
+  ReadInRasters;
 
-    //Check whether number of rows, number of columns and resolution are equal for all input maps
-   if not intArrayIsEqual(nrowAR) then
-   begin
+  //Check whether number of rows, number of columns and resolution are equal for all input maps
+  If Not intArrayIsEqual(nrowAR) Then
+    Begin
       showmessage('The number of rows should be the same for all input maps!');
       Exit;
-   end;
-   if not intArrayIsEqual(ncolAR) then
-   begin
+    End;
+  If Not intArrayIsEqual(ncolAR) Then
+    Begin
       showmessage('The number of columns should be the same for all input maps!');
       Exit;
-   end;
-   if not doubArrayIsEqual(resAR) then
-   begin
+    End;
+  If Not doubArrayIsEqual(resAR) Then
+    Begin
       showmessage('The resolution should be the same for all input maps!');
       Exit;
-   end;
+    End;
 
 
-   if not Simplified then
-     begin
-       // Courant criterium is checked
-       if Timestep_model>=resAR[1]/0.3 then
-       begin
-         showmessage('Courant criterium for model stability violated! Please select a smaller timestep.');
-         Exit;
-       end;
-     end;
+  If Not Simplified Then
+    Begin
+      // Courant criterium is checked
+      If Timestep_model>=resAR[1]/0.3 Then
+        Begin
+          showmessage(
+                 'Courant criterium for model stability violated! Please select a smaller timestep.'
+          );
+          Exit;
+        End;
+    End;
 
-   if not Use_Rfactor then
-   begin
-     ReadRainfallFile(Raindata, RainfallFilename);  //The .txt file with rainfall per timestep is read and written to a variable
-     CalculateRFactor;  // R factor is calculated from given rainfall record
-   end;
+  If Not Use_Rfactor Then
+    Begin
+      ReadRainfallFile(Raindata, RainfallFilename);
+      //The .txt file with rainfall per timestep is read and written to a variable
+      CalculateRFactor;
+      // R factor is calculated from given rainfall record
+    End;
 
-   Allocate_Memory;  // voor verschillende rasters
+  Allocate_Memory;
+  // voor verschillende rasters
 
-   if not Simplified then
-       CalculateRe(ReMap, PRC, CNmap, alpha, beta);   //Amount of rainfall excess or deficit is calculated
+  If Not Simplified Then
+    CalculateRe(ReMap, PRC, CNmap, alpha, beta);
+  //Amount of rainfall excess or deficit is calculated
 
-   Topo_Calculations;       // Sort DTM, calculate slope and aspect, calculate routing, calculate UPAREA, calculate LS factor RUSLE
+  Topo_Calculations;
+
+// Sort DTM, calculate slope and aspect, calculate routing, calculate UPAREA, calculate LS factor RUSLE
 
   // number and position of outlets is determined. Lowest outlet is also determined.
   calcOutlet;
 
-  if not Simplified then
-    CalculateTimeDependentRunoff(Remap, RainData, Routing, PRC); //Amount of runoff per timestep is calculated
-  //CalculateRunoffAcc(UpArea, Remap, PRC); //This procedure was used in the past to calculate the temporally lumped cummulative runoff map (not used anymore)
+  If Not Simplified Then
+    CalculateTimeDependentRunoff(Remap, RainData, Routing, PRC);
+  //Amount of runoff per timestep is calculated
 
-  Water;     // water erosion calculations
+//CalculateRunoffAcc(UpArea, Remap, PRC); //This procedure was used in the past to calculate the temporally lumped cummulative runoff map (not used anymore)
 
-  if not Simplified then
-  Distribute_sediment;          // sediment is distributed over hydrogram
+  Water;
+  // water erosion calculations
 
-  Tillage_dif;          // tillage erosion calculations
+  If Not Simplified Then
+    Distribute_sediment;
+  // sediment is distributed over hydrogram
 
-  write_maps;          // write output maps
+  Tillage_dif;
+  // tillage erosion calculations
+
+  write_maps;
+  // write output maps
 
   // write routing output
 
@@ -184,14 +202,13 @@ ReadInRasters;
 
 
 
-//The memory is released for all created maps
-Release_Memory;
+  //The memory is released for all created maps
+  Release_Memory;
 
 
-statusbar1.Simpletext := 'Finished';
-showmessage('Model run completed successfully. Click OK to quit the program.');
-Application.Terminate;
+  statusbar1.Simpletext := 'Finished';
+  showmessage('Model run completed successfully. Click OK to quit the program.');
+  Application.Terminate;
 
-end;
-end.
-
+End;
+End.
