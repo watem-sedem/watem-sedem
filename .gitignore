@@ -2,3 +2,5 @@
 *.lrs
 *.lps
 *.res
+*/lib/
+*/backup/
