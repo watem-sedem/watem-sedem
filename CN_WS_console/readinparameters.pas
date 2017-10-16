@@ -1,4 +1,3 @@
-
 Unit ReadInParameters;
 
 {$mode objfpc}{$H+}
@@ -11,6 +10,8 @@ Procedure ReadInRasters;
 Procedure Allocate_Memory;
 Procedure Release_Memory;
 Procedure Readsettings(INI_filename:String);
+Procedure Create_CN_map(Var CNmap: RRaster;Perceelskaart:RRaster; Filename:String);
+Function CalculateCN(CNmax,Cc,Cr,c1,c2:integer): single;
 Procedure Create_ktil_map(Var ktil: GRaster);
 Procedure Create_ktc_map(Var ktc: GRaster);
 
@@ -158,21 +159,19 @@ Var
   ktil_threshold       : double;
   TFSED_crop           : integer;
   TFSED_forest         : integer;
+  Timestep_model       : integer;
+  EndTime_model        : integer;
+  Timestep_output      : integer;
   PTefValueCropland    : integer;
   PTefValueForest      : integer;
   PTefValuePasture     : integer;
-  Timestep_model       : integer;
-  EndTime_model        : integer;
-  Timestep_output     : integer;
   {Buffers}
   BufferData: TBufferDataArray;
   {End Parameters to be read form ini-file--------------------------------------}
 
-
   PRC, DTM, CNmap, LU, ReMap, RunoffTotMap, SewerMap: Rraster;
-  TilDir, Ro ,BufferMap, Outlet, RivSeg, Ditch_map, Dam_map, PTEFmap: GRaster;
+  TilDir, Ro, BufferMap, Outlet, RivSeg, Ditch_map, Dam_map, PTEFmap: GRaster;
   i, j, lowOutletX, lowOutletY: integer;
-
 
   ROW, COLUMN : Gvector;
 
@@ -185,7 +184,6 @@ Var
 
   errorFlag : Boolean;
   errorDummy : string;
-
 
 Implementation
 
@@ -241,6 +239,7 @@ Begin
     End
   Else
     Begin
+      // Buffermap should be map containing only zeros
       SetDynamicGData(Buffermap);
       SetzeroG(Buffermap);
     End;
@@ -277,7 +276,6 @@ Begin
   writeGidrisi32file(ncol,nrow,datadir+'PTEFmap'+'.rst', PTEFmap);
 
 End;
-
 
 Procedure Allocate_Memory;
 
@@ -316,7 +314,7 @@ Begin
   If Include_sewer Then
     DisposedynamicRData(SewerMap);
 
-  If Not simplified Then
+  If Not Simplified Then
     Begin
       DisposedynamicRData(CNmap);
     End;
@@ -330,8 +328,8 @@ Begin
   DisposeDynamicGdata(K_Factor);
   DisposeDynamicRdata(C_factor);
   DisposeDynamicRdata(P_factor);
-  DisposeDynamicGdata(ktc);
   DisposeDynamicGdata(ktil);
+  DisposeDynamicGdata(ktc);
   DisposeDynamicGData(Buffermap);
 
   If Include_ditch = true Then
@@ -346,9 +344,7 @@ Begin
   If VHA Then
     DisposeDynamicGData(RivSeg);
 
-
   // Release internal 2D rasters maps
-
   DisposeDynamicRdata(UPAREA);
   DisposeDynamicRdata(LS);
   DisposeDynamicRdata(SLOPE);
@@ -805,6 +801,115 @@ Begin
 
   Inifile.Destroy;
 End;
+
+//**************************************************************************
+//This procedure is only ran when the user enters a land use map and table that
+//contains factors to calculate the CN value for every land use
+//In this procedure the CN map is calculated based on the formulas described in
+//The PhD of Kristof Van Oost
+//**************************************************************************
+Procedure Create_CN_map(Var CNmap: RRaster;Perceelskaart:RRaster; Filename:String);
+
+Var 
+  Count, i, j, k, getal, NumberOfLU, nrowPRC, ncolPRC: integer;
+  Table: textfile;
+  TempName: String;
+  M: GRaster;
+  CN_waarden: array Of single;
+
+  //The number of rows in the .txt file is counted. This way the user can define as
+  //much LU classes as he wishes
+  //!!The first row of the .txt file should contain headers!!
+Begin
+  If  FileExists(datadir+Filename) Then //Check if the .txt file exists
+    Begin
+      SetcurrentDir(datadir);
+      TempName := Filename;
+      // filename + extension
+      Count := 0;
+      Assignfile(Table,TempName);
+      Reset(Table);
+      While Not eof(Table) Do
+        //eof = end of file
+        Begin
+          readln(Table);
+          Count := Count+1;
+          //The number of rows is counted
+        End;
+      Closefile(Table);
+      NumberOfLU := Count-1;
+      //'-1' because the first row contains headers
+    End
+  Else
+    Begin
+      Showmessage('De tabel met CN waarden werd niet herkend, het proramma wordt gesloten.');
+      Exit;
+      //If the file does not extists the program is ended
+    End;
+
+  //The numbers from the .txt file are stored in a variable (matrix) M
+  //All numbers in the .txt file should be integers!!!
+  SetDynamicGData(M);
+  Begin
+    Assignfile(Table,TempName);
+    Reset(Table);
+    readln(Table);
+    //The first row (headers) is read and is thus skipped below
+    For i := 1 To NumberofLU Do
+      For j := 1 To 6 Do
+
+//6 because the .txt table alsways contains 6 columns (Parcel ID - CNmax - c1 - c2 - Crop cover - Crusting stage)
+        Begin
+          read(Table, getal);
+          M[i,j] := getal;
+        End;
+  End;
+  closefile(Table);
+
+  //All posible CN values are calculated
+  SetLength(CN_waarden,NumberofLU);
+  For i:= 1 To NumberofLU Do
+    Begin
+      CN_Waarden[i] := calculateCN(M[i,2],M[i,5],M[i,6],M[i,3],M[i,4])
+                       //CalcualteCN: procedure to calculate the CN value
+    End;
+
+  //Number of rows and colums is defined
+  nrowPRC := nrow;
+  //nrow and ncol are defined based on the .RDC files in RData_CN
+  ncolPRC := ncol;
+
+  //Based on the .txt table and the land use map (which is being read in the main unit
+  //the CN map is created
+  Setlength(CNmap,NrowPRC+1, NColPRC+1);
+  //+1 because [0] is being used by Lazarus
+  For i := 1 To nrowPRC Do
+    For j := 1 To ncolPRC Do
+      Begin
+        If Perceelskaart[i,j] = 0 Then
+          CNmap[i,j] := 0.0
+        Else
+          Begin
+            For k := 1 To NumberofLU Do
+              If Perceelskaart[i,j] = M[k,1] Then
+                CNmap[i,j] := CN_Waarden[k]
+          End
+      End;
+
+  //The CN map is stored as an Idrisi map
+  writeidrisi32file(ncolPRC,nrowPRC,datadir+'\CNmap'+'.rst',CNmap);
+  DisposeDynamicGData(M);
+End;
+
+
+//**********************************************************************
+//This procedure calculates the CN value according to the formula of KVO
+//**********************************************************************
+Function CalculateCN(CNmax,Cc,Cr,c1,c2:integer): single;
+Begin
+  CalculateCN := CNmax - ((Cc/100)*c1) + ((Cr/5)*c2);
+End;
+
 
 Procedure Create_ktil_map(Var ktil: GRaster);
 
