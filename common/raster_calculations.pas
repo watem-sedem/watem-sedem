@@ -8,6 +8,8 @@ Interface
 Uses 
 Classes, SysUtils, Dialogs, Math, GData_CN, RData_CN, ReadInParameters;
 
+Type
+  ECalculationError = Exception;
 
 Procedure sort(D:Rraster);
 Procedure sortbis(Var Z:Rvector; iLo,iHi:Integer);
@@ -1125,7 +1127,7 @@ Begin
             End;
           If center_ID =0 Then
             Begin
-              showmessage('Error in buffer input data: center cell of buffer ID '+inttostr(Buffermap
+              raise ECalculationError.Create('Error in buffer input data: center cell of buffer ID '+inttostr(Buffermap
                           [i,j])+' not found in buffer database.');
               Exit;
             End;
