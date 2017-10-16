@@ -6,7 +6,7 @@ Unit Raster_calculations;
 Interface
 
 Uses 
-Classes, SysUtils, Dialogs, Math, GData_CN, RData_CN, Idrisi, ReadInParameters, Forms;
+Classes, SysUtils, Dialogs, Math, GData_CN, RData_CN, Idrisi, ReadInParameters;
 
 
 Procedure sort(D:Rraster);
@@ -29,13 +29,10 @@ Procedure CalculateLS(Var LS:RRaster;UPAREA:RRaster);
 Procedure DistributeFlux_LS(i,j:integer;Var Flux_IN,Flux_OUT: RRaster);
 Procedure DistributeFlux_Sediment(i,j:integer;Var Flux_IN,Flux_OUT: RRaster);
 Procedure Topo_Calculations;
-//Procedure dtmcheck;
 
 
 
 Implementation
-
-//var
 
 Const 
   WEIGTH : array[1..8] Of double = (0.353553,0.5,0.353553,0.5,0.5,0.353553,0.5,0.353553);
@@ -477,7 +474,6 @@ Begin
           Until ((check)Or(W>100));
 
        //100 is the maximum size of the kernel (thus the water is transported 30 cells further away)
-
         End;
     End;
 
@@ -488,10 +484,6 @@ Begin
   // => Cardinal: distance = resolution
   // => Diagonal: distance = sqrt(res² + res²)
 
-
-{ if (Routing[i,j].Part1 > 0.0) and (Routing[i,j].part2 > 0.0) then
-         Routing[i,j].Distance := res
-         else}
 
   If Routing[i,j].Part1 > 0.9999 Then
     Begin
@@ -520,6 +512,7 @@ End;
 //- Wanneer het water in een rivier beland blijft het er in
 //- Er wordt geen rekening gehouden met pits
 //******************************************************************************
+
 Procedure DistributeTilDirEvent_Routing(i,j:integer; Var FINISH:GRaster; Topo:boolean);
 // i,j = rij en kolomnummer van de cel onder beschouwing
 
@@ -927,8 +920,8 @@ Begin
           COLMIN := 0;
           COLMIN2 := 0;
           MINIMUM := 99999999.9;
-          MINIMUM2 := 99999999.9;   }
-
+          MINIMUM2 := 99999999.9;
+}
 
           // CODE JEROEN
           Repeat
@@ -963,13 +956,10 @@ Begin
                     End;
                 End;
             Inc(W);
+
           Until ((check)Or(W>50));
 
         //50 is the maximum size of the kernel (thus the water is transported 50 cells further away)
-
-          {  if check = false then
-               showmessage('threshold exceeded');
-            }
 
 {  // CODE WATEMSEDEM2015
          for K := -1 to 1 do
@@ -992,12 +982,11 @@ Begin
 	                   ROWMIN2 := K;
 	                   COLMIN2 := L;
                     end;
-
                 //end if
               end;
           //end for's
 
-           }
+}
 
           If parequal Then    // If receiving cell is in same parcel
             Begin
@@ -1391,7 +1380,6 @@ Var
   teller,i,j : integer;
   Fluxout: RRaster;
   oppcor: double;
-
 Begin
   SetDynamicRdata(Fluxout);
   SetzeroR(UPAREA);
@@ -1473,7 +1461,6 @@ Begin
     // en wanneer die targetcel een andere perceelswaarde heeft
     Begin
       flux := 0;
-
       If (PRC[Routing[i,j].Target1Row,Routing[i,j].Target1Col] >= 1) Then
         // Als de targetcel cropland is
         Begin
@@ -1582,7 +1569,7 @@ Begin
 
 {if (routing[i,j].Part1 = 0.0) and (Routing[i,j].Part2 = 0.0) and (PRC[i,j] <> -5) then
   Showmessage('No target cells determined!' + 'row ' + inttostr(i) + '; ' + 'column: ' + inttostr(j));
- }
+}
 End;
 
 // The following procedure is used to route the sediment through the landscape
@@ -1592,7 +1579,6 @@ Procedure DistributeFlux_Sediment(i,j:integer;Var Flux_IN,Flux_OUT: RRaster);
 
 Var 
   flux: double;
-
 Begin
   // flux decomposition algoritme
   If Routing[i,j].Part1 > 0.0 Then
@@ -1601,23 +1587,19 @@ Begin
       // m³
       Flux_IN[Routing[i,j].Target1Row,Routing[i,j].Target1Col] := Flux_IN[Routing[i,j].Target1Row,
                                                                   Routing[i,j].Target1Col] + flux;
-      // FLUX_IN [m³]
     End;
   If Routing[i,j].Part2 > 0.0 Then
     Begin
       flux := FLUX_OUT[i,j]*Routing[i,j].Part2;
       Flux_IN[Routing[i,j].Target2Row,Routing[i,j].Target2Col] := Flux_IN[Routing[i,j].Target2Row,
                                                                   Routing[i,j].Target2Col] + flux;
-      // FLUX_IN [m³]
     End;
 End;
 
 Procedure Topo_Calculations;
 Begin
-
   sort(DTM);
   //The DTM is sorted from low to high
-  //dtmcheck;   // searches for neighbouring cells of equal height in the DTM
   CalculateSlopeAspect;
   //Slope and aspect are calculated
   Calculate_routing(Routing);
@@ -1627,38 +1609,4 @@ Begin
   CalculateLS(LS,UPAREA);
 End;
 
-
-{ Procedure dtmcheck;
-  var
-    teller, i, j, k, l,flag: integer;
-    dtmcheck_rst : GRaster;
-  begin
-  SetDynamicGData(dtmcheck_rst);
-  flag := 0;
-  for teller := ncol * nrow downto 1 do
-     begin // begin lus
-           i := row[teller];
-           j := column[teller];
-           // create 3*3 kernel around cell
-           for k := -1 to 1 do
-           for l := -1 to 1 do
-           begin
-             IF ((k=0)AND(l=0)) then Continue; //The cell under consideration ([i,j]) is not examined
-             IF (DTM[i,j]=DTM[i+k,j+l]) then
-             begin
-                dtmcheck_rst[i,j] := 1;
-                //DTM[i+k,j+l] := DTM[i+k,j+l]-0.1;
-                flag := 1;
-             end;
-           end;
-     end;
-  if flag=1 then
-  begin
-    Showmessage('Cells of equal height occur in DTM. This should be corrected first. See dtmcheck.rst in output folder for error locations. Click OK to quit the model run.');
-    WriteGIdrisi32file(ncol,nrow,File_output_dir+'dtmcheck'+'.rst', dtmcheck_rst);
-    Application.Terminate;
-  end;
-  DisposedynamicGData(dtmcheck_rst);
-  end;
-  }
 End.

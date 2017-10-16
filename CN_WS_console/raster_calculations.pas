@@ -477,9 +477,6 @@ Begin
   // => Diagonal: distance = sqrt(res² + res²)
 
 
-{ if (Routing[i,j].Part1 > 0.0) and (Routing[i,j].part2 > 0.0) then
-         Routing[i,j].Distance := res
-         else    }
   If Routing[i,j].Part1 > 0.9999 Then
     Begin
       r := abs(i-Routing[i,j].Target1row);
@@ -558,7 +555,7 @@ Begin
   closeriver := true; // The cell has a neighbouring river pixel
  end;}
 
-  If closeriver Then //Voor pixels die aan een rivierpixel grenzen
+  If closeriver Then //Voor pixels die aan een rivierpixel grenzen: neem de laagste riviercel
     Begin
       extremum := 99999.9;
       For K := -1 To 1 Do
@@ -686,7 +683,6 @@ Begin
             End;
         End;
 
-
       If FINISH[i+K1,j+L1]=1 Then // check if receiving cell is already treated
         Begin
           If FINISH[i+K2,j+L2]=1 Then
@@ -735,7 +731,7 @@ Begin
                     Begin
                       part2 := part1+part2;
 
-                   // In the distributionflux_LS procesure this is corrected for parcel connectivity
+                   // In the distributionflux_LS procedure this is corrected for parcel connectivity
                       part1 := 0;
                     End
                   Else
@@ -912,7 +908,7 @@ Begin
 
           // CODE BASTIAAN
 
-{PART1:=Area;
+{PART1:=Area; // Area = 1 (at this point in the code)
           parequal := false;
           ROWMIN := 0;
           ROWMIN2 := 0;
@@ -960,7 +956,6 @@ Begin
 
         //50 is the maximum size of the kernel (thus the water is transported 50 cells further away)
 
-
 {  // CODE WATEMSEDEM2015
          for K := -1 to 1 do
             for L := -1 to 1 do  //loop van 3*3 cellen om te zoeken naar laagst gelegen buurcel
@@ -976,7 +971,7 @@ Begin
                     end; //second loop voor wanneer er geen lagere cel is in hetzelfde perceel
                 //end if
                 if ((DTM[I+K,J+L] < MINIMUM2) AND (DTM[I+K,J+L]<DTM[I,J])
-                  AND(FINISH[I+K,J+L] = 0))THEN     //lagere cel ligt in ander perceel  maar binnen het bekken
+                  AND(FINISH[I+K,J+L] = 0)) THEN     //lagere cel ligt in ander perceel maar binnen het bekken
                     begin
 	                   MINIMUM2 := DTM[I+K,J+L];
 	                   ROWMIN2 := K;
@@ -988,7 +983,6 @@ Begin
 
 }
 
-
           If parequal Then    // If receiving cell is in same parcel
             Begin
               Routing[i,j].One_Target := True;
@@ -997,6 +991,7 @@ Begin
               Routing[i,j].Target2Row := 0;
               Routing[i,j].Target2Col := 0;
               Routing[i,j].Part1 := part1{ + part2};
+              //TODO johan -  bug?
               Routing[i,j].Part2 := 0;
             End
           Else           // if receiving cell belongs to a different parcel
@@ -1009,6 +1004,7 @@ Begin
               Routing[i,j].Target2Row := 0;
               Routing[i,j].Target2Col := 0;
               Routing[i,j].Part1 := part1{ + part2};
+              //TODO johan - bug?
               Routing[i,j].Part2 := 0;
             End;
 
@@ -1462,7 +1458,6 @@ Begin
 
           B := (sin(slope[i,j])/0.0896)/((3.0*power(sin(slope[i,j]),0.8))+0.56);
           //EXP:=B/(B+1);
-
           If UPAREA[i,j] < 10000 Then
             EXP := 0.3+POWER((UPAREA[i,j]/10000),0.8)
           Else
@@ -1605,9 +1600,9 @@ Begin
     End;
 
 
-{if (routing[i,j].Part1 = 0.0) and (Routing[i,j].Part2 = 0.0) and (PRC[i,j] <> -5)  then
-  Showmessage('No target cells determined!' + 'row ' + inttostr(i) + '; ' + 'column: ' + inttostr(j));}
-
+{if (routing[i,j].Part1 = 0.0) and (Routing[i,j].Part2 = 0.0) and (PRC[i,j] <> -5) then
+  Showmessage('No target cells determined!' + 'row ' + inttostr(i) + '; ' + 'column: ' + inttostr(j));
+}
 End;
 
 // The following procedure is used to route the sediment through the landscape
@@ -1619,7 +1614,6 @@ Var
   flux: double;
 Begin
   // flux decomposition algoritme
-
   If Routing[i,j].Part1 > 0.0 Then
     Begin
       flux := FLUX_OUT[i,j]*Routing[i,j].Part1;
@@ -1627,16 +1621,13 @@ Begin
       Flux_IN[Routing[i,j].Target1Row,Routing[i,j].Target1Col] := Flux_IN[Routing[i,j].Target1Row,
                                                                   Routing[i,j].Target1Col] + flux;
     End;
-
   If Routing[i,j].Part2 > 0.0 Then
     Begin
       flux := FLUX_OUT[i,j]*Routing[i,j].Part2;
       Flux_IN[Routing[i,j].Target2Row,Routing[i,j].Target2Col] := Flux_IN[Routing[i,j].Target2Row,
                                                                   Routing[i,j].Target2Col] + flux;
     End;
-
 End;
-
 
 Procedure Topo_Calculations;
 Begin
@@ -1646,7 +1637,7 @@ Begin
   //Slope and aspect are calculated
   Calculate_routing(Routing);
 
-//The flow direction(s) is calulated for every gridcell + the relative contribution to every receiving neighbour
+//The flow direction(s) is calulated for every gridcell + the relative contribution to every receiving neighbour (Marijn)
   Calculate_UpstreamArea(UPAREA);
   CalculateLS(LS,UPAREA);
 End;
