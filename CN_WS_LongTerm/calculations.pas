@@ -1,223 +1,245 @@
-unit Calculations;
+
+Unit Calculations;
 
 {$mode objfpc}{$H+}
 
-interface
+Interface
 
-uses
-  Classes, SysUtils, Math, ReadInParameters, RData_CN, GData_CN, Dialogs;
+Uses 
+Classes, SysUtils, Math, ReadInParameters, RData_CN, GData_CN, Dialogs;
 
 Procedure DetectEvents;
-function sumPartArray (inputArray: FloatArray; start, number: integer): double;
-function sumPartIntArray(inputArray: integerArray; start, number : integer): integer;
+Function sumPartArray (inputArray: FloatArray; start, number: integer): double;
+Function sumPartIntArray(inputArray: integerArray; start, number : integer): integer;
 Procedure DemarcateSeasons;
-function leapYear (year:integer):boolean;
-procedure identifyInput(eventID: integer);
-function calc_year(eventID:integer): integer;
-function calculate_AR5 (eventID: integer):double;
-function calc_month(eventID:integer): integer;
-function calc_season(eventID: integer): string;
-procedure Calc_numOutlet;
-procedure Calc_numVHA;
-procedure updateOutput(eventID:integer);
-procedure updateMap(eventMap: RRaster; var totMap: RRaster);
-procedure updateText_sec(eventText: FloatArray2; var totText : FloatArray2; eventID, numColumns, timestep : integer);
-procedure updateText_min(eventText: FloatArray2; var totText : FloatArray2; eventID, numColumns, timestep : integer);
+Function leapYear (year:integer): boolean;
+Procedure identifyInput(eventID: integer);
+Function calc_year(eventID:integer): integer;
+Function calculate_AR5 (eventID: integer): double;
+Function calc_month(eventID:integer): integer;
+Function calc_season(eventID: integer): string;
+Procedure Calc_numOutlet;
+Procedure Calc_numVHA;
+Procedure updateOutput(eventID:integer);
+Procedure updateMap(eventMap: RRaster; Var totMap: RRaster);
+Procedure updateText_sec(eventText: FloatArray2; Var totText : FloatArray2; eventID, numColumns,
+                         timestep : integer);
+Procedure updateText_min(eventText: FloatArray2; Var totText : FloatArray2; eventID, numColumns,
+                         timestep : integer);
 
-implementation
+Implementation
+
 
 
 // this procedure detects all events in the rainfall file and saves them in a multi dimensional array
 // for each event, Tini, Tfin and NumberOfElements is saved in a record
 
 Procedure DetectEvents;
-var
+
+Var 
   index, Tini, Tfin, NumElements, i : integer;
   rainVolume : FloatArray;
   rainInt : integerArray;
-begin
+Begin
 
-numberOfEvents := 0;
-numElements := 0;
+  numberOfEvents := 0;
+  numElements := 0;
 
-// zoek geldig rain event en save in "Events" array
+  // zoek geldig rain event en save in "Events" array
   index := 0;
-  while index <= (length(TimeSeries_fin)-1) do
-    begin
-     if RainfallSeries_fin[index] <> 0 then     // van zodra er regen valt...
-        begin
+  While index <= (length(TimeSeries_fin)-1) Do
+    Begin
+      If RainfallSeries_fin[index] <> 0 Then     // van zodra er regen valt...
+        Begin
           Tini := index;
-          while (sumPartArray(RainfallSeries_fin,index+1, (21600 div Timestep_model)-1)<>0) AND (index < length(TimeSeries_fin)-1) do
-             inc(index);
-// einde van event wordt bereikt van zodra in volgende 6u geen regen valt of van zodra
-// we aan einde van rainfall file komen...
+          While (sumPartArray(RainfallSeries_fin,index+1, (21600 Div Timestep_model)-1)<>0) And (
+                index < length(TimeSeries_fin)-1) Do
+            inc(index);
+          // einde van event wordt bereikt van zodra in volgende 6u geen regen valt of van zodra
+          // we aan einde van rainfall file komen...
 
           Tfin := index;
           rainVolume := Copy(RainfallSeries_fin, Tini, Tfin-Tini+1);
           // test of totaal rainvolume > 1.27 mm (indien niet, is dit geen erosive event en
           // wordt dit event niet meegenomen in modelberekeningen)
-          if sum(rainVolume) < 1.27 then
-             begin
-               index:=index+1;
-               continue;
-             end
-            else
-            begin
-             numberOfEvents := numberOfEvents+1;
-             if NumElements < length(rainVolume) then
+          If sum(rainVolume) < 1.27 Then
+            Begin
+              index := index+1;
+              continue;
+            End
+          Else
+            Begin
+              numberOfEvents := numberOfEvents+1;
+              If NumElements < length(rainVolume) Then
                 NumElements := length(rainVolume);
-             SetLength(Events, NumElements, numberOfEvents+1);
-             for i := 0 to length(rainVolume)-1 do
-               Events[i,numberOfEvents] := rainVolume[i];
-             SetLength(Event_meta,numberOfEvents+1);
-             Event_meta[numberOfEvents].Tini :=Tini;
-             Event_meta[numberOfEvents].Tfin:=Tfin;
-             setLength(rainInt, length(rainVolume));
-             Event_meta[numberOfEvents].NumberOfElements:=length(rainInt);
-             //showmessage('number of events: ' + inttostr(numberOfEvents) + '/ index: ' + inttostr(index));
-            end;
-        end;
-     index:=index+1;
-    end;
-end;
+              SetLength(Events, NumElements, numberOfEvents+1);
+              For i := 0 To length(rainVolume)-1 Do
+                Events[i,numberOfEvents] := rainVolume[i];
+              SetLength(Event_meta,numberOfEvents+1);
+              Event_meta[numberOfEvents].Tini := Tini;
+              Event_meta[numberOfEvents].Tfin := Tfin;
+              setLength(rainInt, length(rainVolume));
+              Event_meta[numberOfEvents].NumberOfElements := length(rainInt);
 
-  function sumPartArray (inputArray: FloatArray; start, number: integer): double;
-var
+     //showmessage('number of events: ' + inttostr(numberOfEvents) + '/ index: ' + inttostr(index));
+            End;
+        End;
+      index := index+1;
+    End;
+End;
+
+Function sumPartArray (inputArray: FloatArray; start, number: integer): double;
+
+Var 
   i, endArray, endSum: integer;
-begin
-endArray := length(inputArray)-1;
+Begin
+  endArray := length(inputArray)-1;
 
-if start+number <= endArray then
-   endSum := start+number
-else
-   endSum := endArray;
+  If start+number <= endArray Then
+    endSum := start+number
+  Else
+    endSum := endArray;
 
-sumPartArray:= inputArray[start];
-for i := start+1 to endSum do
-  sumPartArray := sumPartArray+inputArray[i];
-end;
+  sumPartArray := inputArray[start];
+  For i := start+1 To endSum Do
+    sumPartArray := sumPartArray+inputArray[i];
+End;
 
-  function sumPartIntArray(inputArray: integerArray; start, number : integer): integer;
-var
- i, endArray, endSum: integer;
-begin
-endArray := length(inputArray)-1;
+Function sumPartIntArray(inputArray: integerArray; start, number : integer): integer;
 
-if start+number <= endArray then
-   endSum := start+number
-else
-   endSum := endArray;
+Var 
+  i, endArray, endSum: integer;
+Begin
+  endArray := length(inputArray)-1;
 
-sumPartIntArray:= inputArray[start];
-for i := start+1 to endSum do
-  sumPartIntArray := sumPartIntArray+inputArray[i];
-end;
+  If start+number <= endArray Then
+    endSum := start+number
+  Else
+    endSum := endArray;
+
+  sumPartIntArray := inputArray[start];
+  For i := start+1 To endSum Do
+    sumPartIntArray := sumPartIntArray+inputArray[i];
+End;
 
 Procedure DemarcateSeasons;
-begin
-setlength(numDays,13);
-numDays[1]:=31;
-if leapYear(year) = True then
-  numDays[2]:=29
-else
-  numDays[2]:=28;
-numDays[3]:=31;
-numDays[4]:=30;
-numDays[5]:=31;
-numDays[6]:=30;
-numDays[7]:=31;
-numDays[8]:=31;
-numDays[9]:=30;
-numDays[10]:=31;
-numDays[11]:=30;
-numDays[12]:=31;
+Begin
+  setlength(numDays,13);
+  numDays[1] := 31;
+  If leapYear(year) = True Then
+    numDays[2] := 29
+  Else
+    numDays[2] := 28;
+  numDays[3] := 31;
+  numDays[4] := 30;
+  numDays[5] := 31;
+  numDays[6] := 30;
+  numDays[7] := 31;
+  numDays[8] := 31;
+  numDays[9] := 30;
+  numDays[10] := 31;
+  numDays[11] := 30;
+  numDays[12] := 31;
 
-case First_month of
-  1: begin
-   start_winter := sumPartIntArray(numDays,1,10);
-   start_summer := sumPartIntArray(numDays,1,4);
-   start_spring := sumPartIntArray(numDays,1,1);
-   start_fall := sumPartIntArray(numDays,1,7);
-   first_season := 'winter';
-    end;
-  2: begin
-   start_winter := sumPartIntArray(numDays,2,9);
-   start_summer := sumPartIntArray(numDays,2,3);
-   start_spring := numDays[2];
-   start_fall := sumPartIntArray(numDays,2,6);
-   first_season := 'winter';
-    end;
-  3: begin
-   start_winter := sumPartIntArray(numDays,3,8);
-   start_summer := sumPartIntArray(numDays,3,2);
-   start_spring := 999999;
-   start_fall := sumPartIntArray(numDays,3,5);
-   first_season := 'spring';
-    end;
-  4: begin
-   start_winter := sumPartIntArray(numDays,4,7);
-   start_summer := sumPartIntArray(numDays,4,1);
-   start_spring := sumPartIntArray(numDays,4,8) + sumPartIntArray(numDays,1,1);
-   start_fall := sumPartIntArray(numDays,4,4);
-   first_season := 'spring';
-    end;
-  5: begin
-   start_winter := sumPartIntArray(numDays,5,6);
-   start_summer := numDays[5];
-   start_spring := sumPartIntArray(numDays,5,7) + sumPartIntArray(numDays,1,1);
-   start_fall := sumPartIntArray(numDays,5,3);
-   first_season := 'spring';
-    end;
-  6: begin
-   start_winter := sumPartIntArray(numDays,6,5);
-   start_summer := 999999;
-   start_spring := sumPartIntArray(numDays,6,6) + sumPartIntArray(numDays,1,1);
-   start_fall := sumPartIntArray(numDays,6,2);
-   first_season := 'summer';
-    end;
-  7: begin
-   start_winter := sumPartIntArray(numDays,7,4);
-   start_summer := sumPartIntArray(numDays,7,5) + sumPartIntArray(numDays,1,4);
-   start_spring := sumPartIntArray(numDays,7,5) + sumPartIntArray(numDays,1,1);
-   start_fall := sumPartIntArray(numDays,7,1);
-   first_season := 'summer';
-    end;
-  8: begin
-   start_winter := sumPartIntArray(numDays,8,3);
-   start_summer := sumPartIntArray(numDays,8,4) + sumPartIntArray(numDays,1,4);
-   start_spring := sumPartIntArray(numDays,8,4) + sumPartIntArray(numDays,1,1);
-   start_fall := numDays[8];
-   first_season := 'summer';
-    end;
-  9: begin
-   start_winter := sumPartIntArray(numDays,9,2);
-   start_summer := sumPartIntArray(numDays,9,3) + sumPartIntArray(numDays,1,4);
-   start_spring := sumPartIntArray(numDays,9,3) + sumPartIntArray(numDays,1,1);
-   start_fall := 999999;
-   first_season := 'fall';
-    end;
-  10:begin
-   start_winter := sumPartIntArray(numDays,10,1);
-   start_summer := sumPartIntArray(numDays,10,2) + sumPartIntArray(numDays,1,4);
-   start_spring := sumPartIntArray(numDays,10,2) + sumPartIntArray(numDays,1,1);
-   start_fall := sumPartIntArray(numDays,10,2) + sumPartIntArray(numDays,1,7);
-   first_season := 'fall';
-    end;
-  11:begin
-   start_winter := numDays[11];
-   start_summer := sumPartIntArray(numDays,11,1) + sumPartIntArray(numDays,1,4);
-   start_spring := sumPartIntArray(numDays,11,1) + sumPartIntArray(numDays,1,1);
-   start_fall := sumPartIntArray(numDays,11,1) + sumPartIntArray(numDays,1,7);
-   first_season := 'fall';
-    end;
-  12:begin
-   start_winter := 999999;
-   start_summer := numDays[12] + sumPartIntArray(numDays,1,4);
-   start_spring := numDays[12] + sumPartIntArray(numDays,1,1);
-   start_fall := numDays[12] + sumPartIntArray(numDays,1,7);
-   first_season := 'winter';
-    end;
-  end;
+  Case First_month Of 
+    1:
+       Begin
+         start_winter := sumPartIntArray(numDays,1,10);
+         start_summer := sumPartIntArray(numDays,1,4);
+         start_spring := sumPartIntArray(numDays,1,1);
+         start_fall := sumPartIntArray(numDays,1,7);
+         first_season := 'winter';
+       End;
+    2:
+       Begin
+         start_winter := sumPartIntArray(numDays,2,9);
+         start_summer := sumPartIntArray(numDays,2,3);
+         start_spring := numDays[2];
+         start_fall := sumPartIntArray(numDays,2,6);
+         first_season := 'winter';
+       End;
+    3:
+       Begin
+         start_winter := sumPartIntArray(numDays,3,8);
+         start_summer := sumPartIntArray(numDays,3,2);
+         start_spring := 999999;
+         start_fall := sumPartIntArray(numDays,3,5);
+         first_season := 'spring';
+       End;
+    4:
+       Begin
+         start_winter := sumPartIntArray(numDays,4,7);
+         start_summer := sumPartIntArray(numDays,4,1);
+         start_spring := sumPartIntArray(numDays,4,8) + sumPartIntArray(numDays,1,1);
+         start_fall := sumPartIntArray(numDays,4,4);
+         first_season := 'spring';
+       End;
+    5:
+       Begin
+         start_winter := sumPartIntArray(numDays,5,6);
+         start_summer := numDays[5];
+         start_spring := sumPartIntArray(numDays,5,7) + sumPartIntArray(numDays,1,1);
+         start_fall := sumPartIntArray(numDays,5,3);
+         first_season := 'spring';
+       End;
+    6:
+       Begin
+         start_winter := sumPartIntArray(numDays,6,5);
+         start_summer := 999999;
+         start_spring := sumPartIntArray(numDays,6,6) + sumPartIntArray(numDays,1,1);
+         start_fall := sumPartIntArray(numDays,6,2);
+         first_season := 'summer';
+       End;
+    7:
+       Begin
+         start_winter := sumPartIntArray(numDays,7,4);
+         start_summer := sumPartIntArray(numDays,7,5) + sumPartIntArray(numDays,1,4);
+         start_spring := sumPartIntArray(numDays,7,5) + sumPartIntArray(numDays,1,1);
+         start_fall := sumPartIntArray(numDays,7,1);
+         first_season := 'summer';
+       End;
+    8:
+       Begin
+         start_winter := sumPartIntArray(numDays,8,3);
+         start_summer := sumPartIntArray(numDays,8,4) + sumPartIntArray(numDays,1,4);
+         start_spring := sumPartIntArray(numDays,8,4) + sumPartIntArray(numDays,1,1);
+         start_fall := numDays[8];
+         first_season := 'summer';
+       End;
+    9:
+       Begin
+         start_winter := sumPartIntArray(numDays,9,2);
+         start_summer := sumPartIntArray(numDays,9,3) + sumPartIntArray(numDays,1,4);
+         start_spring := sumPartIntArray(numDays,9,3) + sumPartIntArray(numDays,1,1);
+         start_fall := 999999;
+         first_season := 'fall';
+       End;
+    10:
+        Begin
+          start_winter := sumPartIntArray(numDays,10,1);
+          start_summer := sumPartIntArray(numDays,10,2) + sumPartIntArray(numDays,1,4);
+          start_spring := sumPartIntArray(numDays,10,2) + sumPartIntArray(numDays,1,1);
+          start_fall := sumPartIntArray(numDays,10,2) + sumPartIntArray(numDays,1,7);
+          first_season := 'fall';
+        End;
+    11:
+        Begin
+          start_winter := numDays[11];
+          start_summer := sumPartIntArray(numDays,11,1) + sumPartIntArray(numDays,1,4);
+          start_spring := sumPartIntArray(numDays,11,1) + sumPartIntArray(numDays,1,1);
+          start_fall := sumPartIntArray(numDays,11,1) + sumPartIntArray(numDays,1,7);
+          first_season := 'fall';
+        End;
+    12:
+        Begin
+          start_winter := 999999;
+          start_summer := numDays[12] + sumPartIntArray(numDays,1,4);
+          start_spring := numDays[12] + sumPartIntArray(numDays,1,1);
+          start_fall := numDays[12] + sumPartIntArray(numDays,1,7);
+          first_season := 'winter';
+        End;
+  End;
+
 {
 // grenzen omzetten naar seconden
  start_winter := start_winter * 24 * 3600;
@@ -225,546 +247,603 @@ case First_month of
  start_spring := start_spring * 24 * 3600;
  start_fall := start_fall * 24 * 3600;
 }
-end;
+End;
 
-function leapYear (year:integer):boolean;            // check whether we are in a leap year...
-var
-  x:double;
-begin
+Function leapYear (year:integer): boolean;
+// check whether we are in a leap year...
+
+Var 
+  x: double;
+Begin
   leapYear := False;
-  if (First_month = 1) OR (First_month = 2) then
-   begin
-     x := year/100;
-     x := frac(x)*100;
-     if (year mod 4 = 0) AND (x <> 0) then
-       leapYear := True;
-   end
-   else
-   begin
-    x := (year+1)/100;
-    x := frac(x)*100;
-    if ((year+1) mod 4 = 0) AND (x <> 0) then
-      leapYear := True;
-   end;
-end;
+  If (First_month = 1) Or (First_month = 2) Then
+    Begin
+      x := year/100;
+      x := frac(x)*100;
+      If (year Mod 4 = 0) And (x <> 0) Then
+        leapYear := True;
+    End
+  Else
+    Begin
+      x := (year+1)/100;
+      x := frac(x)*100;
+      If ((year+1) Mod 4 = 0) And (x <> 0) Then
+        leapYear := True;
+    End;
+End;
 
-procedure identifyInput(eventID: integer);
-begin
+Procedure identifyInput(eventID: integer);
+Begin
 
- Use_Rfactor := False;
+  Use_Rfactor := False;
 
-if not simplified then
- begin
- AR5_event := calculate_AR5(eventID);       // see function below
+  If Not simplified Then
+    Begin
+      AR5_event := calculate_AR5(eventID);
+      // see function below
 
 
 
-  RivVel_event := RivVel[calc_month(eventID)];  // month of event is determined after which the correct value is selected
-                                                // (see function below) from the RivVel array
+      RivVel_event := RivVel[calc_month(eventID)];
+      // month of event is determined after which the correct value is selected
+      // (see function below) from the RivVel array
 
-  case calc_season(eventID) of                 // season of event is determined (see function below)
-  'spring': begin                              // and correct CN map is selected
-     if calc_year(eventID) = 1 then
-       CN_event := CNmapSpring
-     else
-       CN_event := CNmapSpring_2;
-  end;
-  'summer': begin
-     if calc_year(eventID) = 1 then
-      CN_event := CNmapSummer
-     else
-       CN_event := CNmapSummer_2;
-   end;
-  'fall': begin
-     if calc_year(eventID) = 1 then
-       CN_event := CNmapFall
-     else
-       CN_event := CNmapFall_2;
-   end;
-  'winter': begin
-     if calc_year(eventID) = 1 then
-       CN_event := CNmapWinter
-     else
-      CN_event := CNmapWinter_2;
-   end;
-  end;
-end;
+      Case calc_season(eventID) Of 
+        // season of event is determined (see function below)
+        'spring':
+                  Begin
+                    // and correct CN map is selected
+                    If calc_year(eventID) = 1 Then
+                      CN_event := CNmapSpring
+                    Else
+                      CN_event := CNmapSpring_2;
+                  End;
+        'summer':
+                  Begin
+                    If calc_year(eventID) = 1 Then
+                      CN_event := CNmapSummer
+                    Else
+                      CN_event := CNmapSummer_2;
+                  End;
+        'fall':
+                Begin
+                  If calc_year(eventID) = 1 Then
+                    CN_event := CNmapFall
+                  Else
+                    CN_event := CNmapFall_2;
+                End;
+        'winter':
+                  Begin
+                    If calc_year(eventID) = 1 Then
+                      CN_event := CNmapWinter
+                    Else
+                      CN_event := CNmapWinter_2;
+                  End;
+      End;
+    End;
 
-case calc_season(eventID) of                 // season of event is determined (see function below)
-  'spring': begin                              // and correct Cfactor is selected
-     if calc_year(eventID) = 1 then
-       Cf_Data_event := Cf_Data_spring
-     else
-       Cf_Data_event := Cf_Data_spring_2;
-  end;
-  'summer': begin
-     if calc_year(eventID) = 1 then
-      Cf_Data_event := Cf_Data_summer
-     else
-       Cf_Data_event := Cf_Data_summer_2;
-   end;
-  'fall': begin
-     if calc_year(eventID) = 1 then
-       Cf_Data_event := Cf_Data_fall
-     else
-       Cf_Data_event := Cf_Data_fall_2;
-   end;
-  'winter': begin
-     if calc_year(eventID) = 1 then
-       Cf_Data_event := Cf_Data_winter
-     else
-       Cf_Data_event := Cf_Data_winter_2;
-   end;
-end;
+  Case calc_season(eventID) Of 
+    // season of event is determined (see function below)
+    'spring':
+              Begin
+                // and correct Cfactor is selected
+                If calc_year(eventID) = 1 Then
+                  Cf_Data_event := Cf_Data_spring
+                Else
+                  Cf_Data_event := Cf_Data_spring_2;
+              End;
+    'summer':
+              Begin
+                If calc_year(eventID) = 1 Then
+                  Cf_Data_event := Cf_Data_summer
+                Else
+                  Cf_Data_event := Cf_Data_summer_2;
+              End;
+    'fall':
+            Begin
+              If calc_year(eventID) = 1 Then
+                Cf_Data_event := Cf_Data_fall
+              Else
+                Cf_Data_event := Cf_Data_fall_2;
+            End;
+    'winter':
+              Begin
+                If calc_year(eventID) = 1 Then
+                  Cf_Data_event := Cf_Data_winter
+                Else
+                  Cf_Data_event := Cf_Data_winter_2;
+              End;
+  End;
 
-  // select appropriate parcel map, kTc and ktil => determine whether the event takes place in the first or second year
+
+// select appropriate parcel map, kTc and ktil => determine whether the event takes place in the first or second year
   // of the simulation (see function below)
-  if calc_year(eventID) = 1 then
-  begin
-   PARCEL_filename := PARCEL_filename1;
-   if not Create_ktc then
-     ktc_filename := ktc_Data_Filename;
-   if not Create_ktil then
-     ktil_filename := ktil_Data_Filename;
-  end
-  else
-  begin
-    PARCEL_filename := PARCEL_filename2;
-    if not Create_ktc then
-      ktc_filename := ktc_Data_Filename2;
-    if not Create_ktil then
-      ktil_filename := ktil_Data_Filename2;
-  end;
+  If calc_year(eventID) = 1 Then
+    Begin
+      PARCEL_filename := PARCEL_filename1;
+      If Not Create_ktc Then
+        ktc_filename := ktc_Data_Filename;
+      If Not Create_ktil Then
+        ktil_filename := ktil_Data_Filename;
+    End
+  Else
+    Begin
+      PARCEL_filename := PARCEL_filename2;
+      If Not Create_ktc Then
+        ktc_filename := ktc_Data_Filename2;
+      If Not Create_ktil Then
+        ktil_filename := ktil_Data_Filename2;
+    End;
 
-  if eventID > 1 then                // the following output maps need to be written only once
-   begin
+  If eventID > 1 Then                // the following output maps need to be written only once
+    Begin
       Write_ASPECT := false;
       Write_LS := false;
       Write_SLOPE := false;
       Write_UPAREA := false;
       Write_TILEROS := false;
-   end;
-end;
+    End;
+End;
 
 
-function  calc_year(eventID:integer): integer;
-var
+Function  calc_year(eventID:integer): integer;
+
+Var 
   month_event: integer;
-begin
-  month_event:=calc_month(eventID);
-  if First_month = 1 then
-   calc_year := 1
-  else
-    begin
-      if month_event < First_month then
-       calc_year := 2
-      else
+Begin
+  month_event := calc_month(eventID);
+  If First_month = 1 Then
+    calc_year := 1
+  Else
+    Begin
+      If month_event < First_month Then
+        calc_year := 2
+      Else
         calc_year := 1;
-    end;
-end;
+    End;
+End;
 
-function calculate_AR5 (eventID: integer):double;
-var
+Function calculate_AR5 (eventID: integer): double;
+
+Var 
   numberElements: integer;
-begin
-  numberElements := 5*24*3600 div Timestep_model;
-  if 5*24*3600 > (Event_meta[eventID].Tini *Timestep_model) then                   // if data for 5 days prior to event not available...
-   numberElements := Event_meta[eventID].Tini;
-  calculate_AR5 := sumPartArray(RainfallSeries_fin, Event_meta[eventID].Tini-numberElements, numberElements-1);
-end;
+Begin
+  numberElements := 5*24*3600 Div Timestep_model;
+  If 5*24*3600 > (Event_meta[eventID].Tini *Timestep_model) Then
+    // if data for 5 days prior to event not available...
+    numberElements := Event_meta[eventID].Tini;
+  calculate_AR5 := sumPartArray(RainfallSeries_fin, Event_meta[eventID].Tini-numberElements,
+                   numberElements-1);
+End;
 
-function calc_month(eventID:integer): integer;
-var
+Function calc_month(eventID:integer): integer;
+
+Var 
   days,dayTeller: double;
   month_index: integer;
   check: boolean;
-begin
+Begin
 
- check:=false;
- month_index := first_month;
- dayTeller := numDays[first_month];
- days := Timeseries_fin[Event_meta[eventID].Tini]/(24*3600);    //= start of event expressed in days after start of simulation
+  check := false;
+  month_index := first_month;
+  dayTeller := numDays[first_month];
+  days := Timeseries_fin[Event_meta[eventID].Tini]/(24*3600);
+  //= start of event expressed in days after start of simulation
 
- repeat
-  if days > dayTeller then
-   begin
-    month_index := month_index+1;
-    dayTeller := dayTeller + numDays[month_index];
-   end
-   else
-    check:=true;
- until (check) or (month_index = 12);
+  Repeat
+    If days > dayTeller Then
+      Begin
+        month_index := month_index+1;
+        dayTeller := dayTeller + numDays[month_index];
+      End
+    Else
+      check := true;
+  Until (check) Or (month_index = 12);
 
- if (month_index = 12) AND (days > dayTeller) then
-   begin
-     month_index := 1;
-     dayTeller := dayTeller + numDays[month_index];
-     repeat
-      if days > dayTeller then
-        begin
-          month_index := month_index+1;
-          dayTeller:=dayTeller + numDays[month_index];
-        end
-        else
-        check:=true;
-     until (check);
-   end;
- calc_month:= month_index;
-end;
+  If (month_index = 12) And (days > dayTeller) Then
+    Begin
+      month_index := 1;
+      dayTeller := dayTeller + numDays[month_index];
+      Repeat
+        If days > dayTeller Then
+          Begin
+            month_index := month_index+1;
+            dayTeller := dayTeller + numDays[month_index];
+          End
+        Else
+          check := true;
+      Until (check);
+    End;
+  calc_month := month_index;
+End;
 
-function calc_season(eventID:integer): string;
-var
+Function calc_season(eventID:integer): string;
+
+Var 
   days: double;
-begin
- days := Timeseries_fin[Event_meta[eventID].Tini]/(24*3600);    //= start of event expressed in days after start of simulation
+Begin
+  days := Timeseries_fin[Event_meta[eventID].Tini]/(24*3600);
+  //= start of event expressed in days after start of simulation
 
-  case first_season of
-  'spring':begin
-     if days > start_summer then
-       begin
-         if days > start_fall then
-           begin
-             if days > start_winter then
-               begin
-                 if days > start_spring then
-                   calc_season := 'spring'
-                 else
-                   calc_season := 'winter';
-                 end
-             else
-               calc_season := 'fall';
-             end
-         else
-           calc_season := 'summer';
-         end
-     else
-       calc_season := 'spring';
-     end;
-  'summer':begin
-     if days > start_fall then
-       begin
-         if days > start_winter then
-           begin
-             if days > start_spring then
-               begin
-                 if days > start_summer then
-                   calc_season := 'summer'
-                 else
-                   calc_season := 'spring';
-                 end
-             else
-               calc_season := 'winter';
-             end
-         else
-           calc_season := 'fall';
-         end
-     else
-       calc_season := 'summer';
-     end;
-    'fall':begin
-     if days > start_winter then
-       begin
-         if days > start_spring then
-           begin
-             if days > start_summer then
-               begin
-                 if days > start_fall then
-                   calc_season := 'fall'
-                 else
-                   calc_season := 'summer';
-                 end
-             else
-               calc_season := 'spring';
-             end
-         else
-           calc_season := 'winter';
-         end
-     else
-       calc_season := 'fall';
-     end;
-    'winter':begin
-     if days > start_spring then
-       begin
-         if days > start_summer then
-           begin
-             if days > start_fall then
-               begin
-                 if days > start_winter then
-                   calc_season := 'winter'
-                 else
-                   calc_season := 'fall';
-                 end
-             else
-               calc_season := 'summer';
-             end
-         else
-           calc_season := 'spring';
-         end
-     else
-       calc_season := 'winter';
-     end
-  end;
-end;
+  Case first_season Of 
+    'spring':
+              Begin
+                If days > start_summer Then
+                  Begin
+                    If days > start_fall Then
+                      Begin
+                        If days > start_winter Then
+                          Begin
+                            If days > start_spring Then
+                              calc_season := 'spring'
+                            Else
+                              calc_season := 'winter';
+                          End
+                        Else
+                          calc_season := 'fall';
+                      End
+                    Else
+                      calc_season := 'summer';
+                  End
+                Else
+                  calc_season := 'spring';
+              End;
+    'summer':
+              Begin
+                If days > start_fall Then
+                  Begin
+                    If days > start_winter Then
+                      Begin
+                        If days > start_spring Then
+                          Begin
+                            If days > start_summer Then
+                              calc_season := 'summer'
+                            Else
+                              calc_season := 'spring';
+                          End
+                        Else
+                          calc_season := 'winter';
+                      End
+                    Else
+                      calc_season := 'fall';
+                  End
+                Else
+                  calc_season := 'summer';
+              End;
+    'fall':
+            Begin
+              If days > start_winter Then
+                Begin
+                  If days > start_spring Then
+                    Begin
+                      If days > start_summer Then
+                        Begin
+                          If days > start_fall Then
+                            calc_season := 'fall'
+                          Else
+                            calc_season := 'summer';
+                        End
+                      Else
+                        calc_season := 'spring';
+                    End
+                  Else
+                    calc_season := 'winter';
+                End
+              Else
+                calc_season := 'fall';
+            End;
+    'winter':
+              Begin
+                If days > start_spring Then
+                  Begin
+                    If days > start_summer Then
+                      Begin
+                        If days > start_fall Then
+                          Begin
+                            If days > start_winter Then
+                              calc_season := 'winter'
+                            Else
+                              calc_season := 'fall';
+                          End
+                        Else
+                          calc_season := 'summer';
+                      End
+                    Else
+                      calc_season := 'spring';
+                  End
+                Else
+                  calc_season := 'winter';
+              End
+  End;
+End;
 
-procedure Calc_numOutlet;
-var
+Procedure Calc_numOutlet;
+
+Var 
   i,j: integer;
-begin
+Begin
   numOutlet := 1;
-  if outlet_Select then
-    begin
+  If outlet_Select Then
+    Begin
       GetGfile(outletMap, datadir+OutletFilename);
-      for i := 1 to nrow do
-        for j := 1 to ncol do
-        begin
-          if outletMap[i,j] <> 0 then
-            begin
-              if outletMap[i,j] > numOutlet then
-                 numoutlet := outletMap[i,j];
-            end;
-        end;
+      For i := 1 To nrow Do
+        For j := 1 To ncol Do
+          Begin
+            If outletMap[i,j] <> 0 Then
+              Begin
+                If outletMap[i,j] > numOutlet Then
+                  numoutlet := outletMap[i,j];
+              End;
+          End;
       DisposeDynamicGdata(outletMap);
-    end;
-end;
+    End;
+End;
 
-procedure Calc_numVHA;
-var
-  i,j:integer;
-begin
+Procedure Calc_numVHA;
+
+Var 
+  i,j: integer;
+Begin
   numVHA := 1;
   GetGfile(RivSegMap, datadir+riversegment_filename);
-  for i := 1 to nrow do
-   for j := 1 to ncol do
-     begin
-       if RivSegMap[i,j] <> 0 then
-        begin
-          if RivSegMap[i,j] > numVHA then
-             numVHA := RivSegMap[i,j];
-        end;
-      end;
+  For i := 1 To nrow Do
+    For j := 1 To ncol Do
+      Begin
+        If RivSegMap[i,j] <> 0 Then
+          Begin
+            If RivSegMap[i,j] > numVHA Then
+              numVHA := RivSegMap[i,j];
+          End;
+      End;
   DisposeDynamicGdata(RivSegMap);
-end;
+End;
 
-procedure updateOutput(eventID: integer);
-var
+Procedure updateOutput(eventID: integer);
+
+Var 
   i,j : integer;
 
-begin
-  updateMap(SediExport_event, SediExport_tot);         // update output maps
+Begin
+  updateMap(SediExport_event, SediExport_tot);
+  // update output maps
   updateMap(SediIn_event, SediIn_tot);
   updateMap(SediOut_event, SediOut_tot);
   updateMap(Watereros_event, Watereros_tot);
   updateMap(Watereros_kg_event, Watereros_kg_tot);
   updateMap(RUSLE_event, RUSLE_tot);
 
-  if not simplified then
-   begin
+  If Not simplified Then
+    Begin
       updateMap(TotRun_event, TotRun_tot);
       updateMap(ReMap_event, ReMap_tot);
 
       // update TotDischarge
-      for i := 0 to numOutlet-1 do
-       TotDischarge_tot[i,1] := TotDischarge_tot[i,1] + TotDischarge_event[i,1];
+      For i := 0 To numOutlet-1 Do
+        TotDischarge_tot[i,1] := TotDischarge_tot[i,1] + TotDischarge_event[i,1];
 
-      if Include_buffer then     // update spillover
-       begin
-         for i := 0 to Number_of_Buffers-1 do
-           Spillover_tot[i,1] := Spillover_tot[i,1] + Spillover_event[i,1];
-       end;
+      If Include_buffer Then     // update spillover
+        Begin
+          For i := 0 To Number_of_Buffers-1 Do
+            Spillover_tot[i,1] := Spillover_tot[i,1] + Spillover_event[i,1];
+        End;
 
-      if convert_output then      //output is given in minutes => use procedure updateText_min
-       begin
-         // update discharge
-         updateText_min(Discharge_event, Discharge_tot, eventID, numOutlet+1, timestep_output);
-         // update sediment concentration
-         updateText_min(Sedconc_event, Sedconc_tot, eventID, numOutlet+1, timestep_output);
-         // update sediment
-         updateText_min(Sediment_event, Sediment_tot, eventID, numOutlet+1, Timestep_output);
-         if VHA then
-          begin
-           // update Discharge_VHA
-           updateText_min(Discharge_VHA_event, Discharge_VHA_tot, eventID, numVHA+1, Timestep_output);
-           // update Sediment concentration VHA
-           updateText_min(Sedconc_VHA_event, Sedconc_VHA_tot, eventID, numVHA+1, Timestep_output);
-           // update Sediment_VHA
-           updateText_min(Sediment_VHA_event, Sediment_VHA_tot, eventID, numVHA+1, Timestep_output);
-          end;
+      If convert_output Then      //output is given in minutes => use procedure updateText_min
+        Begin
+          // update discharge
+          updateText_min(Discharge_event, Discharge_tot, eventID, numOutlet+1, timestep_output);
+          // update sediment concentration
+          updateText_min(Sedconc_event, Sedconc_tot, eventID, numOutlet+1, timestep_output);
+          // update sediment
+          updateText_min(Sediment_event, Sediment_tot, eventID, numOutlet+1, Timestep_output);
+          If VHA Then
+            Begin
+              // update Discharge_VHA
+              updateText_min(Discharge_VHA_event, Discharge_VHA_tot, eventID, numVHA+1,
+                             Timestep_output);
+              // update Sediment concentration VHA
+              updateText_min(Sedconc_VHA_event, Sedconc_VHA_tot, eventID, numVHA+1, Timestep_output)
+              ;
+              // update Sediment_VHA
+              updateText_min(Sediment_VHA_event, Sediment_VHA_tot, eventID, numVHA+1,
+                             Timestep_output);
+            End;
 
-       end
-       else    // output is given in seconds => use procedure updateText_sec
-       begin
+        End
+      Else    // output is given in seconds => use procedure updateText_sec
+        Begin
           updateText_sec(Discharge_event, Discharge_tot, eventID, numOutlet+1, Timestep_model);
           updateText_sec(Sedconc_event, Sedconc_tot, eventID, numOutlet+1, Timestep_model);
           updateText_sec(Sediment_event, Sediment_tot, eventID, numOutlet+1, Timestep_model);
-          if VHA then
-           begin
-             updateText_sec(Discharge_VHA_event, Discharge_VHA_tot, eventID, numVHA+1, Timestep_model);
-             updateText_sec(Sedconc_VHA_event, Sedconc_VHA_tot, eventID, numVHA+1, Timestep_model);
-             updateText_sec(Sediment_VHA_event, Sediment_VHA_tot, eventID, numVHA+1, Timestep_model);
-           end;
-       end;
+          If VHA Then
+            Begin
+              updateText_sec(Discharge_VHA_event, Discharge_VHA_tot, eventID, numVHA+1,
+                             Timestep_model);
+              updateText_sec(Sedconc_VHA_event, Sedconc_VHA_tot, eventID, numVHA+1, Timestep_model);
+              updateText_sec(Sediment_VHA_event, Sediment_VHA_tot, eventID, numVHA+1, Timestep_model
+              );
+            End;
+        End;
 
-       if include_sewer then      // update sewer_out_water
-         sewer_out_water_tot := sewer_out_water_tot + sewer_out_water_event;
-   end;
+      If include_sewer Then      // update sewer_out_water
+        sewer_out_water_tot := sewer_out_water_tot + sewer_out_water_event;
+    End;
 
-// update TotSediment
-TotalErosion_tot := TotalErosion_tot + TotalErosion_event;
-TotalDeposition_tot := TotalDeposition_tot + TotalDeposition_event;
-SedleavingRiv_tot := SedleavingRiv_tot + SedleavingRiv_event;
-SedLeaving_tot := SedLeaving_tot + SedLeaving_event;
-SedTrapBuffer_tot := SedTrapBuffer_tot + SedTrapBuffer_event;
-SedTrapWater_tot := SedTrapWater_tot + SedTrapWater_event;
+  // update TotSediment
+  TotalErosion_tot := TotalErosion_tot + TotalErosion_event;
+  TotalDeposition_tot := TotalDeposition_tot + TotalDeposition_event;
+  SedleavingRiv_tot := SedleavingRiv_tot + SedleavingRiv_event;
+  SedLeaving_tot := SedLeaving_tot + SedLeaving_event;
+  SedTrapBuffer_tot := SedTrapBuffer_tot + SedTrapBuffer_event;
+  SedTrapWater_tot := SedTrapWater_tot + SedTrapWater_event;
 
-for i := 0 to numOutlet-1 do
-   begin
-       TotSediment_tot[i,1] := TotSediment_tot[i,1] + TotSediment_event[i,1];
-       TotSediment_tot[i,0] := TotSediment_event[i,0];
-    end;
+  For i := 0 To numOutlet-1 Do
+    Begin
+      TotSediment_tot[i,1] := TotSediment_tot[i,1] + TotSediment_event[i,1];
+      TotSediment_tot[i,0] := TotSediment_event[i,0];
+    End;
 
-  if VHA then
-       begin
- // update TotSedimentVHA
-      for i := 0 to numVHA-1 do
-       begin
-         TotSedimentVHA_tot[i,1] := TotSedimentVHA_tot[i,1] + TotSedimentVHA_event[i,1];
-         TotSedimentVHA_tot[i,0] := TotSedimentVHA_event[i,0];
-       end;
-       end;
+  If VHA Then
+    Begin
+      // update TotSedimentVHA
+      For i := 0 To numVHA-1 Do
+        Begin
+          TotSedimentVHA_tot[i,1] := TotSedimentVHA_tot[i,1] + TotSedimentVHA_event[i,1];
+          TotSedimentVHA_tot[i,0] := TotSedimentVHA_event[i,0];
+        End;
+    End;
 
-  if include_sewer then             // update sewer_out_sediment
+  If include_sewer Then             // update sewer_out_sediment
     sewer_out_sediment_tot := sewer_out_sediment_tot + sewer_out_sediment_event;
-end;
+End;
 
 
-procedure updateMap(eventMap: RRaster; var totMap: RRaster);
-var
-  i,j:integer;
-begin
- for i := 1 to nrow do
-  for j := 1 to ncol do
-   begin
-    totMap[i,j] := totMap[i,j]+eventMap[i,j];
-   end;
-end;
+Procedure updateMap(eventMap: RRaster; Var totMap: RRaster);
 
-procedure updateText_sec(eventText: FloatArray2; var totText : FloatArray2; eventID, numColumns, timestep: integer);
-var
+Var 
+  i,j: integer;
+Begin
+  For i := 1 To nrow Do
+    For j := 1 To ncol Do
+      Begin
+        totMap[i,j] := totMap[i,j]+eventMap[i,j];
+      End;
+End;
+
+Procedure updateText_sec(eventText: FloatArray2; Var totText : FloatArray2; eventID, numColumns,
+                         timestep: integer);
+
+Var 
   totLength, i, j, k, start_pos, newLength, fill, lastTime : integer;
-begin
+Begin
   totLength := length(totText);
   lastTime := trunc(totText[totLength-1,0]);
-  if Timeseries_fin[event_meta[eventID].Tini] <= lastTime then               // indien overlap tussen oude en nieuwe file
-   begin
-     for i := 0 to totLength-1 do
-      begin                        // startpositie bepalen
-         if Timeseries_fin[event_meta[eventID].Tini] = totText[i,0] then
-           start_pos := i;
-      end;
-     newLength := totLength + ((length(eventText)-1) - (totLength - start_pos));      // nieuwe lengte bepalen
-     setLength(totText, newLength , numColumns);
-    end
-    else      // if no overlap between two arrays
-    begin
-      fill := ((Timeseries_fin[event_meta[eventID].Tini] - lastTime) div timestep)-1;
+  If Timeseries_fin[event_meta[eventID].Tini] <= lastTime Then
+    // indien overlap tussen oude en nieuwe file
+    Begin
+      For i := 0 To totLength-1 Do
+        Begin
+          // startpositie bepalen
+          If Timeseries_fin[event_meta[eventID].Tini] = totText[i,0] Then
+            start_pos := i;
+        End;
+      newLength := totLength + ((length(eventText)-1) - (totLength - start_pos));
+      // nieuwe lengte bepalen
+      setLength(totText, newLength , numColumns);
+    End
+  Else      // if no overlap between two arrays
+    Begin
+      fill := ((Timeseries_fin[event_meta[eventID].Tini] - lastTime) Div timestep)-1;
       newLength := totLength + fill + (length(eventText)-1);
       start_pos := (totLength-1) + (fill+1);
       setLength(totText, newLength, numColumns);
-      for j:= 1 to numColumns-1 do                      // fill space between two series with zeros
-        for i:= totLength to start_pos-1 do
+      For j:= 1 To numColumns-1 Do
+        // fill space between two series with zeros
+        For i:= totLength To start_pos-1 Do
           totText[i,j] := 0;
-      for i := totLength to start_pos-1 do                  // complete timeseries (column 0) between two series
+      For i := totLength To start_pos-1 Do
+        // complete timeseries (column 0) between two series
         totText[i,0] := totText[i-1,0]+timestep;
-    end;
+    End;
 
-    // update array
-    // complete timeseries (column 0)
-    for i := start_pos to newLength-1 do
-     totText[i,0]:=totText[i-1,0]+timestep;
-    // update other columns
-    for j := 1 to numColumns-1 do
-      begin
-       k := 1;
-       for i := start_pos to newLength-1 do
-        begin
-         totText[i,j]:=totText[i,j]+eventText[k,j];
-         k:=k+1;
-         end;
-       end;
+  // update array
+  // complete timeseries (column 0)
+  For i := start_pos To newLength-1 Do
+    totText[i,0] := totText[i-1,0]+timestep;
+  // update other columns
+  For j := 1 To numColumns-1 Do
+    Begin
+      k := 1;
+      For i := start_pos To newLength-1 Do
+        Begin
+          totText[i,j] := totText[i,j]+eventText[k,j];
+          k := k+1;
+        End;
+    End;
 
-     Dimension_result := newLength;     // needed in procedure WriteOutput...
-end;
+  Dimension_result := newLength;
+  // needed in procedure WriteOutput...
+End;
+
 
 // the goal of this procedure is similar to the procedure above, but this one is used in case the output is given in minutes instead of seconds
 
-procedure updateText_min(eventText: FloatArray2; var totText : FloatArray2; eventID, numColumns, timestep: integer);
-var
-  totLength, i, j, k, start_pos, newLength, fill, lastTime : integer;
-  check:boolean;
-  x:double;
-begin
-  totLength := length(totText);
-  lastTime := trunc(totText[totLength-1,0]) * 60;      // in seconds
-  if Timeseries_fin[event_meta[eventID].Tini] <= lastTime then               // indien overlap tussen oude en nieuwe file
-   begin
-     check:=false;
-     for i := 0 to totLength-1 do
-      begin                        // startpositie bepalen
-         if (Timeseries_fin[event_meta[eventID].Tini] = (trunc(totText[i,0])*60)) then
-          begin
-            start_pos := i;
-            check:=true;
-          end;
-      end;
-     if not check then
-      begin
-        for i := 0 to totLength-1 do
-         begin
-          if (Timeseries_fin[event_meta[eventID].Tini] > (trunc(totText[i,0])*60)) AND (Timeseries_fin[event_meta[eventID].Tini] < (trunc(totText[i+1,0])*60)) then
-            start_pos := i+1;
-         end;
-      end;
+Procedure updateText_min(eventText: FloatArray2; Var totText : FloatArray2; eventID, numColumns,
+                         timestep: integer);
 
-     newLength := totLength + ((length(eventText)-1) - (totLength - start_pos));      // nieuwe lengte bepalen
-     setLength(totText, newLength , numColumns);
-    end
-    else      // if no overlap between two arrays
-    begin
-     if  ((Timeseries_fin[event_meta[eventID].Tini] - lastTime) mod (timestep*60) = 0) then
-        fill := ((Timeseries_fin[event_meta[eventID].Tini] - lastTime) div (timestep*60))-1
-      else
-      begin
-         x := (Timeseries_fin[event_meta[eventID].Tini] - lastTime) / (timestep*60);
-         fill := trunc(x);
-      end;
+Var 
+  totLength, i, j, k, start_pos, newLength, fill, lastTime : integer;
+  check: boolean;
+  x: double;
+Begin
+  totLength := length(totText);
+  lastTime := trunc(totText[totLength-1,0]) * 60;
+  // in seconds
+  If Timeseries_fin[event_meta[eventID].Tini] <= lastTime Then
+    // indien overlap tussen oude en nieuwe file
+    Begin
+      check := false;
+      For i := 0 To totLength-1 Do
+        Begin
+          // startpositie bepalen
+          If (Timeseries_fin[event_meta[eventID].Tini] = (trunc(totText[i,0])*60)) Then
+            Begin
+              start_pos := i;
+              check := true;
+            End;
+        End;
+      If Not check Then
+        Begin
+          For i := 0 To totLength-1 Do
+            Begin
+              If (Timeseries_fin[event_meta[eventID].Tini] > (trunc(totText[i,0])*60)) And (
+                 Timeseries_fin[event_meta[eventID].Tini] < (trunc(totText[i+1,0])*60)) Then
+                start_pos := i+1;
+            End;
+        End;
+
+      newLength := totLength + ((length(eventText)-1) - (totLength - start_pos));
+      // nieuwe lengte bepalen
+      setLength(totText, newLength , numColumns);
+    End
+  Else      // if no overlap between two arrays
+    Begin
+      If  ((Timeseries_fin[event_meta[eventID].Tini] - lastTime) Mod (timestep*60) = 0) Then
+        fill := ((Timeseries_fin[event_meta[eventID].Tini] - lastTime) Div (timestep*60))-1
+      Else
+        Begin
+          x := (Timeseries_fin[event_meta[eventID].Tini] - lastTime) / (timestep*60);
+          fill := trunc(x);
+        End;
       newLength := totLength + fill + (length(eventText)-1);
       start_pos := (totLength-1) + (fill+1);
       setLength(totText, newLength, numColumns);
-      for j:= 1 to numColumns-1 do                      // fill space between two series with zeros
-        for i:= totLength to start_pos-1 do
+      For j:= 1 To numColumns-1 Do
+        // fill space between two series with zeros
+        For i:= totLength To start_pos-1 Do
           totText[i,j] := 0;
-      for i := totLength to start_pos-1 do                  // complete timeseries (column 0) between two series
+      For i := totLength To start_pos-1 Do
+        // complete timeseries (column 0) between two series
         totText[i,0] := totText[i-1,0]+timestep;
-    end;
+    End;
 
-    // update array
-    // complete timeseries (column 0)
-    for i := start_pos to newLength-1 do
-     totText[i,0]:=totText[i-1,0]+timestep;
-    // update other columns
-    for j := 1 to numColumns-1 do
-      begin
-       k := 1;
-       for i := start_pos to newLength-1 do
-        begin
-         totText[i,j]:=totText[i,j]+eventText[k,j];
-         k:=k+1;
-         end;
-       end;
+  // update array
+  // complete timeseries (column 0)
+  For i := start_pos To newLength-1 Do
+    totText[i,0] := totText[i-1,0]+timestep;
+  // update other columns
+  For j := 1 To numColumns-1 Do
+    Begin
+      k := 1;
+      For i := start_pos To newLength-1 Do
+        Begin
+          totText[i,j] := totText[i,j]+eventText[k,j];
+          k := k+1;
+        End;
+    End;
 
-     Dimension_result := newLength;     // needed in procedure WriteOutput...
-end;
+  Dimension_result := newLength;
+  // needed in procedure WriteOutput...
+End;
 
 
-end.
-
+End.
