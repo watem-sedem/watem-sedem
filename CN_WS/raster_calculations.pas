@@ -897,7 +897,6 @@ Begin
       If ((PART1=0.0)And(PART2=0.0)) Then
         // no cells were found (both have a higher(?) elevation or another parcel ID)
         Begin
-
           PART1 := Area;
           // CODE JEROEN
           parequal := false;
@@ -1148,7 +1147,6 @@ Begin
           Routing[i,j].Target2Col := 0;
           Routing[i,j].Part2 := 0;
           Routing[i,j].One_Target := True;
-
         End;
     End;
 
@@ -1160,49 +1158,41 @@ Begin
            Begin
              Routing[i,j].Target1row := i-1;
              Routing[i,j].Target1col := j;
-
            End;
         2:
            Begin
              Routing[i,j].Target1row := i-1;
              Routing[i,j].Target1col := j+1;
-
            End;
         3:
            Begin
              Routing[i,j].Target1row := i;
              Routing[i,j].Target1col := j+1;
-
            End;
         4:
            Begin
              Routing[i,j].Target1row := i+1;
              Routing[i,j].Target1col := j+1;
-
            End;
         5:
            Begin
              Routing[i,j].Target1row := i+1;
              Routing[i,j].Target1col := j;
-
            End;
         6:
            Begin
              Routing[i,j].Target1row := i+1;
              Routing[i,j].Target1col := j-1;
-
            End;
         7:
            Begin
              Routing[i,j].Target1row := i;
              Routing[i,j].Target1col := j-1;
-
            End;
         8:
            Begin
              Routing[i,j].Target1row := i-1;
              Routing[i,j].Target1col := j-1;
-
            End;
       End;
 
@@ -1222,49 +1212,41 @@ Begin
            Begin
              Routing[i,j].Target1row := i-1;
              Routing[i,j].Target1col := j;
-
            End;
         2:
            Begin
              Routing[i,j].Target1row := i-1;
              Routing[i,j].Target1col := j+1;
-
            End;
         3:
            Begin
              Routing[i,j].Target1row := i;
              Routing[i,j].Target1col := j+1;
-
            End;
         4:
            Begin
              Routing[i,j].Target1row := i+1;
              Routing[i,j].Target1col := j+1;
-
            End;
         5:
            Begin
              Routing[i,j].Target1row := i+1;
              Routing[i,j].Target1col := j;
-
            End;
         6:
            Begin
              Routing[i,j].Target1row := i+1;
              Routing[i,j].Target1col := j-1;
-
            End;
         7:
            Begin
              Routing[i,j].Target1row := i;
              Routing[i,j].Target1col := j-1;
-
            End;
         8:
            Begin
              Routing[i,j].Target1row := i-1;
              Routing[i,j].Target1col := j-1;
-
            End;
       End;
 
@@ -1314,7 +1296,6 @@ Begin
         Begin
           Routing[i,j].Target1Row := Routing[i,j].Target2Row;
           Routing[i,j].Target1Col := Routing[i,j].Target2Col;
-
         End;
 
       Routing[i,j].One_Target := false;

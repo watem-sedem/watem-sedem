@@ -116,6 +116,12 @@ Begin
         DistributeRiver_Routing(i, j, Finish)
       Else //Routing procedure for all other cells
         DistributeTilDirEvent_Routing(i,j, FINISH, Topo);
+      If (Routing[i,j].Target1Row > 0) Then Routing[i,j].Distance1 := res * sqrt(sqr(i - Routing[i,j
+                                                                      ].Target1Row) + sqr(j -
+                                                                      Routing[i,j].Target1Col));
+      If (Routing[i,j].Target2Row > 0) Then Routing[i,j].Distance2 := res * sqrt(sqr(i - Routing[i,j
+                                                                      ].Target2Row) + sqr(j -
+                                                                      Routing[i,j].Target2Col));
     End;
 End;
 
@@ -482,10 +488,6 @@ Begin
     Begin
       r := abs(i-Routing[i,j].Target1row);
       t := abs(j-Routing[i,j].Target1col);
-      If (r = 0) Or (t = 0) Then
-        Routing[i,j].Distance1 := res
-      Else
-        Routing[i,j].Distance1 := sqrt(sqr(res) + sqr(res));
     End
   Else
     If Routing[i,j].Part2 > 0.9999 Then
@@ -1034,32 +1036,6 @@ Begin
     End;
   // end if cell is not adjacent to river
 
-  // The distance from source to target cells is calculated
-  // => Cardinal: distance = resolution
-  // => Diagonal: distance = sqrt(res² + res²)
-
-  If Routing[i,j].Part1 > 0.0 Then
-    Begin
-      a := abs(i-Routing[i,j].Target1row);
-      b := abs(j-Routing[i,j].Target1col);
-      If (a = 0) Or (b = 0) Then
-        Routing[i,j].Distance1 := res // If the source cell is a cardinal cell
-      Else
-        Routing[i,j].Distance1 := sqrt(sqr(res) + sqr(res));
-      // If the source cell is a diagonal cell
-    End;
-
-  If Routing[i,j].Part2 > 0.0 Then
-    Begin
-      a := abs(i-Routing[i,j].Target2row);
-      b := abs(j-Routing[i,j].Target2col);
-      If (a = 0) Or (b = 0) Then
-        Routing[i,j].Distance2 := res  // If the source cell is a cardinal cell
-      Else
-        Routing[i,j].Distance2 := sqrt(sqr(res) + sqr(res));
-      // If the source cell is a diagonal cell
-    End;
-
   // if cell contains a pond, the routing information is adjusted (water is not allowed to leave)
 
   If (PRC[i,j]=-5) Then // If the parcel under consideration is open water water
@@ -1076,7 +1052,7 @@ Begin
     End;
 
 
-  //In the lines below the routing algorithm is adjusted for buffers (opvangbekkens?):
+  // In the lines below the routing algorithm is adjusted for buffers (opvangbekkens?):
   // Target cell for each buffer pixel = center cell of the buffer it belongs to
   // Target cell for each buffer center cell = the lowest lying neighbour
   // All cells adjacent to buffer and higher then buffer => target cell = buffer cell
@@ -1100,11 +1076,6 @@ Begin
                 Routing[i+k,j+l].Target2Col := 0;
                 Routing[i+k,j+l].Part2 := 0;
                 Routing[i+k,j+l].One_Target := True;
-                If (K=0) Or (L=0) Then
-                  Routing[i+k,j+l].Distance1 := res
-                Else
-                  Routing[i+k,j+l].Distance1 := sqrt(sqr(res) + sqr(res));
-                Routing[i+k,j+l].Distance2 := 0;
               End;
           End;
 
@@ -1130,12 +1101,6 @@ Begin
                       Routing[i,j].Target2Col := 0;
                       Routing[i,j].Part2 := 0;
                       Routing[i,j].One_Target := True;
-                      If (k=0) Or (l=0) Then
-                        Routing[i,j].Distance1 := res
-                      Else
-                        Routing[i,j].Distance1 := sqrt(sqr(res) + sqr(res));
-
-                      Routing[i,j].Distance2 := 0;
 
                       If (buffermap[i+k,j+l] <> (buffermap[i,j]*100)) Then
                         //Check will be true when the target cell does not belong to the same buffer
@@ -1182,8 +1147,6 @@ Begin
           Routing[i,j].Target2Col := 0;
           Routing[i,j].Part2 := 0;
           Routing[i,j].One_Target := True;
-          Routing[i,j].Distance1 := res;
-          Routing[i,j].Distance2 := 0;
         End;
     End;
 
@@ -1195,49 +1158,41 @@ Begin
            Begin
              Routing[i,j].Target1row := i-1;
              Routing[i,j].Target1col := j;
-             Routing[i,j].Distance1 := res;
            End;
         2:
            Begin
              Routing[i,j].Target1row := i-1;
              Routing[i,j].Target1col := j+1;
-             Routing[i,j].Distance1 := sqrt(sqr(res) + sqr(res));
            End;
         3:
            Begin
              Routing[i,j].Target1row := i;
              Routing[i,j].Target1col := j+1;
-             Routing[i,j].Distance1 := res;
            End;
         4:
            Begin
              Routing[i,j].Target1row := i+1;
              Routing[i,j].Target1col := j+1;
-             Routing[i,j].Distance1 := sqrt(sqr(res) + sqr(res));
            End;
         5:
            Begin
              Routing[i,j].Target1row := i+1;
              Routing[i,j].Target1col := j;
-             Routing[i,j].Distance1 := res;
            End;
         6:
            Begin
              Routing[i,j].Target1row := i+1;
              Routing[i,j].Target1col := j-1;
-             Routing[i,j].Distance1 := sqrt(sqr(res) + sqr(res));
            End;
         7:
            Begin
              Routing[i,j].Target1row := i;
              Routing[i,j].Target1col := j-1;
-             Routing[i,j].Distance1 := res;
            End;
         8:
            Begin
              Routing[i,j].Target1row := i-1;
              Routing[i,j].Target1col := j-1;
-             Routing[i,j].Distance1 := sqrt(sqr(res) + sqr(res));
            End;
       End;
 
@@ -1257,49 +1212,41 @@ Begin
            Begin
              Routing[i,j].Target1row := i-1;
              Routing[i,j].Target1col := j;
-             Routing[i,j].Distance1 := res;
            End;
         2:
            Begin
              Routing[i,j].Target1row := i-1;
              Routing[i,j].Target1col := j+1;
-             Routing[i,j].Distance1 := sqrt(sqr(res) + sqr(res));
            End;
         3:
            Begin
              Routing[i,j].Target1row := i;
              Routing[i,j].Target1col := j+1;
-             Routing[i,j].Distance1 := res;
            End;
         4:
            Begin
              Routing[i,j].Target1row := i+1;
              Routing[i,j].Target1col := j+1;
-             Routing[i,j].Distance1 := sqrt(sqr(res) + sqr(res));
            End;
         5:
            Begin
              Routing[i,j].Target1row := i+1;
              Routing[i,j].Target1col := j;
-             Routing[i,j].Distance1 := res;
            End;
         6:
            Begin
              Routing[i,j].Target1row := i+1;
              Routing[i,j].Target1col := j-1;
-             Routing[i,j].Distance1 := sqrt(sqr(res) + sqr(res));
            End;
         7:
            Begin
              Routing[i,j].Target1row := i;
              Routing[i,j].Target1col := j-1;
-             Routing[i,j].Distance1 := res;
            End;
         8:
            Begin
              Routing[i,j].Target1row := i-1;
              Routing[i,j].Target1col := j-1;
-             Routing[i,j].Distance1 := sqrt(sqr(res) + sqr(res));
            End;
       End;
 
@@ -1307,7 +1254,6 @@ Begin
       Routing[i,j].Target2Row := 0;
       Routing[i,j].Target2Col := 0;
       Routing[i,j].Part2 := 0;
-      Routing[i,j].Distance2 := 0;
       Routing[i,j].One_Target := True;
     End;
 
@@ -1350,7 +1296,6 @@ Begin
         Begin
           Routing[i,j].Target1Row := Routing[i,j].Target2Row;
           Routing[i,j].Target1Col := Routing[i,j].Target2Col;
-          Routing[i,j].Distance1 := Routing[i,j].Distance2;
         End;
 
       Routing[i,j].One_Target := false;
