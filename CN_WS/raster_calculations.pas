@@ -217,10 +217,16 @@ Var
   DIFFX,DIFFY: double;
 Begin
 
-  //Codes versie Jeroen:
+  DIFFX := abs(DTM[i-1,j] - DTM[i + 1,j]) / (2 * RES);
+  DIFFY := abs(DTM[i,j-1] - DTM[i,j + 1]) / (2 * RES);
+  result := arctan(sqrt(sqr(DIFFX) + sqr(DIFFY)));
+  //slope in radians
 
 
-{If PRC[i-1,j]<>PRC[i,j] then
+  // previous version
+
+{
+ If PRC[i-1,j]<>PRC[i,j] then
  DIFFX:=abs(DTM[i,j]-DTM[i+1,j])/(Y_Resolution(i,j))
 else
 begin
@@ -238,16 +244,9 @@ begin
 else
 DIFFY:=abs(DTM[i,j-1]-DTM[i,j+1])/(2*X_Resolution(i,j));
 end;
- result:=arctan(sqrt(sqr(DIFFX)+sqr(DIFFY)));}
+ result:=arctan(sqrt(sqr(DIFFX)+sqr(DIFFY)));
+}
   //slope in radians
-
-  //Codes versie Bastiaan:
-
-  DIFFX := abs(DTM[i-1,j] - DTM[i + 1,j]) / (2 * RES);
-  DIFFY := abs(DTM[i,j-1] - DTM[i,j + 1]) / (2 * RES);
-  result := arctan(sqrt(sqr(DIFFX) + sqr(DIFFY)));
-  //helling in radialen
-
 End;
 
 //Aspect calculation
@@ -1082,7 +1081,7 @@ Begin
           End;
 
       If Buffermap[i,j] <= Number_of_Buffers Then
-        //Center cell     // center of the buffer drains to lowest neighbour
+        // center of the buffer drains to lowest neighbour
         Begin
           w := 1;
           Minimum := 99999999.9;
@@ -1113,13 +1112,11 @@ Begin
           Until ((check)Or(W>50));
 
         //50 is the maximum size of the kernel (thus the water is transported 50 cells further away)
-
-
         End
 
 
       Else
-      //Voor buffercellen die geen centercell zijn      // buffer pixel drains to buffer center cell
+        //Voor buffercellen die geen centercell zijn   // buffer pixel drains to buffer center cell
         Begin
           // identify center cell
           center_ID := 0;

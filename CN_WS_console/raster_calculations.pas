@@ -238,8 +238,9 @@ begin
 else
 DIFFY:=abs(DTM[i,j-1]-DTM[i,j+1])/(2*X_Resolution(i,j));
 end;
- result:=arctan(sqrt(sqr(DIFFX)+sqr(DIFFY)));              //slope in radians
+ result:=arctan(sqrt(sqr(DIFFX)+sqr(DIFFY)));
 }
+  //slope in radians
 End;
 
 //Aspect calculation
@@ -1119,7 +1120,6 @@ Begin
               For L := -w To w Do
                 Begin
                   If (abs(k)<>W) And (abs(l)<>W) Then continue;
-
                   If (DTM[i+k,j+l] < DTM[i,j]) And (DTM[i+k,j+l] < Minimum) Then
                     Begin
                       Minimum := DTM[i+k,j+l];
