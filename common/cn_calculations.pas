@@ -760,9 +760,10 @@ Begin
               If RunoffMap[k,l] > BufferData[Buffermap[k,l]].Volume Then
 //The maximum capacity of the buffer is reached: all the runoff that enters the buffer flows over it
                 Begin
-                  spill := BufferData[BufferMap[k,l]].Cd*BufferData[BufferMap[k,l]].width_dam*sqrt(9
-                           .81)*Power(((RunoffMap[k,l]-BufferData[BufferMap[k,l]].Volume)/BufferData
-                           [BufferMap[k,l]].area),(3/2))* Timestep_model;
+                  spill := BufferData[BufferMap[k,l]].Cd*
+                           BufferData[BufferMap[k,l]].width_dam*
+                           sqrt(9.81)*
+                           Power(((RunoffMap[k,l]-BufferData[BufferMap[k,l]].Volume)/BufferData[BufferMap[k,l]].area),(3/2))* Timestep_model;
 
       // calculate maximum amount of water flowing over dam (formula from project Pieter Meert p.68)
                   If spill > RunoffMap[k,l]-BufferData[BufferMap[k,l]].Volume Then
