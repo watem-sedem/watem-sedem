@@ -66,19 +66,18 @@ Begin
   WriteLn('Inifile : ', filename);
   writeln;
 
-  ReadSettings(filename);
-  // read .INI file
+  Try
+     ReadSettings(filename);
+   Except
+     on E:Exception Do
+     Begin
+       writeln(E.Message);
+       readln;
+       Terminate;
+       Exit
+     End;
+   end;
 
-  If errorFlag Then
-    Begin
-      ErrorMsg := errorDummy;
-      writeln(ErrorMsg);
-      writeln;
-      writeln('Press <Enter> to quit');
-      readln;
-      Terminate;
-      Exit;
-    End;
 
   Try
     ReadInRasters;
@@ -92,17 +91,6 @@ Begin
           End;
 
 End;
-
-If errorFlag Then
-  Begin
-    ErrorMsg := errorDummy;
-    writeln(ErrorMsg);
-    writeln;
-    writeln('Press <Enter> to quit');
-    readln;
-    Terminate;
-    Exit;
-  End;
 
 //Check whether number of rows, number of columns and resolution are equal for all input maps
 If Not intArrayIsEqual(nrowAR) Then
@@ -174,20 +162,21 @@ If Not Simplified Then
   CalculateRe(ReMap, PRC, CNmap, alpha, beta);
 //Amount of rainfall excess or deficit is calculated
 
-Topo_Calculations;
+try
 
-// Sort DTM, calculate slope and aspect, calculate routing, calculate UPAREA, calculate LS factor RUSLE
+  Topo_Calculations;
+  // Sort DTM, calculate slope and aspect, calculate routing, calculate UPAREA, calculate LS factor RUSLE
 
-If errorFlag Then
-  Begin
-    ErrorMsg := errorDummy;
-    writeln(ErrorMsg);
-    writeln;
-    writeln('Press <Enter> to quit');
-    readln;
-    Terminate;
-    Exit;
-  End;
+Except
+  on E: Exception Do
+        Begin
+          writeln(E.Message);
+          readln;
+          Terminate;
+          Exit
+        End;
+
+end;
 
 // number and position of outlets is determined. Lowest outlet is also determined.
 calcOutlet;
