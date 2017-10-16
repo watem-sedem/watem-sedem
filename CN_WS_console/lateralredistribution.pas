@@ -207,8 +207,11 @@ Begin
   // in MJ.mm/m².h.year
 
   If VHA Then //If the user wants output per river segment
-    setlength(sedload_VHA, numRivSeg + 1);
-  //The lengt of a vector per river segment (+1) is set
+    Begin
+      numRivSeg := calcRivSeg(RivSeg);
+      setlength(sedload_VHA, numRivSeg + 1);
+      //The length of a vector per river segment (+1) is set
+    End;
 
   If Include_sewer Then // If sewers are included
     sewer_out_sed := 0;

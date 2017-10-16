@@ -210,7 +210,7 @@ Begin
     Begin
       numRivSeg := calcRivSeg(RivSeg);
       setlength(sedload_VHA, numRivSeg + 1);
-      //The lengt of a vector per river segment (+1) is set
+      //The length of a vector per river segment (+1) is set
     End;
 
   If Include_sewer Then // If sewers are included
