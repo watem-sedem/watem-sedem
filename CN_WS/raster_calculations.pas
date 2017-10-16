@@ -895,7 +895,7 @@ Begin
         End;
 
       If ((PART1=0.0)And(PART2=0.0)) Then
-        // no cells were found (both have a higher(?) elevation or another parcel ID)
+        // no cells were found (both have a higher or equal elevation or another parcel ID)
         Begin
           PART1 := Area;
           // CODE JEROEN

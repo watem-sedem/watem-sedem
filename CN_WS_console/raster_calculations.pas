@@ -715,10 +715,10 @@ Begin
       // End of checking if the cells have already been treated
 
 
-//In het volgende deel worden part1 en part2 ingevuld of niet naargelang de ontvangende cellen hoger/even hoog liggen of tot een ander perceel behoren
-      If DTM[i+k1,j+l1]>DTM[i,j] Then //If the first target cell has a higher or equal elevation
+//In het volgende deel worden part1 en part2 ingevuld of niet naargelang de ontvangende cellen hoger liggen of tot een ander perceel behoren
+      If DTM[i+k1,j+l1]>DTM[i,j] Then //If the first target cell has a higher elevation
         Begin
-          If DTM[i+k2,j+l2] > DTM[i,j] Then //If both cells have a higher or equal elevation
+          If DTM[i+k2,j+l2] > DTM[i,j] Then //If both cells have a higher elevation
             Begin
               part1 := 0.0;
               part2 := 0.0;
@@ -761,7 +761,7 @@ Begin
                 End;
             End;
         End
-      Else //If the first target cell does not have a higher or equal elevation
+      Else //If the first target cell does not have a higher elevation
         Begin
           If DTM[i+k2,j+l2]>DTM[i,j] Then    //cel 1 lagergelegen maar cel 2 hoger...
             Begin
@@ -895,7 +895,7 @@ Begin
         End;
 
       If ((PART1=0.0)And(PART2=0.0)) Then
-        // no cells were found (both have a lower elevation or another parcel ID)
+        // no cells were found (both have a higher or equal elevation or another parcel ID)
         Begin
           PART1 := Area;
           // CODE JEROEN
