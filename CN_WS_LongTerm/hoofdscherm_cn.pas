@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, Process, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
   Menus, ComCtrls, Inifiles, Input_kaarten_cn, ReadInParameters, Write_output,
-  Calculations, RData_CN;
+  Calculations;
 
 Type
 

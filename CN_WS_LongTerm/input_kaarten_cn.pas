@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  Buttons, DBCtrls, EditBtn, Spin, ComCtrls, ExtCtrls, Inifiles, types, ReadInParameters;
+  Buttons, DBCtrls, EditBtn, Spin, ComCtrls, ExtCtrls, Inifiles, ReadInParameters;
 
 type
 
