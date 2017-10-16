@@ -1,23 +1,24 @@
-unit GData_CN;
+
+Unit GData_CN;
 {In deze unit worden kaarten van integers ingelezen}
 {$mode objfpc}{$H+}
 
-interface
+Interface
 
-uses
-  Classes, SysUtils, Dialogs;
+Uses 
+Classes, SysUtils, Dialogs;
 
-Type
-  Graster = array of array of smallint;
+Type 
+  Graster = array Of array Of smallint;
 
-Procedure GetGFile(var Z:GRaster; Filename:string);
-Procedure SetDynamicGData(var Z:GRaster);
-procedure SetzeroG(var z:Graster);
-Procedure DisposeDynamicGdata(var Z:GRaster);
+Procedure GetGFile(Var Z:GRaster; Filename:String);
+Procedure SetDynamicGData(Var Z:GRaster);
+Procedure SetzeroG(Var z:Graster);
+Procedure DisposeDynamicGdata(Var Z:GRaster);
 
-implementation
+Implementation
 
-uses RData_CN;
+Uses RData_CN;
 
 //**************************************************************************
 //De waarden van de buitenste cellen worden vervangen door de nullen
@@ -25,51 +26,54 @@ uses RData_CN;
 //in Lazarus is de eerste cel (0,0) terwijl deze in Idrisi (1,1) is!!!
 //**************************************************************************
 
-Procedure SetRasterBorders(var Z:GRaster);
-var
-i,j       : integer;
-begin
-Z[0,0]:= 0;
-   Z[0,(ncol+1)] := 0;
-   Z[nrow+1,0] := 0;
-   Z[nrow+1,ncol+1] := 0;
-   for j := 1 to ncol do
-       begin
-         Z[0,j] := 0;
-         Z[(nrow+1),j]:=0;
-       end;
-   for  i := 1 to nrow do
-        begin
-          Z[i,0] := 0;
-          Z[i,ncol+1] := 0;
-        end;
-end;
+Procedure SetRasterBorders(Var Z:GRaster);
+
+Var 
+  i,j       : integer;
+Begin
+  Z[0,0] := 0;
+  Z[0,(ncol+1)] := 0;
+  Z[nrow+1,0] := 0;
+  Z[nrow+1,ncol+1] := 0;
+  For j := 1 To ncol Do
+    Begin
+      Z[0,j] := 0;
+      Z[(nrow+1),j] := 0;
+    End;
+  For  i := 1 To nrow Do
+    Begin
+      Z[i,0] := 0;
+      Z[i,ncol+1] := 0;
+    End;
+End;
 
 //**********************************************
 //Er wordt geheugen vrijgemaakt voor de matrix Z
 //**********************************************
 
-Procedure SetDynamicGData(var Z:GRaster);
-var
-i       : integer;
-begin
-     SetLength(Z,nrow+2);
-     for i := Low(Z) to high(Z) do
-      Setlength(Z[i],ncol+2);
-end;
+Procedure SetDynamicGData(Var Z:GRaster);
+
+Var 
+  i       : integer;
+Begin
+  SetLength(Z,nrow+2);
+  For i := Low(Z) To high(Z) Do
+    Setlength(Z[i],ncol+2);
+End;
 
 
 //***************************************************************************
 //Met deze procedure wordt het dynamisch toegekende geheugen weer vrijgegeven
 //***************************************************************************
-Procedure DisposeDynamicGdata(var Z:GRaster);
-var
-i       : integer;
-begin
-for i := Low(Z) to high(Z) do
-      Z[i]:=NIL;
- Z:=NIL;
-end;
+Procedure DisposeDynamicGdata(Var Z:GRaster);
+
+Var 
+  i       : integer;
+Begin
+  For i := Low(Z) To high(Z) Do
+    Z[i] := Nil;
+  Z := Nil;
+End;
 
 
 //********************************************************************
@@ -77,147 +81,160 @@ end;
 //en wordt de nodige informatie hieruit gehaald.
 //********************************************************************
 
-Procedure GetGFile(var Z:GRaster; Filename:string);
-var
-i,j,hulpgetal: integer;
-docfileIMG : textfile;
-fileIMG : file of smallint;
-textfileIMG : textfile ;
-bytefileIMG : file of byte;
-docnfileIMG,NfileIMG,dumstr : string;
-idrisi32,asciidatatype,bytebinary :boolean;
-bytedata : byte;
-begin
+Procedure GetGFile(Var Z:GRaster; Filename:String);
+
+Var 
+  i,j,hulpgetal: integer;
+  docfileIMG : textfile;
+  fileIMG : file Of smallint;
+  textfileIMG : textfile ;
+  bytefileIMG : file Of byte;
+  docnfileIMG,NfileIMG,dumstr : string;
+  idrisi32,asciidatatype,bytebinary : boolean;
+  bytedata : byte;
+Begin
   dumstr := extractfilename(filename);
-      if ExtractFileExt(dumstr)='.img' then  idrisi32:=false else idrisi32:=true;
-      hulpgetal := length(dumstr)-2;
-      delete(dumstr,hulpgetal,3);
-      if Idrisi32 then
-      begin
-      docNfileIMG := dumstr + 'rdc' ;     NfileIMG := dumstr + 'rst';
+  If ExtractFileExt(dumstr)='.img' Then  idrisi32 := false
+  Else idrisi32 := true;
+  hulpgetal := length(dumstr)-2;
+  delete(dumstr,hulpgetal,3);
+  If Idrisi32 Then
+    Begin
+      docNfileIMG := dumstr + 'rdc' ;
+      NfileIMG := dumstr + 'rst';
       // ==> De namen van de betreffende .rst en .rdc bestanden worden nagemaakt
-      end
-      else //Voor .IMG bestanden
-       begin
-        docNfileIMG := dumstr + 'doc' ;     NfileIMG := dumstr + 'img';
-       end;
+    End
+  Else //Voor .IMG bestanden
+    Begin
+      docNfileIMG := dumstr + 'doc' ;
+      NfileIMG := dumstr + 'img';
+    End;
 
-      // INLEZEN NCOLS
-      Assignfile(docfileIMG, docNfileIMG); //Een 'filehandle' wordt toegewezen aan de bestanden
-      reset(docfileIMG); //Het .rdc bestand wordt geopend om te lezen
-      if Idrisi32 then
-      for i := 1 to 3 do
-       readln(docfileIMG, dumstr);
-      delete (dumstr,1,14); //Na 14 tekens staat het data type
-        if (dumstr='real')  then
-         begin
-         errorFlag2 := True;
-          errorDummy2 := 'Error in reading one of the rasters: Data type must be integer.'+chr(13)+'Please Re-enter data';
-          closefile(docfileIMG);
-         exit;
-         end;
-         if dumstr='byte' then
-            bytebinary:=true
-            else bytebinary:=false;
-        readln(docfileIMG, dumstr);
-        delete (dumstr,1,14);
-        if dumstr='binary' then
-           asciidatatype:=false
-           else asciidatatype:=true;
-        readln(docfileIMG, dumstr);
-        delete (dumstr,1,14);
-        ncol := strtoint(dumstr); // Number of columns is saved
+  // INLEZEN NCOLS
+  Assignfile(docfileIMG, docNfileIMG);
+  //Een 'filehandle' wordt toegewezen aan de bestanden
+  reset(docfileIMG);
+  //Het .rdc bestand wordt geopend om te lezen
+  If Idrisi32 Then
+    For i := 1 To 3 Do
+      readln(docfileIMG, dumstr);
+  delete (dumstr,1,14);
+  //Na 14 tekens staat het data type
+  If (dumstr='real')  Then
+    Begin
+      errorFlag2 := True;
+      errorDummy2 := 'Error in reading one of the rasters: Data type must be integer.'+chr(13)+
+                     'Please Re-enter data';
+      closefile(docfileIMG);
+      exit;
+    End;
+  If dumstr='byte' Then
+    bytebinary := true
+  Else bytebinary := false;
+  readln(docfileIMG, dumstr);
+  delete (dumstr,1,14);
+  If dumstr='binary' Then
+    asciidatatype := false
+  Else asciidatatype := true;
+  readln(docfileIMG, dumstr);
+  delete (dumstr,1,14);
+  ncol := strtoint(dumstr);
+  // Number of columns is saved
 
-     // INLEZEN NROWS
-     readln(docfileIMG, dumstr);
-     delete (dumstr,1,14);
-     nrow := strtoint(dumstr); // Number of rows is saved
-     readln(docfileIMG, dumstr);
-     delete(dumstr,1,14);
-     if (dumstr='plane') OR (dumstr='') then Raster_Projection:=plane else Raster_Projection:=LATLONG;
-     for i := 1 to 2 do // Er worden 2 lijnen gelezen
-         readln(docfileIMG);
-     readln(docfileIMG,dumstr);
-     delete(dumstr,1,14);
-          MINX := strtofloat(dumstr);
-     readln(docfileIMG,dumstr);
-     delete(dumstr,1,14);
-     MAXX :=strtofloat(dumstr);
-     readln(docfileIMG,dumstr);
-     delete(dumstr,1,14);
-     MINY := strtofloat(dumstr);
-     readln(docfileIMG,dumstr);
-     delete(dumstr,1,14);
-     MAXY :=  strtofloat(dumstr);
-     readln(docfileIMG);
-     readln(docfileIMG, dumstr);
-     delete(dumstr,1,14);
-     res := strtofloat(dumstr);
+  // INLEZEN NROWS
+  readln(docfileIMG, dumstr);
+  delete (dumstr,1,14);
+  nrow := strtoint(dumstr);
+  // Number of rows is saved
+  readln(docfileIMG, dumstr);
+  delete(dumstr,1,14);
+  If (dumstr='plane') Or (dumstr='') Then Raster_Projection := plane
+  Else Raster_Projection := LATLONG;
+  For i := 1 To 2 Do
+    // Er worden 2 lijnen gelezen
+    readln(docfileIMG);
+  readln(docfileIMG,dumstr);
+  delete(dumstr,1,14);
+  MINX := strtofloat(dumstr);
+  readln(docfileIMG,dumstr);
+  delete(dumstr,1,14);
+  MAXX := strtofloat(dumstr);
+  readln(docfileIMG,dumstr);
+  delete(dumstr,1,14);
+  MINY := strtofloat(dumstr);
+  readln(docfileIMG,dumstr);
+  delete(dumstr,1,14);
+  MAXY :=  strtofloat(dumstr);
+  readln(docfileIMG);
+  readln(docfileIMG, dumstr);
+  delete(dumstr,1,14);
+  res := strtofloat(dumstr);
 
-     // Inlezen gegevens
-     SetDynamicGData(Z); //Er wordt geheugen vrijgemaakt voor de matrix Z
-     if asciidatatype then
-      begin
-       assignfile(textFileIMG, NfileIMG);
-       reset (textfileIMG);
-        for i:= 1 to nrow do
-        for j:= 1 to ncol do
-        read(textfileIMG, Z[i,j]);
-        Closefile(textfileimg);
-       end
-     else
-      begin
-        if bytebinary then
-          begin
-           assignfile(byteFileIMG, NfileIMG);
-           reset (bytefileIMG);
-            for i:= 1 to nrow do
-            for j:= 1 to ncol do
-              begin
-               read(bytefileIMG, bytedata);
-               Z[i,j]:=bytedata;
-              end;
-           Closefile(byteFileimg);
-           end
-          else
-           begin
-            assignfile(FileIMG, NfileIMG);
-            reset (fileIMG);
-            for i:= 1 to nrow do
-            for j:= 1 to ncol do
-            read(fileIMG,Z[i,j]);
-            Closefile(fileimg);
-            end;
-           end;
-     Closefile(DocfileImg);
-     SetRasterBorders(Z);
+  // Inlezen gegevens
+  SetDynamicGData(Z);
+  //Er wordt geheugen vrijgemaakt voor de matrix Z
+  If asciidatatype Then
+    Begin
+      assignfile(textFileIMG, NfileIMG);
+      reset (textfileIMG);
+      For i:= 1 To nrow Do
+        For j:= 1 To ncol Do
+          read(textfileIMG, Z[i,j]);
+      Closefile(textfileimg);
+    End
+  Else
+    Begin
+      If bytebinary Then
+        Begin
+          assignfile(byteFileIMG, NfileIMG);
+          reset (bytefileIMG);
+          For i:= 1 To nrow Do
+            For j:= 1 To ncol Do
+              Begin
+                read(bytefileIMG, bytedata);
+                Z[i,j] := bytedata;
+              End;
+          Closefile(byteFileimg);
+        End
+      Else
+        Begin
+          assignfile(FileIMG, NfileIMG);
+          reset (fileIMG);
+          For i:= 1 To nrow Do
+            For j:= 1 To ncol Do
+              read(fileIMG,Z[i,j]);
+          Closefile(fileimg);
+        End;
+    End;
+  Closefile(DocfileImg);
+  SetRasterBorders(Z);
 
- //ncol, nrow en res worden opgeslagen in array zodat achteraf kan worden nagegaan
-//of deze voor alle kaarten gelijk zijn
-     lengthAR := lengthAR + 1;
-     SetLength(nrowAR, lengthAR);
-     SetLength(ncolAR, lengthAR);
-     SetLength(resAR, lengthAR);
-     nrowAR[lengthAR-1] := NROW;
-     ncolAR[lengthAR-1] := NCOL;
-     resAR[lengthAR-1] := RES;
+  //ncol, nrow en res worden opgeslagen in array zodat achteraf kan worden nagegaan
+  //of deze voor alle kaarten gelijk zijn
+  lengthAR := lengthAR + 1;
+  SetLength(nrowAR, lengthAR);
+  SetLength(ncolAR, lengthAR);
+  SetLength(resAR, lengthAR);
+  nrowAR[lengthAR-1] := NROW;
+  ncolAR[lengthAR-1] := NCOL;
+  resAR[lengthAR-1] := RES;
 
-end;
+End;
 
 //*****************************************************************
 //Deze procedure geeft een nulwaarde aan elk element in een Graster
 //*****************************************************************
-procedure SetzeroG(var z:Graster);
-var
-i,j:integer;
-begin
-for i:=Low(Z) to High(Z) do
- for j:=Low(Z[i]) to High(Z[i]) do
-  begin
-    Z[i,j]:=0
-  end;
-end;
+Procedure SetzeroG(Var z:Graster);
+
+Var 
+  i,j: integer;
+Begin
+  For i:=Low(Z) To High(Z) Do
+    For j:=Low(Z[i]) To High(Z[i]) Do
+      Begin
+        Z[i,j] := 0
+      End;
+End;
 
 
-end.
-
+End.
