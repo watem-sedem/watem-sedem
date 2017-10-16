@@ -13,7 +13,7 @@ object Input_kaarten_cn_form: TInput_kaarten_cn_form
   Font.Pitch = fpVariable
   Font.Quality = fqDraft
   OnCreate = FormCreate
-  LCLVersion = '1.4.4.0'
+  LCLVersion = '1.6.4.0'
   object BitBtn1: TBitBtn
     Left = 96
     Height = 25

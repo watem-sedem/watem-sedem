@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectOptions>
-    <Version Value="9"/>
+    <Version Value="10"/>
     <PathDelim Value="\"/>
     <General>
       <Flags>
@@ -29,7 +29,7 @@
     <RunParams>
       <local>
         <FormatVersion Value="1"/>
-        <CommandLineParams Value="C:\Jeroen\Doc\Werk\KUL geografie\Analyses\11. Bovenscheldebekken\Runs\CN_WS_event.ini"/>
+        <CommandLineParams Value="C:\Users\johan\Dropbox (Fluves)\ALBON\Modelberekeningen\Analyse_DTM\Velm\Scenario_4\modelinput\ini_Velm_scenario_4_johan.ini"/>
       </local>
     </RunParams>
     <RequiredPackages Count="1">
