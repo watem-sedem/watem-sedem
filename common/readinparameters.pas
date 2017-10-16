@@ -191,7 +191,7 @@ Implementation
 
 Procedure ReadInRasters;
 Begin
-
+  setCurrentDir(datadir);
   GetRFile(DTM,DTM_Filename);
   GetRFile(PRC,PARCEL_filename);
 
