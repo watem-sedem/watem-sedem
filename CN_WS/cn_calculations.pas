@@ -16,7 +16,6 @@ Type
   FloatArray = array Of Double;
   FloatArray2 = array Of array Of Double;
 
-
 Procedure CalculateRe(Var Remap:Rraster; Perceelskaart:Rraster ; CNmap:Rraster; alpha,beta:double);
 {Procedure CalculateRunoffAcc(var UpArea: RRaster; Remap: RRaster; PRC: GRaster);}
 Procedure ReadRainfallFile (Var Raindata: TRainRecordArray; Rainfallfilename: String);
@@ -54,7 +53,7 @@ Var
   TimeSeries_output, I10TimeSeries: IntegerArray;
   Cumul_Rain, Cumul_Interp, RainfallSeries_output,I10RainfallSeries, I10Series: FloatArray;
   teller, i, j, nr, Timestep_rain, Fill_num: integer;
-  x : double;
+  x: double;
   datafile: textfile;
   a, b, c: string;
   Z: FloatArray2;
@@ -95,7 +94,7 @@ Begin
 
   Timestep_rain := Timeseries[1]-TimeSeries[0];
 
-  If (Simplified) Then
+  If (Simplified) Then   // if timestep rainfall is used as model timestep...
     Begin
       Timestep_model := Timestep_rain;
       TimeSeries_output := TimeSeries;
@@ -350,7 +349,7 @@ Procedure calcOutlet;
 Var 
   i,j,k,l: integer;
   height, max_uparea: double;
-  outlet_rst : GRaster;
+  outlet_rst: GRaster;
 Begin
   numOutlet := 1;
   k := 1;
@@ -613,7 +612,7 @@ Var
   RunoffMap, RiverInputMap, RunoffInputMap, RunoffInputMap_temp, RoutedMap_temp, RainfallMap,
   RunoffCummulMap, OutflowMap_temp: Rraster;
   i, j,  k , l, m, o, teller, vlag, targetX, targetY: integer;
-  RunoffInput ,Part1_water, Part2_water, Speed, spill, sewer_out_water : double;
+  RunoffInput ,Part1_water, Part2_water, Speed, spill, sewer_out_water: double;
   Discharge, Discharge_tot, Discharge_VHA_txt, spillover_txt, sewer_out_txt: textfile;
   spillover, Discharge_result_tmp, Discharge_tmp_fin: FloatArray;
   Result, Discharge_VHA: FloatArray2;
@@ -660,7 +659,6 @@ Begin
   SetDynamicRData(RainfallMap);
   SetDynamicRData(Runoffmap);
   //=map in which the amount of runoff per timestep is stored
-
 
   For i := 1 To nrow Do
     For j := 1 To ncol Do
@@ -759,7 +757,6 @@ Begin
              And (RunoffMap[k,l]>0) Then
      // discharge from buffer is only altered at buffer center (place where the opening is situated)
             Begin
-
               If RunoffMap[k,l] > BufferData[Buffermap[k,l]].Volume Then
 //The maximum capacity of the buffer is reached: all the runoff that enters the buffer flows over it
                 Begin
@@ -1239,7 +1236,6 @@ Begin
           RunoffTotMap[k,l] := RunoffCummulMap[k,l];
       End;
 
-
 {for m := 1 to numOutlet do
   Showmessage('The total discharge at outlet nr. ' + inttostr(m) + ' amounts to ' + floattostr(sum_discharge[m]) + ' m³.');
  }
@@ -1357,7 +1353,6 @@ Begin
               End
             Else Remap[i,j] := ((Rainfall-Ia)*(Duration/1440));
           End;
-
         If (Include_dam) And (Dam_map[i,j] <> 0) Then
           Begin
             S := 25400/71 - 254;
@@ -1389,7 +1384,6 @@ Begin
         If Remap[i,j] > Rainfall Then
           Remap[i,j] := Rainfall;
       End;
-
 End;
 
 

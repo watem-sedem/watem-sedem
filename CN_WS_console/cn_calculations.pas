@@ -246,7 +246,6 @@ Begin
       RainData[i].Rain := RainfallSeries_output[i];
       RainData[i].Rain_fraction := RainData[i].Rain / Rainfall;
     End;
-
 End;
 //*****************************************************************************
 // This procedure reads a tab delimited text file and converts it to a 2D array
@@ -461,7 +460,7 @@ End;
 Procedure CalculateRFactor;
 
 Var 
-  Timestep, nr, i,j, index, Tini, Tfin : integer;
+  Timestep, i, j, nr, index, Tini, Tfin : integer;
   eventEnergy, maxI30, eventRFactor, x: double;
   newTimeSeries, minTimeSeries : integerArray;
   newRainfallSeries, minRainfallSeries, rainVolume, rainEnergy, I30: FloatArray;
@@ -670,7 +669,7 @@ Begin
           Begin
             RunoffInputmap[i,j] := 0.0;
             Runoffmap[i,j] := (Remap[i,j]/1000)*sqr(res);
-            // in m^3
+            // amount of water that still can infiltrate in m^3
           End
         Else
           Begin
@@ -843,8 +842,6 @@ Begin
               Goto SKIP;
               //Proceed to next cell
             End;
-
-
 
           If Routing[k,l].Part1 > 0 Then
             Begin
@@ -1239,6 +1236,9 @@ Begin
           RunoffTotMap[k,l] := RunoffCummulMap[k,l];
       End;
 
+{for m := 1 to numOutlet do
+  Showmessage('The total discharge at outlet nr. ' + inttostr(m) + ' amounts to ' + floattostr(sum_discharge[m]) + ' m³.');
+ }
   //The total amount of runoff that passes through each outlet is written to a .txt file
   setcurrentDir(File_output_dir);
   assignfile(Discharge_tot,'Total discharge.txt');
@@ -1304,7 +1304,6 @@ Begin
   DisposedynamicRData(Runoffmap);
 
 End;
-
 
 //******************************************************************************
 //This procedure calculates the amount of rainfall excess (=runoff) or rainfall
@@ -1386,5 +1385,65 @@ Begin
           Remap[i,j] := Rainfall;
       End;
 End;
+
+
+{
+//******************************************************************************
+//This procedure calculates the accumulated amount of runoff per gridcell. The
+//water is routed with the Flux Decomposition algerithm with tillage direction
+//(TCRP) and parcel borders taken into account.
+//******************************************************************************
+Procedure CalculateRunoffAcc(var UpArea: RRaster; Remap: RRaster; PRC: GRaster);
+//!!!This unit is not used in the temporal distributed version of the model!!!
+//In the original scrpits this unit was named "CalculateUpareaOlivier"
+var
+i, j, Teller, vlag: Integer;
+Area: Double;      //Area is de hoeveelheid water (m³) per cel zoals berekend door de CN methode
+Finish: GRaster;   //Een cel krijgt waarde 1 als een cel behandeld is
+massbalance, totexport: double;
+
+begin
+SetDynamicRData(UpArea);
+SetDynamicGdata(Finish);
+SetzeroG(Finish);
+SetzeroR(UpArea);
+
+for teller:=nrow*ncol downto 1 do
+begin
+ i:=row[teller];
+ j:=column[teller];
+ If PRC[i,j]=0 then continue;
+ Area:= UpArea[i,j]+(Remap[i,j]/1000)*sqr(Res);
+ if Area < 0.0 then Area := 0.0; //Er kan geen negatieve hoeveelheid water worden doorgegeven aan de volgende cel
+ if IsRiver(i,j) then
+ //DistributeRiver(i, j, Area, UpArea, Finish)
+ else
+ //DistributeTildirEvent(i, j, Area, UpArea, Finish, massbalance, Topo);
+ //!!! Bij input naar Distributetildirevent moet een booleaanse input (topo) worden gegeven.
+ //    Bij true wordt er geen rekening gehouden met tildir, bij false wel. Deze input
+ //    kan worden bepaald door in het 'input' venster de checkbox aan te klikken,
+ //    en deze te linken aan deze booleaanse waarde.
+ UpArea[i,j]:=UpArea[i,j] + (ReMap[i,j]/1000)*sqr(Res);
+ if UpArea[i,j] < 0.0 then UpArea[i,j] := 0.0;
+end;
+
+//De cellen die zich in pits bevinden wordt de hoeveelheid water die hen bereikt toegekend
+for i:= 1 to nrow do
+ for j:= 1 to ncol do
+  if Pit[i,j]<>0 then
+  begin
+  vlag:=Pit[i,j];
+  UpArea[i,j]:=PitDat[vlag].input;
+  end;
+
+writeidrisi32file(ncol,nrow,'UpAreamap_20060821',UpArea);
+
+//totexport := UpArea[97,353] + massbalance;
+//showmessage('De totale hoeveelheid water dat het bekken verlaat is ' + floattostr(UpArea[36,105]));
+
+
+DisposeDynamicGData(Finish);
+
+end;     }
 
 End.
