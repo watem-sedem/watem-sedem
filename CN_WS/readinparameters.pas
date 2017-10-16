@@ -562,8 +562,6 @@ Begin
   Else Write_ASPECT := false;
   If (Inifile.ReadBool('Output maps','Write LS factor',false))=true Then Write_LS := true
   Else Write_LS := false;
-  If (Inifile.ReadBool('Output maps','Write rainfall excess',false))=true Then Write_RE := true
-  Else Write_RE := false;
   If (Inifile.ReadBool('Output maps','Write RUSLE',false))=true Then Write_RUSLE := true
   Else Write_RUSLE := false;
   If (Inifile.ReadBool('Output maps','Write sediment export',false))=true Then Write_Sediexport := 
@@ -573,54 +571,175 @@ Begin
   Else Write_SLOPE := false;
   If (Inifile.ReadBool('Output maps','Write tillage erosion',false))=true Then Write_TILEROS := true
   Else Write_TILEROS := false;
-  If (Inifile.ReadBool('Output maps','Write total runoff',false))=true Then Write_TOTRUN := true
-  Else Write_TOTRUN := false;
   If (Inifile.ReadBool('Output maps','Write upstream area',false))=true Then Write_UPAREA := true
   Else Write_UPAREA := false;
   If (Inifile.ReadBool('Output maps','Write water erosion',false))=true Then Write_WATEREROS := true
   Else Write_WATEREROS := false;
-
-  If Not Use_Rfactor Then
-    AR5 := StrToFloat(Inifile.Readstring('Variables', '5-day antecedent rainfall', Dummy_str))
+  If Simplified Then
+    Begin
+      Write_RE := false;
+      Write_TOTRUN := false;
+    End
   Else
-    RFactor := StrToFloat(Inifile.Readstring('Variables', 'R factor', Dummy_str));
-  BD := StrToInt(Inifile.Readstring('Variables', 'Bulk density', Dummy_str));
-  riv_vel := StrToFloat(Inifile.Readstring('Variables', 'Stream velocity', Dummy_str));
-  If Include_sewer Then
-    sewer_exit := StrToInt(Inifile.Readstring('Variables', 'Sewer exit', Dummy_str));
-  alpha := StrToFloat(Inifile.Readstring('Variables', 'Alpha', Dummy_str));
-  beta := StrToFloat(Inifile.Readstring('Variables', 'Beta', Dummy_str));
-  Number_of_Buffers := StrToInt(inifile.readstring('Variables', 'Number of buffers', Dummy_str));
-  If Create_ktc Then
     Begin
-      ktc_low := StrToInt(Inifile.Readstring('Variables', 'ktc low', Dummy_str));
-      ktc_high := StrToInt(Inifile.Readstring('Variables', 'ktc high', Dummy_str));
-      ktc_limit := StrToFloat(Inifile.Readstring('Variables', 'ktc limit', Dummy_str));
+      If (Inifile.ReadBool('Output maps','Write rainfall excess',false))=true Then Write_RE := true
+      Else Write_RE := false;
+      If (Inifile.ReadBool('Output maps','Write total runoff',false))=true Then Write_TOTRUN := true
+      Else Write_TOTRUN := false;
     End;
-  If Create_ktil Then
+
+
+
+  {Variables}
+  If Not Simplified Then
     Begin
-      ktil_Default := StrToInt(Inifile.Readstring('Variables', 'ktil default', Dummy_str));
-      ktil_threshold := StrToFloat(Inifile.Readstring('Variables', 'ktil threshold', Dummy_str));
+      If Not Use_RFactor Then
+        Begin
+          If Not TryStrToFloat(Inifile.Readstring('Variables', '5-day antecedent rainfall',
+             Dummy_str), AR5) Then
+            Begin
+              errorFlag := True;
+              errorDummy := 'Error in data input: AR5 value missing or wrong data format';
+            End;
+        End;
+      If Not TryStrToFloat(Inifile.Readstring('Variables', 'Stream velocity', Dummy_str), riv_vel)
+        Then
+        Begin
+          errorFlag := True;
+          errorDummy := 'Error in data input: Stream velocity value missing or wrong data format';
+        End;
+      If Not TryStrToFloat(Inifile.Readstring('Variables', 'Alpha', Dummy_str), alpha) Then
+        Begin
+          errorFlag := True;
+          errorDummy := 'Error in data input: alpha value missing or wrong data format';
+        End;
+      If Not TryStrToFloat(Inifile.Readstring('Variables', 'Beta', Dummy_str), beta) Then
+        Begin
+          errorFlag := True;
+          errorDummy := 'Error in data input: beta value missing or wrong data format';
+        End;
+    End
+  Else
+    Begin
+      If Not TryStrToFloat(Inifile.Readstring('Variables', 'R factor', Dummy_str),Rfactor) Then
+        Begin
+          errorFlag := True;
+          errorDummy := 'Error in data input: R factor value missing or wrong data format';
+        End;
     End;
-  If est_clay Then
-    clay_parent := StrToFloat(Inifile.Readstring('Variables', 'Clay content parent material',
-                   Dummy_str));
-  TFSED_crop := StrToInt(Inifile.Readstring('Variables', 'Parcel connectivity cropland', Dummy_str))
-  ;
-  TFSED_forest := StrToInt(Inifile.Readstring('Variables', 'Parcel connectivity forest', Dummy_str))
-  ;
-  PTEFValueCropland := StrToInt(Inifile.ReadString ('Variables',
-                       'Parcel trapping efficiency cropland',Dummy_str));
-  PTEFValueForest := StrToInt(Inifile.ReadString ('Variables','Parcel trapping efficiency forest',
-                     Dummy_str));
-  PTEFValuePasture := StrToInt(Inifile.ReadString ('Variables','Parcel trapping efficiency pasture',
-                      Dummy_str));
-  Timestep_model := StrToInt(inifile.readstring('Variables', 'Desired timestep for model', Dummy_str
-                    ));
-  Endtime_model := StrToInt(inifile.readstring('Variables', 'Endtime model', Dummy_str));
-  If Convert_output Then
-    Timestep_output := StrToInt(inifile.readstring('Variables', 'Final timestep output', Dummy_str))
-  ;
+
+  If Not TryStrToInt(Inifile.Readstring('Variables', 'Bulk density', Dummy_str), BD) Then
+    Begin
+      errorFlag := True;
+      errorDummy := 'Error in data input: BD value missing or wrong data format';
+    End;
+  If (Include_buffer) And Not (TryStrToInt(inifile.readstring('Variables', 'Number of buffers',
+     Dummy_str), Number_of_Buffers)) Then
+    Begin
+      errorFlag := True;
+      errorDummy := 'Error in data input: Number of buffers value missing or wrong data format';
+    End;
+  If (create_ktc) And Not (TryStrToInt(Inifile.Readstring('Variables', 'ktc low', Dummy_str),ktc_low
+     )) Then
+    Begin
+      errorFlag := True;
+      errorDummy := 'Error in data input: ktc low value missing or wrong data format';
+    End;
+  If (create_ktc) And Not (TryStrToInt(Inifile.Readstring('Variables', 'ktc high', Dummy_str),
+     ktc_high)) Then
+    Begin
+      errorFlag := True;
+      errorDummy := 'Error in data input: ktc high value missing or wrong data format';
+    End;
+  If (create_ktc) And Not (TryStrToFloat(Inifile.Readstring('Variables', 'ktc limit', Dummy_str),
+     ktc_limit)) Then
+    Begin
+      errorFlag := True;
+      errorDummy := 'Error in data input: ktc limit value missing or wrong data format';
+    End;
+  If (create_ktil) And Not (TryStrToInt(Inifile.Readstring('Variables', 'ktil default', Dummy_str),
+     ktil_Default)) Then
+    Begin
+      errorFlag := True;
+      errorDummy := 'Error in data input: ktil default value missing or wrong data format';
+    End;
+  If (create_ktil) And Not (TryStrToFloat(Inifile.Readstring('Variables', 'ktil threshold',
+     Dummy_str), ktil_threshold)) Then
+    Begin
+      errorFlag := True;
+      errorDummy := 'Error in data input: ktil threshold value missing or wrong data format';
+    End;
+  If Not TryStrToInt(Inifile.Readstring('Variables', 'Parcel connectivity cropland', Dummy_str),
+     TFSED_crop) Then
+    Begin
+      errorFlag := True;
+      errorDummy := 
+              'Error in data input: Parcel connectivity cropland value missing or wrong data format'
+      ;
+    End;
+  If Not TryStrToInt(Inifile.Readstring('Variables', 'Parcel connectivity forest', Dummy_str),
+     TFSED_forest) Then
+    Begin
+      errorFlag := True;
+      errorDummy := 
+
+        'Error in data input: Parcel connectivity forest/pasture value missing or wrong data format'
+      ;
+    End;
+  If Not TryStrToInt(Inifile.Readstring('Variables', 'Parcel trapping efficiency cropland',
+     Dummy_str), PTEFValueCropland) Then
+    Begin
+      errorFlag := True;
+      errorDummy := 
+
+     'Error in data input: Parcel trapping efficiency (cropland) value missing or wrong data format'
+      ;
+    End;
+  If Not TryStrToInt(Inifile.Readstring('Variables', 'Parcel trapping efficiency forest', Dummy_str)
+     , PTEFValueForest) Then
+    Begin
+      errorFlag := True;
+      errorDummy := 
+
+       'Error in data input: Parcel trapping efficiency (forest) value missing or wrong data format'
+      ;
+    End;
+  If Not TryStrToInt(Inifile.Readstring('Variables', 'Parcel trapping efficiency pasture', Dummy_str
+     ), PTEFValuePasture) Then
+    Begin
+      errorFlag := True;
+      errorDummy := 
+
+      'Error in data input: Parcel trapping efficiency (pasture) value missing or wrong data format'
+      ;
+    End;
+  If Not Simplified Then
+    Begin
+      If Not TryStrToInt(inifile.readstring('Variables', 'Desired timestep for model', Dummy_str),
+         Timestep_model) Then
+        Begin
+          errorFlag := True;
+          errorDummy := 
+
+                'Error in data input: Desired timestep for model value missing or wrong data format'
+          ;
+        End;
+      If (Convert_output) And Not TryStrToInt(inifile.readstring('Variables',
+         'Final timestep output', Dummy_str), Timestep_output) Then
+        Begin
+          errorFlag := True;
+          errorDummy := 
+
+                     'Error in data input: Final timestep output value missing or wrong data format'
+          ;
+        End;
+    End;
+  If Not TryStrToInt(inifile.readstring('Variables', 'Endtime model', Dummy_str), Endtime_model)
+    Then
+    Begin
+      errorFlag := True;
+      errorDummy := 'Error in data input: Endtime model value missing or wrong data format';
+    End;
 
   If Include_buffer Then
     Begin
@@ -628,26 +747,67 @@ Begin
       For i := 1 To Number_of_Buffers Do
         Begin
           Buffername := 'Buffer ' + IntToStr(i);
-          Bufferdata[i].Volume := StrToFloat(inifile.readstring(Buffername, 'Volume', Dummy_str));
-          Bufferdata[i].Height_dam := StrToFloat(inifile.readstring(Buffername, 'Height dam',
-                                      Dummy_str));
-          Bufferdata[i].Height_opening := StrToFloat(inifile.readstring(Buffername, 'Height opening'
-                                          , Dummy_str));
-          Bufferdata[i].Opening_area := StrToFloat(inifile.readstring(Buffername, 'Opening area',
-                                        Dummy_str));
-          Bufferdata[i].Cd := StrToFloat(inifile.readstring(Buffername, 'Discharge coefficient',
-                              Dummy_str));
-          Bufferdata[i].width_dam := StrToFloat(inifile.readstring(Buffername, 'Width dam',
-                                     Dummy_str));
-          Bufferdata[i].PTEF := StrToFloat(inifile.readstring(Buffername, 'Trapping efficiency',
-                                Dummy_str));
-          Bufferdata[i].ext_ID := StrToInt(inifile.readstring(Buffername, 'Extension ID', Dummy_str)
-                                  );
+          If Not TryStrToFloat(inifile.readstring(Buffername, 'Volume', Dummy_str), Bufferdata[i].
+             Volume) Then
+            Begin
+              errorFlag := True;
+              errorDummy := 'Error in data input: Buffer '+intToStr(i)+
+                            ' volume value missing or wrong data format';
+            End;
+          If Not TryStrToFloat(inifile.readstring(Buffername, 'Height dam', Dummy_str),Bufferdata[i]
+             .Height_dam) Then
+            Begin
+              errorFlag := True;
+              errorDummy := 'Error in data input: Buffer '+intToStr(i)+
+                            ' height dam value missing or wrong data format';
+            End;
+          If Not TryStrToFloat(inifile.readstring(Buffername, 'Height opening', Dummy_str),
+             Bufferdata[i].Height_opening) Then
+            Begin
+              errorFlag := True;
+              errorDummy := 'Error in data input: Buffer '+intToStr(i)+
+                            ' height opening value missing or wrong data format';
+            End;
+          If Not  TryStrToFloat(inifile.readstring(Buffername, 'Opening area', Dummy_str),Bufferdata
+             [i].Opening_area) Then
+            Begin
+              errorFlag := True;
+              errorDummy := 'Error in data input: Buffer '+intToStr(i)+
+                            ' opening area value missing or wrong data format';
+            End;
+          If Not TryStrToFloat(inifile.readstring(Buffername, 'Discharge coefficient', Dummy_str),
+             Bufferdata[i].Cd) Then
+            Begin
+              errorFlag := True;
+              errorDummy := 'Error in data input: Buffer '+intToStr(i)+
+                            ' discharge coefficient value missing or wrong data format';
+            End;
+          If Not TryStrToFloat(inifile.readstring(Buffername, 'Width dam', Dummy_str), Bufferdata[i]
+             .width_dam) Then
+            Begin
+              errorFlag := True;
+              errorDummy := 'Error in data input: Buffer '+intToStr(i)+
+                            ' width dam value missing or wrong data format';
+            End;
+          If Not TryStrToFloat(inifile.readstring(Buffername, 'Trapping efficiency', Dummy_str),
+             Bufferdata[i].PTEF) Then
+            Begin
+              errorFlag := True;
+              errorDummy := 'Error in data input: Buffer '+intToStr(i)+
+                            ' trapping efficiency value missing or wrong data format';
+            End;
+          If Not TryStrToInt(inifile.readstring(Buffername, 'Extension ID', Dummy_str), Bufferdata[i
+             ].ext_ID) Then
+            Begin
+              errorFlag := True;
+              errorDummy := 'Error in data input: Buffer '+intToStr(i)+
+                            ' extension ID missing or wrong data format';
+            End;
           If Bufferdata[i].Height_opening > Bufferdata[i].Height_dam Then
             Begin
-              showmessage(
-'Error in buffer input: the height of the opening cannot be larger than the height of the dam. Please insert correct vallues.'
-              );
+              errorFlag := True;
+              errorDummy := 
+'Error in buffer input: the height of the opening cannot be larger than the height of the dam. Please insert correct values.';
               Exit;
             End;
         End;

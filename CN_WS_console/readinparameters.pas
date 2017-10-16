@@ -588,6 +588,8 @@ Begin
       Else Write_TOTRUN := false;
     End;
 
+
+
   {Variables}
   If Not Simplified Then
     Begin
@@ -672,7 +674,6 @@ Begin
     Begin
       errorFlag := True;
       errorDummy := 
-
               'Error in data input: Parcel connectivity cropland value missing or wrong data format'
       ;
     End;
@@ -806,9 +807,8 @@ Begin
             Begin
               errorFlag := True;
               errorDummy := 
-
-'Error in buffer input: the height of the opening cannot be larger than the height of the dam. Please insert correct values.'
-              ;
+'Error in buffer input: the height of the opening cannot be larger than the height of the dam. Please insert correct values.';
+              Exit;
             End;
         End;
     End;
@@ -871,7 +871,6 @@ Begin
     //The first row (headers) is read and is thus skipped below
     For i := 1 To NumberofLU Do
       For j := 1 To 6 Do
-
 
 //6 because the .txt table alsways contains 6 columns (Parcel ID - CNmax - c1 - c2 - Crop cover - Crusting stage)
         Begin
