@@ -6,9 +6,8 @@ Unit LateralRedistribution;
 Interface
 
 Uses 
-Classes, SysUtils, FileUtil, Dialogs, RData_CN, GData_CN, ReadInParameters,
-Raster_calculations, math,
-CN_calculations, Idrisi;
+Classes, SysUtils, FileUtil, Dialogs, RData_CN, ReadInParameters,
+Raster_calculations, math, CN_calculations;
 
 Procedure Water;
 Procedure Distribute_sediment;
@@ -17,11 +16,10 @@ Implementation
 
 Var 
 
-  SEDI_OUT, CY_OUT, CO_OUT: RRaster;
-  SEDI_IN, CY_IN, CO_IN: RRaster;
+  SEDI_OUT: RRaster;
+  SEDI_IN: RRaster;
   Waterero, sedprod, depprod: double;
   SedLoad, SedLoad_VHA: RVector;
-  Sediment: array Of array Of double;
 
 Procedure Checkerosionheight(i, j: integer; Var A: RRaster);
 
@@ -32,7 +30,7 @@ Begin
   If Raster_projection = plane Then
     area := sqr(RES)
   Else
-    area := X_Resolution(i, j) * Y_Resolution(i, j);
+    area := X_Resolution() * Y_Resolution();
   // A = watereros value
   If A[i, j] < 0.0 Then             //erosion: watereros < 0
     Begin
@@ -81,7 +79,6 @@ Procedure Calculatewaterero(i, j: integer);
 
 Var                                         //rill,interrill en cap in m≥
   capacity, area, Distcorr, Ero_Potential: double;
-  k, l: integer;
 
 Begin
 
@@ -124,8 +121,8 @@ Begin
     End
   Else
     Begin
-      area := X_resolution(i, j) * Y_resolution(i, j);
-      Distcorr := (Y_Resolution(i, j) * ABS(sin(aspect[i, j])) + X_Resolution(i, j)
+      area := X_resolution() * Y_resolution();
+      Distcorr := (Y_Resolution() * ABS(sin(aspect[i, j])) + X_Resolution()
       	* ABS(cos(aspect[i, j])));
       // CHECK !!!
     End;
@@ -254,7 +251,7 @@ Begin
           If Raster_projection = plane Then
             area := sqr(RES)
           Else
-            area := X_resolution(i, j) * Y_resolution(i, j);
+            area := X_resolution() * Y_resolution();
           SEDI_OUT[i, j] := SEDI_IN[i, j] * (1 - (Bufferdata[Buffermap[i, j]].PTEF / 100));
           If SEDI_OUT[i,j]<SEDI_IN[i,j] Then
             TEMP_buffer_sed_input := TEMP_buffer_sed_input + (SEDI_IN[i,j]-SEDI_OUT[i, j]);

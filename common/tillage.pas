@@ -14,19 +14,17 @@ Implementation
 
 Var 
   SEDI_OUT: RRaster;
-  SEDI_IN: RRaster;
 
 Procedure tillage_dif;
 // Based on Watem Tillage model
 
-Var 
-  plowvol: double;
-  i,j,k,l,m,n,o,p,count: integer;
+Var
+  i,j,o,p: integer;
   CSN,SN,PART1,PART2 : double;
   asp : double;
   k1,l1,k2,l2: smallint;
   K3: double;
-  SEDI_IN, CS_IN, OUTM,CSOUT: Rraster;
+  SEDI_IN: Rraster;
   adjust,area, ploweros : double;
 Begin
   // Create temp 2D maps
@@ -48,7 +46,7 @@ Begin
         K3 := ktil[i,j];
 
         If Raster_projection=plane Then area := sqr(res)
-        Else  area := X_Resolution(i,j)*Y_Resolution(i,j);
+        Else  area := X_Resolution()*Y_Resolution();
 
         // Calculate Sediment (OUTM) & Carbon (CSOUT) outflow for cell i,j
         ADJUST := (ABS(cos(aspect[i,j]))+ABS(sin(aspect[i,j])));
@@ -136,7 +134,7 @@ Begin
       Begin
         If PRC[o,p]<1 Then continue;
         If Raster_projection=plane Then area := sqr(res)
-        Else  area := X_Resolution(i,j)*Y_Resolution(i,j);
+        Else  area := X_Resolution()*Y_Resolution();
         ploweros := (SEDI_IN[o,p]-SEDI_OUT[o,p])/area;
         // unit: m
         TILEROS[o,p] := ploweros*1000;

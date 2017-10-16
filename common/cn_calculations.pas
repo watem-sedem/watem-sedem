@@ -8,8 +8,7 @@ Unit CN_calculations;
 Interface
 
 Uses 
-Classes, SysUtils, Dialogs, GData_CN, RData_CN, idrisi, Math, Raster_calculations,
-ReadInParameters;
+Classes, SysUtils, Dialogs, GData_CN, RData_CN, idrisi, Math, ReadInParameters;
 
 Type 
   IntegerArray = array Of integer;
@@ -55,7 +54,7 @@ Var
   teller, i, j, nr, Timestep_rain, Fill_num: integer;
   x: double;
   datafile: textfile;
-  a, b, c: string;
+  a: string;
   Z: FloatArray2;
 
 Begin
@@ -609,9 +608,9 @@ Procedure CalculateTimeDependentRunoff(Remap: Rraster; RainData: TRainRecordArra
                                        TRoutingArray; PRC: Rraster);
 
 Var 
-  RunoffMap, RiverInputMap, RunoffInputMap, RunoffInputMap_temp, RoutedMap_temp, RainfallMap,
+  RunoffMap, RunoffInputMap, RunoffInputMap_temp, RoutedMap_temp, RainfallMap,
   RunoffCummulMap, OutflowMap_temp: Rraster;
-  i, j,  k , l, m, o, teller, vlag, targetX, targetY: integer;
+  i, j,  k , l, m, teller, targetX, targetY: integer;
   RunoffInput ,Part1_water, Part2_water, Speed, spill, sewer_out_water: double;
   Discharge, Discharge_tot, Discharge_VHA_txt, spillover_txt, sewer_out_txt: textfile;
   spillover, Discharge_result_tmp, Discharge_tmp_fin: FloatArray;
@@ -1313,7 +1312,7 @@ End;
 Procedure CalculateRe(Var Remap:Rraster; Perceelskaart:Rraster; CNmap:Rraster; alpha,beta:double);
 
 Var 
-  i,j,count, nrowPRC, ncolPRC : integer;
+  i,j, nrowPRC, ncolPRC : integer;
   Ia,S: double;
 
 Begin

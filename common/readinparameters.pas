@@ -277,9 +277,6 @@ Begin
 End;
 
 Procedure Allocate_Memory;
-
-Var 
-  z : integer;
 Begin
   // Create procedure to read in maps & allocate memory to global maps
 
@@ -304,8 +301,6 @@ End;
 
 Procedure Release_Memory;
 
-Var 
-  i : integer;
 Begin
   // Release memory for input rasters
   DisposeDynamicRdata(DTM);
