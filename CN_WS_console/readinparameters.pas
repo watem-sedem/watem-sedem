@@ -439,7 +439,6 @@ Begin
 
     {User choices}
   If (Inifile.ReadBool('User Choices','Simplified model version',false))=true Then Simplified := 
-
                                                                                                 true
   Else Simplified := false;
   If Not simplified Then
@@ -541,7 +540,6 @@ Begin
       ;
     End;
   If (Inifile.ReadBool('User Choices','Manual outlet selection',false))=true Then Outlet_select := 
-
                                                                                                 true
   Else Outlet_select := false;
   If Outlet_select And Not (FileExists(Outletfilename)) Then
@@ -567,7 +565,6 @@ Begin
   If (Inifile.ReadBool('Output maps','Write RUSLE',false))=true Then Write_RUSLE := true
   Else Write_RUSLE := false;
   If (Inifile.ReadBool('Output maps','Write sediment export',false))=true Then Write_Sediexport := 
-
                                                                                                 true
   Else Write_Sediexport := false;
   If (Inifile.ReadBool('Output maps','Write slope',false))=true Then Write_SLOPE := true

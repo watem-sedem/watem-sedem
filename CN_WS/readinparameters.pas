@@ -376,6 +376,8 @@ Var
   Inifile: Tinifile;
   Dummy_str, Buffername: string;
   i: integer;
+  errorFlag: boolean;
+  errorDummy: string;
 Begin
   Inifile := Tinifile.create(INI_Filename);
 
@@ -439,10 +441,38 @@ Begin
   If (Inifile.ReadBool('User Choices','Simplified model version',false))=true Then Simplified := 
                                                                                                 true
   Else Simplified := false;
+  If Not simplified Then
+    Begin
+      If Not (FileExists(CNmapfilename)) Then
+        Begin
+          errorFlag := True;
+          errorDummy := 'Error in data input: CN map file not found in '+datadir;
+        End;
+    End;
   If (Inifile.ReadBool('User Choices','Use R factor',false))=true Then Use_Rfactor := true
   Else Use_Rfactor := false;
+  If Not Use_Rfactor Then
+    Begin
+      Rainfallfilename := Inifile.Readstring('Files', 'Rainfall filename', Dummy_str);
+      If Not (FileExists(Rainfallfilename)) Then
+        Begin
+          errorFlag := True;
+          errorDummy := 'Error in data input: Rainfall file not found in '+datadir;
+        End;
+    End;
   If (Inifile.ReadBool('User Choices','Include sewers',false))=true Then Include_sewer := true
   Else Include_sewer := false;
+  If Include_sewer And Not (FileExists(Sewerfilename)) Then
+    Begin
+      errorFlag := True;
+      errorDummy := 'Error in data input: Sewer map file not found in '+datadir;
+    End;
+  If Include_sewer And Not TryStrToInt(Inifile.Readstring('Variables', 'Sewer exit', Dummy_str),
+     sewer_exit) Then
+    Begin
+      errorFlag := True;
+      errorDummy := 'Error in data input: Sewer exit system value missing or wrong data format';
+    End;
   If (Inifile.ReadBool('User Choices','Include tillage',false))=true Then
     Begin
       Inc_tillage := true;
@@ -453,26 +483,81 @@ Begin
       Inc_tillage := false;
       topo := true;
     End;
+  If Inc_tillage And Not (FileExists(TilDirfilename))Then
+    Begin
+      errorFlag := True;
+      errorDummy := 'Error in data input: Tillage direction file not found in '+datadir;
+    End;
+  If Inc_tillage And Not (FileExists(Rofilename))Then
+    Begin
+      errorFlag := True;
+      errorDummy := 'Error in data input: Oriented roughness file not found in '+datadir;
+    End;
   If (Inifile.ReadBool('User Choices','Include buffers',false))=true Then Include_buffer := true
   Else Include_buffer := false;
+  If Include_buffer And Not (FileExists(BufferFilename)) Then
+    Begin
+      errorFlag := True;
+      errorDummy := 'Error in data input: Buffer map file not found in '+datadir;
+    End;
   If (Inifile.ReadBool('User Choices','Include ditches',false))=true Then Include_ditch := true
   Else Include_ditch := false;
+  If Include_ditch And Not (FileExists(Ditch_filename)) Then
+    Begin
+      errorFlag := True;
+      errorDummy := 'Error in data input: Ditch map file not found in '+datadir;
+    End;
   If (Inifile.ReadBool('User Choices','Include dams',false))=true Then Include_dam := true
   Else Include_dam := false;
+  If Include_dam And Not (FileExists(Dam_filename)) Then
+    Begin
+      errorFlag := True;
+      errorDummy := 'Error in data input: Dam map file not found in '+datadir;
+    End;
   If (Inifile.ReadBool('User Choices','Create ktc map',false))=true Then Create_ktc := true
   Else Create_ktc := false;
+  If Not (Create_ktc) And Not (FileExists(ktc_Data_Filename)) Then
+    Begin
+      errorFlag := True;
+      errorDummy := 'Error in data input: ktc file not found in '+datadir;
+    End;
   If (Inifile.ReadBool('User Choices','Create ktil map',false))=true Then Create_ktil := true
   Else Create_ktil := false;
+  If Not (Create_ktil) And Not (FileExists(ktil_Data_Filename)) Then
+    Begin
+      errorFlag := True;
+      errorDummy := 'Error in data input: ktil file not found in '+datadir;
+    End;
   If (Inifile.ReadBool('User Choices','Estimate clay content',false))=true Then est_clay := true
   Else est_clay := false;
+  If (est_clay) And Not (TryStrToFloat(Inifile.Readstring('Variables',
+     'Clay content parent material', Dummy_str), clay_parent)) Then
+    Begin
+      errorFlag := True;
+      errorDummy := 
+
+              'Error in data input: Clay content parent material value missing or wrong data format'
+      ;
+    End;
   If (Inifile.ReadBool('User Choices','Manual outlet selection',false))=true Then Outlet_select := 
                                                                                                 true
   Else Outlet_select := false;
+  If Outlet_select And Not (FileExists(Outletfilename)) Then
+    Begin
+      errorFlag := True;
+      errorDummy := 'Error in data input: Outlet map file not found in '+datadir;
+    End;
   If (Inifile.ReadBool('User Choices','Convert output',false))=true Then Convert_output := true
   Else Convert_output := false;
   If (Inifile.ReadBool('User Choices','Output per VHA river segment',false))=true Then VHA := true
   Else VHA := false;
+  If VHA And Not (FileExists(Riversegment_filename)) Then
+    Begin
+      errorFlag := True;
+      errorDummy := 'Error in data input: River segment map file not found in '+datadir;
+    End;
 
+  {Output maps}
   If (Inifile.ReadBool('Output maps','Write aspect',false))=true Then Write_ASPECT := true
   Else Write_ASPECT := false;
   If (Inifile.ReadBool('Output maps','Write LS factor',false))=true Then Write_LS := true
