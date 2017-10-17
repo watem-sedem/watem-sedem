@@ -495,6 +495,7 @@ Begin
       Begin
         r := abs(i-Routing[i,j].Target2row);
         t := abs(j-Routing[i,j].Target2col);
+		//TODO: johan - controleren of die afatand hier wel klopt
         If (r = 0) Or (t = 0) Then
           Routing[i,j].Distance2 := res
         Else
@@ -543,7 +544,7 @@ Begin
               Begin
                 closeriver := true;
                 // end if
-                break;
+                break; //TODO: wellicht bug
               End;
             //else closeriver:=false;
           End;
