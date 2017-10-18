@@ -8,13 +8,14 @@ Unit CN_calculations;
 Interface
 
 Uses 
-Classes, SysUtils, Dialogs, GData_CN, RData_CN, idrisi, Math, ReadInParameters;
+Classes, SysUtils, GData_CN, RData_CN, idrisi, Math, ReadInParameters;
 
 Type 
   IntegerArray = array Of integer;
   FloatArray = array Of Double;
   FloatArray2 = array Of array Of Double;
 
+Function CalculateRe_singlevalue(Rainfall, CN, alpha, beta, I10, AR5, duration :double): double;
 Procedure CalculateRe(Var Remap:Rraster; Perceelskaart:Rraster ; CNmap:Rraster; alpha,beta:double);
 {Procedure CalculateRunoffAcc(var UpArea: RRaster; Remap: RRaster; PRC: GRaster);}
 Procedure ReadRainfallFile (Var Raindata: TRainRecordArray; Rainfallfilename: String);
@@ -1305,6 +1306,27 @@ Begin
 
 End;
 
+Function CalculateRe_singlevalue(Rainfall, CN, alpha, beta, I10, AR5, duration :double): double;
+Var
+  Ia,S, Re: double;
+Begin
+  S := 25400/CN - 254;
+  Ia := 0.2*S;
+
+  If Rainfall>Ia Then
+    Begin
+      Re := sqr(Rainfall-Ia)/((Rainfall-Ia)+S);
+      Re := Re*power((I10/10),alpha)+AR5*Beta;
+      // Volgens PhD KVO moet AR5 gedeeld worden door 10! (typfout in PhD?)
+      // johanvdw: hangt uiteraard af van de eenheid die gebruikt wordt voor beta
+
+    End
+  Else
+    Re := ((Rainfall-Ia)*(Duration/1440));
+
+  Result := Re;
+End;
+
 //******************************************************************************
 //This procedure calculates the amount of rainfall excess (=runoff) or rainfall
 //deficit (= amount of water that can re-infiltrate in the grid cell)
@@ -1313,7 +1335,7 @@ Procedure CalculateRe(Var Remap:Rraster; Perceelskaart:Rraster; CNmap:Rraster; a
 
 Var 
   i,j, nrowPRC, ncolPRC : integer;
-  Ia,S: double;
+  Ia, S: double;
 
 Begin
   nrowPRC := nrow;
@@ -1325,15 +1347,7 @@ Begin
       Begin
         If (Perceelskaart[i,j]<>0) And (CNmap[i,j]<>0) Then
           Begin
-            S := 25400/CNmap[i,j] - 254;
-            Ia := 0.2*S;
-            If Rainfall>Ia Then
-              Begin
-                Remap[i,j] := sqr(Rainfall-Ia)/((Rainfall-Ia)+S);
-                Remap[i,j] := Remap[i,j]*power((I10/10),alpha)+AR5*Beta;
-                //Volgens PhD KVO moet AR5 gedeeld worden door 10! (typfout in PhD?)
-              End
-            Else Remap[i,j] := ((Rainfall-Ia)*(Duration/1440));
+            Remap[i,j] := CalculateRe_singlevalue(Rainfall, CNMap[i,j], alpha,beta,I10,AR5,duration);
           End
         Else Remap[i,j] := 0.0;
 
@@ -1341,47 +1355,22 @@ Begin
           Remap[i,j] := Rainfall;
 
         //Buffer and dam pixels are always assigned a CN value of 71
-        If (Include_buffer) And (BufferMap[i,j] <> 0) Then
+        If (Include_buffer) And (BufferMap[i,j] <> 0) or (Include_dam) And (Dam_map[i,j] <> 0) Then
           Begin
-            S := 25400/71 - 254;
-            Ia := 0.2*S;
-            If Rainfall>Ia Then
-              Begin
-                Remap[i,j] := sqr(Rainfall-Ia)/((Rainfall-Ia)+S);
-                Remap[i,j] := Remap[i,j]*power((I10/10),alpha)+AR5*Beta;
-                //Volgens PhD KVO moet AR5 gedeeld worden door 10! (typfout in PhD?)
-              End
-            Else Remap[i,j] := ((Rainfall-Ia)*(Duration/1440));
-          End;
-        If (Include_dam) And (Dam_map[i,j] <> 0) Then
-          Begin
-            S := 25400/71 - 254;
-            Ia := 0.2*S;
-            If Rainfall>Ia Then
-              Begin
-                Remap[i,j] := sqr(Rainfall-Ia)/((Rainfall-Ia)+S);
-                Remap[i,j] := Remap[i,j]*power((I10/10),alpha)+AR5*Beta;
-                //Volgens PhD KVO moet AR5 gedeeld worden door 10! (typfout in PhD?)
-              End
-            Else Remap[i,j] := ((Rainfall-Ia)*(Duration/1440));
+            Remap[i,j] := CalculateRe_singlevalue(Rainfall, 71, alpha,beta,I10,AR5,duration);
           End;
 
         // ditches are assigned a CN value of 98
         If (Include_ditch) And (Ditch_map[i,j] <> 0) Then
           Begin
-            S := 25400/98 - 254;
-            Ia := 0.2*S;
-            If Rainfall>Ia Then
-              Begin
-                Remap[i,j] := sqr(Rainfall-Ia)/((Rainfall-Ia)+S);
-                Remap[i,j] := Remap[i,j]*power((I10/10),alpha)+AR5*Beta;
-                //Volgens PhD KVO moet AR5 gedeeld worden door 10! (typfout in PhD?)
-              End
-            Else Remap[i,j] := ((Rainfall-Ia)*(Duration/1440));
+            Remap[i,j] := CalculateRe_singlevalue(Rainfall, 98, alpha,beta,I10,AR5,duration);
           End;
 
         // controle: runoff mag niet groter zijn dan totale regenval!
         If Remap[i,j] > Rainfall Then
+          // johanvdw: ik vind dit vreemd, dus ik heb een exceptie toegevoegd
+          // ik wil weten wanneer / of dit kan voorkomen
+          raise Exception.create('runoff is groter dan neerslag');
           Remap[i,j] := Rainfall;
       End;
 End;
