@@ -6,7 +6,7 @@ Unit ReadInParameters;
 Interface
 
 Uses 
-Classes, SysUtils, RData_CN, GData_CN, Inifiles, Dialogs, Idrisi;
+Classes, SysUtils, RData_CN, GData_CN, Inifiles, Idrisi;
 
 Procedure ReadInRasters;
 Procedure Allocate_Memory;
@@ -768,8 +768,7 @@ Begin
     End
   Else
     Begin
-      Showmessage('De tabel met CN waarden werd niet herkend, het proramma wordt gesloten.');
-      Exit;
+      EinputException.Create('De tabel met CN waarden werd niet herkend, het programma wordt gesloten.');
       //If the file does not extists the program is ended
     End;
 
