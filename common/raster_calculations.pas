@@ -544,7 +544,7 @@ Begin
               Begin
                 closeriver := true;
                 // end if
-                break; //TODO: wellicht bug
+                break;
               End;
             //else closeriver:=false;
           End;
