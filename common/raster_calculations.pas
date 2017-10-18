@@ -22,8 +22,7 @@ Function SlopeDir(dir:double;i,j:integer;DTM:Rraster): double;
 Procedure Calculate_routing(Var Routing: TRoutingArray);
 Procedure DistributeRiver_Routing(i,j:integer; Var FINISH:GRaster);
 Procedure DistributeTilDirEvent_Routing(i,j:integer; Var FINISH:GRaster; Topo:boolean);
-Function intArrayIsEqual (inputArray: Array Of Integer): boolean;
-Function doubArrayIsEqual (inputarray: Array Of double): boolean;
+
 Function X_Resolution(): double;
 Function Y_Resolution(): double;
 Procedure Calculate_UpstreamArea(Var UPAREA:RRaster);
@@ -158,7 +157,6 @@ Begin
 End;
 
 Procedure sortbis(Var Z:Rvector; iLo,iHi:Integer);
-
 Var 
   helpcol, helprow,Lo, Hi: Integer;
   Mid,T : double;
@@ -213,7 +211,6 @@ End;
 
 //Slope calculation
 Function CalculateSLOPE(i,j:integer): double;
-
 Var 
   DIFFX,DIFFY: double;
 Begin
@@ -513,7 +510,6 @@ End;
 //- Wanneer het water in een rivier beland blijft het er in
 //- Er wordt geen rekening gehouden met pits
 //******************************************************************************
-
 Procedure DistributeTilDirEvent_Routing(i,j:integer; Var FINISH:GRaster; Topo:boolean);
 // i,j = rij en kolomnummer van de cel onder beschouwing
 
@@ -1318,41 +1314,7 @@ Begin
 End;
 // end procedure DistributeTilDirEvent_Routing
 
-// ***************************************************************************
-// The following 2 functions check whether the elements in an array are equal or
-// not.
-// ***************************************************************************
 
-Function intArrayIsEqual (inputArray:Array Of Integer): boolean;
-
-Var 
-  Val, i: Integer;
-
-Begin
-  intArrayIsEqual := True;
-  Val := inputArray[1];
-  For i := low(inputArray) To High(inputArray) Do
-    Begin
-      If inputArray[i] <> Val Then
-        intArrayIsEqual := false;
-    End;
-End;
-
-Function doubArrayIsEqual (inputArray:Array Of double): boolean;
-
-Var 
-  Val: double;
-  i: Integer;
-
-Begin
-  doubArrayIsEqual := True;
-  Val := inputArray[1];
-  For i := low(inputArray) To High(inputArray) Do
-    Begin
-      If inputArray[i] <> Val Then
-        doubArrayIsEqual := false;
-    End;
-End;
 
 Procedure Calculate_UpstreamArea(Var UPAREA:RRaster);
 
@@ -1584,7 +1546,7 @@ Begin
   //Slope and aspect are calculated
   Calculate_routing(Routing);
 
-//The flow direction(s) is calulated for every gridcell + the relative contribution to every receiving neighbour (Marijn)
+  //The flow direction(s) is calulated for every gridcell + the relative contribution to every receiving neighbour (Marijn)
   Calculate_UpstreamArea(UPAREA);
   CalculateLS(LS,UPAREA);
 End;

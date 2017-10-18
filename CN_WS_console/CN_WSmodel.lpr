@@ -91,7 +91,20 @@ Begin
 
 End;
 
+If Not Use_Rfactor Then
+  Begin
+    ReadRainfallFile(Raindata, RainfallFilename);
+    //The .txt file with rainfall per timestep is read and written to a variable
+    CalculateRFactor;
+    // R factor is calculated from given rainfall record
+  End;
 
+If (Not simplified) and Timestep_model>=resAR[1]/0.3 Then
+      writeln(
+          'Error: Courant criterium for model stability violated. Please select a smaller timestep.');
+      Terminate;
+      Exit;
+End;
 
 Allocate_Memory;
 // voor verschillende rasters

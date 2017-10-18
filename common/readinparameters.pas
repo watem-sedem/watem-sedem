@@ -7,6 +7,7 @@ Interface
 
 Uses 
 Classes, SysUtils, RData_CN, GData_CN, Inifiles, Dialogs, Idrisi;
+
 Procedure ReadInRasters;
 Procedure Allocate_Memory;
 Procedure Release_Memory;
@@ -15,7 +16,8 @@ Procedure Create_CN_map(Var CNmap: RRaster;Perceelskaart:RRaster; Filename:Strin
 Function CalculateCN(CNmax,Cc,Cr,c1,c2:integer): single;
 Procedure Create_ktil_map(Var ktil: GRaster);
 Procedure Create_ktc_map(Var ktc: GRaster);
-
+Function intArrayIsEqual (inputArray: Array Of Integer): boolean;
+Function doubArrayIsEqual (inputarray: Array Of double): boolean;
 
 //Record for model variables
 
@@ -288,18 +290,7 @@ If Not doubArrayIsEqual(resAR) Then
  raise EInputException.Create('Error: The resolution should be the same for all input maps. '+
  'Please verify input rasters.');
 
-If Not Use_Rfactor Then
-  Begin
-    ReadRainfallFile(Raindata, RainfallFilename);
-    //The .txt file with rainfall per timestep is read and written to a variable
-    CalculateRFactor;
-    // R factor is calculated from given rainfall record
-  End;
-
-If (Not simplified) and Timestep_model>=resAR[1]/0.3 Then
-      raise EInputException.Create(
-          'Error: Courant criterium for model stability violated. Please select a smaller timestep.');
-End;
+end;
 
 Procedure Allocate_Memory;
 Begin
@@ -898,6 +889,42 @@ Begin
       End;
 
   writeGidrisi32file(ncol,nrow,datadir+'\ktcmap'+'.rst',ktc);
+End;
+
+// ***************************************************************************
+// The following 2 functions check whether the elements in an array are equal or
+// not.
+// ***************************************************************************
+
+Function intArrayIsEqual (inputArray:Array Of Integer): boolean;
+
+Var
+  Val, i: Integer;
+
+Begin
+  intArrayIsEqual := True;
+  Val := inputArray[1];
+  For i := low(inputArray) To High(inputArray) Do
+    Begin
+      If inputArray[i] <> Val Then
+        intArrayIsEqual := false;
+    End;
+End;
+
+Function doubArrayIsEqual (inputArray:Array Of double): boolean;
+
+Var
+  Val: double;
+  i: Integer;
+
+Begin
+  doubArrayIsEqual := True;
+  Val := inputArray[1];
+  For i := low(inputArray) To High(inputArray) Do
+    Begin
+      If inputArray[i] <> Val Then
+        doubArrayIsEqual := false;
+    End;
 End;
 
 End.
