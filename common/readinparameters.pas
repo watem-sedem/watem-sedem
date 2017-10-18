@@ -275,6 +275,30 @@ Begin
 
   writeGidrisi32file(ncol,nrow,datadir+'PTEFmap'+'.rst', PTEFmap);
 
+  //Check whether number of rows, number of columns and resolution are equal for all input maps
+If Not intArrayIsEqual(nrowAR) Then
+  raise EInputException.Create(
+  'Error: The number of rows should be the same for all input maps. Please verify your input rasters.');
+
+If Not intArrayIsEqual(ncolAR) Then
+  raise EInputException.Create(
+'Error: The number of columns should be the same for all input maps. Please verify your input rasters.');
+
+If Not doubArrayIsEqual(resAR) Then
+ raise EInputException.Create('Error: The resolution should be the same for all input maps. '+
+ 'Please verify input rasters.');
+
+If Not Use_Rfactor Then
+  Begin
+    ReadRainfallFile(Raindata, RainfallFilename);
+    //The .txt file with rainfall per timestep is read and written to a variable
+    CalculateRFactor;
+    // R factor is calculated from given rainfall record
+  End;
+
+If (Not simplified) and Timestep_model>=resAR[1]/0.3 Then
+      raise EInputException.Create(
+          'Error: Courant criterium for model stability violated. Please select a smaller timestep.');
 End;
 
 Procedure Allocate_Memory;

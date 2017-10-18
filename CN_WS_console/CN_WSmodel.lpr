@@ -78,7 +78,6 @@ Begin
      End;
    end;
 
-
   Try
     ReadInRasters;
   Except
@@ -92,68 +91,7 @@ Begin
 
 End;
 
-//Check whether number of rows, number of columns and resolution are equal for all input maps
-If Not intArrayIsEqual(nrowAR) Then
-  Begin
-    ErrorMsg := 
-'Error: The number of rows should be the same for all input maps. Please verify your input rasters.'
-    ;
-    writeln(ErrorMsg);
-    writeln;
-    writeln('Press <Enter> to quit');
-    readln;
-    Terminate;
-    Exit;
-  End;
-If Not intArrayIsEqual(ncolAR) Then
-  Begin
-    ErrorMsg := 
-'Error: The number of columns should be the same for all input maps. Please verify your input rasters.'
-    ;
-    writeln(ErrorMsg);
-    writeln;
-    writeln('Press <Enter> to quit');
-    readln;
-    Terminate;
-    Exit;
-  End;
-If Not doubArrayIsEqual(resAR) Then
-  Begin
-    ErrorMsg := 
-         'Error: The resolution should be the same for all input maps. Please verify input rasters.'
-    ;
-    writeln(ErrorMsg);
-    writeln;
-    writeln('Press <Enter> to quit');
-    readln;
-    Terminate;
-    Exit;
-  End;
 
-If Not Use_Rfactor Then
-  Begin
-    ReadRainfallFile(Raindata, RainfallFilename);
-    //The .txt file with rainfall per timestep is read and written to a variable
-    CalculateRFactor;
-    // R factor is calculated from given rainfall record
-  End;
-
-If Not simplified Then
-  Begin
-    // Courant criterium is checked
-    If Timestep_model>=resAR[1]/0.3 Then
-      Begin
-        ErrorMsg := 
-          'Error: Courant criterium for model stability violated. Please select a smaller timestep.'
-        ;
-        writeln(ErrorMsg);
-        writeln;
-        writeln('Press <Enter> to quit');
-        readln;
-        Terminate;
-        Exit;
-      End;
-  End;
 
 Allocate_Memory;
 // voor verschillende rasters

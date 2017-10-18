@@ -121,10 +121,8 @@ End;
 Procedure THoofdscherm_CN_form.CnRunClick(Sender: TObject);
 
 Begin
-
   //Input maps are read and assigned a filename
   try
-
      ReadInRasters;
   except
   on E:ERasterException do
@@ -133,36 +131,6 @@ Begin
   end;
 
   end;
-
-  //Check whether number of rows, number of columns and resolution are equal for all input maps
-  If Not intArrayIsEqual(nrowAR) Then
-    Begin
-      showmessage('The number of rows should be the same for all input maps!');
-      Exit;
-    End;
-  If Not intArrayIsEqual(ncolAR) Then
-    Begin
-      showmessage('The number of columns should be the same for all input maps!');
-      Exit;
-    End;
-  If Not doubArrayIsEqual(resAR) Then
-    Begin
-      showmessage('The resolution should be the same for all input maps!');
-      Exit;
-    End;
-
-
-  If Not Simplified Then
-    Begin
-      // Courant criterium is checked
-      If Timestep_model>=resAR[1]/0.3 Then
-        Begin
-          showmessage(
-                 'Courant criterium for model stability violated! Please select a smaller timestep.'
-          );
-          Exit;
-        End;
-    End;
 
   If Not Use_Rfactor Then
     Begin
