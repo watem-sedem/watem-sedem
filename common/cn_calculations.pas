@@ -41,9 +41,9 @@ Var
 Implementation
 
 //******************************************************************************
-//In this procedure the rainfall file is read (and if necessary, converted to
-//a different timestep). This is a .txt file (tab delimited) with the timestep
-//(min) in column 1 and the amount of rainfall (mm) in column 2. In addition,
+// In this procedure the rainfall file is read (and if necessary, converted to
+// a different timestep). This is a .txt file (tab delimited) with the timestep
+// (min) in column 1 and the amount of rainfall (mm) in column 2. In addition,
 // several input variables for CN formula are calculated (Rainfall, I10 and duration).
 //******************************************************************************
 Procedure ReadRainfallFile (Var Raindata: TRainRecordArray; Rainfallfilename: String);
@@ -338,9 +338,9 @@ Begin
 End;
 
 //******************************************************************************
-//In this procedure the number of outlets is determined based on the outlet map
-//provided by the user. In case no outlet map is provided, the location of the
-//outlet is determined based on the DTM and the parcel map. The locations of the
+// In this procedure the number of outlets is determined based on the outlet map
+// provided by the user. In case no outlet map is provided, the location of the
+// outlet is determined based on the DTM and the parcel map. The locations of the
 // outlet(s) are written to an array.
 //******************************************************************************
 Procedure calcOutlet;
@@ -602,7 +602,7 @@ End;
 
 
 //******************************************************************************
-//In this procedure the time dependent runoff is calculated
+// In this procedure the time dependent runoff is calculated
 //******************************************************************************
 Procedure CalculateTimeDependentRunoff(Remap: Rraster; RainData: TRainRecordArray; Routing:
                                        TRoutingArray; PRC: Rraster);
@@ -1309,7 +1309,7 @@ End;
 //This procedure calculates the amount of rainfall excess (=runoff) or rainfall
 //deficit (= amount of water that can re-infiltrate in the grid cell)
 //******************************************************************************
-Procedure CalculateRe(Var Remap:Rraster; Perceelskaart:Rraster; CNmap:Rraster; alpha,beta:double);
+Procedure CalculateRe(Var Remap:Rraster; Perceelskaart:Rraster; CNmap:Rraster; alpha, beta:double);
 
 Var 
   i,j, nrowPRC, ncolPRC : integer;

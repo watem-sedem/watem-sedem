@@ -379,6 +379,7 @@ Var
   K,L,id,rowmin,colmin,W : integer;
   OK,OK2,check : boolean;
   r, t: integer;
+
 Begin
   FINISH[i,j] := 1;
   //Treated cells receive a value of 1
@@ -542,19 +543,8 @@ Begin
                 // end if
                 break;
               End;
-            //else closeriver:=false;
           End;
       End;
-
-  //This is our code
-
-{for K := -1 to 1 do
- for L := -1 to 1 do
- begin
-  if (PRC[i+k,j+l] = -1) AND (DTM[i+k,j+l] < DTM[i,j]) then //Geldt voor pixels die grenzen aan een rivierpixel
-  //Rivierpixels worden nooit geselecteerd want daarvoor is nooit voldaan aan de tweede conditie
-  closeriver := true; // The cell has a neighbouring river pixel
- end;}
 
   If closeriver Then //Voor pixels die aan een rivierpixel grenzen: neem de laagste riviercel
     Begin
@@ -907,18 +897,6 @@ Begin
           W := 1;
           check := false;
 
-          // CODE BASTIAAN
-
-{PART1:=Area; // Area = 1 (at this point in the code)
-          parequal := false;
-          ROWMIN := 0;
-          ROWMIN2 := 0;
-          COLMIN := 0;
-          COLMIN2 := 0;
-          MINIMUM := 99999999.9;
-          MINIMUM2 := 99999999.9;
-}
-
           // CODE JEROEN
           Repeat
             // if no neighbouring cells are found to be a suitable target cell,
@@ -956,33 +934,6 @@ Begin
           Until ((check)Or(W>50));
 
         //50 is the maximum size of the kernel (thus the water is transported 50 cells further away)
-
-{  // CODE WATEMSEDEM2015
-         for K := -1 to 1 do
-            for L := -1 to 1 do  //loop van 3*3 cellen om te zoeken naar laagst gelegen buurcel
-              begin
-	        if ((K = 0) AND (L = 0)) then continue;
-                if ((DTM[I+K,J+L] < MINIMUM) and (DTM[I+K,J+L] < DTM[I,J])
-                  and (FINISH[I+K,J+L] = 0) and (PRC[I+K,J+L] = PRC[I,J])) then      //laagste buurcel is zelfde perceel
-                    begin
-	                   MINIMUM := DTM[I+K,J+L];
-	                   ROWMIN := K;
-	                   COLMIN := L;
-                      parequal := true;
-                    end; //second loop voor wanneer er geen lagere cel is in hetzelfde perceel
-                //end if
-                if ((DTM[I+K,J+L] < MINIMUM2) AND (DTM[I+K,J+L]<DTM[I,J])
-                  AND(FINISH[I+K,J+L] = 0)) THEN     //lagere cel ligt in ander perceel maar binnen het bekken
-                    begin
-	                   MINIMUM2 := DTM[I+K,J+L];
-	                   ROWMIN2 := K;
-	                   COLMIN2 := L;
-                    end;
-                //end if
-              end;
-          //end for's
-
-}
 
           If parequal Then    // If receiving cell is in same parcel
             Begin

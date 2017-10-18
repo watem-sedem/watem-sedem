@@ -582,54 +582,42 @@ Begin
   If Not Simplified Then
     Begin
       If Not Use_RFactor Then
-        Begin
           If Not TryStrToFloat(Inifile.Readstring('Variables', '5-day antecedent rainfall',
              Dummy_str), AR5) Then
-            Begin
               raise EInputException.Create('Error in data input: AR5 value missing or wrong data format');
-            End;
-        End;
+
       If Not TryStrToFloat(Inifile.Readstring('Variables', 'Stream velocity', Dummy_str), riv_vel)
         Then
-        Begin
           raise EInputException.Create('Error in data input: Stream velocity value missing or wrong data format');
-        End;
+
       If Not TryStrToFloat(Inifile.Readstring('Variables', 'Alpha', Dummy_str), alpha) Then
-        Begin
           raise EInputException.Create('Error in data input: alpha value missing or wrong data format');
-        End;
+
       If Not TryStrToFloat(Inifile.Readstring('Variables', 'Beta', Dummy_str), beta) Then
-        Begin
           raise EInputException.Create('Error in data input: beta value missing or wrong data format');
-        End;
+
     End
   Else
     Begin
       If Not TryStrToFloat(Inifile.Readstring('Variables', 'R factor', Dummy_str),Rfactor) Then
-        Begin
           raise EInputException.Create('Error in data input: R factor value missing or wrong data format');
-        End;
     End;
 
   If Not TryStrToInt(Inifile.Readstring('Variables', 'Bulk density', Dummy_str), BD) Then
-    Begin
       raise EInputException.Create('Error in data input: BD value missing or wrong data format');
-    End;
+
   If (Include_buffer) And Not (TryStrToInt(inifile.readstring('Variables', 'Number of buffers',
      Dummy_str), Number_of_Buffers)) Then
-    Begin
       raise EInputException.Create('Error in data input: Number of buffers value missing or wrong data format');
-    End;
+
   If (create_ktc) And Not (TryStrToInt(Inifile.Readstring('Variables', 'ktc low', Dummy_str),ktc_low
      )) Then
-    Begin
       raise EInputException.Create('Error in data input: ktc low value missing or wrong data format');
-    End;
+
   If (create_ktc) And Not (TryStrToInt(Inifile.Readstring('Variables', 'ktc high', Dummy_str),
      ktc_high)) Then
-    Begin
       raise EInputException.Create('Error in data input: ktc high value missing or wrong data format');
-    End;
+
   If (create_ktc) And Not (TryStrToFloat(Inifile.Readstring('Variables', 'ktc limit', Dummy_str),
      ktc_limit)) Then
     Begin
