@@ -99,7 +99,8 @@ If Not Use_Rfactor Then
     // R factor is calculated from given rainfall record
   End;
 
-If (Not simplified) and Timestep_model>=resAR[1]/0.3 Then
+If (Not simplified) and (Timestep_model>=resAR[1]/0.3) Then
+Begin
       writeln(
           'Error: Courant criterium for model stability violated. Please select a smaller timestep.');
       Terminate;
