@@ -5,3 +5,6 @@
 */lib/
 */backup/
 *.lps
+*.o
+*.ppu
+
