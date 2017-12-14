@@ -207,25 +207,25 @@ Begin
   Rofilename := Inifile.Readstring('Files', 'Oriented roughness filename', Dummy_str);
   If Not simplified Then
     Begin
-      CNmapSpring := Inifile.Readstring('Files', 'CN map spring', Dummy_str);
+      CNmapSpring := Inifile.Readstring('Files', 'CN map spring 1', Dummy_str);
       CNmapSpring_2 := Inifile.Readstring('Files', 'CN map spring 2', Dummy_str);
-      CNmapSummer := Inifile.Readstring('Files', 'CN map summer', Dummy_str);
+      CNmapSummer := Inifile.Readstring('Files', 'CN map summer 1', Dummy_str);
       CNmapSummer_2 := Inifile.Readstring('Files', 'CN map summer 2', Dummy_str);
-      CNmapFall := Inifile.Readstring('Files', 'CN map fall', Dummy_str);
+      CNmapFall := Inifile.Readstring('Files', 'CN map fall 1', Dummy_str);
       CNmapFall_2 := Inifile.Readstring('Files', 'CN map fall 2', Dummy_str);
-      CNmapWinter := Inifile.Readstring('Files', 'CN map winter', Dummy_str);
+      CNmapWinter := Inifile.Readstring('Files', 'CN map winter 1', Dummy_str);
       CNmapWinter_2 := Inifile.Readstring('Files', 'CN map winter 2', Dummy_str);
     End;
   K_Factor_filename := inifile.readstring('Files', 'K factor filename', Dummy_str);
   Pf_Data_Filename := inifile.readstring('Files', 'P factor map filename', Dummy_str);
-  ktc_Data_Filename := inifile.readstring('Files', 'ktc map filename', Dummy_str);
+  ktc_Data_Filename := inifile.readstring('Files', 'ktc map filename 1', Dummy_str);
   ktc_Data_Filename2 := inifile.readstring('Files', 'ktc map filename 2', Dummy_str);
-  ktil_Data_Filename := inifile.readstring('Files', 'ktil map filename', Dummy_str);
+  ktil_Data_Filename := inifile.readstring('Files', 'ktil map filename 1', Dummy_str);
   ktil_Data_Filename2 := inifile.readstring('Files', 'ktil map filename 2', Dummy_str);
-  Cf_Data_spring := inifile.readstring('Files', 'C factor map spring', Dummy_str);
-  Cf_Data_summer := inifile.readstring('Files', 'C factor map summer', Dummy_str);
-  Cf_Data_fall := inifile.readstring('Files', 'C factor map fall', Dummy_str);
-  Cf_Data_winter := inifile.readstring('Files', 'C factor map winter', Dummy_str);
+  Cf_Data_spring := inifile.readstring('Files', 'C factor map spring 1', Dummy_str);
+  Cf_Data_summer := inifile.readstring('Files', 'C factor map summer 1', Dummy_str);
+  Cf_Data_fall := inifile.readstring('Files', 'C factor map fall 1', Dummy_str);
+  Cf_Data_winter := inifile.readstring('Files', 'C factor map winter 1', Dummy_str);
   Cf_Data_spring_2 := inifile.readstring('Files', 'C factor map spring 2', Dummy_str);
   Cf_Data_summer_2 := inifile.readstring('Files', 'C factor map summer 2', Dummy_str);
   Cf_Data_fall_2 := inifile.readstring('Files', 'C factor map fall 2', Dummy_str);
