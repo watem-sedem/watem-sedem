@@ -1319,6 +1319,11 @@ Begin
   Else
     Re := ((Rainfall-Ia)*(Duration/1440));
 
+      // controle: runoff mag niet groter zijn dan totale regenval!
+    If Re > Rainfall Then
+      // johanvdw: de correctie van Van Oost hierboven kan dit opleveren indien power((I10/10),alpha) > 1
+      Re:= Rainfall;
+
   Result := Re;
 End;
 
@@ -1361,12 +1366,7 @@ Begin
             Remap[i,j] := CalculateRe_singlevalue(Rainfall, 98, alpha,beta,I10,AR5,duration);
           End;
 
-        // controle: runoff mag niet groter zijn dan totale regenval!
-        If Remap[i,j] > Rainfall Then
-          // johanvdw: ik vind dit vreemd, dus ik heb een exceptie toegevoegd
-          // ik wil weten wanneer / of dit kan voorkomen
-          raise Exception.create('runoff is groter dan neerslag');
-          Remap[i,j] := Rainfall;
+
       End;
 End;
 
