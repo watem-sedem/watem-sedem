@@ -1021,10 +1021,12 @@ Begin
                 Routing[i+k,j+l].Target1Row := i;
                 Routing[i+k,j+l].Target1Col := j;
                 Routing[i+k,j+l].Part1 := 1.0;
+                Routing[i+k,j+l].Distance1 := res * sqrt(sqr(k) + sqr(l));
                 Routing[i+k,j+l].Target2Row := 0;
                 Routing[i+k,j+l].Target2Col := 0;
                 Routing[i+k,j+l].Part2 := 0;
                 Routing[i+k,j+l].One_Target := True;
+                Routing[i+k,j+l].Distance2 := 0;
               End;
           End;
 
