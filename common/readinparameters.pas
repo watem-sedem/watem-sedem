@@ -388,7 +388,10 @@ Var
   Dummy_str, Buffername: string;
   i: integer;
 Begin
-  Inifile := Tinifile.create(INI_Filename);
+
+  If Not FileExists(INI_filename) Then
+    raise Exception.create('Inifile does not exist');
+  Inifile := Tinifile.create(INI_filename);
 
   Datadir := Inifile.readstring('Working directories', 'Input directory', Dummy_str);
   File_output_dir := Inifile.readstring('Working directories', 'Output directory', Dummy_str);
