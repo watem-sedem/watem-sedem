@@ -966,12 +966,7 @@ Begin
                   Part1_water := (RunoffMap[k,l]*Routing[k,l].Part1)*((Speed*TimeStep_model)/Routing
                                  [k,l].Distance1);
                   RoutedMap_temp[Routing[k,l].Target1row,Routing[k,l].Target1col] := 
-                                                                                     RoutedMap_temp[
-                                                                                     Routing[k,l].
-                                                                                     Target1row,
-                                                                                     Routing[k,l].
-                                                                                     Target1col] +
-                                                                                     Part1_water;
+                     RoutedMap_temp[Routing[k,l].Target1row, Routing[k,l].Target1col] +  Part1_water;
                   RunoffMap[k,l] := RunoffMap[k,l] - Part1_water;
                   //RunoffMap is updated
                   OutflowMap_temp[k,l] := Part1_water;
