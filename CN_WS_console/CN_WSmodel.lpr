@@ -150,6 +150,8 @@ Tillage_dif;
 write_maps;
 // write output maps
 
+Write_Routing_Table;
+//
 
 //The memory is released for all created maps
 Release_Memory;
