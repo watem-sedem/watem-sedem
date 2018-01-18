@@ -11,6 +11,7 @@ Classes, SysUtils, RData_CN, GData_CN, Inifiles, Idrisi;
 Procedure ReadInRasters;
 Procedure Allocate_Memory;
 Procedure Release_Memory;
+Function SetFileFromIni(inifile: Tinifile; inivalue, datadir: string; obliged: boolean): string;
 Procedure Readsettings(INI_filename:String);
 Procedure Create_CN_map(Var CNmap: RRaster;Perceelskaart:RRaster; Filename:String);
 Function CalculateCN(CNmax,Cc,Cr,c1,c2:integer): single;
@@ -377,6 +378,20 @@ Begin
 
 End;
 
+Function SetFileFromIni(inifile: Tinifile;inivalue,  datadir: string; obliged: boolean): string;
+Var
+ Dummy_str, filename: string;
+Begin
+    filename := Inifile.Readstring('Files', inivalue, Dummy_str);
+    if (filename = '') and obliged Then raise EInputException.Create('Error: '+ inivalue+' not defined in inifile');
+    If (FileExists(datadir + filename)) Then SetFileFromIni := datadir  + filename
+    Else If FileExists(filename) Then
+       SetFileFromIni := filename
+    Else
+      raise EInputException.Create('Error in data input: ' + inivalue + ' not found in '+ datadir+ ' or path');
+
+End;
+
 //******************************************************************************
 //This procedure reads the .ini file and assigns the file + location + values
 //to the correct variables.
@@ -396,136 +411,58 @@ Begin
   Datadir := Inifile.readstring('Working directories', 'Input directory', Dummy_str);
   File_output_dir := Inifile.readstring('Working directories', 'Output directory', Dummy_str);
   If Not DirectoryExists(File_output_dir) Then CreateDir(File_output_dir);
-  // If the last character in the output directory is not a "\" this is added
-  If (File_output_dir[Length(File_output_dir)] <> '\') Then
-    File_output_dir := IncludeTrailingBackslash(File_output_dir);
 
-  {Filenames}
-  INIfilename := Inifile.Readstring('Files', '.INI filename', Dummy_str);
-  DTM_filename := Inifile.Readstring('Files', 'DTM filename', Dummy_str);
-  If Not (FileExists(DTM_filename)) Then
-    Begin
-      raise EInputException.Create('Error in data input: DTM file not found in '+datadir);
-    End;
-  PARCEL_filename := Inifile.Readstring('Files', 'Parcel filename', Dummy_str);
-  If Not (FileExists(PARCEL_filename)) Then
-    Begin
-      raise EInputException('Error in data input: Parcel file not found in '+datadir);
-    End;
-  Rainfallfilename := Inifile.Readstring('Files', 'Rainfall filename', Dummy_str);
-  Sewerfilename := Inifile.Readstring('Files', 'Sewer map filename', Dummy_str);
-  CNmapfilename := Inifile.Readstring('Files', 'CN map filename', Dummy_str);
-  TilDirfilename := Inifile.Readstring('Files', 'Tillage direction filename', Dummy_str);
-  Rofilename := Inifile.Readstring('Files', 'Oriented roughness filename', Dummy_str);
-  BufferFilename := inifile.readstring('Files', 'Buffer map filename', Dummy_str);
-  Ditch_filename := inifile.readstring('Files', 'Ditch map filename', Dummy_str);
-  Dam_filename := inifile.readstring('Files', 'Dam map filename', Dummy_str);
-  K_Factor_filename := inifile.readstring('Files', 'K factor filename', Dummy_str);
-  If Not (FileExists(K_Factor_filename)) Then
-    Begin
-      raise EInputException('Error in data input: K factor file not found in '+datadir);
-    End;
-  Cf_Data_Filename := inifile.readstring('Files', 'C factor map filename', Dummy_str);
-  If Not (FileExists(Cf_Data_Filename)) Then
-    Begin
-      raise EInputException( 'Error in data input: C factor file not found in '+datadir);
-    End;
-  Pf_Data_Filename := inifile.readstring('Files', 'P factor map filename', Dummy_str);
-  If Not (FileExists(Pf_Data_Filename)) Then
-    Begin
-      raise EInputException('Error in data input: P factor file not found in '+datadir);
-    End;
-  ktc_Data_Filename := inifile.readstring('Files', 'ktc map filename', Dummy_str);
-  ktil_Data_Filename := inifile.readstring('Files', 'ktil map filename', Dummy_str);
-  Outletfilename := inifile.readstring('Files', 'Outlet map filename', Dummy_str);
-  Riversegment_filename := inifile.readstring('Files', 'River segment filename', Dummy_str);
+  // Make sure that a trailing slash is added to the input/output dir
+  File_output_dir := IncludeTrailingPathdelimiter(File_output_dir);
+  Datadir := IncludeTrailingPathdelimiter(Datadir);
 
-  // If the last character in the output directory is not a "\" this is added
-  If (File_output_dir[Length(File_output_dir)] <> '\') Then
-    File_output_dir := IncludeTrailingBackslash(File_output_dir);
-
-    {User choices}
-  If (Inifile.ReadBool('User Choices','Simplified model version',false))=true Then Simplified := 
-                                                                                                true
-  Else Simplified := false;
-  If Not simplified Then
-    Begin
-      If Not (FileExists(CNmapfilename)) Then
-        Begin
-          raise EInputException('Error in data input: CN map file not found in '+datadir);
-        End;
-    End;
-  If (Inifile.ReadBool('User Choices','Use R factor',false))=true Then Use_Rfactor := true
-  Else Use_Rfactor := false;
-  If Not Use_Rfactor Then
-    Begin
-      Rainfallfilename := Inifile.Readstring('Files', 'Rainfall filename', Dummy_str);
-      If Not (FileExists(Rainfallfilename)) Then
-        Begin
-          raise EInputException('Error in data input: Rainfall file not found in '+datadir);
-        End;
-    End;
-  If (Inifile.ReadBool('User Choices','Include sewers',false))=true Then Include_sewer := true
-  Else Include_sewer := false;
-  If Include_sewer And Not (FileExists(Sewerfilename)) Then
-    Begin
-      raise EInputException('Error in data input: Sewer map file not found in '+datadir);
-    End;
+  {User choices}
+  Simplified := Inifile.ReadBool('User Choices','Simplified model version',false);
+  Include_sewer:= Inifile.ReadBool('User Choices','Include sewers',false);
   If Include_sewer And Not TryStrToInt(Inifile.Readstring('Variables', 'Sewer exit', Dummy_str),
-     sewer_exit) Then
+   sewer_exit) Then
     Begin
       raise EInputException.Create('Error in data input: Sewer exit system value missing or wrong data format');
     End;
-  If (Inifile.ReadBool('User Choices','Include tillage',false))=true Then
-    Begin
-      Inc_tillage := true;
-      topo := false;
-    End
-  Else
-    Begin
-      Inc_tillage := false;
-      topo := true;
-    End;
-  If Inc_tillage And Not (FileExists(TilDirfilename))Then
-    Begin
-      raise EInputException.Create('Error in data input: Tillage direction file not found in '+datadir);
-    End;
-  If Inc_tillage And Not (FileExists(Rofilename))Then
-    Begin
-      raise EInputException.Create('Error in data input: Oriented roughness file not found in '+datadir);
-    End;
-  If (Inifile.ReadBool('User Choices','Include buffers',false))=true Then Include_buffer := true
-  Else Include_buffer := false;
-  If Include_buffer And Not (FileExists(BufferFilename)) Then
-    Begin
-      raise EInputException.Create('Error in data input: Buffer map file not found in '+datadir);
-    End;
-  If (Inifile.ReadBool('User Choices','Include ditches',false))=true Then Include_ditch := true
-  Else Include_ditch := false;
-  If Include_ditch And Not (FileExists(Ditch_filename)) Then
-    Begin
-      raise EInputException.Create('Error in data input: Ditch map file not found in '+datadir);
-    End;
-  If (Inifile.ReadBool('User Choices','Include dams',false))=true Then Include_dam := true
-  Else Include_dam := false;
-  If Include_dam And Not (FileExists(Dam_filename)) Then
-    Begin
-      raise EInputException.Create('Error in data input: Dam map file not found in '+datadir);
-    End;
-  If (Inifile.ReadBool('User Choices','Create ktc map',false))=true Then Create_ktc := true
-  Else Create_ktc := false;
-  If Not (Create_ktc) And Not (FileExists(ktc_Data_Filename)) Then
-    Begin
-      raise EInputException.Create('Error in data input: ktc file not found in '+datadir);
-    End;
-  If (Inifile.ReadBool('User Choices','Create ktil map',false))=true Then Create_ktil := true
-  Else Create_ktil := false;
-  If Not (Create_ktil) And Not (FileExists(ktil_Data_Filename)) Then
-    Begin
-      raise EInputException.Create('Error in data input: ktil file not found in '+datadir);
-    End;
-  If (Inifile.ReadBool('User Choices','Estimate clay content',false))=true Then est_clay := true
-  Else est_clay := false;
+
+  Use_Rfactor:= Inifile.ReadBool('User Choices','Use R factor',false);
+  Inc_tillage:=Inifile.ReadBool('User Choices','Include tillage',false);
+  topo := not Inc_tillage;
+  Include_buffer := Inifile.ReadBool('User Choices','Include buffers',false);
+  Include_ditch := Inifile.ReadBool('User Choices','Include ditches',false);
+  Include_dam := Inifile.ReadBool('User Choices','Include dams',false);
+  Create_ktc := Inifile.ReadBool('User Choices','Create ktc map',false);
+  Create_ktil := Inifile.ReadBool('User Choices','Create ktil map',false);
+  VHA := Inifile.ReadBool('User Choices','Output per VHA river segment',false);
+
+  {Filenames}
+  INIfilename := Inifile.Readstring('Files', '.INI filename', Dummy_str);
+  DTM_filename := SetFileFromIni(Inifile, 'DTM filename', datadir, True);
+  PARCEL_filename := SetFileFromIni(Inifile, 'Parcel filename', datadir, True);
+
+  Rainfallfilename := SetFileFromIni(Inifile, 'Rainfall filename', datadir, not use_rfactor);
+  Sewerfilename :=SetFileFromIni(Inifile, 'Sewer map filename', datadir, Include_sewer);
+  CNmapfilename := SetFileFromIni(Inifile, 'CN map filename', datadir, not Simplified);
+  TilDirfilename := SetFileFromIni(Inifile, 'Tillage direction filename', datadir, Inc_tillage);
+  Rofilename := SetFileFromIni(Inifile, 'Oriented roughness filename', datadir, Inc_Tillage);
+  BufferFilename := SetFileFromIni(Inifile, 'Buffer map filename', datadir, Include_buffer);
+  Ditch_filename := SetFileFromIni(Inifile, 'Ditch map filename', datadir, Include_ditch);
+  Dam_filename := SetFileFromIni(Inifile, 'Dam map filename', datadir, Include_dam);
+  K_Factor_filename :=SetFileFromIni(Inifile, 'K factor filename', datadir, true);
+  Cf_data_filename :=SetFileFromIni(Inifile, 'C factor map filename', datadir, true);
+  Pf_data_filename :=SetFileFromIni(Inifile, 'P factor map filename', datadir, true);
+  Riversegment_filename := SetFileFromIni(Inifile, 'River segment filename', datadir, VHA);
+
+  // These files are written - they don't have to exist already
+  ktc_Data_Filename := Inifile.Readstring('Files', 'ktc map filename', Dummy_str);
+  ktil_Data_Filename := Inifile.Readstring('Files', 'til map filename', Dummy_str);
+
+  Outletfilename := inifile.readstring('Files', 'Outlet map filename', Dummy_str);
+
+
+    {User choices}
+
+  est_clay:= Inifile.ReadBool('User Choices','Estimate clay content',false);
   If (est_clay) And Not (TryStrToFloat(Inifile.Readstring('Variables',
      'Clay content parent material', Dummy_str), clay_parent)) Then
     Begin
@@ -541,12 +478,6 @@ Begin
     End;
   If (Inifile.ReadBool('User Choices','Convert output',false))=true Then Convert_output := true
   Else Convert_output := false;
-  If (Inifile.ReadBool('User Choices','Output per VHA river segment',false))=true Then VHA := true
-  Else VHA := false;
-  If VHA And Not (FileExists(Riversegment_filename)) Then
-    Begin
-      raise EInputException.Create('Error in data input: River segment map file not found in '+datadir);
-    End;
 
   {Output maps}
   If (Inifile.ReadBool('Output maps','Write aspect',false))=true Then Write_ASPECT := true
@@ -854,7 +785,7 @@ Begin
           ktil[i,j] := ktil_Default;
       End;
 
-  writeGidrisi32file(ncol,nrow,datadir+'\ktilmap'+'.rst',ktil);
+  writeGidrisi32file(ncol,nrow,datadir+'ktilmap'+'.rst',ktil);
 End;
 
 Procedure Create_ktc_map(Var ktc: GRaster);
@@ -878,7 +809,7 @@ Begin
           ktc[i,j] := 0;
       End;
 
-  writeGidrisi32file(ncol,nrow,datadir+'\ktcmap'+'.rst',ktc);
+  writeGidrisi32file(ncol,nrow,datadir+'ktcmap'+'.rst',ktc);
 End;
 
 // ***************************************************************************
