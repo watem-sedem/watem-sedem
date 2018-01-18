@@ -62,7 +62,7 @@ Begin
   writeln;
   filename := '';
   For i := 1 To ParamCount Do
-    filename := filename+ParamStr(i)+' ';
+    filename := filename+ParamStr(i);
   WriteLn('Inifile : ', filename);
   writeln;
 
