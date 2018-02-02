@@ -382,14 +382,17 @@ Function SetFileFromIni(inifile: Tinifile;inivalue,  datadir: string; obliged: b
 Var
  Dummy_str, filename: string;
 Begin
+  if obliged Then
+    Begin
     filename := Inifile.Readstring('Files', inivalue, Dummy_str);
-    if (filename = '') and obliged Then raise EInputException.Create('Error: '+ inivalue+' not defined in inifile');
+    if (filename = '') Then
+      raise EInputException.Create('Error: '+ inivalue+' not defined in inifile');
     If (FileExists(datadir + filename)) Then SetFileFromIni := datadir  + filename
     Else If FileExists(filename) Then
        SetFileFromIni := filename
     Else
       raise EInputException.Create('Error in data input: ' + inivalue + ' not found in '+ datadir+ ' or path');
-
+    End;
 End;
 
 //******************************************************************************
@@ -439,7 +442,6 @@ Begin
   INIfilename := Inifile.Readstring('Files', '.INI filename', Dummy_str);
   DTM_filename := SetFileFromIni(Inifile, 'DTM filename', datadir, True);
   PARCEL_filename := SetFileFromIni(Inifile, 'Parcel filename', datadir, True);
-
   Rainfallfilename := SetFileFromIni(Inifile, 'Rainfall filename', datadir, not use_rfactor);
   Sewerfilename :=SetFileFromIni(Inifile, 'Sewer map filename', datadir, Include_sewer);
   CNmapfilename := SetFileFromIni(Inifile, 'CN map filename', datadir, not Simplified);
@@ -452,10 +454,8 @@ Begin
   Cf_data_filename :=SetFileFromIni(Inifile, 'C factor map filename', datadir, true);
   Pf_data_filename :=SetFileFromIni(Inifile, 'P factor map filename', datadir, true);
   Riversegment_filename := SetFileFromIni(Inifile, 'River segment filename', datadir, VHA);
-
-  // These files are written - they don't have to exist already
-  ktc_Data_Filename := Inifile.Readstring('Files', 'ktc map filename', Dummy_str);
-  ktil_Data_Filename := Inifile.Readstring('Files', 'til map filename', Dummy_str);
+  ktc_Data_Filename := SetFileFromIni(Inifile, 'ktc map filename', datadir, not Create_ktc);
+  ktil_Data_Filename := SetFileFromIni(Inifile, 'ktil map filename', datadir, not Create_ktil);
 
   Outletfilename := inifile.readstring('Files', 'Outlet map filename', Dummy_str);
 
