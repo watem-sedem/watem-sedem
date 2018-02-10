@@ -209,6 +209,8 @@ Procedure PreparRadarRainfallData (Var Radar_dir: String; timestepRadar: Integer
               End;
 
           EndTime := TimeSeries_output[NumberOfTimesteps];
+          Rain_radar_array := Nil;
+          Rain_radar_interp_array := Nil;
 
           // extra zeros are added to the rainfall series if necessary
           EndTime_modelSec := EndTime_model * 60;
@@ -238,6 +240,21 @@ Procedure PreparRadarRainfallData (Var Radar_dir: String; timestepRadar: Integer
                     End;
              End;
      End;
+
+   // Calculate rainfall for each time step from rainfall rates
+   For i := 1 To RadarFiles.count - 1 Do
+       Begin
+            For k := Low(RadarRaindataset_src[i]) To High(RadarRaindataset_src[i]) - 1 Do
+                Begin
+                     For l:= Low(RadarRaindataset_src[i,k]) To High(RadarRaindataset_src[i,k]) - 1 Do
+                         Begin
+                              RadarRaindataset_src[i,k,l] := (RadarRaindataset_src[i,k,l] * (timestepRadar/3600));
+                         End
+                End
+
+        End;
+
+
 
 
   // calculate total amount of rainfall per pixel (mm)
@@ -455,6 +472,7 @@ Procedure PreparRadarRainfallData (Var Radar_dir: String; timestepRadar: Integer
                                End
                       End
              End;
+     DisposeRadarData ( RadarRaindataset_dst )
     End;
 
 
@@ -471,9 +489,22 @@ Procedure InitializeRadar ( Var InitilizationDataset: Array Of Rraster; Number_R
                                  Setlength (InitilizationDataset[i,k], High(Mask[0,k]));
                                  InitilizationDataset[i,k,l] := 0
                                End
-                     end
-             end
-          end;
+                     End
+             End
+          End;
+
+Procedure DisposeRadarData ( Var DisposeDataset: Array Of Rraster);
+          Begin
+               For i:=0 To Length(DisposeDataset)-1 Do
+                 Begin
+                      For k:=0 To Length(DisposeDataset[i]-1 Do
+                          Begin
+                               DisposeDataset[i,k]:= Nil;
+                          end
+                          DisposeDataset[i]:= Nil;
+                 end
+            DisposeDataset := Nil;
+          End;
 
 Procedure CalculateRFactorRadar (Var TimeSeries: integerArray; timestepRadar: integer; RadarRaindataset_src: Array Of Rraster);
 
@@ -692,6 +723,7 @@ Var
                                      End;
                                End;
                       End;
+             DisposeRadarData ( RadarRaindataset_src)
          End;
 
 //******************************************************************************
