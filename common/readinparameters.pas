@@ -53,8 +53,13 @@ Type
     //Fraction of rainfall that falls in each time step
   End;
 
+
+
   TRainRecordArray = array Of TRainRecord;
   //Record is converted to 2D matrix
+
+  TRadarRainRecordArray = array Of TRainRecordArray;
+  //Record is converted to 3D matrix
 
   TRouting = Record
     //Record containing information about runoff routing for each cell
@@ -100,6 +105,7 @@ Var
   {Working directories}
   datadir              : string;
   File_output_dir      : string;
+  Radar_dir            : string; //added to be able to find the directory, that allows to read all the rainfall radar input files
   {Files}
   INIfilename          : string;
   DTM_filename         : string;       {unit m}
@@ -125,6 +131,7 @@ Var
   {User Choices}
   Simplified           : boolean;
   Use_Rfactor          : boolean;
+  Use_Radar_rain       : boolean; //added to be able to read the parameter, that tells wether you are working with rainfall radar
   Include_sewer        : boolean;
   Topo, Inc_tillage    : boolean;
   est_clay             : boolean;
@@ -166,6 +173,7 @@ Var
   TFSED_forest         : integer;
   Timestep_model       : integer;
   EndTime_model        : integer;
+  timestepRadar        : integer;
   Timestep_output      : integer;
   PTefValueCropland    : integer;
   PTefValueForest      : integer;
@@ -176,8 +184,11 @@ Var
   {End Parameters to be read form ini-file--------------------------------------}
 
   PRC, DTM, CNmap, LU, ReMap, RunoffTotMap, SewerMap: Rraster;
+  RadarRaindata : Array of Rraster;
   TilDir, Ro, BufferMap, Outlet, RivSeg, Ditch_map, Dam_map, PTEFmap: GRaster;
   i, j, lowOutletX, lowOutletY: integer;
+
+
 
   ROW, COLUMN : Gvector;
 
@@ -399,6 +410,7 @@ Begin
   // If the last character in the output directory is not a "\" this is added
   If (File_output_dir[Length(File_output_dir)] <> '\') Then
     File_output_dir := IncludeTrailingBackslash(File_output_dir);
+  Radar_dir := Inifile.readstring('Working directories', 'Radar directory', Dummy_str);
 
   {Filenames}
   INIfilename := Inifile.Readstring('Files', '.INI filename', Dummy_str);
@@ -445,8 +457,7 @@ Begin
     File_output_dir := IncludeTrailingBackslash(File_output_dir);
 
     {User choices}
-  If (Inifile.ReadBool('User Choices','Simplified model version',false))=true Then Simplified := 
-                                                                                                true
+  If (Inifile.ReadBool('User Choices','Simplified model version',false))=true Then Simplified := true
   Else Simplified := false;
   If Not simplified Then
     Begin
@@ -455,15 +466,21 @@ Begin
           raise EInputException('Error in data input: CN map file not found in '+datadir);
         End;
     End;
-  If (Inifile.ReadBool('User Choices','Use R factor',false))=true Then Use_Rfactor := true
-  Else Use_Rfactor := false;
-  If Not Use_Rfactor Then
+  // This if statement sets the parameter Use Radar rain and tells the program whether it has to use radar rainfall data
+  If (Inifile.ReadBool('User Choices','Use Radar rain',false))=true Then Use_Radar_rain := true
+  Else Use_Radar_Rain := false;
+  If Not Use_Radar_rain Then
     Begin
-      Rainfallfilename := Inifile.Readstring('Files', 'Rainfall filename', Dummy_str);
-      If Not (FileExists(Rainfallfilename)) Then
-        Begin
-          raise EInputException('Error in data input: Rainfall file not found in '+datadir);
-        End;
+      If (Inifile.ReadBool('User Choices','Use R factor',false))=true Then Use_Rfactor := true
+      Else Use_Rfactor := false;
+      If Not Use_Rfactor Then
+            Begin
+                 Rainfallfilename := Inifile.Readstring('Files', 'Rainfall filename', Dummy_str);
+                 If Not (FileExists(Rainfallfilename)) Then
+                    Begin
+                         raise EInputException('Error in data input: Rainfall file not found in '+datadir);
+                    End;
+            End;
     End;
   If (Inifile.ReadBool('User Choices','Include sewers',false))=true Then Include_sewer := true
   Else Include_sewer := false;
@@ -679,6 +696,14 @@ Begin
     Then
       raise EInputException.Create(
       'Error in data input: Endtime model value missing or wrong data format');
+
+  If Use_Radar_Rain Then
+    Begin
+      If Not TryStrToInt(inifile.readstring('Variables', 'Timestep Rain Radar data', Dummy_str), timestepRadar)
+         Then
+             raise EInputException.Create(
+                   'Error in data input: Timestep Rain Radar data value missing or wrong data format');
+    End;
 
   If Include_buffer Then
     Begin

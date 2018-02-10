@@ -9,7 +9,7 @@ cthreads,
   {$ENDIF}{$ENDIF}
 Classes, SysUtils, CustApp, Dos, Interfaces, ReadInParameters, Write_output,
 CN_calculations, Raster_calculations, LateralRedistribution, Idrisi, tillage,
-RData_CN, GData_CN
+RData_CN, GData_CN, radar_procedures
   { you can add units after this };
 
 
@@ -91,13 +91,22 @@ Begin
 
 End;
 
-If Not Use_Rfactor Then
-  Begin
-    ReadRainfallFile(Raindata, RainfallFilename);
-    //The .txt file with rainfall per timestep is read and written to a variable
-    CalculateRFactor;
-    // R factor is calculated from given rainfall record
-  End;
+If Use_Radar_Rain Then
+   Begin
+         PreparRadarRainfallData (Radar_dir, timestepRadar);
+         // R factor is calculated from given rainfall record
+         write ('test1', #13#10);
+         CalculateRFactorRadar (TimeSeries, timestepRadar, RadarRaindataset_src);
+         write ('test2', #13#10);
+   End
+Else
+   If Not Use_Rfactor Then
+      Begin
+           ReadRainfallFile(Raindata, RainfallFilename);
+           //The .txt file with rainfall per timestep is read and written to a variable
+           CalculateRFactor;
+           // R factor is calculated from given rainfall record
+      End;
 
 If (Not simplified) and (Timestep_model>=resAR[1]/0.3) Then
 Begin
@@ -110,9 +119,21 @@ End;
 Allocate_Memory;
 // voor verschillende rasters
 
-If Not Simplified Then
-  CalculateRe(ReMap, PRC, CNmap, alpha, beta);
 //Amount of rainfall excess or deficit is calculated
+If Use_Radar_Rain Then
+   Begin
+       CalculateReRadar(ReMap, RainfallSum, I10Radar, PRC, CNmap, alpha, beta);
+       write ('test3', #13#10);
+   End
+Else
+    Begin
+         If Not Simplified Then
+            Begin
+                 CalculateRe(ReMap, PRC, CNmap, alpha, beta);
+            End
+    End;
+
+
 
 try
 
@@ -133,16 +154,41 @@ end;
 // number and position of outlets is determined. Lowest outlet is also determined.
 calcOutlet;
 
-If Not simplified Then
-  CalculateTimeDependentRunoff(Remap, RainData, Routing, PRC);
 //Amount of runoff per timestep is calculated
+If Use_Radar_Rain Then
+   Begin
+       CalculateTimeDependentRunoffRadar(Remap, Routing, PRC);
+   End
+Else
+    Begin
+         If Not simplified Then
+            Begin
+                 CalculateTimeDependentRunoff(Remap, RainData, Routing, PRC);
+            End
+    End;
 
-Water;
 // Water erosion calculations
+If Use_Radar_Rain Then
+   Begin
+       WaterRadar;
+   End
+Else
+    Begin
+         Water;
+    End;
 
-If Not Simplified Then
-  Distribute_sediment;
 // Sediment is distributed over hydrogram
+If Use_Radar_Rain Then
+   Begin
+       Distribute_sedimentRadar;
+   End
+Else
+    Begin
+        If Not Simplified Then
+           Begin
+                Distribute_sediment;
+           End
+    End;
 
 Tillage_dif;
 // tillage erosion calculations
