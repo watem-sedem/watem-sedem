@@ -16,6 +16,7 @@ type
   public
     { public declarations }
   end;
+Function interpRadar(xOriginal:IntegerArray; xNew:IntegerArray; yOriginal:FloatArray): FloatArray;
 Procedure PreparRadarRainfallData (Var Radar_dir: String; timestepRadar: Integer);
 Procedure InitializeRadar ( Var InitilizationDataset: Array Of Rraster; Number_Radarfiles: Integer; Mask: Array Of Rraster);
 Procedure CalculateRFactorRadar (Var TimeSeries: integerArray; timestepRadar: integer; RadarRaindataset_src: Array Of Rraster);
@@ -48,15 +49,13 @@ var
   RfactorRadar: Rraster;
   RadarFiles: TStringList;
   Src_timeseries: IntegerArray;
-  Cumul_rain_radar_array: FloatArray;
-  Cumul_Interp_radar_array: FloatArray;
   I10RainfallSeries_Interp_radar_array: FloatArray;
   I10RainfallSeries_radar_array: FloatArray;
   I10RainfallSeries_radI10_array: FloatArray;
   I10RainfallSeriesRadar: Array Of Rraster;
   I10Series_radar: FloatArray;
-  Cumul_rain_radar: Array Of Rraster;
-  Cumul_Interp_radar: Array Of Rraster;
+  Rain_radar_array: FloatArray;
+  Rain_radar_interp_array: FloatArray;
   Rain_fraction_radar: Array Of Rraster;
 
   SEDI_OUT: RRaster;
@@ -71,6 +70,52 @@ Begin
 
   GetRFile(RadarRaindata,bestand);
 
+End;
+
+
+//*****************************************************************************
+// This function is used for the interpolation of the rainfall radar data
+//*****************************************************************************
+
+Function interpRadar(xOriginal:IntegerArray; xNew:IntegerArray; yOriginal:FloatArray): FloatArray;
+
+Var
+  i,j,k,l,t1,t2,step,x0,x1 : integer;
+  y0,y1,a,b: double;
+
+Begin
+  setlength(interpRadar, length(xNew));
+  interpRadar[0] := yOriginal[0];
+  t1 := xOriginal[1];
+  t2 := xNew[1];
+  step := t1 Div t2;
+  For i := 1 To length(xOriginal)-1 Do
+    Begin
+      j := (step*i);
+      interpRadar[j] := yOriginal[i];
+    End;
+
+  k := 1;
+  x0 := xNew[k-1];
+  y0 := interpRadar[k-1];
+  x1 := xNew[k+step-1];
+  y1 := interpRadar[k+step-1];
+
+  While k < length(interpRadar)  Do
+    Begin
+      a := ((y1-y0)/(x1-x0));
+      b := (Y1 - (a*x1));
+      For l := 0 To step-2 Do
+        Begin
+          interpRadar[k+l] := ((a*(xNew[k+l])) + b);
+        End;
+
+      k := k+(step);
+      x0 := xNew[k-1];
+      y0 := interpRadar[k-1];
+      x1 := xNew[k+step-1];
+      y1 := interpRadar[k+step-1];
+    End;
 End;
 
 Procedure PreparRadarRainfallData (Var Radar_dir: String; timestepRadar: Integer);
@@ -95,8 +140,23 @@ Procedure PreparRadarRainfallData (Var Radar_dir: String; timestepRadar: Integer
 
      TimeSeries := Src_timeseries;
 
+     // A correction for negative rain values on radar image, these are artefacts of the older KMI algorithms and the rain should just be 0
+         For i := 0 To RadarFiles.count - 1 Do
+             Begin
+                  For k := Low(RadarRaindataset_src[i]) To High(RadarRaindataset_src[i]) - 1 Do
+                      Begin
+                           For l:= Low(RadarRaindataset_src[i,k]) To High(RadarRaindataset_src[i,k]) - 1 Do
+                               Begin
+                                 If RadarRaindataset_src[i,k,l] < 0  Then
+                                    RadarRaindataset_src[i,k,l]:= 0
+                                 Else
+                                    RadarRaindataset_src[i,k,l]:= RadarRaindataset_src[i,k,l];
+                               End
+                      End
+             End;
 
-    If (Simplified) Then   // if timestep rainfall is used as model timestep...
+
+    If (Simplified) Then   // if timestep rainfall is used as model timestep... (There is assumed that the radar images express rainfall in rainfallrate (mm/hr)).
        Begin
             Timestep_model := timestepRadar;
             TimeSeries_output := Src_timeseries;
@@ -106,7 +166,7 @@ Procedure PreparRadarRainfallData (Var Radar_dir: String; timestepRadar: Integer
                       Begin
                            For l:= Low(RadarRaindataset_src[i,k]) To High(RadarRaindataset_src[i,k]) - 1 Do
                                Begin
-                                    RadarRaindataset_dst[i,k,l] := RadarRaindataset_src[i,k,l];
+                                    RadarRaindataset_dst[i,k,l] := (RadarRaindataset_src[i,k,l] * (Timestep_model/3600));
                                End
                       End
 
@@ -115,118 +175,69 @@ Procedure PreparRadarRainfallData (Var Radar_dir: String; timestepRadar: Integer
 
     Else    // interpolation of rainfall data to desired timestep
        Begin;
+          // create new timeseries array
+          NumberOfTimesteps := (RadarFiles.count - 1)*(timestepRadar Div Timestep_model);
+          Setlength(TimeSeries_output, NumberOfTimesteps+1);
+          TimeSeries_output[0] := Src_timeseries[0];
+          For i := 1 To NumberOfTimesteps Do
+              Begin
+                   TimeSeries_output[i] := TimeSeries_output[i-1] + Timestep_model;
+              End;
 
-         Setlength (Cumul_rain_radar, RadarFiles.count);
-         InitializeRadar ( Cumul_rain_radar, RadarFiles.count, RadarRaindataset_src);
+          // interpolation of the rainfall series, see function below
 
-         // calculate cumulatieve rainfall series and a correction for negative rain values on radar image
-         Cumul_rain_radar[0] := RadarRaindataset_src[0];
-         For k := Low(RadarRaindataset_src[0]) To High(RadarRaindataset_src[0]) - 1 Do
-                      Begin
-                           For l:= Low(RadarRaindataset_src[0,k]) To High(RadarRaindataset_src[0,k]) - 1 Do
-                               Begin
-                                 If RadarRaindataset_src[0,k,l] < 0  Then
-                                    Cumul_rain_radar[0,k,l]:= 0
-                               End
-                      End;
+          Setlength (RadarRaindataset_dst, NumberOfTimesteps+1);
+          InitializeRadar (RadarRaindataset_dst, NumberOfTimesteps+1, RadarRaindataset_src);
 
-         For i := 1 To RadarFiles.count - 1 Do
-             Begin
-                  For k := Low(RadarRaindataset_src[i]) To High(RadarRaindataset_src[i]) - 1 Do
-                      Begin
-                           For l:= Low(RadarRaindataset_src[i,k]) To High(RadarRaindataset_src[i,k]) - 1 Do
-                               Begin
-                                 If RadarRaindataset_src[i,k,l] < 0  Then
-                                    Cumul_rain_radar[i,k,l]:= Cumul_rain_radar[i-1,k,l]
-                                 Else
-                                    Cumul_rain_radar[i,k,l]:= Cumul_rain_radar[i-1,k,l] + RadarRaindataset_src[i,k,l];
-                               End
-                      End
-             End
-       End;
+          SetLength (Rain_radar_array, NumberOfTimesteps+1);
+          For k := Low(RadarRaindataset_src[0]) To High(RadarRaindataset_src[0]) - 1 Do
+              Begin
+                   For l:= Low(RadarRaindataset_src[0,k]) To High(RadarRaindataset_src[0,k]) - 1 Do
+                       Begin
+                            For i := 0 To RadarFiles.count - 1 Do
+                                Begin
+                                     Rain_radar_array[i]:= RadarRaindataset_src[i,k,l];
+                                End;
 
-       // create new timeseries array
-      NumberOfTimesteps := (RadarFiles.count - 1)*(timestepRadar Div Timestep_model);
-      Setlength(TimeSeries_output, NumberOfTimesteps+1);
-      TimeSeries_output[0] := Src_timeseries[0];
-      For i := 1 To NumberOfTimesteps Do
-        Begin
-          TimeSeries_output[i] := TimeSeries_output[i-1] + Timestep_model;
-        End;
+                                Rain_radar_interp_array := interpRadar(Src_timeseries, TimeSeries_output, Rain_radar_array);
 
-
-
-       // interpolation of cumulative rainfall series, see function below
-
-       Setlength (Cumul_Interp_radar, NumberOfTimesteps+1);
-       InitializeRadar ( Cumul_Interp_radar, NumberOfTimesteps+1, RadarRaindataset_src);
-
-       SetLength (Cumul_rain_radar_array, NumberOfTimesteps+1);
-       For k := Low(RadarRaindataset_src[0]) To High(RadarRaindataset_src[0]) - 1 Do
-           Begin
-                For l:= Low(RadarRaindataset_src[0,k]) To High(RadarRaindataset_src[0,k]) - 1 Do
-                    Begin
-                       For i := 0 To RadarFiles.count - 1 Do
-                           Begin
-                             Cumul_rain_radar_array[i]:= Cumul_rain_radar[i,k,l];
-                           End;
-
-                       Cumul_Interp_radar_array := interp(Src_timeseries, TimeSeries_output, Cumul_rain_radar_array);
-
-                       For i := 0 To NumberOfTimesteps Do
-                           Begin
-                             Cumul_Interp_radar[i,k,l]:= Cumul_Interp_radar_array[i];
-                           End
+                            For i := 0 To NumberOfTimesteps Do
+                                Begin
+                                     RadarRaindataset_dst[i,k,l]:= (Rain_radar_interp_array[i] * (Timestep_model/3600));
+                                End
                     End
-           End;
+              End;
 
-       // cumulative rainfall series is converted to new rainfall series
+          EndTime := TimeSeries_output[NumberOfTimesteps];
 
-       Setlength (RadarRaindataset_dst, NumberOfTimesteps+1);
-       InitializeRadar ( RadarRaindataset_dst, NumberOfTimesteps+1, RadarRaindataset_src);
+          // extra zeros are added to the rainfall series if necessary
+          EndTime_modelSec := EndTime_model * 60;
+          If EndTime_modelSec > EndTime Then
+             Begin
+                Fill_num := (EndTime_modelSec-EndTime) Div Timestep_model;
+                If (EndTime_modelSec-Endtime) Mod Timestep_model <> 0 Then
+                   Begin
+                        Fill_num := Fill_num+1;
+                   End;
+                NumberOfTimesteps := NumberOfTimesteps+Fill_num;
+                setlength(TimeSeries_output, NumberOfTimesteps+1);
+                setlength(RadarRaindataset_dst, NumberOfTimesteps+1);
 
-       RadarRaindataset_dst[0] := Cumul_Interp_radar[0];
-
-       For i := 1 To NumberOfTimesteps Do
-           Begin
-             For k := Low(RadarRaindataset_src[0]) To High(RadarRaindataset_src[0]) - 1 Do
-                 Begin
-                      For l:= Low(RadarRaindataset_src[0,k]) To High(RadarRaindataset_src[0,k]) - 1 Do
-                          Begin
-                               RadarRaindataset_dst[i,k,l] :=  Cumul_Interp_radar[i,k,l] - Cumul_Interp_radar[i-1,k,l];
-                          End
-                 End
-           End;
-
-     EndTime := TimeSeries_output[NumberOfTimesteps];
-
-     // extra zeros are added to the rainfall series if necessary
-      EndTime_modelSec := EndTime_model * 60;
-      If EndTime_modelSec > EndTime Then
-        Begin
-          Fill_num := (EndTime_modelSec-EndTime) Div Timestep_model;
-          If (EndTime_modelSec-Endtime) Mod Timestep_model <> 0 Then
-            Begin
-              Fill_num := Fill_num+1;
-            End;
-          NumberOfTimesteps := NumberOfTimesteps+Fill_num;
-          setlength(TimeSeries_output, NumberOfTimesteps+1);
-          setlength(RadarRaindataset_dst, NumberOfTimesteps+1);
-
-          For i:= NumberOfTimesteps-Fill_num+1 To length(TimeSeries_output)-1 Do
-            Begin
-              TimeSeries_output[i] := TimeSeries_output[i-1]+Timestep_model;
-              For k := Low(RadarRaindataset_src[0]) To High(RadarRaindataset_src[0]) - 1 Do
-                 Begin
-                   Setlength (RadarRaindataset_dst[i], High(RadarRaindataset_src[0]));
-                      For l:= Low(RadarRaindataset_src[0,k]) To High(RadarRaindataset_src[0,k]) - 1 Do
-                          Begin
-                               Setlength (RadarRaindataset_dst[i,k], High(RadarRaindataset_src[0,k]));
-                               RadarRaindataset_dst[i,k,l] :=0;
-                          End
-                 End
-            End;
-        End;
+                For i:= NumberOfTimesteps-Fill_num+1 To length(TimeSeries_output)-1 Do
+                    Begin
+                         TimeSeries_output[i] := TimeSeries_output[i-1]+Timestep_model;
+                         For k := Low(RadarRaindataset_src[0]) To High(RadarRaindataset_src[0]) - 1 Do
+                             Begin
+                                  Setlength (RadarRaindataset_dst[i], High(RadarRaindataset_src[0]));
+                                  For l:= Low(RadarRaindataset_src[0,k]) To High(RadarRaindataset_src[0,k]) - 1 Do
+                                      Begin
+                                           Setlength (RadarRaindataset_dst[i,k], High(RadarRaindataset_src[0,k]));
+                                           RadarRaindataset_dst[i,k,l] :=0;
+                                      End
+                             End
+                    End;
+             End;
+     End;
 
 
   // calculate total amount of rainfall per pixel (mm)
