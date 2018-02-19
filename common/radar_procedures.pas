@@ -5,7 +5,7 @@ unit radar_procedures;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, Math, Forms, Controls, Graphics, Dialogs, RData_CN, CN_calculations, LateralRedistribution, Raster_calculations, ReadInParameters;
+  Classes, SysUtils, FileUtil, Math, Forms, Controls, Graphics, Dialogs, RData_CN, CN_calculations, LateralRedistribution, Raster_calculations, ReadInParameters, Idrisi;
 
 type
   IntegerArray = array Of integer;
@@ -18,7 +18,8 @@ type
   end;
 Function interpRadar(xOriginal:IntegerArray; xNew:IntegerArray; yOriginal:FloatArray): FloatArray;
 Procedure PreparRadarRainfallData (Var Radar_dir: String; timestepRadar: Integer);
-Procedure InitializeRadar ( Var InitilizationDataset: Array Of Rraster; Number_Radarfiles: Integer; Mask: Array Of Rraster);
+Procedure InitializeRadar ( Var InitilizationDataset: Array Of Rraster; Number_Radarfiles: Integer; Var Mask: Array Of Rraster);
+Procedure DisposeRadarData ( Var DisposeDataset: Array Of Rraster);
 Procedure CalculateRFactorRadar (Var TimeSeries: integerArray; timestepRadar: integer; RadarRaindataset_src: Array Of Rraster);
 Procedure CalculateReRadar(Var Remap:Rraster; RainfallSum:Rraster; I10Radar:Rraster; Perceelskaart:Rraster ; CNmap:Rraster; alpha,beta:double);
 Procedure CalculateTimeDependentRunoffRadar(Var Remap: Rraster; Routing:
@@ -125,6 +126,7 @@ Procedure PreparRadarRainfallData (Var Radar_dir: String; timestepRadar: Integer
      Setlength(RadarRaindataset_src,RadarFiles.count);
      Setlength(Src_timeseries,RadarFiles.count);
      Setlength(TimeSeries,RadarFiles.count);
+     i:= 0;
      repeat
          j:= (i) * timestepRadar;
          bestand:= Radar_dir + IntToStr(j) + '.rst';
@@ -156,10 +158,13 @@ Procedure PreparRadarRainfallData (Var Radar_dir: String; timestepRadar: Integer
              End;
 
 
+
     If (Simplified) Then   // if timestep rainfall is used as model timestep... (There is assumed that the radar images express rainfall in rainfallrate (mm/hr)).
        Begin
             Timestep_model := timestepRadar;
             TimeSeries_output := Src_timeseries;
+            Setlength (RadarRaindataset_dst, RadarFiles.count);
+            InitializeRadar (RadarRaindataset_dst, RadarFiles.count, RadarRaindataset_src);
             For i := 1 To RadarFiles.count - 1 Do
              Begin
                   For k := Low(RadarRaindataset_src[i]) To High(RadarRaindataset_src[i]) - 1 Do
@@ -356,7 +361,7 @@ Procedure PreparRadarRainfallData (Var Radar_dir: String; timestepRadar: Integer
       If timestepRadar = 60 Then
         Begin
           I10TimeSeries := Src_timeseries;
-          I10RainfallSeriesRadar := RadarRaindataset_src;
+          I10RainfallSeriesRadar := copy(RadarRaindataset_src);
         End
       Else If timestepRadar > 60 Then    // interpolation of the original series is needed
              Begin
@@ -367,7 +372,7 @@ Procedure PreparRadarRainfallData (Var Radar_dir: String; timestepRadar: Integer
                I10TimeSeries[0] := Src_timeseries[0];
                For i := 1 To nr Do
                  I10TimeSeries[i] := I10TimeSeries[i-1]+60;
-               I10RainfallSeriesRadar[0] := RadarRaindataset_src[0];
+               I10RainfallSeriesRadar[0] := copy(RadarRaindataset_src[0]);
                For k := Low(RadarRaindataset_src[0]) To High(RadarRaindataset_src[0]) - 1 Do
                           Begin
                                For l:= Low(RadarRaindataset_src[0,k]) To High(RadarRaindataset_src[0,k]) - 1 Do
@@ -456,6 +461,10 @@ Procedure PreparRadarRainfallData (Var Radar_dir: String; timestepRadar: Integer
                     End
            End;
     End;
+   DisposeRadarData(I10RainfallSeriesRadar);
+   I10RainfallSeriesRadar := Nil;
+
+
 
     //Time and Rainfall are written to a Record
 
@@ -472,18 +481,21 @@ Procedure PreparRadarRainfallData (Var Radar_dir: String; timestepRadar: Integer
                                End
                       End
              End;
-     DisposeRadarData ( RadarRaindataset_dst )
+     DisposeRadarData ( RadarRaindataset_dst );
+     RadarRaindataset_dst := Nil;
     End;
 
 
 
-Procedure InitializeRadar ( Var InitilizationDataset: Array Of Rraster; Number_Radarfiles: Integer; Mask: Array Of Rraster);
+Procedure InitializeRadar ( Var InitilizationDataset: Array Of Rraster; Number_Radarfiles: Integer; Var Mask: Array Of Rraster);
           Begin
+            write('test2.4');
             For i:= 0 To Number_Radarfiles - 1 Do
              Begin
                For k := Low(Mask[0]) To High(Mask[0]) - 1 Do
                    Begin
                      Setlength (InitilizationDataset[i], High(Mask[0]));
+                     write(' test2.5: ', i);
                            For l:= Low(Mask[0,k]) To High(Mask[0,k]) - 1 Do
                                Begin
                                  Setlength (InitilizationDataset[i,k], High(Mask[0,k]));
@@ -493,17 +505,17 @@ Procedure InitializeRadar ( Var InitilizationDataset: Array Of Rraster; Number_R
              End
           End;
 
-Procedure DisposeRadarData ( Var DisposeDataset: Array Of Rraster);
+Procedure DisposeRadarData (Var DisposeDataset: Array Of Rraster);
           Begin
                For i:=0 To Length(DisposeDataset)-1 Do
                  Begin
-                      For k:=0 To Length(DisposeDataset[i]-1 Do
-                          Begin
-                               DisposeDataset[i,k]:= Nil;
-                          end
-                          DisposeDataset[i]:= Nil;
-                 end
-            DisposeDataset := Nil;
+                      DisposeDynamicRdata(DisposeDataset[i]);
+                      //For k:=0 To Length(DisposeDataset[i])-1 Do
+                      //    Begin
+                      //         DisposeDataset[i,k]:= Nil;
+                      //    end;
+                      //DisposeDataset[i]:= Nil;
+                 end;
           End;
 
 Procedure CalculateRFactorRadar (Var TimeSeries: integerArray; timestepRadar: integer; RadarRaindataset_src: Array Of Rraster);
@@ -520,6 +532,9 @@ Var
           InitializeRadar ( newRainfallSeries, Length(RadarRaindataset_src), RadarRaindataset_src);
 
           Setlength (RfactorRadar, High(RadarRaindataset_src[0]));
+
+          write (High(RadarRaindataset_src[0]), #13#10);
+          write (High(RadarRaindataset_src[0,1]), #13#10);
 
           For i:= 0 To High(RadarRaindataset_src[0])-1 Do
             Begin
@@ -545,7 +560,7 @@ Var
                   newTimeSeries := TimeSeries;
                   For tel := 0 To Length(RadarRaindataset_src) - 1 Do
                      Begin
-                      newRainfallSeries[tel] := RadarRaindataset_src[tel];
+                      newRainfallSeries[tel] := copy(RadarRaindataset_src[tel]);
                      End;
              End
           Else
@@ -559,7 +574,7 @@ Var
                           minTimeSeries[0] := TimeSeries[0];
                           For i := 1 To nr Do
                               minTimeSeries[i] := minTimeSeries[i-1]+60;
-                              minRainfallSeries[0] := RadarRaindataset_src[0];
+                              minRainfallSeries[0] := copy(RadarRaindataset_src[0]);
                               j := 1;
                               For k := Low(RadarRaindataset_src[0]) To High(RadarRaindataset_src[0]) - 1 Do
                                   Begin
@@ -618,7 +633,7 @@ Var
                            minTimeSeries := TimeSeries;
                            For tel := 0 To Length(RadarRaindataset_src) - 1 Do
                                Begin
-                                    minRainfallSeries[tel] := RadarRaindataset_src[tel];
+                                    minRainfallSeries[tel] := copy(RadarRaindataset_src[tel]);
                                End
                       End;
                   write ('test1.2', #13#10);
@@ -626,9 +641,13 @@ Var
                   nr := ((length(minTimeSeries)-1) Div 10) + 1;
                   setlength(newTimeSeries, nr);
                   setlength(newRainfallSeries_array,length(minTimeSeries));
+                  write('test2.1');
                   setlength(newRainfallSeries_extrap_array, nr);
+                  write('test2.2');
                   setlength(newRainfallSeries, nr);
-                  InitializeRadar ( newRainfallSeries, Length(RadarRaindataset_src), RadarRaindataset_src);
+                  write('test2.3');
+                  InitializeRadar ( newRainfallSeries, nr, RadarRaindataset_src);
+                  write('test2.6');
                   newTimeSeries[0] := TimeSeries[0];
                   For i := 1 To nr Do
                       Begin
@@ -650,7 +669,10 @@ Var
                                                        newRainfallSeries[i,k,l]:= newRainfallSeries_extrap_array[i];
                                                   End;
                                          End
-                                End
+                                End;
+                  DisposeRadarData(minRainfallSeries);
+                  minRainfallSeries := Nil;
+
 
                   End;
              write ('test1.3', #13#10);
@@ -679,11 +701,11 @@ Var
                                                 rainVolume := Copy(newRainfallSeries_while_array, Tini, Tfin-Tini+1);
                                                 // test of totaal rainvolume > 1.27 mm (indien niet, is dit geen erosive event en
                                                 // wordt dit event niet meegenomen bij berekening R factor)
-                                                If sum(rainVolume) < 1.27 Then
-                                                   Begin
-                                                        index := index+1;
-                                                        continue;
-                                                   End;
+                                               // If sum(rainVolume) < 1.27 Then
+                                               //    Begin
+                                               //         index := index+1;
+                                               //         continue;
+                                               //    End;
                                                 SetLength(rainEnergy, Tfin-Tini+1);
                                                 eventEnergy := 0;
                                                 For i := 0 To Tfin-Tini Do
@@ -723,7 +745,9 @@ Var
                                      End;
                                End;
                       End;
-             DisposeRadarData ( RadarRaindataset_src)
+             DisposeRadarData ( RadarRaindataset_src);
+             DisposeRadarData(newRainfallSeries);
+             newRainfallSeries := Nil;
          End;
 
 //******************************************************************************
@@ -851,6 +875,8 @@ Begin
             RunoffInputmap[i,j] := RainfallMap[i,j];
           End;
       End;
+
+  DisposeDynamicRdata(RainfallSum);
 
   //If buffers are included the maximum discharge and dead volume for every buffer are calculated
   If (Include_buffer) Then
@@ -1129,7 +1155,6 @@ Begin
                 End
               Else
                 Begin
-                  //If the runoff is transfered to only 1 neighbor (part 1 = 1)
                   Part1_water := (RunoffMap[k,l]*Routing[k,l].Part1)*((Speed*TimeStep_model)/Routing
                                  [k,l].Distance1);
                   RoutedMap_temp[Routing[k,l].Target1row,Routing[k,l].Target1col] :=
@@ -1217,6 +1242,8 @@ Begin
             //else RunoffCummulMap[k,l] := 0;
           End;
     End;
+  DisposeRadarData(Rain_fraction_radar);
+  Rain_Fraction_radar := Nil;
 
 
   // Runoff results are converted to a different timestep if requested by the user
@@ -1879,8 +1906,8 @@ begin // begin lus
         SEDI_EXPORT_kg[m,n] := SEDI_EXPORT[m,n] * BD;
       End;
   // Dispose Temp 2D maps
-  DisposeDynamicRdata(SEDI_IN);
-  DisposeDynamicRdata(SEDI_OUT);
+  //DisposeDynamicRdata(SEDI_IN);
+  //DisposeDynamicRdata(SEDI_OUT);
   //********************
 End;
 

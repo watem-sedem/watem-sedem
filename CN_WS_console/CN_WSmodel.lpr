@@ -108,6 +108,8 @@ Else
            // R factor is calculated from given rainfall record
       End;
 
+RadarRaindataset_src := Nil;
+
 If (Not simplified) and (Timestep_model>=resAR[1]/0.3) Then
 Begin
       writeln(
@@ -194,6 +196,7 @@ Tillage_dif;
 // tillage erosion calculations
 
 write_maps;
+Write_Routing_Table;
 // write output maps
 
 
