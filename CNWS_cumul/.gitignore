@@ -1,0 +1,10 @@
+*.exe
+*.lrs
+*.lps
+*.res
+*/lib/
+*/backup/
+*.lps
+*.o
+*.ppu
+
