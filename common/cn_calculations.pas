@@ -368,6 +368,8 @@ Begin
                   numoutlet := Outlet[i,j];
               End;
           End;
+      if ( k = 1 ) Then // if k is still 1 after looping through outlet map, no outlets were found
+        raise EInputException.Create('Error in data input: no outlets present in outlet map');
       // lowest outlet is calculated
       lowOutletX := OutletArray[1,0];
       lowOutletY := OutletArray[1,1];

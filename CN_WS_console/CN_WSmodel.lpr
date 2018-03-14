@@ -125,13 +125,23 @@ Except
           writeln(E.Message);
           readln;
           Terminate;
-          Exit
+          Exit;
         End;
 
 end;
 
+try
 // number and position of outlets is determined. Lowest outlet is also determined.
 calcOutlet;
+Except
+  on E: Exception Do
+     Begin
+       Writeln(E.Message);
+       readln;
+       Terminate;
+       Exit;
+     end;
+end;
 
 If Not simplified Then
   CalculateTimeDependentRunoff(Remap, RainData, Routing, PRC);
