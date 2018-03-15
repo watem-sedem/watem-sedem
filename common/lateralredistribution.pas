@@ -267,7 +267,6 @@ Begin
       //Checkerosionheight(i,j,WATEREROS);
       WATEREROS[i, j] := WATEREROS[i, j] * 1000;
       // [mm] (ok)
-      //ShowMessage('Watereros:' + floattostr(WATEREROS[i,j]));
       area := sqr(RES);
       WATEREROS_cubmeter[i,j] := WATEREROS[i, j] * Area / 1000;
       WATEREROS_kg[i,j] := WATEREROS_cubmeter[i,j] * BD;
