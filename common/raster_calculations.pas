@@ -1059,9 +1059,9 @@ Begin
                     End;
                 End;
             Inc(W);
-          Until ((check)Or(W>50));
+          Until ((check)Or(max_kernel>50));
 
-        //50 is the maximum size of the kernel (thus the water is transported 50 cells further away)
+        //max_kernel is the maximum size of the kernel (thus the water is transported 50 cells further away)
         End
 
 
