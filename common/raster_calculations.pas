@@ -469,9 +469,9 @@ Begin
                     End;
                 End;
             Inc(W);
-          Until ((check)Or(W>100));
+          Until ((check)Or(W>max_kernel_river));
 
-       //100 is the maximum size of the kernel (thus the water is transported 30 cells further away)
+       //max_kernel_river is the maximum size of the kernel (thus the water is transported 30 cells further away)
         End;
     End;
 
@@ -931,9 +931,9 @@ Begin
                 End;
             Inc(W);
 
-          Until ((check)Or(W>50));
+          Until ((check)Or(W>max_kernel));
 
-        //50 is the maximum size of the kernel (thus the water is transported 50 cells further away)
+        //max_kernel is the maximum size of the kernel (thus the water is transported 50 cells further away)
 
           If parequal Then    // If receiving cell is in same parcel
             Begin

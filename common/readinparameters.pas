@@ -171,6 +171,8 @@ Var
   PTefValueCropland    : integer;
   PTefValueForest      : integer;
   PTefValuePasture     : integer;
+  max_kernel           : integer;
+  max_kernel_river     : integer;
 
   {Buffers}
   BufferData: TBufferDataArray;
@@ -461,6 +463,8 @@ Begin
 
 
     {User choices}
+  max_kernel := Inifile.ReadInteger('User Choices', 'Max kernel', 50);
+  max_kernel_river := Inifile.ReadInteger('User Choices', 'Max kernel river', 100);
 
   est_clay:= Inifile.ReadBool('User Choices','Estimate clay content',false);
   If (est_clay) And Not (TryStrToFloat(Inifile.Readstring('Variables',
@@ -509,7 +513,6 @@ Begin
       If (Inifile.ReadBool('Output maps','Write total runoff',false))=true Then Write_TOTRUN := true
       Else Write_TOTRUN := false;
     End;
-
 
 
   {Variables}
