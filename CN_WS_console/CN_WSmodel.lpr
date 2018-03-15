@@ -51,7 +51,6 @@ Procedure TCN_WSApplication.DoRun;
 
 Var 
   Time: String;
-  ErrorMsg: String;
   filename: String;
   i : integer;
 Begin
