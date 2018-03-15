@@ -53,6 +53,7 @@ Var
   Time: String;
   filename: String;
   i : integer;
+  high_i, low_i: integer;
 Begin
   StartClock;
   writeln;
@@ -146,8 +147,23 @@ If Not simplified Then
   CalculateTimeDependentRunoff(Remap, RainData, Routing, PRC);
 //Amount of runoff per timestep is calculated
 
-Water;
+if not calibrate then Water;
 // Water erosion calculations
+
+if calibrate Then
+Begin
+  Writeln('Using calibration');
+    For low_i := 0 To calibration.steps Do
+      For high_i:=0 To calibration.steps Do
+        Begin
+
+          ktc_low:=calibration.KTcLow_lower + low_i ;
+          ktc_high:=calibration.KTcHigh_lower + high_i;
+          Writeln('ktc_low: ' + inttostr(ktc_low) + '; ktc_high:' + inttostr(ktc_high));
+          Water;
+
+        end;
+End;
 
 If Not Simplified Then
   Distribute_sediment;

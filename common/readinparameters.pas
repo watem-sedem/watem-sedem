@@ -64,6 +64,15 @@ Type
     Target1Row, Target1Col, Target2Row, Target2Col: integer;
     Part1, Part2, Distance1, Distance2: double;
   End;
+
+  TCalibration = Record
+   KTcHigh_lower: integer;
+   KTcHigh_upper: integer;
+   KTcLow_lower: integer;
+   KTcLow_upper: integer;
+   steps: integer;
+  end;
+
   TRoutingArray = array Of array Of TRouting;
   //Record is converted to 3D matrix
 
@@ -173,6 +182,8 @@ Var
   PTefValuePasture     : integer;
   max_kernel           : integer;
   max_kernel_river     : integer;
+  calibrate            : Boolean;
+  calibration     : TCalibration;
 
   {Buffers}
   BufferData: TBufferDataArray;
@@ -661,6 +672,17 @@ Begin
                 ' the height of the dam. Please insert correct values.');
         End;
     End;
+
+  {calibration}
+  calibrate :=  inifile.ReadBool('Calibration', 'Calibrate', false);
+  If calibrate Then
+    Begin
+      calibration.KTcHigh_lower:=inifile.ReadInteger('Calibration','KTcHigh_lower', 0);
+      calibration.KTcHigh_upper:=inifile.ReadInteger('Calibration','KTcHigh_upper', 1);
+      calibration.KTcLow_lower:=inifile.ReadInteger('Calibration','KTcLow_upper', 0);
+      calibration.KTcLow_upper:=inifile.ReadInteger('Calibration','KTcLow_upper', 1);
+      calibration.steps:=Inifile.ReadInteger('Calibration', 'steps', 10);
+    end;
 
   Inifile.Destroy;
 End;

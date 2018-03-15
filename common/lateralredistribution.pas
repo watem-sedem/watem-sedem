@@ -207,6 +207,8 @@ Begin
     Begin
       numRivSeg := calcRivSeg(RivSeg);
       setlength(sedload_VHA, numRivSeg + 1);
+      for i :=1 to numRivSeg Do
+        sedload_VHA[i] :=0;
       //The length of a vector per river segment (+1) is set
     End;
 
@@ -217,6 +219,7 @@ Begin
   TEMP_outside_sed_input := 0;
   TEMP_buffer_sed_input := 0;
   TEMP_pond_sed_input := 0;
+
 
   //** Calculate watererosion & Lateral sediment
   For teller := ncol * nrow Downto 1 Do
@@ -313,6 +316,7 @@ Begin
   setlength(sedload, numOutlet + 1);
   For i := 1 To numOutlet Do
     Begin
+      sedload[i] := 0;
       k := OutletArray[i, 0];
       //row of the outlet
       l := OutletArray[i, 1];
@@ -349,6 +353,7 @@ Begin
   assignfile(Sediment, 'Total sediment.txt');
   rewrite(Sediment);
   Writeln(Sediment, 'Total erosion: ' + floattostr(round(sedprod*100)/100) + ' (kg)');
+  Writeln('Total erosion: ' + floattostr(round(sedprod*100)/100) + ' (kg)');
   Writeln(Sediment, 'Total deposition: ' + floattostr(round(depprod*100)/100) + ' (kg)');
   Writeln(Sediment, 'Sediment leaving the catchment, via the river: ' + floattostr(round((
           TEMP_river_sed_input * BD)*100)/100) + ' (kg)');
