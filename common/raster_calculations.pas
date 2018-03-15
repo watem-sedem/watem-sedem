@@ -1318,7 +1318,7 @@ Begin
           //else fixed res is used
           ADJUST := (ABS(cos(aspect[i,j]))+ABS(sin(aspect[i,j])));
           //todo johan: bepaald maar niet gebruikt!
-          B := (sin(slope[i,j])/0.0896)/((3.0*power(sin(slope[i,j]),0.8))+0.56);
+          //B := (sin(slope[i,j])/0.0896)/((3.0*power(sin(slope[i,j]),0.8))+0.56);
           //EXP:=B/(B+1);
           If UPAREA[i,j] < 10000 Then
             EXP := 0.3+POWER((UPAREA[i,j]/10000),0.8)
