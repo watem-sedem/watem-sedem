@@ -376,14 +376,16 @@ Procedure DistributeRiver_Routing(i,j:integer; Var FINISH:GRaster);
 
 Var 
   max : double;
-  K,L,id,rowmin,colmin,W : integer;
+  K,L,rowmin,colmin,W : integer;
   OK,OK2,check : boolean;
   r, t: integer;
+
+Const
+  id: integer=-1;
 
 Begin
   FINISH[i,j] := 1;
   //Treated cells receive a value of 1
-  id := -1;
   OK := false;
   Max := -9999999999.99;
   For K := -1 To 1 Do
