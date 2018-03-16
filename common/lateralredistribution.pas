@@ -379,26 +379,30 @@ Begin
   closefile(sed_output_file);
   //The memory of sed_output_file is released
 
-  // also write to cal_output_file
-  setcurrentDir(File_output_dir);
-  assignfile(cal_output_file, 'calibration.txt');
+  if calibrate then
+    begin
+    // also write to cal_output_file
+      setcurrentDir(File_output_dir);
+      assignfile(cal_output_file, 'calibration.txt');
 
-  append(cal_output_file);
-  Write(cal_output_file, inttostr(ktc_low) + ';' + inttostr(ktc_high) +';');
-  Write(cal_output_file, Formatfloat('0.00', sedprod) + ';' +FormatFloat('0.00', depprod) +';');
-  Write(cal_output_file, Formatfloat('0.00', TEMP_river_sed_input * BD) + ';');
-  Write(cal_output_file, Formatfloat('0.00', TEMP_outside_sed_input * BD) + ';');
-  Write(cal_output_file, Formatfloat('0.00', TEMP_buffer_sed_input * BD) + ';');
-  Write(cal_output_file,Formatfloat('0.00', TEMP_pond_sed_input * BD));
+      append(cal_output_file);
+      Write(cal_output_file, inttostr(ktc_low) + ';' + inttostr(ktc_high) +';');
+      Write(cal_output_file, Formatfloat('0.00', sedprod) + ';' +FormatFloat('0.00', depprod) +';');
+      Write(cal_output_file, Formatfloat('0.00', TEMP_river_sed_input * BD) + ';');
+      Write(cal_output_file, Formatfloat('0.00', TEMP_outside_sed_input * BD) + ';');
+      Write(cal_output_file, Formatfloat('0.00', TEMP_buffer_sed_input * BD) + ';');
+      Write(cal_output_file,Formatfloat('0.00', TEMP_pond_sed_input * BD));
 
-  // also write to every outlet
-  For i := 1 To numOutlet Do
-  Begin
-    Write(cal_output_file, ';' + floattostr(sedload[i]));
-  End;
+      // also write to every outlet
+      For i := 1 To numOutlet Do
+      Begin
+        Write(cal_output_file, ';' + floattostr(sedload[i]));
+      End;
 
-  writeln(cal_output_file, '');
-  closefile(cal_output_file);
+      writeln(cal_output_file, '');
+      closefile(cal_output_file);
+    end;
+
 
   If VHA Then
     Begin
