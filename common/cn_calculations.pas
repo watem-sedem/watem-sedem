@@ -440,9 +440,10 @@ Begin
       End;
 End;
 
+//TODO johan this function is called a lot -> better make this a hashmap
+// or probably better use the Outlet raster
 Function is_outlet(i,j:integer): boolean;
-
-Var 
+Var
   m : integer;
 Begin
   result := false;
@@ -450,7 +451,11 @@ Begin
   For m := 1 To numOutlet Do
     Begin
       If (i = OutletArray[m,0]) And (j = OutletArray[m,1]) Then
-        result := true;
+        begin
+           result := true;
+           break;
+        end;
+
     End;
 End;
 
