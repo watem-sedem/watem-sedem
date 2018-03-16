@@ -294,24 +294,21 @@ Begin
     End;
 
   k := 1;
-  x0 := xNew[k-1];
-  y0 := interp[k-1];
-  x1 := xNew[k+step-1];
-  y1 := interp[k+step-1];
 
-  While k < length(interp)  Do
-    Begin
-      For l := 0 To step-2 Do
-        Begin
-          interp[k+l] := y0+((y1-y0)*((xNew[k+l]-x0)/(x1-x0)));
-        End;
+  repeat
+    x0 := xNew[k-1];
+    y0 := interp[k-1];
+    x1 := xNew[k+step-1];
+    y1 := interp[k+step-1];
 
-      k := k+(step);
-      x0 := xNew[k-1];
-      y0 := interp[k-1];
-      x1 := xNew[k+step-1];
-      y1 := interp[k+step-1];
-    End;
+    For l := 0 To step-2 Do
+       Begin
+         interp[k+l] := y0+((y1-y0)*((xNew[k+l]-x0)/(x1-x0)));
+       End;
+
+    k := k+(step);
+  until k>=length(interp);
+
 End;
 
 //*****************************************************************************
