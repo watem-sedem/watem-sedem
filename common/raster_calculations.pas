@@ -1315,7 +1315,7 @@ Begin
           //else fixed res is used
           ADJUST := (ABS(cos(aspect[i,j]))+ABS(sin(aspect[i,j])));
 
-          if LModel = TLModelType.Desmet1996_Vanoost2003 Then
+          if LModel = TLModel.Desmet1996_Vanoost2003 Then
             Begin
               If UPAREA[i,j] < 10000 Then
                 EXP := 0.3+POWER((UPAREA[i,j]/10000),0.8)
@@ -1324,7 +1324,7 @@ Begin
               If EXP>0.72 Then
                 EXP := 0.72;
             end;
-          if LModel = TLModelType.Desmet1996_McCool Then
+          if LModel = TLModel.Desmet1996_McCool Then
             Begin
               B := (sin(slope[i,j])/0.0896)/((3.0*power(sin(slope[i,j]),0.8))+0.56);
               EXP:=B/(B+1);
@@ -1333,10 +1333,10 @@ Begin
           Lfactor := (POWER((Uparea[i,j]+sqr(locres)),EXP+1)-POWER(Uparea[i,j],EXP+1))/
                      (POWER(ADJUST,EXP)*POWER(locres,EXP+2)*POWER(22.13,EXP));
 
-          if SModel = TSModelType.Nearing1997 then
+          if SModel = TSModel.Nearing1997 then
              Sfactor := -1.5 + 17/(1+power(2.718281828,(2.3-6.1*sin(slope[i,j]))));
 
-          if SModel = TSModelType.Desmet1996 then
+          if SModel = TSModel.Desmet1996 then
              begin
                If (tan(slope[i,j])*100.0 < 9.0) Then
                      Sfactor := (10.8*sin(slope[i,j]))+0.03

@@ -76,8 +76,8 @@ Type
   TRoutingArray = array Of array Of TRouting;
   //Record is converted to 3D matrix
 
-  TLModelType = (Desmet1996_McCool, Desmet1996_Vanoost2003);
-  TSModelType = (Desmet1996, Nearing1997);
+  TLModel = (Desmet1996_McCool, Desmet1996_Vanoost2003);
+  TSModel = (Desmet1996, Nearing1997);
 
 Var 
   //internal variables
@@ -187,8 +187,8 @@ Var
   calibrate            : Boolean;
   cal     : TCalibration;
 
-  LModel: TLModelType;
-  SModel: TSModelType;
+  LModel: TLModel;
+  SModel: TSModel;
 
   {Buffers}
   BufferData: TBufferDataArray;
@@ -462,10 +462,10 @@ Begin
   calibrate :=  inifile.ReadBool('Calibration', 'Calibrate', false);
 
   inistring:= Inifile.ReadString('User Choices', 'L model', 'Desmet1996_Vanoost2003');
-  Lmodel := TLModelType(GetEnumValue(Typeinfo(TLModelType), inistring));
+  Lmodel := TLModel(GetEnumValue(Typeinfo(TLModel), inistring));
 
   inistring:= Inifile.ReadString('User Choices', 'S model', 'Nearing1997');
-  Smodel := TSModelType(GetEnumValue(Typeinfo(TSModelType), inistring));
+  Smodel := TSModel(GetEnumValue(Typeinfo(TSModel), inistring));
 
   // TODO: johan - error handling if invalid string is given!
 
