@@ -218,7 +218,7 @@ Begin
     Begin
       GetRfile(CNmap, CNmapfilename);
     End;
-  If topo = false Then // als topo = false wordt de ploegrichting in rekening gebracht
+  If not topo Then // als topo = false wordt de ploegrichting in rekening gebracht
     Begin
       GetGFile(TilDir, TilDirFilename);
       GetGfile(Ro, RoFilename);
@@ -228,10 +228,11 @@ Begin
   GetRFile(C_factor, Cf_Data_filename);
   GetRFile(P_factor, Pf_Data_filename);
 
-  If Create_ktc Then
-    Create_ktc_map(ktc)
-  Else
-    GetGFile(ktc, ktc_Data_filename);
+  If not calibrate Then
+    If Create_ktc Then
+      Create_ktc_map(ktc)
+    Else
+      GetGFile(ktc, ktc_Data_filename);
 
   If Create_ktil Then
     Create_ktil_map(ktil)
@@ -450,6 +451,10 @@ Begin
   Create_ktc := Inifile.ReadBool('User Choices','Create ktc map',false);
   Create_ktil := Inifile.ReadBool('User Choices','Create ktil map',false);
   VHA := Inifile.ReadBool('User Choices','Output per VHA river segment',false);
+   max_kernel := Inifile.ReadInteger('User Choices', 'Max kernel', 50);
+  max_kernel_river := Inifile.ReadInteger('User Choices', 'Max kernel river', 100);
+  est_clay:= Inifile.ReadBool('User Choices','Estimate clay content',false);
+  calibrate :=  inifile.ReadBool('Calibration', 'Calibrate', false);
 
   {Filenames}
   INIfilename := Inifile.Readstring('Files', '.INI filename', Dummy_str);
@@ -467,17 +472,12 @@ Begin
   Cf_data_filename :=SetFileFromIni(Inifile, 'C factor map filename', datadir, true);
   Pf_data_filename :=SetFileFromIni(Inifile, 'P factor map filename', datadir, true);
   Riversegment_filename := SetFileFromIni(Inifile, 'River segment filename', datadir, VHA);
-  ktc_Data_Filename := SetFileFromIni(Inifile, 'ktc map filename', datadir, not Create_ktc);
+  if not calibrate then
+    ktc_Data_Filename := SetFileFromIni(Inifile, 'ktc map filename', datadir, (not Create_ktc));
   ktil_Data_Filename := SetFileFromIni(Inifile, 'ktil map filename', datadir, not Create_ktil);
-
   Outletfilename := inifile.readstring('Files', 'Outlet map filename', Dummy_str);
 
 
-    {User choices}
-  max_kernel := Inifile.ReadInteger('User Choices', 'Max kernel', 50);
-  max_kernel_river := Inifile.ReadInteger('User Choices', 'Max kernel river', 100);
-
-  est_clay:= Inifile.ReadBool('User Choices','Estimate clay content',false);
   If (est_clay) And Not (TryStrToFloat(Inifile.Readstring('Variables',
      'Clay content parent material', Dummy_str), clay_parent)) Then
     Begin
@@ -527,6 +527,7 @@ Begin
 
 
   {Variables}
+
   If Not Simplified Then
     Begin
       If Not Use_RFactor Then
@@ -558,19 +559,21 @@ Begin
      Dummy_str), Number_of_Buffers)) Then
       raise EInputException.Create('Error in data input: Number of buffers value missing or wrong data format');
 
-  If (create_ktc) And Not (TryStrToInt(Inifile.Readstring('Variables', 'ktc low', Dummy_str),ktc_low
-     )) Then
-      raise EInputException.Create('Error in data input: ktc low value missing or wrong data format');
 
-  If (create_ktc) And Not (TryStrToInt(Inifile.Readstring('Variables', 'ktc high', Dummy_str),
-     ktc_high)) Then
-      raise EInputException.Create('Error in data input: ktc high value missing or wrong data format');
 
-  If (create_ktc) And Not (TryStrToFloat(Inifile.Readstring('Variables', 'ktc limit', Dummy_str),
-     ktc_limit)) Then
-    Begin
-      raise EInputException.Create('Error in data input: ktc limit value missing or wrong data format');
-    End;
+  if not calibrate then
+    begin
+        If (create_ktc) And Not
+           (TryStrToInt(Inifile.Readstring('Variables', 'ktc low', Dummy_str),ktc_low)) Then
+             raise EInputException.Create('Error in data input: ktc low value missing or wrong data format');
+        If (create_ktc) And Not
+           (TryStrToInt(Inifile.Readstring('Variables', 'ktc high', Dummy_str), ktc_high)) Then
+             raise EInputException.Create('Error in data input: ktc high value missing or wrong data format');
+        If (create_ktc) And Not
+            (TryStrToFloat(Inifile.Readstring('Variables', 'ktc limit', Dummy_str), ktc_limit)) Then
+             raise EInputException.Create('Error in data input: ktc limit value missing or wrong data format');
+    end;
+
   If (create_ktil) And Not (TryStrToInt(Inifile.Readstring('Variables', 'ktil default', Dummy_str),
      ktil_Default)) Then
     Begin
@@ -674,7 +677,7 @@ Begin
     End;
 
   {cal}
-  calibrate :=  inifile.ReadBool('Calibration', 'Calibrate', false);
+
   If calibrate Then
     Begin
 
