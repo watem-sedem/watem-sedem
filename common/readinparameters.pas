@@ -677,6 +677,7 @@ Begin
   calibrate :=  inifile.ReadBool('Calibration', 'Calibrate', false);
   If calibrate Then
     Begin
+
       cal.KTcHigh_lower:=inifile.ReadInteger('Calibration','KTcHigh_lower', 25);
       cal.KTcHigh_upper:=inifile.ReadInteger('Calibration','KTcHigh_upper', 250);
       cal.KTcLow_lower:=inifile.ReadInteger('Calibration','KTcLow_lower', 10);
