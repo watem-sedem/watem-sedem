@@ -352,7 +352,7 @@ Begin
 End;
 
 //********************************
-//Geen idee waar dit voor dient...
+// Berekent the helling in een richting (dir)
 //********************************
 Function SlopeDir(dir:double;i,j:integer;DTM:Rraster): double;
 // Zero direction is grid north
@@ -581,7 +581,7 @@ Begin
       l1 := 0;
       k2 := 0;
       l2 := 0;
-      If (PRC[i,j] > 0) And (LogReg(i,j)<0.5) And (Not(Topo)) // If tillage direction
+      If (Not(Topo)) and (PRC[i,j] > 0) And (LogReg(i,j)<0.5) // If tillage direction
         Then   //if logReg<0.5 then flow direction is determined by tillage direction
         Begin
           Direction := degtorad(TilDir[i,j]);
