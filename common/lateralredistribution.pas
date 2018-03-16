@@ -386,11 +386,10 @@ Begin
   append(cal_output_file);
   Write(cal_output_file, inttostr(ktc_low) + ';' + inttostr(ktc_high) +';');
   Write(cal_output_file, Formatfloat('0.00', sedprod) + ';' +FormatFloat('0.00', depprod) +';');
-  Write(cal_output_file, floattostr(round((TEMP_river_sed_input * BD)*100)/100) + ';');
-  Write(cal_output_file, floattostr(round((TEMP_outside_sed_input * BD)*100)/100) + ';' + floattostr(round((TEMP_buffer_sed_input * BD)* 100)/100)+ ';');
-  Write(cal_output_file, floattostr(round((TEMP_buffer_sed_input * BD)*
-  100)/100) + ';' +  floattostr(round((TEMP_pond_sed_input * BD)
-  *100)/100) );
+  Write(cal_output_file, Formatfloat('0.00', TEMP_river_sed_input * BD) + ';');
+  Write(cal_output_file, Formatfloat('0.00', TEMP_outside_sed_input * BD) + ';');
+  Write(cal_output_file, Formatfloat('0.00', TEMP_buffer_sed_input * BD) + ';');
+  Write(cal_output_file,Formatfloat('0.00', TEMP_pond_sed_input * BD));
 
   // also write to every outlet
   For i := 1 To numOutlet Do

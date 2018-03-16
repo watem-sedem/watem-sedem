@@ -173,6 +173,7 @@ Begin
         Begin
           ktc_low:=round(cal.KTcLow_lower + low_i * (cal.KTcLow_upper - cal.KTcLow_lower)/cal.steps);
           ktc_high:=round(cal.KTcHigh_lower + high_i* (cal.KTcHigh_upper - cal.KTcHigh_lower)/cal.steps);
+          Create_ktc_map(ktc);
           Writeln('ktc_low: ' + inttostr(ktc_low) + '; ktc_high:' + inttostr(ktc_high));
           Water;
         end;
