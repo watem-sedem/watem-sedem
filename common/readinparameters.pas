@@ -6,7 +6,7 @@ Unit ReadInParameters;
 Interface
 
 Uses 
-Classes, SysUtils, RData_CN, GData_CN, Inifiles, Idrisi;
+Classes, SysUtils, RData_CN, GData_CN, Inifiles, Idrisi, Typinfo;
 
 Procedure ReadInRasters;
 Procedure Allocate_Memory;
@@ -76,6 +76,8 @@ Type
   TRoutingArray = array Of array Of TRouting;
   //Record is converted to 3D matrix
 
+  TLModelType = (Desmet1996_McCool, Desmet1996_Vanoost2003);
+  TSModelType = (Desmet1996, Nearing1997);
 
 Var 
   //internal variables
@@ -184,6 +186,9 @@ Var
   max_kernel_river     : integer;
   calibrate            : Boolean;
   cal     : TCalibration;
+
+  LModel: TLModelType;
+  SModel: TSModelType;
 
   {Buffers}
   BufferData: TBufferDataArray;
@@ -417,7 +422,7 @@ Procedure Readsettings(INI_filename:String);
 
 Var 
   Inifile: Tinifile;
-  Dummy_str, Buffername: string;
+  Dummy_str, Buffername, inistring: string;
   i: integer;
 Begin
 
@@ -455,6 +460,14 @@ Begin
   max_kernel_river := Inifile.ReadInteger('User Choices', 'Max kernel river', 100);
   est_clay:= Inifile.ReadBool('User Choices','Estimate clay content',false);
   calibrate :=  inifile.ReadBool('Calibration', 'Calibrate', false);
+
+  inistring:= Inifile.ReadString('User Choices', 'L model', 'Desmet1996_Vanoost2003');
+  Lmodel := TLModelType(GetEnumValue(Typeinfo(TLModelType), inistring));
+
+  inistring:= Inifile.ReadString('User Choices', 'S model', 'Nearing1997');
+  Smodel := TSModelType(GetEnumValue(Typeinfo(TSModelType), inistring));
+
+  // TODO: johan - error handling if invalid string is given!
 
   {Filenames}
   INIfilename := Inifile.Readstring('Files', '.INI filename', Dummy_str);
