@@ -512,7 +512,7 @@ Begin
         End;
       // vervolgens conversie naar tijdstap van 10 min
       nr := ((length(minTimeSeries)-1) Div 10) + 1;
-      setlength(newTimeSeries, nr);
+      setlength(newTimeSeries, nr + 1);
       setlength(newRainfallSeries, nr);
       newTimeSeries[0] := TimeSeries[0];
       For i := 1 To nr Do
