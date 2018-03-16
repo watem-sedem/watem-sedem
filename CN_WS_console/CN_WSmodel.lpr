@@ -54,6 +54,8 @@ Var
   filename: String;
   i : integer;
   high_i, low_i: integer;
+  cal_output_file: textfile;
+
 Begin
   StartClock;
   writeln;
@@ -153,15 +155,26 @@ if not calibrate then Water;
 if calibrate Then
 Begin
   Writeln('Using calibration');
-    For low_i := 0 To calibration.steps Do
-      For high_i:=0 To calibration.steps Do
-        Begin
+  setcurrentDir(File_output_dir);
+  assignfile(cal_output_file, 'calibration.txt');
+  rewrite(cal_output_file);
+  write(cal_output_file, 'ktc_low;ktc_high;tot_erosion;tot_sedimentation;sed_river;sed_noriver;sed_buffer;sed_openwater');
 
-          ktc_low:=calibration.KTcLow_lower + low_i ;
-          ktc_high:=calibration.KTcHigh_lower + high_i;
+  For i := 1 To numOutlet Do
+  Begin
+    Write(cal_output_file, ';outlet_'+inttostr(i));
+  End;
+
+  writeln(cal_output_file, '');
+  closefile(cal_output_file);
+
+    For low_i := 0 To cal.steps Do
+      For high_i:=0 To cal.steps Do
+        Begin
+          ktc_low:=round(cal.KTcLow_lower + low_i * (cal.KTcLow_upper - cal.KTcLow_lower)/cal.steps);
+          ktc_high:=round(cal.KTcHigh_lower + high_i* (cal.KTcHigh_upper - cal.KTcHigh_lower)/cal.steps);
           Writeln('ktc_low: ' + inttostr(ktc_low) + '; ktc_high:' + inttostr(ktc_high));
           Water;
-
         end;
 End;
 

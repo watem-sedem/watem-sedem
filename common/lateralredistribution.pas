@@ -184,12 +184,12 @@ Var
   teller, i, j, k, l, m, n: integer;
   area, sewer_out_sed, TEMP_river_sed_input, TEMP_outside_sed_input, TEMP_buffer_sed_input,
   TEMP_pond_sed_input: double;
-  sediment, sediment_VHA, sewer_out: textfile;
+  sed_output_file, sediment_VHA, sewer_out, cal_output_file: textfile;
 
 Begin
   // Create temp 2D maps
   SetDynamicRData(SEDI_IN);
-  // Raster with sediment input per gridcel?
+  // Raster with sed_output_file input per gridcel?
   SetDynamicRData(SEDI_OUT);
   //************************
 
@@ -221,7 +221,7 @@ Begin
   TEMP_pond_sed_input := 0;
 
 
-  //** Calculate watererosion & Lateral sediment
+  //** Calculate watererosion & Lateral sed_output_file
   For teller := ncol * nrow Downto 1 Do
     Begin
       // begin lus
@@ -231,7 +231,7 @@ Begin
       If (PRC[i, j] = 0) Or (PRC[i, j] = -1) Or (PRC[i, j] = -5) Then
         // if cell is outside area or a river cell or a water body => = all export cells
 
-//    This means that also cells outside the study area and ponds are included in the calculation of sediment leaving the catchment?
+//    This means that also cells outside the study area and ponds are included in the calculation of sed_output_file leaving the catchment?
         Begin
           If (PRC[i, j] = -1) Then
             TEMP_river_sed_input := TEMP_river_sed_input + SEDI_IN[i, j];
@@ -241,10 +241,10 @@ Begin
             TEMP_pond_sed_input := TEMP_pond_sed_input + SEDI_IN[i, j];
 
           SEDI_EXPORT[i, j] := SEDI_IN[i, j];
-          // assign export sediment (in m³) value for export cells
+          // assign export sed_output_file (in m³) value for export cells
           If (VHA) And (RivSeg[i, j] <> 0) Then
             sedload_VHA[RivSeg[i, j]] := sedload_VHA[RivSeg[i, j]] + SEDI_EXPORT[i, j];
-          // totale hoeveelheid sediment per rivier segment wordt opgeslagen
+          // totale hoeveelheid sed_output_file per rivier segment wordt opgeslagen
           continue;
         End;
 
@@ -286,13 +286,13 @@ Begin
         End;
 
       If SEDI_OUT[i,j] > 0 Then
-        // if sediment leaves this pixel, the sediment needs to be distributed over target cells
+        // if sed_output_file leaves this pixel, the sed_output_file needs to be distributed over target cells
         DistributeFlux_Sediment(i, j, SEDI_IN, SEDI_OUT);
       // SEDI_IN [m³]
 
       If (Include_sewer) And (SewerMap[i, j] <> 0) Then
 
-    // if pixel contains sewer, total amount of sediment leaving the system through sewer is updated
+    // if pixel contains sewer, total amount of sed_output_file leaving the system through sewer is updated
         Begin
 
         // AND SEDI_IN is corrected because procedure Distribute_Flux doesn't take this into account
@@ -310,7 +310,7 @@ Begin
   //***********
 
   // voor elke outletpixel wordt nu de totale sedimentvracht berekend die binnenkomt
-  // voor rivierpixel = som van alle sediment dat terecht komt in alle hogergelegen rivierpixels
+  // voor rivierpixel = som van alle sed_output_file dat terecht komt in alle hogergelegen rivierpixels
   // voor pixel op land = SEDI_IN voor die pixel
 
   setlength(sedload, numOutlet + 1);
@@ -340,7 +340,7 @@ Begin
       // convert sedload to kg
     End;
 
-  // voor elk riviersegment wordt sediment omgezet naar kg
+  // voor elk riviersegment wordt sed_output_file omgezet naar kg
   If VHA Then
     Begin
       For i := 1 To numRivSeg Do
@@ -350,35 +350,56 @@ Begin
   // sedload has to be written to a .txt file as output of the model
 
   setcurrentDir(File_output_dir);
-  assignfile(Sediment, 'Total sediment.txt');
-  rewrite(Sediment);
-  Writeln(Sediment, 'Total erosion: ' + floattostr(round(sedprod*100)/100) + ' (kg)');
-  Writeln('Total erosion: ' + floattostr(round(sedprod*100)/100) + ' (kg)');
-  Writeln(Sediment, 'Total deposition: ' + floattostr(round(depprod*100)/100) + ' (kg)');
-  Writeln(Sediment, 'Sediment leaving the catchment, via the river: ' + floattostr(round((
+  assignfile(sed_output_file, 'Total sediment.txt');
+  rewrite(sed_output_file);
+  Writeln(sed_output_file, 'Total erosion: ' + floattostr(round(sedprod*100)/100) + ' (kg)');
+  Writeln(sed_output_file, 'Total deposition: ' + floattostr(round(depprod*100)/100) + ' (kg)');
+  Writeln(sed_output_file, 'Sediment leaving the catchment, via the river: ' + floattostr(round((
           TEMP_river_sed_input * BD)*100)/100) + ' (kg)');
-  Writeln(Sediment, 'Sediment leaving the catchment, not via the river: ' + floattostr(round((
+  Writeln(sed_output_file, 'Sediment leaving the catchment, not via the river: ' + floattostr(round((
           TEMP_outside_sed_input * BD)*100)/100) + ' (kg)');
-  Writeln(Sediment, 'Sediment trapped in buffers: ' + floattostr(round((TEMP_buffer_sed_input * BD)*
+  Writeln(sed_output_file, 'Sediment trapped in buffers: ' + floattostr(round((TEMP_buffer_sed_input * BD)*
   100)/100) + ' (kg)');
-  Writeln(Sediment, 'Sediment trapped in open water: ' + floattostr(round((TEMP_pond_sed_input * BD)
+  Writeln(sed_output_file, 'Sediment trapped in open water: ' + floattostr(round((TEMP_pond_sed_input * BD)
   *100)/100) + ' (kg)');
-  Writeln(Sediment,'_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _');
-  Writeln(Sediment,'');
-  Writeln(Sediment, 'Total sediment passing at each outlet [kg]');
+  Writeln(sed_output_file,'_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _');
+  Writeln(sed_output_file,'');
+  Writeln(sed_output_file, 'Total sediment passing at each outlet [kg]');
   // write title
-  Write(Sediment, 'Outlet ID', chr(9), 'Sediment');
+  Write(sed_output_file, 'Outlet ID', chr(9), 'Sediment');
   // write column headings
-  writeln(Sediment, '');
+  writeln(sed_output_file, '');
   // go to next line
 
   For i := 1 To numOutlet Do
     Begin
-      Write(Sediment, IntToStr(i), chr(9), floattostr(sedload[i]));
-      writeln(Sediment, '');
+      Write(sed_output_file, IntToStr(i), chr(9), floattostr(sedload[i]));
+      writeln(sed_output_file, '');
     End;
-  closefile(Sediment);
-  //The memory of Sediment is released
+  closefile(sed_output_file);
+  //The memory of sed_output_file is released
+
+  // also write to cal_output_file
+  setcurrentDir(File_output_dir);
+  assignfile(cal_output_file, 'calibration.txt');
+
+  append(cal_output_file);
+  Write(cal_output_file, inttostr(ktc_low) + ';' + inttostr(ktc_high) +';');
+  Write(cal_output_file, Formatfloat('0.00', sedprod) + ';' +FormatFloat('0.00', depprod) +';');
+  Write(cal_output_file, floattostr(round((TEMP_river_sed_input * BD)*100)/100) + ';');
+  Write(cal_output_file, floattostr(round((TEMP_outside_sed_input * BD)*100)/100) + ';' + floattostr(round((TEMP_buffer_sed_input * BD)* 100)/100)+ ';');
+  Write(cal_output_file, floattostr(round((TEMP_buffer_sed_input * BD)*
+  100)/100) + ';' +  floattostr(round((TEMP_pond_sed_input * BD)
+  *100)/100) );
+
+  // also write to every outlet
+  For i := 1 To numOutlet Do
+  Begin
+    Write(cal_output_file, ';' + floattostr(sedload[i]));
+  End;
+
+  writeln(cal_output_file, '');
+  closefile(cal_output_file);
 
   If VHA Then
     Begin
@@ -398,11 +419,11 @@ Begin
           writeln(Sediment_VHA, '');
         End;
       closefile(Sediment_VHA);
-      //The memory of Sediment is released
+      //The memory of sed_output_file is released
     End;
 
   If (Include_sewer) Then
-    // total amount of sediment exported through sewer system is written to .txt file
+    // total amount of sed_output_file exported through sewer system is written to .txt file
     Begin
       sewer_out_sed := sewer_out_sed * BD;
       // convert to kg

@@ -183,7 +183,7 @@ Var
   max_kernel           : integer;
   max_kernel_river     : integer;
   calibrate            : Boolean;
-  calibration     : TCalibration;
+  cal     : TCalibration;
 
   {Buffers}
   BufferData: TBufferDataArray;
@@ -673,15 +673,15 @@ Begin
         End;
     End;
 
-  {calibration}
+  {cal}
   calibrate :=  inifile.ReadBool('Calibration', 'Calibrate', false);
   If calibrate Then
     Begin
-      calibration.KTcHigh_lower:=inifile.ReadInteger('Calibration','KTcHigh_lower', 0);
-      calibration.KTcHigh_upper:=inifile.ReadInteger('Calibration','KTcHigh_upper', 1);
-      calibration.KTcLow_lower:=inifile.ReadInteger('Calibration','KTcLow_upper', 0);
-      calibration.KTcLow_upper:=inifile.ReadInteger('Calibration','KTcLow_upper', 1);
-      calibration.steps:=Inifile.ReadInteger('Calibration', 'steps', 10);
+      cal.KTcHigh_lower:=inifile.ReadInteger('Calibration','KTcHigh_lower', 25);
+      cal.KTcHigh_upper:=inifile.ReadInteger('Calibration','KTcHigh_upper', 250);
+      cal.KTcLow_lower:=inifile.ReadInteger('Calibration','KTcLow_lower', 10);
+      cal.KTcLow_upper:=inifile.ReadInteger('Calibration','KTcLow_upper', 100);
+      cal.steps:=Inifile.ReadInteger('Calibration', 'steps', 10);
     end;
 
   Inifile.Destroy;
