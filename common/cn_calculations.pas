@@ -329,6 +329,8 @@ Begin
   j := 1;
   For i := 1 To length(xNew)-1 Do
     Begin
+      // memory outside the array is accessed hereif j+step-1 > length(yOriginal)-1
+      // TODO: johan - we should check what the goal of this calculation is + correct
       extrap[i] := sum(yOriginal[j..j+step-1]);
       j := j+step;
     End;
