@@ -1081,18 +1081,9 @@ Begin
                           [i,j])+' not found in buffer database.');
               Exit;
             End;
-          For k := 1 To nrow Do
-            // determine coordinates of buffer center
-            For l:= 1 To ncol Do
-              Begin
-                If Buffermap[k,l] = center_ID Then
-                  Begin
-                    center_x := k;
-                    center_y := l;
-                  End;
-              End;
-          Routing[i,j].Target1Row := center_x;
-          Routing[i,j].Target1Col := center_y;
+
+          Routing[i,j].Target1Row := BufferData[k].row;
+          Routing[i,j].Target1Col := BufferData[k].col;
           Routing[i,j].Part1 := 1.0;
           Routing[i,j].Target2Row := 0;
           Routing[i,j].Target2Col := 0;
