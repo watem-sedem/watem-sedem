@@ -44,7 +44,7 @@ Var
   hr2,min2,se2 : word;
 Begin
   GetTime(hr2,min2,se2,s1);
-  result := inttostr(se2-se+(min2-mins)*60+(hr2-hr)*60*60);
+  result := floattostr(se2-se+(min2-mins)*60+(hr2-hr)*60*60+s1/100);
 End;
 
 Procedure TCN_WSApplication.DoRun;
