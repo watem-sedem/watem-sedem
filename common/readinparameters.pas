@@ -679,7 +679,7 @@ Begin
     Begin
       calibration.KTcHigh_lower:=inifile.ReadInteger('Calibration','KTcHigh_lower', 0);
       calibration.KTcHigh_upper:=inifile.ReadInteger('Calibration','KTcHigh_upper', 1);
-      calibration.KTcLow_lower:=inifile.ReadInteger('Calibration','KTcLow_upper', 0);
+      calibration.KTcLow_lower:=inifile.ReadInteger('Calibration','KTcLow_lower', 0);
       calibration.KTcLow_upper:=inifile.ReadInteger('Calibration','KTcLow_upper', 1);
       calibration.steps:=Inifile.ReadInteger('Calibration', 'steps', 10);
     end;
