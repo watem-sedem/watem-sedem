@@ -418,64 +418,37 @@ Begin
       //All material will flow to 1 neighbor
     End
   Else //if the conditions are not met
-    Begin
-      OK2 := false;
-      MAX := -9999999999.9;
-      ROWMIN := 0;
-      COLMIN := 0;
-      For K := -1 To 1 Do
-        //Again, only neighbors of the cell under consideration are looked at
-        For L := -1 To 1 Do
-          Begin
-            If ((K=0)And(L=0)) Then CONTINUE;
-            If (PRC[i+k,j+l]=id)And(DTM[i+k,j+l]>MAX)And(FINISH[i+k,j+l]=0) Then
-              //Same conditions as above, only the neigbor should not have a lower height
+      Begin
+        W := 1;
+        Repeat
+        check := false;
+          For k := -W To W Do
+            For l := -W To W Do
               Begin
-                ROWMIN := K;
-                COLMIN := L;
-                MAX := DTM[I+K,J+L];
-                OK2 := true;
+                If (abs(k)<>W) And (abs(l)<>W) Then continue;
+
+             //The cell itself is not looked at + only the outer cells of the kernel are looked at
+                If ((i+k)<0)Or(i+k>nrow)Or(j+l<0)Or(j+l>ncol) Then
+                  continue;
+                //The cells at the border of the map are not looked at
+                If (PRC[i+k,j+l]=id)And(FINISH[i+k,j+l]=0) Then
+                  //If the cell is a river and has not been treated yet
+                  Begin
+                    If check Then //If a target cell has been found
+                      break;
+                    //If break the current loop is ended
+                    check := true;
+                    Routing[i,j].One_Target := True;
+                    Routing[i,j].Target1Row := I+K;
+                    Routing[i,j].Target1Col := J+L;
+                    Routing[i,j].Part1 := 1.0;
+                  End;
               End;
-          End;
-      If OK2 Then
-        Begin
-          Routing[i,j].One_Target := True;
-          Routing[i,j].Target1Row := I+ROWMIN;
-          Routing[i,j].Target1Col := J+COLMIN;
-          Routing[i,j].Part1 := 1.0;
-        End
-      Else
-        Begin
-          W := 1;
-          check := false;
-          Repeat
-            For k := -W To W Do
-              For l := -W To W Do
-                Begin
-                  If (abs(k)<>W) And (abs(l)<>W) Then continue;
+          Inc(W);
+        Until ((check)Or(W>max_kernel_river));
 
-               //The cell itself is not looked at + only the outer cells of the kernel are looked at
-                  If ((i+k)<0)Or(i+k>nrow)Or(j+l<0)Or(j+l>ncol) Then continue;
-                  //The cells at the border of the map are not looked at
-                  If (PRC[i+k,j+l]=id)And(FINISH[i+k,j+l]=0) Then
-                    //If the cell is a river and has not been treated yet
-                    Begin
-                      If check Then //If a target cell has been found
-                        break;
-                      //If break the current loop is ended
-                      check := true;
-                      Routing[i,j].One_Target := True;
-                      Routing[i,j].Target1Row := I+K;
-                      Routing[i,j].Target1Col := J+L;
-                      Routing[i,j].Part1 := 1.0;
-                    End;
-                End;
-            Inc(W);
-          Until ((check)Or(W>max_kernel_river));
-
-       //max_kernel_river is the maximum size of the kernel (thus the water is transported 30 cells further away)
-        End;
-    End;
+     //max_kernel_river is the maximum size of the kernel (thus the water is transported max_kernel_cells cells further away)
+      End;
 
   //The distance from the source cell to the target cell is determined
   //This is needed to calculate the amount of water that is displaced every timestep,
