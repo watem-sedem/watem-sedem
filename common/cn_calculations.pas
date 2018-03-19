@@ -294,24 +294,21 @@ Begin
     End;
 
   k := 1;
-  x0 := xNew[k-1];
-  y0 := interp[k-1];
-  x1 := xNew[k+step-1];
-  y1 := interp[k+step-1];
 
-  While k < length(interp)  Do
-    Begin
-      For l := 0 To step-2 Do
-        Begin
-          interp[k+l] := y0+((y1-y0)*((xNew[k+l]-x0)/(x1-x0)));
-        End;
+  repeat
+    x0 := xNew[k-1];
+    y0 := interp[k-1];
+    x1 := xNew[k+step-1];
+    y1 := interp[k+step-1];
 
-      k := k+(step);
-      x0 := xNew[k-1];
-      y0 := interp[k-1];
-      x1 := xNew[k+step-1];
-      y1 := interp[k+step-1];
-    End;
+    For l := 0 To step-2 Do
+       Begin
+         interp[k+l] := y0+((y1-y0)*((xNew[k+l]-x0)/(x1-x0)));
+       End;
+
+    k := k+(step);
+  until k>=length(interp);
+
 End;
 
 //*****************************************************************************
@@ -332,6 +329,8 @@ Begin
   j := 1;
   For i := 1 To length(xNew)-1 Do
     Begin
+      // memory outside the array is accessed hereif j+step-1 > length(yOriginal)-1
+      // TODO: johan - we should check what the goal of this calculation is + correct
       extrap[i] := sum(yOriginal[j..j+step-1]);
       j := j+step;
     End;
@@ -441,9 +440,10 @@ Begin
       End;
 End;
 
+//TODO johan this function is called a lot -> better make this a hashmap
+// or probably better use the Outlet raster
 Function is_outlet(i,j:integer): boolean;
-
-Var 
+Var
   m : integer;
 Begin
   result := false;
@@ -451,7 +451,11 @@ Begin
   For m := 1 To numOutlet Do
     Begin
       If (i = OutletArray[m,0]) And (j = OutletArray[m,1]) Then
-        result := true;
+        begin
+           result := true;
+           break;
+        end;
+
     End;
 End;
 

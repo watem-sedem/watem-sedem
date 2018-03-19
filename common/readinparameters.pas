@@ -6,7 +6,7 @@ Unit ReadInParameters;
 Interface
 
 Uses 
-Classes, SysUtils, RData_CN, GData_CN, Inifiles, Idrisi;
+Classes, SysUtils, RData_CN, GData_CN, Inifiles, Idrisi, Typinfo;
 
 Procedure ReadInRasters;
 Procedure Allocate_Memory;
@@ -76,6 +76,8 @@ Type
   TRoutingArray = array Of array Of TRouting;
   //Record is converted to 3D matrix
 
+  TLModel = (Desmet1996_McCool, Desmet1996_Vanoost2003);
+  TSModel = (Desmet1996, Nearing1997);
 
 Var 
   //internal variables
@@ -184,6 +186,9 @@ Var
   max_kernel_river     : integer;
   calibrate            : Boolean;
   cal     : TCalibration;
+
+  LModel: TLModel;
+  SModel: TSModel;
 
   {Buffers}
   BufferData: TBufferDataArray;
@@ -417,7 +422,7 @@ Procedure Readsettings(INI_filename:String);
 
 Var 
   Inifile: Tinifile;
-  Dummy_str, Buffername: string;
+  Dummy_str, Buffername, inistring: string;
   i: integer;
 Begin
 
@@ -455,6 +460,17 @@ Begin
   max_kernel_river := Inifile.ReadInteger('User Choices', 'Max kernel river', 100);
   est_clay:= Inifile.ReadBool('User Choices','Estimate clay content',false);
   calibrate :=  inifile.ReadBool('Calibration', 'Calibrate', false);
+
+  inistring:= Inifile.ReadString('User Choices', 'L model', 'Desmet1996_Vanoost2003');
+  Lmodel := TLModel(GetEnumValue(Typeinfo(TLModel), inistring));
+  if Lmodel > high(TLModel) then
+    raise EInputException.Create('invalid L model: '+ inistring);
+
+  inistring:= Inifile.ReadString('User Choices', 'S model', 'Nearing1997');
+  Smodel := TSModel(GetEnumValue(Typeinfo(TSModel), inistring));
+  if Smodel > high(TSModel) then
+    raise EInputException.Create('invalid S model: '+ inistring);
+
 
   {Filenames}
   INIfilename := Inifile.Readstring('Files', '.INI filename', Dummy_str);
@@ -569,10 +585,11 @@ Begin
         If (create_ktc) And Not
            (TryStrToInt(Inifile.Readstring('Variables', 'ktc high', Dummy_str), ktc_high)) Then
              raise EInputException.Create('Error in data input: ktc high value missing or wrong data format');
-        If (create_ktc) And Not
+
+    end;
+  If (create_ktc or calibrate) And Not
             (TryStrToFloat(Inifile.Readstring('Variables', 'ktc limit', Dummy_str), ktc_limit)) Then
              raise EInputException.Create('Error in data input: ktc limit value missing or wrong data format');
-    end;
 
   If (create_ktil) And Not (TryStrToInt(Inifile.Readstring('Variables', 'ktil default', Dummy_str),
      ktil_Default)) Then
@@ -687,6 +704,10 @@ Begin
       cal.KTcLow_upper:=inifile.ReadInteger('Calibration','KTcLow_upper', 100);
       cal.steps:=Inifile.ReadInteger('Calibration', 'steps', 10);
     end;
+
+    If Use_Rfactor Then
+    Rfactor := Rfactor / 10000;
+  // in MJ.mm/m².h.year
 
   Inifile.Destroy;
 End;

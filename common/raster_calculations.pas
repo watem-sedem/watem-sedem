@@ -376,14 +376,16 @@ Procedure DistributeRiver_Routing(i,j:integer; Var FINISH:GRaster);
 
 Var 
   max : double;
-  K,L,id,rowmin,colmin,W : integer;
+  K,L,rowmin,colmin,W : integer;
   OK,OK2,check : boolean;
   r, t: integer;
+
+Const
+  id: integer=-1;
 
 Begin
   FINISH[i,j] := 1;
   //Treated cells receive a value of 1
-  id := -1;
   OK := false;
   Max := -9999999999.99;
   For K := -1 To 1 Do
@@ -416,64 +418,37 @@ Begin
       //All material will flow to 1 neighbor
     End
   Else //if the conditions are not met
-    Begin
-      OK2 := false;
-      MAX := -9999999999.9;
-      ROWMIN := 0;
-      COLMIN := 0;
-      For K := -1 To 1 Do
-        //Again, only neighbors of the cell under consideration are looked at
-        For L := -1 To 1 Do
-          Begin
-            If ((K=0)And(L=0)) Then CONTINUE;
-            If (PRC[i+k,j+l]=id)And(DTM[i+k,j+l]>MAX)And(FINISH[i+k,j+l]=0) Then
-              //Same conditions as above, only the neigbor should not have a lower height
+      Begin
+        W := 1;
+        Repeat
+        check := false;
+          For k := -W To W Do
+            For l := -W To W Do
               Begin
-                ROWMIN := K;
-                COLMIN := L;
-                MAX := DTM[I+K,J+L];
-                OK2 := true;
+                If (abs(k)<>W) And (abs(l)<>W) Then continue;
+
+             //The cell itself is not looked at + only the outer cells of the kernel are looked at
+                If ((i+k)<0)Or(i+k>nrow)Or(j+l<0)Or(j+l>ncol) Then
+                  continue;
+                //The cells at the border of the map are not looked at
+                If (PRC[i+k,j+l]=id)And(FINISH[i+k,j+l]=0) Then
+                  //If the cell is a river and has not been treated yet
+                  Begin
+                    If check Then //If a target cell has been found
+                      break;
+                    //If break the current loop is ended
+                    check := true;
+                    Routing[i,j].One_Target := True;
+                    Routing[i,j].Target1Row := I+K;
+                    Routing[i,j].Target1Col := J+L;
+                    Routing[i,j].Part1 := 1.0;
+                  End;
               End;
-          End;
-      If OK2 Then
-        Begin
-          Routing[i,j].One_Target := True;
-          Routing[i,j].Target1Row := I+ROWMIN;
-          Routing[i,j].Target1Col := J+COLMIN;
-          Routing[i,j].Part1 := 1.0;
-        End
-      Else
-        Begin
-          W := 1;
-          check := false;
-          Repeat
-            For k := -W To W Do
-              For l := -W To W Do
-                Begin
-                  If (abs(k)<>W) And (abs(l)<>W) Then continue;
+          Inc(W);
+        Until ((check)Or(W>max_kernel_river));
 
-               //The cell itself is not looked at + only the outer cells of the kernel are looked at
-                  If ((i+k)<0)Or(i+k>nrow)Or(j+l<0)Or(j+l>ncol) Then continue;
-                  //The cells at the border of the map are not looked at
-                  If (PRC[i+k,j+l]=id)And(FINISH[i+k,j+l]=0) Then
-                    //If the cell is a river and has not been treated yet
-                    Begin
-                      If check Then //If a target cell has been found
-                        break;
-                      //If break the current loop is ended
-                      check := true;
-                      Routing[i,j].One_Target := True;
-                      Routing[i,j].Target1Row := I+K;
-                      Routing[i,j].Target1Col := J+L;
-                      Routing[i,j].Part1 := 1.0;
-                    End;
-                End;
-            Inc(W);
-          Until ((check)Or(W>max_kernel_river));
-
-       //max_kernel_river is the maximum size of the kernel (thus the water is transported 30 cells further away)
-        End;
-    End;
+     //max_kernel_river is the maximum size of the kernel (thus the water is transported max_kernel_cells cells further away)
+      End;
 
   //The distance from the source cell to the target cell is determined
   //This is needed to calculate the amount of water that is displaced every timestep,
@@ -1034,9 +1009,10 @@ Begin
         // center of the buffer drains to lowest neighbour
         Begin
           w := 1;
-          Minimum := 99999999.9;
-          check := false;
           Repeat
+            Minimum := 99999999.9;
+            check := false;
+
             For K := -w To w Do
               //a 3*3 kernel is build around the center of the buffer
               For L := -w To w Do
@@ -1081,18 +1057,9 @@ Begin
                           [i,j])+' not found in buffer database.');
               Exit;
             End;
-          For k := 1 To nrow Do
-            // determine coordinates of buffer center
-            For l:= 1 To ncol Do
-              Begin
-                If Buffermap[k,l] = center_ID Then
-                  Begin
-                    center_x := k;
-                    center_y := l;
-                  End;
-              End;
-          Routing[i,j].Target1Row := center_x;
-          Routing[i,j].Target1Col := center_y;
+
+          Routing[i,j].Target1Row := BufferData[k].row;
+          Routing[i,j].Target1Col := BufferData[k].col;
           Routing[i,j].Part1 := 1.0;
           Routing[i,j].Target2Row := 0;
           Routing[i,j].Target2Col := 0;
@@ -1218,7 +1185,6 @@ Begin
       W := 1;
       check := false;
       Repeat
-
  // find closest LOWER river pixel. If no neighbouring cells are found to be a suitable target cell,
         //the search window is gradually extended until target is found
         For k := -W To W Do
@@ -1300,13 +1266,10 @@ End;
 
 
 Procedure CalculateLS(Var LS:RRaster;UPAREA:RRaster);
-
 Var 
   i,j     : integer;
   exp,Sfactor,Lfactor,adjust,B,locres : double;
 Begin
-
-
   For i:=1 To nrow Do
     Begin
       For j:=1 To ncol Do
@@ -1317,24 +1280,39 @@ Begin
           Else locres := (X_Resolution()+Y_Resolution())/2.0;
           //else fixed res is used
           ADJUST := (ABS(cos(aspect[i,j]))+ABS(sin(aspect[i,j])));
-          //todo johan: bepaald maar niet gebruikt!
-          //B := (sin(slope[i,j])/0.0896)/((3.0*power(sin(slope[i,j]),0.8))+0.56);
-          //EXP:=B/(B+1);
-          If UPAREA[i,j] < 10000 Then
-            EXP := 0.3+POWER((UPAREA[i,j]/10000),0.8)
-          Else
-            EXP := 0.72;
-          If EXP>0.72 Then
-            EXP := 0.72;
 
-          Sfactor := -1.5 + 17/(1+power(2.718281828,(2.3-6.1*sin(slope[i,j]))));
+          if LModel = TLModel.Desmet1996_Vanoost2003 Then
+            Begin
+              If UPAREA[i,j] < 10000 Then
+                EXP := 0.3+POWER((UPAREA[i,j]/10000),0.8)
+              Else
+                EXP := 0.72;
+              If EXP>0.72 Then
+                EXP := 0.72;
+            end;
+          if LModel = TLModel.Desmet1996_McCool Then
+            Begin
+              B := (sin(slope[i,j])/0.0896)/((3.0*power(sin(slope[i,j]),0.8))+0.56);
+              EXP:=B/(B+1);
+            end;
+
           Lfactor := (POWER((Uparea[i,j]+sqr(locres)),EXP+1)-POWER(Uparea[i,j],EXP+1))/
                      (POWER(ADJUST,EXP)*POWER(locres,EXP+2)*POWER(22.13,EXP));
+
+          if SModel = TSModel.Nearing1997 then
+             Sfactor := -1.5 + 17/(1+power(2.718281828,(2.3-6.1*sin(slope[i,j]))));
+
+          if SModel = TSModel.Desmet1996 then
+             begin
+               If (tan(slope[i,j])*100.0 < 9.0) Then
+                     Sfactor := (10.8*sin(slope[i,j]))+0.03
+               Else Sfactor := (16.8*sin(slope[i,j]))-0.5;
+             end;
+
           LS[i,j] := Sfactor*Lfactor;
         End;
       // end matrix loop
     End;
-
 End;
 // --------- end procedure CalculateLS------------------------------------
 
