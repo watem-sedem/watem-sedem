@@ -1009,9 +1009,10 @@ Begin
         // center of the buffer drains to lowest neighbour
         Begin
           w := 1;
-          Minimum := 99999999.9;
-          check := false;
           Repeat
+            Minimum := 99999999.9;
+            check := false;
+
             For K := -w To w Do
               //a 3*3 kernel is build around the center of the buffer
               For L := -w To w Do
@@ -1184,7 +1185,6 @@ Begin
       W := 1;
       check := false;
       Repeat
-
  // find closest LOWER river pixel. If no neighbouring cells are found to be a suitable target cell,
         //the search window is gradually extended until target is found
         For k := -W To W Do
