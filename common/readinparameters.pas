@@ -585,10 +585,11 @@ Begin
         If (create_ktc) And Not
            (TryStrToInt(Inifile.Readstring('Variables', 'ktc high', Dummy_str), ktc_high)) Then
              raise EInputException.Create('Error in data input: ktc high value missing or wrong data format');
-        If (create_ktc) And Not
+
+    end;
+  If (create_ktc or calibrate) And Not
             (TryStrToFloat(Inifile.Readstring('Variables', 'ktc limit', Dummy_str), ktc_limit)) Then
              raise EInputException.Create('Error in data input: ktc limit value missing or wrong data format');
-    end;
 
   If (create_ktil) And Not (TryStrToInt(Inifile.Readstring('Variables', 'ktil default', Dummy_str),
      ktil_Default)) Then
@@ -703,6 +704,10 @@ Begin
       cal.KTcLow_upper:=inifile.ReadInteger('Calibration','KTcLow_upper', 100);
       cal.steps:=Inifile.ReadInteger('Calibration', 'steps', 10);
     end;
+
+    If Use_Rfactor Then
+    Rfactor := Rfactor / 10000;
+  // in MJ.mm/m².h.year
 
   Inifile.Destroy;
 End;

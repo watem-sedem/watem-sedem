@@ -199,10 +199,6 @@ Begin
 
   // SEDI_EXPORT is defined in 'Readinparameters.pas' (in allocate_memory)
 
-  If Use_Rfactor Then
-    Rfactor := Rfactor / 10000;
-  // in MJ.mm/m².h.year
-
   If VHA Then //If the user wants output per river segment
     Begin
       numRivSeg := calcRivSeg(RivSeg);
