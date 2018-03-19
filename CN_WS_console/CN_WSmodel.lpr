@@ -7,7 +7,7 @@ Uses
   {$IFDEF UNIX}{$IFDEF UseCThreads}
 cthreads,
   {$ENDIF}{$ENDIF}
-Classes, SysUtils, CustApp, Dos, Interfaces, ReadInParameters, Write_output,
+Classes, SysUtils, CustApp, Dos, Interfaces, Crt, ReadInParameters, Write_output,
 CN_calculations, Raster_calculations, LateralRedistribution, Idrisi, tillage,
 RData_CN, GData_CN
   { you can add units after this };
@@ -70,21 +70,11 @@ Begin
 
   Try
      ReadSettings(filename);
-   Except
-     on E:Exception Do
-     Begin
-       writeln(E.Message);
-       readln;
-       Terminate;
-       Exit
-     End;
-   end;
-
-  Try
-    ReadInRasters;
+     ReadInRasters;
   Except
     on E: Exception Do
           Begin
+            TextColor(red);
             writeln(E.Message);
             readln;
             Terminate;
