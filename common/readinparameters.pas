@@ -463,11 +463,14 @@ Begin
 
   inistring:= Inifile.ReadString('User Choices', 'L model', 'Desmet1996_Vanoost2003');
   Lmodel := TLModel(GetEnumValue(Typeinfo(TLModel), inistring));
+  if Lmodel > high(TLModel) then
+    raise EInputException.Create('invalid L model: '+ inistring);
 
   inistring:= Inifile.ReadString('User Choices', 'S model', 'Nearing1997');
   Smodel := TSModel(GetEnumValue(Typeinfo(TSModel), inistring));
+  if Smodel > high(TSModel) then
+    raise EInputException.Create('invalid S model: '+ inistring);
 
-  // TODO: johan - error handling if invalid string is given!
 
   {Filenames}
   INIfilename := Inifile.Readstring('Files', '.INI filename', Dummy_str);
