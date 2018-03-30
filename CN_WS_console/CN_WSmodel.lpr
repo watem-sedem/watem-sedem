@@ -77,7 +77,7 @@ Begin
             TextColor(red);
             writeln(E.Message);
             readln;
-            Terminate;
+            Terminate(1);
             Exit
           End;
 
@@ -95,7 +95,7 @@ If (Not simplified) and (Timestep_model>=resAR[1]/0.3) Then
 Begin
       writeln(
           'Error: Courant criterium for model stability violated. Please select a smaller timestep.');
-      Terminate;
+      Terminate(1);
       Exit;
 End;
 
@@ -116,7 +116,7 @@ Except
         Begin
           writeln(E.Message);
           readln;
-          Terminate;
+          Terminate(1);
           Exit;
         End;
 
@@ -130,7 +130,7 @@ Except
      Begin
        Writeln(E.Message);
        readln;
-       Terminate;
+       Terminate(1);
        Exit;
      end;
 end;
