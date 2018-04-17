@@ -1304,7 +1304,7 @@ Begin
 
           if SModel = TSModel.Desmet1996 then
              begin
-               If (tan(slope[i,j])*100.0 < 9.0) Then
+               If (ArcTan(slope[i,j])*100.0 < 9.0) Then
                      Sfactor := (10.8*sin(slope[i,j]))+0.03
                Else Sfactor := (16.8*sin(slope[i,j]))-0.5;
              end;
