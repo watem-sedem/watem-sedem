@@ -306,7 +306,8 @@ Begin
   //***********
 
   // voor elke outletpixel wordt nu de totale sedimentvracht berekend die binnenkomt
-  // voor rivierpixel = som van alle sed_output_file dat terecht komt in alle hogergelegen rivierpixels
+  // voor rivierpixel = som van alle sed_output_file dat terecht komt in alle
+  // hogergelegen rivierpixels binnen hetzelfde segment.
   // voor pixel op land = SEDI_IN voor die pixel
 
   setlength(sedload, numOutlet + 1);
@@ -322,7 +323,9 @@ Begin
           For m := 1 To nrow Do
             For n := 1 To ncol Do
               Begin
-                If (PRC[m, n] = -1) And (DTM[m, n] >= DTM[k, l]) Then
+                If (PRC[m, n] = -1)
+                 And (DTM[m, n] >= DTM[k, l])
+                 And(Rivseg[m,n] = Rivseg[k,l]) Then
                   sedload[i] := sedload[i] + SEDI_EXPORT[m, n];
                 // Here SEDI_EXPORT [m³]
                 //      sedload [m³]
