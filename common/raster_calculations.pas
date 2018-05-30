@@ -30,6 +30,7 @@ Procedure CalculateLS(Var LS:RRaster;UPAREA:RRaster);
 Procedure DistributeFlux_LS(i,j:integer;Var Flux_IN,Flux_OUT: RRaster);
 Procedure DistributeFlux_Sediment(i,j:integer;Var Flux_IN,Flux_OUT: RRaster);
 Procedure Topo_Calculations;
+Procedure Routing_Slope(Var Routing: TRoutingArray; Var Slope: RRaster);
 
 
 
@@ -1270,6 +1271,11 @@ Var
   i,j     : integer;
   exp,Sfactor,Lfactor,adjust,B,locres : double;
 Begin
+
+  // adjust the slope to the slope according to the actual routing table
+  if adjusted_slope then
+    Routing_Slope(routing, slope);
+
   For i:=1 To nrow Do
     Begin
       For j:=1 To ncol Do
@@ -1326,7 +1332,7 @@ Begin
   // flux decomposition algoritme
 
 
-// Bij de overgang naar een ander perceel wordt de uparea verminders volgens de parcel connectivities
+// Bij de overgang naar een ander perceel wordt de uparea verminderd volgens de parcel connectivities
   If (Routing[i,j].one_target = true) And (PRC[Routing[i,j].Target1Row,Routing[i,j].Target1Col] <>
      PRC[i,j]) Then
     // Als er maar 1 targetcel is (dit is steeds wanneer er naar een ander perceel wordt gerout,
@@ -1481,5 +1487,31 @@ Begin
   Calculate_UpstreamArea(UPAREA);
   CalculateLS(LS,UPAREA);
 End;
+
+Procedure Routing_Slope(Var Routing: TRoutingArray; Var Slope: RRaster);
+Var
+  i, j, target_row, target_col: integer;
+  diff1, diff2, s1, s2: double;
+Begin
+  for i := Length(Routing) downto 1 do
+    for j:= Length(Routing[i]) downto 1 do
+      begin
+        target_row := Routing[i,j].Target1Row;
+        target_col := Routing[i,j].Target1Col;
+        if Routing[i][j].Part1 > 0.0000001 then
+           s1 := Routing[i][j].Part1 * (DTM[i,j] - DTM[target_row, target_col]) / Routing[i,j].Distance1
+        else
+           s1:= 0;
+        target_row := Routing[i,j].Target2Row;
+        target_col := Routing[i,j].Target2Col;
+        if Routing[i][j].Part2 > 0.0000001 then
+           s2 := Routing[i][j].Part2 * (DTM[i,j] - DTM[target_row, target_col]) / Routing[i,j].Distance2
+        else
+           s2 :=0;
+        slope[i,j] := arctan(sqrt(sqr(s1) + sqr(s2)))
+      end;
+
+End;
+
 
 End.
