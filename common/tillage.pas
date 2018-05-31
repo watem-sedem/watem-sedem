@@ -32,7 +32,7 @@ Begin
   SetDynamicRData(SEDI_OUT);
   //************************
 
-  CalculateSlopeAspect;
+  // CalculateSlopeAspect;
 
   For i := 1 To nrow Do
     For j := 1 To ncol Do
