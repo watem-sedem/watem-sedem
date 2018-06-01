@@ -1499,13 +1499,13 @@ Begin
         target_row := Routing[i,j].Target1Row;
         target_col := Routing[i,j].Target1Col;
         if Routing[i][j].Part1 > 0.0000001 then
-           s1 := Routing[i][j].Part1 * (DTM[i,j] - DTM[target_row, target_col]) / Routing[i,j].Distance1
+           s1 := (DTM[i,j] - DTM[target_row, target_col]) / Routing[i,j].Distance1
         else
            s1:= 0;
         target_row := Routing[i,j].Target2Row;
         target_col := Routing[i,j].Target2Col;
         if Routing[i][j].Part2 > 0.0000001 then
-           s2 := Routing[i][j].Part2 * (DTM[i,j] - DTM[target_row, target_col]) / Routing[i,j].Distance2
+           s2 := (DTM[i,j] - DTM[target_row, target_col]) / Routing[i,j].Distance2
         else
            s2 :=0;
         slope[i,j] := arctan(sqrt(sqr(s1) + sqr(s2)))
