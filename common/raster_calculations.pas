@@ -1500,6 +1500,14 @@ Begin
   for i := Length(Routing) downto 1 do
     for j:= Length(Routing[i]) downto 1 do
       begin
+        if PRC[i,j] = 0 then
+          begin
+          slope[i,j] := -99999;
+          continue;
+          end;
+        if  (Routing[i][j].Part1 > 0.0000001) and (Routing[i][j].Part2 > 0.0000001) then
+          continue; // the original slope is used
+
         target_row := Routing[i,j].Target1Row;
         target_col := Routing[i,j].Target1Col;
         if Routing[i][j].Part1 > 0.0000001 then
