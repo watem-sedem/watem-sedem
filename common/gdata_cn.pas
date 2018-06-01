@@ -54,13 +54,8 @@ End;
 //**********************************************
 
 Procedure SetDynamicGData(Var Z:GRaster);
-
-Var 
-  i       : integer;
 Begin
-  SetLength(Z,nrow+2);
-  For i := Low(Z) To high(Z) Do
-    Setlength(Z[i],ncol+2);
+  SetLength(Z,nrow+2, ncol+2);
 End;
 
 
@@ -68,12 +63,7 @@ End;
 //Met deze procedure wordt het dynamisch toegekende geheugen weer vrijgegeven
 //***************************************************************************
 Procedure DisposeDynamicGdata(Var Z:GRaster);
-
-Var 
-  i       : integer;
 Begin
-  For i := Low(Z) To high(Z) Do
-    Z[i] := Nil;
   Z := Nil;
 End;
 
