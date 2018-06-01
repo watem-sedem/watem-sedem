@@ -32,19 +32,21 @@ Begin
   Assignfile(outputf,filename);
   rewrite(outputf);
   //Openen om in te schrijven
-  MAXZ := -9999999999.99;
+  MAXZ := -999999999.99;
   MINZ := 999999999.99;
   For i:=1 To pnrow Do
     // Hiermee worden de kleinste en grootste variabelewaarden
     For j:=1 To pncol Do
       // op de kaart bepaald
       Begin
+        write(outputf, Z[i,j]);
+        //wegschrijven waarde op kaart
+        if Z[i,j] = -9999 then continue;
         If Z[i,j]>MAXZ Then
           MAXZ := Z[i,j];
         If Z[i,j]<MINZ Then
           MINZ := Z[i,j];
-        write(outputf, Z[i,j]);
-        //wegschrijven waarde op kaart
+
       End;
   Closefile(outputf);
 
@@ -87,8 +89,8 @@ Begin
   writeln(outputdoc,dumstr);
   writeln(outputdoc,'value units : unspecified');
   writeln(outputdoc,'value error : unknown');
-  writeln(outputdoc,'flag value  : none');
-  writeln(outputdoc,'flag defnn  : none');
+  writeln(outputdoc,'flag value  : -9999');
+  writeln(outputdoc,'flag def''n  : missing data');
   writeln(outputdoc,'legend cats : 0');
   Closefile(outputdoc);
 End;
