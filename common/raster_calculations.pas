@@ -1281,7 +1281,11 @@ Begin
       For j:=1 To ncol Do
         Begin
           // begin matrix loop
-          If (PRC[i,j] = 0) Or (PRC[i,j] = -1) Then continue;
+          If (PRC[i,j] = 0) Or (PRC[i,j] = -1) Then
+            begin
+              LS[i,j] := -9999;
+              continue;
+            end;
           If Raster_projection=plane Then locres := RES
           Else locres := (X_Resolution()+Y_Resolution())/2.0;
           //else fixed res is used
