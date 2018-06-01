@@ -1250,7 +1250,11 @@ Begin
       // begin lus
       i := row[teller];
       j := column[teller];
-      If PRC[i,j]=0 Then continue;
+      If PRC[i,j]=0 Then
+        begin
+          UPAREA[i,j] := -9999;
+          continue;
+        end;
       OPPCOR := (X_resolution()*Y_resolution()) * (1 - (PTEFmap[i,j] / 100));
       //bijdrage van elke cel aan de uparea
       Fluxout[i,j] := OPPCOR+UPAREA[i,j];
@@ -1502,7 +1506,7 @@ Begin
       begin
         if PRC[i,j] = 0 then
           begin
-          slope[i,j] := -99999;
+          slope[i,j] := -9999;
           continue;
           end;
         if  (Routing[i][j].Part1 > 0.0000001) and (Routing[i][j].Part2 > 0.0000001) then

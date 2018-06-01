@@ -128,7 +128,11 @@ Begin
     End;
 
   // Erosion equations
-  RUSLE[i, j] := RFactor * C_factor[i, j] * P_factor[i, j] * K_Factor[i, j] * LS[i, j];
+
+  if (P_factor[i, j] = 0) or (LS[i, j] = -9999) then
+      RUSLE[i, j] := -9999
+  else
+      RUSLE[i, j] := RFactor * C_factor[i, j] * P_factor[i, j] * K_Factor[i, j] * LS[i, j];
   // kg/(m² * yr) (ok)
   // Erosion in kg/m²
 
@@ -241,6 +245,15 @@ Begin
           If (VHA) And (RivSeg[i, j] <> 0) Then
             sedload_VHA[RivSeg[i, j]] := sedload_VHA[RivSeg[i, j]] + SEDI_EXPORT[i, j];
           // totale hoeveelheid sed_output_file per rivier segment wordt opgeslagen
+          if (PRC[i,j] = 0) then
+            begin;
+              RUSLE[i, j] := -9999;
+              SEDI_OUT[i, j] := -9999;
+              SEDI_IN[i, j] := -9999;
+              WATEREROS[i, j] := -9999;
+              WATEREROS_cubmeter[i, j] := -9999;
+              WATEREROS_kg[i, j] := -9999;
+            end;
           continue;
         End;
 
@@ -456,10 +469,19 @@ begin // begin lus
   For m := 1 To nrow Do
     For n := 1 To ncol Do
       Begin
+        if PRC[m,n]=0 then
+          begin
+            SEDI_IN2[m,n] := -9999;
+            SEDI_OUT2[m,n] := -9999;
+            SEDI_EXPORT_kg[m,n] := -9999;
+          end
+        else
+        begin
         SEDI_IN2[m,n] := SEDI_IN[m,n] * BD;
-        SEDI_OUT2[m,n] := SEDI_OUT[m,n] * BD;
-        //depprod2[m,n] := SEDI_IN2[m,n]-SEDI_OUT2[m,n];
-        SEDI_EXPORT_kg[m,n] := SEDI_EXPORT[m,n] * BD;
+          SEDI_OUT2[m,n] := SEDI_OUT[m,n] * BD;
+          //depprod2[m,n] := SEDI_IN2[m,n]-SEDI_OUT2[m,n];
+          SEDI_EXPORT_kg[m,n] := SEDI_EXPORT[m,n] * BD;
+        end;
       End;
   // Dispose Temp 2D maps
   DisposeDynamicRdata(SEDI_IN);

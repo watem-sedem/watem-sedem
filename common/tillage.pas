@@ -132,7 +132,12 @@ Begin
     // tweede matrixlus nadat alle in- en outfluxen berekend zijn
     For p := 1 To ncol Do
       Begin
-        If PRC[o,p]<1 Then continue;
+        If PRC[o,p]<1 Then
+          begin
+            if PRC[o,p] = 0 then
+                TILEROS[o,p] := -9999;
+            continue;
+          end;
         If Raster_projection=plane Then area := sqr(res)
         Else  area := X_Resolution()*Y_Resolution();
         ploweros := (SEDI_IN[o,p]-SEDI_OUT[o,p])/area;
