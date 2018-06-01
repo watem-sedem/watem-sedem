@@ -22,6 +22,7 @@ Begin
       writeIdrisi32file(ncol,nrow,File_output_dir+'SediExport_kg'+'.rst', SEDI_EXPORT_kg);
       writeIdrisi32file(ncol,nrow,File_output_dir+'SediIn_kg'+'.rst', SEDI_IN2);
       writeIdrisi32file(ncol,nrow,File_output_dir+'SediOut_kg'+'.rst', SEDI_OUT2);
+      writeIdrisi32file(ncol,nrow,File_output_dir+'RiverCumulative'+'.rst', RIVER_CUMULATIVE);
       //writeIdrisi32file(ncol,nrow,File_output_dir+'Dep_prod_kg'+'.rst', depprod2);
 
 {writeGIdrisi32file(ncol,nrow,File_output_dir+'row'+'.rst', row2);

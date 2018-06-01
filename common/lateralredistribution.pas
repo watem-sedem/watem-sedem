@@ -200,8 +200,7 @@ Begin
   SetzeroR(SEDI_IN);
   SetzeroR(SEDI_OUT);
   SetzeroR(SEDI_EXPORT);
-
-  // SEDI_EXPORT is defined in 'Readinparameters.pas' (in allocate_memory)
+  SetzeroR(RIVER_CUMULATIVE);
 
   If VHA Then //If the user wants output per river segment
     Begin
@@ -228,13 +227,27 @@ Begin
       i := row[teller];
       j := column[teller];
       // The catchment is looked at starting from the highest pixel
+
+      if (PRC[i, j] <> -1) Then
+        Begin
+         RIVER_CUMULATIVE[i,j] := -9999;
+        End;
+
+
       If (PRC[i, j] = 0) Or (PRC[i, j] = -1) Or (PRC[i, j] = -5) Then
         // if cell is outside area or a river cell or a water body => = all export cells
 
 //    This means that also cells outside the study area and ponds are included in the calculation of sed_output_file leaving the catchment?
         Begin
           If (PRC[i, j] = -1) Then
-            TEMP_river_sed_input := TEMP_river_sed_input + SEDI_IN[i, j];
+            begin
+                 TEMP_river_sed_input += SEDI_IN[i, j];
+                 if Routing[i,j].Target1Col <> -99 then
+                   begin
+                     RIVER_CUMULATIVE[i,j] += SEDI_IN[i,j];
+                     RIVER_CUMULATIVE[Routing[i,j].Target1Row, Routing[i,j].Target1Col] +=  RIVER_CUMULATIVE[i,j];
+                   end;
+            end;
           If (PRC[i, j] = 0) Then
             TEMP_outside_sed_input := TEMP_outside_sed_input + SEDI_IN[i, j];
           If (PRC[i, j] = -5) Then
