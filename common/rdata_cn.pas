@@ -216,6 +216,8 @@ Type
     //Deze procedure geeft een nulwaarde aan elk element in een Rraster
     //*****************************************************************
     Procedure SetzeroR(Var z:Rraster);
+    Var
+      i: integer;
     Begin
         For i:=Low(Z) To High(Z) Do
             Filldword(z[i][0], ncol+2, 0);

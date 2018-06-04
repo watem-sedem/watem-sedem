@@ -231,6 +231,8 @@ end;
 //Deze procedure geeft een nulwaarde aan elk element in een Graster
 //*****************************************************************
 Procedure SetzeroG(Var z:Graster);
+Var
+    i: integer;
 Begin
   For i:=Low(Z) To High(Z) Do
     Fillword(z[i][0], ncol+2, 0);
