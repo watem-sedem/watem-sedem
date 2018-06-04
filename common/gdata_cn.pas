@@ -236,10 +236,7 @@ Var
   i,j: integer;
 Begin
   For i:=Low(Z) To High(Z) Do
-    For j:=Low(Z[i]) To High(Z[i]) Do
-      Begin
-        Z[i,j] := 0
-      End;
+    Fillword(z[i][0], ncol+2, 0);
 End;
 
 
