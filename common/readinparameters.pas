@@ -148,6 +148,7 @@ Var
   Convert_output       : boolean;
   VHA                  : boolean;
   adjusted_slope       : boolean;
+  buffer_reduce_upstream_area: boolean;
   {Output maps}
   Write_ASPECT         : boolean;
   Write_LS             : boolean;
@@ -461,6 +462,7 @@ Begin
   est_clay:= Inifile.ReadBool('User Choices','Estimate clay content',false);
   calibrate :=  inifile.ReadBool('Calibration', 'Calibrate', false);
   adjusted_slope := inifile.ReadBool('User Choices', 'Adjusted Slope', false);
+  buffer_reduce_upstream_area := inifile.ReadBool('User Choices', 'Buffer reduce Area', false);
 
   inistring:= Inifile.ReadString('User Choices', 'L model', 'Desmet1996_Vanoost2003');
   Lmodel := TLModel(GetEnumValue(Typeinfo(TLModel), inistring));

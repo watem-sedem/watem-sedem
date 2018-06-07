@@ -3,6 +3,8 @@ Unit Raster_calculations;
 
 {$mode objfpc}{$H+}
 
+{$R+}
+
 Interface
 
 Uses 
@@ -1342,7 +1344,7 @@ Begin
 
 // Bij de overgang naar een ander perceel wordt de uparea verminderd volgens de parcel connectivities
   If (Routing[i,j].one_target = true) And (PRC[Routing[i,j].Target1Row,Routing[i,j].Target1Col] <>
-     PRC[i,j]) Then
+     PRC[i,j]) or  (include_buffer And (Buffermap[i,j] > 0))Then
     // Als er maar 1 targetcel is (dit is steeds wanneer er naar een ander perceel wordt gerout,
     // behalve wanneer de targetcel een grasbufferstrook is)
     // en wanneer die targetcel een andere perceelswaarde heeft
@@ -1371,11 +1373,16 @@ Begin
       If (PRC[Routing[i,j].Target1Row,Routing[i,j].Target1Col] = -1) Then // Target is a river pixel
         flux := FLUX_OUT[i,j];
 
-      If Include_buffer Then
+      If Include_buffer and (Buffermap[i,j] > 0) Then
         Begin
-          If (Buffermap[i,j] > 0) And (Buffermap[Routing[i,j].Target1Row,Routing[i,j].Target1Col] >
+          If  (Buffermap[Routing[i,j].Target1Row,Routing[i,j].Target1Col] >
              0) Then // Both source and target are buffers
-            flux := FLUX_OUT[i,j];
+            flux := FLUX_OUT[i,j]
+          Else // reduce upstream area with parcel trapping efficiency
+            if buffer_reduce_upstream_area  and (Buffermap[i,j] <= Length(BufferData)) then
+                flux := FLUX_OUT[i,j] * (1-BufferData[Buffermap[i,j]].PTEF)
+            else
+                flux:= FLUX_OUT[i,j];
         End;
 
       Flux_IN[Routing[i,j].Target1Row,Routing[i,j].Target1Col] += flux;
