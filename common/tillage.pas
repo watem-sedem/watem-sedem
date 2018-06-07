@@ -2,6 +2,7 @@
 Unit tillage;
 
 {$mode objfpc}{$H+}
+{$R+}
 
 Interface
 

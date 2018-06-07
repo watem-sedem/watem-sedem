@@ -2,6 +2,7 @@
 Unit GData_CN;
 {In deze unit worden kaarten van integers ingelezen}
 {$mode objfpc}{$H+}
+{$R+}
 
 Interface
 

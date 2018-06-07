@@ -3,6 +3,8 @@ Program CN_WSmodel;
 
 {$mode objfpc}{$H+}
 
+{$R+} //enable range checking of arrays
+
 Uses 
   {$IFDEF UNIX}{$IFDEF UseCThreads}
 cthreads,

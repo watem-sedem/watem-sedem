@@ -4,6 +4,7 @@ Unit CN_calculations;
 // In this unit al the calculations concerning the curve number are codedd
 
 {$mode objfpc}{$H+}
+{$R+}
 
 Interface
 

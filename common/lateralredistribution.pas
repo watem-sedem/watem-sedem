@@ -2,6 +2,7 @@
 Unit LateralRedistribution;
 
 {$mode objfpc}{$H+}
+{$R+}
 
 Interface
 

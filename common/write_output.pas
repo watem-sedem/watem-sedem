@@ -2,6 +2,7 @@
 Unit Write_output;
 
 {$mode objfpc}{$H+}
+{$R+}
 
 Interface
 

@@ -2,6 +2,7 @@
 Unit Idrisi;
 
 {$mode objfpc}{$H+}
+{$R+}
 
 Interface
 

@@ -5,6 +5,7 @@ Unit RData_CN;
 //Dit is hier voorlopig uitgelaten!
 
 {$mode objfpc}{$H+}
+{$R+}
 
 Interface
 
