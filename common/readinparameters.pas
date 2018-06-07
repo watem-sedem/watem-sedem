@@ -113,7 +113,6 @@ Var
   datadir              : string;
   File_output_dir      : string;
   {Files}
-  INIfilename          : string;
   DTM_filename         : string;       {unit m}
   PARCEL_filename      : string;
 
@@ -475,7 +474,6 @@ Begin
 
 
   {Filenames}
-  INIfilename := Inifile.Readstring('Files', '.INI filename', Dummy_str);
   DTM_filename := SetFileFromIni(Inifile, 'DTM filename', datadir, True);
   PARCEL_filename := SetFileFromIni(Inifile, 'Parcel filename', datadir, True);
   Rainfallfilename := SetFileFromIni(Inifile, 'Rainfall filename', datadir, not use_rfactor);
