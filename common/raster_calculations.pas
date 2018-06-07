@@ -1378,21 +1378,8 @@ Begin
             flux := FLUX_OUT[i,j];
         End;
 
-      Flux_IN[Routing[i,j].Target1Row,Routing[i,j].Target1Col] := Flux_IN[Routing[i,j].Target1Row,
-                                                                  Routing[i,j].Target1Col] + flux;
+      Flux_IN[Routing[i,j].Target1Row,Routing[i,j].Target1Col] += flux;
 
-
-{  if (PRC[Routing[i,j].Target1Row,Routing[i,j].Target1Col] = -1) then
-         begin
-         flux := FLUX_OUT[i,j];
-         Flux_IN[Routing[i,j].Target1Row,Routing[i,j].Target1Col] := Flux_IN[Routing[i,j].Target1Row,Routing[i,j].Target1Col] + flux;
-         end;
-
-      if (PRC[Routing[i,j].Target1Row,Routing[i,j].Target1Col] = -2) then
-         begin
-         flux := FLUX_OUT[i,j];
-         Flux_IN[Routing[i,j].Target1Row,Routing[i,j].Target1Col] := Flux_IN[Routing[i,j].Target1Row,Routing[i,j].Target1Col] + flux;
-         end; }
 
     End
 
@@ -1410,9 +1397,7 @@ Begin
 // The parcel connectivity should only be applied when you go from a non-grassbuffer strip to a bufferstrip
             Begin
               flux := FLUX_OUT[i,j]*(TFSED_forest/100);
-              Flux_IN[Routing[i,j].Target1Row,Routing[i,j].Target1Col] := Flux_IN[Routing[i,j].
-                                                                          Target1Row,Routing[i,j].
-                                                                          Target1Col] + flux;
+              Flux_IN[Routing[i,j].Target1Row,Routing[i,j].Target1Col] += flux;
             End
 
           Else
@@ -1420,9 +1405,7 @@ Begin
 
             Begin
               flux := FLUX_OUT[i,j]*Routing[i,j].Part1;
-              Flux_IN[Routing[i,j].Target1Row,Routing[i,j].Target1Col] := Flux_IN[Routing[i,j].
-                                                                          Target1Row,Routing[i,j].
-                                                                          Target1Col] + flux;
+              Flux_IN[Routing[i,j].Target1Row,Routing[i,j].Target1Col] += flux;
             End;
         End;
 
@@ -1435,9 +1418,7 @@ Begin
 // The parcel connectivity should only be applied when you go from a non-grassbuffer strip to a bufferstrip
             Begin
               flux := FLUX_OUT[i,j]*(TFSED_forest/100);
-              Flux_IN[Routing[i,j].Target2Row,Routing[i,j].Target2Col] := Flux_IN[Routing[i,j].
-                                                                          Target2Row,Routing[i,j].
-                                                                          Target2Col] + flux;
+              Flux_IN[Routing[i,j].Target2Row,Routing[i,j].Target2Col] += flux;
             End
 
           Else
@@ -1445,9 +1426,7 @@ Begin
 
             Begin
               flux := FLUX_OUT[i,j]*Routing[i,j].Part2;
-              Flux_IN[Routing[i,j].Target2Row,Routing[i,j].Target2Col] := Flux_IN[Routing[i,j].
-                                                                          Target2Row,Routing[i,j].
-                                                                          Target2Col] + flux;
+              Flux_IN[Routing[i,j].Target2Row,Routing[i,j].Target2Col] +=flux;
             End;
         End;
 
@@ -1472,14 +1451,12 @@ Begin
     Begin
       flux := FLUX_OUT[i,j]*Routing[i,j].Part1;
       // m³
-      Flux_IN[Routing[i,j].Target1Row,Routing[i,j].Target1Col] := Flux_IN[Routing[i,j].Target1Row,
-                                                                  Routing[i,j].Target1Col] + flux;
+      Flux_IN[Routing[i,j].Target1Row,Routing[i,j].Target1Col] += flux;
     End;
   If Routing[i,j].Part2 > 0.0 Then
     Begin
       flux := FLUX_OUT[i,j]*Routing[i,j].Part2;
-      Flux_IN[Routing[i,j].Target2Row,Routing[i,j].Target2Col] := Flux_IN[Routing[i,j].Target2Row,
-                                                                  Routing[i,j].Target2Col] + flux;
+      Flux_IN[Routing[i,j].Target2Row,Routing[i,j].Target2Col] += flux;
     End;
 End;
 
