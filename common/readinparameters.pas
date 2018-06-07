@@ -433,7 +433,7 @@ Begin
 
   Datadir := Inifile.readstring('Working directories', 'Input directory', Dummy_str);
   File_output_dir := Inifile.readstring('Working directories', 'Output directory', Dummy_str);
-  If Not DirectoryExists(File_output_dir) Then CreateDir(File_output_dir);
+  If Not DirectoryExists(File_output_dir) Then ForceDirectories(File_output_dir);
 
   // Make sure that a trailing slash is added to the input/output dir
   File_output_dir := IncludeTrailingPathdelimiter(File_output_dir);
