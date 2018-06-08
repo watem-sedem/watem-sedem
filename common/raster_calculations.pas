@@ -1380,7 +1380,7 @@ Begin
             flux := FLUX_OUT[i,j]
           Else // reduce upstream area with parcel trapping efficiency
             if buffer_reduce_upstream_area  and (Buffermap[i,j] <= Length(BufferData)) then
-                flux := FLUX_OUT[i,j] * (1-BufferData[Buffermap[i,j]].PTEF)
+                flux := FLUX_OUT[i,j] * (1-BufferData[Buffermap[i,j]].PTEF/100)
             else
                 flux:= FLUX_OUT[i,j];
         End;
