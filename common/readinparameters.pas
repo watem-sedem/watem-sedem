@@ -589,7 +589,7 @@ Begin
              raise EInputException.Create('Error in data input: ktc high value missing or wrong data format');
 
     end;
-  If (create_ktc or calibrate) And Not
+  If (create_ktc) And Not
             (TryStrToFloat(Inifile.Readstring('Variables', 'ktc limit', Dummy_str), ktc_limit)) Then
              raise EInputException.Create('Error in data input: ktc limit value missing or wrong data format');
 
@@ -700,11 +700,11 @@ Begin
   If calibrate Then
     Begin
 
-      cal.KTcHigh_lower:=inifile.ReadInteger('Calibration','KTcHigh_lower', 25);
-      cal.KTcHigh_upper:=inifile.ReadInteger('Calibration','KTcHigh_upper', 250);
-      cal.KTcLow_lower:=inifile.ReadInteger('Calibration','KTcLow_lower', 10);
-      cal.KTcLow_upper:=inifile.ReadInteger('Calibration','KTcLow_upper', 100);
-      cal.steps:=Inifile.ReadInteger('Calibration', 'steps', 10);
+      cal.KTcHigh_lower:=inifile.ReadInteger('Calibration','KTcHigh_lower', 5);
+      cal.KTcHigh_upper:=inifile.ReadInteger('Calibration','KTcHigh_upper', 40);
+      cal.KTcLow_lower:=inifile.ReadInteger('Calibration','KTcLow_lower', 1);
+      cal.KTcLow_upper:=inifile.ReadInteger('Calibration','KTcLow_upper', 20);
+      cal.steps:=Inifile.ReadInteger('Calibration', 'steps', 12);
     end;
 
     If Use_Rfactor Then
@@ -858,7 +858,7 @@ Begin
           ktc[i,j] := 9999;
         // kTc of open water = 0 because sediment can't go any further once it's there
         If PRC[i,j] = -5 Then
-          ktc[i,j] := 0;
+          ktc[i,j] := ktc_high;
       End;
 
   writeGidrisi32file(ncol,nrow,datadir+'ktcmap'+'.rst',ktc);

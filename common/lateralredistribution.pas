@@ -219,7 +219,6 @@ Begin
   TEMP_river_sed_input := 0;
   TEMP_outside_sed_input := 0;
   TEMP_buffer_sed_input := 0;
-  TEMP_pond_sed_input := 0;
 
 
   //** Calculate watererosion & Lateral sed_output_file
@@ -229,7 +228,7 @@ Begin
       i := row[teller];
       j := column[teller];
       // The catchment is looked at starting from the highest pixel
-      If (PRC[i, j] = 0) Or (PRC[i, j] = -1) Or (PRC[i, j] = -5) Then
+      If (PRC[i, j] = 0) Or (PRC[i, j] = -1) Then
         // if cell is outside area or a river cell or a water body => = all export cells
 
 //    This means that also cells outside the study area and ponds are included in the calculation of sed_output_file leaving the catchment?
@@ -238,8 +237,6 @@ Begin
             TEMP_river_sed_input := TEMP_river_sed_input + SEDI_IN[i, j];
           If (PRC[i, j] = 0) Then
             TEMP_outside_sed_input := TEMP_outside_sed_input + SEDI_IN[i, j];
-          If (PRC[i, j] = -5) Then
-            TEMP_pond_sed_input := TEMP_pond_sed_input + SEDI_IN[i, j];
 
           SEDI_EXPORT[i, j] := SEDI_IN[i, j];
           // assign export sed_output_file (in m³) value for export cells
@@ -285,7 +282,7 @@ Begin
       WATEREROS_kg[i,j] := WATEREROS_cubmeter[i,j] * BD;
 
 
-      If (PRC[i, j] <> 0) And (PRC[i, j] <> -1) And (PRC[i, j] <> -5) Then
+      If (PRC[i, j] <> 0) And (PRC[i, j] <> -1) Then
         Begin
           If SEDI_IN[i, j] - SEDI_OUT[i, j] < 0 Then
             sedprod := sedprod + ((SEDI_IN[i, j] - SEDI_OUT[i, j]) * BD) //BD [kg/m³]
@@ -451,18 +448,6 @@ Begin
       //The memory of sewer_out is released
     End;
 
-
-{for teller:= ncol*nrow downto 1 do
-begin // begin lus
-   i:=row[teller];  j:=column[teller];
- IF (PRC[i,j] <> 0) OR (PRC[i,j] <> -1) OR (PRC[i,j] <> -5) then
- begin
-          if SEDI_IN[i,j] - SEDI_OUT[i,j] < 0 then
-            sedprod := sedprod + SEDI_IN[i,j] - SEDI_OUT[i,j]
-          else
-            depprod := depprod + SEDI_IN[i,j] - SEDI_OUT[i,j];
-        end;
- end;}
 
   For m := 1 To nrow Do
     For n := 1 To ncol Do

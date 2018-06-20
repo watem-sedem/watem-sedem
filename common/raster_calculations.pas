@@ -963,22 +963,6 @@ Begin
     End;
   // end if cell is not adjacent to river
 
-  // if cell contains a pond, the routing information is adjusted (water is not allowed to leave)
-
-  If (PRC[i,j]=-5) Then // If the parcel under consideration is open water water
-    Begin
-      Routing[i,j].One_Target := false;
-      Routing[i,j].Target1Row := 0;
-      Routing[i,j].Target1Col := 0;
-      Routing[i,j].Target2Row := 0;
-      Routing[i,j].Target2Col := 0;
-      Routing[i,j].Part1 := 0;
-      Routing[i,j].Part2 := 0;
-      Routing[i,j].Distance1 := 0;
-      Routing[i,j].Distance2 := 0;
-    End;
-
-
   // In the lines below the routing algorithm is adjusted for buffers (opvangbekkens?):
   // Target cell for each buffer pixel = center cell of the buffer it belongs to
   // Target cell for each buffer center cell = the lowest lying neighbour
@@ -1366,10 +1350,6 @@ Begin
         // Target is verhard oppervlak
         flux := FLUX_OUT[i,j];
 
-      If (PRC[Routing[i,j].Target1Row,Routing[i,j].Target1Col] = -5) Then
-        // Target is a pond (open water parcel but not river)
-        flux := FLUX_OUT[i,j];
-
       If (PRC[Routing[i,j].Target1Row,Routing[i,j].Target1Col] = -1) Then // Target is a river pixel
         flux := FLUX_OUT[i,j];
 
@@ -1440,9 +1420,6 @@ Begin
     End;
 
 
-{if (routing[i,j].Part1 = 0.0) and (Routing[i,j].Part2 = 0.0) and (PRC[i,j] <> -5) then
-  Showmessage('No target cells determined!' + 'row ' + inttostr(i) + '; ' + 'column: ' + inttostr(j));
-}
 End;
 
 // The following procedure is used to route the sediment through the landscape
