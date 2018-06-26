@@ -589,7 +589,7 @@ Begin
              raise EInputException.Create('Error in data input: ktc high value missing or wrong data format');
 
     end;
-  If (create_ktc) And Not
+  If (create_ktc or calibrate) And Not
             (TryStrToFloat(Inifile.Readstring('Variables', 'ktc limit', Dummy_str), ktc_limit)) Then
              raise EInputException.Create('Error in data input: ktc limit value missing or wrong data format');
 
