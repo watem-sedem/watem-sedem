@@ -858,7 +858,7 @@ Begin
           ktc[i,j] := 9999;
         // kTc of open water = 0 because sediment can't go any further once it's there
         If PRC[i,j] = -5 Then
-          ktc[i,j] := ktc_high;
+          ktc[i,j] := 9999;
       End;
 
   writeGidrisi32file(ncol,nrow,datadir+'ktcmap'+'.rst',ktc);
