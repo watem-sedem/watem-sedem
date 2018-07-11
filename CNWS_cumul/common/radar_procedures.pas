@@ -1,5 +1,10 @@
 unit radar_procedures;
 
+
+// This file contains copys of procedures from the standard model which are adapted to work with rainfall data.
+// These adaptations are mostly related to the 3D nature of the radar rainfall data (x,y and time).
+// At several points in these procedures are arrays wiped from memory, after this point the data in the arrays is not necessary anymore for the scripts.
+// Wiping this data from the memory reduces the memory load using radar data in the model has and frees up RAM.
 {$mode objfpc}{$H+}
 
 interface
@@ -10,42 +15,50 @@ uses
 type
   IntegerArray = array Of integer;
   FloatArray = array Of Double;
+  RadarRaster = array of array of Double;
   TForm2 = class(TForm)
   private
     { private declarations }
   public
     { public declarations }
   end;
-Procedure PreparRadarRainfallData (Var Radar_dir: String; timestepRadar: Integer);
-Procedure InitializeRadar ( Var InitilizationDataset: Array Of Rraster; Number_Radarfiles: Integer; Mask: Array Of Rraster);
-Procedure CalculateRFactorRadar (Var TimeSeries: integerArray; timestepRadar: integer; RadarRaindataset_src: Array Of Rraster);
-Procedure CalculateReRadar(Var Remap:Rraster; RainfallSum:Rraster; I10Radar:Rraster; Perceelskaart:Rraster ; CNmap:Rraster; alpha,beta:double);
+  
+// after each of the procedures is indicated from which file they originate.
+Procedure PreparRadarRainfallData (Var Radar_dir: String; timestepRadar: Integer); //LateralRedistribution
+Procedure GetRfileRadar(Var Z:RRaster; Filename:String); //rdata_cn
+Procedure SetDynamicRDataRadar(Var Z:RadarRaster); //rdata_cn
+Procedure SetzeroRRadar(Var z:RadarRaster); //rdata_cn
+Procedure InitializeRadar ( Var InitilizationDataset: Array Of RadarRaster; Number_Radarfiles: Integer; Mask: Array Of RRaster);
+Procedure CalculateRFactorRadar (Var TimeSeries: integerArray; timestepRadar: integer; RadarRaindataset_src: Array Of RadarRaster); //cn_calculations
+Procedure CalculateReRadar(Var Remap:Rraster; RainfallSum:RadarRaster; I10Radar:RadarRaster; Perceelskaart:Rraster ; CNmap:Rraster; alpha,beta:double); //cn_calculations
 Procedure CalculateTimeDependentRunoffRadar(Var Remap: Rraster; Routing:
-                                       TRoutingArray; PRC: Rraster);
-Procedure WaterRadar;
-Procedure Distribute_sedimentRadar;
+                                       TRoutingArray; PRC: Rraster); //cn_calculations
+Procedure WaterRadar; //LateralRedistribution
+Procedure Distribute_sedimentRadar; //LateralRedistribution
 
 var
   Form2: TForm2;
   i: integer;
   j: integer;
+  time: integer;
   k: integer;
   l: integer;
   x: double;
   nr: integer;
   Fill_num: integer;
   bestand: string;
-  RadarRaindata: Rraster;
-  RainfallSum: Rraster;
-  StartTime_rain_radar: Rraster;
-  EndTime_rain_radar: Rraster;
-  Duration_rain_radar: Rraster;
-  I10Radar: Rraster;
+  RadarRaindata: RadarRaster;
+  RainfallSum: RadarRaster;
+  StartTime_rain_radar: RadarRaster;
+  EndTime_rain_radar: RadarRaster;
+  Duration_rain_radar: RadarRaster;
+  I10Radar: RadarRaster;
   TimeSeries_output: IntegerArray;
   I10TimeSeries: IntegerArray;
-  RadarRaindataset_src: Array Of Rraster;
-  RadarRaindataset_dst: Array Of Rraster;
-  RfactorRadar: Rraster;
+  RadarRaindataset_src: Array Of RadarRaster;
+  RadarRaindataset_src_single: Array Of RRaster;
+  RadarRaindataset_dst: Array Of RadarRaster;
+  RfactorRadar: RadarRaster;
   RadarFiles: TStringList;
   Src_timeseries: IntegerArray;
   Cumul_rain_radar_array: FloatArray;
@@ -53,11 +66,11 @@ var
   I10RainfallSeries_Interp_radar_array: FloatArray;
   I10RainfallSeries_radar_array: FloatArray;
   I10RainfallSeries_radI10_array: FloatArray;
-  I10RainfallSeriesRadar: Array Of Rraster;
+  I10RainfallSeriesRadar: Array Of RadarRaster;
   I10Series_radar: FloatArray;
-  Cumul_rain_radar: Array Of Rraster;
-  Cumul_Interp_radar: Array Of Rraster;
-  Rain_fraction_radar: Array Of Rraster;
+  Cumul_rain_radar: Array Of RadarRaster;
+  Cumul_Interp_radar: Array Of RadarRaster;
+  Rain_fraction_radar: Array Of RadarRaster;
 
   SEDI_OUT: RRaster;
   SEDI_IN: RRaster;
@@ -66,18 +79,203 @@ var
 
 implementation
 
-Procedure ReadRadarRainfallFile (Var RadarRaindata : Rraster; bestand: String);
+Procedure ReadRadarRainfallFile (Var RadarRaindata : RRaster; bestand: String);
 Begin
 
-  GetRFile(RadarRaindata,bestand);
+  GetRFileRadar(RadarRaindata,bestand);
 
 End;
+//********************************************************************
+//De waarden van de buitenste cellen worden vervangen door de waarden van de
+//cellen die een laag meer naar het midden liggen
+//********************************************************************
+Procedure SetRasterBorders(Var Z:RRaster);
+
+Var
+i,j       : integer;
+Begin
+Z[0,0] := Z[1,1];
+Z[0,(ncol+1)] := Z[1,ncol];
+Z[nrow+1,0] := Z[nrow,1];
+Z[nrow+1,ncol+1] := Z[nrow,ncol];
+For j := 1 To ncol Do
+Begin
+  Z[0,j] := Z[1,j];
+  Z[(nrow+1),j] := Z[nrow,j];
+End;
+For  i := 1 To nrow Do
+Begin
+  Z[i,0] := Z[i,1];
+  Z[i,ncol+1] := Z[i,ncol];
+End;
+End;
+//********************************************************************
+    //In onderstaande regels wordt het RDC bestand van elke .rst kaart gescand
+    //en wordt de nodige informatie hieruit gehaald.
+    //********************************************************************
+
+    Procedure GetRFileRadar(Var Z:RRaster; Filename:String);
+
+    Var
+      i,j,hulpgetal: integer;
+      docfileIMG : textfile;
+      fileIMG : file Of single ;
+      textfileIMG : textfile ;
+      docnfileIMG,NfileIMG,dumstr : string;
+      idrisi32,asciidatatype : boolean;
+    Begin
+      dumstr := ExtractFilename(filename);
+      If ExtractFileExt(dumstr)='.img' Then
+        idrisi32 := false
+      Else idrisi32 := true;
+
+      hulpgetal := length(dumstr)-2;
+      delete(dumstr,hulpgetal,3);
+      //De extensie wordt verwijderd
+      If Idrisi32 Then //Voor Idrisi32 bestanden
+        Begin
+          docNfileIMG := dumstr + 'rdc' ;
+          NfileIMG := dumstr + 'rst';
+          // ==> De namen van de betreffende .rst en .rdc bestanden worden nagemaakt
+        End
+      Else //Voor .IMG bestanden
+        Begin
+          docNfileIMG := dumstr + 'doc' ;
+          NfileIMG := dumstr + 'img';
+        End;
+      // INLEZEN NCOLS
+      Assignfile(docfileIMG, docNfileIMG);
+      //Een 'filehandle' wordt toegewezen aan de bestanden
+      reset(docfileIMG);
+      //Het .rdc bestand wordt geopend om te lezen
+      If Idrisi32 Then
+        For i := 1 To 3 Do
+          readln(docfileIMG, dumstr);
+      delete (dumstr,1,14);
+      //Na 14 tekens staat het data type
+      If (dumstr='integer') Or (dumstr='byte') Then
+        Begin
+          closefile(docfileIMG);
+          Raise ERasterException.Create(
+                 'Error in reading one of the rasters: data type must be real, please re-enter data'
+          );
+        End;
+      readln(docfileIMG, dumstr);
+      delete (dumstr,1,14);
+      //Het filetype wordt opgeslagen
+      If dumstr='binary' Then
+        asciidatatype := false
+      Else asciidatatype := true;
+      readln(docfileIMG, dumstr);
+      delete (dumstr,1,14);
+      ncol := strtoint(dumstr);
+      // INLEZEN NROWS
+      readln(docfileIMG, dumstr);
+      delete (dumstr,1,14);
+      nrow := strtoint(dumstr);
+      readln(docfileIMG, dumstr);
+      delete(dumstr,1,14);
+      If (dumstr='plane') Or (dumstr='') Then Raster_Projection := plane
+      Else Raster_Projection := LATLONG;
+      readln(docfileIMG);
+      readln(docfileIMG);
+      readln(docfileIMG,dumstr);
+      delete(dumstr,1,14);
+      MINX := strtofloat(dumstr);
+      readln(docfileIMG,dumstr);
+      delete(dumstr,1,14);
+      MAXX := strtofloat(dumstr);
+      readln(docfileIMG,dumstr);
+      delete(dumstr,1,14);
+      MINY := strtofloat(dumstr);
+      readln(docfileIMG,dumstr);
+      delete(dumstr,1,14);
+      MAXY :=  strtofloat(dumstr);
+      readln(docfileIMG);
+      readln(docfileIMG, dumstr);
+      delete(dumstr,1,14);
+      res := strtofloat(dumstr);
+      If (res=0.0) Then
+        Begin
+          Raise ERasterException.Create('Error in reading one of the rasters: Resolution is invalid'
+          );
+        End;
+
+      // Inlezen gegevens
+
+      //Er wordt geheugen vrijgemaakt voor de kaart (array) in kwestie
+      SetDynamicRData(Z);
+
+      //Het .rst bestand wordt ingelezen en opgeslaan
+      If asciidatatype Then
+        Begin
+          assignfile(textFileIMG, NfileIMG);
+          reset (textfileIMG);
+          For i:= 1 To nrow Do
+            For j:= 1 To ncol Do
+              read(textfileIMG, Z[i,j]);
+          Closefile(textfileimg);
+        End
+      Else
+        Begin
+          assignfile(FileIMG, NfileIMG);
+          reset (fileIMG);
+          For i:= 1 To nrow Do
+            For j:= 1 To ncol Do
+              read(fileIMG, Z[i,j]);
+          Closefile(Fileimg);
+        End;
+      Closefile(DocfileImg);
+
+      //De buitenste waarden van het raster worden aangepast
+      SetRasterBorders(Z);
+
+      //ncol, nrow en res worden opgeslagen in array zodat achteraf kan worden nagegaan
+      //of deze voor alle kaarten gelijk zijn
+      lengthAR := lengthAR + 1;
+      SetLength(nrowAR, lengthAR);
+      SetLength(ncolAR, lengthAR);
+      SetLength(resAR, lengthAR);
+      nrowAR[lengthAR-1] := NROW;
+      ncolAR[lengthAR-1] := NCOL;
+      resAR[lengthAR-1] := RES;
+
+    End;
+
+    //********************************************************************
+    //In onderstaande regels wordt er geheugen vrij gemaakt voor de verschillende
+    //arrays die de kaarten voorstellen
+    //********************************************************************
+    Procedure SetDynamicRDataRadar(Var Z:RadarRaster);
+
+    Var
+      i       : integer;
+    Begin
+      SetLength(Z,nrow+2);
+      For i := Low(Z) To high(Z) Do
+        Setlength(Z[i],ncol+2);
+    End;
+
+    //*****************************************************************
+    //Deze procedure geeft een nulwaarde aan elk element in een Rraster
+    //*****************************************************************
+    Procedure SetzeroRRadar(Var z:RadarRaster);
+
+    Var
+      i,j: integer;
+    Begin
+      For i:=Low(Z) To High(Z) Do
+        For j:=Low(Z[i]) To High(Z[i]) Do
+          Begin
+            Z[i,j] := 0
+          End;
+    End;
 
 Procedure PreparRadarRainfallData (Var Radar_dir: String; timestepRadar: Integer);
    Begin
      setCurrentDir(Radar_dir);
      RadarFiles:= FindAllFiles(Radar_dir, '*.rst', true);
-     Setlength(RadarRaindataset_src,RadarFiles.count);
+     Setlength(RadarRaindataset_src_single,RadarFiles.count);
      Setlength(Src_timeseries,RadarFiles.count);
      Setlength(TimeSeries,RadarFiles.count);
      repeat
@@ -85,13 +283,31 @@ Procedure PreparRadarRainfallData (Var Radar_dir: String; timestepRadar: Integer
          bestand:= Radar_dir + IntToStr(j) + '.rst';
          if FileExists(bestand) then
             Begin
-                 ReadRadarRainfallFile (RadarRaindataset_src[i], bestand);
+                 ReadRadarRainfallFile (RadarRaindataset_src_single[i], bestand);
                  Src_timeseries[i]:= j;
             End;
 
 
          i:= i + 1
      until Not FileExists(bestand);
+
+
+     Setlength (RadarRaindataset_src, RadarFiles.count);
+     InitializeRadar ( RadarRaindataset_src, RadarFiles.count, RadarRaindataset_src_single);
+
+
+     For i := 0 To RadarFiles.count - 1 Do
+             Begin
+                  For k := Low(RadarRaindataset_src_single[i]) To High(RadarRaindataset_src_single[i]) - 1 Do
+                      Begin
+                           For l:= Low(RadarRaindataset_src_single[i,k]) To High(RadarRaindataset_src_single[i,k]) - 1 Do
+                               Begin
+                                    RadarRaindataset_src[i,k,l] := RadarRaindataset_src_single[i,k,l];
+                               End
+                      End
+
+             End;
+
 
      TimeSeries := Src_timeseries;
 
@@ -117,10 +333,17 @@ Procedure PreparRadarRainfallData (Var Radar_dir: String; timestepRadar: Integer
        Begin;
 
          Setlength (Cumul_rain_radar, RadarFiles.count);
-         InitializeRadar ( Cumul_rain_radar, RadarFiles.count, RadarRaindataset_src);
+         InitializeRadar ( Cumul_rain_radar, RadarFiles.count, RadarRaindataset_src_single);
 
          // calculate cumulatieve rainfall series and a correction for negative rain values on radar image
-         Cumul_rain_radar[0] := RadarRaindataset_src[0];
+         For k := Low(RadarRaindataset_src[0]) To High(RadarRaindataset_src[0]) - 1 Do
+                      Begin
+                           For l:= Low(RadarRaindataset_src[0,k]) To High(RadarRaindataset_src[0,k]) - 1 Do
+                               Begin
+                                    Cumul_rain_radar[0,k,l] := RadarRaindataset_src[0,k,l];
+                               End
+                      End;
+
          For k := Low(RadarRaindataset_src[0]) To High(RadarRaindataset_src[0]) - 1 Do
                       Begin
                            For l:= Low(RadarRaindataset_src[0,k]) To High(RadarRaindataset_src[0,k]) - 1 Do
@@ -142,8 +365,7 @@ Procedure PreparRadarRainfallData (Var Radar_dir: String; timestepRadar: Integer
                                     Cumul_rain_radar[i,k,l]:= Cumul_rain_radar[i-1,k,l] + RadarRaindataset_src[i,k,l];
                                End
                       End
-             End
-       End;
+             End;
 
        // create new timeseries array
       NumberOfTimesteps := (RadarFiles.count - 1)*(timestepRadar Div Timestep_model);
@@ -159,7 +381,7 @@ Procedure PreparRadarRainfallData (Var Radar_dir: String; timestepRadar: Integer
        // interpolation of cumulative rainfall series, see function below
 
        Setlength (Cumul_Interp_radar, NumberOfTimesteps+1);
-       InitializeRadar ( Cumul_Interp_radar, NumberOfTimesteps+1, RadarRaindataset_src);
+       InitializeRadar ( Cumul_Interp_radar, NumberOfTimesteps+1, RadarRaindataset_src_single);
 
        SetLength (Cumul_rain_radar_array, NumberOfTimesteps+1);
        For k := Low(RadarRaindataset_src[0]) To High(RadarRaindataset_src[0]) - 1 Do
@@ -171,7 +393,7 @@ Procedure PreparRadarRainfallData (Var Radar_dir: String; timestepRadar: Integer
                              Cumul_rain_radar_array[i]:= Cumul_rain_radar[i,k,l];
                            End;
 
-                       Cumul_Interp_radar_array := interp(Src_timeseries, TimeSeries_output, Cumul_rain_radar_array);
+                       Cumul_Interp_radar_array := interp(TimeSeries, TimeSeries_output, Cumul_rain_radar_array);
 
                        For i := 0 To NumberOfTimesteps Do
                            Begin
@@ -183,7 +405,7 @@ Procedure PreparRadarRainfallData (Var Radar_dir: String; timestepRadar: Integer
        // cumulative rainfall series is converted to new rainfall series
 
        Setlength (RadarRaindataset_dst, NumberOfTimesteps+1);
-       InitializeRadar ( RadarRaindataset_dst, NumberOfTimesteps+1, RadarRaindataset_src);
+       InitializeRadar ( RadarRaindataset_dst, NumberOfTimesteps+1, RadarRaindataset_src_single);
 
        RadarRaindataset_dst[0] := Cumul_Interp_radar[0];
 
@@ -195,7 +417,7 @@ Procedure PreparRadarRainfallData (Var Radar_dir: String; timestepRadar: Integer
                           Begin
                                RadarRaindataset_dst[i,k,l] :=  Cumul_Interp_radar[i,k,l] - Cumul_Interp_radar[i-1,k,l];
                           End
-                 End
+                 End;
            End;
 
      EndTime := TimeSeries_output[NumberOfTimesteps];
@@ -227,6 +449,7 @@ Procedure PreparRadarRainfallData (Var Radar_dir: String; timestepRadar: Integer
                  End
             End;
         End;
+     End;
 
 
   // calculate total amount of rainfall per pixel (mm)
@@ -238,7 +461,7 @@ Procedure PreparRadarRainfallData (Var Radar_dir: String; timestepRadar: Integer
               Setlength (RainfallSum[i], High(RadarRaindataset_src[0,i]));
             End;
 
-   SetzeroR (RainfallSum);
+   SetzeroRRadar (RainfallSum);
 
    For i:= 0 To length(TimeSeries_output)-1 Do
             Begin
@@ -259,7 +482,7 @@ Procedure PreparRadarRainfallData (Var Radar_dir: String; timestepRadar: Integer
               Setlength (StartTime_rain_radar[i], High(RadarRaindataset_src[0,i]));
             End;
 
-   SetzeroR (StartTime_rain_radar);
+   SetzeroRRadar (StartTime_rain_radar);
 
    Setlength (EndTime_rain_radar, High(RadarRaindataset_src[0]));
 
@@ -268,7 +491,7 @@ Procedure PreparRadarRainfallData (Var Radar_dir: String; timestepRadar: Integer
               Setlength (EndTime_rain_radar[i], High(RadarRaindataset_src[0,i]));
             End;
 
-   SetzeroR (EndTime_rain_radar);
+   SetzeroRRadar (EndTime_rain_radar);
 
    Setlength (Duration_rain_radar, High(RadarRaindataset_src[0]));
 
@@ -277,7 +500,7 @@ Procedure PreparRadarRainfallData (Var Radar_dir: String; timestepRadar: Integer
               Setlength (Duration_rain_radar[i], High(RadarRaindataset_src[0,i]));
             End;
 
-   SetzeroR (Duration_rain_radar);
+   SetzeroRRadar (Duration_rain_radar);
 
    If Not Simplified Then
     Begin
@@ -328,18 +551,34 @@ Procedure PreparRadarRainfallData (Var Radar_dir: String; timestepRadar: Integer
       If timestepRadar = 60 Then
         Begin
           I10TimeSeries := Src_timeseries;
-          I10RainfallSeriesRadar := RadarRaindataset_src;
+          For i := 1 To RadarFiles.count - 1 Do
+             Begin
+                  For k := Low(RadarRaindataset_src[i]) To High(RadarRaindataset_src[i]) - 1 Do
+                      Begin
+                           For l:= Low(RadarRaindataset_src[i,k]) To High(RadarRaindataset_src[i,k]) - 1 Do
+                               Begin
+                                    I10RainfallSeriesRadar[i,k,l] := RadarRaindataset_src[i,k,l];
+                               End
+                      End
+
+             End
         End
       Else If timestepRadar > 60 Then    // interpolation of the original series is needed
              Begin
                nr := (length(Src_timeseries)-1)*(timestepRadar Div 60);
                setlength(I10TimeSeries, nr+1);
                setlength(I10RainfallSeriesRadar, nr+1);
-               InitializeRadar ( I10RainfallSeriesRadar, nr+1, RadarRaindataset_src);
+               InitializeRadar ( I10RainfallSeriesRadar, nr+1, RadarRaindataset_src_single);
                I10TimeSeries[0] := Src_timeseries[0];
                For i := 1 To nr Do
-                 I10TimeSeries[i] := I10TimeSeries[i-1]+60;
-               I10RainfallSeriesRadar[0] := RadarRaindataset_src[0];
+                 I10TimeSeries[i] := I10TimeSeries[i-1] + 60;
+                 For k := Low(RadarRaindataset_src[0]) To High(RadarRaindataset_src[0]) - 1 Do
+                      Begin
+                           For l:= Low(RadarRaindataset_src[0,k]) To High(RadarRaindataset_src[0,k]) - 1 Do
+                               Begin
+                                    I10RainfallSeriesRadar[0,k,l] := RadarRaindataset_src[0,k,l];
+                               End
+                      End;
                For k := Low(RadarRaindataset_src[0]) To High(RadarRaindataset_src[0]) - 1 Do
                           Begin
                                For l:= Low(RadarRaindataset_src[0,k]) To High(RadarRaindataset_src[0,k]) - 1 Do
@@ -365,7 +604,7 @@ Procedure PreparRadarRainfallData (Var Radar_dir: String; timestepRadar: Integer
           setlength(I10RainfallSeries_radar_array, RadarFiles.count);
           setlength(I10RainfallSeries_Interp_radar_array, nr+1);
           setlength(I10RainfallSeriesRadar, nr+1);
-          InitializeRadar ( I10RainfallSeriesRadar, nr+1, RadarRaindataset_src);
+          InitializeRadar ( I10RainfallSeriesRadar, nr+1, RadarRaindataset_src_single);
           I10TimeSeries[0] := Src_timeseries[0];
           For i := 1 To nr Do
             Begin
@@ -403,7 +642,7 @@ Procedure PreparRadarRainfallData (Var Radar_dir: String; timestepRadar: Integer
               Setlength (I10Radar[i], High(RadarRaindataset_src[0,i]));
             End;
 
-      SetzeroR (I10Radar);
+      SetzeroRRadar (I10Radar);
 
       For k := Low(RadarRaindataset_src[0]) To High(RadarRaindataset_src[0]) - 1 Do
            Begin
@@ -425,14 +664,15 @@ Procedure PreparRadarRainfallData (Var Radar_dir: String; timestepRadar: Integer
                                 If I10Series_radar[i] > I10Radar [k,l] Then
                                    I10Radar [k,l] := I10Series_radar[i];
                            End;
-                    End
+                    End;
            End;
-    End;
+
+      End;
 
     //Time and Rainfall are written to a Record
 
      Setlength (Rain_fraction_radar, NumberOfTimesteps+1);
-     InitializeRadar ( Rain_fraction_radar, NumberOfTimesteps+1, RadarRaindataset_src);
+     InitializeRadar ( Rain_fraction_radar, NumberOfTimesteps+1, RadarRaindataset_src_single);
 
      For i := 0 To NumberOfTimesteps Do
              Begin
@@ -442,13 +682,13 @@ Procedure PreparRadarRainfallData (Var Radar_dir: String; timestepRadar: Integer
                                Begin
                                     Rain_fraction_radar [i,k,l] := RadarRaindataset_dst [i,k,l]/RainfallSum[k,l];
                                End
-                      End
+                      End;
              End;
     End;
 
 
 
-Procedure InitializeRadar ( Var InitilizationDataset: Array Of Rraster; Number_Radarfiles: Integer; Mask: Array Of Rraster);
+Procedure InitializeRadar ( Var InitilizationDataset: Array Of RadarRaster; Number_Radarfiles: Integer; Mask: Array Of RRaster);
           Begin
             For i:= 0 To Number_Radarfiles - 1 Do
              Begin
@@ -464,18 +704,19 @@ Procedure InitializeRadar ( Var InitilizationDataset: Array Of Rraster; Number_R
              end
           end;
 
-Procedure CalculateRFactorRadar (Var TimeSeries: integerArray; timestepRadar: integer; RadarRaindataset_src: Array Of Rraster);
+
+Procedure CalculateRFactorRadar (Var TimeSeries: integerArray; timestepRadar: integer; RadarRaindataset_src: Array Of RadarRaster);
 
 Var
   newTimeSeries, minTimeSeries : integerArray;
   minRainfallSeries_extrap_array, minRainfallSeries_array, rainEnergy, newRainfallSeries_extrap_array, newRainfallSeries_array, newRainfallSeries_while_array, rainVolume, I30 : floatArray;
-  newRainfallSeries, minRainfallSeries : Array Of Rraster;
+  newRainfallSeries, minRainfallSeries : Array Of RadarRaster;
   tel, nr, j, index, Tini, Tfin : integer;
   x, eventEnergy, maxI30, eventRFactor: double;
          Begin
           Setlength (newRainfallSeries, Length(RadarRaindataset_src));
           Setlength (newTimeSeries, Length(TimeSeries));
-          InitializeRadar ( newRainfallSeries, Length(RadarRaindataset_src), RadarRaindataset_src);
+          InitializeRadar ( newRainfallSeries, Length(RadarRaindataset_src), RadarRaindataset_src_single);
 
           Setlength (RfactorRadar, High(RadarRaindataset_src[0]));
 
@@ -484,8 +725,7 @@ Var
               Setlength (RfactorRadar[i], High(RadarRaindataset_src[0,i]));
             End;
 
-          SetzeroR (RfactorRadar);
-          write ('test1.1', #13#10);
+          SetzeroRRadar (RfactorRadar);
           // Correction for Negative values in source radarraindataset
           For i := 1 To Length(TimeSeries) - 1 Do
              Begin
@@ -503,7 +743,13 @@ Var
                   newTimeSeries := TimeSeries;
                   For tel := 0 To Length(RadarRaindataset_src) - 1 Do
                      Begin
-                      newRainfallSeries[tel] := RadarRaindataset_src[tel];
+                          For k := Low(RadarRaindataset_src[tel]) To High(RadarRaindataset_src[tel]) - 1 Do
+                              Begin
+                                   For l:= Low(RadarRaindataset_src[tel,k]) To High(RadarRaindataset_src[tel,k]) - 1 Do
+                                       Begin
+                                            newRainfallSeries[tel,k,l] := RadarRaindataset_src[tel,k,l];
+                                       End
+                              End
                      End;
              End
           Else
@@ -513,11 +759,17 @@ Var
                           nr := (length(TimeSeries)-1)*(timestepRadar Div 60);
                           setlength(minTimeSeries, nr+1);
                           setlength(minRainfallSeries, nr+1);
-                          InitializeRadar ( minRainfallSeries, nr+1, RadarRaindataset_src);
+                          InitializeRadar ( minRainfallSeries, nr+1, RadarRaindataset_src_single);
                           minTimeSeries[0] := TimeSeries[0];
                           For i := 1 To nr Do
                               minTimeSeries[i] := minTimeSeries[i-1]+60;
-                              minRainfallSeries[0] := RadarRaindataset_src[0];
+                              For k := Low(RadarRaindataset_src[0]) To High(RadarRaindataset_src[0]) - 1 Do
+                                  Begin
+                                       For l:= Low(RadarRaindataset_src[0,k]) To High(RadarRaindataset_src[0,k]) - 1 Do
+                                           Begin
+                                                minRainfallSeries[0,k,l] := RadarRaindataset_src[0,k,l];
+                                           End
+                                  End;
                               j := 1;
                               For k := Low(RadarRaindataset_src[0]) To High(RadarRaindataset_src[0]) - 1 Do
                                   Begin
@@ -543,7 +795,7 @@ Var
                             setlength(minRainfallSeries_array, length(TimeSeries));
                             setlength(minRainfallSeries_extrap_array, nr+1);
                             setlength(minRainfallSeries, nr+1);
-                            InitializeRadar ( minRainfallSeries, nr+1, RadarRaindataset_src);
+                            InitializeRadar ( minRainfallSeries, nr+1, RadarRaindataset_src_single);
                             minTimeSeries[0] := TimeSeries[0];
                             For i := 1 To nr Do
                                 Begin
@@ -571,22 +823,27 @@ Var
                       Begin
                            Setlength (minRainfallSeries, Length(RadarRaindataset_src));
                            Setlength (minTimeSeries, Length(TimeSeries));
-                           InitializeRadar ( minRainfallSeries, Length(RadarRaindataset_src), RadarRaindataset_src);
+                           InitializeRadar ( minRainfallSeries, Length(RadarRaindataset_src), RadarRaindataset_src_single);
 
                            minTimeSeries := TimeSeries;
                            For tel := 0 To Length(RadarRaindataset_src) - 1 Do
                                Begin
-                                    minRainfallSeries[tel] := RadarRaindataset_src[tel];
+                                  For k := Low(RadarRaindataset_src[tel]) To High(RadarRaindataset_src[tel]) - 1 Do
+                                      Begin
+                                           For l:= Low(RadarRaindataset_src[tel,k]) To High(RadarRaindataset_src[tel,k]) - 1 Do
+                                               Begin
+                                                    minRainfallSeries[tel,k,l] := RadarRaindataset_src[tel,k,l];
+                                               End
+                                      End
                                End
                       End;
-                  write ('test1.2', #13#10);
                   // vervolgens conversie naar tijdstap van 10 min
                   nr := ((length(minTimeSeries)-1) Div 10) + 1;
                   setlength(newTimeSeries, nr);
                   setlength(newRainfallSeries_array,length(minTimeSeries));
                   setlength(newRainfallSeries_extrap_array, nr);
                   setlength(newRainfallSeries, nr);
-                  InitializeRadar ( newRainfallSeries, nr, RadarRaindataset_src);
+                  InitializeRadar ( newRainfallSeries, nr, RadarRaindataset_src_single);
                   newTimeSeries[0] := TimeSeries[0];
                   For i := 1 To nr Do
                       Begin
@@ -611,7 +868,6 @@ Var
                                 End
 
                   End;
-             write ('test1.3', #13#10);
              // zoek geldig event en baken het af (tini...tfin)
              setlength(newRainfallSeries_while_array, length(newTimeSeries));
              For k := Low(RadarRaindataset_src[0]) To High(RadarRaindataset_src[0]) - 1 Do
@@ -687,7 +943,7 @@ Var
 //This procedure calculates the amount of rainfall excess (=runoff) or rainfall
 //deficit (= amount of water that can re-infiltrate in the grid cell)
 //******************************************************************************
-Procedure CalculateReRadar(Var Remap:Rraster; RainfallSum:Rraster; I10Radar:Rraster; Perceelskaart:Rraster; CNmap:Rraster; alpha, beta:double);
+Procedure CalculateReRadar(Var Remap:Rraster; RainfallSum:RadarRaster; I10Radar:RadarRaster; Perceelskaart:Rraster; CNmap:Rraster; alpha, beta:double);
 
 Var
   i,j, nrowPRC, ncolPRC : integer;

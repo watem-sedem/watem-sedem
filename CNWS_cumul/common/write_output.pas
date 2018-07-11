@@ -6,7 +6,7 @@ Unit Write_output;
 Interface
 
 Uses 
-Classes, SysUtils, RData_CN, ReadInParameters, CN_calculations,
+Classes, SysUtils, RData_CN, ReadInParameters, CN_calculations, radar_procedures,
 Idrisi, Dialogs, LateralRedistribution;
 
 Procedure Write_maps;

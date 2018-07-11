@@ -56,10 +56,11 @@ Type
 
 
   TRainRecordArray = array Of TRainRecord;
-  //Record is converted to 2D matrix
+  //Record is converted to 2D matrix, this 2D matrix stores spatial distributed rainfall data for one timestep. 
+  //Position of the rainfall data in the 2D matrix corresponds to the location of the rainfall measurement.
 
   TRadarRainRecordArray = array Of TRainRecordArray;
-  //Record is converted to 3D matrix
+  //Record is converted to 3D matrix, this 3D matrix allows to store spatially distributed rainfall data for multiple events.
 
   TRouting = Record
     //Record containing information about runoff routing for each cell
@@ -131,7 +132,7 @@ Var
   {User Choices}
   Simplified           : boolean;
   Use_Rfactor          : boolean;
-  Use_Radar_rain       : boolean; //added to be able to read the parameter, that tells wether you are working with rainfall radar
+  Use_Radar_rain       : boolean; //added to be able to read the parameter, that tells wether you are working with rainfall radar.
   Include_sewer        : boolean;
   Topo, Inc_tillage    : boolean;
   est_clay             : boolean;
@@ -173,7 +174,7 @@ Var
   TFSED_forest         : integer;
   Timestep_model       : integer;
   EndTime_model        : integer;
-  timestepRadar        : integer;
+  timestepRadar        : integer; // parameter indicating the timestep between the radar images that are being read by the CNWS model.
   Timestep_output      : integer;
   PTefValueCropland    : integer;
   PTefValueForest      : integer;
@@ -184,11 +185,9 @@ Var
   {End Parameters to be read form ini-file--------------------------------------}
 
   PRC, DTM, CNmap, LU, ReMap, RunoffTotMap, SewerMap: Rraster;
-  RadarRaindata : Array of Rraster;
+  RadarRaindata : Array of Rraster; //An array containing multiple Rrasters which each Rraster corresponds to a radar rainfall image read in for one timestep.
   TilDir, Ro, BufferMap, Outlet, RivSeg, Ditch_map, Dam_map, PTEFmap: GRaster;
   i, j, lowOutletX, lowOutletY: integer;
-
-
 
   ROW, COLUMN : Gvector;
 
@@ -410,7 +409,7 @@ Begin
   // If the last character in the output directory is not a "\" this is added
   If (File_output_dir[Length(File_output_dir)] <> '\') Then
     File_output_dir := IncludeTrailingBackslash(File_output_dir);
-  Radar_dir := Inifile.readstring('Working directories', 'Radar directory', Dummy_str);
+  Radar_dir := Inifile.readstring('Working directories', 'Radar directory', Dummy_str); // allows to read the name of the directory containing the radar rainfall images.
 
   {Filenames}
   INIfilename := Inifile.Readstring('Files', '.INI filename', Dummy_str);
@@ -696,7 +695,7 @@ Begin
     Then
       raise EInputException.Create(
       'Error in data input: Endtime model value missing or wrong data format');
-
+// This if statement allows to read the timstep between the radar images from the ini file when rainfall radar is used as the rainfall input for the model.
   If Use_Radar_Rain Then
     Begin
       If Not TryStrToInt(inifile.readstring('Variables', 'Timestep Rain Radar data', Dummy_str), timestepRadar)

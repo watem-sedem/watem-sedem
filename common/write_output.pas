@@ -31,6 +31,10 @@ Begin
   If Write_WATEREROS Then
     Begin
       writeIdrisi32file(ncol,nrow,File_output_dir+'WATEREROS (mm per gridcel)'+'.rst', WATEREROS);
+	  If Use_Radar_Rain Then
+		Begin
+			writeIdrisi32file(ncol,nrow,File_output_dir+'Rfactor'+'.rst', RFactorRadar); // allows the model to produce an outputmap which shows the R-factor values for the RUSLE calculated using radar rainfall data
+		End;
       // WATEREROS [mm]
 
 // writeIdrisi32file(ncol, nrow, File_output_dir + 'WATEREROS (m3 per gridcel)' + '.rst', watereros_cubmeter);

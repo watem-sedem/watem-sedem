@@ -29,7 +29,7 @@
     <RunParams>
       <local>
         <FormatVersion Value="1"/>
-        <CommandLineParams Value="D:\Documents\1e_master_Geography_GIS\Thesis\CNWS_runs\Borlo\Borlo_radar.ini"/>
+        <CommandLineParams Value="D:\Documents\1e_master_Geography_GIS\Thesis\CNWS_runs\Radar\VELM\Scenario_1\modelinput\ini_Velm_06_07102006_radar.ini"/>
       </local>
     </RunParams>
     <RequiredPackages Count="1">

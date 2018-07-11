@@ -91,13 +91,13 @@ Begin
 
 End;
 
+// This If statement tells the model wether to use the procedures for radar data or for rain gauge data to prepare the rainfall input for the model.
 If Use_Radar_Rain Then
    Begin
          PreparRadarRainfallData (Radar_dir, timestepRadar);
-         // R factor is calculated from given rainfall record
-         write ('test1', #13#10);
+         //The .rst files with radar rainfall data for each timestep are read and written to an array of Rraster
          CalculateRFactorRadar (TimeSeries, timestepRadar, RadarRaindataset_src);
-         write ('test2', #13#10);
+		 // R factors are calculated from the given radar rainfall data.
    End
 Else
    If Not Use_Rfactor Then
@@ -108,7 +108,7 @@ Else
            // R factor is calculated from given rainfall record
       End;
 
-RadarRaindataset_src := Nil;
+RadarRaindataset_src := Nil; // After this point this dataset is not necessary for the calculations, removed from memory to conserve RAM.
 
 If (Not simplified) and (Timestep_model>=resAR[1]/0.3) Then
 Begin
@@ -121,11 +121,10 @@ End;
 Allocate_Memory;
 // voor verschillende rasters
 
-//Amount of rainfall excess or deficit is calculated
+//This If statement tells the model wether to use the procedures for radar data or for rain gauge data to calculate the amount of rainfall excess or deficit.
 If Use_Radar_Rain Then
    Begin
        CalculateReRadar(ReMap, RainfallSum, I10Radar, PRC, CNmap, alpha, beta);
-       write ('test3', #13#10);
    End
 Else
     Begin
@@ -156,6 +155,7 @@ end;
 // number and position of outlets is determined. Lowest outlet is also determined.
 calcOutlet;
 
+//These If statements tell the model wether to use the procedures for radar data or for rain gauge data.															  
 //Amount of runoff per timestep is calculated
 If Use_Radar_Rain Then
    Begin
