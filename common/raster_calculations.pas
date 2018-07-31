@@ -1462,8 +1462,8 @@ Var
   i, j, target_row, target_col: integer;
   diff1, diff2, s1, s2: double;
 Begin
-  for i := Length(Routing) downto 1 do
-    for j:= Length(Routing[i]) downto 1 do
+  for i := nrow downto 1 do
+    for j:= ncol downto 1 do
       begin
         if PRC[i,j] = 0 then
           begin
