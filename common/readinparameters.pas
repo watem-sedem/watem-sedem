@@ -2,6 +2,7 @@
 Unit ReadInParameters;
 
 {$mode objfpc}{$H+}
+{$R+}
 
 Interface
 
