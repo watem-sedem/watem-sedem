@@ -876,7 +876,7 @@ Begin
   For i := 1 To nrow Do
     For j := 1 To ncol Do
       Begin
-        If C_factor[i,j] <= ktc_limit Then
+        If C_factor[i,j] <= ktc_limit -0.000001 Then
           ktc[i,j] := ktc_low
         Else
           ktc[i,j] := ktc_high;
