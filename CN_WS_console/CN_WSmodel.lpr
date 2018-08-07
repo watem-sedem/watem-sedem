@@ -165,9 +165,12 @@ Begin
         Begin
           ktc_low:=cal.KTcLow_lower + low_i * (cal.KTcLow_upper - cal.KTcLow_lower)/cal.steps;
           ktc_high:=cal.KTcHigh_lower + high_i* (cal.KTcHigh_upper - cal.KTcHigh_lower)/cal.steps;
-          Create_ktc_map(ktc);
-          Writeln('ktc_low: ' + Formatfloat('0.00', ktc_low) + '; ktc_high:' + Formatfloat('0.00', ktc_high));
-          Water;
+          If ktc_high >= ktc_low Then
+          Begin
+            Create_ktc_map(ktc);
+            Writeln('ktc_low: ' + Formatfloat('0.00', ktc_low) + '; ktc_high:' + Formatfloat('0.00', ktc_high));
+            Water;
+          end;
         end;
 End;
 
