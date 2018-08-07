@@ -163,10 +163,10 @@ Begin
     For low_i := 0 To cal.steps Do
       For high_i:=0 To cal.steps Do
         Begin
-          ktc_low:=round(cal.KTcLow_lower + low_i * (cal.KTcLow_upper - cal.KTcLow_lower)/cal.steps);
-          ktc_high:=round(cal.KTcHigh_lower + high_i* (cal.KTcHigh_upper - cal.KTcHigh_lower)/cal.steps);
+          ktc_low:=cal.KTcLow_lower + low_i * (cal.KTcLow_upper - cal.KTcLow_lower)/cal.steps;
+          ktc_high:=cal.KTcHigh_lower + high_i* (cal.KTcHigh_upper - cal.KTcHigh_lower)/cal.steps;
           Create_ktc_map(ktc);
-          Writeln('ktc_low: ' + inttostr(ktc_low) + '; ktc_high:' + inttostr(ktc_high));
+          Writeln('ktc_low: ' + Formatfloat('0.00', ktc_low) + '; ktc_high:' + Formatfloat('0.00', ktc_high));
           Water;
         end;
 End;

@@ -701,10 +701,10 @@ Begin
   If calibrate Then
     Begin
 
-      cal.KTcHigh_lower:=inifile.ReadInteger('Calibration','KTcHigh_lower', 5);
-      cal.KTcHigh_upper:=inifile.ReadInteger('Calibration','KTcHigh_upper', 40);
-      cal.KTcLow_lower:=inifile.ReadInteger('Calibration','KTcLow_lower', 1);
-      cal.KTcLow_upper:=inifile.ReadInteger('Calibration','KTcLow_upper', 20);
+      cal.KTcHigh_lower:=inifile.ReadFloat('Calibration','KTcHigh_lower', 5);
+      cal.KTcHigh_upper:=inifile.ReadFloat('Calibration','KTcHigh_upper', 40);
+      cal.KTcLow_lower:=inifile.ReadFloat('Calibration','KTcLow_lower', 1);
+      cal.KTcLow_upper:=inifile.ReadFloat('Calibration','KTcLow_upper', 20);
       cal.steps:=Inifile.ReadInteger('Calibration', 'steps', 12);
     end;
 
