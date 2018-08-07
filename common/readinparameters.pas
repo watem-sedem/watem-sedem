@@ -61,7 +61,6 @@ Type
   TRouting = Record
     //Record containing information about runoff routing for each cell
     One_Target: boolean;
-    //Can I delete this???
     Target1Row, Target1Col, Target2Row, Target2Col: integer;
     Part1, Part2, Distance1, Distance2: double;
   End;
