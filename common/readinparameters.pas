@@ -67,10 +67,10 @@ Type
   End;
 
   TCalibration = Record
-   KTcHigh_lower: integer;
-   KTcHigh_upper: integer;
-   KTcLow_lower: integer;
-   KTcLow_upper: integer;
+   KTcHigh_lower: double;
+   KTcHigh_upper: double;
+   KTcLow_lower: double;
+   KTcLow_upper: double;
    steps: integer;
   end;
 
