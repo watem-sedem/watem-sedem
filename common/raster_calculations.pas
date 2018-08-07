@@ -85,6 +85,7 @@ Var
   Teller: integer;
   Finish: GRaster;
   //A cell receives a value of 1 after it had been treated
+  k: integer;
 Begin
   SetDynamicGdata(Finish);
   SetzeroG(Finish);
@@ -126,6 +127,27 @@ Begin
                                                                       ].Target2Row) + sqr(j -
                                                                       Routing[i,j].Target2Col));
     End;
+
+  if force_routing then
+    begin
+      for k:= low(forced_routing) to high(forced_routing) do
+      Begin
+        i := forced_routing[k].FromRow;
+        j := forced_routing[k].FromCol;
+        Routing[i,j].Target1Row := forced_routing[k].TargetRow;
+        Routing[i,j].Target1Col := forced_routing[k].TargetCol;
+        Routing[i,j].Target2Row := -99;
+        Routing[i,j].Target2Col := -99;
+        Routing[i,j].Part1 := 1;
+        Routing[i,j].Part2 := 0.0;
+        Routing[i,j].One_Target:=True;
+        Routing[i,j].Distance1 :=  res * sqrt(sqr(i - Routing[i,j
+                                                                      ].Target2Row) + sqr(j -
+                                                                      Routing[i,j].Target2Col)); ;
+        Routing[i,j].Distance2 := 0.0;
+      End;
+
+    end;
 End;
 
 //******************************************************************************

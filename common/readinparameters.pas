@@ -65,6 +65,10 @@ Type
     Part1, Part2, Distance1, Distance2: double;
   End;
 
+  TForcedRouting = Record
+    TargetRow, TargetCol, FromRow, FromCol: integer;
+  end;
+
   TCalibration = Record
    KTcHigh_lower: double;
    KTcHigh_upper: double;
@@ -149,6 +153,7 @@ Var
   VHA                  : boolean;
   adjusted_slope       : boolean;
   buffer_reduce_upstream_area: boolean;
+  force_routing       : boolean;
   {Output maps}
   Write_ASPECT         : boolean;
   Write_LS             : boolean;
@@ -187,6 +192,7 @@ Var
   max_kernel_river     : integer;
   calibrate            : Boolean;
   cal     : TCalibration;
+  forced_routing : array Of TForcedRouting;
 
   LModel: TLModel;
   SModel: TSModel;
@@ -423,8 +429,9 @@ Procedure Readsettings(INI_filename:String);
 
 Var 
   Inifile: Tinifile;
-  Dummy_str, Buffername, inistring: string;
+  Dummy_str, Buffername, inistring, routingname: string;
   i: integer;
+  number_of_forced_routing: integer;
 Begin
 
   If Not FileExists(INI_filename) Then
@@ -463,6 +470,7 @@ Begin
   calibrate :=  inifile.ReadBool('Calibration', 'Calibrate', false);
   adjusted_slope := inifile.ReadBool('User Choices', 'Adjusted Slope', false);
   buffer_reduce_upstream_area := inifile.ReadBool('User Choices', 'Buffer reduce Area', false);
+  force_routing := inifile.ReadBool('User Choices', 'Force Routing', false);
 
   inistring:= Inifile.ReadString('User Choices', 'L model', 'Desmet1996_Vanoost2003');
   Lmodel := TLModel(GetEnumValue(Typeinfo(TLModel), inistring));
@@ -577,6 +585,9 @@ Begin
      Dummy_str), Number_of_Buffers)) Then
       raise EInputException.Create('Error in data input: Number of buffers value missing or wrong data format');
 
+  If (Force_routing) And Not (TryStrToInt(inifile.readstring('Variables', 'Number of Forced Routing',
+     Dummy_str), number_of_forced_routing)) Then
+      raise EInputException.Create('Error in data input: Number of Forced Routing value missing or wrong data format');
 
 
   if not calibrate then
@@ -646,6 +657,22 @@ Begin
     Then
       raise EInputException.Create(
       'Error in data input: Endtime model value missing or wrong data format');
+
+  If force_routing Then
+    Begin
+        setlength(forced_routing, number_of_forced_routing);
+    for i:=0 to number_of_forced_routing-1 do
+      begin;
+        routingname:='Forced Routing ' + IntToStr(i+1);
+
+        forced_routing[i].FromCol := inifile.ReadInteger(routingname, 'from col',-99);
+        TryStrToInt(inifile.readstring(routingname, 'from col', Dummy_str), forced_routing[i].FromCol);
+        TryStrToInt(inifile.readstring(routingname, 'from row', Dummy_str), forced_routing[i].FromRow);
+        TryStrToInt(inifile.readstring(routingname, 'target col', Dummy_str), forced_routing[i].TargetCol);
+        TryStrToInt(inifile.readstring(routingname, 'target row', Dummy_str), forced_routing[i].TargetRow);
+      end;
+    end;
+
 
   If Include_buffer Then
     Begin
