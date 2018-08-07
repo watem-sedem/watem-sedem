@@ -17,7 +17,7 @@ Procedure Readsettings(INI_filename:String);
 Procedure Create_CN_map(Var CNmap: RRaster;Perceelskaart:RRaster; Filename:String);
 Function CalculateCN(CNmax,Cc,Cr,c1,c2:integer): single;
 Procedure Create_ktil_map(Var ktil: GRaster);
-Procedure Create_ktc_map(Var ktc: GRaster);
+Procedure Create_ktc_map(Var ktc: RRaster);
 Function intArrayIsEqual (inputArray: Array Of Integer): boolean;
 Function doubArrayIsEqual (inputarray: Array Of double): boolean;
 
@@ -105,7 +105,7 @@ Var
   K_factor   : GRaster;    {RUSLE K-factor map kg m² h m-² MJ-1 mm-1}
   C_factor   : RRaster;
   P_factor   : RRaster;
-  ktc        : GRaster;
+  ktc        : RRaster;
   ktil       : GRaster;
   {End Rasters to be read in----------------------------------------------------}
 
@@ -171,8 +171,8 @@ Var
   beta                 : double;
   clay_parent          : double;
   Number_of_Buffers    : integer;
-  ktc_low              : integer;
-  ktc_high             : integer;
+  ktc_low              : double;
+  ktc_high             : double;
   ktc_limit            : double;
   ktil_Default         : integer;
   ktil_threshold       : double;
@@ -239,7 +239,7 @@ Begin
     If Create_ktc Then
       Create_ktc_map(ktc)
     Else
-      GetGFile(ktc, ktc_Data_filename);
+      GetRFile(ktc, ktc_Data_filename);
 
   If Create_ktil Then
     Create_ktil_map(ktil)
@@ -361,7 +361,7 @@ Begin
   DisposeDynamicRdata(C_factor);
   DisposeDynamicRdata(P_factor);
   DisposeDynamicGdata(ktil);
-  DisposeDynamicGdata(ktc);
+  DisposeDynamicRdata(ktc);
   DisposeDynamicGData(Buffermap);
 
   If Include_ditch = true Then
@@ -583,10 +583,10 @@ Begin
   if not calibrate then
     begin
         If (create_ktc) And Not
-           (TryStrToInt(Inifile.Readstring('Variables', 'ktc low', Dummy_str),ktc_low)) Then
+           (TryStrToFloat(Inifile.Readstring('Variables', 'ktc low', Dummy_str),ktc_low)) Then
              raise EInputException.Create('Error in data input: ktc low value missing or wrong data format');
         If (create_ktc) And Not
-           (TryStrToInt(Inifile.Readstring('Variables', 'ktc high', Dummy_str), ktc_high)) Then
+           (TryStrToFloat(Inifile.Readstring('Variables', 'ktc high', Dummy_str), ktc_high)) Then
              raise EInputException.Create('Error in data input: ktc high value missing or wrong data format');
 
     end;
@@ -841,12 +841,12 @@ Begin
   writeGidrisi32file(ncol,nrow,datadir+'ktilmap'+'.rst',ktil);
 End;
 
-Procedure Create_ktc_map(Var ktc: GRaster);
+Procedure Create_ktc_map(Var ktc: RRaster);
 
 Var 
   i,j: integer;
 Begin
-  SetDynamicGData(ktc);
+  SetDynamicRData(ktc);
   For i := 1 To nrow Do
     For j := 1 To ncol Do
       Begin
@@ -862,7 +862,7 @@ Begin
           ktc[i,j] := 9999;
       End;
 
-  writeGidrisi32file(ncol,nrow,datadir+'ktcmap'+'.rst',ktc);
+  writeidrisi32file(ncol,nrow,datadir+'ktcmap'+'.rst',ktc);
 End;
 
 // ***************************************************************************

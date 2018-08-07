@@ -393,7 +393,7 @@ Begin
       assignfile(cal_output_file, 'calibration.txt');
 
       append(cal_output_file);
-      Write(cal_output_file, inttostr(ktc_low) + ';' + inttostr(ktc_high) +';');
+      Write(cal_output_file, Formatfloat('0.00', ktc_low) + ';' + Formatfloat('0.00', ktc_high) +';');
       Write(cal_output_file, Formatfloat('0.00', sedprod) + ';' +FormatFloat('0.00', depprod) +';');
       Write(cal_output_file, Formatfloat('0.00', TEMP_river_sed_input * BD) + ';');
       Write(cal_output_file, Formatfloat('0.00', TEMP_outside_sed_input * BD) + ';');
