@@ -910,6 +910,19 @@ Begin
             Inc(W);
 
           Until ((check)Or(W>max_kernel));
+          If (W>max_kernel) Then
+          begin
+              Routing[i,j].One_Target := False;
+              Routing[i,j].Target1Row := -99;
+              Routing[i,j].Target1Col := -99;
+              Routing[i,j].Target2Row := 0;
+              Routing[i,j].Target2Col := 0;
+              Routing[i,j].Part1 := 0;
+              Routing[i,j].Part2 := 0;
+              exit;
+          end;
+
+
 
         //max_kernel is the maximum size of the kernel (thus the water is transported 50 cells further away)
 
