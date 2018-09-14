@@ -117,7 +117,11 @@ Begin
       If PRC[i,j]=0 Then continue;
       If IsRiver(i,j) Then
         //Routing procedure for rivers (once water has entered a river it has to stay in the river)
-        DistributeRiver_Routing(i, j, Finish)
+        begin
+             if river_routing then
+                DistributeRiver_Routing(i, j, Finish);
+             Finish[i,j]:=1;
+        end
       Else //Routing procedure for all other cells
         DistributeTilDirEvent_Routing(i,j, FINISH, Topo);
       If (Routing[i,j].Target1Row > 0) Then Routing[i,j].Distance1 := res * sqrt(sqr(i - Routing[i,j
@@ -398,11 +402,44 @@ End;
 //version of this model (and in the WaTEM/SEDEM script)
 //**************************************************************************
 Procedure DistributeRiver_Routing(i,j:integer; Var FINISH:GRaster);
-
+var
+  k, l, max, segment, rowmin, colmin: integer;
+  OK: boolean;
 Begin
-  FINISH[i,j] := 1;
-  //Treated cells receive a value of 1
+  segment := rivseg[i,j];
+  max := river_routing_map[i,j];
 
+  OK := false;
+
+  //A 3x3 kernel is build around every cell
+  For K := -1 To 1 Do
+    For L := -1 To 1 Do
+      Begin
+        //The cell under consideration ([i,j]) is not examined
+        If ((K=0)And(L=0)) Then Continue;
+
+        If (river_routing_map[i+k,j+l]<>0) and (rivseg[i+k,j+l]=segment) and (river_routing_map[i+k,j+l]<Max)
+          Then
+          Begin
+            ROWMIN := K;
+            COLMIN := L;
+            Max := river_routing_map[i+k,j+l];
+          End;
+      End;
+
+    If (OK) Then
+    Begin
+      //Routing[i,j].One_Target:= True;
+      Routing[i,j].Target1Row := I+ROWMIN;
+      Routing[i,j].Target1Col := J+COLMIN;
+      Routing[i,j].Part1 := 1.0;
+      //All material will flow to 1 neighbor
+    End
+    Else
+    begin
+      // no more adjectant cells in the segment --> flow to next segment
+
+    end;
 End;
 
 //Onderstaande procedure zoekt de targetcellen van alle pixels die geen rivier zijn

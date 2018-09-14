@@ -204,7 +204,7 @@ Var
   {End Parameters to be read form ini-file--------------------------------------}
 
   PRC, DTM, CNmap, LU, ReMap, RunoffTotMap, SewerMap: Rraster;
-  TilDir, Ro, BufferMap, Outlet, RivSeg, Ditch_map, Dam_map, PTEFmap: GRaster;
+  TilDir, Ro, BufferMap, Outlet, RivSeg, Ditch_map, Dam_map, PTEFmap, river_routing_map: GRaster;
   i, j, lowOutletX, lowOutletY: integer;
 
   ROW, COLUMN : Gvector;
@@ -286,6 +286,9 @@ Begin
 
   If VHA Then
     GetGfile(RivSeg, Riversegment_filename);
+
+  If river_routing then
+    GetGfile(river_routing_map, river_routing_filename);
 
   // PTEF map is created
   SetDynamicGdata(PTEFmap);
@@ -428,8 +431,7 @@ End;
 //to the correct variables.
 //******************************************************************************
 Procedure Readsettings(INI_filename:String);
-
-Var 
+Var
   Inifile: Tinifile;
   Dummy_str, Buffername, inistring, routingname: string;
   i: integer;
