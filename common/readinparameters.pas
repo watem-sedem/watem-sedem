@@ -137,6 +137,7 @@ Var
   ktil_Data_Filename   : string;
   Outletfilename       : string;
   riversegment_filename: string;
+  river_routing_filename: string;
   {User Choices}
   Simplified           : boolean;
   Use_Rfactor          : boolean;
@@ -153,7 +154,8 @@ Var
   VHA                  : boolean;
   adjusted_slope       : boolean;
   buffer_reduce_upstream_area: boolean;
-  force_routing       : boolean;
+  force_routing        : boolean;
+  river_routing        : boolean;
   {Output maps}
   Write_ASPECT         : boolean;
   Write_LS             : boolean;
@@ -473,6 +475,7 @@ Begin
   adjusted_slope := inifile.ReadBool('User Choices', 'Adjusted Slope', false);
   buffer_reduce_upstream_area := inifile.ReadBool('User Choices', 'Buffer reduce Area', false);
   force_routing := inifile.ReadBool('User Choices', 'Force Routing', false);
+  river_routing := inifile.ReadBool('User Choices', 'River Routing', false);
 
   inistring:= Inifile.ReadString('User Choices', 'L model', 'Desmet1996_Vanoost2003');
   Lmodel := TLModel(GetEnumValue(Typeinfo(TLModel), inistring));
@@ -504,6 +507,9 @@ Begin
     ktc_Data_Filename := SetFileFromIni(Inifile, 'ktc map filename', datadir, (not Create_ktc));
   ktil_Data_Filename := SetFileFromIni(Inifile, 'ktil map filename', datadir, not Create_ktil);
   Outletfilename := inifile.readstring('Files', 'Outlet map filename', Dummy_str);
+
+  if river_routing then
+    river_routing_filename := SetFileFromIni(Inifile, 'river routing filename', datadir, river_routing);
 
 
   If (est_clay) And Not (TryStrToFloat(Inifile.Readstring('Variables',
