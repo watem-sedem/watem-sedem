@@ -104,6 +104,8 @@ Var
   // incoming sediment in kg
   SEDI_OUT2      : RRaster;
   // outgoing sediment in kg
+
+  RIVER_CUMULATIVE: RRaster;
   {Rasters to be read in--------------------------------------------------------}
   K_factor   : GRaster;    {RUSLE K-factor map kg m² h m-² MJ-1 mm-1}
   C_factor   : RRaster;
@@ -339,6 +341,7 @@ Begin
   SetDynamicRData(WATEREROS_kg);
   SetDynamicRData(RUSLE);
   SetDynamicRData(SEDI_EXPORT);
+  SetDynamicRData(RIVER_CUMULATIVE);
   SetDynamicRData(SEDI_EXPORT_kg);
   SetDynamicRData(SEDI_IN2);
   SetDynamicRData(SEDI_OUT2);
@@ -396,6 +399,7 @@ Begin
   DisposeDynamicRdata(WATEREROS_kg);
   DisposeDynamicRdata(RUSLE);
   DisposeDynamicRdata(SEDI_EXPORT);
+  DisposeDynamicRdata(RIVER_CUMULATIVE);
   DisposeDynamicRdata(SEDI_EXPORT_kg);
   DisposeDynamicRdata(SEDI_IN2);
   DisposeDynamicRdata(SEDI_OUT2);
