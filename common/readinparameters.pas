@@ -439,6 +439,8 @@ Begin
   Inifile := Tinifile.create(INI_filename);
 
   Datadir := Inifile.readstring('Working directories', 'Input directory', Dummy_str);
+  If Not DirectoryExists(Datadir) Then
+    raise EInputException.Create('Error: data directory not found: ' + Datadir);
   File_output_dir := Inifile.readstring('Working directories', 'Output directory', Dummy_str);
   If Not DirectoryExists(File_output_dir) Then ForceDirectories(File_output_dir);
 
