@@ -399,106 +399,10 @@ End;
 //**************************************************************************
 Procedure DistributeRiver_Routing(i,j:integer; Var FINISH:GRaster);
 
-Var 
-  max : double;
-  K,L,rowmin,colmin,W : integer;
-  OK,OK2,check : boolean;
-  r, t: integer;
-
-Const
-  id: integer=-1;
-
 Begin
   FINISH[i,j] := 1;
   //Treated cells receive a value of 1
-  OK := false;
-  Max := -9999999999.99;
-  For K := -1 To 1 Do
-    //A 3x3 kernel is build around every cell
-    For L := -1 To 1 Do
-      Begin
-        If ((K=0)And(L=0)) Then Continue;
-        //The cell under consideration ([i,j]) is not examined
-        If (PRC[i+k,j+l]=id)And(DTM[i+k,j+l]<DTM[i,j])And(DTM[i+k,j+l]>Max)And(FINISH[i+k,j+l]=0)
-          Then
 
-// If the cell under consideration is a river, has a lower height, has a height higher than -9999999999.99 and has not been treated yet
-          Begin
-            OK := true;
-            ROWMIN := K;
-            COLMIN := L;
-            Max := DTM[I+K,J+L];
-            //To determine the heigest lower lying neighbor
-          End;
-      End;
-
-  If (OK) Then
-//If OK = true one of the neighbors meets the conditions. If multiple neigbors meet the condition the highest lower lying
-    //neigbor is selected
-    Begin
-      //Routing[i,j].One_Target:= True;
-      Routing[i,j].Target1Row := I+ROWMIN;
-      Routing[i,j].Target1Col := J+COLMIN;
-      Routing[i,j].Part1 := 1.0;
-      //All material will flow to 1 neighbor
-    End
-  Else //if the conditions are not met
-      Begin
-        W := 1;
-        Repeat
-        check := false;
-          For k := -W To W Do
-            For l := -W To W Do
-              Begin
-                If (abs(k)<>W) And (abs(l)<>W) Then continue;
-
-             //The cell itself is not looked at + only the outer cells of the kernel are looked at
-                If ((i+k)<0)Or(i+k>nrow)Or(j+l<0)Or(j+l>ncol) Then
-                  continue;
-                //The cells at the border of the map are not looked at
-                If (PRC[i+k,j+l]=id)And(FINISH[i+k,j+l]=0) Then
-                  //If the cell is a river and has not been treated yet
-                  Begin
-                    If check Then //If a target cell has been found
-                      break;
-                    //If break the current loop is ended
-                    check := true;
-                    Routing[i,j].One_Target := True;
-                    Routing[i,j].Target1Row := I+K;
-                    Routing[i,j].Target1Col := J+L;
-                    Routing[i,j].Part1 := 1.0;
-                  End;
-              End;
-          Inc(W);
-        Until ((check)Or(W>max_kernel_river));
-
-     //max_kernel_river is the maximum size of the kernel (thus the water is transported max_kernel_cells cells further away)
-      End;
-
-  //The distance from the source cell to the target cell is determined
-  //This is needed to calculate the amount of water that is displaced every timestep,
-  //as this is calculated as the displacement distance (x=v*t) divided by the distance
-  //between source and taget cell
-  // => Cardinal: distance = resolution
-  // => Diagonal: distance = sqrt(res² + res²)
-
-
-  If Routing[i,j].Part1 > 0.9999 Then
-    Begin
-      r := abs(i-Routing[i,j].Target1row);
-      t := abs(j-Routing[i,j].Target1col);
-    End
-  Else
-    If Routing[i,j].Part2 > 0.9999 Then
-      Begin
-        r := abs(i-Routing[i,j].Target2row);
-        t := abs(j-Routing[i,j].Target2col);
-		//TODO: johan - controleren of die afatand hier wel klopt
-        If (r = 0) Or (t = 0) Then
-          Routing[i,j].Distance2 := res
-        Else
-          Routing[i,j].Distance2 := sqrt(sqr(res) + sqr(res));
-      End;
 End;
 
 //Onderstaande procedure zoekt de targetcellen van alle pixels die geen rivier zijn
