@@ -471,7 +471,7 @@ Begin
   Include_buffer := Inifile.ReadBool('User Choices','Include buffers',false);
   Include_ditch := Inifile.ReadBool('User Choices','Include ditches',false);
   Include_dam := Inifile.ReadBool('User Choices','Include dams',false);
-  Create_ktc := Inifile.ReadBool('User Choices','Create ktc map',false);
+  Create_ktc := Inifile.ReadBool('User Choices','Create ktc map',true);
   Create_ktil := Inifile.ReadBool('User Choices','Create ktil map',false);
   VHA := Inifile.ReadBool('User Choices','Output per VHA river segment',false);
    max_kernel := Inifile.ReadInteger('User Choices', 'Max kernel', 50);
