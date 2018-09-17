@@ -28,9 +28,9 @@ Type
   Gvector = array Of smallint;
   Rvector = array Of single;
 
-  TSingleArray = array Of array Of single;
-  TDoubleArray = array Of array Of double;
-  TIntArray = array Of array Of integer;
+  TSingleMatrix = array Of array Of single;
+  TDoubleMatrix = array Of array Of double;
+  TIntMatrix = array Of array Of integer;
 
   // buffer data
   TBufferData = Record
@@ -215,7 +215,7 @@ Var
   totsurface: double;
 
   Routing: TRoutingArray;
-  OutletArray : TIntArray;
+  OutletArray : TIntMatrix;
   RainData: TRainRecordArray;
 
 
