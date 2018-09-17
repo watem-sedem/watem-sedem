@@ -403,8 +403,9 @@ End;
 //**************************************************************************
 Procedure DistributeRiver_Routing(i,j:integer; Var FINISH:GRaster);
 var
-  k, l, max, segment, rowmin, colmin: integer;
-  OK: boolean;
+  k, l, max, segment, nextsegment, rowmin, colmin: integer;
+  OK, check: boolean;
+  w: integer;
 Begin
   segment := rivseg[i,j];
   max := river_routing_map[i,j];
@@ -418,28 +419,59 @@ Begin
         //The cell under consideration ([i,j]) is not examined
         If ((K=0)And(L=0)) Then Continue;
 
-        If (river_routing_map[i+k,j+l]<>0) and (rivseg[i+k,j+l]=segment) and (river_routing_map[i+k,j+l]<Max)
+        If (river_routing_map[i+k,j+l]<>-9999) and (rivseg[i+k,j+l]=segment) and (river_routing_map[i+k,j+l]>Max)
           Then
           Begin
             ROWMIN := K;
             COLMIN := L;
             Max := river_routing_map[i+k,j+l];
+            OK:= true;
           End;
       End;
 
-    If (OK) Then
-    Begin
-      //Routing[i,j].One_Target:= True;
-      Routing[i,j].Target1Row := I+ROWMIN;
-      Routing[i,j].Target1Col := J+COLMIN;
-      Routing[i,j].Part1 := 1.0;
-      //All material will flow to 1 neighbor
-    End
-    Else
+    If not OK Then
+
     begin
       // no more adjectant cells in the segment --> flow to next segment
 
+
+      nextsegment := river_adjectant[segment];
+
+      w:=1;
+
+      Repeat
+            // if no neighbouring cells are found to be a suitable target cell,
+            //the search window is gradually extended until target is found
+            For k := -W To W Do
+              For l := -W To W Do
+                Begin
+                  If (abs(k)<>W) And (abs(l)<>W) Then continue;
+               //The cell itself is not looked at + only the outer cells of the kernel are looked at
+                  If ((i+k)<0)Or(i+k>nrow)Or(j+l<0)Or(j+l>ncol) Then continue;
+                  //The cells at the border of the map are not looked at
+                  If (rivseg[I+K,J+L] = nextsegment)   Then
+                    Begin
+                      check := true;
+                      ROWMIN := K;
+                      COLMIN := L;
+                    End;
+                End;
+            Inc(W);
+
+          Until ((check)Or(W>max_kernel));
+          If (W>max_kernel) Then
+          begin
+              Routing[i,j].One_Target := False;
+              Routing[i,j].Target1Row := -99;
+              Routing[i,j].Target1Col := -99;
+              Routing[i,j].Part1 := 0;
+              exit;
+          end;
     end;
+      Routing[i,j].Target1Row := I+ROWMIN;
+      Routing[i,j].Target1Col := J+COLMIN;
+      Routing[i,j].Part1 := 1.0;
+
 End;
 
 //Onderstaande procedure zoekt de targetcellen van alle pixels die geen rivier zijn

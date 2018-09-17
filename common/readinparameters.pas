@@ -9,18 +9,6 @@ Interface
 Uses 
 Classes, SysUtils, RData_CN, GData_CN, Inifiles, Idrisi, Typinfo;
 
-Procedure ReadInRasters;
-Procedure Allocate_Memory;
-Procedure Release_Memory;
-Function SetFileFromIni(inifile: Tinifile; inivalue, datadir: string; obliged: boolean): string;
-Procedure Readsettings(INI_filename:String);
-Procedure Create_CN_map(Var CNmap: RRaster;Perceelskaart:RRaster; Filename:String);
-Function CalculateCN(CNmax,Cc,Cr,c1,c2:integer): single;
-Procedure Create_ktil_map(Var ktil: GRaster);
-Procedure Create_ktc_map(Var ktc: RRaster);
-Function intArrayIsEqual (inputArray: Array Of Integer): boolean;
-Function doubArrayIsEqual (inputarray: Array Of double): boolean;
-
 //Record for model variables
 
 Type
@@ -31,6 +19,16 @@ Type
   TSingleMatrix = array Of array Of single;
   TDoubleMatrix = array Of array Of double;
   TIntMatrix = array Of array Of integer;
+
+  TIntArray = array of integer;
+
+  TIntKVArray = Class
+   key: TIntArray;
+   value: TIntArray;
+   function getItem (k: integer): integer;
+   property item[k:integer]:integer read getItem ; default;
+
+  end;
 
   // buffer data
   TBufferData = Record
@@ -83,7 +81,20 @@ Type
   TLModel = (Desmet1996_McCool, Desmet1996_Vanoost2003);
   TSModel = (Desmet1996, Nearing1997);
 
-Var 
+Procedure ReadInRasters;
+Procedure Allocate_Memory;
+Procedure Release_Memory;
+Function SetFileFromIni(inifile: Tinifile; inivalue, datadir: string; obliged: boolean): string;
+Procedure Readsettings(INI_filename:String);
+Procedure Create_CN_map(Var CNmap: RRaster;Perceelskaart:RRaster; Filename:String);
+Function CalculateCN(CNmax,Cc,Cr,c1,c2:integer): single;
+Procedure Create_ktil_map(Var ktil: GRaster);
+Procedure Create_ktc_map(Var ktc: RRaster);
+Function intArrayIsEqual (inputArray: Array Of Integer): boolean;
+Function doubArrayIsEqual (inputarray: Array Of double): boolean;
+Procedure ReadSagaKVTable(filename: String; var kvArray: tintkvarray);
+
+Var
   //internal variables
   sedprod,depprod: double;
   WATEREROS     : RRaster;
@@ -140,6 +151,8 @@ Var
   Outletfilename       : string;
   riversegment_filename: string;
   river_routing_filename: string;
+  river_adjectant_filename: string;
+  river_upstream_filename: string;
   {User Choices}
   Simplified           : boolean;
   Use_Rfactor          : boolean;
@@ -158,6 +171,7 @@ Var
   buffer_reduce_upstream_area: boolean;
   force_routing        : boolean;
   river_routing        : boolean;
+  river_topology       : boolean;
   {Output maps}
   Write_ASPECT         : boolean;
   Write_LS             : boolean;
@@ -198,8 +212,12 @@ Var
   cal     : TCalibration;
   forced_routing : array Of TForcedRouting;
 
+  river_adjectant      : TIntKVArray;
+
   LModel: TLModel;
   SModel: TSModel;
+
+
 
   {Buffers}
   BufferData: TBufferDataArray;
@@ -220,6 +238,18 @@ Var
 
 
 Implementation
+
+
+Function TIntKVArray.getItem(k: integer): integer;
+var
+  i: integer;
+begin
+  for i:=low(Self.key) to high(Self.key) do
+    begin
+      if self.key[i] = k then
+        getItem:= self.value[i];
+    end;
+end;
 
 Procedure ReadInRasters;
 Begin
@@ -289,8 +319,12 @@ Begin
   If VHA Then
     GetGfile(RivSeg, Riversegment_filename);
 
+
   If river_routing then
+    begin
     GetGfile(river_routing_map, river_routing_filename);
+    ReadSagaKVTable(river_adjectant_filename, river_adjectant);
+    end;
 
   // PTEF map is created
   SetDynamicGdata(PTEFmap);
@@ -430,6 +464,28 @@ Begin
     End;
 End;
 
+
+Procedure ReadSagaKVTable(filename: String; var kvArray: tintkvarray);
+var
+  table: TStrings;
+  i: integer;
+  split: TStringArray;
+Begin
+  table := TStringList.Create();
+  table.LoadFromFile(filename);
+  kvarray := tintkvarray.create();
+  setlength(kvarray.key, table.Count);
+  SetLength(kvarray.value, table.Count);
+
+  for i:=1 to table.Count -1 do
+    begin
+      split := table[i].split(#9);  // this is the tab character
+      kvarray.key[i] := StrToInt(trim(split[0])) +1; // saga by default counts from zero
+      kvarray.value[i] :=  StrToInt(trim(split[1])) +1;
+    end;
+End;
+
+
 //******************************************************************************
 //This procedure reads the .ini file and assigns the file + location + values
 //to the correct variables.
@@ -512,10 +568,13 @@ Begin
   if not calibrate then
     ktc_Data_Filename := SetFileFromIni(Inifile, 'ktc map filename', datadir, (not Create_ktc));
   ktil_Data_Filename := SetFileFromIni(Inifile, 'ktil map filename', datadir, not Create_ktil);
+
+
   Outletfilename := inifile.readstring('Files', 'Outlet map filename', Dummy_str);
 
-  if river_routing then
-    river_routing_filename := SetFileFromIni(Inifile, 'river routing filename', datadir, river_routing);
+
+  river_adjectant_filename:=SetFileFromIni(Inifile, 'adjectant segments', datadir, river_routing);
+  river_routing_filename := SetFileFromIni(Inifile, 'river routing filename', datadir, river_routing);
 
 
   If (est_clay) And Not (TryStrToFloat(Inifile.Readstring('Variables',
@@ -940,5 +999,7 @@ Begin
         doubArrayIsEqual := false;
     End;
 End;
+
+
 
 End.
