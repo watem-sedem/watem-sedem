@@ -414,8 +414,7 @@ Begin
   If Include_dam = true Then
     DisposeDynamicGData(Dam_map);
 
-  If outlet_select Then
-    DisposeDynamicGData(Outlet);
+  DisposeDynamicGData(Outlet);
 
   If VHA Then
     DisposeDynamicGData(RivSeg);

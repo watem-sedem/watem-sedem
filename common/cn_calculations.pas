@@ -349,7 +349,6 @@ Procedure calcOutlet;
 Var 
   i,j,k,l: integer;
   height, max_uparea: double;
-  outlet_rst: GRaster;
 Begin
   numOutlet := 1;
   k := 1;
@@ -360,12 +359,12 @@ Begin
           Begin
             If Outlet[i,j] > 0 Then
               Begin
-                setlength(OutletArray, k+1, 2);
+                k := Outlet[i,j];
+                numOutlet := max(numOutlet, k);
+                setlength(OutletArray, numOutlet+1, 2);
                 OutletArray[k,0] := i;
                 OutletArray[k,1] := j;
                 k := k+1;
-                If Outlet[i,j] > numOutlet Then
-                  numoutlet := Outlet[i,j];
               End;
           End;
       if ( k = 1 ) Then // if k is still 1 after looping through outlet map, no outlets were found
@@ -420,11 +419,9 @@ Begin
       lowOutletY := OutletArray[k,1];
 
       // write location of outlet to Idrisi raster (Outlet.rst)
-      SetDynamicGData(outlet_rst);
-      SetzeroG(outlet_rst);
-      outlet_rst[lowOutletX, lowOutletY] := 1;
-      writeGIdrisi32file(ncol,nrow, Datadir+'Outlet'+'.rst',outlet_rst);
-      DisposeDynamicGdata(outlet_rst);
+      SetDynamicGData(Outlet);
+      SetzeroG(Outlet);
+      Outlet[lowOutletX, lowOutletY] := 1;
     End;
 End;
 
@@ -441,23 +438,9 @@ Begin
       End;
 End;
 
-//TODO johan this function is called a lot -> better make this a hashmap
-// or probably better use the Outlet raster
 Function is_outlet(i,j:integer): boolean;
-Var
-  m : integer;
 Begin
-  result := false;
-
-  For m := 1 To numOutlet Do
-    Begin
-      If (i = OutletArray[m,0]) And (j = OutletArray[m,1]) Then
-        begin
-           result := true;
-           break;
-        end;
-
-    End;
+  is_outlet := Outlet[i,j] > 0;
 End;
 
 //******************************************************************************

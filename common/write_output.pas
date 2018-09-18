@@ -17,6 +17,13 @@ Implementation
 
 Procedure Write_maps;
 Begin
+
+     if not outlet_select then
+       begin
+        writeGIdrisi32file(ncol,nrow, Datadir+'Outlet'+'.rst',Outlet);
+       end;
+
+
   If Write_Sediexport Then
     Begin
       //  writeIdrisi32file(ncol,nrow,File_output_dir+'SediExport_m3'+'.rst', SEDI_EXPORT);
