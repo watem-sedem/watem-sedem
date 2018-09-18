@@ -468,6 +468,7 @@ Begin
               exit;
           end;
     end;
+      Routing[i,j].One_Target := true;
       Routing[i,j].Target1Row := I+ROWMIN;
       Routing[i,j].Target1Col := J+COLMIN;
       Routing[i,j].Part1 := 1.0;
