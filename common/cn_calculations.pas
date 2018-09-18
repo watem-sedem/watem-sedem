@@ -358,7 +358,7 @@ Begin
       For i := 1 To nrow Do
         For j := 1 To ncol Do
           Begin
-            If Outlet[i,j] <> 0 Then
+            If Outlet[i,j] > 0 Then
               Begin
                 setlength(OutletArray, k+1, 2);
                 OutletArray[k,0] := i;
