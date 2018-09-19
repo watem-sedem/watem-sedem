@@ -412,6 +412,9 @@ Begin
 
   OK := false;
 
+  rowmin:=0;
+  colmin:=0;
+
   //A 3x3 kernel is build around every cell
   For K := -1 To 1 Do
     For L := -1 To 1 Do
@@ -468,10 +471,13 @@ Begin
               exit;
           end;
     end;
+    if ((rowmin<>0) or (colmin<>0)) then
+    begin
       Routing[i,j].One_Target := true;
       Routing[i,j].Target1Row := I+ROWMIN;
       Routing[i,j].Target1Col := J+COLMIN;
       Routing[i,j].Part1 := 1.0;
+    end;
 
 End;
 
