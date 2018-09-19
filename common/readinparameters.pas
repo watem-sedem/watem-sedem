@@ -475,8 +475,8 @@ Begin
   for i:=1 to table.Count -1 do
     begin
       split := table[i].split(#9);  // this is the tab character
-      kvarray.key[i] := StrToInt(trim(split[0])) +1; // saga by default counts from zero
-      kvarray.value[i] :=  StrToInt(trim(split[1])) +1;
+      kvarray.key[i] := StrToInt(trim(split[0])); // note we have to use 1-based indexing
+      kvarray.value[i] :=  StrToInt(trim(split[1]));
     end;
 End;
 
