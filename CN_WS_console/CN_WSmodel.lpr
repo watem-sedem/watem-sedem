@@ -78,7 +78,6 @@ Begin
           Begin
             TextColor(red);
             writeln(E.Message);
-            readln;
             Terminate(1);
             Exit
           End;
@@ -117,7 +116,6 @@ Except
   on E: Exception Do
         Begin
           writeln(E.Message);
-          readln;
           Terminate(1);
           Exit;
         End;
@@ -131,7 +129,6 @@ Except
   on E: Exception Do
      Begin
        Writeln(E.Message);
-       readln;
        Terminate(1);
        Exit;
      end;
