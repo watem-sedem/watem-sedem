@@ -12,6 +12,7 @@ Raster_calculations, math, CN_calculations;
 
 Procedure Water;
 Procedure Distribute_sediment;
+procedure Cumulative_sections;
 
 Implementation
 
@@ -20,7 +21,7 @@ Var
   SEDI_OUT: RRaster;
   SEDI_IN: RRaster;
   Waterero, sedprod, depprod: double;
-  SedLoad, SedLoad_VHA: RVector;
+  SedLoad, SedLoad_VHA, SedLoad_VHA_Cumulative: RVector;
 
 Procedure Checkerosionheight(i, j: integer; Var A: RRaster);
 
@@ -432,6 +433,29 @@ Begin
       //The memory of sed_output_file is released
     End;
 
+    If river_routing Then
+    Begin
+      setcurrentDir(File_output_dir);
+      assignfile(Sediment_VHA, 'Cumulative sediment VHA.txt');
+      rewrite(Sediment_VHA);
+      Writeln(Sediment_VHA, 'Cumulative sediment flowing into each VHA river segment [kg]');
+      // write title
+      Write(Sediment_VHA, 'VHA segment', chr(9), 'Sediment');
+      // write column headings
+      writeln(Sediment_VHA, '');
+      // go to next line
+
+      For i := 1 To numRivSeg Do
+        Begin
+          Cumulative_sections;
+          Write(Sediment_VHA, IntToStr(i), chr(9), floattostr(sedload_VHA_cumulative[i]));
+          writeln(Sediment_VHA, '');
+        End;
+      closefile(Sediment_VHA);
+      //The memory of sed_output_file is released
+    End;
+
+
   If (Include_sewer) Then
     // total amount of sed_output_file exported through sewer system is written to .txt file
     Begin
@@ -789,5 +813,24 @@ Begin
     End;
 
 End;
+
+
+procedure Cumulative_sections;
+var
+  i: integer;
+Begin
+  setlength(SedLoad_VHA_Cumulative, length(sedload_vha));
+  for i:= 0 to length(sedload_vha)-1 do
+     SedLoad_VHA_Cumulative[i] := sedload_vha[i];
+
+  for i:= 0 to length(river_upstream.key)-1 do
+  begin
+     SedLoad_VHA_Cumulative[river_upstream.key[i]] += river_upstream.value[i]* sedload_vha[river_upstream.key[i]];
+
+  end;
+
+
+End;
+
 
 End.

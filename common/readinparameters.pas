@@ -211,6 +211,7 @@ Var
   forced_routing : array Of TForcedRouting;
 
   river_adjectant      : TIntKVArray;
+  river_upstream      : TIntKVArray;
 
   LModel: TLModel;
   SModel: TSModel;
@@ -322,6 +323,7 @@ Begin
     begin
     GetGfile(river_routing_map, river_routing_filename);
     ReadSagaKVTable(river_adjectant_filename, river_adjectant);
+    ReadSagaKVTable(river_upstream_filename, river_upstream);
     end;
 
   // PTEF map is created
@@ -569,6 +571,7 @@ Begin
 
 
   river_adjectant_filename:=SetFileFromIni(Inifile, 'adjectant segments', datadir, river_routing);
+  river_upstream_filename:=SetFileFromIni(Inifile, 'upstream segments', datadir, river_routing);
   river_routing_filename := SetFileFromIni(Inifile, 'river routing filename', datadir, river_routing);
 
 
