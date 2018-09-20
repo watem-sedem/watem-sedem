@@ -433,6 +433,9 @@ Begin
       //The memory of sed_output_file is released
     End;
 
+  // Calculate cumulative sediment for VHA sections
+   Cumulative_sections;
+
     If river_routing Then
     Begin
       setcurrentDir(File_output_dir);
@@ -447,7 +450,6 @@ Begin
 
       For i := 1 To numRivSeg Do
         Begin
-          Cumulative_sections;
           Write(Sediment_VHA, IntToStr(i), chr(9), floattostr(sedload_VHA_cumulative[i]));
           writeln(Sediment_VHA, '');
         End;
