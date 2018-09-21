@@ -403,12 +403,13 @@ End;
 //**************************************************************************
 Procedure DistributeRiver_Routing(i,j:integer; Var FINISH:GRaster);
 var
-  k, l, max, segment, nextsegment, rowmin, colmin: integer;
+  k, l, max, min, segment, nextsegment, rowmin, colmin: integer;
   OK, check: boolean;
   w: integer;
 Begin
   segment := rivseg[i,j];
-  max := river_routing_map[i,j];
+  min := river_routing_map[i,j];
+  max := maxint;
 
   OK := false;
 
@@ -422,7 +423,7 @@ Begin
         //The cell under consideration ([i,j]) is not examined
         If ((K=0)And(L=0)) Then Continue;
 
-        If (river_routing_map[i+k,j+l]<>-9999) and (rivseg[i+k,j+l]=segment) and (river_routing_map[i+k,j+l]>Max)
+        If (river_routing_map[i+k,j+l]<>-9999) and (rivseg[i+k,j+l]=segment) and (river_routing_map[i+k,j+l]>Min) and (river_routing_map[i+k,j+l]<Max)
           Then
           Begin
             ROWMIN := K;
