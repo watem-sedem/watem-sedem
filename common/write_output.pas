@@ -65,9 +65,6 @@ Begin
         writeidrisi32file(ncol,nrow,File_output_dir+'Remap'+'.rst',Remap);
       // rainfall excess map
     End;
-
-  If river_routing Then
-    writeidrisi32file(ncol,nrow,File_output_dir+'cumulative'+'.rst',cumulative);
 End;
 
 Procedure Write_Routing_Table;

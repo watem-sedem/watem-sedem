@@ -13,8 +13,6 @@ Raster_calculations, math, CN_calculations;
 Procedure Water;
 Procedure Distribute_sediment;
 procedure Cumulative_sections;
-procedure Cumulative_raster;
-Function followriver(var i,j: integer): boolean;
 
 Implementation
 
@@ -832,89 +830,9 @@ Begin
      SedLoad_VHA_Cumulative[river_upstream.key[i]] += river_upstream.value[i]* sedload_vha[river_upstream.key[i]];
 
   end;
+
+
 End;
-
-// if river routing is enabled: make a grid with the cumulative sediment output in rivers.
-procedure Cumulative_raster;
-Var
- i,j, seg: integer ;
- temp: double;
- min_segment, min_col, min_row: TIntArray;  // slaat de laagste pixelwaarde op voor elk segment
- // dit wordt de startwaarde om cumulatieve som te nemen.
-Begin
-  setlength(min_segment, numRivSeg+1);
-  setlength(min_col, numRivSeg+1);
-  setlength(min_row, numRivSeg+1);
-  for i:=0 to numRivSeg do
-     begin
-      min_segment[i] := maxSmallint;
-     end;
-
-
-   for i:= 0 to nrow-1 do
-      for j:= 0 to ncol-1 do
-         begin
-           seg:= RivSeg[i,j];
-           if (seg> 0) and (min_segment[seg] > river_routing_map[i,j]) and (river_routing_map[i,j] >0) then
-             begin
-             min_segment[seg] := river_routing_map[i,j];
-             min_col[seg] := i;
-             min_row[seg] := j;
-             end;
-         end;
-
-   // follow the water in each segment
-   for seg:=1 to numRivSeg do
-   begin
-     i:= min_col[seg];
-     j:= min_row[seg];
-
-
-     temp:={SedLoad_VHA_Cumulative[seg] - sedload_vha[seg] +} SEDI_IN2[i,j];
-     cumulative[i,j]:=temp;
-    if (i=0) and (j=0) then continue; // skip empty segments
-     while followriver(i,j) do
-     begin
-       temp := temp + SEDI_IN2[i,j];
-       cumulative[i,j]:=temp;
-     end;
-
-   end;
-
-end;
-
-Function followriver(var i,j: integer): boolean;
-var
- seg_start, k, l, rowmin, colmin, min, max: integer;
-begin
-  seg_start:= Rivseg[i,j];
-  max := maxint;
-  min := river_routing_map[i,j];
-  rowmin:= 0;  colmin:=0;
-    //A 3x3 kernel is build around every cell
-  For K := -1 To 1 Do
-    For L := -1 To 1 Do
-      Begin
-        //The cell under consideration ([i,j]) is not examined
-        If ((K=0)And(L=0)) Then Continue;
-
-        If (river_routing_map[i+k,j+l]<>-9999) and (rivseg[i+k,j+l]=seg_start) and (river_routing_map[i+k,j+l]>min) and (river_routing_map[i+k,j+l]<max)
-          Then
-          Begin
-            ROWMIN := K;COLMIN := L;
-            Max := river_routing_map[i+k,j+l];
-          End;
-      End;
-  if ((rowmin<>0) or (colmin<>0)) then
-  begin
-    i:= i+ rowmin;
-    j:= j+colmin;
-    followriver:=True;
-  end
-  else
-    followriver:=False;
-
-end;
 
 
 End.
