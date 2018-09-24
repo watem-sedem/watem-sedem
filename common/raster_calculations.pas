@@ -478,8 +478,8 @@ Begin
       Routing[i,j].Target1Row := I+ROWMIN;
       Routing[i,j].Target1Col := J+COLMIN;
       Routing[i,j].Part1 := 1.0;
-    end;
-
+      routing[i,j].Distance1 := res * sqrt(sqr(rowmin) + sqr(colmin))
+    end
 End;
 
 //Onderstaande procedure zoekt de targetcellen van alle pixels die geen rivier zijn
