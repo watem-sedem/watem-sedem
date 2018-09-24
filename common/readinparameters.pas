@@ -315,7 +315,7 @@ Begin
   If outlet_select Then
     GetGfile(Outlet, Outletfilename);
 
-  If VHA Then
+  If VHA or river_routing Then
     GetGfile(RivSeg, Riversegment_filename);
 
 
@@ -419,7 +419,7 @@ Begin
 
   DisposeDynamicGData(Outlet);
 
-  If VHA Then
+  If VHA or river_routing Then
     DisposeDynamicGData(RivSeg);
 
   // Release internal 2D rasters maps
@@ -562,7 +562,7 @@ Begin
   K_Factor_filename :=SetFileFromIni(Inifile, 'K factor filename', datadir, true);
   Cf_data_filename :=SetFileFromIni(Inifile, 'C factor map filename', datadir, true);
   Pf_data_filename :=SetFileFromIni(Inifile, 'P factor map filename', datadir, true);
-  Riversegment_filename := SetFileFromIni(Inifile, 'River segment filename', datadir, VHA);
+  Riversegment_filename := SetFileFromIni(Inifile, 'River segment filename', datadir, VHA or river_routing);
   if not calibrate then
     ktc_Data_Filename := SetFileFromIni(Inifile, 'ktc map filename', datadir, (not Create_ktc));
   ktil_Data_Filename := SetFileFromIni(Inifile, 'ktil map filename', datadir, not Create_ktil);
