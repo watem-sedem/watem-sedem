@@ -433,6 +433,31 @@ Begin
       //The memory of sed_output_file is released
     End;
 
+  // Calculate cumulative sediment for VHA sections
+   Cumulative_sections;
+
+    If river_routing Then
+    Begin
+      setcurrentDir(File_output_dir);
+      assignfile(Sediment_VHA, 'Cumulative sediment VHA.txt');
+      rewrite(Sediment_VHA);
+      Writeln(Sediment_VHA, 'Cumulative sediment flowing into each VHA river segment [kg]');
+      // write title
+      Write(Sediment_VHA, 'VHA segment', chr(9), 'Sediment');
+      // write column headings
+      writeln(Sediment_VHA, '');
+      // go to next line
+
+      For i := 1 To numRivSeg Do
+        Begin
+          Write(Sediment_VHA, IntToStr(i), chr(9), floattostr(sedload_VHA_cumulative[i]));
+          writeln(Sediment_VHA, '');
+        End;
+      closefile(Sediment_VHA);
+      //The memory of sed_output_file is released
+    End;
+
+
   If (Include_sewer) Then
     // total amount of sed_output_file exported through sewer system is written to .txt file
     Begin
