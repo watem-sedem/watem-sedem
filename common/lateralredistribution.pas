@@ -829,7 +829,7 @@ Begin
 
   for i:= 0 to length(river_upstream.key)-1 do
   begin
-     SedLoad_VHA_Cumulative[river_upstream.key[i]] += river_upstream.value[i]* sedload_vha[river_upstream.key[i]];
+     SedLoad_VHA_Cumulative[river_upstream.key[i]] += sedload_vha[river_upstream.value[i]] * river_upstream_proportion.value[i];
 
   end;
 End;
@@ -858,19 +858,19 @@ Begin
            if (seg> 0) and (min_segment[seg] > river_routing_map[i,j]) and (river_routing_map[i,j] >0) then
              begin
              min_segment[seg] := river_routing_map[i,j];
-             min_col[seg] := i;
-             min_row[seg] := j;
+             min_row[seg] := i;
+             min_col[seg] := j;
              end;
          end;
 
    // follow the water in each segment
    for seg:=1 to numRivSeg do
    begin
-     i:= min_col[seg];
-     j:= min_row[seg];
+     i:= min_row[seg];
+     j:= min_col[seg];
 
 
-     temp:={SedLoad_VHA_Cumulative[seg] - sedload_vha[seg] +} SEDI_IN2[i,j];
+     temp:=SedLoad_VHA_Cumulative[seg] - sedload_vha[seg] + SEDI_IN2[i,j];
      cumulative[i,j]:=temp;
     if (i=0) and (j=0) then continue; // skip empty segments
      while followriver(i,j) do

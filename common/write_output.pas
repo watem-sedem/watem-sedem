@@ -86,12 +86,16 @@ Begin
 
   For k := 1 To nrow Do
     For l := 1 To ncol Do
+      begin
+      if Routing[k,l].Target1Col = -99 then continue; // skip empty rows
       Writeln(routingfile,  IntToStr(l)+';'+ IntToStr(k) + ';'
       + IntToStr(Routing[k,l].Target1Col)  + ';' + IntToStr(Routing[k,l].Target1Row)+ ';' +
       floattostr(Routing[k,l].part1)+ ';' + floattostr(Routing[k,l].distance1) + ';'
       + IntToStr(Routing[k,l].Target2Col)  + ';' + IntToStr(Routing[k,l].Target2Row)+ ';' +
       floattostr(Routing[k,l].part2)+ ';' + floattostr(Routing[k,l].distance2)
       );
+
+      end;
 
   closefile(routingfile);
 

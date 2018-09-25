@@ -175,6 +175,8 @@ If Not Simplified Then
   Distribute_sediment;
 // Sediment is distributed over hydrogram
 
+Cumulative_raster;
+
 Tillage_dif;
 // tillage erosion calculations
 
