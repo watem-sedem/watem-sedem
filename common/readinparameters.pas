@@ -222,7 +222,7 @@ Var
   BufferData: TBufferDataArray;
   {End Parameters to be read form ini-file--------------------------------------}
 
-  PRC, DTM, CNmap, LU, ReMap, RunoffTotMap, SewerMap: Rraster;
+  PRC, DTM, CNmap, LU, ReMap, RunoffTotMap, SewerMap, cumulative: Rraster;
   TilDir, Ro, BufferMap, Outlet, RivSeg, Ditch_map, Dam_map, PTEFmap, river_routing_map: GRaster;
   i, j, lowOutletX, lowOutletY: integer;
 
@@ -322,6 +322,7 @@ Begin
   If river_routing then
     begin
     GetGfile(river_routing_map, river_routing_filename);
+    SetDynamicRdata(cumulative);
     ReadSagaKVTable(river_adjectant_filename, river_adjectant);
     ReadSagaKVTable(river_upstream_filename, river_upstream);
     end;
