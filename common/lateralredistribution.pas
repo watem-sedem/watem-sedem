@@ -829,7 +829,7 @@ Begin
 
   for i:= 0 to length(river_upstream.key)-1 do
   begin
-     SedLoad_VHA_Cumulative[river_upstream.key[i]] += sedload_vha[river_upstream.value[i]];
+     SedLoad_VHA_Cumulative[river_upstream.key[i]] += sedload_vha[river_upstream.value[i]] * river_upstream_proportion.value[i];
 
   end;
 End;

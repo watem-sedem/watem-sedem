@@ -22,13 +22,15 @@ Type
 
   TIntArray = array of integer;
 
-  TIntKVArray = Class
+  generic TKVArray<T> = Class
    key: TIntArray;
-   value: TIntArray;
-   function getItem (k: integer): integer;
-   property item[k:integer]:integer read getItem ; default;
-
+   value: array of T;
+   function getItem (k: integer): T;
+   property item[k:integer]:T read getItem ; default;
   end;
+
+   TIntKVArray = specialize TKVArray<integer>;
+   TDoubleKVArray = specialize TKVArray<double>;
 
   // buffer data
   TBufferData = Record
@@ -92,7 +94,9 @@ Procedure Create_ktil_map(Var ktil: GRaster);
 Procedure Create_ktc_map(Var ktc: RRaster);
 Function intArrayIsEqual (inputArray: Array Of Integer): boolean;
 Function doubArrayIsEqual (inputarray: Array Of double): boolean;
-Procedure ReadSagaKVTable(filename: String; var kvArray: tintkvarray);
+Procedure ReadDownstreamSegments(filename: String; var kvArray: tintkvarray);
+Procedure ReadUpstreamSegments(filename: String; var upstream: tintkvarray;var proportion: tdoublekvarray);
+
 
 Var
   //internal variables
@@ -212,6 +216,7 @@ Var
 
   river_adjectant      : TIntKVArray;
   river_upstream      : TIntKVArray;
+  river_upstream_proportion: TDoubleKVArray;
 
   LModel: TLModel;
   SModel: TSModel;
@@ -239,7 +244,7 @@ Var
 Implementation
 
 
-Function TIntKVArray.getItem(k: integer): integer;
+Function TKVArray.getItem(k: integer): T;
 var
   i: integer;
 begin
@@ -323,8 +328,8 @@ Begin
     begin
     GetGfile(river_routing_map, river_routing_filename);
     SetDynamicRdata(cumulative);
-    ReadSagaKVTable(river_adjectant_filename, river_adjectant);
-    ReadSagaKVTable(river_upstream_filename, river_upstream);
+    ReadDownstreamSegments(river_adjectant_filename, river_adjectant);
+    ReadUpstreamSegments(river_upstream_filename, river_upstream, river_upstream_proportion);
     end;
 
   // PTEF map is created
@@ -463,7 +468,7 @@ Begin
 End;
 
 
-Procedure ReadSagaKVTable(filename: String; var kvArray: tintkvarray);
+Procedure ReadDownstreamSegments(filename: String; var kvArray: tintkvarray);
 var
   table: TStrings;
   i: integer;
@@ -480,6 +485,31 @@ Begin
       split := table[i].split(#9);  // this is the tab character
       kvarray.key[i] := StrToInt(trim(split[0])); // note we have to use 1-based indexing
       kvarray.value[i] :=  StrToInt(trim(split[1]));
+    end;
+End;
+
+Procedure ReadUpstreamSegments(filename: String; var upstream: tintkvarray;var proportion: tdoublekvarray);
+var
+  table: TStrings;
+  i: integer;
+  split: TStringArray;
+Begin
+  table := TStringList.Create();
+  table.LoadFromFile(filename);
+  upstream := tintkvarray.create();
+  proportion := Tdoublekvarray.create();
+  setlength(upstream.key, table.Count);
+  SetLength(upstream.value, table.Count);
+  setlength(proportion.key, table.Count);
+  SetLength(proportion.value, table.Count);
+
+  for i:=1 to table.Count -1 do
+    begin
+      split := table[i].split(#9);  // this is the tab character
+      upstream.key[i] := StrToInt(trim(split[0])); // note we have to use 1-based indexing
+      upstream.value[i] :=  StrToInt(trim(split[1]));
+      proportion.key[i] := StrToInt(trim(split[0])); // note we have to use 1-based indexing
+      proportion.value[i] :=  StrToFloat(trim(split[2]));
     end;
 End;
 
