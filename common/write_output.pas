@@ -76,23 +76,25 @@ Procedure Write_Routing_Table;
 Var 
   routingfile: textfile;
   k,l : integer;
+  sep: char;
 
 Begin
+  sep := #9;
   assignfile(routingfile, 'routing.txt');
   rewrite(routingfile);
   Writeln(routingfile,
-          'col;row;target1col;target1row;part1;distance1;target2col;target2row;part2;distance2');
+          'col'+sep+'row'+sep+'target1col'+sep+'target1row'+sep+'part1'+sep+'distance1'+sep+'target2col'+sep+'target2row'+sep+'part2'+sep+'distance2');
 
 
   For k := 1 To nrow Do
     For l := 1 To ncol Do
       begin
       if Routing[k,l].Target1Col = -99 then continue; // skip empty rows
-      Writeln(routingfile,  IntToStr(l)+';'+ IntToStr(k) + ';'
-      + IntToStr(Routing[k,l].Target1Col)  + ';' + IntToStr(Routing[k,l].Target1Row)+ ';' +
-      floattostr(Routing[k,l].part1)+ ';' + floattostr(Routing[k,l].distance1) + ';'
-      + IntToStr(Routing[k,l].Target2Col)  + ';' + IntToStr(Routing[k,l].Target2Row)+ ';' +
-      floattostr(Routing[k,l].part2)+ ';' + floattostr(Routing[k,l].distance2)
+      Writeln(routingfile,  IntToStr(l)+sep+ IntToStr(k) + sep
+      + IntToStr(Routing[k,l].Target1Col)  + sep + IntToStr(Routing[k,l].Target1Row)+ sep +
+      floattostr(Routing[k,l].part1)+ sep + floattostr(Routing[k,l].distance1) + sep
+      + IntToStr(Routing[k,l].Target2Col)  + sep + IntToStr(Routing[k,l].Target2Row)+ sep +
+      floattostr(Routing[k,l].part2)+ sep + floattostr(Routing[k,l].distance2)
       );
 
       end;
