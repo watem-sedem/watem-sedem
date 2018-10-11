@@ -435,11 +435,11 @@ Begin
       //The memory of sed_output_file is released
     End;
 
-  // Calculate cumulative sediment for VHA sections
-   Cumulative_sections;
-
     If river_routing Then
     Begin
+      // Calculate cumulative sediment for VHA sections
+      Cumulative_sections;
+
       setcurrentDir(File_output_dir);
       assignfile(Sediment_VHA, 'Cumulative sediment VHA.txt');
       rewrite(Sediment_VHA);
