@@ -192,8 +192,8 @@ if not OnlyRouting Then
 write_maps;
 // write output maps
 
-
-Write_Routing_Table;
+If Write_routing Then
+   Write_Routing_Table;
 //
 
 //The memory is released for all created maps

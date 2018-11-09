@@ -186,6 +186,7 @@ Var
   Write_TOTRUN         : boolean;
   Write_UPAREA         : boolean;
   Write_WATEREROS      : boolean;
+  Write_Routing        : boolean;
   {Variables}
   AR5                  : double;
   RFactor              : double;
@@ -659,6 +660,8 @@ Begin
   Else Write_UPAREA := false;
   If (Inifile.ReadBool('Output maps','Write slope',false))=true Then Write_SLOPE := true
   Else Write_SLOPE := false;
+  If (Inifile.ReadBool('Output maps','Write routing table',false))=true Then Write_Routing := true
+  Else Write_Routing := false;
 
   If OnlyRouting Then
     Begin
