@@ -29,7 +29,7 @@
     <RunParams>
       <local>
         <FormatVersion Value="1"/>
-        <CommandLineParams Value="C:\Users\johan\Dropbox (Fluves)\ALBON\Modelberekeningen\Analyse_DTM\Velm\Scenario_4\modelinput\ini_Velm_scenario_4_johan.ini"/>
+        <CommandLineParams Value="&quot;D:\Dropbox (Fluves)\ALBON\Modelberekeningen\TestData\scenario_2\modelinput\ini_TestData_scenario_2.ini&quot;"/>
       </local>
     </RunParams>
     <RequiredPackages Count="1">

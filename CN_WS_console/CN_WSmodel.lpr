@@ -84,13 +84,16 @@ Begin
 
 End;
 
-If Not Use_Rfactor Then
-  Begin
-    ReadRainfallFile(Raindata, RainfallFilename);
-    //The .txt file with rainfall per timestep is read and written to a variable
-    CalculateRFactor;
-    // R factor is calculated from given rainfall record
-  End;
+If Not OnlyRouting Then
+   Begin
+    If Not Use_Rfactor Then
+      Begin
+        ReadRainfallFile(Raindata, RainfallFilename);
+        //The .txt file with rainfall per timestep is read and written to a variable
+        CalculateRFactor;
+        // R factor is calculated from given rainfall record
+      End;
+   end;
 
 If (Not simplified) and (Timestep_model>=resAR[1]/0.3) Then
 Begin
@@ -122,67 +125,73 @@ Except
 
 end;
 
-try
-// number and position of outlets is determined. Lowest outlet is also determined.
-calcOutlet;
-Except
-  on E: Exception Do
-     Begin
-       Writeln(E.Message);
-       Terminate(1);
-       Exit;
-     end;
-end;
+if not OnlyRouting Then
+   Begin
 
-If Not simplified Then
-  CalculateTimeDependentRunoff(Remap, RainData, Routing, PRC);
-//Amount of runoff per timestep is calculated
+      try
+      // number and position of outlets is determined. Lowest outlet is also determined.
+      calcOutlet;
+      Except
+        on E: Exception Do
+           Begin
+             Writeln(E.Message);
+             Terminate(1);
+             Exit;
+           end;
+      end;
 
-if not calibrate then Water;
-// Water erosion calculations
+      If Not simplified Then
+        CalculateTimeDependentRunoff(Remap, RainData, Routing, PRC);
+      //Amount of runoff per timestep is calculated
 
-if calibrate Then
-Begin
-  Writeln('Using calibration');
-  setcurrentDir(File_output_dir);
-  assignfile(cal_output_file, 'calibration.txt');
-  rewrite(cal_output_file);
-  write(cal_output_file, 'ktc_low;ktc_high;tot_erosion;tot_sedimentation;sed_river;sed_noriver;sed_buffer;sed_openwater');
+      if not calibrate then Water;
+      // Water erosion calculations
 
-  For i := 1 To numOutlet Do
-  Begin
-    Write(cal_output_file, ';outlet_'+inttostr(i));
-  End;
+      if calibrate Then
+      Begin
+        Writeln('Using calibration');
+        setcurrentDir(File_output_dir);
+        assignfile(cal_output_file, 'calibration.txt');
+        rewrite(cal_output_file);
+        write(cal_output_file, 'ktc_low;ktc_high;tot_erosion;tot_sedimentation;sed_river;sed_noriver;sed_buffer;sed_openwater');
 
-  writeln(cal_output_file, '');
-  closefile(cal_output_file);
-
-    For low_i := 0 To cal.steps Do
-      For high_i:=0 To cal.steps Do
+        For i := 1 To numOutlet Do
         Begin
-          ktc_low:=cal.KTcLow_lower + low_i * (cal.KTcLow_upper - cal.KTcLow_lower)/cal.steps;
-          ktc_high:=cal.KTcHigh_lower + high_i* (cal.KTcHigh_upper - cal.KTcHigh_lower)/cal.steps;
-          If ktc_high >= ktc_low Then
-          Begin
-            Create_ktc_map(ktc);
-            Writeln('ktc_low: ' + Formatfloat('0.00', ktc_low) + '; ktc_high:' + Formatfloat('0.00', ktc_high));
-            Water;
-          end;
-        end;
-End;
+          Write(cal_output_file, ';outlet_'+inttostr(i));
+        End;
 
-If Not Simplified Then
-  Distribute_sediment;
-// Sediment is distributed over hydrogram
+        writeln(cal_output_file, '');
+        closefile(cal_output_file);
 
-if river_routing then
-   Cumulative_raster;
+          For low_i := 0 To cal.steps Do
+            For high_i:=0 To cal.steps Do
+              Begin
+                ktc_low:=cal.KTcLow_lower + low_i * (cal.KTcLow_upper - cal.KTcLow_lower)/cal.steps;
+                ktc_high:=cal.KTcHigh_lower + high_i* (cal.KTcHigh_upper - cal.KTcHigh_lower)/cal.steps;
+                If ktc_high >= ktc_low Then
+                Begin
+                  Create_ktc_map(ktc);
+                  Writeln('ktc_low: ' + Formatfloat('0.00', ktc_low) + '; ktc_high:' + Formatfloat('0.00', ktc_high));
+                  Water;
+                end;
+              end;
+      End;
 
-Tillage_dif;
-// tillage erosion calculations
+      If Not Simplified Then
+        Distribute_sediment;
+      // Sediment is distributed over hydrogram
+
+      if river_routing then
+         Cumulative_raster;
+
+      Tillage_dif;
+      // tillage erosion calculations
+
+   end;
 
 write_maps;
 // write output maps
+
 
 Write_Routing_Table;
 //

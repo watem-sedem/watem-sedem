@@ -156,6 +156,7 @@ Var
   river_adjectant_filename: string;
   river_upstream_filename: string;
   {User Choices}
+  OnlyRouting          : boolean;
   Simplified           : boolean;
   Use_Rfactor          : boolean;
   Include_sewer        : boolean;
@@ -260,6 +261,7 @@ Begin
   setCurrentDir(datadir);
   GetRFile(DTM,DTM_Filename);
   GetRFile(PRC,PARCEL_filename);
+  GetRFile(P_factor, Pf_Data_filename);
 
   If Include_sewer Then
     GetRFile(SewerMap,Sewerfilename);
@@ -274,20 +276,23 @@ Begin
       GetGfile(Ro, RoFilename);
     End;
 
-  GetGFile(K_factor, K_Factor_filename);
-  GetRFile(C_factor, Cf_Data_filename);
-  GetRFile(P_factor, Pf_Data_filename);
+  If not OnlyRouting Then
+    Begin
+         GetGFile(K_factor, K_Factor_filename);
+         GetRFile(C_factor, Cf_Data_filename);
+         If not calibrate Then
+          If Create_ktc Then
+            Create_ktc_map(ktc)
+          Else
+            GetRFile(ktc, ktc_Data_filename);
 
-  If not calibrate Then
-    If Create_ktc Then
-      Create_ktc_map(ktc)
-    Else
-      GetRFile(ktc, ktc_Data_filename);
+         If Create_ktil Then
+            Create_ktil_map(ktil)
+          Else
+            GetGFile(ktil, ktil_Data_filename);
+    end;
 
-  If Create_ktil Then
-    Create_ktil_map(ktil)
-  Else
-    GetGFile(ktil, ktil_Data_filename);
+
 
   //If buffers are taken into account the buffermap is loaded
   If Include_buffer = true Then
@@ -541,7 +546,14 @@ Begin
   Datadir := IncludeTrailingPathdelimiter(Datadir);
 
   {User choices}
-  Simplified := Inifile.ReadBool('User Choices','Simplified model version',false);
+  OnlyRouting := Inifile.ReadBool('User Choices', 'Only Routing', false);
+  If OnlyRouting Then
+    Simplified := True
+  Else
+    Begin
+      Simplified := Inifile.ReadBool('User Choices','Simplified model version',false);
+    end;
+
   Include_sewer:= Inifile.ReadBool('User Choices','Include sewers',false);
   If Include_sewer And Not TryStrToInt(Inifile.Readstring('Variables', 'Sewer exit', Dummy_str),
    sewer_exit) Then
@@ -549,19 +561,33 @@ Begin
       raise EInputException.Create('Error in data input: Sewer exit system value missing or wrong data format');
     End;
 
-  Use_Rfactor:= Inifile.ReadBool('User Choices','Use R factor',false);
+  If Not OnlyRouting Then
+    Begin
+     Use_Rfactor:= Inifile.ReadBool('User Choices','Use R factor',false);
+     Create_ktc := Inifile.ReadBool('User Choices','Create ktc map',true);
+     Create_ktil := Inifile.ReadBool('User Choices','Create ktil map',false);
+     est_clay:= Inifile.ReadBool('User Choices','Estimate clay content',false);
+     calibrate :=  inifile.ReadBool('Calibration', 'Calibrate', false);
+    end
+  Else
+    Begin
+      Use_Rfactor := false;
+      Create_ktc := false;
+      Create_ktil := false;
+      calibrate := false;
+    End;
+
+
   Inc_tillage:=Inifile.ReadBool('User Choices','Include tillage',false);
   topo := not Inc_tillage;
   Include_buffer := Inifile.ReadBool('User Choices','Include buffers',false);
   Include_ditch := Inifile.ReadBool('User Choices','Include ditches',false);
   Include_dam := Inifile.ReadBool('User Choices','Include dams',false);
-  Create_ktc := Inifile.ReadBool('User Choices','Create ktc map',true);
-  Create_ktil := Inifile.ReadBool('User Choices','Create ktil map',false);
+
   VHA := Inifile.ReadBool('User Choices','Output per VHA river segment',false);
-   max_kernel := Inifile.ReadInteger('User Choices', 'Max kernel', 50);
+  max_kernel := Inifile.ReadInteger('User Choices', 'Max kernel', 50);
   max_kernel_river := Inifile.ReadInteger('User Choices', 'Max kernel river', 100);
-  est_clay:= Inifile.ReadBool('User Choices','Estimate clay content',false);
-  calibrate :=  inifile.ReadBool('Calibration', 'Calibrate', false);
+
   adjusted_slope := inifile.ReadBool('User Choices', 'Adjusted Slope', false);
   buffer_reduce_upstream_area := inifile.ReadBool('User Choices', 'Buffer reduce Area', false);
   force_routing := inifile.ReadBool('User Choices', 'Force Routing', false);
@@ -581,30 +607,31 @@ Begin
   {Filenames}
   DTM_filename := SetFileFromIni(Inifile, 'DTM filename', datadir, True);
   PARCEL_filename := SetFileFromIni(Inifile, 'Parcel filename', datadir, True);
-  Rainfallfilename := SetFileFromIni(Inifile, 'Rainfall filename', datadir, not use_rfactor);
   Sewerfilename :=SetFileFromIni(Inifile, 'Sewer map filename', datadir, Include_sewer);
-  CNmapfilename := SetFileFromIni(Inifile, 'CN map filename', datadir, not Simplified);
   TilDirfilename := SetFileFromIni(Inifile, 'Tillage direction filename', datadir, Inc_tillage);
   Rofilename := SetFileFromIni(Inifile, 'Oriented roughness filename', datadir, Inc_Tillage);
   BufferFilename := SetFileFromIni(Inifile, 'Buffer map filename', datadir, Include_buffer);
   Ditch_filename := SetFileFromIni(Inifile, 'Ditch map filename', datadir, Include_ditch);
   Dam_filename := SetFileFromIni(Inifile, 'Dam map filename', datadir, Include_dam);
-  K_Factor_filename :=SetFileFromIni(Inifile, 'K factor filename', datadir, true);
-  Cf_data_filename :=SetFileFromIni(Inifile, 'C factor map filename', datadir, true);
   Pf_data_filename :=SetFileFromIni(Inifile, 'P factor map filename', datadir, true);
   Riversegment_filename := SetFileFromIni(Inifile, 'River segment filename', datadir, VHA or river_routing);
-  if not calibrate then
-    ktc_Data_Filename := SetFileFromIni(Inifile, 'ktc map filename', datadir, (not Create_ktc));
-  ktil_Data_Filename := SetFileFromIni(Inifile, 'ktil map filename', datadir, not Create_ktil);
-
-
   Outletfilename := inifile.readstring('Files', 'Outlet map filename', Dummy_str);
-
-
   river_adjectant_filename:=SetFileFromIni(Inifile, 'adjectant segments', datadir, river_routing);
   river_upstream_filename:=SetFileFromIni(Inifile, 'upstream segments', datadir, river_routing);
   river_routing_filename := SetFileFromIni(Inifile, 'river routing filename', datadir, river_routing);
+  CNmapfilename := SetFileFromIni(Inifile, 'CN map filename', datadir, not Simplified);
 
+  if not OnlyRouting then
+    Begin
+    ktil_Data_Filename := SetFileFromIni(Inifile, 'ktil map filename', datadir, not Create_ktil);
+    Rainfallfilename := SetFileFromIni(Inifile, 'Rainfall filename', datadir, not use_rfactor);
+    K_Factor_filename :=SetFileFromIni(Inifile, 'K factor filename', datadir, True);
+    Cf_data_filename :=SetFileFromIni(Inifile, 'C factor map filename', datadir, True);
+
+    if not calibrate then
+    ktc_Data_Filename := SetFileFromIni(Inifile, 'ktc map filename', datadir, (not Create_ktc));
+
+    end;
 
   If (est_clay) And Not (TryStrToFloat(Inifile.Readstring('Variables',
      'Clay content parent material', Dummy_str), clay_parent)) Then
@@ -612,6 +639,7 @@ Begin
       raise EInputException.Create('Error in data input: Clay content parent material value missing or wrong data format');
       ;
     End;
+
   If (Inifile.ReadBool('User Choices','Manual outlet selection',false))=true Then Outlet_select := 
                                                                                                 true
   Else Outlet_select := false;
@@ -627,35 +655,44 @@ Begin
   Else Write_ASPECT := false;
   If (Inifile.ReadBool('Output maps','Write LS factor',false))=true Then Write_LS := true
   Else Write_LS := false;
-  If (Inifile.ReadBool('Output maps','Write RUSLE',false))=true Then Write_RUSLE := true
-  Else Write_RUSLE := false;
-  If (Inifile.ReadBool('Output maps','Write sediment export',false))=true Then Write_Sediexport := 
-                                                                                                true
-  Else Write_Sediexport := false;
-  If (Inifile.ReadBool('Output maps','Write slope',false))=true Then Write_SLOPE := true
-  Else Write_SLOPE := false;
-  If (Inifile.ReadBool('Output maps','Write tillage erosion',false))=true Then Write_TILEROS := true
-  Else Write_TILEROS := false;
   If (Inifile.ReadBool('Output maps','Write upstream area',false))=true Then Write_UPAREA := true
   Else Write_UPAREA := false;
-  If (Inifile.ReadBool('Output maps','Write water erosion',false))=true Then Write_WATEREROS := true
-  Else Write_WATEREROS := false;
-  If Simplified Then
-    Begin
-      Write_RE := false;
-      Write_TOTRUN := false;
-    End
-  Else
-    Begin
-      If (Inifile.ReadBool('Output maps','Write rainfall excess',false))=true Then Write_RE := true
-      Else Write_RE := false;
-      If (Inifile.ReadBool('Output maps','Write total runoff',false))=true Then Write_TOTRUN := true
-      Else Write_TOTRUN := false;
-    End;
+  If (Inifile.ReadBool('Output maps','Write slope',false))=true Then Write_SLOPE := true
+  Else Write_SLOPE := false;
 
+  If OnlyRouting Then
+    Begin
+      Write_RUSLE := false;
+      Write_TILEROS := false;
+      Write_WATEREROS := false;
+    end
+  Else
+      Begin
+        If (Inifile.ReadBool('Output maps','Write RUSLE',false))=true Then Write_RUSLE := true
+        Else Write_RUSLE := false;
+        If (Inifile.ReadBool('Output maps','Write sediment export',false))=true Then Write_Sediexport :=
+                                                                                                      true
+        Else Write_Sediexport := false;
+        If (Inifile.ReadBool('Output maps','Write tillage erosion',false))=true Then Write_TILEROS := true
+        Else Write_TILEROS := false;
+
+        If (Inifile.ReadBool('Output maps','Write water erosion',false))=true Then Write_WATEREROS := true
+        Else Write_WATEREROS := false;
+        If Simplified Then
+          Begin
+            Write_RE := false;
+            Write_TOTRUN := false;
+          End
+        Else
+          Begin
+            If (Inifile.ReadBool('Output maps','Write rainfall excess',false))=true Then Write_RE := true
+            Else Write_RE := false;
+            If (Inifile.ReadBool('Output maps','Write total runoff',false))=true Then Write_TOTRUN := true
+            Else Write_TOTRUN := false;
+          End;
+      End;
 
   {Variables}
-
   If Not Simplified Then
     Begin
       If Not Use_RFactor Then
@@ -675,13 +712,14 @@ Begin
 
     End
   Else
+   If not OnlyRouting Then
     Begin
       If Not TryStrToFloat(Inifile.Readstring('Variables', 'R factor', Dummy_str),Rfactor) Then
           raise EInputException.Create('Error in data input: R factor value missing or wrong data format');
-    End;
 
-  If Not TryStrToInt(Inifile.Readstring('Variables', 'Bulk density', Dummy_str), BD) Then
-      raise EInputException.Create('Error in data input: BD value missing or wrong data format');
+      If Not TryStrToInt(Inifile.Readstring('Variables', 'Bulk density', Dummy_str), BD) Then
+          raise EInputException.Create('Error in data input: BD value missing or wrong data format');
+    End;
 
   If (Include_buffer) And Not (TryStrToInt(inifile.readstring('Variables', 'Number of buffers',
      Dummy_str), Number_of_Buffers)) Then
@@ -691,37 +729,40 @@ Begin
      Dummy_str), number_of_forced_routing)) Then
       raise EInputException.Create('Error in data input: Number of Forced Routing value missing or wrong data format');
 
+  If not OnlyRouting Then
+   Begin
+    if not calibrate then
+      begin
+          If (create_ktc) And Not
+             (TryStrToFloat(Inifile.Readstring('Variables', 'ktc low', Dummy_str),ktc_low)) Then
+               raise EInputException.Create('Error in data input: ktc low value missing or wrong data format');
+          If (create_ktc) And Not
+             (TryStrToFloat(Inifile.Readstring('Variables', 'ktc high', Dummy_str), ktc_high)) Then
+               raise EInputException.Create('Error in data input: ktc high value missing or wrong data format');
 
-  if not calibrate then
-    begin
-        If (create_ktc) And Not
-           (TryStrToFloat(Inifile.Readstring('Variables', 'ktc low', Dummy_str),ktc_low)) Then
-             raise EInputException.Create('Error in data input: ktc low value missing or wrong data format');
-        If (create_ktc) And Not
-           (TryStrToFloat(Inifile.Readstring('Variables', 'ktc high', Dummy_str), ktc_high)) Then
-             raise EInputException.Create('Error in data input: ktc high value missing or wrong data format');
+      end;
+    If (create_ktc or calibrate) And Not
+              (TryStrToFloat(Inifile.Readstring('Variables', 'ktc limit', Dummy_str), ktc_limit)) Then
+               raise EInputException.Create('Error in data input: ktc limit value missing or wrong data format');
 
-    end;
-  If (create_ktc or calibrate) And Not
-            (TryStrToFloat(Inifile.Readstring('Variables', 'ktc limit', Dummy_str), ktc_limit)) Then
-             raise EInputException.Create('Error in data input: ktc limit value missing or wrong data format');
+    If (create_ktil) And Not (TryStrToInt(Inifile.Readstring('Variables', 'ktil default', Dummy_str),
+       ktil_Default)) Then
+      Begin
+        raise EInputException.Create('Error in data input: ktil default value missing or wrong data format');
+      End;
+    If (create_ktil) And Not (TryStrToFloat(Inifile.Readstring('Variables', 'ktil threshold',
+       Dummy_str), ktil_threshold)) Then
+      Begin
+       raise EInputException.Create('Error in data input: ktil threshold value missing or wrong data format');
+      End;
+    If Not TryStrToInt(Inifile.Readstring('Variables', 'Parcel connectivity cropland', Dummy_str),
+       TFSED_crop) Then
+      Begin
+        raise EInputException.Create('Error in data input: Parcel connectivity cropland value missing or wrong data format')
+        ;
+      End;
+   end;
 
-  If (create_ktil) And Not (TryStrToInt(Inifile.Readstring('Variables', 'ktil default', Dummy_str),
-     ktil_Default)) Then
-    Begin
-      raise EInputException.Create('Error in data input: ktil default value missing or wrong data format');
-    End;
-  If (create_ktil) And Not (TryStrToFloat(Inifile.Readstring('Variables', 'ktil threshold',
-     Dummy_str), ktil_threshold)) Then
-    Begin
-     raise EInputException.Create('Error in data input: ktil threshold value missing or wrong data format');
-    End;
-  If Not TryStrToInt(Inifile.Readstring('Variables', 'Parcel connectivity cropland', Dummy_str),
-     TFSED_crop) Then
-    Begin
-      raise EInputException.Create('Error in data input: Parcel connectivity cropland value missing or wrong data format')
-      ;
-    End;
   If Not TryStrToInt(Inifile.Readstring('Variables', 'Parcel connectivity forest', Dummy_str),
      TFSED_forest) Then
     Begin
@@ -755,6 +796,7 @@ Begin
           'Error in data input: Final timestep output value missing or wrong data format')
           ;
     End;
+
   If Not TryStrToInt(inifile.readstring('Variables', 'Endtime model', Dummy_str), Endtime_model)
     Then
       raise EInputException.Create(
