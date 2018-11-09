@@ -79,6 +79,7 @@ Var
   sep: char;
 
 Begin
+  setcurrentDir(File_output_dir);
   sep := #9;
   assignfile(routingfile, 'routing.txt');
   rewrite(routingfile);
