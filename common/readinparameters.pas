@@ -798,12 +798,14 @@ Begin
           raise EInputException.Create(
           'Error in data input: Final timestep output value missing or wrong data format')
           ;
-    End;
 
-  If Not TryStrToInt(inifile.readstring('Variables', 'Endtime model', Dummy_str), Endtime_model)
+      If Not TryStrToInt(inifile.readstring('Variables', 'Endtime model', Dummy_str), Endtime_model)
     Then
       raise EInputException.Create(
       'Error in data input: Endtime model value missing or wrong data format');
+    End;
+
+
 
   If force_routing Then
     Begin
