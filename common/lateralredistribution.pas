@@ -210,6 +210,14 @@ Begin
   If VHA Then //If the user wants output per river segment
     Begin
       numRivSeg := calcRivSeg(RivSeg);
+
+      // check that numRivSeg calculated from the raster is not smaller than the
+      // one used in the input files
+      for i:=low(river_adjectant.key) to high(river_adjectant.key) do
+         if river_adjectant.key[i] > numRivSeg then
+            raise EInputException.Create('Larger number of segments in adjectant segment file than in raster -check the input');
+
+
       setlength(sedload_VHA, numRivSeg + 1);
       for i :=1 to numRivSeg Do
         sedload_VHA[i] :=0;
