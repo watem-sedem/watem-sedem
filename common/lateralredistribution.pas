@@ -91,7 +91,7 @@ Begin
     Begin
       C_factor[i, j] := 0.01;
       P_factor[i, j] := 1;
-      ktc[i,j] := 7;
+      ktc[i,j] := ktc_low;
     End;
 
   If (Include_ditch) And (Ditch_map[i, j] <> 0) Then
