@@ -65,6 +65,14 @@ Type
     Part1, Part2, Distance1, Distance2: double;
   End;
 
+  TInvRouting = Record
+    size: integer;
+    up_X: array of integer;
+    up_Y: array of integer;
+    treated: array of boolean;
+    inqueue: boolean;
+  end;
+
   TForcedRouting = Record
     TargetRow, TargetCol, FromRow, FromCol: integer;
   end;
@@ -79,6 +87,8 @@ Type
 
   TRoutingArray = array Of array Of TRouting;
   //Record is converted to 3D matrix
+
+  TRoutingInvArray = array of array of TInvRouting;
 
   TLModel = (Desmet1996_McCool, Desmet1996_Vanoost2003);
   TSModel = (Desmet1996, Nearing1997);

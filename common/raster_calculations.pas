@@ -22,6 +22,7 @@ Function CalculateASPECT(i,j:integer) : double;
 Function IsRiver(i,j: Integer): boolean;
 Function SlopeDir(dir:double;i,j:integer;DTM:Rraster): double;
 Procedure Calculate_routing(Var Routing: TRoutingArray);
+Function Invert_routing(Routing: TRoutingArray): TRoutingInvArray;
 Procedure DistributeRiver_Routing(i,j:integer; Var FINISH:GRaster);
 Procedure DistributeTilDirEvent_Routing(i,j:integer; Var FINISH:GRaster; Topo:boolean);
 
@@ -153,6 +154,62 @@ Begin
 
     end;
 End;
+
+
+Function Invert_routing(Routing: TRoutingArray): TRoutingInvArray;
+var
+  inv: TRoutingInvArray;
+  i,j: integer;
+  t_c, t_r, pos: integer;
+begin
+  SetLength(inv,nrow+2, ncol+2);
+  For i := 1 To nrow Do
+    //The DTM is read row per row (from l to r), for each next cell that is
+    For j := 1 To ncol Do
+    begin
+      setlength(inv[i, j].up_X, 2);
+      setlength(inv[i, j].up_Y, 2);
+      inv[i, j].size := 0;
+    end;
+
+  For i := 1 To nrow Do
+    //The DTM is read row per row (from l to r), for each next cell that is
+    For j := 1 To ncol Do
+      if Routing[i,j].Target1Col > 0 then
+        begin
+          t_c :=  Routing[i,j].Target1Col ;
+          t_r :=  Routing[i,j].Target1Row ;
+          pos := inv[t_r, t_c].size;
+          inv[t_r, t_c].size := pos+1;
+          if pos > length(inv[t_r, t_c].up_X)-1 then
+            begin
+             setlength(inv[t_r, t_c].up_X, length(inv[t_r, t_c].up_X)*2);
+             setlength(inv[t_r, t_c].up_Y, length(inv[t_r, t_c].up_Y)*2);
+            end;
+
+          inv[t_r, t_c].up_X[pos] := i;
+          inv[t_r, t_c].up_y[pos] := j;
+
+        end;
+
+      if Routing[i,j].Target2Col > 0 then
+        begin
+          t_c :=  Routing[i,j].Target2Col ;
+          t_r :=  Routing[i,j].Target2Row ;
+          pos := inv[t_r, t_c].size;
+          inv[t_r, t_c].size := pos+1;
+          if pos > length(inv[t_r, t_c].up_X)-1 then
+            begin
+             setlength(inv[t_r, t_c].up_X, length(inv[t_r, t_c].up_X)*2);
+             setlength(inv[t_r, t_c].up_Y, length(inv[t_r, t_c].up_Y)*2);
+            end;
+
+          inv[t_r, t_c].up_X[pos] := i;
+          inv[t_r, t_c].up_y[pos] := j;
+
+        end;
+  Invert_routing:= inv;
+end;
 
 //******************************************************************************
 // In the two scripts below the DTM is sorted from low to high

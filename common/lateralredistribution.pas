@@ -8,7 +8,7 @@ Interface
 
 Uses 
 Classes, SysUtils, FileUtil, Dialogs, RData_CN, ReadInParameters,
-Raster_calculations, math, CN_calculations;
+Raster_calculations, math, CN_calculations, contnrs;
 
 Procedure Water;
 Procedure Distribute_sediment;
@@ -186,14 +186,34 @@ Begin
   // in m      if < 0 => erosion & if > 0 => sedimentation
 End;
 
+procedure getstartingpoints(inv: TRoutingInvArray; var q: TQueue);
+var
+  i,j: integer;
+begin
+  q:=TQueue.Create;
+  For i := 1 To nrow Do
+    //The DTM is read row per row (from l to r), for each next cell that is
+    For j := 1 To ncol Do
+       begin
+         setlength(inv[i,j].treated, inv[i, j].size);
+
+         If PRC[i,j]=0 Then continue;
+         if inv[i,j].size=0 then
+           q.push(pointer(i*nrow + j));
+       end;
+end;
+
 Procedure Water;
 
 Var 
-  teller, i, j, k, l, m, n: integer;
+  teller, i, j, k, l, m, n, t_r, t_c: integer;
   area, sewer_out_sed, TEMP_river_sed_input, TEMP_outside_sed_input, TEMP_buffer_sed_input,
   TEMP_pond_sed_input: double;
   sed_output_file, sediment_VHA, sewer_out, cal_output_file: textfile;
-
+  inv: TRoutingInvArray;
+  q: Tqueue;
+  p: pointer;
+  all_treated: boolean;
 Begin
   // Create temp 2D maps
   SetDynamicRData(SEDI_IN);
@@ -232,13 +252,21 @@ Begin
   TEMP_buffer_sed_input := 0;
 
 
-  //** Calculate watererosion & Lateral sed_output_file
-  For teller := ncol * nrow Downto 1 Do
-    Begin
-      // begin lus
-      i := row[teller];
-      j := column[teller];
-      // The catchment is looked at starting from the highest pixel
+  // invert routing
+  inv:= Invert_routing(Routing);
+  getstartingpoints(inv, q);
+    //** Calculate watererosion & Lateral sed_output_file
+
+  WriteLn(q.Count);
+
+  while (q.Count > 0) do
+  begin
+    p:= q.pop;
+    teller := integer(p);
+    i := teller div nrow;
+    j := teller mod nrow;
+
+     // The catchment is looked at starting from the highest pixel
       If (PRC[i, j] = 0) Or (PRC[i, j] = -1) Then
         // if cell is outside area or a river cell or a water body => = all export cells
 
@@ -315,6 +343,8 @@ Begin
 
         // AND SEDI_IN is corrected because procedure Distribute_Flux doesn't take this into account
           sewer_out_sed := sewer_out_sed + (SEDI_OUT[i, j] * SewerMap[i, j] * (sewer_exit / 100));
+
+
           SEDI_IN[Routing[i, j].Target2Row, Routing[i, j].Target2Col] := 
                                                                          SEDI_IN[Routing[i, j].
                                                                          Target2Row, Routing[i, j].
@@ -324,7 +354,64 @@ Begin
                                                                          SewerMap[i, j] * (1 - (
                                                                          sewer_exit / 100));
         End;
+
+      // Zet status van onderliggende pixels op behandeld voor deze bron
+      // + zet ze in de queue als alle bovenliggende behandeld zijn
+         If Routing[i,j].Part1 > 0.0 Then
+           begin
+             t_r := Routing[i, j].Target1Row;
+             t_c := Routing[i, j].Target1Col;
+
+             for k:=0 to inv[t_r, t_c].size -1 do
+              if (inv[t_r, t_c].up_X[k] = i) and (inv[t_r, t_c].up_Y[k] = j) then
+                begin
+                     inv[t_r, t_c].treated[k]:=true;
+                     break;
+                end;
+             all_treated := true;
+
+             for k:=0 to inv[t_r, t_c].size -1 do
+              all_treated := all_treated and inv[t_r, t_c].treated[k];
+
+             if all_treated and not inv[t_r, t_c].inqueue then
+               begin
+               q.push(pointer(t_r*nrow + t_c));
+               inv[t_r, t_c].inqueue := true;
+               end
+
+           end;
+         If Routing[i,j].Part2 > 0.0 Then
+           begin
+             t_r := Routing[i, j].Target2Row;
+             t_c := Routing[i, j].Target2Col;
+
+             for k:=0 to inv[t_r, t_c].size -1 do
+              if (inv[t_r, t_c].up_X[k] = i) and (inv[t_r, t_c].up_Y[k] = j) then
+                begin
+                     inv[t_r, t_c].treated[k]:=true;
+                     break;
+                end;
+             all_treated := true;
+
+             for k:=0 to inv[t_r, t_c].size -1 do
+              all_treated := all_treated and inv[t_r, t_c].treated[k];
+
+             if all_treated  and not inv[t_r, t_c].inqueue then
+               begin
+                q.push(pointer(t_r*nrow + t_c));
+                inv[t_r, t_c].inqueue := true;
+               end
+
+           end;
+
+
+
     End;
+
+
+
+
+
   //***********
 
   // voor elke outletpixel wordt nu de totale sedimentvracht berekend die binnenkomt
