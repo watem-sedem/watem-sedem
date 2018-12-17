@@ -535,7 +535,7 @@ Begin
           Begin
             If ((K=0)And(L=0)) Then CONTINUE;
             //The pixel itself (i,j) is not evaluated
-            If (PRC[i+k,j+l]=-1)And(DTM[i+k,j+l]<DTM[i,j])And(DTM[i+k,j+l]<extremum) Then
+            If (PRC[i+k,j+l]=-1)And(DTM[i+k,j+l]<extremum) Then
               Begin
                 ROWMIN := K;
                 COLMIN := L;
