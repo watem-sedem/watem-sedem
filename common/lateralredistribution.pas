@@ -202,6 +202,32 @@ begin
 
 end;
 
+procedure setpointtreated(var inv: TRoutingInvArray; var q: TQueue; i,j,t_r, t_c: integer);
+// Sets the status of the goal cel [t_r, t_c] to treated for this origin cell
+// add it to the queue if all its upstream cells have been treated
+var
+ k: integer;
+ all_treated: boolean;
+begin
+   for k:=0 to inv[t_r, t_c].size -1 do
+    if (inv[t_r, t_c].up_X[k] = i) and (inv[t_r, t_c].up_Y[k] = j) then
+      begin
+           inv[t_r, t_c].treated[k]:=true;
+           break;
+      end;
+
+   all_treated := true;
+
+   for k:=0 to inv[t_r, t_c].size -1 do
+    all_treated := all_treated and inv[t_r, t_c].treated[k];
+
+   if all_treated and not inv[t_r, t_c].inqueue then
+     begin
+     q.push(pointer(t_r*nrow + t_c));
+     inv[t_r, t_c].inqueue := true;
+     end;
+end;
+
 procedure getstartingpoints(inv: TRoutingInvArray; var q: TQueue);
 var
   i,j: integer;
@@ -229,7 +255,6 @@ Var
   inv: TRoutingInvArray;
   q: Tqueue;
   p: pointer;
-  all_treated: boolean;
 Begin
   // Create temp 2D maps
   SetDynamicRData(SEDI_IN);
@@ -376,22 +401,7 @@ Begin
              t_r := Routing[i, j].Target1Row;
              t_c := Routing[i, j].Target1Col;
 
-             for k:=0 to inv[t_r, t_c].size -1 do
-              if (inv[t_r, t_c].up_X[k] = i) and (inv[t_r, t_c].up_Y[k] = j) then
-                begin
-                     inv[t_r, t_c].treated[k]:=true;
-                     break;
-                end;
-
-             all_treated := true;
-             for k:=0 to inv[t_r, t_c].size -1 do
-              all_treated := all_treated and inv[t_r, t_c].treated[k];
-
-             if all_treated and not inv[t_r, t_c].inqueue then
-               begin
-               q.push(pointer(t_r*nrow + t_c));
-               inv[t_r, t_c].inqueue := true;
-               end
+             setpointtreated(inv, q, i,j,t_r, t_c);
 
            end;
          If Routing[i,j].Part2 > 0.0 Then
@@ -399,27 +409,9 @@ Begin
              t_r := Routing[i, j].Target2Row;
              t_c := Routing[i, j].Target2Col;
 
-             for k:=0 to inv[t_r, t_c].size -1 do
-              if (inv[t_r, t_c].up_X[k] = i) and (inv[t_r, t_c].up_Y[k] = j) then
-                begin
-                     inv[t_r, t_c].treated[k]:=true;
-                     break;
-                end;
-             all_treated := true;
-
-             for k:=0 to inv[t_r, t_c].size -1 do
-              all_treated := all_treated and inv[t_r, t_c].treated[k];
-
-             if all_treated and not inv[t_r, t_c].inqueue then
-               begin
-                q.push(pointer(t_r*nrow + t_c));
-                inv[t_r, t_c].inqueue := true;
-               end
+             setpointtreated(inv, q, i,j,t_r, t_c);
 
            end;
-
-
-
     End;
 
 
