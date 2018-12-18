@@ -186,6 +186,22 @@ Begin
   // in m      if < 0 => erosion & if > 0 => sedimentation
 End;
 
+procedure settreatedsize(var inv: TRoutingInvArray) ;
+var
+ i,j, k: integer;
+begin
+   For i := 1 To nrow Do
+    //The DTM is read row per row (from l to r), for each next cell that is
+    For j := 1 To ncol Do
+       begin
+         setlength(inv[i,j].treated, inv[i, j].size);
+         for k:=0 to inv[i, j].size -1 do
+           inv[i,j].treated[k] :=false;
+
+       end;
+
+end;
+
 procedure getstartingpoints(inv: TRoutingInvArray; var q: TQueue);
 var
   i,j: integer;
@@ -254,10 +270,8 @@ Begin
 
   // invert routing
   inv:= Invert_routing(Routing);
+  settreatedsize(inv);
   getstartingpoints(inv, q);
-    //** Calculate watererosion & Lateral sed_output_file
-
-  WriteLn(q.Count);
 
   while (q.Count > 0) do
   begin
@@ -368,8 +382,8 @@ Begin
                      inv[t_r, t_c].treated[k]:=true;
                      break;
                 end;
-             all_treated := true;
 
+             all_treated := true;
              for k:=0 to inv[t_r, t_c].size -1 do
               all_treated := all_treated and inv[t_r, t_c].treated[k];
 
@@ -396,7 +410,7 @@ Begin
              for k:=0 to inv[t_r, t_c].size -1 do
               all_treated := all_treated and inv[t_r, t_c].treated[k];
 
-             if all_treated  and not inv[t_r, t_c].inqueue then
+             if all_treated and not inv[t_r, t_c].inqueue then
                begin
                 q.push(pointer(t_r*nrow + t_c));
                 inv[t_r, t_c].inqueue := true;
