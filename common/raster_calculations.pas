@@ -175,7 +175,7 @@ begin
   For i := 1 To nrow Do
     //The DTM is read row per row (from l to r), for each next cell that is
     For j := 1 To ncol Do
-      if Routing[i,j].Target1Col > 0 then
+      if Routing[i,j].Part1 > 0 then
         begin
           t_c :=  Routing[i,j].Target1Col ;
           t_r :=  Routing[i,j].Target1Row ;
@@ -192,7 +192,7 @@ begin
 
         end;
 
-      if Routing[i,j].Target2Col > 0 then
+      if Routing[i,j].Part2 > 0 then
         begin
           t_c :=  Routing[i,j].Target2Col ;
           t_r :=  Routing[i,j].Target2Row ;
@@ -575,12 +575,8 @@ Begin
         //The pixel itself (i,j) is not evaluated
         If (PRC[i+k,j+l]=-1)Then
           Begin
-            If (DTM[i+k,j+l]<DTM[i,j]) Then
-              Begin
-                closeriver := true;
-                // end if
-                break;
-              End;
+              closeriver := true;
+              break;
           End;
       End;
 
