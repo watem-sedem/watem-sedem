@@ -223,7 +223,7 @@ begin
 
    if all_treated and not inv[t_r, t_c].inqueue then
      begin
-     q.push(pointer(t_r*nrow + t_c));
+     q.push(pointer(t_r*ncol + t_c));
      inv[t_r, t_c].inqueue := true;
      end;
 end;
@@ -241,7 +241,7 @@ begin
 
          If PRC[i,j]=0 Then continue;
          if inv[i,j].size=0 then
-           q.push(pointer(i*nrow + j));
+           q.push(pointer(i*ncol + j));
        end;
 end;
 
@@ -302,8 +302,8 @@ Begin
   begin
     p:= q.pop;
     teller := integer(p);
-    i := teller div nrow;
-    j := teller mod nrow;
+    i := teller div ncol;
+    j := teller mod ncol;
 
      // The catchment is looked at starting from the highest pixel
       If (PRC[i, j] = 0) Or (PRC[i, j] = -1) Then
