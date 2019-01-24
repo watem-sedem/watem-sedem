@@ -255,7 +255,7 @@ Var
   inv: TRoutingInvArray;
   q: Tqueue;
   p: pointer;
-  debug_routing: GRaster;
+  debug_routing: RRaster;
   debug_routing_enabled, skip: boolean;
 Begin
   // Create temp 2D maps
@@ -305,8 +305,8 @@ Begin
   // makes a grid showing where whe were at what time
   if debug_routing_enabled then
     begin
-      SetDynamicGData(debug_routing);
-      setzeroG(debug_routing);
+      SetDynamicRData(debug_routing);
+      setzeroR(debug_routing);
     end;
 
 
@@ -436,6 +436,22 @@ Begin
            end;
     End;
 
+
+
+  // loop over the full grid and set the output to no-data if
+  // it was not part of the routing
+      For i := 1 To nrow Do
+    //The DTM is read row per row (from l to r), for each next cell that is
+         For j := 1 To ncol Do
+            if (PRC[i,j] = 0) then
+            begin;
+              RUSLE[i, j] := -9999;
+              SEDI_OUT[i, j] := -9999;
+              SEDI_IN[i, j] := -9999;
+              WATEREROS[i, j] := -9999;
+              WATEREROS_cubmeter[i, j] := -9999;
+              WATEREROS_kg[i, j] := -9999;
+            end;
 
 
 
@@ -621,9 +637,12 @@ Begin
   DisposeDynamicRdata(SEDI_IN);
   DisposeDynamicRdata(SEDI_OUT);
   //********************
+  if debug_routing_enabled then
+    begin
+      writeIdrisi32file(ncol,nrow, File_output_dir+'debug_routing'+'.rst', debug_routing);
+      DisposeDynamicRdata(debug_routing);
+    end;
 
-  writeGIdrisi32file(ncol,nrow, File_output_dir+'debug_routing'+'.rst', debug_routing);
-  DisposeDynamicGdata(debug_routing);
 
 End;
 
