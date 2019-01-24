@@ -8,7 +8,7 @@ Interface
 
 Uses 
 Classes, SysUtils, FileUtil, Dialogs, RData_CN, ReadInParameters,
-Raster_calculations, math, CN_calculations, contnrs;
+Raster_calculations, math, CN_calculations, contnrs, GData_CN, idrisi;
 
 Procedure Water;
 Procedure Distribute_sediment;
@@ -248,13 +248,15 @@ end;
 Procedure Water;
 
 Var 
-  teller, i, j, k, l, m, n, t_r, t_c: integer;
+  teller, i, j, k, l, m, n, t_r, t_c, ri: integer;
   area, sewer_out_sed, TEMP_river_sed_input, TEMP_outside_sed_input, TEMP_buffer_sed_input,
   TEMP_pond_sed_input: double;
   sed_output_file, sediment_VHA, sewer_out, cal_output_file: textfile;
   inv: TRoutingInvArray;
   q: Tqueue;
   p: pointer;
+  debug_routing: GRaster;
+  debug_routing_enabled, skip: boolean;
 Begin
   // Create temp 2D maps
   SetDynamicRData(SEDI_IN);
@@ -298,14 +300,31 @@ Begin
   settreatedsize(inv);
   getstartingpoints(inv, q);
 
+  debug_routing_enabled := true;
+  // debug routing file - check we go to every location
+  // makes a grid showing where whe were at what time
+  if debug_routing_enabled then
+    begin
+      SetDynamicGData(debug_routing);
+      setzeroG(debug_routing);
+    end;
+
+
+  // as long as there are elements in the queue, continue
+  // new elements are added when all their parents have been handled
   while (q.Count > 0) do
   begin
     p:= q.pop;
     teller := integer(p);
     i := teller div ncol;
     j := teller mod ncol;
+    if debug_routing_enabled then
+      begin
+        debug_routing[i,j] := ri;
+        ri+=1;
+      end;
 
-     // The catchment is looked at starting from the highest pixel
+     skip:=false;
       If (PRC[i, j] = 0) Or (PRC[i, j] = -1) Then
         // if cell is outside area or a river cell or a water body => = all export cells
 
@@ -330,7 +349,7 @@ Begin
               WATEREROS_cubmeter[i, j] := -9999;
               WATEREROS_kg[i, j] := -9999;
             end;
-          continue;
+          skip :=true;
         End;
 
       If (Include_buffer) And (Buffermap[i, j] <> 0) And
@@ -348,52 +367,55 @@ Begin
           // in m
           WATEREROS[i, j] := WATEREROS[i, j] * 1000;
           // in mm
-          continue;
+          skip:=true;
         End;
 
-      CalculateWaterEro(i, j);
-      //Checkerosionheight(i,j,WATEREROS);
-      WATEREROS[i, j] := WATEREROS[i, j] * 1000;
-      // [mm] (ok)
-      area := sqr(RES);
-      WATEREROS_cubmeter[i,j] := WATEREROS[i, j] * Area / 1000;
-      WATEREROS_kg[i,j] := WATEREROS_cubmeter[i,j] * BD;
+      if not skip then
+        begin
+          CalculateWaterEro(i, j);
+          //Checkerosionheight(i,j,WATEREROS);
+          WATEREROS[i, j] := WATEREROS[i, j] * 1000;
+          // [mm] (ok)
+          area := sqr(RES);
+          WATEREROS_cubmeter[i,j] := WATEREROS[i, j] * Area / 1000;
+          WATEREROS_kg[i,j] := WATEREROS_cubmeter[i,j] * BD;
 
 
-      If (PRC[i, j] <> 0) And (PRC[i, j] <> -1) Then
-        Begin
-          If SEDI_IN[i, j] - SEDI_OUT[i, j] < 0 Then
-            sedprod := sedprod + ((SEDI_IN[i, j] - SEDI_OUT[i, j]) * BD) //BD [kg/m³]
-                       // sedprod [kg]
-          Else
-            depprod := depprod + ((SEDI_IN[i, j] - SEDI_OUT[i, j]) * BD);
-          // depprod [kg]
-        End;
+          If (PRC[i, j] <> 0) And (PRC[i, j] <> -1) Then
+            Begin
+              If SEDI_IN[i, j] - SEDI_OUT[i, j] < 0 Then
+                sedprod := sedprod + ((SEDI_IN[i, j] - SEDI_OUT[i, j]) * BD) //BD [kg/m³]
+                           // sedprod [kg]
+              Else
+                depprod := depprod + ((SEDI_IN[i, j] - SEDI_OUT[i, j]) * BD);
+              // depprod [kg]
+            End;
 
-      If SEDI_OUT[i,j] > 0 Then
-        // if sed_output_file leaves this pixel, the sed_output_file needs to be distributed over target cells
-        DistributeFlux_Sediment(i, j, SEDI_IN, SEDI_OUT);
-      // SEDI_IN [m³]
+          If SEDI_OUT[i,j] > 0 Then
+            // if sed_output_file leaves this pixel, the sed_output_file needs to be distributed over target cells
+            DistributeFlux_Sediment(i, j, SEDI_IN, SEDI_OUT);
+          // SEDI_IN [m³]
 
-      If (Include_sewer) And (SewerMap[i, j] <> 0) Then
+          If (Include_sewer) And (SewerMap[i, j] <> 0) Then
 
-    // if pixel contains sewer, total amount of sed_output_file leaving the system through sewer is updated
-        Begin
+        // if pixel contains sewer, total amount of sed_output_file leaving the system through sewer is updated
+            Begin
 
-        // AND SEDI_IN is corrected because procedure Distribute_Flux doesn't take this into account
-          sewer_out_sed := sewer_out_sed + (SEDI_OUT[i, j] * SewerMap[i, j] * (sewer_exit / 100));
+            // AND SEDI_IN is corrected because procedure Distribute_Flux doesn't take this into account
+              sewer_out_sed := sewer_out_sed + (SEDI_OUT[i, j] * SewerMap[i, j] * (sewer_exit / 100));
 
 
-          SEDI_IN[Routing[i, j].Target2Row, Routing[i, j].Target2Col] := 
-                                                                         SEDI_IN[Routing[i, j].
-                                                                         Target2Row, Routing[i, j].
-                                                                         Target2Col] -
-                                                                         SEDI_OUT[i, j] * Routing[i,
-                                                                         j].Part2 + SEDI_OUT[i, j] *
-                                                                         SewerMap[i, j] * (1 - (
-                                                                         sewer_exit / 100));
-        End;
+              SEDI_IN[Routing[i, j].Target2Row, Routing[i, j].Target2Col] :=
+                                                                             SEDI_IN[Routing[i, j].
+                                                                             Target2Row, Routing[i, j].
+                                                                             Target2Col] -
+                                                                             SEDI_OUT[i, j] * Routing[i,
+                                                                             j].Part2 + SEDI_OUT[i, j] *
+                                                                             SewerMap[i, j] * (1 - (
+                                                                             sewer_exit / 100));
+            End;
 
+      end; //skip
       // Zet status van onderliggende pixels op behandeld voor deze bron
       // + zet ze in de queue als alle bovenliggende behandeld zijn
          If Routing[i,j].Part1 > 0.0 Then
@@ -599,6 +621,10 @@ Begin
   DisposeDynamicRdata(SEDI_IN);
   DisposeDynamicRdata(SEDI_OUT);
   //********************
+
+  writeGIdrisi32file(ncol,nrow, File_output_dir+'debug_routing'+'.rst', debug_routing);
+  DisposeDynamicGdata(debug_routing);
+
 End;
 
 //sediment dat toekomt in elke outlet lineair verdelen over hydrogram
