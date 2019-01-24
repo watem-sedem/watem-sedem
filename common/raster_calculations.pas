@@ -175,6 +175,8 @@ begin
   For i := 1 To nrow Do
     //The DTM is read row per row (from l to r), for each next cell that is
     For j := 1 To ncol Do
+     begin;
+
       if Routing[i,j].Part1 > 0 then
         begin
           t_c :=  Routing[i,j].Target1Col ;
@@ -208,6 +210,7 @@ begin
           inv[t_r, t_c].up_y[pos] := j;
 
         end;
+     end;
   Invert_routing:= inv;
 end;
 
