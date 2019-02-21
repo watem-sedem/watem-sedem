@@ -558,17 +558,17 @@ Procedure DistributeTilDirEvent_Routing(i,j:integer; Var FINISH:GRaster; Topo:bo
 // Area = De hoeveelheid neerslag gevallen in die cel, vermenigvuldigd met de oppervlakte van die cel
 // Input(raster) = UpArea (de geaccumuleerde hoeveelheid water per cel).
 // Finish(raster) = een waarde 1 geeft aan dat de cel reeds behandeld is)
-// Massbalance = ???
 // Topo = wordt meegegeven vanuit CalculateUpareaOlivier
 
 Var 
   CSN,SN,MINIMUM,MINIMUM2,PART1,PART2,extremum : extended;
   K1,K2,l1,L2,ROWMIN,COLMIN,ROWMIN2,COLMIN2,K,L, Area, W : integer;
-  parequal,closeriver, check: boolean;
+  parequal,closeriver, closeditchdam, check: boolean;
   Direction : single;
   center_x, center_y, center_ID: integer;
 Begin
   closeriver := false;
+  closeditchdam := false;
 
   // Uit code WatemSedem
   For K := -1 To 1 Do
@@ -577,13 +577,22 @@ Begin
         If ((K=0)And(L=0)) Then CONTINUE;
         //The pixel itself (i,j) is not evaluated
         If (PRC[i+k,j+l]=-1)Then
-          Begin
-              closeriver := true;
-              break;
-          End;
+            closeriver := true;
+
+        If  include_ditch and (Ditch_map[i+k,j+l]<>0) Then
+            closeditchdam := true;
+
+         If (Include_dam) And (Dam_map[i+k,j+l]<> 0) Then
+            closeditchdam := true;
+
       End;
 
-  If closeriver Then //Voor pixels die aan een rivierpixel grenzen: neem de laagste riviercel
+  If closeriver or closeditchdam Then
+
+  begin
+  //Voor pixels die aan een rivierpixel grenzen: neem de laagste riviercel
+
+   If closeriver then
     Begin
       extremum := 99999.9;
       For K := -1 To 1 Do
@@ -606,7 +615,34 @@ Begin
       FINISH[i,j] := 1;
       //An identifier 1 is put in the cell when it has been evaluated
 
-    End
+    End; // end closeriver
+
+   // flow into ditch (or dam) only if cell is lower than current cell
+   If closeditchdam then
+     begin
+     extremum := DTM[i,j];
+      For K := -1 To 1 Do
+        For L := -1 To 1 Do
+          Begin
+            If ((K=0)And(L=0)) Then CONTINUE;
+            //The pixel itself (i,j) is not evaluated
+            If ((Dam_map[i+k,j+l]<> 0) or (ditch_map[i+k,j+l]<> 0) ) And(DTM[i+k,j+l]<extremum) Then
+              Begin
+                ROWMIN := K;
+                COLMIN := L;
+                extremum := DTM[i+k,j+l];
+              End;
+          End;
+      Routing[i,j].One_Target := True;
+      //All water and sediment flows into the ditch/dam
+      Routing[i,j].Target1Row := i+ROWMIN;
+      Routing[i,j].Target1Col := j+COLMIN;
+      Routing[i,j].Part1 := 1.0;
+      FINISH[i,j] := 1;
+
+     end;
+
+  end
 
   Else   //If the cell under evaluation is not adjacent to a river
 
