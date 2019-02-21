@@ -306,7 +306,7 @@ Begin
 
 
   //If buffers are taken into account the buffermap is loaded
-  If Include_buffer = true Then
+  If Include_buffer Then
     Begin
       GetGfile(BufferMap,Bufferfilename);
       For i := 1 To nrow Do
@@ -327,10 +327,10 @@ Begin
       SetzeroG(Buffermap);
     End;
 
-  If Include_ditch = true Then
+  If Include_ditch Then
     GetGfile(Ditch_map,Ditch_filename);
 
-  If Include_dam = true Then
+  If Include_dam Then
     GetGfile(Dam_map,Dam_filename);
 
   If outlet_select Then
