@@ -1078,28 +1078,6 @@ Begin
 
   If (Include_buffer) And (Buffermap[i,j] <> 0) Then
     Begin
-      For K := -1 To 1 Do
-        //a 3*3 kernel is build around cell to which we look
-        For L := -1 To 1 Do
-          Begin
-
-            If ((K=0)And(L=0)) Then CONTINUE;
-
-            If DTM[i+k,j+l] > DTM[i,j] Then
-              //Cells with a higher altitude are assigned the buffer as only target
-              Begin
-                Routing[i+k,j+l].Target1Row := i;
-                Routing[i+k,j+l].Target1Col := j;
-                Routing[i+k,j+l].Part1 := 1.0;
-                Routing[i+k,j+l].Distance1 := res * sqrt(sqr(k) + sqr(l));
-                Routing[i+k,j+l].Target2Row := 0;
-                Routing[i+k,j+l].Target2Col := 0;
-                Routing[i+k,j+l].Part2 := 0;
-                Routing[i+k,j+l].One_Target := True;
-                Routing[i+k,j+l].Distance2 := 0;
-              End;
-          End;
-
       If Buffermap[i,j] <= Number_of_Buffers Then
         // center of the buffer drains to lowest neighbour
         Begin
@@ -1144,7 +1122,10 @@ Begin
           For k := 1 To Number_of_Buffers Do
             Begin
               If Buffermap[i,j] = BufferData[k].ext_ID Then
+                begin
                 center_ID := k;
+                break;
+                end;
             End;
           If center_ID =0 Then
             Begin
@@ -1152,16 +1133,10 @@ Begin
                           [i,j])+' not found in buffer database.');
               Exit;
             End;
-          For k := 1 To nrow Do
-            // determine coordinates of buffer center
-            For l:= 1 To ncol Do
-              Begin
-                If Buffermap[k,l] = center_ID Then
-                  Begin
-                    center_x := k;
-                    center_y := l;
-                  End;
-              End;
+
+          center_x :=BufferData[center_id].row;
+          center_y :=BufferData[center_id].col;
+
           Routing[i,j].Target1Row := center_x;
           Routing[i,j].Target1Col := center_y;
           Routing[i,j].Part1 := 1.0;
@@ -1170,7 +1145,9 @@ Begin
           Routing[i,j].Part2 := 0;
           Routing[i,j].One_Target := True;
         End;
-    End;
+
+     exit; // don't process sewer, dam, ditch for buffer
+  End;
 
   If (Include_ditch) And (Ditch_map[i,j] <> 0) Then
     Begin
