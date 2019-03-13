@@ -9,7 +9,7 @@ Unit CN_calculations;
 Interface
 
 Uses 
-Classes, SysUtils, GData_CN, RData_CN, idrisi, Math, ReadInParameters;
+Classes, SysUtils, GData_CN, RData_CN, Math, ReadInParameters;
 
 Type 
   IntegerArray = array Of integer;
@@ -1325,7 +1325,6 @@ Procedure CalculateRe(Var Remap:Rraster; Perceelskaart:Rraster; CNmap:Rraster; a
 
 Var 
   i,j, nrowPRC, ncolPRC : integer;
-  Ia, S: double;
 
 Begin
   nrowPRC := nrow;

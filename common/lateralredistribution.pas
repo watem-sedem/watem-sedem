@@ -312,6 +312,7 @@ Begin
 
   // as long as there are elements in the queue, continue
   // new elements are added when all their parents have been handled
+  ri := 0;
   while (q.Count > 0) do
   begin
     p:= q.pop;

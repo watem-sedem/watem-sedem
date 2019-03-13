@@ -1554,7 +1554,7 @@ End;
 Procedure Routing_Slope(Var Routing: TRoutingArray; Var Slope: RRaster);
 Var
   i, j, target_row, target_col: integer;
-  diff1, diff2, s1, s2: double;
+  s1, s2: double;
 Begin
   for i := nrow downto 1 do
     for j:= ncol downto 1 do
