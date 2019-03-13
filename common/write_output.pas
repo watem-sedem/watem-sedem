@@ -93,9 +93,9 @@ Begin
       if Routing[k,l].Target1Col = -99 then continue; // skip empty rows
       Writeln(routingfile,  IntToStr(l)+sep+ IntToStr(k) + sep
       + IntToStr(Routing[k,l].Target1Col)  + sep + IntToStr(Routing[k,l].Target1Row)+ sep +
-      floattostr(Routing[k,l].part1)+ sep + floattostr(Routing[k,l].distance1) + sep
+      floattostr(Routing[k,l].part1)+ sep + floattostr(Distance1(Routing,k,l)) + sep
       + IntToStr(Routing[k,l].Target2Col)  + sep + IntToStr(Routing[k,l].Target2Row)+ sep +
-      floattostr(Routing[k,l].part2)+ sep + floattostr(Routing[k,l].distance2)
+      floattostr(Routing[k,l].part2)+ sep + floattostr(Distance2(Routing,k,l))
       );
 
       end;

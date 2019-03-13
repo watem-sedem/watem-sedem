@@ -841,15 +841,14 @@ Begin
                   If (Include_sewer) And (SewerMap[k,l] <> 0) Then
                     // if cell contains entrance to sewer...
                     Part2_water := (RunoffMap[k,l]*Routing[k,l].Part2)*((Speed_sewer*TimeStep_model)
-                                   /Routing[k,l].Distance2)
+                                   /Distance2(Routing, k, l))
                                    //Amount of water that is transfered through sewers
                   Else
                     Part2_water := (RunoffMap[k,l]*Routing[k,l].Part2)*((Speed*TimeStep_model)/
-                                   Routing[k,l].Distance2);
+                                   Distance2(Routing, k, l));
                   //Amount of water that is transfered to neighbor 2
 
-                  Part1_water := (RunoffMap[k,l]*Routing[k,l].Part1)*((Speed*TimeStep_model)/Routing
-                                 [k,l].Distance1);
+                  Part1_water := (RunoffMap[k,l]*Routing[k,l].Part1)*((Speed*TimeStep_model)/Distance1(Routing,k,l));
                   //Amount of water that is transfered to neighbor 1
                   RoutedMap_temp[Routing[k,l].Target1row,Routing[k,l].Target1col] := 
                                                                                      RoutedMap_temp[
@@ -953,8 +952,9 @@ Begin
               Else
                 Begin
                   //If the runoff is transfered to only 1 neighbor (part 1 = 1)
-                  Part1_water := (RunoffMap[k,l]*Routing[k,l].Part1)*((Speed*TimeStep_model)/Routing
-                                 [k,l].Distance1);
+                  Part1_water := (RunoffMap[k,l]*Routing[k,l].Part1)
+                                 *((Speed*TimeStep_model)
+                                 /Distance1(Routing, k, l));
                   RoutedMap_temp[Routing[k,l].Target1row,Routing[k,l].Target1col] := 
                      RoutedMap_temp[Routing[k,l].Target1row, Routing[k,l].Target1col] +  Part1_water;
                   RunoffMap[k,l] := RunoffMap[k,l] - Part1_water;
@@ -987,8 +987,8 @@ Begin
             If Routing[k,l].Part2 > 0 Then
               Begin
                 //If the runoff is transfered to only 1 neighbor (part 2 = 1)
-                Part2_water := (RunoffMap[k,l]*Routing[k,l].Part2)*((Speed*TimeStep_model)/Routing[k
-                               ,l].Distance2);
+                Part2_water := (RunoffMap[k,l]*Routing[k,l].Part2)
+                               *((Speed*TimeStep_model)/Distance2(Routing, k, l));
                 RoutedMap_temp[Routing[k,l].Target2row,Routing[k,l].Target2col] := 
                                                                                    RoutedMap_temp[
                                                                                    Routing[k,l].

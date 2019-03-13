@@ -105,8 +105,6 @@ Begin
         Routing[i,j].Target2Col := -99;
         Routing[i,j].Part1 := 0.0;
         Routing[i,j].Part2 := 0.0;
-        Routing[i,j].Distance1 := 0.0;
-        Routing[i,j].Distance2 := 0.0;
       End;
   //For every cell in the catchment the target cell(s) are determined
   For teller:=nrow*ncol Downto 1 Do
@@ -125,12 +123,6 @@ Begin
         end
       Else //Routing procedure for all other cells
         DistributeTilDirEvent_Routing(i,j, FINISH, Topo);
-      If (Routing[i,j].Target1Row > 0) Then Routing[i,j].Distance1 := res * sqrt(sqr(i - Routing[i,j
-                                                                      ].Target1Row) + sqr(j -
-                                                                      Routing[i,j].Target1Col));
-      If (Routing[i,j].Target2Row > 0) Then Routing[i,j].Distance2 := res * sqrt(sqr(i - Routing[i,j
-                                                                      ].Target2Row) + sqr(j -
-                                                                      Routing[i,j].Target2Col));
     End;
 
   if force_routing then
@@ -146,10 +138,7 @@ Begin
         Routing[i,j].Part1 := 1;
         Routing[i,j].Part2 := 0.0;
         Routing[i,j].One_Target:=True;
-        Routing[i,j].Distance1 :=  res * sqrt(sqr(i - Routing[i,j
-                                                                      ].Target2Row) + sqr(j -
-                                                                      Routing[i,j].Target2Col)); ;
-        Routing[i,j].Distance2 := 0.0;
+
       End;
 
     end;
@@ -538,7 +527,6 @@ Begin
       Routing[i,j].Target1Row := I+ROWMIN;
       Routing[i,j].Target1Col := J+COLMIN;
       Routing[i,j].Part1 := 1.0;
-      routing[i,j].Distance1 := res * sqrt(sqr(rowmin) + sqr(colmin))
     end
 End;
 
@@ -1108,12 +1096,10 @@ Begin
                 Routing[i+k,j+l].Target1Row := i;
                 Routing[i+k,j+l].Target1Col := j;
                 Routing[i+k,j+l].Part1 := 1.0;
-                Routing[i+k,j+l].Distance1 := res * sqrt(sqr(k) + sqr(l));
                 Routing[i+k,j+l].Target2Row := 0;
                 Routing[i+k,j+l].Target2Col := 0;
                 Routing[i+k,j+l].Part2 := 0;
                 Routing[i+k,j+l].One_Target := True;
-                Routing[i+k,j+l].Distance2 := 0;
               End;
           End;
 
@@ -1240,7 +1226,6 @@ Begin
       Routing[i,j].Target2Row := 0;
       Routing[i,j].Target2Col := 0;
       Routing[i,j].Part2 := 0;
-      Routing[i,j].Distance2 := 0;
       Routing[i,j].One_Target := True;
     End;
 
@@ -1344,11 +1329,6 @@ Begin
       // SewerMap[i,j] = vangefficiëntie!
       Routing[i,j].Part2 := SewerMap[i,j];
 
-      // distance to target cell is calculated
-      If (K=0) Or (L=0) Then
-        Routing[i,j].Distance2 := res*(W-1)
-      Else
-        Routing[i,j].Distance2 := sqrt(sqr(ROWMIN*res) + sqr(COLMIN*res));
     End;
 
 End;
@@ -1610,13 +1590,13 @@ Begin
         target_row := Routing[i,j].Target1Row;
         target_col := Routing[i,j].Target1Col;
         if Routing[i][j].Part1 > 0.0000001 then
-           s1 := (DTM[i,j] - DTM[target_row, target_col]) / Routing[i,j].Distance1
+           s1 := (DTM[i,j] - DTM[target_row, target_col]) / Distance1(Routing,i,j)
         else
            s1:= 0;
         target_row := Routing[i,j].Target2Row;
         target_col := Routing[i,j].Target2Col;
         if Routing[i][j].Part2 > 0.0000001 then
-           s2 := (DTM[i,j] - DTM[target_row, target_col]) / Routing[i,j].Distance2
+           s2 := (DTM[i,j] - DTM[target_row, target_col]) / Distance2(Routing, i,j)
         else
            s2 :=0;
         slope[i,j] := arctan(sqrt(sqr(s1) + sqr(s2)))
