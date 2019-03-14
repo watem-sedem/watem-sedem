@@ -638,12 +638,15 @@ Begin
                 extremum := DTM[i+k,j+l];
               End;
           End;
-      Routing[i,j].One_Target := True;
-      //All water and sediment flows into the ditch/dam
-      Routing[i,j].Target1Row := i+ROWMIN;
-      Routing[i,j].Target1Col := j+COLMIN;
-      Routing[i,j].Part1 := 1.0;
-      FINISH[i,j] := 1;
+      if (rowmin<>0) and (colmin<>0) then
+        begin
+        Routing[i,j].One_Target := True;
+        //All water and sediment flows into the ditch/dam
+        Routing[i,j].Target1Row := i+ROWMIN;
+        Routing[i,j].Target1Col := j+COLMIN;
+        Routing[i,j].Part1 := 1.0;
+        FINISH[i,j] := 1;
+        end;
 
      end;
 
@@ -1572,6 +1575,8 @@ Begin
 End;
 
 Procedure Routing_Slope(Var Routing: TRoutingArray; Var Slope: RRaster);
+// This procedure overwrites the slope using the actual direction of the routing table
+// if the routing is not using the standard split discharge.
 Var
   i, j, target_row, target_col: integer;
   diff1, diff2, s1, s2: double;
