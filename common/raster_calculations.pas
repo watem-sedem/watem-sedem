@@ -557,6 +557,8 @@ Var
 Begin
   closeriver := false;
   closeditchdam := false;
+  colmin:=0;
+  rowmin:=0;
 
   // Uit code WatemSedem
   For K := -1 To 1 Do
