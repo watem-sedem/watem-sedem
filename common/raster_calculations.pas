@@ -637,17 +637,17 @@ Begin
                 COLMIN := L;
                 extremum := DTM[i+k,j+l];
               End;
+
           End;
       if (rowmin<>0) and (colmin<>0) then
         begin
-        Routing[i,j].One_Target := True;
-        //All water and sediment flows into the ditch/dam
-        Routing[i,j].Target1Row := i+ROWMIN;
-        Routing[i,j].Target1Col := j+COLMIN;
-        Routing[i,j].Part1 := 1.0;
-        FINISH[i,j] := 1;
-        end;
-
+          Routing[i,j].One_Target := True;
+          //All water and sediment flows into the ditch/dam
+          Routing[i,j].Target1Row := i+ROWMIN;
+          Routing[i,j].Target1Col := j+COLMIN;
+          Routing[i,j].Part1 := 1.0;
+          FINISH[i,j] := 1;
+         end;
      end;
 
   end
