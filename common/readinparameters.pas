@@ -62,7 +62,7 @@ Type
     //Record containing information about runoff routing for each cell
     One_Target: boolean;
     Target1Row, Target1Col, Target2Row, Target2Col: integer;
-    Part1, Part2, Distance1, Distance2: double;
+    Part1, Part2: double;
   End;
 
   TInvRouting = Record
@@ -93,6 +93,8 @@ Type
   TLModel = (Desmet1996_McCool, Desmet1996_Vanoost2003);
   TSModel = (Desmet1996, Nearing1997);
 
+Function Distance1(r: TRoutingArray;i,j: integer): double;
+Function Distance2(r: TRoutingArray;i,j: integer): double;
 Procedure ReadInRasters;
 Procedure Allocate_Memory;
 Procedure Release_Memory;
@@ -265,6 +267,17 @@ begin
       if self.key[i] = k then
         getItem:= self.value[i];
     end;
+end;
+
+
+Function Distance1(r: TRoutingArray;i,j: integer):double;
+begin
+ Distance1 := res * sqrt(sqr(i - r[i,j].Target1Row) + sqr(j -r[i,j].Target1Col));
+end;
+
+Function Distance2(r: TRoutingArray;i,j: integer):double;
+begin
+ Distance2 := res * sqrt(sqr(i - r[i,j].Target2Row) + sqr(j -r[i,j].Target2Col));
 end;
 
 Procedure ReadInRasters;

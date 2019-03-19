@@ -105,8 +105,6 @@ Begin
         Routing[i,j].Target2Col := -99;
         Routing[i,j].Part1 := 0.0;
         Routing[i,j].Part2 := 0.0;
-        Routing[i,j].Distance1 := 0.0;
-        Routing[i,j].Distance2 := 0.0;
       End;
   //For every cell in the catchment the target cell(s) are determined
   For teller:=nrow*ncol Downto 1 Do
@@ -125,12 +123,6 @@ Begin
         end
       Else //Routing procedure for all other cells
         DistributeTilDirEvent_Routing(i,j, FINISH, Topo);
-      If (Routing[i,j].Target1Row > 0) Then Routing[i,j].Distance1 := res * sqrt(sqr(i - Routing[i,j
-                                                                      ].Target1Row) + sqr(j -
-                                                                      Routing[i,j].Target1Col));
-      If (Routing[i,j].Target2Row > 0) Then Routing[i,j].Distance2 := res * sqrt(sqr(i - Routing[i,j
-                                                                      ].Target2Row) + sqr(j -
-                                                                      Routing[i,j].Target2Col));
     End;
 
   if force_routing then
@@ -146,10 +138,7 @@ Begin
         Routing[i,j].Part1 := 1;
         Routing[i,j].Part2 := 0.0;
         Routing[i,j].One_Target:=True;
-        Routing[i,j].Distance1 :=  res * sqrt(sqr(i - Routing[i,j
-                                                                      ].Target2Row) + sqr(j -
-                                                                      Routing[i,j].Target2Col)); ;
-        Routing[i,j].Distance2 := 0.0;
+
       End;
 
     end;
@@ -538,7 +527,6 @@ Begin
       Routing[i,j].Target1Row := I+ROWMIN;
       Routing[i,j].Target1Col := J+COLMIN;
       Routing[i,j].Part1 := 1.0;
-      routing[i,j].Distance1 := res * sqrt(sqr(rowmin) + sqr(colmin))
     end
 End;
 
@@ -563,12 +551,14 @@ Procedure DistributeTilDirEvent_Routing(i,j:integer; Var FINISH:GRaster; Topo:bo
 Var 
   CSN,SN,MINIMUM,MINIMUM2,PART1,PART2,extremum : extended;
   K1,K2,l1,L2,ROWMIN,COLMIN,ROWMIN2,COLMIN2,K,L, Area, W : integer;
-  parequal,closeriver, closeditchdam, check: boolean;
+  parequal,closeriver, closeditchdam, check, criterium: boolean;
   Direction : single;
   center_x, center_y, center_ID: integer;
 Begin
   closeriver := false;
   closeditchdam := false;
+  colmin:=0;
+  rowmin:=0;
 
   // Uit code WatemSedem
   For K := -1 To 1 Do
@@ -624,22 +614,42 @@ Begin
       For K := -1 To 1 Do
         For L := -1 To 1 Do
           Begin
+            criterium := false;
             If ((K=0)And(L=0)) Then CONTINUE;
             //The pixel itself (i,j) is not evaluated
-            If ((Dam_map[i+k,j+l]<> 0) or (ditch_map[i+k,j+l]<> 0) ) And(DTM[i+k,j+l]<extremum) Then
+            If Include_dam and include_ditch Then
+              Begin
+                 If ((Dam_map[i+k,j+l]<> 0) or (ditch_map[i+k,j+l]<> 0)) Then
+                   criterium := True;
+              End;
+            If Include_dam and not include_ditch Then
+              Begin
+                If (Dam_map[i+k,j+l]<> 0) Then
+                  criterium := True;
+              End;
+            if include_ditch and not Include_dam Then
+              Begin
+                If (ditch_map[i+k,j+l] <> 0) Then
+                  criterium := True;
+              End;
+
+            If criterium And(DTM[i+k,j+l]<extremum) Then
               Begin
                 ROWMIN := K;
                 COLMIN := L;
                 extremum := DTM[i+k,j+l];
               End;
-          End;
-      Routing[i,j].One_Target := True;
-      //All water and sediment flows into the ditch/dam
-      Routing[i,j].Target1Row := i+ROWMIN;
-      Routing[i,j].Target1Col := j+COLMIN;
-      Routing[i,j].Part1 := 1.0;
-      FINISH[i,j] := 1;
 
+          End;
+      if (rowmin<>0) and (colmin<>0) then
+        begin
+          Routing[i,j].One_Target := True;
+          //All water and sediment flows into the ditch/dam
+          Routing[i,j].Target1Row := i+ROWMIN;
+          Routing[i,j].Target1Col := j+COLMIN;
+          Routing[i,j].Part1 := 1.0;
+          FINISH[i,j] := 1;
+         end;
      end;
 
   end
@@ -1200,7 +1210,6 @@ Begin
       Routing[i,j].Target2Row := 0;
       Routing[i,j].Target2Col := 0;
       Routing[i,j].Part2 := 0;
-      Routing[i,j].Distance2 := 0;
       Routing[i,j].One_Target := True;
     End;
 
@@ -1304,11 +1313,6 @@ Begin
       // SewerMap[i,j] = vangefficiëntie!
       Routing[i,j].Part2 := SewerMap[i,j];
 
-      // distance to target cell is calculated
-      If (K=0) Or (L=0) Then
-        Routing[i,j].Distance2 := res*(W-1)
-      Else
-        Routing[i,j].Distance2 := sqrt(sqr(ROWMIN*res) + sqr(COLMIN*res));
     End;
 
 End;
@@ -1552,6 +1556,8 @@ Begin
 End;
 
 Procedure Routing_Slope(Var Routing: TRoutingArray; Var Slope: RRaster);
+// This procedure overwrites the slope using the actual direction of the routing table
+// if the routing is not using the standard split discharge.
 Var
   i, j, target_row, target_col: integer;
   diff1, diff2, s1, s2: double;
@@ -1570,13 +1576,13 @@ Begin
         target_row := Routing[i,j].Target1Row;
         target_col := Routing[i,j].Target1Col;
         if Routing[i][j].Part1 > 0.0000001 then
-           s1 := (DTM[i,j] - DTM[target_row, target_col]) / Routing[i,j].Distance1
+           s1 := (DTM[i,j] - DTM[target_row, target_col]) / Distance1(Routing,i,j)
         else
            s1:= 0;
         target_row := Routing[i,j].Target2Row;
         target_col := Routing[i,j].Target2Col;
         if Routing[i][j].Part2 > 0.0000001 then
-           s2 := (DTM[i,j] - DTM[target_row, target_col]) / Routing[i,j].Distance2
+           s2 := (DTM[i,j] - DTM[target_row, target_col]) / Distance2(Routing, i,j)
         else
            s2 :=0;
         slope[i,j] := arctan(sqrt(sqr(s1) + sqr(s2)))
