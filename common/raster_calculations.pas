@@ -521,22 +521,12 @@ Begin
   rowmin:=0;
   colmin:=0;
 
-  //A 3x3 kernel is build around every cell
-  For K := -1 To 1 Do
-    For L := -1 To 1 Do
-      Begin
-        //The cell under consideration ([i,j]) is not examined
-        If ((K=0)And(L=0)) Then Continue;
 
-        If (river_routing_map[i+k,j+l]<>-9999) and (rivseg[i+k,j+l]=segment) and (river_routing_map[i+k,j+l]>Min) and (river_routing_map[i+k,j+l]<Max)
-          Then
-          Begin
-            ROWMIN := K;
-            COLMIN := L;
-            Max := river_routing_map[i+k,j+l];
-            OK:= true;
-          End;
-      End;
+  if (river_routing_map[i,j]>0)  then
+    begin
+    Follow_Direction(routing, river_routing_map,i,j);
+    OK:= true;
+    end;
 
     If not OK Then
 
