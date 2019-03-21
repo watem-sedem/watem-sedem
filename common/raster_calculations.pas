@@ -614,24 +614,10 @@ Begin
       For K := -1 To 1 Do
         For L := -1 To 1 Do
           Begin
-            criterium := false;
-            If ((K=0)And(L=0)) Then CONTINUE;
             //The pixel itself (i,j) is not evaluated
-            If Include_dam and include_ditch Then
-              Begin
-                 If ((Dam_map[i+k,j+l]<> 0) or (ditch_map[i+k,j+l]<> 0)) Then
-                   criterium := True;
-              End;
-            If Include_dam and not include_ditch Then
-              Begin
-                If (Dam_map[i+k,j+l]<> 0) Then
-                  criterium := True;
-              End;
-            if include_ditch and not Include_dam Then
-              Begin
-                If (ditch_map[i+k,j+l] <> 0) Then
-                  criterium := True;
-              End;
+            If ((K=0)And(L=0)) Then CONTINUE;
+
+            criterium :=  (Include_dam and (Dam_map[i+k,j+l]<> 0)) or   (Include_ditch and (Ditch_map[i+k,j+l]<> 0))
 
             If criterium And(DTM[i+k,j+l]<extremum) Then
               Begin
