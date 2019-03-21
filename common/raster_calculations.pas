@@ -572,7 +572,7 @@ Begin
         If  include_ditch and (Ditch_map[i+k,j+l]<>0) Then
             closeditchdam := true;
 
-         If (Include_dam) And (Dam_map[i+k,j+l]<> 0) Then
+        If (Include_dam) And (Dam_map[i+k,j+l]<> 0) Then
             closeditchdam := true;
 
       End;
@@ -608,9 +608,9 @@ Begin
     End; // end closeriver
 
    // flow into ditch (or dam) only if cell is lower than current cell
-   If closeditchdam then
+   If closeditchdam and (FINISH[i,j]<>1) then
      begin
-     extremum := DTM[i,j];
+     extremum := 99999;
       For K := -1 To 1 Do
         For L := -1 To 1 Do
           Begin
@@ -627,7 +627,7 @@ Begin
               End;
 
           End;
-      if (rowmin<>0) and (colmin<>0) then
+      if (rowmin<>0) or (colmin<>0) then
         begin
           Routing[i,j].One_Target := True;
           //All water and sediment flows into the ditch/dam
@@ -638,10 +638,9 @@ Begin
          end;
      end;
 
-  end
+  end;
 
-  Else   //If the cell under evaluation is not adjacent to a river
-
+If FINISH[i,j]<>1 Then   //If the cell under evaluation is not adjacent to a river
     Begin
 
       PART1 := 0.0;
