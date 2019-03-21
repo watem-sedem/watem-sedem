@@ -617,7 +617,7 @@ Begin
             //The pixel itself (i,j) is not evaluated
             If ((K=0)And(L=0)) Then CONTINUE;
 
-            criterium :=  (Include_dam and (Dam_map[i+k,j+l]<> 0)) or   (Include_ditch and (Ditch_map[i+k,j+l]<> 0))
+            criterium :=  (Include_dam and (Dam_map[i+k,j+l]<> 0)) or   (Include_ditch and (Ditch_map[i+k,j+l]<> 0));
 
             If criterium And(DTM[i+k,j+l]<extremum) Then
               Begin
