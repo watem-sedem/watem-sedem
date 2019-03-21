@@ -20,6 +20,7 @@ Function LogReg(i,j:integer): double;
 Function CalculateSLOPE(i,j:integer): double;
 Function CalculateASPECT(i,j:integer) : double;
 Function IsRiver(i,j: Integer): boolean;
+Procedure Follow_Direction(var routing: TRoutingArray; map: Graster; i, j:integer);
 Function SlopeDir(dir:double;i,j:integer;DTM:Rraster): double;
 Procedure Calculate_routing(Var Routing: TRoutingArray);
 Function Invert_routing(Routing: TRoutingArray): TRoutingInvArray;
@@ -380,6 +381,61 @@ Begin
     IsRiver := true
   Else IsRiver := false;
 End;
+
+Procedure Follow_Direction(var routing: TRoutingArray; map: Graster; i, j:integer);
+// Follows the direction set in map used in river_routing, ditches, dam
+begin
+Case map[i,j] Of
+  // first target cell is determined by user input...
+  1:
+     Begin
+       Routing[i,j].Target1row := i-1;
+       Routing[i,j].Target1col := j;
+     End;
+  2:
+     Begin
+       Routing[i,j].Target1row := i-1;
+       Routing[i,j].Target1col := j+1;
+     End;
+  3:
+     Begin
+       Routing[i,j].Target1row := i;
+       Routing[i,j].Target1col := j+1;
+     End;
+  4:
+     Begin
+       Routing[i,j].Target1row := i+1;
+       Routing[i,j].Target1col := j+1;
+     End;
+  5:
+     Begin
+       Routing[i,j].Target1row := i+1;
+       Routing[i,j].Target1col := j;
+     End;
+  6:
+     Begin
+       Routing[i,j].Target1row := i+1;
+       Routing[i,j].Target1col := j-1;
+     End;
+  7:
+     Begin
+       Routing[i,j].Target1row := i;
+       Routing[i,j].Target1col := j-1;
+     End;
+  8:
+     Begin
+       Routing[i,j].Target1row := i-1;
+       Routing[i,j].Target1col := j-1;
+     End;
+End;
+
+Routing[i,j].Part1 := 1.0;
+Routing[i,j].Target2Row := 0;
+Routing[i,j].Target2Col := 0;
+Routing[i,j].Part2 := 0;
+Routing[i,j].One_Target := True;
+
+end;
 
 //******************************************************************************
 //In this procedure it is determined for every cell if runoff will take place in
@@ -1146,108 +1202,12 @@ If FINISH[i,j]<>1 Then   //If the cell under evaluation is not adjacent to a riv
 
   If (Include_ditch) And (Ditch_map[i,j] <> 0) Then
     Begin
-      Case Ditch_map[i,j] Of 
-        // first target cell is determined by user input...
-        1:
-           Begin
-             Routing[i,j].Target1row := i-1;
-             Routing[i,j].Target1col := j;
-           End;
-        2:
-           Begin
-             Routing[i,j].Target1row := i-1;
-             Routing[i,j].Target1col := j+1;
-           End;
-        3:
-           Begin
-             Routing[i,j].Target1row := i;
-             Routing[i,j].Target1col := j+1;
-           End;
-        4:
-           Begin
-             Routing[i,j].Target1row := i+1;
-             Routing[i,j].Target1col := j+1;
-           End;
-        5:
-           Begin
-             Routing[i,j].Target1row := i+1;
-             Routing[i,j].Target1col := j;
-           End;
-        6:
-           Begin
-             Routing[i,j].Target1row := i+1;
-             Routing[i,j].Target1col := j-1;
-           End;
-        7:
-           Begin
-             Routing[i,j].Target1row := i;
-             Routing[i,j].Target1col := j-1;
-           End;
-        8:
-           Begin
-             Routing[i,j].Target1row := i-1;
-             Routing[i,j].Target1col := j-1;
-           End;
-      End;
-
-      Routing[i,j].Part1 := 1.0;
-      // in any case there is no second target cell
-      Routing[i,j].Target2Row := 0;
-      Routing[i,j].Target2Col := 0;
-      Routing[i,j].Part2 := 0;
-      Routing[i,j].One_Target := True;
+      Follow_Direction(routing, ditch_map, i, j);
     End;
 
   If (Include_dam) And (Dam_map[i,j] <> 0) Then         // same as for ditches
     Begin
-      Case Dam_map[i,j] Of 
-        1:
-           Begin
-             Routing[i,j].Target1row := i-1;
-             Routing[i,j].Target1col := j;
-           End;
-        2:
-           Begin
-             Routing[i,j].Target1row := i-1;
-             Routing[i,j].Target1col := j+1;
-           End;
-        3:
-           Begin
-             Routing[i,j].Target1row := i;
-             Routing[i,j].Target1col := j+1;
-           End;
-        4:
-           Begin
-             Routing[i,j].Target1row := i+1;
-             Routing[i,j].Target1col := j+1;
-           End;
-        5:
-           Begin
-             Routing[i,j].Target1row := i+1;
-             Routing[i,j].Target1col := j;
-           End;
-        6:
-           Begin
-             Routing[i,j].Target1row := i+1;
-             Routing[i,j].Target1col := j-1;
-           End;
-        7:
-           Begin
-             Routing[i,j].Target1row := i;
-             Routing[i,j].Target1col := j-1;
-           End;
-        8:
-           Begin
-             Routing[i,j].Target1row := i-1;
-             Routing[i,j].Target1col := j-1;
-           End;
-      End;
-
-      Routing[i,j].Part1 := 1.0;
-      Routing[i,j].Target2Row := 0;
-      Routing[i,j].Target2Col := 0;
-      Routing[i,j].Part2 := 0;
-      Routing[i,j].One_Target := True;
+      Follow_Direction(routing, dam_map, i, j);
     End;
 
 
