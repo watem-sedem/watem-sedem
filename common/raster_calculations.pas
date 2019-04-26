@@ -533,7 +533,6 @@ Begin
     begin
       // no more adjectant cells in the segment --> flow to next segment
 
-
       nextsegment := river_adjectant[segment];
 
       w:=1;
@@ -1014,7 +1013,8 @@ If FINISH[i,j]<>1 Then   //If the cell under evaluation is not adjacent to a riv
           // CODE JEROEN
           Repeat
             // if no neighbouring cells are found to be a suitable target cell,
-            //the search window is gradually extended until target is found
+            // the search window is gradually extended until target is found
+            // river cells are always considered lower than the original cell.
             For k := -W To W Do
               For l := -W To W Do
                 Begin
@@ -1042,10 +1042,19 @@ If FINISH[i,j]<>1 Then   //If the cell under evaluation is not adjacent to a riv
                       ROWMIN2 := K;
                       COLMIN2 := L;
                     End;
+                  // als er een rivier in de zoekstraal is springen we naar
+                  // de laagste riviercel die in de buurt ligt
+                  If ((DTM[I+K,J+L]<MINIMUM2) AND (PRC[I+K,J+L]=-1) And(FINISH[I+K,J+L]=0))Then
+                    Begin;
+                      check := true;
+                      MINIMUM2 := DTM[I+K,J+L];
+                      ROWMIN2 := K;
+                      COLMIN2 := L;
+                    end;
                 End;
             Inc(W);
 
-          Until ((check)Or(W>max_kernel));
+          Until ((check) Or(W>max_kernel));
           If (W>max_kernel) Then
           begin
               Routing[i,j].One_Target := False;
