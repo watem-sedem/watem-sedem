@@ -12,6 +12,7 @@ Classes, SysUtils, Dialogs, Math, GData_CN, RData_CN, ReadInParameters;
 
 Type
   ECalculationError = Exception;
+  EInvalidValue = Class(Exception);
 
 Procedure sort(D:Rraster);
 Procedure sortbis(Var Z:Rvector; iLo,iHi:Integer);
@@ -385,6 +386,7 @@ End;
 Procedure Follow_Direction(var routing: TRoutingArray; map: Graster; i, j:integer);
 // Follows the direction set in map used in river_routing, ditches, dam
 begin
+
 Case map[i,j] Of
   // first target cell is determined by user input...
   1:
@@ -427,7 +429,11 @@ Case map[i,j] Of
        Routing[i,j].Target1row := i-1;
        Routing[i,j].Target1col := j-1;
      End;
+  else
+       raise EInvalidValue.Create('Invalid value in river direction');
 End;
+
+
 
 Routing[i,j].Part1 := 1.0;
 Routing[i,j].Target2Row := 0;
