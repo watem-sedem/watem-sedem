@@ -7,7 +7,7 @@ Unit GData_CN;
 Interface
 
 Uses 
-Classes, SysUtils, Dialogs;
+Classes, SysUtils;
 
 Type 
   Graster = array Of array Of smallint;

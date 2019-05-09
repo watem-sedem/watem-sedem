@@ -8,7 +8,7 @@ Unit Raster_calculations;
 Interface
 
 Uses 
-Classes, SysUtils, Dialogs, Math, GData_CN, RData_CN, ReadInParameters;
+Classes, SysUtils, Math, GData_CN, RData_CN, ReadInParameters;
 
 Type
   ECalculationError = Exception;

@@ -7,7 +7,7 @@ Unit LateralRedistribution;
 Interface
 
 Uses 
-Classes, SysUtils, FileUtil, Dialogs, RData_CN, ReadInParameters,
+Classes, SysUtils, FileUtil, RData_CN, ReadInParameters,
 Raster_calculations, math, CN_calculations, contnrs, GData_CN, idrisi;
 
 Procedure Water;

@@ -8,7 +8,7 @@ Interface
 
 Uses 
 Classes, SysUtils, RData_CN, ReadInParameters, CN_calculations,
-Idrisi, Dialogs, LateralRedistribution;
+Idrisi, LateralRedistribution;
 
 Procedure Write_maps;
 Procedure Write_Routing_Table;
