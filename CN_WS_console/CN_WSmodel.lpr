@@ -9,7 +9,7 @@ Uses
   {$IFDEF UNIX}{$IFDEF UseCThreads}
 cthreads,
   {$ENDIF}{$ENDIF}
-Classes, SysUtils, CustApp, Dos, Interfaces, Crt, ReadInParameters, Write_output,
+Classes, SysUtils, CustApp, Dos, Crt, ReadInParameters, Write_output,
 CN_calculations, Raster_calculations, LateralRedistribution, Idrisi, tillage,
 RData_CN, GData_CN
   { you can add units after this };
