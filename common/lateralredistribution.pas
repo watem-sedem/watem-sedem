@@ -25,58 +25,6 @@ Var
   Waterero, sedprod, depprod: double;
   SedLoad, SedLoad_VHA, SedLoad_VHA_Cumulative: RVector;
 
-Procedure Checkerosionheight(i, j: integer; Var A: RRaster);
-
-Var 
-  extremum, area: double;
-  k, l: integer;
-Begin
-  If Raster_projection = plane Then
-    area := sqr(RES)
-  Else
-    area := X_Resolution() * Y_Resolution();
-  // A = watereros value
-  If A[i, j] < 0.0 Then             //erosion: watereros < 0
-    Begin
-      extremum := 99999.9;
-      For k := -1 To 1 Do
-        //search for lowest neighbour
-        For l := -1 To 1 Do
-          Begin
-            If (k = 0) And (l = 0) Then
-              continue;
-            If DTM[i + k, j + l] < extremum Then
-              extremum := DTM[i + k, j + l];
-          End;
-      If extremum > (DTM[i, j] + A[i, j]) Then
-        Begin
-          A[i, j] := extremum - DTM[i, j];
-          SEDI_OUT[i, j] := SEDI_IN[i, j] - (A[i, j] * area);
-        End;
-    End
-  Else                           //sedimentation
-    Begin
-      If A[i, j] > 0.0 Then
-        Begin
-          extremum := 99999990.0;
-          For k := -1 To 1 Do
-            For l := -1 To 1 Do
-              Begin
-                If ((k = 0) And (l = 0)) Or (abs(k) + abs(l) < 2) Then
-                  continue;
-                If DTM[i, j] > extremum Then
-                  extremum := DTM[i + k, j + l];
-              End;
-          If extremum < (DTM[i, j] + A[i, j]) Then
-            Begin
-              A[i, j] := extremum - DTM[i, j];
-              SEDI_OUT[i, j] := SEDI_IN[i, j] - (A[i, j] * area);
-            End;
-        End;
-    End;
-End;
-//-----------------------------------------Einde procedure Checkerosionheight
-
 
 Procedure Calculatewaterero(i, j: integer);
 //waterero in meter: for the pixel that is being considered
@@ -374,7 +322,7 @@ Begin
       if not skip then
         begin
           CalculateWaterEro(i, j);
-          //Checkerosionheight(i,j,WATEREROS);
+
           WATEREROS[i, j] := WATEREROS[i, j] * 1000;
           // [mm] (ok)
           area := sqr(RES);
