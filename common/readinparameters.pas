@@ -736,6 +736,9 @@ Begin
       If Not TryStrToFloat(Inifile.Readstring('Variables', 'Beta', Dummy_str), beta) Then
           raise EInputException.Create('Error in data input: beta value missing or wrong data format');
 
+      If Not TryStrToInt(Inifile.Readstring('Variables', 'Bulk density', Dummy_str), BD) Then
+          raise EInputException.Create('Error in data input: BD value missing or wrong data format');
+
     End
   Else
    If not OnlyRouting Then

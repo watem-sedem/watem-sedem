@@ -543,6 +543,8 @@ Begin
 
       w:=1;
 
+      check := false;
+
       Repeat
             // if no neighbouring cells are found to be a suitable target cell,
             //the search window is gradually extended until target is found

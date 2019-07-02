@@ -220,6 +220,7 @@ Begin
             Begin
               I10TimeSeries[i] := I10TimeSeries[i-1]+60;
             End;
+
           I10RainfallSeries := extrap(TimeSeries, I10TimeSeries, RainfallSeries);
         End;
 
@@ -506,7 +507,7 @@ Begin
       setlength(newTimeSeries, nr);
       setlength(newRainfallSeries, nr);
       newTimeSeries[0] := TimeSeries[0];
-      For i := 1 To nr Do
+      For i := 1 To nr-1 Do
         Begin
           newTimeSeries[i] := newTimeSeries[i-1]+600;
         End;
