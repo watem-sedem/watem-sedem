@@ -17,9 +17,6 @@
     <i18n>
       <EnableI18N LFM="False"/>
     </i18n>
-    <VersionInfo>
-      <StringTable ProductVersion=""/>
-    </VersionInfo>
     <BuildModes Count="1">
       <Item1 Name="Default" Default="True"/>
     </BuildModes>
@@ -29,7 +26,7 @@
     <RunParams>
       <local>
         <FormatVersion Value="1"/>
-        <CommandLineParams Value="&quot;D:\Dropbox (Fluves)\ALBON\TestData\Inputdata\ini_TestData_scenario_1919.ini&quot;"/>
+        <CommandLineParams Value="&quot;D:\Dropbox (Fluves)\FLUVES\Projecten\VMM\VMM-Triple C\uitvoering\11_model\Zwalm\berekeningen\Zwalm\scenario_1\modelinput\ini_Zwalm_scenario_1.ini&quot;"/>
       </local>
     </RunParams>
     <RequiredPackages Count="1">
