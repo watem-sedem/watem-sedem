@@ -131,6 +131,7 @@ Var
   // incoming sediment in kg
   SEDI_OUT2      : RRaster;
   // outgoing sediment in kg
+  SEWER_IN2   : RRaster; //amount of sediment in kg entering sewersystem
   {Rasters to be read in--------------------------------------------------------}
   K_factor   : GRaster;    {RUSLE K-factor map kg m² h m-² MJ-1 mm-1}
   C_factor   : RRaster;
@@ -414,6 +415,8 @@ Begin
   SetDynamicRData(SEDI_IN2);
   SetDynamicRData(SEDI_OUT2);
   SetDynamicRData(TILEROS);
+  if include_sewer Then
+   SetDynamicRData(SEWER_IN2);
   //************************
 
 End;
@@ -425,7 +428,11 @@ Begin
   DisposeDynamicRdata(DTM);
   DisposeDynamicRdata(PRC);
   If Include_sewer Then
+   Begin
     DisposedynamicRData(SewerMap);
+      DisposeDynamicRdata(SEWER_IN2);
+   end;
+
 
   If Not Simplified Then
     Begin

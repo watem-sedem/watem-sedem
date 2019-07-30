@@ -22,6 +22,7 @@ Var
 
   SEDI_OUT: RRaster;
   SEDI_IN: RRaster;
+  SEWER_IN: RRaster;
   Waterero, sedprod, depprod: double;
   SedLoad, SedLoad_VHA, SedLoad_VHA_Cumulative: RVector;
 
@@ -236,7 +237,11 @@ Begin
     End;
 
   If Include_sewer Then // If sewers are included
+    begin
+    SetDynamicRData(SEWER_IN);
+    SetzeroR(SEWER_IN);
     sewer_out_sed := 0;
+    end;
 
   TEMP_river_sed_input := 0;
   TEMP_outside_sed_input := 0;
@@ -346,13 +351,11 @@ Begin
           // SEDI_IN [m³]
 
           If (Include_sewer) And (SewerMap[i, j] <> 0) Then
-
         // if pixel contains sewer, total amount of sed_output_file leaving the system through sewer is updated
             Begin
-
             // AND SEDI_IN is corrected because procedure Distribute_Flux doesn't take this into account
               sewer_out_sed := sewer_out_sed + (SEDI_OUT[i, j] * SewerMap[i, j] * (sewer_exit / 100));
-
+              SEWER_IN[i,j] := (SEDI_OUT[i, j] * SewerMap[i, j]);
 
               SEDI_IN[Routing[i, j].Target2Row, Routing[i, j].Target2Col] :=
                                                                              SEDI_IN[Routing[i, j].
@@ -400,6 +403,10 @@ Begin
               WATEREROS[i, j] := -9999;
               WATEREROS_cubmeter[i, j] := -9999;
               WATEREROS_kg[i, j] := -9999;
+              If (Include_sewer) then
+                 begin
+                  SEWER_IN[i,j] := -9999;
+                 end;
             end;
 
 
@@ -573,6 +580,10 @@ Begin
             SEDI_IN2[m,n] := -9999;
             SEDI_OUT2[m,n] := -9999;
             SEDI_EXPORT_kg[m,n] := -9999;
+            if (Include_sewer) Then
+              Begin
+                SEWER_IN2[m,n]:=-9999;
+              end;
           end
         else
         begin
@@ -580,11 +591,19 @@ Begin
           SEDI_OUT2[m,n] := SEDI_OUT[m,n] * BD;
           //depprod2[m,n] := SEDI_IN2[m,n]-SEDI_OUT2[m,n];
           SEDI_EXPORT_kg[m,n] := SEDI_EXPORT[m,n] * BD;
+          if (include_sewer) Then
+            Begin
+              SEWER_IN2[m,n]:=SEWER_IN[m,n]*BD;
+            end;
         end;
       End;
   // Dispose Temp 2D maps
   DisposeDynamicRdata(SEDI_IN);
   DisposeDynamicRdata(SEDI_OUT);
+  if (include_sewer) Then
+    Begin
+      DisposeDynamicRdata(SEWER_IN);
+    end;
   //********************
   if debug_routing_enabled then
     begin

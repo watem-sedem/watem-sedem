@@ -67,7 +67,15 @@ Begin
     End;
 
   If river_routing Then
+    Begin
     writeidrisi32file(ncol,nrow,File_output_dir+'cumulative'+'.rst',cumulative);
+    End;
+
+  If (include_sewer) Then
+    Begin
+    writeidrisi32file(ncol,nrow,File_output_dir+'sewer_in'+'.rst',SEWER_IN2);
+    end;
+
 End;
 
 Procedure Write_Routing_Table;
