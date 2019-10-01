@@ -1,0 +1,13 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: cn-ws
+Source: https://gogs.fluves.net/cn_ws
+
+Files: *
+Copyright: 2019 Fluves, KULeuven
+License: Not released as open source
+
+# If you want to use GPL v2 or later for the /debian/* files use 
+# the following clauses, or change it to suit. Delete these two lines
+Files: debian/*
+Copyright: 2019 Johan Van de Wauw <johan@gisky.be>
+License: MIT
