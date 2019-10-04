@@ -78,6 +78,7 @@ Begin
           Begin
             TextColor(red);
             writeln(E.Message);
+            NormVideo();
             Terminate(1);
             Exit
           End;
@@ -118,7 +119,9 @@ try
 Except
   on E: Exception Do
         Begin
+          TextColor(red);
           writeln(E.Message);
+          NormVideo();
           Terminate(1);
           Exit;
         End;
@@ -134,7 +137,9 @@ if not OnlyRouting Then
       Except
         on E: Exception Do
            Begin
+             TextColor(red);
              Writeln(E.Message);
+             NormVideo();
              Terminate(1);
              Exit;
            end;
