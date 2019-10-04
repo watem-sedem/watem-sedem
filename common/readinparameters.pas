@@ -578,14 +578,11 @@ Begin
 
   {User choices}
   OnlyRouting := Inifile.ReadBool('User Choices', 'Only Routing', false);
-  If OnlyRouting Then
-    Simplified := True
-  Else
-    Begin
-      Simplified := Inifile.ReadBool('User Choices','Simplified model version',false);
-    end;
+
+  Simplified := OnlyRouting or Inifile.ReadBool('User Choices','Simplified model version',false);
 
   Include_sewer:= Inifile.ReadBool('User Choices','Include sewers',false);
+
   If Include_sewer And Not TryStrToInt(Inifile.Readstring('Variables', 'Sewer exit', Dummy_str),
    sewer_exit) Then
     Begin
@@ -656,8 +653,8 @@ Begin
     Begin
     ktil_Data_Filename := SetFileFromIni(Inifile, 'ktil map filename', datadir, not Create_ktil);
     Rainfallfilename := SetFileFromIni(Inifile, 'Rainfall filename', datadir, not use_rfactor);
-    K_Factor_filename :=SetFileFromIni(Inifile, 'K factor filename', datadir, True);
-    Cf_data_filename :=SetFileFromIni(Inifile, 'C factor map filename', datadir, True);
+    K_Factor_filename := SetFileFromIni(Inifile, 'K factor filename', datadir, True);
+    Cf_data_filename := SetFileFromIni(Inifile, 'C factor map filename', datadir, True);
 
     if not calibrate then
     ktc_Data_Filename := SetFileFromIni(Inifile, 'ktc map filename', datadir, (not Create_ktc));
@@ -671,27 +668,20 @@ Begin
       ;
     End;
 
-  If (Inifile.ReadBool('User Choices','Manual outlet selection',false))=true Then Outlet_select := 
-                                                                                                true
-  Else Outlet_select := false;
+ Outlet_select:= Inifile.ReadBool('User Choices','Manual outlet selection',false);
+
   If Outlet_select And Not (FileExists(Outletfilename)) Then
     Begin
       raise EInputException.Create('Error in data input: Outlet map file not found in '+datadir);
     End;
-  If (Inifile.ReadBool('User Choices','Convert output',false))=true Then Convert_output := true
-  Else Convert_output := false;
+  Convert_output := Inifile.ReadBool('User Choices','Convert output',false);
 
   {Output maps}
-  If (Inifile.ReadBool('Output maps','Write aspect',false))=true Then Write_ASPECT := true
-  Else Write_ASPECT := false;
-  If (Inifile.ReadBool('Output maps','Write LS factor',false))=true Then Write_LS := true
-  Else Write_LS := false;
-  If (Inifile.ReadBool('Output maps','Write upstream area',false))=true Then Write_UPAREA := true
-  Else Write_UPAREA := false;
-  If (Inifile.ReadBool('Output maps','Write slope',false))=true Then Write_SLOPE := true
-  Else Write_SLOPE := false;
-  If (Inifile.ReadBool('Output maps','Write routing table',false))=true Then Write_Routing := true
-  Else Write_Routing := false;
+  Write_ASPECT := Inifile.ReadBool('Output maps','Write aspect',false);
+  Write_LS := Inifile.ReadBool('Output maps','Write LS factor',false);
+  Write_UPAREA := Inifile.ReadBool('Output maps','Write upstream area',false);
+  Write_SLOPE := Inifile.ReadBool('Output maps','Write slope',false);
+  Write_Routing := Inifile.ReadBool('Output maps','Write routing table',false);
 
   If OnlyRouting Then
     Begin
@@ -701,16 +691,12 @@ Begin
     end
   Else
       Begin
-        If (Inifile.ReadBool('Output maps','Write RUSLE',false))=true Then Write_RUSLE := true
-        Else Write_RUSLE := false;
-        If (Inifile.ReadBool('Output maps','Write sediment export',false))=true Then Write_Sediexport :=
-                                                                                                      true
-        Else Write_Sediexport := false;
-        If (Inifile.ReadBool('Output maps','Write tillage erosion',false))=true Then Write_TILEROS := true
-        Else Write_TILEROS := false;
+        Write_RUSLE := Inifile.ReadBool('Output maps','Write RUSLE',false);
+        Write_Sediexport := Inifile.ReadBool('Output maps','Write sediment export',false);
+        Write_TILEROS :=  Inifile.ReadBool('Output maps','Write tillage erosion',false);
 
-        If (Inifile.ReadBool('Output maps','Write water erosion',false))=true Then Write_WATEREROS := true
-        Else Write_WATEREROS := false;
+        Write_WATEREROS := Inifile.ReadBool('Output maps','Write water erosion',false));
+
         If Simplified Then
           Begin
             Write_RE := false;
@@ -718,10 +704,8 @@ Begin
           End
         Else
           Begin
-            If (Inifile.ReadBool('Output maps','Write rainfall excess',false))=true Then Write_RE := true
-            Else Write_RE := false;
-            If (Inifile.ReadBool('Output maps','Write total runoff',false))=true Then Write_TOTRUN := true
-            Else Write_TOTRUN := false;
+            Write_RE := Inifile.ReadBool('Output maps','Write rainfall excess',false);
+            Write_TOTRUN := Inifile.ReadBool('Output maps','Write total runoff',false);
           End;
       End;
 
