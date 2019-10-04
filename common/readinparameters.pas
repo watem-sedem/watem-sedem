@@ -200,6 +200,7 @@ Var
   Write_UPAREA         : boolean;
   Write_WATEREROS      : boolean;
   Write_Routing        : boolean;
+  Write_Routing_CR     : boolean;
   {Variables}
   AR5                  : double;
   RFactor              : double;
@@ -683,6 +684,9 @@ Begin
   Write_SLOPE := Inifile.ReadBool('Output maps','Write slope',false);
   Write_Routing := Inifile.ReadBool('Output maps','Write routing table',false);
 
+  // Writes a file (tab seperated) with rows and cols of pixels in the order
+  Write_Routing_CR := Inifile.ReadBool('Output maps', 'Write routing column/row', false);
+
   If OnlyRouting Then
     Begin
       Write_RUSLE := false;
@@ -695,7 +699,7 @@ Begin
         Write_Sediexport := Inifile.ReadBool('Output maps','Write sediment export',false);
         Write_TILEROS :=  Inifile.ReadBool('Output maps','Write tillage erosion',false);
 
-        Write_WATEREROS := Inifile.ReadBool('Output maps','Write water erosion',false));
+        Write_WATEREROS := Inifile.ReadBool('Output maps','Write water erosion',false);
 
         If Simplified Then
           Begin

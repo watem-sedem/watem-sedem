@@ -199,6 +199,7 @@ write_maps;
 
 If Write_routing Then
    Write_Routing_Table;
+
 //
 
 //The memory is released for all created maps

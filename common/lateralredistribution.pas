@@ -8,7 +8,7 @@ Interface
 
 Uses 
 Classes, SysUtils, FileUtil, RData_CN, ReadInParameters,
-Raster_calculations, math, CN_calculations, contnrs, GData_CN, idrisi;
+Raster_calculations, math, CN_calculations, contnrs, GData_CN, idrisi, write_output;
 
 Procedure Water;
 Procedure Distribute_sediment;
@@ -25,7 +25,6 @@ Var
   SEWER_IN: RRaster;
   Waterero, sedprod, depprod: double;
   SedLoad, SedLoad_VHA, SedLoad_VHA_Cumulative: RVector;
-
 
 Procedure Calculatewaterero(i, j: integer);
 //waterero in meter: for the pixel that is being considered
@@ -197,15 +196,15 @@ end;
 Procedure Water;
 
 Var 
-  teller, i, j, k, l, m, n, t_r, t_c, ri: integer;
+  teller, i, j, k, l, m, n, t_r, t_c, ri, ii: integer;
   area, sewer_out_sed, TEMP_river_sed_input, TEMP_outside_sed_input, TEMP_buffer_sed_input,
   TEMP_pond_sed_input: double;
+  skip: boolean;
   sed_output_file, sediment_VHA, sewer_out, cal_output_file: textfile;
   inv: TRoutingInvArray;
   q: Tqueue;
   p: pointer;
-  debug_routing: RRaster;
-  debug_routing_enabled, skip: boolean;
+  routing_cols, routing_rows: array of integer;
 Begin
   // Create temp 2D maps
   SetDynamicRData(SEDI_IN);
@@ -253,13 +252,15 @@ Begin
   settreatedsize(inv);
   getstartingpoints(inv, q);
 
-  debug_routing_enabled := true;
+
+
   // debug routing file - check we go to every location
   // makes a grid showing where whe were at what time
-  if debug_routing_enabled then
+  if Write_Routing_CR then
     begin
-      SetDynamicRData(debug_routing);
-      setzeroR(debug_routing);
+      SetLength(routing_cols, NROW*NCOL);
+      SetLength(routing_rows, NROW*NCOL);
+      ii:=0;
     end;
 
 
@@ -272,11 +273,7 @@ Begin
     teller := integer(p);
     i := teller div ncol;
     j := teller mod ncol;
-    if debug_routing_enabled then
-      begin
-        debug_routing[i,j] := ri;
-        ri+=1;
-      end;
+
 
      skip:=false;
       If (PRC[i, j] = 0) Or (PRC[i, j] = -1) Then
@@ -386,9 +383,17 @@ Begin
              setpointtreated(inv, q, i,j,t_r, t_c);
 
            end;
+           if Write_Routing_CR and ((Routing[i,j].Part1 > 0.0) or (Routing[i,j].Part2 > 0.0 )) then
+            begin
+              routing_cols[ii] := j;
+              routing_rows[ii] := i;
+              ii+=1;
+            end;
     End;
 
 
+  If Write_Routing_CR then
+   Write_Routing_Table_RC(routing_cols, routing_rows);
 
   // loop over the full grid and set the output to no-data if
   // it was not part of the routing
@@ -605,11 +610,6 @@ Begin
       DisposeDynamicRdata(SEWER_IN);
     end;
   //********************
-  if debug_routing_enabled then
-    begin
-      writeIdrisi32file(ncol,nrow, File_output_dir+'debug_routing'+'.rst', debug_routing);
-      DisposeDynamicRdata(debug_routing);
-    end;
 
 
 End;
@@ -929,6 +929,7 @@ Begin
           closefile(clay_VHA_txt);
         End;
     End;
+
 
 End;
 

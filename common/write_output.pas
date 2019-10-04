@@ -8,10 +8,11 @@ Interface
 
 Uses 
 Classes, SysUtils, RData_CN, ReadInParameters, CN_calculations,
-Idrisi, LateralRedistribution;
+Idrisi;
 
 Procedure Write_maps;
 Procedure Write_Routing_Table;
+Procedure Write_Routing_Table_RC(routing_cols, routing_rows: array of integer);
 
 Implementation
 
@@ -112,4 +113,37 @@ Begin
 
 End;
 
+
+Procedure Write_Routing_Table_RC(routing_cols, routing_rows: array of integer);
+// writes the routing table to a textfile
+
+Var
+ i: integer;
+ sep: char;
+   routingfile: textfile;
+Begin
+  if not length(routing_cols) = length(routing_rows) then
+    raise EInputException.Create('row and col length not equal');
+
+
+  setcurrentDir(File_output_dir);
+  sep := #9;
+  assignfile(routingfile, 'routing_rowcol.txt');
+  rewrite(routingfile);
+  Writeln(routingfile,
+          'col'+sep+'row');
+
+  for i:= 0 to length(routing_cols)-1 do
+    begin
+
+      if routing_cols[i]>0 then
+        Writeln(routingfile,  IntToStr(routing_cols[i])+sep+ IntToStr(routing_rows[i] ));
+
+    end;
+
+  closefile(routingfile);
+End;
+
+
 End.
+
