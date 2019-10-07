@@ -25,8 +25,8 @@ Procedure Follow_Direction(var routing: TRoutingArray; map: Graster; i, j:intege
 Function SlopeDir(dir:double;i,j:integer;DTM:Rraster): double;
 Procedure Calculate_routing(Var Routing: TRoutingArray);
 Function Invert_routing(Routing: TRoutingArray): TRoutingInvArray;
-Procedure DistributeRiver_Routing(i,j:integer; Var FINISH:GRaster);
-Procedure DistributeTilDirEvent_Routing(i,j:integer; Var FINISH:GRaster; Topo:boolean);
+Procedure DistributeRiver_Routing(i,j:integer);
+Procedure DistributeTilDirEvent_Routing(i,j:integer; Topo:boolean);
 
 Function X_Resolution(): double;
 Function Y_Resolution(): double;
@@ -86,12 +86,9 @@ Procedure Calculate_routing(Var Routing: TRoutingArray);
 
 Var 
   Teller: integer;
-  Finish: GRaster;
   //A cell receives a value of 1 after it had been treated
   k: integer;
 Begin
-  SetDynamicGdata(Finish);
-  SetzeroG(Finish);
 
   //Dimensions of the Routing matrix are set so that they are equal to the input maps
   SetLength(Routing,nrow+1);
@@ -120,11 +117,10 @@ Begin
         //Routing procedure for rivers (once water has entered a river it has to stay in the river)
         begin
              if river_routing then
-                DistributeRiver_Routing(i, j, Finish);
-             Finish[i,j]:=1;
+                DistributeRiver_Routing(i, j);
         end
       Else //Routing procedure for all other cells
-        DistributeTilDirEvent_Routing(i,j, FINISH, Topo);
+        DistributeTilDirEvent_Routing(i,j, Topo);
     End;
 
   if force_routing then
@@ -512,7 +508,7 @@ End;
 //The original version of this procedure can be found in the time-independent
 //version of this model (and in the WaTEM/SEDEM script)
 //**************************************************************************
-Procedure DistributeRiver_Routing(i,j:integer; Var FINISH:GRaster);
+Procedure DistributeRiver_Routing(i,j:integer);
 var
   k, l, max, min, segment, nextsegment, rowmin, colmin: integer;
   OK, check: boolean;
@@ -593,12 +589,11 @@ End;
 //- Wanneer het water in een rivier beland blijft het er in
 //- Er wordt geen rekening gehouden met pits
 //******************************************************************************
-Procedure DistributeTilDirEvent_Routing(i,j:integer; Var FINISH:GRaster; Topo:boolean);
+Procedure DistributeTilDirEvent_Routing(i,j:integer; Topo:boolean);
 // i,j = rij en kolomnummer van de cel onder beschouwing
 
 // Area = De hoeveelheid neerslag gevallen in die cel, vermenigvuldigd met de oppervlakte van die cel
 // Input(raster) = UpArea (de geaccumuleerde hoeveelheid water per cel).
-// Finish(raster) = een waarde 1 geeft aan dat de cel reeds behandeld is)
 // Topo = wordt meegegeven vanuit CalculateUpareaOlivier
 
 Var 
@@ -655,13 +650,12 @@ Begin
       Routing[i,j].Target1Row := i+ROWMIN;
       Routing[i,j].Target1Col := j+COLMIN;
       Routing[i,j].Part1 := 1.0;
-      FINISH[i,j] := 1;
       //An identifier 1 is put in the cell when it has been evaluated
-
+      exit;
     End; // end closeriver
 
    // flow into ditch (or dam) only if cell is lower than current cell
-   If closeditchdam and (FINISH[i,j]<>1) then
+   If closeditchdam then
      begin
      extremum := 99999;
       For K := -1 To 1 Do
@@ -687,14 +681,12 @@ Begin
           Routing[i,j].Target1Row := i+ROWMIN;
           Routing[i,j].Target1Col := j+COLMIN;
           Routing[i,j].Part1 := 1.0;
-          FINISH[i,j] := 1;
+          exit;
          end;
      end;
 
   end;
 
-If FINISH[i,j]<>1 Then   //If the cell under evaluation is not adjacent to a river
-    Begin
 
       PART1 := 0.0;
       PART2 := 0.0;
@@ -795,34 +787,6 @@ If FINISH[i,j]<>1 Then   //If the cell under evaluation is not adjacent to a riv
             End;
         End;
 
-      If FINISH[i+K1,j+L1]=1 Then // check if receiving cell is already treated
-        Begin
-          If FINISH[i+K2,j+L2]=1 Then
-            Begin
-              part1 := 0.0;
-              part2 := 0.0;
-              //Beide cellen zijn al behandeld en ontvangen dus niets meer
-            End
-          Else
-            Begin
-              part2 := part2+part1;
-              part1 := 0;
-              //Een cel is reeds behandeld, de andere cel ontvangt alles
-            End;
-        End
-
-      Else // If the first target cell has not been treated yet
-
-        Begin
-          If FINISH[i+K2,j+L2]=1 Then
-            Begin
-              part1 := part1+part2;
-              //One cell has been treated, the other one receives everything
-              part2 := 0;
-            End;
-        End;
-      // End of checking if the cells have already been treated
-
 
 //In het volgende deel worden part1 en part2 ingevuld of niet naargelang de ontvangende cellen hoger liggen of tot een ander perceel behoren
       If DTM[i+k1,j+l1]>DTM[i,j] Then //If the first target cell has a higher elevation
@@ -838,7 +802,7 @@ If FINISH[i,j]<>1 Then   //If the cell under evaluation is not adjacent to a riv
               If PRC[i+k2,j+l2]<>PRC[i,j] Then
                 //indien deze ene cel tot een ander perceel behoort dan..
                 Begin
-                  If (PRC[i+k2,j+l2] = -6) And (FINISH[i+K2,j+L2]=0) Then
+                  If (PRC[i+k2,j+l2] = -6) Then
                     // If the target cell is a grass buffer strip it receives everything
                     Begin
                       part2 := part1+part2;
@@ -856,17 +820,9 @@ If FINISH[i,j]<>1 Then   //If the cell under evaluation is not adjacent to a riv
                 End
               Else //If the parcel of the target cell is the same as the source cell...
                 Begin
-                  If FINISH[i+K2,j+L2]=0 Then
-                    Begin
                       PART2 := PART2+PART1;
                       //...it receives everything
                       PART1 := 0.0;
-                    End
-                  Else
-                    Begin
-                      part1 := 0.0;
-                      part2 := 0.0;
-                    End;
                 End;
             End;
         End
@@ -876,7 +832,7 @@ If FINISH[i,j]<>1 Then   //If the cell under evaluation is not adjacent to a riv
             Begin
               If PRC[i+k1,j+l1] <> PRC[i,j] Then
                 Begin
-                  If (PRC[i+k1,j+l1] = -6) And (FINISH[i+K1,j+L1]=0) Then
+                  If (PRC[i+k1,j+l1] = -6) Then
                     // If the target cell is a grass buffer strip it receives everything
                     Begin
                       part1 := part1+part2;
@@ -893,17 +849,9 @@ If FINISH[i,j]<>1 Then   //If the cell under evaluation is not adjacent to a riv
                 End
               Else                          // als tot zelfde perceel behoort../
                 Begin
-                  If FINISH[i+K1,j+L1]=0 Then
-                    Begin
                       part1 := part1+part2;
                       // ... ontvangt ze alles
                       part2 := 0.0;
-                    End
-                  Else
-                    Begin
-                      part1 := 0.0;
-                      part2 := 0.0;
-                    End;
                 End;
             End
           Else //Beide targetcellen liggen lager dan de broncel
@@ -923,21 +871,14 @@ If FINISH[i,j]<>1 Then   //If the cell under evaluation is not adjacent to a riv
                           Else
                             // if only the first target cell is a grass buffer strip
                             Begin
-                              If FINISH[i+K1,j+L1]=0 Then
-                                Begin
+
                                   PART1 := part1+part2;
                                   PART2 := 0.0;
-                                End
-                              Else
-                                Begin
-                                  part1 := 0.0;
-                                  part2 := 0.0;
-                                End;
                             End;
                         End
                       Else
                         Begin
-                          If (PRC[i+k2,j+l2] = -6) And (FINISH[i+K2,j+L2]=0) Then
+                          If (PRC[i+k2,j+l2] = -6) Then
                             // if only the 2nd target cell is a grass buffer strip
                             Begin
                               PART2 := part1+part2;
@@ -946,7 +887,7 @@ If FINISH[i,j]<>1 Then   //If the cell under evaluation is not adjacent to a riv
                           Else
                             // If none of the target cells is a grass buffer strip
                             Begin
-                              Part1 := 0.0;
+                              Part1 := 0.0;        // johanvdw - what the fuck? - is dit niet altijd mis geweest?
                               PART2 := 0.0;
                             End;
                         End;
@@ -960,16 +901,8 @@ If FINISH[i,j]<>1 Then   //If the cell under evaluation is not adjacent to a riv
                         End
                       Else            // Target cell 1 is not a grass buffer strip
                         Begin
-                          If FINISH[i+K2,j+L2]=0 Then
-                            Begin
                               PART2 := PART2+PART1;
                               PART1 := 0.0;
-                            End
-                          Else
-                            Begin
-                              part1 := 0;
-                              part2 := 0;
-                            End;
                         End;
                     End;
                 End
@@ -987,16 +920,8 @@ If FINISH[i,j]<>1 Then   //If the cell under evaluation is not adjacent to a riv
                         End
                       Else                 // targetcel 2 is geen grasbufferstrook of grasgang
                         Begin
-                          If FINISH[i+K1,j+L1]=0 Then
-                            Begin
                               PART1 := PART1+PART2;
                               PART2 := 0.0;
-                            End
-                          Else
-                            Begin
-                              part1 := 0.0;
-                              part2 := 0.0;
-                            End;
                         End;
                     End;
                 End;
@@ -1033,7 +958,7 @@ If FINISH[i,j]<>1 Then   //If the cell under evaluation is not adjacent to a riv
                   //The cells at the border of the map are not looked at
                   If ((DTM[I+K,J+L]<MINIMUM)And(DTM[I+K,J+L]<DTM[I,J])
                      //Als de bestemmingscel lager gelegen is dan broncel
-                     And(FINISH[I+K,J+L]=0)And(PRC[I+K,J+L]=PRC[I,J]))Then
+                     And(PRC[I+K,J+L]=PRC[I,J]))Then
                     //En de bestemminscel nog niet behandeld is EN binnen hetzelfde perceel ligt
                     Begin
                       check := true;
@@ -1042,7 +967,7 @@ If FINISH[i,j]<>1 Then   //If the cell under evaluation is not adjacent to a riv
                       COLMIN := L;
                       parequal := true;
                     End;
-                  If ((DTM[I+K,J+L]<MINIMUM2)And(DTM[I+K,J+L]<DTM[I,J]) And(FINISH[I+K,J+L]=0))Then
+                  If ((DTM[I+K,J+L]<MINIMUM2)And(DTM[I+K,J+L]<DTM[I,J]) )Then
                     // lager gelegen cel, ander perceel, nog niet behandeld
                     Begin
                       check := true;
@@ -1052,7 +977,7 @@ If FINISH[i,j]<>1 Then   //If the cell under evaluation is not adjacent to a riv
                     End;
                   // als er een rivier in de zoekstraal is springen we naar
                   // de laagste riviercel die in de buurt ligt
-                  If ((DTM[I+K,J+L]<MINIMUM2) AND (PRC[I+K,J+L]=-1) And(FINISH[I+K,J+L]=0))Then
+                  If ((DTM[I+K,J+L]<MINIMUM2) AND (PRC[I+K,J+L]=-1) )Then
                     Begin;
                       check := true;
                       MINIMUM2 := DTM[I+K,J+L];
@@ -1118,7 +1043,6 @@ If FINISH[i,j]<>1 Then   //If the cell under evaluation is not adjacent to a riv
           Routing[i,j].Part2 := Part2;
         End;
 
-      FINISH[I,J] := 1;
 
       If Routing[i,j].Part1 = 0 Then
         Begin
@@ -1126,8 +1050,6 @@ If FINISH[i,j]<>1 Then   //If the cell under evaluation is not adjacent to a riv
           Routing[i,j].Target1Col := 0;
         End;
 
-    End;
-  // end if cell is not adjacent to river
 
   // In the lines below the routing algorithm is adjusted for buffers (opvangbekkens?):
   // Target cell for each buffer pixel = center cell of the buffer it belongs to
@@ -1238,8 +1160,8 @@ If FINISH[i,j]<>1 Then   //If the cell under evaluation is not adjacent to a riv
               //The cells at the border of the map are not looked at
               If ((DTM[I+K,J+L]<MINIMUM)And(DTM[I+K,J+L]<DTM[I,J])
                  //Als de bestemmingscel een riviercel is, lager gelegen is dan broncel
-                 And(FINISH[I+K,J+L]=0)And(PRC[I+K,J+L]=-1))Then
-                //En de bestemminscel nog niet behandeld is
+                 And(PRC[I+K,J+L]=-1))Then
+                //En de bestemmingscel nog niet behandeld is
                 Begin
                   check := true;
                   MINIMUM := DTM[I+K,J+L];
