@@ -1,3 +1,12 @@
+cn-ws (20191009-2) unstable; urgency=medium
+
+  * Show errors in red and return color to default on exception
+  * Cleanup if/else usage in readinparameters
+  * Add output for row/col routing
+  * Don't use Finish grid in routing calculation
+
+ -- Johan Van de Wauw <johan@gisky.be>  Wed, 09 Oct 2019 13:52:15 +0200
+
 cn-ws (20190901-1) unstable; urgency=medium
 
   * Initial release 
