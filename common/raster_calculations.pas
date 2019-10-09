@@ -887,7 +887,7 @@ Begin
                           Else
                             // If none of the target cells is a grass buffer strip
                             Begin
-                              Part1 := 0.0;        // johanvdw - what the fuck? - is dit niet altijd mis geweest?
+                              Part1 := 0.0;
                               PART2 := 0.0;
                             End;
                         End;
