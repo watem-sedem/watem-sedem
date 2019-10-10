@@ -31,7 +31,7 @@ Function X_Resolution(): double;
 Function Y_Resolution(): double;
 Procedure Calculate_UpstreamArea(Var UPAREA:RRaster);
 Procedure CalculateLS(Var LS:RRaster;UPAREA:RRaster);
-Procedure DistributeFlux_LS(i,j:integer;Var Flux_IN,Flux_OUT: RRaster);
+Procedure DistributeFlux_LS(i,j:integer;Var Flux_IN: RRaster;fluxout: single);
 Procedure DistributeFlux_Sediment(i,j:integer;Var Flux_IN,Flux_OUT: RRaster);
 Procedure Topo_Calculations;
 Procedure Routing_Slope(Var Routing: TRoutingArray; Var Slope: RRaster);
@@ -1247,11 +1247,10 @@ Procedure Calculate_UpstreamArea(Var UPAREA:RRaster);
 
 Var 
   teller,i,j : integer;
-  Fluxout: RRaster;
+  Fluxout: single;
   oppcor: double;
 
 Begin
-  SetDynamicRdata(Fluxout);
   // SetnodataR(UPAREA);
 
   // set all valid cells to zero
@@ -1282,7 +1281,7 @@ Begin
 
       OPPCOR := (X_resolution()*Y_resolution()) * (1 - (PTEFmap[i,j] / 100));
       //bijdrage van elke cel aan de uparea
-      Fluxout[i,j] := OPPCOR+UPAREA[i,j];
+      Fluxout := OPPCOR+UPAREA[i,j];
       // X_res * Y_res = oppervlakte 1 cel
       DistributeFlux_LS(i,j,UPAREA,Fluxout);
       // volgende cellen worden geïdentificeerd en uparea in deze cellen wordt berekend
@@ -1291,7 +1290,6 @@ Begin
     End;
   // end matrix loop
 
-  DisposeDynamicRdata(Fluxout);
 End;
 
 
@@ -1357,7 +1355,7 @@ End;
 
 // The following procedure is used to route the LS through the landscape:
 // it adapts the LS values for the parcel connectivities
-Procedure DistributeFlux_LS(i,j:integer;Var Flux_IN,Flux_OUT: RRaster);
+Procedure DistributeFlux_LS(i,j:integer;Var Flux_IN: rraster; fluxout: single);
 
 Var 
   flux: double;
@@ -1376,32 +1374,32 @@ Begin
       If (PRC[Routing[i,j].Target1Row,Routing[i,j].Target1Col] >= 1) Then
         // Als de targetcel cropland is
         Begin
-          flux := FLUX_OUT[i,j]*(TFSED_crop/100);
+          flux := fluxout*(TFSED_crop/100);
         End;
       If (PRC[Routing[i,j].Target1Row,Routing[i,j].Target1Col] = -3) // Als de targetcel bos,
          Or (PRC[Routing[i,j].Target1Row,Routing[i,j].Target1Col] = -4) // weide
          Or (PRC[Routing[i,j].Target1Row,Routing[i,j].Target1Col] = -6) Then // grasbufferstrook
         Begin
-          flux := FLUX_OUT[i,j]*(TFSED_forest/100);
+          flux := fluxout*(TFSED_forest/100);
         End;
 
       If (PRC[Routing[i,j].Target1Row,Routing[i,j].Target1Col] = -2) Then
         // Target is verhard oppervlak
-        flux := FLUX_OUT[i,j];
+        flux := fluxout;
 
       If (PRC[Routing[i,j].Target1Row,Routing[i,j].Target1Col] = -1) Then // Target is a river pixel
-        flux := FLUX_OUT[i,j];
+        flux := fluxout;
 
       If Include_buffer and (Buffermap[i,j] > 0) Then
         Begin
           If  (Buffermap[Routing[i,j].Target1Row,Routing[i,j].Target1Col] >
              0) Then // Both source and target are buffers
-            flux := FLUX_OUT[i,j]
+            flux := fluxout
           Else // reduce upstream area with parcel trapping efficiency
             if buffer_reduce_upstream_area  and (Buffermap[i,j] <= Length(BufferData)) then
-                flux := FLUX_OUT[i,j] * (1-BufferData[Buffermap[i,j]].PTEF/100)
+                flux := fluxout * (1-BufferData[Buffermap[i,j]].PTEF/100)
             else
-                flux:= FLUX_OUT[i,j];
+                flux:= fluxout;
         End;
 
       Flux_IN[Routing[i,j].Target1Row,Routing[i,j].Target1Col] += flux;
@@ -1422,7 +1420,7 @@ Begin
 
 // The parcel connectivity should only be applied when you go from a non-grassbuffer strip to a bufferstrip
             Begin
-              flux := FLUX_OUT[i,j]*(TFSED_forest/100);
+              flux := fluxout*(TFSED_forest/100);
               Flux_IN[Routing[i,j].Target1Row,Routing[i,j].Target1Col] += flux;
             End
 
@@ -1430,7 +1428,7 @@ Begin
           // If this target cell is not a grass buffer strip (or you are within a grassbuffer strip)
 
             Begin
-              flux := FLUX_OUT[i,j]*Routing[i,j].Part1;
+              flux := fluxout*Routing[i,j].Part1;
               Flux_IN[Routing[i,j].Target1Row,Routing[i,j].Target1Col] += flux;
             End;
         End;
@@ -1443,7 +1441,7 @@ Begin
 
 // The parcel connectivity should only be applied when you go from a non-grassbuffer strip to a bufferstrip
             Begin
-              flux := FLUX_OUT[i,j]*(TFSED_forest/100);
+              flux := fluxout*(TFSED_forest/100);
               Flux_IN[Routing[i,j].Target2Row,Routing[i,j].Target2Col] += flux;
             End
 
@@ -1451,7 +1449,7 @@ Begin
           // If this target cell is not a grass buffer strip (or you are within a grassbuffer strip)
 
             Begin
-              flux := FLUX_OUT[i,j]*Routing[i,j].Part2;
+              flux := fluxout*Routing[i,j].Part2;
               Flux_IN[Routing[i,j].Target2Row,Routing[i,j].Target2Col] +=flux;
             End;
         End;
