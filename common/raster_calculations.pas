@@ -8,14 +8,13 @@ Unit Raster_calculations;
 Interface
 
 Uses 
-Classes, SysUtils, Math, GData_CN, RData_CN, ReadInParameters;
+Classes, SysUtils, Math, GData_CN, RData_CN, ReadInParameters, contnrs;
 
 Type
   ECalculationError = Exception;
   EInvalidValue = Class(Exception);
 
-Procedure sort(D:Rraster);
-Procedure sortbis(Var Z:Rvector; iLo,iHi:Integer);
+
 Procedure CalculateSlopeAspect;
 Function LogReg(i,j:integer): double;
 Function CalculateSLOPE(i,j:integer): double;
@@ -36,6 +35,7 @@ Procedure DistributeFlux_LS(i,j:integer;Var Flux_IN,Flux_OUT: RRaster);
 Procedure DistributeFlux_Sediment(i,j:integer;Var Flux_IN,Flux_OUT: RRaster);
 Procedure Topo_Calculations;
 Procedure Routing_Slope(Var Routing: TRoutingArray; Var Slope: RRaster);
+Procedure Apply_Routing;
 
 
 
@@ -84,8 +84,7 @@ End;
 //******************************************************************************
 Procedure Calculate_routing(Var Routing: TRoutingArray);
 
-Var 
-  Teller: integer;
+Var
   //A cell receives a value of 1 after it had been treated
   k: integer;
 Begin
@@ -105,23 +104,22 @@ Begin
         Routing[i,j].Part1 := 0.0;
         Routing[i,j].Part2 := 0.0;
       End;
+
   //For every cell in the catchment the target cell(s) are determined
-  For teller:=nrow*ncol Downto 1 Do
-    Begin
-      i := row[teller];
-      //row contain the dtm rownumbers from low to high
-      j := column[teller];
-      //Same for columns
-      If PRC[i,j]=0 Then continue;
-      If IsRiver(i,j) Then
-        //Routing procedure for rivers (once water has entered a river it has to stay in the river)
-        begin
-             if river_routing then
-                DistributeRiver_Routing(i, j);
-        end
-      Else //Routing procedure for all other cells
-        DistributeTilDirEvent_Routing(i,j, Topo);
-    End;
+  For i:= 1 To nrow Do
+    For j:= 1 To ncol Do
+      Begin
+        //Same for columns
+        If PRC[i,j]=0 Then continue;
+        If IsRiver(i,j) Then
+          //Routing procedure for rivers (once water has entered a river it has to stay in the river)
+          begin
+               if river_routing then
+                  DistributeRiver_Routing(i, j);
+          end
+        Else //Routing procedure for all other cells
+          DistributeTilDirEvent_Routing(i,j, Topo);
+      End;
 
   if force_routing then
     begin
@@ -140,6 +138,8 @@ Begin
       End;
 
     end;
+
+  Apply_Routing;
 End;
 
 
@@ -201,71 +201,120 @@ begin
   Invert_routing:= inv;
 end;
 
-//******************************************************************************
-// In the two scripts below the DTM is sorted from low to high
-//******************************************************************************
-Procedure sort(D:Rraster);
 
-Var 
-  number1,i,j: integer;
-  H: Rvector;
-Begin
-  Setlength(H,nrow*ncol+1);
-  Setlength(ROW,nrow*ncol+1);
-  Setlength(COLUMN,nrow*ncol+1);
-  number1 := 0;
+procedure settreatedsize(var inv: TRoutingInvArray) ;
+var
+ i,j, k: integer;
+begin
+   For i := 1 To nrow Do
+    //The DTM is read row per row (from l to r), for each next cell that is
+    For j := 1 To ncol Do
+       begin
+         setlength(inv[i,j].treated, inv[i, j].size);
+         for k:=0 to inv[i, j].size -1 do
+           inv[i,j].treated[k] :=false;
+
+       end;
+
+end;
+
+
+
+procedure setpointtreated(var inv: TRoutingInvArray; var q: TQueue; i,j,t_r, t_c: integer);
+// Sets the status of the goal cel [t_r, t_c] to treated for this origin cell
+// add it to the queue if all its upstream cells have been treated
+var
+ k: integer;
+ all_treated: boolean;
+begin
+   for k:=0 to inv[t_r, t_c].size -1 do
+    if (inv[t_r, t_c].up_X[k] = i) and (inv[t_r, t_c].up_Y[k] = j) then
+      begin
+           inv[t_r, t_c].treated[k]:=true;
+           break;
+      end;
+
+   all_treated := true;
+
+   for k:=0 to inv[t_r, t_c].size -1 do
+    all_treated := all_treated and inv[t_r, t_c].treated[k];
+
+   if all_treated and not inv[t_r, t_c].inqueue then
+     begin
+     q.push(pointer(t_r*ncol + t_c));
+     inv[t_r, t_c].inqueue := true;
+     end;
+end;
+
+procedure getstartingpoints(inv: TRoutingInvArray; var q: TQueue);
+var
+  i,j: integer;
+begin
+  q:=TQueue.Create;
   For i := 1 To nrow Do
     //The DTM is read row per row (from l to r), for each next cell that is
     For j := 1 To ncol Do
-      //read number1 is increased with 1: this is the cell identifier
-      Begin
-        Inc(number1);
-        H[number1] := D[i,j];
-        //H is a vector with the height of each cell
-        ROW[number1] := i;
-        //The row of each cell is stored
-        COLUMN[number1] := j;
-        //Same for column
-      End;
-  sortbis(H,1,nrow*ncol);
-  //Procedure with the actual sorting
-  H := Nil;
-End;
+       begin
+         setlength(inv[i,j].treated, inv[i, j].size);
 
-Procedure sortbis(Var Z:Rvector; iLo,iHi:Integer);
-Var 
-  helpcol, helprow,Lo, Hi: Integer;
-  Mid,T : double;
+         If PRC[i,j]=0 Then continue;
+         if inv[i,j].size=0 then
+           q.push(pointer(i*ncol + j));
+       end;
+end;
+
+Procedure Apply_Routing;
+Var
+  inv: TRoutingInvArray;
+  q: Tqueue;
+  p: pointer;
+  ii, teller, t_r, t_c: integer;
 Begin
-  Lo := iLo;
-  //iLo is 1 at the start of this procedure
-  Hi := iHi;
-  //iHi is the number of elements in the DTM (nrow*ncol)
-  Mid := Z[(Lo + Hi) Div 2];
-  //Mid is the height of the central (middle) element in the DTM
-  Repeat
-    While Z[Lo] < Mid Do
-      Inc(Lo);
-    While Z[Hi] > Mid Do
-      Dec(Hi);
-    If Lo <= Hi Then
-      Begin
-        T := Z[Lo];
-        Z[Lo] := Z[Hi];
-        Z[Hi] := T;
-        helprow := row[lo];
-        row[lo] := row[hi];
-        row[hi] := helprow;
-        helpcol := column[lo];
-        column[lo] := column[hi];
-        column[hi] := helpcol;
-        Inc(Lo);
-        Dec(Hi);
-      End;
-  Until Lo > Hi;
-  If Hi > iLo Then Sortbis(Z, iLo, Hi);
-  If Lo < iHi Then Sortbis(Z, Lo, iHi);
-End;
+       // invert routing
+  inv:= Invert_routing(Routing);
+  settreatedsize(inv);
+  getstartingpoints(inv, q);
+
+  // save the columns and rows in the order they are followed
+  // can be reused for upstream area
+    SetLength(column, NROW*NCOL);
+    SetLength(row, NROW*NCOL);
+    ii:=0;
+
+  // as long as there are elements in the queue, continue
+  // new elements are added when all their parents have been handled
+
+  while (q.Count > 0) do
+  begin
+    p:= q.pop;
+
+    column[ii] := j;
+    row[ii] := i;
+    ii+=1;
+
+    teller := integer(p);
+    i := teller div ncol;
+    j := teller mod ncol;
+
+    If Routing[i,j].Part1 > 0.0 Then
+   begin
+     t_r := Routing[i, j].Target1Row;
+     t_c := Routing[i, j].Target1Col;
+
+     setpointtreated(inv, q, i,j,t_r, t_c);
+   end;
+ If Routing[i,j].Part2 > 0.0 Then
+   begin
+     t_r := Routing[i, j].Target2Row;
+     t_c := Routing[i, j].Target2Col;
+
+     setpointtreated(inv, q, i,j,t_r, t_c);
+
+   end;
+  end;
+
+
+end;
 
 //******************************************************************************
 //In this procedure the procedures to calculate the slope and aspect are called
@@ -1200,19 +1249,37 @@ Var
   teller,i,j : integer;
   Fluxout: RRaster;
   oppcor: double;
+
 Begin
   SetDynamicRdata(Fluxout);
-  SetzeroR(UPAREA);
-  For teller:= ncol*nrow Downto 1 Do
-    Begin
+  // SetnodataR(UPAREA);
+
+  // set all valid cells to zero
+  for teller:=0 to nrow*ncol-1 do
+    begin
+    // begin lus
+    i := row[teller];
+    j := column[teller];
+    if (i=0) and (j=0) then
+      continue;
+
+    If PRC[i,j]=0 Then
+        continue;
+
+    uparea[i,j] := 0;
+    end;
+
+  for teller:=0 to nrow*ncol-1 do
+      begin
       // begin lus
       i := row[teller];
       j := column[teller];
+      if (i=0) and (j=0) then
+        break;
+
       If PRC[i,j]=0 Then
-        begin
-          UPAREA[i,j] := -9999;
           continue;
-        end;
+
       OPPCOR := (X_resolution()*Y_resolution()) * (1 - (PTEFmap[i,j] / 100));
       //bijdrage van elke cel aan de uparea
       Fluxout[i,j] := OPPCOR+UPAREA[i,j];
@@ -1243,7 +1310,7 @@ Begin
       For j:=1 To ncol Do
         Begin
           // begin matrix loop
-          If (PRC[i,j] = 0) Or (PRC[i,j] = -1) Then
+          If (PRC[i,j] = 0) Or (PRC[i,j] = -1) or (uparea[i,j] = -9999) Then
             begin
               LS[i,j] := -9999;
               continue;
@@ -1251,7 +1318,7 @@ Begin
           If Raster_projection=plane Then locres := RES
           Else locres := (X_Resolution()+Y_Resolution())/2.0;
           //else fixed res is used
-          ADJUST := (ABS(cos(aspect[i,j]))+ABS(sin(aspect[i,j])));
+          ADJUST := ABS(cos(aspect[i,j]))+ABS(sin(aspect[i,j]));
 
           if LModel = TLModel.Desmet1996_Vanoost2003 Then
             Begin
@@ -1418,8 +1485,6 @@ End;
 
 Procedure Topo_Calculations;
 Begin
-  sort(DTM);
-  //The DTM is sorted from low to high
   CalculateSlopeAspect;
   //Slope and aspect are calculated
   Calculate_routing(Routing);

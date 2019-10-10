@@ -12,7 +12,7 @@ Idrisi;
 
 Procedure Write_maps;
 Procedure Write_Routing_Table;
-Procedure Write_Routing_Table_RC(routing_cols, routing_rows: array of integer);
+Procedure Write_Routing_Table_RC(routing_cols, routing_rows: Gvector);
 
 Implementation
 
@@ -114,7 +114,7 @@ Begin
 End;
 
 
-Procedure Write_Routing_Table_RC(routing_cols, routing_rows: array of integer);
+Procedure Write_Routing_Table_RC(routing_cols, routing_rows: Gvector);
 // writes the routing table to a textfile
 
 Var

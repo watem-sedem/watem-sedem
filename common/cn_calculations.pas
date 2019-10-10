@@ -730,11 +730,12 @@ Begin
           End;
 
       //The runoff is routed for this time step
-      For teller:=nrow*ncol Downto 1 Do
+      For teller:=0 to ncol*nrow-1 Do
         Begin
           k := row[teller];
           //row and col are vectors containing the row and column ID's from low to high
           l := column[teller];
+          if (k=0) and (l=0) then break;
           If PRC[k,l] = 0 Then continue;
           If RunoffMap[k,l] <= 0.0 Then continue;
           If PRC[k,l] = -1 Then

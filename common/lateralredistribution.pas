@@ -8,7 +8,7 @@ Interface
 
 Uses 
 Classes, SysUtils, FileUtil, RData_CN, ReadInParameters,
-Raster_calculations, math, CN_calculations, contnrs, GData_CN, idrisi, write_output;
+Raster_calculations, math, CN_calculations, GData_CN, idrisi, write_output;
 
 Procedure Water;
 Procedure Distribute_sediment;
@@ -134,64 +134,9 @@ Begin
   // in m      if < 0 => erosion & if > 0 => sedimentation
 End;
 
-procedure settreatedsize(var inv: TRoutingInvArray) ;
-var
- i,j, k: integer;
-begin
-   For i := 1 To nrow Do
-    //The DTM is read row per row (from l to r), for each next cell that is
-    For j := 1 To ncol Do
-       begin
-         setlength(inv[i,j].treated, inv[i, j].size);
-         for k:=0 to inv[i, j].size -1 do
-           inv[i,j].treated[k] :=false;
 
-       end;
 
-end;
 
-procedure setpointtreated(var inv: TRoutingInvArray; var q: TQueue; i,j,t_r, t_c: integer);
-// Sets the status of the goal cel [t_r, t_c] to treated for this origin cell
-// add it to the queue if all its upstream cells have been treated
-var
- k: integer;
- all_treated: boolean;
-begin
-   for k:=0 to inv[t_r, t_c].size -1 do
-    if (inv[t_r, t_c].up_X[k] = i) and (inv[t_r, t_c].up_Y[k] = j) then
-      begin
-           inv[t_r, t_c].treated[k]:=true;
-           break;
-      end;
-
-   all_treated := true;
-
-   for k:=0 to inv[t_r, t_c].size -1 do
-    all_treated := all_treated and inv[t_r, t_c].treated[k];
-
-   if all_treated and not inv[t_r, t_c].inqueue then
-     begin
-     q.push(pointer(t_r*ncol + t_c));
-     inv[t_r, t_c].inqueue := true;
-     end;
-end;
-
-procedure getstartingpoints(inv: TRoutingInvArray; var q: TQueue);
-var
-  i,j: integer;
-begin
-  q:=TQueue.Create;
-  For i := 1 To nrow Do
-    //The DTM is read row per row (from l to r), for each next cell that is
-    For j := 1 To ncol Do
-       begin
-         setlength(inv[i,j].treated, inv[i, j].size);
-
-         If PRC[i,j]=0 Then continue;
-         if inv[i,j].size=0 then
-           q.push(pointer(i*ncol + j));
-       end;
-end;
 
 Procedure Water;
 
@@ -201,10 +146,7 @@ Var
   TEMP_pond_sed_input: double;
   skip: boolean;
   sed_output_file, sediment_VHA, sewer_out, cal_output_file: textfile;
-  inv: TRoutingInvArray;
-  q: Tqueue;
-  p: pointer;
-  routing_cols, routing_rows: array of integer;
+
 Begin
   // Create temp 2D maps
   SetDynamicRData(SEDI_IN);
@@ -246,33 +188,11 @@ Begin
   TEMP_outside_sed_input := 0;
   TEMP_buffer_sed_input := 0;
 
-
-  // invert routing
-  inv:= Invert_routing(Routing);
-  settreatedsize(inv);
-  getstartingpoints(inv, q);
-
-
-
-  // debug routing file - check we go to every location
-  // makes a grid showing where whe were at what time
-  if Write_Routing_CR then
-    begin
-      SetLength(routing_cols, NROW*NCOL);
-      SetLength(routing_rows, NROW*NCOL);
-      ii:=0;
-    end;
-
-
-  // as long as there are elements in the queue, continue
-  // new elements are added when all their parents have been handled
-  ri := 0;
-  while (q.Count > 0) do
-  begin
-    p:= q.pop;
-    teller := integer(p);
-    i := teller div ncol;
-    j := teller mod ncol;
+    for teller:=0 to nrow*ncol-1 do
+      begin
+      // begin lus
+      i := row[teller];
+      j := column[teller];
 
 
      skip:=false;
@@ -365,35 +285,11 @@ Begin
             End;
 
       end; //skip
-      // Zet status van onderliggende pixels op behandeld voor deze bron
-      // + zet ze in de queue als alle bovenliggende behandeld zijn
-         If Routing[i,j].Part1 > 0.0 Then
-           begin
-             t_r := Routing[i, j].Target1Row;
-             t_c := Routing[i, j].Target1Col;
-
-             setpointtreated(inv, q, i,j,t_r, t_c);
-
-           end;
-         If Routing[i,j].Part2 > 0.0 Then
-           begin
-             t_r := Routing[i, j].Target2Row;
-             t_c := Routing[i, j].Target2Col;
-
-             setpointtreated(inv, q, i,j,t_r, t_c);
-
-           end;
-           if Write_Routing_CR and ((Routing[i,j].Part1 > 0.0) or (Routing[i,j].Part2 > 0.0 )) then
-            begin
-              routing_cols[ii] := j;
-              routing_rows[ii] := i;
-              ii+=1;
-            end;
     End;
 
 
   If Write_Routing_CR then
-   Write_Routing_Table_RC(routing_cols, routing_rows);
+   Write_Routing_Table_RC(column, row);
 
   // loop over the full grid and set the output to no-data if
   // it was not part of the routing

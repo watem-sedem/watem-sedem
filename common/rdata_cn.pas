@@ -21,6 +21,7 @@ Type
     Procedure GetRfile(Var Z:RRaster; Filename:String);
     Procedure SetDynamicRData(Var Z:RRaster);
     Procedure SetzeroR(Var z:Rraster);
+    Procedure SetnodataR(Var z:Rraster);
     Procedure DisposeDynamicRdata(Var Z:RRaster);
 
     Var 
@@ -222,6 +223,16 @@ Type
     Begin
         For i:=Low(Z) To High(Z) Do
             Filldword(z[i][0], ncol+2, 0);
+    End;
+
+    Procedure SetnodataR(Var z:Rraster);
+    Var
+      i: integer;
+      val: single;
+    Begin
+      val := -9999;
+        For i:=Low(Z) To High(Z) Do
+            filldword(z[i][0], ncol+2,  dword(val));
     End;
 
 
