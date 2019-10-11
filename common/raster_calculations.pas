@@ -8,7 +8,7 @@ Unit Raster_calculations;
 Interface
 
 Uses 
-Classes, SysUtils, Math, GData_CN, RData_CN, ReadInParameters, contnrs;
+Classes, SysUtils, Math, GData_CN, RData_CN, ReadInParameters;
 
 Type
   ECalculationError = Exception;
@@ -32,7 +32,7 @@ Function Y_Resolution(): double;
 Procedure Calculate_UpstreamArea(Var UPAREA:RRaster);
 Procedure CalculateLS(Var LS:RRaster;UPAREA:RRaster);
 Procedure DistributeFlux_LS(i,j:integer;Var Flux_IN: RRaster;fluxout: single);
-Procedure DistributeFlux_Sediment(i,j:integer;Var Flux_IN,Flux_OUT: RRaster);
+Procedure DistributeFlux_Sediment(i,j:integer;Var Flux_IN: RRaster; Flux_OUT: single);
 Procedure Topo_Calculations;
 Procedure Routing_Slope(Var Routing: TRoutingArray; Var Slope: RRaster);
 Procedure Apply_Routing;
@@ -213,14 +213,12 @@ begin
          setlength(inv[i,j].treated, inv[i, j].size);
          for k:=0 to inv[i, j].size -1 do
            inv[i,j].treated[k] :=false;
-
        end;
-
 end;
 
 
 
-procedure setpointtreated(var inv: TRoutingInvArray; var q: TQueue; i,j,t_r, t_c: integer);
+procedure setpointtreated(var inv: TRoutingInvArray; var last_index:integer; i,j,t_r, t_c: integer);
 // Sets the status of the goal cel [t_r, t_c] to treated for this origin cell
 // add it to the queue if all its upstream cells have been treated
 var
@@ -241,16 +239,18 @@ begin
 
    if all_treated and not inv[t_r, t_c].inqueue then
      begin
-     q.push(pointer(t_r*ncol + t_c));
-     inv[t_r, t_c].inqueue := true;
+        row[last_index] := i;
+        column[last_index] := j;
+        last_index+=1;
+        inv[t_r, t_c].inqueue := True;
      end;
 end;
 
-procedure getstartingpoints(inv: TRoutingInvArray; var q: TQueue);
+procedure getstartingpoints(inv: TRoutingInvArray; var last_index: integer);
 var
   i,j: integer;
 begin
-  q:=TQueue.Create;
+
   For i := 1 To nrow Do
     //The DTM is read row per row (from l to r), for each next cell that is
     For j := 1 To ncol Do
@@ -259,58 +259,60 @@ begin
 
          If PRC[i,j]=0 Then continue;
          if inv[i,j].size=0 then
-           q.push(pointer(i*ncol + j));
+           begin
+             row[last_index] := i;
+             column[last_index] := j;
+             last_index+=1;
+           end;
        end;
 end;
 
 Procedure Apply_Routing;
 Var
   inv: TRoutingInvArray;
-  q: Tqueue;
-  p: pointer;
   ii, teller, t_r, t_c: integer;
+  q_index, last_index: integer;
 Begin
        // invert routing
   inv:= Invert_routing(Routing);
   settreatedsize(inv);
-  getstartingpoints(inv, q);
 
   // save the columns and rows in the order they are followed
-  // can be reused for upstream area
+  // used in upstream area, sediment distribution and cn
+
     SetLength(column, NROW*NCOL);
     SetLength(row, NROW*NCOL);
-    ii:=0;
+
+    last_index := 0;
+    q_index := 0;
+    getstartingpoints(inv, last_index);
+
+
 
   // as long as there are elements in the queue, continue
   // new elements are added when all their parents have been handled
 
-  while (q.Count > 0) do
+  while (last_index > q_index) do
   begin
-    p:= q.pop;
-
-    column[ii] := j;
-    row[ii] := i;
-    ii+=1;
-
-    teller := integer(p);
-    i := teller div ncol;
-    j := teller mod ncol;
+    i := row[q_index];
+    j := column[q_index];
 
     If Routing[i,j].Part1 > 0.0 Then
    begin
      t_r := Routing[i, j].Target1Row;
      t_c := Routing[i, j].Target1Col;
 
-     setpointtreated(inv, q, i,j,t_r, t_c);
+     setpointtreated(inv, last_index, i,j,t_r, t_c);
    end;
  If Routing[i,j].Part2 > 0.0 Then
    begin
      t_r := Routing[i, j].Target2Row;
      t_c := Routing[i, j].Target2Col;
 
-     setpointtreated(inv, q, i,j,t_r, t_c);
+     setpointtreated(inv, last_index, i,j,t_r, t_c);
 
    end;
+   q_index+=1;
   end;
 
 
@@ -1462,7 +1464,7 @@ End;
 // The following procedure is used to route the sediment through the landscape
 // by distributing the sediment over 1 or 2 target cells according to the
 // flux decomposition algorithm
-Procedure DistributeFlux_Sediment(i,j:integer;Var Flux_IN,Flux_OUT: RRaster);
+Procedure DistributeFlux_Sediment(i,j:integer;Var Flux_IN: RRaster;flux_out: single);
 
 Var 
   flux: double;
@@ -1470,13 +1472,13 @@ Begin
   // flux decomposition algoritme
   If Routing[i,j].Part1 > 0.0 Then
     Begin
-      flux := FLUX_OUT[i,j]*Routing[i,j].Part1;
+      flux := FLUX_OUT*Routing[i,j].Part1;
       // m³
       Flux_IN[Routing[i,j].Target1Row,Routing[i,j].Target1Col] += flux;
     End;
   If Routing[i,j].Part2 > 0.0 Then
     Begin
-      flux := FLUX_OUT[i,j]*Routing[i,j].Part2;
+      flux := FLUX_OUT*Routing[i,j].Part2;
       Flux_IN[Routing[i,j].Target2Row,Routing[i,j].Target2Col] += flux;
     End;
 End;

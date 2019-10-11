@@ -233,7 +233,7 @@ Begin
           SEDI_OUT[i, j] := SEDI_IN[i, j] * (1 - (Bufferdata[Buffermap[i, j]].PTEF / 100));
           If SEDI_OUT[i,j]<SEDI_IN[i,j] Then
             TEMP_buffer_sed_input := TEMP_buffer_sed_input + (SEDI_IN[i,j]-SEDI_OUT[i, j]);
-          DistributeFlux_Sediment(i, j, SEDI_IN, SEDI_OUT);
+          DistributeFlux_Sediment(i, j, SEDI_IN, SEDI_OUT[i,j]);
           WATEREROS[i, j] := (SEDI_IN[i, j] - SEDI_OUT[i, j]) / area;
           // in m
           WATEREROS[i, j] := WATEREROS[i, j] * 1000;
@@ -264,7 +264,7 @@ Begin
 
           If SEDI_OUT[i,j] > 0 Then
             // if sed_output_file leaves this pixel, the sed_output_file needs to be distributed over target cells
-            DistributeFlux_Sediment(i, j, SEDI_IN, SEDI_OUT);
+            DistributeFlux_Sediment(i, j, SEDI_IN, SEDI_OUT[i,j]);
           // SEDI_IN [m³]
 
           If (Include_sewer) And (SewerMap[i, j] <> 0) Then
@@ -304,6 +304,7 @@ Begin
               WATEREROS[i, j] := -9999;
               WATEREROS_cubmeter[i, j] := -9999;
               WATEREROS_kg[i, j] := -9999;
+              UPAREA[i,j] := -9999;
               If (Include_sewer) then
                  begin
                   SEWER_IN[i,j] := -9999;
