@@ -70,7 +70,6 @@ Type
     up_X: array of integer;
     up_Y: array of integer;
     treated: array of boolean;
-    inqueue: boolean;
   end;
 
   TForcedRouting = Record

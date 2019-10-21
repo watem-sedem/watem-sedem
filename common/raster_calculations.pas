@@ -229,7 +229,6 @@ begin
     if (inv[t_r, t_c].up_X[k] = i) and (inv[t_r, t_c].up_Y[k] = j) then
       begin
            inv[t_r, t_c].treated[k]:=true;
-           break;
       end;
 
    all_treated := true;
@@ -237,12 +236,11 @@ begin
    for k:=0 to inv[t_r, t_c].size -1 do
     all_treated := all_treated and inv[t_r, t_c].treated[k];
 
-   if all_treated and not inv[t_r, t_c].inqueue then
+   if all_treated then
      begin
-        row[last_index] := i;
-        column[last_index] := j;
+        row[last_index] := t_r;
+        column[last_index] := t_c;
         last_index+=1;
-        inv[t_r, t_c].inqueue := True;
      end;
 end;
 
@@ -292,7 +290,7 @@ Begin
   // as long as there are elements in the queue, continue
   // new elements are added when all their parents have been handled
 
-  while (last_index > q_index) do
+  while (last_index >= q_index) do
   begin
     i := row[q_index];
     j := column[q_index];
