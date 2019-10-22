@@ -148,6 +148,7 @@ var
   inv: TRoutingInvArray;
   i,j: integer;
   t_c, t_r, pos: integer;
+  ring: boolean;
 begin
   SetLength(inv,nrow+2, ncol+2);
   For i := 1 To nrow Do
@@ -160,7 +161,6 @@ begin
     end;
 
   For i := 1 To nrow Do
-    //The DTM is read row per row (from l to r), for each next cell that is
     For j := 1 To ncol Do
      begin;
 
@@ -168,7 +168,25 @@ begin
         begin
           t_c :=  Routing[i,j].Target1Col ;
           t_r :=  Routing[i,j].Target1Row ;
+
+          // don't add if this creates a pairwise ring and target is higher or equal
+          ring :=  (j=routing[t_r,t_c].Target1Col) and (i = routing[t_r,t_c].Target1Row) or
+                ((j=routing[t_r,t_c].Target2Col) and (i = routing[t_r,t_c].Target2Row) )   ;
+
+          if (dtm[t_r, t_c] >=dtm[i,j]) and ring then
+          begin
+            Routing[i,j].Target1Col:= -99;
+            Routing[i,j].Target1Row:= -99;
+            Routing[i,j].Part1:= 0;
+            Routing[i,j].Part2:= 1;
+
+          end
+
+          else
+         begin
+
           pos := inv[t_r, t_c].size;
+
           inv[t_r, t_c].size := pos+1;
           if pos > length(inv[t_r, t_c].up_X)-1 then
             begin
@@ -178,6 +196,7 @@ begin
 
           inv[t_r, t_c].up_X[pos] := i;
           inv[t_r, t_c].up_y[pos] := j;
+         end;
 
         end;
 
@@ -185,17 +204,32 @@ begin
         begin
           t_c :=  Routing[i,j].Target2Col ;
           t_r :=  Routing[i,j].Target2Row ;
-          pos := inv[t_r, t_c].size;
-          inv[t_r, t_c].size := pos+1;
-          if pos > length(inv[t_r, t_c].up_X)-1 then
-            begin
-             setlength(inv[t_r, t_c].up_X, length(inv[t_r, t_c].up_X)*2);
-             setlength(inv[t_r, t_c].up_Y, length(inv[t_r, t_c].up_Y)*2);
-            end;
 
-          inv[t_r, t_c].up_X[pos] := i;
-          inv[t_r, t_c].up_y[pos] := j;
+          // don't add if this creates a pairwise ring and target is higher or equal
+          ring :=  (j=routing[t_r,t_c].Target1Col) and (i = routing[t_r,t_c].Target1Row) or
+           ((j=routing[t_r,t_c].Target2Col) and (i = routing[t_r,t_c].Target2Row) )   ;
+          if (dtm[t_r, t_c] >=dtm[i,j]) and ring then
+          begin
+            Routing[i,j].Target2Col:= -99;
+            Routing[i,j].Target2Row:= -99;
+            Routing[i,j].Part1:= 1;
+            Routing[i,j].Part2:= 0;
 
+          end
+
+          else
+          begin
+            pos := inv[t_r, t_c].size;
+            inv[t_r, t_c].size := pos+1;
+            if pos > length(inv[t_r, t_c].up_X)-1 then
+              begin
+               setlength(inv[t_r, t_c].up_X, length(inv[t_r, t_c].up_X)*2);
+               setlength(inv[t_r, t_c].up_Y, length(inv[t_r, t_c].up_Y)*2);
+              end;
+
+            inv[t_r, t_c].up_X[pos] := i;
+            inv[t_r, t_c].up_y[pos] := j;
+          end;
         end;
      end;
   Invert_routing:= inv;
@@ -265,6 +299,31 @@ begin
        end;
 end;
 
+Procedure Missing_routes(inv: TRoutingInvArray);
+var
+  i,j,k: integer;
+  routingfile: textfile;
+  sep: char;
+  col_missing, row_missing: array of integer;
+Begin
+  // in case any circular routing was determined, it should be broken
+
+  setcurrentDir(File_output_dir);
+  sep := #9;
+  assignfile(routingfile, 'routing_missing.txt');
+  rewrite(routingfile);
+  Writeln(routingfile,
+          'col'+sep+'row'+sep+'target1col'+sep+'target1row'+sep+'part1'+sep+'distance1'+sep+'target2col'+sep+'target2row'+sep+'part2'+sep+'distance2');
+    For i:=1 To nrow Do
+        For j:=1 To ncol Do
+            for k:= 0 to inv[i,j].size -1 do
+                if not inv[i,j].treated[k] then
+                  writeln(routingfile, inttostr(inv[i,j].up_Y[k]) + sep  + inttostr(inv[i,j].up_X[k]) +sep+inttostr( j)+sep+inttostr(i));
+
+    closefile(routingfile);
+end;
+
+
 Procedure Apply_Routing;
 Var
   inv: TRoutingInvArray;
@@ -283,11 +342,11 @@ Begin
 
     last_index := 0;
     q_index := 0;
+
+
     getstartingpoints(inv, last_index);
 
-
-
-  // as long as there are elements in the queue, continue
+    // as long as there are elements in the queue, continue
   // new elements are added when all their parents have been handled
 
   while (last_index >= q_index) do
@@ -312,6 +371,9 @@ Begin
    end;
    q_index+=1;
   end;
+
+
+  missing_routes(inv);
 
 
 end;
