@@ -304,7 +304,7 @@ var
   i,j,k: integer;
   routingfile: textfile;
   sep: char;
-  col_missing, row_missing: array of integer;
+
 Begin
   // in case any circular routing was determined, it should be broken
 
@@ -1424,6 +1424,11 @@ Var
 Begin
   // flux decomposition algoritme
 
+// reduce upstream area if source is a sewer
+if (include_sewer and (sewermap[i,j]>0)) then
+   fluxout := fluxout * (1.0 - (sewer_exit/100));
+
+flux := 0;
 
 // Bij de overgang naar een ander perceel wordt de uparea verminderd volgens de parcel connectivities
   If (Routing[i,j].one_target = true) And (PRC[Routing[i,j].Target1Row,Routing[i,j].Target1Col] <>
@@ -1432,7 +1437,6 @@ Begin
     // behalve wanneer de targetcel een grasbufferstrook is)
     // en wanneer die targetcel een andere perceelswaarde heeft
     Begin
-      flux := 0;
       If (PRC[Routing[i,j].Target1Row,Routing[i,j].Target1Col] >= 1) Then
         // Als de targetcel cropland is
         Begin
@@ -1473,7 +1477,6 @@ Begin
     // have to be taken into account, except when the target cell is a grass buffer strip
 
     Begin
-      flux := 0;
       If Routing[i,j].Part1 > 0.0 Then
         Begin
           If (PRC[Routing[i,j].Target1Row,Routing[i,j].Target1Col] = -6) And (PRC[i,j] <> -6) And (
@@ -1517,8 +1520,6 @@ Begin
         End;
 
     End;
-
-
 End;
 
 // The following procedure is used to route the sediment through the landscape
