@@ -164,7 +164,7 @@ begin
     For j := 1 To ncol Do
      begin;
 
-      if Routing[i,j].Part1 > 0 then
+      if (Routing[i,j].Part1 > 0) and (Routing[i,j].Target1Col > 0) then
         begin
           t_c :=  Routing[i,j].Target1Col ;
           t_r :=  Routing[i,j].Target1Row ;
@@ -178,7 +178,9 @@ begin
             Routing[i,j].Target1Col:= -99;
             Routing[i,j].Target1Row:= -99;
             Routing[i,j].Part1:= 0;
-            Routing[i,j].Part2:= 1;
+            if routing[i,j].target2col > 0 then
+               Routing[i,j].Part2:= 1
+            else routing[i,j].one_target:=false;
 
           end
 
@@ -200,7 +202,7 @@ begin
 
         end;
 
-      if Routing[i,j].Part2 > 0 then
+      if (Routing[i,j].Part2 > 0) and (Routing[i,j].Target2Col > 0) then
         begin
           t_c :=  Routing[i,j].Target2Col ;
           t_r :=  Routing[i,j].Target2Row ;
@@ -212,8 +214,9 @@ begin
           begin
             Routing[i,j].Target2Col:= -99;
             Routing[i,j].Target2Row:= -99;
-            Routing[i,j].Part1:= 1;
             Routing[i,j].Part2:= 0;
+            if routing[i,j].target1col > 0 then
+               Routing[i,j].Part1:= 1;
 
           end
 
