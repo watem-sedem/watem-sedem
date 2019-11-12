@@ -196,7 +196,7 @@ end;
 Procedure Water;
 
 Var 
-  teller, i, j, k, l, m, n, t_r, t_c, ri, ii: integer;
+  teller, i, j, k, l, m, n, t_r, t_c, ri, ii, tc, tr: integer;
   area, sewer_out_sed, TEMP_river_sed_input, TEMP_outside_sed_input, TEMP_buffer_sed_input,
   TEMP_pond_sed_input: double;
   skip: boolean;
@@ -354,14 +354,18 @@ Begin
               sewer_out_sed := sewer_out_sed + (SEDI_OUT[i, j] * SewerMap[i, j] * (sewer_exit / 100));
               SEWER_IN[i,j] := (SEDI_OUT[i, j] * SewerMap[i, j]);
 
-              SEDI_IN[Routing[i, j].Target2Row, Routing[i, j].Target2Col] :=
-                                                                             SEDI_IN[Routing[i, j].
-                                                                             Target2Row, Routing[i, j].
-                                                                             Target2Col] -
-                                                                             SEDI_OUT[i, j] * Routing[i,
-                                                                             j].Part2 + SEDI_OUT[i, j] *
-                                                                             SewerMap[i, j] * (1 - (
-                                                                             sewer_exit / 100));
+              if Routing[i, j].Target2Row > 0 then
+                begin
+                   tc :=  Routing[i, j].Target2Col;
+                   tr := Routing[i, j].Target2Row ;
+                   SEDI_IN[tr, tc] += - SEDI_OUT[i, j] * Routing[i,j].Part2 + SEDI_OUT[i, j] * SewerMap[i, j] * (1 - (sewer_exit / 100));
+                end;
+              if Routing[i, j].Target1Row > 0 then
+                begin
+                   tc :=  Routing[i, j].Target1Col;
+                   tr := Routing[i, j].Target1Row;
+                   SEDI_IN[tr, tc] += - SEDI_OUT[i, j] * Routing[i,j].Part1 + SEDI_OUT[i, j] * SewerMap[i, j] * (1 - (sewer_exit / 100));
+                end;
             End;
 
       end; //skip
