@@ -1218,6 +1218,8 @@ If FINISH[i,j]<>1 Then   //If the cell under evaluation is not adjacent to a riv
     End;
 
 
+{temp fix daan Don't route sewers to river
+
 // if cell contains a sewer, the target river cell is determined and the routing information is adjusted
   If (Include_sewer) And (SewerMap[i,j]<>0) Then
     Begin
@@ -1265,7 +1267,7 @@ If FINISH[i,j]<>1 Then   //If the cell under evaluation is not adjacent to a riv
       // SewerMap[i,j] = vangefficiëntie!
       Routing[i,j].Part2 := SewerMap[i,j];
 
-    End;
+    End; }
 
 End;
 // end procedure DistributeTilDirEvent_Routing
