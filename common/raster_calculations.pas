@@ -1487,12 +1487,12 @@ Begin
     Begin
       flux := FLUX_OUT[i,j]*Routing[i,j].Part1;
       // m³
-      Flux_IN[Routing[i,j].Target1Row,Routing[i,j].Target1Col] += flux;
+      Flux_IN[Routing[i,j].Target1Row, Routing[i,j].Target1Col] += flux;
     End;
   If Routing[i,j].Part2 > 0.0 Then
     Begin
       flux := FLUX_OUT[i,j]*Routing[i,j].Part2;
-      Flux_IN[Routing[i,j].Target2Row,Routing[i,j].Target2Col] += flux;
+      Flux_IN[Routing[i,j].Target2Row, Routing[i,j].Target2Col] += flux;
     End;
 End;
 
