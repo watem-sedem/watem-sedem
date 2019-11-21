@@ -342,11 +342,6 @@ Begin
               // depprod [kg]
             End;
 
-          If SEDI_OUT[i,j] > 0 Then
-            // if sed_output_file leaves this pixel, the sed_output_file needs to be distributed over target cells
-            DistributeFlux_Sediment(i, j, SEDI_IN, SEDI_OUT);
-          // SEDI_IN [m³]
-
           If (Include_sewer) And (SewerMap[i, j] <> 0) Then
         // if pixel contains sewer, total amount of sed_output_file leaving the system through sewer is updated
             Begin
@@ -368,6 +363,13 @@ Begin
                    SEDI_IN[tr, tc] += - SEDI_OUT[i,j] * Routing[i,j].Part1;
                 end;
             End;
+
+          If SEDI_OUT[i,j] > 0 Then
+            // if sed_output_file leaves this pixel, the sed_output_file needs to be distributed over target cells
+            DistributeFlux_Sediment(i, j, SEDI_IN, SEDI_OUT);
+          // SEDI_IN [m³]
+
+
 
       end; //skip
       // Zet status van onderliggende pixels op behandeld voor deze bron
