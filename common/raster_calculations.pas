@@ -1254,6 +1254,8 @@ Begin
     End;
 
 
+{temp fix daan Don't route sewers to river
+
 // if cell contains a sewer, the target river cell is determined and the routing information is adjusted
   If (Include_sewer) And (SewerMap[i,j]<>0) Then
     Begin
@@ -1301,7 +1303,7 @@ Begin
       // SewerMap[i,j] = vangefficiëntie!
       Routing[i,j].Part2 := SewerMap[i,j];
 
-    End;
+    End; }
 
 End;
 // end procedure DistributeTilDirEvent_Routing
@@ -1537,12 +1539,13 @@ Begin
     Begin
       flux := FLUX_OUT*Routing[i,j].Part1;
       // m³
-      Flux_IN[Routing[i,j].Target1Row,Routing[i,j].Target1Col] += flux;
+      Flux_IN[Routing[i,j].Target1Row, Routing[i,j].Target1Col] += flux;
     End;
   If Routing[i,j].Part2 > 0.0 Then
     Begin
       flux := FLUX_OUT*Routing[i,j].Part2;
       Flux_IN[Routing[i,j].Target2Row,Routing[i,j].Target2Col] += flux;
+
     End;
 End;
 

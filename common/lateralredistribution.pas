@@ -142,9 +142,9 @@ End;
 Procedure Water;
 
 Var 
-  teller, i, j, k, l, m, n, t_r, t_c, ri, ii: integer;
+  teller, i, j, k, l, m, n, t_r, t_c, ri, ii, tc, tr: integer;
   area, sewer_out_sed, TEMP_river_sed_input, TEMP_outside_sed_input, TEMP_buffer_sed_input,
-  TEMP_pond_sed_input: double;
+  TEMP_pond_sed_input, SEDI_OUT_TMP: double;
   skip: boolean;
   sed_output_file, sediment_VHA, sewer_out, cal_output_file: textfile;
 
@@ -263,27 +263,34 @@ Begin
               // depprod [kg]
             End;
 
+          If (Include_sewer) And (SewerMap[i, j] <> 0) Then
+        // if pixel contains sewer, total amount of sed_output_file leaving the system through sewer is updated
+            Begin
+            // AND SEDI_IN is corrected because procedure Distribute_Flux doesn't take this into account
+              SEWER_IN[i,j] := (SEDI_IN[i, j] * SewerMap[i, j]);
+              sewer_out_sed := sewer_out_sed + SEWER_IN[i,j];
+              SEDI_OUT[i,j] := SEDI_IN[i,j] - SEWER_IN[i,j]; // wat nog uit de pixel na vermindering komt en verdeeld moet worden over de target pixels
+
+              if Routing[i, j].Target2Row > 0 then
+                begin
+                   tc :=  Routing[i, j].Target2Col;
+                   tr := Routing[i, j].Target2Row ;
+                   SEDI_IN[tr, tc] += - SEDI_OUT[i,j] * Routing[i,j].Part2;
+                end;
+              if Routing[i, j].Target1Row > 0 then
+                begin
+                   tc :=  Routing[i, j].Target1Col;
+                   tr := Routing[i, j].Target1Row;
+                   SEDI_IN[tr, tc] += - SEDI_OUT[i,j] * Routing[i,j].Part1;
+                end;
+            End;
+
           If SEDI_OUT[i,j] > 0 Then
             // if sed_output_file leaves this pixel, the sed_output_file needs to be distributed over target cells
             DistributeFlux_Sediment(i, j, SEDI_IN, SEDI_OUT[i,j]);
           // SEDI_IN [m³]
 
-          If (Include_sewer) And (SewerMap[i, j] <> 0) Then
-        // if pixel contains sewer, total amount of sed_output_file leaving the system through sewer is updated
-            Begin
-            // AND SEDI_IN is corrected because procedure Distribute_Flux doesn't take this into account
-              sewer_out_sed := sewer_out_sed + (SEDI_OUT[i, j] * SewerMap[i, j] * (sewer_exit / 100));
-              SEWER_IN[i,j] := (SEDI_OUT[i, j] * SewerMap[i, j]);
 
-              SEDI_IN[Routing[i, j].Target2Row, Routing[i, j].Target2Col] :=
-                                                                             SEDI_IN[Routing[i, j].
-                                                                             Target2Row, Routing[i, j].
-                                                                             Target2Col] -
-                                                                             SEDI_OUT[i, j] * Routing[i,
-                                                                             j].Part2 + SEDI_OUT[i, j] *
-                                                                             SewerMap[i, j] * (1 - (
-                                                                             sewer_exit / 100));
-            End;
 
       end; //skip
     End;
