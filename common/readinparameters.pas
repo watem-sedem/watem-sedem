@@ -113,6 +113,7 @@ Var
   //internal variables
   sedprod,depprod: double;
   WATEREROS     : RRaster;
+  CAPAC         : RRaster;
   //water erosion (unit: mm)
   WATEREROS_cubmeter: RRaster;
   // water erosion (unit: m³)
@@ -415,6 +416,7 @@ Begin
   SetDynamicRData(SEDI_IN2);
   SetDynamicRData(SEDI_OUT2);
   SetDynamicRData(TILEROS);
+  SetDynamicRData(CAPAC);
   if include_sewer Then
    SetDynamicRData(SEWER_IN2);
   //************************
@@ -476,6 +478,7 @@ Begin
   DisposeDynamicRdata(SEDI_EXPORT_kg);
   DisposeDynamicRdata(SEDI_IN2);
   DisposeDynamicRdata(SEDI_OUT2);
+  DisposeDynamicRdata(CAPAC);
   DisposeDynamicRdata(TILEROS);
 
   If Not Simplified Then

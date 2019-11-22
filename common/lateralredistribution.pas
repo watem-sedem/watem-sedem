@@ -130,6 +130,7 @@ Begin
       // in m (ok)
     End;
   WATEREROS[i, j] := Waterero;
+  CAPAC[i,j] := capacity*BD;
   // in m (ok)
   // in m      if < 0 => erosion & if > 0 => sedimentation
 End;
