@@ -36,6 +36,7 @@ Procedure DistributeFlux_Sediment(i,j:integer;Var Flux_IN: RRaster; Flux_OUT: si
 Procedure Topo_Calculations;
 Procedure Routing_Slope(Var Routing: TRoutingArray; Var Slope: RRaster);
 Procedure Apply_Routing;
+Procedure Apply_Buffer(i, j: integer);
 
 
 
@@ -722,7 +723,32 @@ Begin
   colmin:=0;
   rowmin:=0;
 
-  // Uit code WatemSedem
+
+   // In the lines below the routing algorithm is adjusted for buffers (opvangbekkens?):
+  // Target cell for each buffer pixel = center cell of the buffer it belongs to
+  // Target cell for each buffer center cell = the lowest lying neighbour
+  // All cells adjacent to buffer and higher then buffer => target cell = buffer cell
+
+  If (Include_buffer) And (Buffermap[i,j] <> 0) Then
+    Begin
+     Apply_Buffer(i,j);
+
+     exit; // don't process sewer, dam, ditch for buffer
+   End;
+
+    If (Include_ditch) And (Ditch_map[i,j] <> 0) Then
+    Begin
+      Follow_Direction(routing, ditch_map, i, j);
+      exit;
+    End;
+
+  If (Include_dam) And (Dam_map[i,j] <> 0) Then         // same as for ditches
+    Begin
+      Follow_Direction(routing, dam_map, i, j);
+      exit;
+    End;
+
+
   For K := -1 To 1 Do
     For L := -1 To 1 Do
       Begin
@@ -1165,146 +1191,6 @@ Begin
         End;
 
 
-  // In the lines below the routing algorithm is adjusted for buffers (opvangbekkens?):
-  // Target cell for each buffer pixel = center cell of the buffer it belongs to
-  // Target cell for each buffer center cell = the lowest lying neighbour
-  // All cells adjacent to buffer and higher then buffer => target cell = buffer cell
-
-  If (Include_buffer) And (Buffermap[i,j] <> 0) Then
-    Begin
-      If Buffermap[i,j] <= Number_of_Buffers Then
-        // center of the buffer drains to lowest neighbour
-        Begin
-          w := 1;
-          Repeat
-            Minimum := 99999999.9;
-            check := false;
-
-            For K := -w To w Do
-              //a 3*3 kernel is build around the center of the buffer
-              For L := -w To w Do
-                Begin
-                  If (abs(k)<>W) And (abs(l)<>W) Then continue;
-                  If (DTM[i+k,j+l] < DTM[i,j]) And (DTM[i+k,j+l] < Minimum) Then
-                    Begin
-                      Minimum := DTM[i+k,j+l];
-                      Routing[i,j].Target1Row := i+k;
-                      Routing[i,j].Target1Col := j+l;
-                      Routing[i,j].Part1 := 1.0;
-                      Routing[i,j].Target2Row := 0;
-                      Routing[i,j].Target2Col := 0;
-                      Routing[i,j].Part2 := 0;
-                      Routing[i,j].One_Target := True;
-
-                      If (buffermap[i+k,j+l] <> (buffermap[i,j]*100)) Then
-                        //Check will be true when the target cell does not belong to the same buffer
-                        check := true;
-                    End;
-                End;
-            Inc(W);
-          Until ((check)Or(max_kernel>50));
-
-        //max_kernel is the maximum size of the kernel (thus the water is transported 50 cells further away)
-        End
-
-
-      Else
-        //Voor buffercellen die geen centercell zijn   // buffer pixel drains to buffer center cell
-        Begin
-          // identify center cell
-          center_ID := 0;
-          For k := 1 To Number_of_Buffers Do
-            Begin
-              If Buffermap[i,j] = BufferData[k].ext_ID Then
-                begin
-                center_ID := k;
-                break;
-                end;
-            End;
-          If center_ID =0 Then
-            Begin
-              raise ECalculationError.Create('Error in buffer input data: center cell of buffer ID '+inttostr(Buffermap
-                          [i,j])+' not found in buffer database.');
-              Exit;
-            End;
-
-          center_x :=BufferData[center_id].row;
-          center_y :=BufferData[center_id].col;
-
-          Routing[i,j].Target1Row := center_x;
-          Routing[i,j].Target1Col := center_y;
-          Routing[i,j].Part1 := 1.0;
-          Routing[i,j].Target2Row := 0;
-          Routing[i,j].Target2Col := 0;
-          Routing[i,j].Part2 := 0;
-          Routing[i,j].One_Target := True;
-        End;
-
-     exit; // don't process sewer, dam, ditch for buffer
-  End;
-
-  If (Include_ditch) And (Ditch_map[i,j] <> 0) Then
-    Begin
-      Follow_Direction(routing, ditch_map, i, j);
-    End;
-
-  If (Include_dam) And (Dam_map[i,j] <> 0) Then         // same as for ditches
-    Begin
-      Follow_Direction(routing, dam_map, i, j);
-    End;
-
-
-{temp fix daan Don't route sewers to river
-
-// if cell contains a sewer, the target river cell is determined and the routing information is adjusted
-  If (Include_sewer) And (SewerMap[i,j]<>0) Then
-    Begin
-      ROWMIN := 0;
-      COLMIN := 0;
-      MINIMUM := 99999999.9;
-      W := 1;
-      check := false;
-      Repeat
- // find closest LOWER river pixel. If no neighbouring cells are found to be a suitable target cell,
-        //the search window is gradually extended until target is found
-        For k := -W To W Do
-          For l := -W To W Do
-            Begin
-              If (abs(k)<>W) And (abs(l)<>W) Then continue;
-              //The cell itself is not looked at + only the outer cells of the kernel are looked at
-              If ((i+k)<0)Or(i+k>nrow)Or(j+l<0)Or(j+l>ncol) Then continue;
-              //The cells at the border of the map are not looked at
-              If ((DTM[I+K,J+L]<MINIMUM)And(DTM[I+K,J+L]<DTM[I,J])
-                 //Als de bestemmingscel een riviercel is, lager gelegen is dan broncel
-                 And(PRC[I+K,J+L]=-1))Then
-                //En de bestemmingscel nog niet behandeld is
-                Begin
-                  check := true;
-                  MINIMUM := DTM[I+K,J+L];
-                  ROWMIN := K;
-                  COLMIN := L;
-                End;
-            End;
-        Inc(W);
-      Until (check);
-
-      If Routing[i,j].Part1 < Routing[i,j].Part2 Then
-        // make sure the "strongest" target cell is target 1 (because sewer will be target 2)
-        Begin
-          Routing[i,j].Target1Row := Routing[i,j].Target2Row;
-          Routing[i,j].Target1Col := Routing[i,j].Target2Col;
-        End;
-
-      Routing[i,j].One_Target := false;
-      Routing[i,j].Target2Row := i+ROWMIN;
-      // river pixel = target 2, target 1 remains unaltered
-      Routing[i,j].Target2Col := j+COLMIN;
-      Routing[i,j].Part1 := 1-SewerMap[i,j];
-      // SewerMap[i,j] = vangefficiëntie!
-      Routing[i,j].Part2 := SewerMap[i,j];
-
-    End; }
-
 End;
 // end procedure DistributeTilDirEvent_Routing
 
@@ -1593,6 +1479,81 @@ Begin
         slope[i,j] := arctan(sqrt(sqr(s1) + sqr(s2)))
       end;
 
+End;
+
+Procedure Apply_Buffer(i, j:integer);
+var
+  w, k, l, center_id, center_x, center_y: integer;
+  minimum: double;
+  check: boolean;
+Begin
+  If Buffermap[i,j] <= Number_of_Buffers Then
+    // center of the buffer drains to lowest neighbour
+    Begin
+      w := 1;
+      Repeat
+        Minimum := 99999999.9;
+        check := false;
+
+        For K := -w To w Do
+          //a 3*3 kernel is build around the center of the buffer
+          For L := -w To w Do
+            Begin
+              If (abs(k)<>W) And (abs(l)<>W) Then continue;
+              If (DTM[i+k,j+l] < DTM[i,j]) And (DTM[i+k,j+l] < Minimum) Then
+                Begin
+                  Minimum := DTM[i+k,j+l];
+                  Routing[i,j].Target1Row := i+k;
+                  Routing[i,j].Target1Col := j+l;
+                  Routing[i,j].Part1 := 1.0;
+                  Routing[i,j].Target2Row := 0;
+                  Routing[i,j].Target2Col := 0;
+                  Routing[i,j].Part2 := 0;
+                  Routing[i,j].One_Target := True;
+
+                  If (buffermap[i+k,j+l] <> (buffermap[i,j]*100)) Then
+                    //Check will be true when the target cell does not belong to the same buffer
+                    check := true;
+                End;
+            End;
+        Inc(W);
+      Until ((check)Or(max_kernel>50));
+
+    //max_kernel is the maximum size of the kernel (thus the water is transported 50 cells further away)
+    End
+
+
+  Else
+    //Voor buffercellen die geen centercell zijn   // buffer pixel drains to buffer center cell
+    Begin
+      // identify center cell
+      center_ID := 0;
+      For k := 1 To Number_of_Buffers Do
+        Begin
+          If Buffermap[i,j] = BufferData[k].ext_ID Then
+            begin
+            center_ID := k;
+            break;
+            end;
+        End;
+      If center_ID =0 Then
+        Begin
+          raise ECalculationError.Create('Error in buffer input data: center cell of buffer ID '+inttostr(Buffermap
+                      [i,j])+' not found in buffer database.');
+          Exit;
+        End;
+
+      center_x :=BufferData[center_id].row;
+      center_y :=BufferData[center_id].col;
+
+      Routing[i,j].Target1Row := center_x;
+      Routing[i,j].Target1Col := center_y;
+      Routing[i,j].Part1 := 1.0;
+      Routing[i,j].Target2Row := 0;
+      Routing[i,j].Target2Col := 0;
+      Routing[i,j].Part2 := 0;
+      Routing[i,j].One_Target := True;
+    End;
 End;
 
 
