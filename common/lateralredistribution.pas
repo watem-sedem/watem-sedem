@@ -164,13 +164,11 @@ Begin
   If VHA Then //If the user wants output per river segment
     Begin
       numRivSeg := calcRivSeg(RivSeg);
-
       // check that numRivSeg calculated from the raster is not smaller than the
       // one used in the input files
       for i:=low(river_adjectant.key) to high(river_adjectant.key) do
          if river_adjectant.key[i] > numRivSeg then
             raise EInputException.Create('Larger number of segments in adjectant segment file than in raster -check the input');
-
 
       setlength(sedload_VHA, numRivSeg + 1);
       for i :=1 to numRivSeg Do
@@ -195,12 +193,10 @@ Begin
       i := row[teller];
       j := column[teller];
 
-
      skip:=false;
       If (PRC[i, j] = 0) Or (PRC[i, j] = -1) Then
         // if cell is outside area or a river cell or a water body => = all export cells
-
-//    This means that also cells outside the study area and ponds are included in the calculation of sed_output_file leaving the catchment?
+        // This means that also cells outside the study area and ponds are included in the calculation of sed_output_file leaving the catchment?
         Begin
           If (PRC[i, j] = -1) Then
             TEMP_river_sed_input := TEMP_river_sed_input + SEDI_IN[i, j];
@@ -212,15 +208,6 @@ Begin
           If (VHA) And (RivSeg[i, j] <> 0) Then
             sedload_VHA[RivSeg[i, j]] := sedload_VHA[RivSeg[i, j]] + SEDI_EXPORT[i, j];
           // totale hoeveelheid sed_output_file per rivier segment wordt opgeslagen
-          if (PRC[i,j] = 0) then
-            begin;
-              RUSLE[i, j] := -9999;
-              SEDI_OUT[i, j] := -9999;
-              SEDI_IN[i, j] := -9999;
-              WATEREROS[i, j] := -9999;
-              WATEREROS_cubmeter[i, j] := -9999;
-              WATEREROS_kg[i, j] := -9999;
-            end;
           skip :=true;
         End;
 
