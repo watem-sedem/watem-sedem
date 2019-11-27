@@ -185,6 +185,7 @@ Begin
 
   TEMP_river_sed_input := 0;
   TEMP_outside_sed_input := 0;
+  TEMP_pond_sed_input := 0;
   TEMP_buffer_sed_input := 0;
 
     for teller:=0 to nrow*ncol-1 do
@@ -364,6 +365,10 @@ Begin
   100)/100) + ' (kg)');
   Writeln(sed_output_file, 'Sediment trapped in open water: ' + floattostr(round((TEMP_pond_sed_input * BD)
   *100)/100) + ' (kg)');
+  If (Include_sewer) Then
+    begin
+    Writeln(sed_output_file, 'Sediment entering sewer system: ' + (floattostr(sewer_out_sed*BD)) + ' (kg)');
+    end;
   Writeln(sed_output_file,'_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _');
   Writeln(sed_output_file,'');
   Writeln(sed_output_file, 'Total sediment passing at each outlet [kg]');
@@ -450,24 +455,6 @@ Begin
       closefile(Sediment_VHA);
       //The memory of sed_output_file is released
     End;
-
-
-  If (Include_sewer) Then
-    // total amount of sed_output_file exported through sewer system is written to .txt file
-    Begin
-      sewer_out_sed := sewer_out_sed * BD;
-      // convert to kg
-
-      setcurrentDir(File_output_dir);
-      assignfile(sewer_out, 'Sewer output sediment.txt');
-      rewrite(sewer_out);
-      Writeln(sewer_out, 'Total amount of sediment leaving the system through the sewers [kg]');
-      // write title
-      Writeln(sewer_out, floattostr(sewer_out_sed));
-      closefile(sewer_out);
-      //The memory of sewer_out is released
-    End;
-
 
   For m := 1 To nrow Do
     For n := 1 To ncol Do
