@@ -798,7 +798,7 @@ Begin
       exit;
     End; // end closeriver
 
-   // flow into ditch (or dam) only if cell is lower than current cell
+   // for ditch or dam:
    If closeditchdam then
      begin
      extremum := 99999;
