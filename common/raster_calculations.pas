@@ -37,7 +37,7 @@ Procedure Topo_Calculations;
 Procedure Routing_Slope(Var Routing: TRoutingArray; Var Slope: RRaster);
 Procedure Apply_Routing;
 Procedure Apply_Buffer(i, j: integer);
-
+Procedure add_queue(var inv: TRoutingInvArray; var q_index, last_index: integer) ;
 
 
 Implementation
@@ -331,7 +331,7 @@ end;
 Procedure Apply_Routing;
 Var
   inv: TRoutingInvArray;
-  ii, teller, t_r, t_c: integer;
+  ii, teller: integer;
   q_index, last_index: integer;
 Begin
        // invert routing
@@ -357,28 +357,32 @@ Begin
   begin
     i := row[q_index];
     j := column[q_index];
-
-    If Routing[i,j].Part1 > 0.0 Then
-   begin
-     t_r := Routing[i, j].Target1Row;
-     t_c := Routing[i, j].Target1Col;
-
-     setpointtreated(inv, last_index, i,j,t_r, t_c);
-   end;
- If Routing[i,j].Part2 > 0.0 Then
-   begin
-     t_r := Routing[i, j].Target2Row;
-     t_c := Routing[i, j].Target2Col;
-
-     setpointtreated(inv, last_index, i,j,t_r, t_c);
-
-   end;
-   q_index+=1;
+    add_queue(inv, q_index, last_index);
   end;
 
-
   missing_routes(inv);
+end;
 
+
+procedure add_queue(var inv: TRoutingInvArray; var q_index, last_index: integer) ;
+var
+  t_r, t_c: integer;
+begin
+  If Routing[i,j].Part1 > 0.0 Then
+    begin
+      t_r := Routing[i, j].Target1Row;
+      t_c := Routing[i, j].Target1Col;
+
+      setpointtreated(inv, last_index, i,j,t_r, t_c);
+    end;
+    If Routing[i,j].Part2 > 0.0 Then
+     begin
+       t_r := Routing[i, j].Target2Row;
+       t_c := Routing[i, j].Target2Col;
+
+       setpointtreated(inv, last_index, i,j,t_r, t_c);
+     end;
+   q_index+=1;
 
 end;
 
