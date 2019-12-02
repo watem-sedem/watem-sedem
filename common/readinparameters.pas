@@ -180,6 +180,7 @@ Var
   Include_dam          : boolean;
   Create_ktc           : boolean;
   Create_ktil          : boolean;
+  Calc_tileros         : boolean;
   Outlet_select        : boolean;
   Convert_output       : boolean;
   VHA                  : boolean;
@@ -195,7 +196,6 @@ Var
   Write_RUSLE          : boolean;
   Write_Sediexport     : boolean;
   Write_SLOPE          : boolean;
-  Write_TILEROS        : boolean;
   Write_TOTRUN         : boolean;
   Write_UPAREA         : boolean;
   Write_WATEREROS      : boolean;
@@ -602,7 +602,9 @@ Begin
     Begin
      Use_Rfactor:= Inifile.ReadBool('User Choices','Use R factor',false);
      Create_ktc := Inifile.ReadBool('User Choices','Create ktc map',true);
-     Create_ktil := Inifile.ReadBool('User Choices','Create ktil map',false);
+     Calc_tileros := Inifile.ReadBool('User Choices', 'Calculate Tillage Erosion', false);
+     if Calc_tileros then
+        Create_ktil := Inifile.ReadBool('User Choices','Create ktil map',false);
      est_clay:= Inifile.ReadBool('User Choices','Estimate clay content',false);
      calibrate :=  inifile.ReadBool('Calibration', 'Calibrate', false);
     end
@@ -660,7 +662,7 @@ Begin
 
   if not OnlyRouting then
     Begin
-    ktil_Data_Filename := SetFileFromIni(Inifile, 'ktil map filename', datadir, not Create_ktil);
+    ktil_Data_Filename := SetFileFromIni(Inifile, 'ktil map filename', datadir, (not Create_ktil and Calc_tileros));
     Rainfallfilename := SetFileFromIni(Inifile, 'Rainfall filename', datadir, not use_rfactor);
     K_Factor_filename := SetFileFromIni(Inifile, 'K factor filename', datadir, True);
     Cf_data_filename := SetFileFromIni(Inifile, 'C factor map filename', datadir, True);
@@ -698,15 +700,12 @@ Begin
   If OnlyRouting Then
     Begin
       Write_RUSLE := false;
-      Write_TILEROS := false;
       Write_WATEREROS := false;
     end
   Else
       Begin
         Write_RUSLE := Inifile.ReadBool('Output maps','Write RUSLE',false);
         Write_Sediexport := Inifile.ReadBool('Output maps','Write sediment export',false);
-        Write_TILEROS :=  Inifile.ReadBool('Output maps','Write tillage erosion',false);
-
         Write_WATEREROS := Inifile.ReadBool('Output maps','Write water erosion',false);
 
         If Simplified Then
