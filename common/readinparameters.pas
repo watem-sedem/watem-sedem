@@ -615,7 +615,7 @@ Begin
     End;
 
 
-  Inc_tillage:=Inifile.ReadBool('User Choices','Include tillage',false);
+  Inc_tillage:=Inifile.ReadBool('User Choices','Include tillage direction',false);
   topo := not Inc_tillage;
   Include_buffer := Inifile.ReadBool('User Choices','Include buffers',false);
   Include_ditch := Inifile.ReadBool('User Choices','Include ditches',false);
