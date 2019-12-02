@@ -274,12 +274,18 @@ end;
 
 Function Distance1(r: TRoutingArray;i,j: integer):double;
 begin
- Distance1 := res * sqrt(sqr(i - r[i,j].Target1Row) + sqr(j -r[i,j].Target1Col));
+  if ((r[i,j].Target1Row <> -99) and (r[i,j].Target1Col <> -99)) Then
+     Distance1 := res * sqrt(sqr(i - r[i,j].Target1Row) + sqr(j -r[i,j].Target1Col))
+  else Distance1 := 0;
+
 end;
 
 Function Distance2(r: TRoutingArray;i,j: integer):double;
 begin
- Distance2 := res * sqrt(sqr(i - r[i,j].Target2Row) + sqr(j -r[i,j].Target2Col));
+ if ((r[i,j].Target2Row <> -99) and (r[i,j].Target2Col <> -99)) Then
+    Distance2 := res * sqrt(sqr(i - r[i,j].Target2Row) + sqr(j -r[i,j].Target2Col))
+ else
+    Distance2 := 0;
 end;
 
 Procedure ReadInRasters;
