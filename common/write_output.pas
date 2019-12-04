@@ -37,7 +37,7 @@ Begin
 {writeGIdrisi32file(ncol,nrow,File_output_dir+'row'+'.rst', row2);
      writeGIdrisi32file(ncol,nrow,File_output_dir+'col'+'.rst', col2);   }
     End;
-  If Write_TILEROS Then writeIdrisi32file(ncol,nrow,File_output_dir+'TILEROS'+'.rst', TILEROS);
+  If Calc_tileros Then writeIdrisi32file(ncol,nrow,File_output_dir+'TILEROS'+'.rst', TILEROS);
   If Write_WATEREROS Then
     Begin
       writeIdrisi32file(ncol,nrow,File_output_dir+'WATEREROS (mm per gridcel)'+'.rst', WATEREROS);

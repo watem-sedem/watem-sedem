@@ -1389,7 +1389,7 @@ Begin
       If Routing[i,j].Part2 > 0.0 Then
         Begin
           If (PRC[Routing[i,j].Target2Row,Routing[i,j].Target2Col] = -6) And (PRC[i,j] <> -6) And (
-             Buffermap[Routing[i,j].Target1Row,Routing[i,j].Target1Col] = 0) Then
+             Buffermap[Routing[i,j].Target2Row,Routing[i,j].Target2Col] = 0) Then
             // If this target cell is a grass buffer strip
 
 // The parcel connectivity should only be applied when you go from a non-grassbuffer strip to a bufferstrip
