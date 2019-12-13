@@ -189,7 +189,8 @@ if not OnlyRouting Then
       if river_routing then
          Cumulative_raster;
 
-      Tillage_dif;
+      if Calc_tileros then
+         Tillage_dif;
       // tillage erosion calculations
 
    end;
