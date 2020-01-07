@@ -150,6 +150,7 @@ var
   i,j: integer;
   t_c, t_r, pos: integer;
   ring: boolean;
+  delta1: float;
 begin
   SetLength(inv,nrow+2, ncol+2);
   For i := 1 To nrow Do
@@ -173,19 +174,17 @@ begin
           // don't add if this creates a pairwise ring and target is higher or equal
           ring :=  (j=routing[t_r,t_c].Target1Col) and (i = routing[t_r,t_c].Target1Row) or
                 ((j=routing[t_r,t_c].Target2Col) and (i = routing[t_r,t_c].Target2Row) )   ;
-
-          if (dtm[t_r, t_c] >=dtm[i,j]) and ring then
+          // add a tiny difference to make sure two equal cells
+          // don't route to eachother
+          delta1 := (t_r/nrow - i/nrow +t_c/ncol - j/ncol) /4000;
+          if ring and (dtm[t_r, t_c] >dtm[i,j] + delta1) then
           begin
-            Routing[i,j].Target1Col:= -99;
-            Routing[i,j].Target1Row:= -99;
-            Routing[i,j].Part1:= 0;
-            if routing[i,j].target2col > 0 then
-               Routing[i,j].Part2:= 1
-            else routing[i,j].one_target:=false;
-
+             Routing[i,j].Part1:=0;
+             Routing[i,j].Target1Col:= -99;
+             Routing[i,j].Target1Row:= -99;
           end
 
-          else
+          else  // not ring
          begin
 
           pos := inv[t_r, t_c].size;
@@ -209,16 +208,14 @@ begin
           t_r :=  Routing[i,j].Target2Row ;
 
           // don't add if this creates a pairwise ring and target is higher or equal
+          delta1 := (t_r/nrow - i/nrow +t_c/ncol - j/ncol) /4000;
           ring :=  (j=routing[t_r,t_c].Target1Col) and (i = routing[t_r,t_c].Target1Row) or
            ((j=routing[t_r,t_c].Target2Col) and (i = routing[t_r,t_c].Target2Row) )   ;
-          if (dtm[t_r, t_c] >=dtm[i,j]) and ring then
+          if ring and ((dtm[t_r, t_c] ) >dtm[i,j] + delta1) then
           begin
-            Routing[i,j].Target2Col:= -99;
-            Routing[i,j].Target2Row:= -99;
-            Routing[i,j].Part2:= 0;
-            if routing[i,j].target1col > 0 then
-               Routing[i,j].Part1:= 1;
-
+               Routing[i,j].Target2Col:= -99;
+               Routing[i,j].Target2Row:= -99;
+               Routing[i,j].Part2:= 0;
           end
 
           else
