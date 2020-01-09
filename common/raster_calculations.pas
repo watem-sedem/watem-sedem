@@ -38,6 +38,7 @@ Procedure Routing_Slope(Var Routing: TRoutingArray; Var Slope: RRaster);
 Procedure Apply_Routing;
 Procedure Apply_Buffer(i, j: integer);
 Procedure add_queue(var inv: TRoutingInvArray; var q_index, last_index: integer) ;
+Function FindLower(i,j, max_kernel: integer): boolean;
 
 
 Implementation
@@ -166,6 +167,9 @@ begin
     For j := 1 To ncol Do
      begin;
 
+      if PRC[i,j]=0 then
+        continue; // jump out of the loop if we look at cell outside the study area
+
       if (Routing[i,j].Part1 > 0) and (Routing[i,j].Target1Col > 0) then
         begin
           t_c :=  Routing[i,j].Target1Col ;
@@ -232,6 +236,18 @@ begin
             inv[t_r, t_c].up_y[pos] := j;
           end;
         end;
+
+      // check if routing has no target: find a lower cell in the neighborhood and route there
+      if (Routing[i,j].target1col<1) and (Routing[i,j].target2col <1) and (not i =lowOutletY) and (not j=lowOutletY) then
+        begin
+          if FindLower(i,j,max_kernel) then
+            begin
+                t_c :=  Routing[i,j].Target2Col ;
+                t_r :=  Routing[i,j].Target2Row ;
+
+            end;
+        end;
+
      end;
   Invert_routing:= inv;
 end;
@@ -1070,109 +1086,7 @@ Begin
         End;
 
       If ((PART1=0.0)And(PART2=0.0)) Then
-        // no cells were found (both have a higher or equal elevation or another parcel ID)
-        Begin
-          PART1 := Area;
-          // CODE JEROEN
-          parequal := false;
-          ROWMIN := 0;
-          ROWMIN2 := 0;
-          COLMIN := 0;
-          COLMIN2 := 0;
-          MINIMUM := 99999999.9;
-          MINIMUM2 := 99999999.9;
-          W := 1;
-          check := false;
-
-          // CODE JEROEN
-          Repeat
-            // if no neighbouring cells are found to be a suitable target cell,
-            // the search window is gradually extended until target is found
-            // river cells are always considered lower than the original cell.
-            For k := -W To W Do
-              For l := -W To W Do
-                Begin
-                  If (abs(k)<>W) And (abs(l)<>W) Then continue;
-
-               //The cell itself is not looked at + only the outer cells of the kernel are looked at
-                  If ((i+k)<0)Or(i+k>nrow)Or(j+l<0)Or(j+l>ncol) Then continue;
-                  //The cells at the border of the map are not looked at
-                  If ((DTM[I+K,J+L]<MINIMUM)And(DTM[I+K,J+L]<DTM[I,J])
-                     //Als de bestemmingscel lager gelegen is dan broncel
-                     And(PRC[I+K,J+L]=PRC[I,J]))Then
-                    //En de bestemminscel nog niet behandeld is EN binnen hetzelfde perceel ligt
-                    Begin
-                      check := true;
-                      MINIMUM := DTM[I+K,J+L];
-                      ROWMIN := K;
-                      COLMIN := L;
-                      parequal := true;
-                    End;
-                  If ((DTM[I+K,J+L]<MINIMUM2)And(DTM[I+K,J+L]<DTM[I,J]) )Then
-                    // lager gelegen cel, ander perceel, nog niet behandeld
-                    Begin
-                      check := true;
-                      MINIMUM2 := DTM[I+K,J+L];
-                      ROWMIN2 := K;
-                      COLMIN2 := L;
-                    End;
-                  // als er een rivier in de zoekstraal is springen we naar
-                  // de laagste riviercel die in de buurt ligt
-                  If ((DTM[I+K,J+L]<MINIMUM2) AND (PRC[I+K,J+L]=-1) )Then
-                    Begin;
-                      check := true;
-                      MINIMUM2 := DTM[I+K,J+L];
-                      ROWMIN2 := K;
-                      COLMIN2 := L;
-                    end;
-                End;
-            Inc(W);
-
-          Until ((check) Or(W>max_kernel));
-          If (W>max_kernel) Then
-          begin
-              Routing[i,j].One_Target := False;
-              Routing[i,j].Target1Row := -99;
-              Routing[i,j].Target1Col := -99;
-              Routing[i,j].Target2Row := 0;
-              Routing[i,j].Target2Col := 0;
-              Routing[i,j].Part1 := 0;
-              Routing[i,j].Part2 := 0;
-              exit;
-          end;
-
-
-
-        //max_kernel is the maximum size of the kernel (thus the water is transported 50 cells further away)
-
-          If parequal Then    // If receiving cell is in same parcel
-            Begin
-              Routing[i,j].One_Target := True;
-              Routing[i,j].Target1Row := i+ROWMIN;
-              Routing[i,j].Target1Col := j+COLMIN;
-              Routing[i,j].Target2Row := 0;
-              Routing[i,j].Target2Col := 0;
-              Routing[i,j].Part1 := part1{ + part2};
-              //TODO johan -  bug?
-              Routing[i,j].Part2 := 0;
-            End
-          Else           // if receiving cell belongs to a different parcel
-            Begin
-              // determine value of parcel connectivity based on receiving parcel
-
-              Routing[i,j].One_Target := True;
-              Routing[i,j].Target1Row := i+ROWMIN2;
-              Routing[i,j].Target1Col := j+COLMIN2;
-              Routing[i,j].Target2Row := 0;
-              Routing[i,j].Target2Col := 0;
-              Routing[i,j].Part1 := part1{ + part2};
-              //TODO johan - bug?
-              Routing[i,j].Part2 := 0;
-            End;
-
-
-        End
-        // end if no cells were found
+        FindLower(i,j,  max_kernel)
       Else
         Begin
           // normal case part1 or part2 <> 0
@@ -1187,13 +1101,118 @@ Begin
 
       If Routing[i,j].Part1 = 0 Then
         Begin
-          Routing[i,j].Target1Row := 0;
-          Routing[i,j].Target1Col := 0;
+          Routing[i,j].Target1Row := -99;
+          Routing[i,j].Target1Col := -99;
         End;
 
 
 End;
 // end procedure DistributeTilDirEvent_Routing
+
+
+// procedure which ir run when no neigbouring lower parcel is found
+function FindLower(i,j, max_kernel: integer): boolean;
+var
+rowmin, rowmin2, colmin, colmin2, w, k,l : integer;
+minimum, minimum2: float;
+check, parequal: boolean;
+
+  Begin
+    parequal := false;
+    ROWMIN := 0;
+    ROWMIN2 := 0;
+    COLMIN := 0;
+    COLMIN2 := 0;
+    MINIMUM := 99999999.9;
+    MINIMUM2 := 99999999.9;
+    W := 1;
+    check := false;
+
+    // CODE JEROEN
+    Repeat
+      // if no neighbouring cells are found to be a suitable target cell,
+      // the search window is gradually extended until target is found
+      // river cells are always considered lower than the original cell.
+      For k := -W To W Do
+        For l := -W To W Do
+          Begin
+            If (abs(k)<>W) And (abs(l)<>W) Then continue;
+
+         //The cell itself is not looked at + only the outer cells of the kernel are looked at
+            If ((i+k)<0)Or(i+k>nrow)Or(j+l<0)Or(j+l>ncol) Then continue;
+            //The cells at the border of the map are not looked at
+            If ((DTM[I+K,J+L]<MINIMUM)And(DTM[I+K,J+L]<DTM[I,J])
+               //Als de bestemmingscel lager gelegen is dan broncel
+               And(PRC[I+K,J+L]=PRC[I,J]))Then
+              //En de bestemminscel nog niet behandeld is EN binnen hetzelfde perceel ligt
+              Begin
+                check := true;
+                MINIMUM := DTM[I+K,J+L];
+                ROWMIN := K;
+                COLMIN := L;
+                parequal := true;
+              End;
+
+            // als er een rivier in de zoekstraal is springen we naar
+            // de laagste riviercel die in de buurt ligt
+            If ((DTM[I+K,J+L]<MINIMUM2) AND (PRC[I+K,J+L]=-1) )Then
+              Begin;
+                check := true;
+                MINIMUM2 := DTM[I+K,J+L];
+                ROWMIN2 := K;
+                COLMIN2 := L;
+              end;
+            If ((DTM[I+K,J+L]<MINIMUM2)And(DTM[I+K,J+L]<DTM[I,J]) and not check)Then
+              // lager gelegen cel, ander perceel, nog niet behandeld, enkel indien geen rivier of cel in eigen peceel
+              Begin
+                check := true;
+                MINIMUM2 := DTM[I+K,J+L];
+                ROWMIN2 := K;
+                COLMIN2 := L;
+              End;
+
+          End;
+      Inc(W);
+
+    Until ((check) Or(W>max_kernel));
+    If (W>max_kernel) Then
+    begin
+        Routing[i,j].One_Target := False;
+        Routing[i,j].Target1Row := -99;
+        Routing[i,j].Target1Col := -99;
+        Routing[i,j].Target2Row := -99;
+        Routing[i,j].Target2Col := -99;
+        Routing[i,j].Part1 := -99;
+        Routing[i,j].Part2 := -99;
+        findlower:= False;
+
+    end;
+
+
+    If parequal Then    // If receiving cell is in same parcel
+      Begin
+        Routing[i,j].One_Target := True;
+        Routing[i,j].Target1Row := i+ROWMIN;
+        Routing[i,j].Target1Col := j+COLMIN;
+        Routing[i,j].Target2Row := -99;
+        Routing[i,j].Target2Col := -99;
+        Routing[i,j].Part1 := 1;
+        Routing[i,j].Part2 := 0;
+      End
+    Else           // if receiving cell belongs to a different parcel
+      Begin
+        Routing[i,j].One_Target := True;
+        Routing[i,j].Target1Row := i+ROWMIN2;
+        Routing[i,j].Target1Col := j+COLMIN2;
+        Routing[i,j].Target2Row := -99;
+        Routing[i,j].Target2Col := -99;
+        Routing[i,j].Part1 := 1;
+        Routing[i,j].Part2 := 0;
+      End;
+
+          findlower:= True;
+end;
+
 
 
 
