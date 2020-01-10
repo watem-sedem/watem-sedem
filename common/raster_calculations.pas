@@ -187,6 +187,10 @@ begin
              Routing[i,j].Part1:=0;
              Routing[i,j].Target1Col:= -99;
              Routing[i,j].Target1Row:= -99;
+             if (Routing[i,j].One_Target) then
+             begin
+               Routing[i,j].One_Target:= False;
+             end;
           end
 
           else  // not ring
@@ -208,6 +212,10 @@ begin
                Routing[i,j].Target2Col:= -99;
                Routing[i,j].Target2Row:= -99;
                Routing[i,j].Part2:= 0;
+               if (Routing[i,j].One_Target) then
+               begin
+                 Routing[i,j].One_Target := False;
+               end;
           end
           else
             addInverse(inv, i,j,t_c, t_r);
