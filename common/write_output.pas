@@ -100,7 +100,7 @@ Begin
   For k := 1 To nrow Do
     For l := 1 To ncol Do
       begin
-      if Routing[k,l].Target1Col = -99 then continue; // skip empty rows
+      if (Routing[k,l].Target1Col <1) and (Routing[k,l].Target2Col <1) then continue; // skip empty rows
       Writeln(routingfile,  IntToStr(l)+sep+ IntToStr(k) + sep
       + IntToStr(Routing[k,l].Target1Col)  + sep + IntToStr(Routing[k,l].Target1Row)+ sep +
       floattostr(Routing[k,l].part1)+ sep + floattostr(Distance1(Routing,k,l)) + sep

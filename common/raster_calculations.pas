@@ -39,6 +39,7 @@ Procedure Apply_Routing;
 Procedure Apply_Buffer(i, j: integer);
 Procedure add_queue(var inv: TRoutingInvArray; var q_index, last_index: integer) ;
 Function FindLower(i,j, max_kernel: integer): boolean;
+procedure addInverse(var inv:TroutingInvArray; i,j,t_c, t_r: integer);
 
 
 Implementation
@@ -149,7 +150,7 @@ Function Invert_routing(Routing: TRoutingArray): TRoutingInvArray;
 var
   inv: TRoutingInvArray;
   i,j: integer;
-  t_c, t_r, pos: integer;
+  t_c, t_r: integer;
   ring: boolean;
   delta1: float;
 begin
@@ -189,20 +190,7 @@ begin
           end
 
           else  // not ring
-         begin
-
-          pos := inv[t_r, t_c].size;
-
-          inv[t_r, t_c].size := pos+1;
-          if pos > length(inv[t_r, t_c].up_X)-1 then
-            begin
-             setlength(inv[t_r, t_c].up_X, length(inv[t_r, t_c].up_X)*2);
-             setlength(inv[t_r, t_c].up_Y, length(inv[t_r, t_c].up_Y)*2);
-            end;
-
-          inv[t_r, t_c].up_X[pos] := i;
-          inv[t_r, t_c].up_y[pos] := j;
-         end;
+            addInverse(inv, i,j,t_c, t_r);
 
         end;
 
@@ -221,30 +209,18 @@ begin
                Routing[i,j].Target2Row:= -99;
                Routing[i,j].Part2:= 0;
           end
-
           else
-          begin
-            pos := inv[t_r, t_c].size;
-            inv[t_r, t_c].size := pos+1;
-            if pos > length(inv[t_r, t_c].up_X)-1 then
-              begin
-               setlength(inv[t_r, t_c].up_X, length(inv[t_r, t_c].up_X)*2);
-               setlength(inv[t_r, t_c].up_Y, length(inv[t_r, t_c].up_Y)*2);
-              end;
-
-            inv[t_r, t_c].up_X[pos] := i;
-            inv[t_r, t_c].up_y[pos] := j;
-          end;
+            addInverse(inv, i,j,t_c, t_r);
         end;
 
       // check if routing has no target: find a lower cell in the neighborhood and route there
-      if (Routing[i,j].target1col<1) and (Routing[i,j].target2col <1) and (not i =lowOutletY) and (not j=lowOutletY) then
+      if (Routing[i,j].target1col<1) and (Routing[i,j].target2col <1) then
         begin
           if FindLower(i,j,max_kernel) then
             begin
-                t_c :=  Routing[i,j].Target2Col ;
-                t_r :=  Routing[i,j].Target2Row ;
-
+                t_c :=  Routing[i,j].Target1Col ;
+                t_r :=  Routing[i,j].Target1Row ;
+                addInverse(inv, i,j,t_c, t_r);
             end;
         end;
 
@@ -252,6 +228,25 @@ begin
   Invert_routing:= inv;
 end;
 
+
+
+procedure addInverse(var inv:TroutingInvArray; i,j,t_c, t_r: integer);
+var
+  pos:integer;
+begin
+    pos := inv[t_r, t_c].size;
+
+    inv[t_r, t_c].size := pos+1;
+    if pos > length(inv[t_r, t_c].up_X)-1 then
+    begin
+      setlength(inv[t_r, t_c].up_X, length(inv[t_r, t_c].up_X)*2);
+      setlength(inv[t_r, t_c].up_Y, length(inv[t_r, t_c].up_Y)*2);
+    end;
+
+    inv[t_r, t_c].up_X[pos] := i;
+    inv[t_r, t_c].up_y[pos] := j;
+
+end;
 
 procedure settreatedsize(var inv: TRoutingInvArray) ;
 var
