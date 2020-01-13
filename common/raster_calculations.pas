@@ -222,7 +222,7 @@ begin
         end;
 
       // check if routing has no target: find a lower cell in the neighborhood and route there
-      if (Routing[i,j].target1col<1) and (Routing[i,j].target2col <1) then
+      if (Routing[i,j].target1col<1) and (Routing[i,j].target2col <1) and (outlet[i,j]=0) and (PRC[i,j]<>-1) then
         begin
           if FindLower(i,j,max_kernel) then
             begin
