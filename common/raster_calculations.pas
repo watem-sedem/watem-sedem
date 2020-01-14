@@ -567,8 +567,8 @@ End;
 
 
 Routing[i,j].Part1 := 1.0;
-Routing[i,j].Target2Row := 0;
-Routing[i,j].Target2Col := 0;
+Routing[i,j].Target2Row := -99;
+Routing[i,j].Target2Col := -99;
 Routing[i,j].Part2 := 0;
 Routing[i,j].One_Target := True;
 
@@ -672,6 +672,9 @@ Begin
 
       nextsegment := river_adjectant[segment];
 
+      if (nextsegment = 0) then
+        exit;
+
       w:=1;
 
       check := false;
@@ -752,8 +755,10 @@ Begin
   If (Include_buffer) And (Buffermap[i,j] <> 0) Then
     Begin
      Apply_Buffer(i,j);
-
-     exit; // don't process sewer, dam, ditch for buffer
+     // we should process dam, ditch and buffer if it is the endpoint of the buffer,
+     // otherwise we should skip further steps.
+     if (Buffermap[i,j] > 100) then
+        exit;
    End;
 
     If (Include_ditch) And (Ditch_map[i,j] <> 0) Then
@@ -1099,6 +1104,7 @@ Begin
           Routing[i,j].Target2Col := j+l2;
           Routing[i,j].Part1 := Part1;
           Routing[i,j].Part2 := Part2;
+          Routing[i,j].One_Target:=False;
         End;
 
 
@@ -1572,8 +1578,8 @@ Begin
       Routing[i,j].Target1Row := center_x;
       Routing[i,j].Target1Col := center_y;
       Routing[i,j].Part1 := 1.0;
-      Routing[i,j].Target2Row := 0;
-      Routing[i,j].Target2Col := 0;
+      Routing[i,j].Target2Row := -99;
+      Routing[i,j].Target2Col := -99;
       Routing[i,j].Part2 := 0;
       Routing[i,j].One_Target := True;
     End;
