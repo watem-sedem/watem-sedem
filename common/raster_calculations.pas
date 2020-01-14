@@ -1340,19 +1340,46 @@ End;
 Procedure DistributeFlux_LS(i,j:integer;Var Flux_IN: rraster; fluxout: single);
 
 Var 
-  flux: double;
+  flux, ptef: double;
+  BufferId: integer;
 Begin
-  // flux decomposition algoritme
+
+  If Include_buffer and (Buffermap[i,j] > 100) Then
+    Begin
+      flux := fluxout;
+
+      if (Routing[i,j].Part1 > 0) and (Buffermap[Routing[i,j].Target1Row,Routing[i,j].Target1Col] >0) then
+        begin
+         BufferId :=Buffermap[i,j] div 100;
+         ptef :=1-BufferData[BufferId].PTEF/100;
+         flux := fluxout * ptef;
+        end;
+
+      if (Routing[i,j].Part1 > 0) then
+        begin
+        Flux_IN[Routing[i,j].Target1Row,Routing[i,j].Target1Col] += Routing[i,j].Part1 * flux;
+
+        end;
+
+      if (Routing[i,j].Part2 > 0) then
+        Flux_IN[Routing[i,j].Target2Row,Routing[i,j].Target2Col] += Routing[i,j].Part2 * flux;
+
+      exit;
+    End;
+
+
+// flux decomposition algoritme
 
 
 // Bij de overgang naar een ander perceel wordt de uparea verminderd volgens de parcel connectivities
   If (Routing[i,j].one_target = true) And (PRC[Routing[i,j].Target1Row,Routing[i,j].Target1Col] <>
-     PRC[i,j]) or  (include_buffer And (Buffermap[i,j] > 0))Then
+     PRC[i,j]) Then
     // Als er maar 1 targetcel is (dit is steeds wanneer er naar een ander perceel wordt gerout,
     // behalve wanneer de targetcel een grasbufferstrook is)
     // en wanneer die targetcel een andere perceelswaarde heeft
     Begin
       flux := 0;
+
       If (PRC[Routing[i,j].Target1Row,Routing[i,j].Target1Col] >= 1) Then
         // Als de targetcel cropland is
         Begin
@@ -1372,17 +1399,7 @@ Begin
       If (PRC[Routing[i,j].Target1Row,Routing[i,j].Target1Col] = -1) Then // Target is a river pixel
         flux := fluxout;
 
-      If Include_buffer and (Buffermap[i,j] > 0) Then
-        Begin
-          If  (Buffermap[Routing[i,j].Target1Row,Routing[i,j].Target1Col] >
-             0) Then // Both source and target are buffers
-            flux := fluxout
-          Else // reduce upstream area with parcel trapping efficiency
-            if buffer_reduce_upstream_area  and (Buffermap[i,j] <= Length(BufferData)) then
-                flux := fluxout * (1-BufferData[Buffermap[i,j]].PTEF/100)
-            else
-                flux:= fluxout;
-        End;
+
 
       Flux_IN[Routing[i,j].Target1Row,Routing[i,j].Target1Col] += flux;
 
