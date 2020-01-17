@@ -112,7 +112,7 @@ If Not Simplified Then
 //Amount of rainfall excess or deficit is calculated
 
 try
-
+  calcOutlet;
   Topo_Calculations;
   // Sort DTM, calculate slope and aspect, calculate routing, calculate UPAREA, calculate LS factor RUSLE
 
@@ -130,21 +130,6 @@ end;
 
 if not OnlyRouting Then
    Begin
-
-      try
-      // number and position of outlets is determined. Lowest outlet is also determined.
-      calcOutlet;
-      Except
-        on E: Exception Do
-           Begin
-             TextColor(red);
-             Writeln(E.Message);
-             NormVideo();
-             Terminate(1);
-             Exit;
-           end;
-      end;
-
       If Not simplified Then
         CalculateTimeDependentRunoff(Remap, RainData, Routing, PRC);
       //Amount of runoff per timestep is calculated

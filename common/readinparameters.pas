@@ -269,6 +269,7 @@ begin
       if self.key[i] = k then
         getItem:= self.value[i];
     end;
+  getItem:=0;
 end;
 
 

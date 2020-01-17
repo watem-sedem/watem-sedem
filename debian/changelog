@@ -1,3 +1,9 @@
+cn-ws (20200114-1) unstable; urgency=medium
+
+  * Update using the new routing algorithm 
+
+ -- Johan Van de Wauw <johan@gisky.be>  Tue, 14 Jan 2020 14:23:48 +0100
+
 cn-ws (20191009-2) unstable; urgency=medium
 
   * Show errors in red and return color to default on exception
