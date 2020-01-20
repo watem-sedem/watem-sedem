@@ -319,10 +319,14 @@ Begin
           Else
             GetRFile(ktc, ktc_Data_filename);
 
-         If Create_ktil Then
-            Create_ktil_map(ktil)
-          Else
-            GetGFile(ktil, ktil_Data_filename);
+         if Calc_tileros then
+          begin
+             If Create_ktil Then
+                Create_ktil_map(ktil)
+             Else
+                GetGFile(ktil, ktil_Data_filename);
+          end;
+
     end;
 
 
@@ -510,7 +514,9 @@ Begin
        SetFileFromIni := filename
     Else
       raise EInputException.Create('Error in data input: ' + inivalue + ' not found in '+ datadir+ ' or path');
-    End;
+    End
+  Else
+     SetFileFromIni := '';
 End;
 
 

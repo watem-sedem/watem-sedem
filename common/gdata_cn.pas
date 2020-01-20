@@ -161,6 +161,9 @@ Var
 Begin
 // INLEZEN NCOLS
 Assignfile(docfileIMG, docNfileIMG);
+
+if not FileExists(docNfileIMG) then
+  Raise ERasterException.Create('Error: raster does not exist:' + docNfileIMG);
 //Een 'filehandle' wordt toegewezen aan de bestanden
 reset(docfileIMG);
 //Het .rdc bestand wordt geopend om te lezen
