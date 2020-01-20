@@ -1194,6 +1194,7 @@ check, parequal: boolean;
         Routing[i,j].Part1 := -99;
         Routing[i,j].Part2 := -99;
         findlower:= False;
+        exit;
 
     end;
 
