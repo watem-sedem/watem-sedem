@@ -502,11 +502,12 @@ End;
 
 Function SetFileFromIni(inifile: Tinifile;inivalue,  datadir: string; obliged: boolean): string;
 Var
- Dummy_str, filename: string;
+ Default, filename: string;
 Begin
+  Default:='';
   if obliged Then
     Begin
-    filename := Inifile.Readstring('Files', inivalue, Dummy_str);
+    filename := Inifile.Readstring('Files', inivalue, Default);
     if (filename = '') Then
       raise EInputException.Create('Error: '+ inivalue+' not defined in inifile');
     If (FileExists(datadir + filename)) Then SetFileFromIni := datadir  + filename
@@ -573,19 +574,20 @@ End;
 Procedure Readsettings(INI_filename:String);
 Var
   Inifile: Tinifile;
-  Dummy_str, Buffername, inistring, routingname: string;
+  Default, Buffername, inistring, routingname: string;
   i: integer;
   number_of_forced_routing: integer;
 Begin
+  Default:='';
 
   If Not FileExists(INI_filename) Then
     raise Exception.create('Inifile does not exist');
   Inifile := Tinifile.create(INI_filename);
 
-  Datadir := Inifile.readstring('Working directories', 'Input directory', Dummy_str);
+  Datadir := Inifile.readstring('Working directories', 'Input directory', Default);
   If Not DirectoryExists(Datadir) Then
     raise EInputException.Create('Error: data directory not found: ' + Datadir);
-  File_output_dir := Inifile.readstring('Working directories', 'Output directory', Dummy_str);
+  File_output_dir := Inifile.readstring('Working directories', 'Output directory', Default);
   If Not DirectoryExists(File_output_dir) Then ForceDirectories(File_output_dir);
 
   // Make sure that a trailing slash is added to the input/output dir
@@ -599,7 +601,7 @@ Begin
 
   Include_sewer:= Inifile.ReadBool('User Choices','Include sewers',false);
 
-  If Include_sewer And Not TryStrToInt(Inifile.Readstring('Variables', 'Sewer exit', Dummy_str),
+  If Include_sewer And Not TryStrToInt(Inifile.Readstring('Variables', 'Sewer exit', Default),
    sewer_exit) Then
     Begin
       raise EInputException.Create('Error in data input: Sewer exit system value missing or wrong data format');
@@ -661,7 +663,7 @@ Begin
   Dam_filename := SetFileFromIni(Inifile, 'Dam map filename', datadir, Include_dam);
   Pf_data_filename :=SetFileFromIni(Inifile, 'P factor map filename', datadir, true);
   Riversegment_filename := SetFileFromIni(Inifile, 'River segment filename', datadir, VHA or river_routing);
-  Outletfilename := inifile.readstring('Files', 'Outlet map filename', Dummy_str);
+  Outletfilename := inifile.readstring('Files', 'Outlet map filename', Default);
   river_adjectant_filename:=SetFileFromIni(Inifile, 'adjectant segments', datadir, river_routing);
   river_upstream_filename:=SetFileFromIni(Inifile, 'upstream segments', datadir, river_routing);
   river_routing_filename := SetFileFromIni(Inifile, 'river routing filename', datadir, river_routing);
@@ -680,7 +682,7 @@ Begin
     end;
 
   If (est_clay) And Not (TryStrToFloat(Inifile.Readstring('Variables',
-     'Clay content parent material', Dummy_str), clay_parent)) Then
+     'Clay content parent material', Default), clay_parent)) Then
     Begin
       raise EInputException.Create('Error in data input: Clay content parent material value missing or wrong data format');
       ;
@@ -732,39 +734,39 @@ Begin
     Begin
       If Not Use_RFactor Then
           If Not TryStrToFloat(Inifile.Readstring('Variables', '5-day antecedent rainfall',
-             Dummy_str), AR5) Then
+             Default), AR5) Then
               raise EInputException.Create('Error in data input: AR5 value missing or wrong data format');
 
-      If Not TryStrToFloat(Inifile.Readstring('Variables', 'Stream velocity', Dummy_str), riv_vel)
+      If Not TryStrToFloat(Inifile.Readstring('Variables', 'Stream velocity', Default), riv_vel)
         Then
           raise EInputException.Create('Error in data input: Stream velocity value missing or wrong data format');
 
-      If Not TryStrToFloat(Inifile.Readstring('Variables', 'Alpha', Dummy_str), alpha) Then
+      If Not TryStrToFloat(Inifile.Readstring('Variables', 'Alpha', Default), alpha) Then
           raise EInputException.Create('Error in data input: alpha value missing or wrong data format');
 
-      If Not TryStrToFloat(Inifile.Readstring('Variables', 'Beta', Dummy_str), beta) Then
+      If Not TryStrToFloat(Inifile.Readstring('Variables', 'Beta', Default), beta) Then
           raise EInputException.Create('Error in data input: beta value missing or wrong data format');
 
-      If Not TryStrToInt(Inifile.Readstring('Variables', 'Bulk density', Dummy_str), BD) Then
+      If Not TryStrToInt(Inifile.Readstring('Variables', 'Bulk density', Default), BD) Then
           raise EInputException.Create('Error in data input: BD value missing or wrong data format');
 
     End
   Else
    If not OnlyRouting Then
     Begin
-      If Not TryStrToFloat(Inifile.Readstring('Variables', 'R factor', Dummy_str),Rfactor) Then
+      If Not TryStrToFloat(Inifile.Readstring('Variables', 'R factor', Default),Rfactor) Then
           raise EInputException.Create('Error in data input: R factor value missing or wrong data format');
 
-      If Not TryStrToInt(Inifile.Readstring('Variables', 'Bulk density', Dummy_str), BD) Then
+      If Not TryStrToInt(Inifile.Readstring('Variables', 'Bulk density', Default), BD) Then
           raise EInputException.Create('Error in data input: BD value missing or wrong data format');
     End;
 
   If (Include_buffer) And Not (TryStrToInt(inifile.readstring('Variables', 'Number of buffers',
-     Dummy_str), Number_of_Buffers)) Then
+     Default), Number_of_Buffers)) Then
       raise EInputException.Create('Error in data input: Number of buffers value missing or wrong data format');
 
   If (Force_routing) And Not (TryStrToInt(inifile.readstring('Variables', 'Number of Forced Routing',
-     Dummy_str), number_of_forced_routing)) Then
+     Default), number_of_forced_routing)) Then
       raise EInputException.Create('Error in data input: Number of Forced Routing value missing or wrong data format');
 
   If not OnlyRouting Then
@@ -772,28 +774,28 @@ Begin
     if not calibrate then
       begin
           If (create_ktc) And Not
-             (TryStrToFloat(Inifile.Readstring('Variables', 'ktc low', Dummy_str),ktc_low)) Then
+             (TryStrToFloat(Inifile.Readstring('Variables', 'ktc low', Default),ktc_low)) Then
                raise EInputException.Create('Error in data input: ktc low value missing or wrong data format');
           If (create_ktc) And Not
-             (TryStrToFloat(Inifile.Readstring('Variables', 'ktc high', Dummy_str), ktc_high)) Then
+             (TryStrToFloat(Inifile.Readstring('Variables', 'ktc high', Default), ktc_high)) Then
                raise EInputException.Create('Error in data input: ktc high value missing or wrong data format');
 
       end;
     If (create_ktc or calibrate) And Not
-              (TryStrToFloat(Inifile.Readstring('Variables', 'ktc limit', Dummy_str), ktc_limit)) Then
+              (TryStrToFloat(Inifile.Readstring('Variables', 'ktc limit', Default), ktc_limit)) Then
                raise EInputException.Create('Error in data input: ktc limit value missing or wrong data format');
 
-    If (create_ktil) And Not (TryStrToInt(Inifile.Readstring('Variables', 'ktil default', Dummy_str),
+    If (create_ktil) And Not (TryStrToInt(Inifile.Readstring('Variables', 'ktil default', Default),
        ktil_Default)) Then
       Begin
         raise EInputException.Create('Error in data input: ktil default value missing or wrong data format');
       End;
     If (create_ktil) And Not (TryStrToFloat(Inifile.Readstring('Variables', 'ktil threshold',
-       Dummy_str), ktil_threshold)) Then
+       Default), ktil_threshold)) Then
       Begin
        raise EInputException.Create('Error in data input: ktil threshold value missing or wrong data format');
       End;
-    If Not TryStrToInt(Inifile.Readstring('Variables', 'Parcel connectivity cropland', Dummy_str),
+    If Not TryStrToInt(Inifile.Readstring('Variables', 'Parcel connectivity cropland', Default),
        TFSED_crop) Then
       Begin
         raise EInputException.Create('Error in data input: Parcel connectivity cropland value missing or wrong data format')
@@ -801,40 +803,40 @@ Begin
       End;
    end;
 
-  If Not TryStrToInt(Inifile.Readstring('Variables', 'Parcel connectivity forest', Dummy_str),
+  If Not TryStrToInt(Inifile.Readstring('Variables', 'Parcel connectivity forest', Default),
      TFSED_forest) Then
     Begin
       raise EInputException.Create(
         'Error in data input: Parcel connectivity forest/pasture value missing or wrong data format');
     End;
   If Not TryStrToInt(Inifile.Readstring('Variables', 'Parcel trapping efficiency cropland',
-     Dummy_str), PTEFValueCropland) Then
+     Default), PTEFValueCropland) Then
       raise EInputException.Create(
       'Error in data input: Parcel trapping efficiency (cropland) value missing or wrong data format');
-  If Not TryStrToInt(Inifile.Readstring('Variables', 'Parcel trapping efficiency forest', Dummy_str)
+  If Not TryStrToInt(Inifile.Readstring('Variables', 'Parcel trapping efficiency forest', Default)
      , PTEFValueForest) Then
     raise EInputException.Create(
        'Error in data input: Parcel trapping efficiency (forest) value missing or wrong data format');
       ;
 
-  If Not TryStrToInt(Inifile.Readstring('Variables', 'Parcel trapping efficiency pasture', Dummy_str
+  If Not TryStrToInt(Inifile.Readstring('Variables', 'Parcel trapping efficiency pasture', Default
      ), PTEFValuePasture) Then
       raise EInputException.Create(
       'Error in data input: Parcel trapping efficiency (pasture) value missing or wrong data format')
       ;
   If Not Simplified Then
     Begin
-      If Not TryStrToInt(inifile.readstring('Variables', 'Desired timestep for model', Dummy_str),
+      If Not TryStrToInt(inifile.readstring('Variables', 'Desired timestep for model', Default),
          Timestep_model) Then
           raise EInputException.Create('Error in data input: Desired timestep for model value missing or wrong data format')
           ;
       If (Convert_output) And Not TryStrToInt(inifile.readstring('Variables',
-         'Final timestep output', Dummy_str), Timestep_output) Then
+         'Final timestep output', Default), Timestep_output) Then
           raise EInputException.Create(
           'Error in data input: Final timestep output value missing or wrong data format')
           ;
 
-      If Not TryStrToInt(inifile.readstring('Variables', 'Endtime model', Dummy_str), Endtime_model)
+      If Not TryStrToInt(inifile.readstring('Variables', 'Endtime model', Default), Endtime_model)
     Then
       raise EInputException.Create(
       'Error in data input: Endtime model value missing or wrong data format');
@@ -850,10 +852,10 @@ Begin
         routingname:='Forced Routing ' + IntToStr(i+1);
 
         forced_routing[i].FromCol := inifile.ReadInteger(routingname, 'from col',-99);
-        TryStrToInt(inifile.readstring(routingname, 'from col', Dummy_str), forced_routing[i].FromCol);
-        TryStrToInt(inifile.readstring(routingname, 'from row', Dummy_str), forced_routing[i].FromRow);
-        TryStrToInt(inifile.readstring(routingname, 'target col', Dummy_str), forced_routing[i].TargetCol);
-        TryStrToInt(inifile.readstring(routingname, 'target row', Dummy_str), forced_routing[i].TargetRow);
+        TryStrToInt(inifile.readstring(routingname, 'from col', Default), forced_routing[i].FromCol);
+        TryStrToInt(inifile.readstring(routingname, 'from row', Default), forced_routing[i].FromRow);
+        TryStrToInt(inifile.readstring(routingname, 'target col', Default), forced_routing[i].TargetCol);
+        TryStrToInt(inifile.readstring(routingname, 'target row', Default), forced_routing[i].TargetRow);
       end;
     end;
 
@@ -864,38 +866,38 @@ Begin
       For i := 1 To Number_of_Buffers Do
         Begin
           Buffername := 'Buffer ' + IntToStr(i);
-          If Not TryStrToFloat(inifile.readstring(Buffername, 'Volume', Dummy_str), Bufferdata[i].
+          If Not TryStrToFloat(inifile.readstring(Buffername, 'Volume', Default), Bufferdata[i].
              Volume) Then
               raise EInputException.Create('Error in data input: Buffer '+intToStr(i)+
                             ' volume value missing or wrong data format');
-          If Not TryStrToFloat(inifile.readstring(Buffername, 'Height dam', Dummy_str),Bufferdata[i]
+          If Not TryStrToFloat(inifile.readstring(Buffername, 'Height dam', Default),Bufferdata[i]
              .Height_dam) Then
             raise EInputException.Create(
                   'Error in data input: Buffer '+intToStr(i)+
                   ' height dam value missing or wrong data format');
-          If Not TryStrToFloat(inifile.readstring(Buffername, 'Height opening', Dummy_str),
+          If Not TryStrToFloat(inifile.readstring(Buffername, 'Height opening', Default),
              Bufferdata[i].Height_opening) Then
               raise EInputException.Create('Error in data input: Buffer '+intToStr(i)+
                             ' height opening value missing or wrong data format');
-          If Not  TryStrToFloat(inifile.readstring(Buffername, 'Opening area', Dummy_str),Bufferdata
+          If Not  TryStrToFloat(inifile.readstring(Buffername, 'Opening area', Default),Bufferdata
              [i].Opening_area) Then
               raise EInputException.Create(
               'Error in data input: Buffer '+intToStr(i)+
                             ' opening area value missing or wrong data format');
-          If Not TryStrToFloat(inifile.readstring(Buffername, 'Discharge coefficient', Dummy_str),
+          If Not TryStrToFloat(inifile.readstring(Buffername, 'Discharge coefficient', Default),
              Bufferdata[i].Cd) Then
               raise EInputException.Create(
                 'Error in data input: Buffer '+intToStr(i)+
                 ' discharge coefficient value missing or wrong data format');
-          If Not TryStrToFloat(inifile.readstring(Buffername, 'Width dam', Dummy_str), Bufferdata[i]
+          If Not TryStrToFloat(inifile.readstring(Buffername, 'Width dam', Default), Bufferdata[i]
              .width_dam) Then
               raise EInputException.Create('Error in data input: Buffer '+intToStr(i)+
                             ' width dam value missing or wrong data format');
-          If Not TryStrToFloat(inifile.readstring(Buffername, 'Trapping efficiency', Dummy_str),
+          If Not TryStrToFloat(inifile.readstring(Buffername, 'Trapping efficiency', Default),
              Bufferdata[i].PTEF) Then
               raise EInputException.Create( 'Error in data input: Buffer '+intToStr(i)+
                             ' trapping efficiency value missing or wrong data format');
-          If Not TryStrToInt(inifile.readstring(Buffername, 'Extension ID', Dummy_str), Bufferdata[i
+          If Not TryStrToInt(inifile.readstring(Buffername, 'Extension ID', Default), Bufferdata[i
              ].ext_ID) Then
               raise EInputException.Create('Error in data input: Buffer '+intToStr(i)+
                             ' extension ID missing or wrong data format');
