@@ -1,0 +1,10 @@
+---
+kind: pipeline
+type: docker
+name: python3.7 
+
+steps:
+  - name: build
+    image: repository.fluves.net/fluves/lazarus
+    commands:
+      - "debuild -b"
