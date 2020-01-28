@@ -1329,7 +1329,7 @@ Begin
                Else Sfactor := (16.8*sin(slope[i,j]))-0.5;
              end;
 
-          LS[i,j] := Sfactor*Lfactor;
+          LS[i,j] := (Sfactor*Lfactor)/LScor;
         End;
       // end matrix loop
     End;
