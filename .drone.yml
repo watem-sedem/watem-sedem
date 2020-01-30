@@ -47,3 +47,6 @@ steps:
     when:
       branch:
         - master
+      event:
+        exclude:
+          - pull_request
