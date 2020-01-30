@@ -112,8 +112,9 @@ If Not Simplified Then
 //Amount of rainfall excess or deficit is calculated
 
 try
-  calcOutlet;
+  if (Outlet_select) then loadOutlet;
   Topo_Calculations;
+  if not Outlet_select then calcOutlet;
   // Sort DTM, calculate slope and aspect, calculate routing, calculate UPAREA, calculate LS factor RUSLE
 
 Except

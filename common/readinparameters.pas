@@ -227,6 +227,7 @@ Var
   max_kernel           : integer;
   max_kernel_river     : integer;
   calibrate            : Boolean;
+  LScor                : double;
   cal     : TCalibration;
   forced_routing : array Of TForcedRouting;
 
@@ -760,6 +761,9 @@ Begin
       If Not TryStrToInt(Inifile.Readstring('Variables', 'Bulk density', Default), BD) Then
           raise EInputException.Create('Error in data input: BD value missing or wrong data format');
     End;
+
+  If Not TryStrToFloat(Inifile.Readstring('Variables', 'LS correction', '1'), LSCor) Then
+          raise EInputException.Create('Error in data input: LS correction factor missing or wrong data format');
 
   If (Include_buffer) And Not (TryStrToInt(inifile.readstring('Variables', 'Number of buffers',
      Default), Number_of_Buffers)) Then
