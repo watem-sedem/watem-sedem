@@ -28,6 +28,8 @@ steps:
     when:
       branch:
         - master
+      exclude:
+        - pull_request
 
   - name: rsync-apt
     image: drillster/drone-rsync
