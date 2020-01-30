@@ -26,10 +26,11 @@ Function extrap(xOriginal:IntegerArray; xNew:IntegerArray; yOriginal:FloatArray)
 Procedure CalculateTimeDependentRunoff(Remap: Rraster; RainData: TRainRecordArray; Routing:
                                        TRoutingArray; PRC: Rraster);
 Procedure CalculateRFactor;
-Procedure calcOutlet;
 Function  calcRivSeg(RivSeg:GRaster): integer;
 Function is_outlet(i,j:integer): boolean;
 Function sumPartArray (inputArray: FloatArray; start, number:integer): double;
+Procedure loadOutlet;
+Procedure calcOutlet;
 
 Var 
   NumberOfTimesteps, NTimesteps2, StartTime_rain, EndTime_rain, EndTime, EndTime_modelSec,
@@ -339,92 +340,7 @@ Begin
 
 End;
 
-//******************************************************************************
-// In this procedure the number of outlets is determined based on the outlet map
-// provided by the user. In case no outlet map is provided, the location of the
-// outlet is determined based on the DTM and the parcel map. The locations of the
-// outlet(s) are written to an array.
-//******************************************************************************
-Procedure calcOutlet;
 
-Var 
-  i,j,k,l: integer;
-  height, max_uparea: double;
-Begin
-  numOutlet := 1;
-  k := 1;
-  If outlet_Select Then
-    Begin
-      For i := 1 To nrow Do
-        For j := 1 To ncol Do
-          Begin
-            If Outlet[i,j] > 0 Then
-              Begin
-                k := Outlet[i,j];
-                numOutlet := max(numOutlet, k);
-                setlength(OutletArray, numOutlet+1, 2);
-                OutletArray[k,0] := i;
-                OutletArray[k,1] := j;
-                k := k+1;
-              End;
-          End;
-      if ( k = 1 ) Then // if k is still 1 after looping through outlet map, no outlets were found
-        raise EInputException.Create('Error in data input: no outlets present in outlet map');
-      // lowest outlet is calculated
-      lowOutletX := OutletArray[1,0];
-      lowOutletY := OutletArray[1,1];
-      If numOutlet > 1 Then
-        Begin
-          For l := 2 To numOutlet Do
-            Begin
-              If DTM[OutletArray[l,0],OutletArray[l,1]] < DTM[lowOutletX, lowOutletY] Then
-                Begin
-                  lowOutletX := OutletArray[l,0];
-                  lowOutletY := OutletArray[l,1];
-                End;
-            End;
-        End;
-    End
-  Else
-    Begin
-      // calculation of x and y coordinates of outlet... (= lowest river pixel)
-      setlength(OutletArray, k+1, 2);
-      height := 9999;
-      For i := 1 To nrow Do
-        For j := 1 To ncol Do
-          Begin
-            If (PRC[i,j] = -1) And (DTM[i,j]<height) Then
-              Begin
-                OutletArray[k,0] := i;
-                OutletArray[k,1] := j;
-                height := DTM[i,j];
-              End;
-          End;
-      If height = 9999 Then
-        // if no riverpixels present => select pixel with largest UPAREA as outlet
-        Begin
-          max_uparea := 0;
-          For i := 1 To nrow Do
-            For j := 1 To ncol Do
-              Begin
-                If UPAREA[i,j] > max_uparea Then
-                  Begin
-                    OutletArray[k,0] := i;
-                    OutletArray[k,1] := j;
-                    max_uparea := UPAREA[i,j];
-                  End;
-              End;
-        End;
-      lowOutletX := OutletArray[k,0];
-      // lowest outlet = only outlet
-      lowOutletY := OutletArray[k,1];
-
-      // write location of outlet to Idrisi raster (Outlet.rst)
-      SetDynamicGData(Outlet);
-      SetzeroG(Outlet);
-      Outlet[lowOutletX, lowOutletY] := 1;
-    End;
-End;
 
 Function calcRivSeg(RivSeg:GRaster): integer;
 
@@ -1360,6 +1276,103 @@ Begin
 
       End;
 End;
+
+
+//******************************************************************************
+// In this procedure the number of outlets is determined based on the outlet map
+// provided by the user. In case no outlet map is provided, the location of the
+// outlet is determined based on the DTM and the parcel map. The locations of the
+// outlet(s) are written to an array.
+//******************************************************************************
+Procedure loadOutlet;
+Var
+  i,j,k,l, numOutlet: integer;
+  height, max_uparea: double;
+Begin
+  numOutlet := 1;
+  k := 1;
+  If outlet_Select Then
+    Begin
+      For i := 1 To nrow Do
+        For j := 1 To ncol Do
+          Begin
+            If Outlet[i,j] > 0 Then
+              Begin
+                k := Outlet[i,j];
+                numOutlet := max(numOutlet, k);
+                setlength(OutletArray, numOutlet+1, 2);
+                OutletArray[k,0] := i;
+                OutletArray[k,1] := j;
+                k := k+1;
+              End;
+          End;
+      if ( k = 1 ) Then // if k is still 1 after looping through outlet map, no outlets were found
+        raise EInputException.Create('Error in data input: no outlets present in outlet map');
+      // lowest outlet is calculated
+      lowOutletX := OutletArray[1,0];
+      lowOutletY := OutletArray[1,1];
+      If numOutlet > 1 Then
+        Begin
+          For l := 2 To numOutlet Do
+            Begin
+              If DTM[OutletArray[l,0],OutletArray[l,1]] < DTM[lowOutletX, lowOutletY] Then
+                Begin
+                  lowOutletX := OutletArray[l,0];
+                  lowOutletY := OutletArray[l,1];
+                End;
+            End;
+        End;
+    End
+end;
+
+Procedure calcOutlet;
+Var
+
+  numOutlet, k: integer;
+    height, max_uparea: double;
+Begin
+  k:= 1;
+  numOutlet := 1;
+  // calculation of x and y coordinates of outlet... (= lowest river pixel)
+  setlength(OutletArray, k+1, 2);
+  height := 9999;
+  For i := 1 To nrow Do
+    For j := 1 To ncol Do
+      Begin
+        If (PRC[i,j] = -1) And (DTM[i,j]<height) Then
+          Begin
+            OutletArray[k,0] := i;
+            OutletArray[k,1] := j;
+            height := DTM[i,j];
+          End;
+      End;
+  If height = 9999 Then
+    // if no riverpixels present => select pixel with largest UPAREA as outlet
+    Begin
+      max_uparea := 0;
+      For i := 1 To nrow Do
+        For j := 1 To ncol Do
+          Begin
+            If UPAREA[i,j] > max_uparea Then
+              Begin
+                OutletArray[k,0] := i;
+                OutletArray[k,1] := j;
+                max_uparea := UPAREA[i,j];
+              End;
+          End;
+    End;
+  lowOutletX := OutletArray[k,0];
+  // lowest outlet = only outlet
+  lowOutletY := OutletArray[k,1];
+
+  // write location of outlet to Idrisi raster (Outlet.rst)
+  SetDynamicGData(Outlet);
+  SetzeroG(Outlet);
+  Outlet[lowOutletX, lowOutletY] := 1;
+End;
+
+
+
 
 
 {

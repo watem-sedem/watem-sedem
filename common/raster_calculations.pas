@@ -41,7 +41,6 @@ Procedure add_queue(var inv: TRoutingInvArray; var q_index, last_index: integer)
 Function FindLower(i,j, max_kernel: integer): boolean;
 procedure addInverse(var inv:TroutingInvArray; i,j,t_c, t_r: integer);
 
-
 Implementation
 
 Const
@@ -51,6 +50,7 @@ Function X_Resolution(): double;
 
 Var 
   Yresdeg,Xresdeg,longitude: double;
+
 Begin
   If Raster_Projection=plane Then
     Begin
@@ -222,7 +222,7 @@ begin
         end;
 
       // check if routing has no target: find a lower cell in the neighborhood and route there
-      if (Routing[i,j].target1col<1) and (Routing[i,j].target2col <1) and (outlet[i,j]=0) and (PRC[i,j]<>-1) then
+      if (Routing[i,j].target1col<1) and (Routing[i,j].target2col <1) and (outlet_select and (outlet[i,j]=0)) and (PRC[i,j]<>-1) then
         begin
           if FindLower(i,j,max_kernel) then
             begin
