@@ -1,0 +1,52 @@
+---
+kind: pipeline
+type: docker
+name: cn_ws
+
+steps:
+  - name: build
+    image: registry.fluves.net/lazarus-build
+    environment:
+      GPG_KEY:
+         from_secret: gpg-key
+      DEBFULLNAME: "Fluves Drone CI"
+      DEBEMAIL: donotreply@fluves.net
+    commands:
+      - gbp dch --snapshot --ignore-branch --snapshot-number=$DRONE_BUILD_NUMBER
+      - debuild -b -us -uc
+
+  - name: sign on master
+    image: registry.fluves.net/lazarus-build
+    environment:
+      GPG_KEY:
+         from_secret: gpg-key
+      DEBFULLNAME: "Fluves Drone CI"
+      DEBEMAIL: donotreply@fluves.net
+    commands:
+      - echo "$GPG_KEY" | gpg --import
+      - debsign
+    when:
+      branch:
+        - master
+      event:
+        exclude:
+          - pull_request
+
+  - name: rsync-apt
+    image: drillster/drone-rsync
+    settings:
+      hosts:
+        - noordzee
+      user: droneci
+      key:
+         from_secret: ssh-key
+      source: ..
+      include: [ "cn-ws*.deb" ]
+      exclude: [ "src" ]
+      target: ~/apt/
+    when:
+      branch:
+        - master
+      event:
+        exclude:
+          - pull_request

@@ -4,4 +4,4 @@ CNWSmodel:
 all: CNWSmodel
 
 clean:
-	rm CN_WSmodel
+	rm -f CN_WSmodel

@@ -1,3 +1,10 @@
+cn-ws (20200114-2) UNRELEASED; urgency=medium
+
+  * Findlower: exit if no lower point is found
+  * Enable automatic building using droneci (WIP)
+
+ -- Fluves Drone CI <donotreply@fluves.net>  Sat, 25 Jan 2020 10:22:53 +0100
+
 cn-ws (20200114-1) unstable; urgency=medium
 
   * Update using the new routing algorithm 
