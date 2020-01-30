@@ -12,10 +12,22 @@ steps:
       DEBFULLNAME: "Fluves Drone CI"
       DEBEMAIL: donotreply@fluves.net
     commands:
-      - echo "$GPG_KEY" | gpg --import
       - gbp dch --snapshot --ignore-branch --snapshot-number=$DRONE_BUILD_NUMBER
       - debuild -b -us -uc
+
+  - name: sign on master
+    image: registry.fluves.net/lazarus-build
+    environment:
+      GPG_KEY:
+         from_secret: gpg-key
+      DEBFULLNAME: "Fluves Drone CI"
+      DEBEMAIL: donotreply@fluves.net
+    commands:
+      - echo "$GPG_KEY" | gpg --import
       - debsign
+    when:
+      branch:
+        - master
 
   - name: rsync-apt
     image: drillster/drone-rsync
