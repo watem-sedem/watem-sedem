@@ -31,7 +31,7 @@ Function X_Resolution(): double;
 Function Y_Resolution(): double;
 Procedure Calculate_UpstreamArea(Var UPAREA:RRaster);
 Procedure CalculateLS(Var LS:RRaster;UPAREA:RRaster);
-Procedure DistributeFlux_LS(i,j:integer;Var Flux_IN: RRaster;fluxout: single);
+Procedure DistributeUparea(i,j:integer;Var Flux_IN: RRaster);
 Procedure DistributeFlux_Sediment(i,j:integer;Var Flux_IN: RRaster; Flux_OUT: single);
 Procedure Topo_Calculations;
 Procedure Routing_Slope(Var Routing: TRoutingArray; Var Slope: RRaster);
@@ -1253,7 +1253,6 @@ Begin
 
   for teller:=0 to nrow*ncol-1 do
       begin
-      // begin lus
       i := row[teller];
       j := column[teller];
       if (i=0) and (j=0) then
@@ -1263,13 +1262,8 @@ Begin
           continue;
 
       OPPCOR := (X_resolution()*Y_resolution()) * (1 - (PTEFmap[i,j] / 100));
-      //bijdrage van elke cel aan de uparea
-      Fluxout := OPPCOR+UPAREA[i,j];
-      // X_res * Y_res = oppervlakte 1 cel
-      DistributeFlux_LS(i,j,UPAREA,Fluxout);
-      // volgende cellen worden geïdentificeerd en uparea in deze cellen wordt berekend
       UPAREA[i,j] := UPAREA[i,j]+oppcor;
-      //(X_Resolution(i,j)*Y_Resolution(i,j))/2.0;
+      DistributeUparea(i,j,UPAREA);
     End;
   // end matrix loop
 
@@ -1338,13 +1332,12 @@ End;
 
 // The following procedure is used to route the LS through the landscape:
 // it adapts the LS values for the parcel connectivities
-Procedure DistributeFlux_LS(i,j:integer;Var Flux_IN: rraster; fluxout: single);
-
-Var 
-  flux, ptef: double;
+Procedure DistributeUparea(i,j:integer;Var Flux_IN: rraster);
+Var
+  flux, ptef, fluxout: double;
   BufferId: integer;
 Begin
-
+  fluxout:=Flux_IN[i,j];
   If Include_buffer and (Buffermap[i,j] > 100) Then
     Begin
       flux := fluxout;
@@ -1368,7 +1361,19 @@ Begin
       exit;
     End;
 
+  If Include_sewer and (SewerMap[i,j] > 0) Then
+    Begin
+     flux := fluxout;
+      if (Routing[i,j].Part1 > 0) then
+        begin
+        Flux_IN[Routing[i,j].Target1Row,Routing[i,j].Target1Col] += Routing[i,j].Part1 * flux * (1-SewerMap[i,j]);
+         end;
 
+      if (Routing[i,j].Part2 > 0) then
+        Flux_IN[Routing[i,j].Target2Row,Routing[i,j].Target2Col] += Routing[i,j].Part2 * flux * (1-SewerMap[i,j]);
+      exit;
+
+    end;
 // flux decomposition algoritme
 
 
