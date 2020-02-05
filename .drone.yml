@@ -14,7 +14,7 @@ steps:
     commands:
       - gbp dch --snapshot --ignore-branch --snapshot-number=$DRONE_BUILD_NUMBER
       - debuild -b -us -uc
-      - mv ../*.deb .
+      - mv ../*.deb ../*.changes .
 
   - name: sign on master
     image: registry.fluves.net/lazarus-build
@@ -41,7 +41,7 @@ steps:
       user: droneci
       key:
          from_secret: ssh-key
-      source: ..
+      source: .
       include: [ "cn-ws*.deb" ]
       exclude: [ "src" ]
       target: ~/apt/
