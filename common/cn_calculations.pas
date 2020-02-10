@@ -1286,7 +1286,7 @@ End;
 //******************************************************************************
 Procedure loadOutlet;
 Var
-  i,j,k,l, numOutlet: integer;
+  i,j,k,l: integer;
   height, max_uparea: double;
 Begin
   numOutlet := 1;
@@ -1328,8 +1328,8 @@ end;
 Procedure calcOutlet;
 Var
 
-  numOutlet, k: integer;
-    height, max_uparea: double;
+   k: integer;
+  height, max_uparea: double;
 Begin
   k:= 1;
   numOutlet := 1;
