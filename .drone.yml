@@ -25,12 +25,42 @@ steps:
       user: droneci
       key:
          from_secret: ssh-key
-      source: package
-      include: [ "cn-ws*.deb" ]
-      target: ~/apt/
+      source: package/*.deb
+      target: ~/apt/amd64
     when:
       branch:
         - master
+        - drone
       event:
         exclude:
           - pull_request
+
+  # copy all packages from repo and rebuild index
+  - name: Update repo
+    image: registry.fluves.net/lazarus-build
+    environment:
+      GPG_KEY:
+         from_secret: gpg-key
+      SSH_KEY:
+          from_secret: ssh-key
+      DEBFULLNAME: "Fluves Drone CI"
+      DEBEMAIL: donotreply@fluves.net
+    commands:
+      - mkdir -p ~/.ssh && echo "$SSH_KEY" > ~/.ssh/id_rsa && chmod og-rwx ~/.ssh/id_rsa
+      - echo "$GPG_KEY" | gpg --import
+      - mkdir apt-repo && cd apt-repo
+      - rsync -az -e "ssh -p 22 -o StrictHostKeyChecking=no" droneci@noordzee:~/apt/amd64 .
+      - apt-ftparchive packages amd64 > Packages
+      - gzip -c Packages > Packages.gz
+      - apt-ftparchive release . > Release
+      - gpg --clearsign -o InRelease Release
+      - gpg -abs -o Release.gpg Release
+      - rsync -av . droneci@noordzee:~/apt
+    when:
+      branch:
+        - master
+        - drone
+      event:
+        exclude:
+          - pull_request
+
