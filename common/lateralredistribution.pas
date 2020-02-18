@@ -461,23 +461,23 @@ Begin
       Begin
         if PRC[m,n]=0 then
           begin
-            SEDI_IN2[m,n] := -9999;
-            SEDI_OUT2[m,n] := -9999;
+            SEDI_IN_kg[m,n] := -9999;
+            SEDI_OUT_kg[m,n] := -9999;
             SEDI_EXPORT_kg[m,n] := -9999;
             if (Include_sewer) Then
               Begin
-                SEWER_IN2[m,n]:=-9999;
+                SEWER_IN_kg[m,n]:=-9999;
               end;
           end
         else
         begin
-        SEDI_IN2[m,n] := SEDI_IN[m,n] * BD;
-          SEDI_OUT2[m,n] := SEDI_OUT[m,n] * BD;
-          //depprod2[m,n] := SEDI_IN2[m,n]-SEDI_OUT2[m,n];
+        SEDI_IN_kg[m,n] := SEDI_IN[m,n] * BD;
+          SEDI_OUT_kg[m,n] := SEDI_OUT[m,n] * BD;
+          //depprod2[m,n] := SEDI_IN_kg[m,n]-SEDI_OUT_kg[m,n];
           SEDI_EXPORT_kg[m,n] := SEDI_EXPORT[m,n] * BD;
           if (include_sewer) Then
             Begin
-              SEWER_IN2[m,n]:=SEWER_IN[m,n]*BD;
+              SEWER_IN_kg[m,n]:=SEWER_IN[m,n]*BD;
             end;
         end;
       End;
@@ -864,12 +864,12 @@ Begin
      j:= min_col[seg];
 
 
-     temp:=SedLoad_VHA_Cumulative[seg] - sedload_vha[seg] + SEDI_IN2[i,j];
+     temp:=SedLoad_VHA_Cumulative[seg] - sedload_vha[seg] + SEDI_IN_kg[i,j];
      cumulative[i,j]:=temp;
     if (i=0) and (j=0) then continue; // skip empty segments
      while followriver(i,j) do
      begin
-       temp := temp + SEDI_IN2[i,j];
+       temp := temp + SEDI_IN_kg[i,j];
        cumulative[i,j]:=temp;
      end;
 
