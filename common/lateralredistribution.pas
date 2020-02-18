@@ -151,15 +151,31 @@ Var
 Begin
   // Create temp 2D maps
   SetDynamicRData(SEDI_IN);
-  // Raster with sed_output_file input per gridcel?
   SetDynamicRData(SEDI_OUT);
   //************************
+
+  //Create maps
+  SetDynamicRData(SEDI_EXPORT);
+  SetDynamicRData(SEDI_EXPORT_kg);
+  SetDynamicRData(SEDI_IN_kg);
+  SetDynamicRData(SEDI_OUT_kg);
+  SetDynamicRData(WATEREROS);
+  SetDynamicRData(WATEREROS_cubmeter);
+  SetDynamicRData(WATEREROS_kg);
+  SetDynamicRData(RUSLE);
+  SetDynamicRData(CAPAC);
+
+  if include_sewer Then
+    begin
+    SetDynamicRData(SEWER_IN);
+    SetDynamicRData(SEWER_IN_kg);
+    SetzeroR(SEWER_IN);
+    sewer_out_sed := 0;
+    end;
 
   SetzeroR(SEDI_IN);
   SetzeroR(SEDI_OUT);
   SetzeroR(SEDI_EXPORT);
-
-  // SEDI_EXPORT is defined in 'Readinparameters.pas' (in allocate_memory)
 
   If VHA Then //If the user wants output per river segment
     Begin
@@ -175,13 +191,6 @@ Begin
         sedload_VHA[i] :=0;
       //The length of a vector per river segment (+1) is set
     End;
-
-  If Include_sewer Then // If sewers are included
-    begin
-    SetDynamicRData(SEWER_IN);
-    SetzeroR(SEWER_IN);
-    sewer_out_sed := 0;
-    end;
 
   TEMP_river_sed_input := 0;
   TEMP_outside_sed_input := 0;
@@ -481,6 +490,7 @@ Begin
             end;
         end;
       End;
+
   // Dispose Temp 2D maps
   DisposeDynamicRdata(SEDI_IN);
   DisposeDynamicRdata(SEDI_OUT);
@@ -489,8 +499,6 @@ Begin
       DisposeDynamicRdata(SEWER_IN);
     end;
   //********************
-
-
 End;
 
 //sediment dat toekomt in elke outlet lineair verdelen over hydrogram

@@ -95,7 +95,6 @@ Type
 Function Distance1(r: TRoutingArray;i,j: integer): double;
 Function Distance2(r: TRoutingArray;i,j: integer): double;
 Procedure ReadInRasters;
-Procedure Allocate_Memory;
 Procedure Release_Memory;
 Function SetFileFromIni(inifile: Tinifile; inivalue, datadir: string; obliged: boolean): string;
 Procedure Readsettings(INI_filename:String);
@@ -409,38 +408,13 @@ If Not doubArrayIsEqual(resAR) Then
 
 end;
 
-Procedure Allocate_Memory;
-Begin
-  // Create procedure to read in maps & allocate memory to global maps
-
-  // Assign internal & global 2D maps
-  SetDynamicRData(LS);
-  SetDynamicRData(UPAREA);
-  SetDynamicRData(SLOPE);
-  SetDynamicRData(ASPECT);
-
-  SetDynamicRData(WATEREROS);
-  SetDynamicRData(WATEREROS_cubmeter);
-  SetDynamicRData(WATEREROS_kg);
-  SetDynamicRData(RUSLE);
-  SetDynamicRData(SEDI_EXPORT);
-  SetDynamicRData(SEDI_EXPORT_kg);
-  SetDynamicRData(SEDI_IN_kg);
-  SetDynamicRData(SEDI_OUT_kg);
-
-  SetDynamicRData(CAPAC);
-  if include_sewer Then SetDynamicRData(SEWER_IN_kg);
-  if Calc_tileros then SetDynamicRData(TILEROS);
-  //************************
-
-End;
-
 Procedure Release_Memory;
 
 Begin
   // Release memory for input rasters
   DisposeDynamicRdata(DTM);
   DisposeDynamicRdata(PRC);
+
   If Include_sewer Then
    Begin
     DisposedynamicRData(SewerMap);
@@ -524,7 +498,6 @@ Begin
   Else
      SetFileFromIni := '';
 End;
-
 
 Procedure ReadDownstreamSegments(filename: String; var kvArray: tintkvarray);
 var
@@ -1041,7 +1014,6 @@ Function CalculateCN(CNmax,Cc,Cr,c1,c2:integer): single;
 Begin
   CalculateCN := CNmax - ((Cc/100)*c1) + ((Cr/5)*c2);
 End;
-
 
 Procedure Create_ktil_map(Var ktil: GRaster);
 

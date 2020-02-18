@@ -145,7 +145,6 @@ Begin
   Apply_Routing;
 End;
 
-
 Function Invert_routing(Routing: TRoutingArray): TRoutingInvArray;
 var
   inv: TRoutingInvArray;
@@ -236,8 +235,6 @@ begin
   Invert_routing:= inv;
 end;
 
-
-
 procedure addInverse(var inv:TroutingInvArray; i,j,t_c, t_r: integer);
 var
   pos:integer;
@@ -269,8 +266,6 @@ begin
            inv[i,j].treated[k] :=false;
        end;
 end;
-
-
 
 procedure setpointtreated(var inv: TRoutingInvArray; var last_index:integer; i,j,t_r, t_c: integer);
 // Sets the status of the goal cel [t_r, t_c] to treated for this origin cell
@@ -343,7 +338,6 @@ Begin
     closefile(routingfile);
 end;
 
-
 Procedure Apply_Routing;
 Var
   inv: TRoutingInvArray;
@@ -379,7 +373,6 @@ Begin
   missing_routes(inv);
 end;
 
-
 procedure add_queue(var inv: TRoutingInvArray; var q_index, last_index: integer) ;
 var
   t_r, t_c: integer;
@@ -410,8 +403,8 @@ Procedure CalculateSlopeAspect;
 Var 
   i,j: integer;
 Begin
-  SetDynamicRdata(Slope);
-  SetDynamicRdata(Aspect);
+  SetDynamicRData(Slope);
+  SetDynamicRData(Aspect);
   For i:=1 To nrow Do
     For j:=1 To ncol Do
       Begin
@@ -1223,9 +1216,6 @@ check, parequal: boolean;
           findlower:= True;
 end;
 
-
-
-
 Procedure Calculate_UpstreamArea(Var UPAREA:RRaster);
 
 Var 
@@ -1234,6 +1224,7 @@ Var
   oppcor: double;
 
 Begin
+  SetDynamicRData(UPAREA);  //allocate memory
   // SetnodataR(UPAREA);
 
   // set all valid cells to zero
@@ -1275,6 +1266,7 @@ Var
   i,j     : integer;
   exp,Sfactor,Lfactor,adjust,B,locres : double;
 Begin
+  SetDynamicRData(LS);  // allocate memory
 
   // adjust the slope to the slope according to the actual routing table
   if adjusted_slope then

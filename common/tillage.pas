@@ -32,6 +32,7 @@ Begin
   SetDynamicRData(SEDI_IN);
   SetDynamicRData(SEDI_OUT);
   //************************
+  SetDynamicRData(TILEROS);
 
   // CalculateSlopeAspect;
 
