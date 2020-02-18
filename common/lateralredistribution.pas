@@ -135,10 +135,6 @@ Begin
   // in m      if < 0 => erosion & if > 0 => sedimentation
 End;
 
-
-
-
-
 Procedure Water;
 
 Var 
@@ -156,19 +152,14 @@ Begin
 
   //Create maps
   SetDynamicRData(SEDI_EXPORT);
-  SetDynamicRData(SEDI_EXPORT_kg);
-  SetDynamicRData(SEDI_IN_kg);
-  SetDynamicRData(SEDI_OUT_kg);
   SetDynamicRData(WATEREROS);
   SetDynamicRData(WATEREROS_cubmeter);
   SetDynamicRData(WATEREROS_kg);
   SetDynamicRData(RUSLE);
   SetDynamicRData(CAPAC);
-
   if include_sewer Then
     begin
     SetDynamicRData(SEWER_IN);
-    SetDynamicRData(SEWER_IN_kg);
     SetzeroR(SEWER_IN);
     sewer_out_sed := 0;
     end;
@@ -249,7 +240,6 @@ Begin
           WATEREROS_cubmeter[i,j] := WATEREROS[i, j] * Area / 1000;
           WATEREROS_kg[i,j] := WATEREROS_cubmeter[i,j] * BD;
 
-
           If (PRC[i, j] <> 0) And (PRC[i, j] <> -1) Then
             Begin
               If SEDI_IN[i, j] - SEDI_OUT[i, j] < 0 Then
@@ -315,9 +305,6 @@ Begin
                   SEWER_IN[i,j] := -9999;
                  end;
             end;
-
-
-
 
   //***********
 
@@ -464,6 +451,13 @@ Begin
       closefile(Sediment_VHA);
       //The memory of sed_output_file is released
     End;
+
+  //converting SEDI_IN, SEDI_OUT and SEDI_EXPORT to kg
+  // why are new variables used?
+  SetDynamicRData(SEDI_EXPORT_kg);
+  SetDynamicRData(SEDI_IN_kg);
+  SetDynamicRData(SEDI_OUT_kg);
+  if include_sewer Then SetDynamicRData(SEWER_IN_kg);
 
   For m := 1 To nrow Do
     For n := 1 To ncol Do
