@@ -1256,6 +1256,7 @@ Begin
       UPAREA[i,j] := UPAREA[i,j]+oppcor;
       DistributeUparea(i,j,UPAREA);
     End;
+  DisposeDynamicGData(PTEFmap);
   // end matrix loop
 
 End;
