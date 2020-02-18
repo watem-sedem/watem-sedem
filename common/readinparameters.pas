@@ -462,7 +462,6 @@ Begin
   DisposeDynamicGdata(K_Factor);
   DisposeDynamicRdata(C_factor);
   DisposeDynamicRdata(P_factor);
-  DisposeDynamicGdata(ktil);
   DisposeDynamicRdata(ktc);
   DisposeDynamicGData(Buffermap);
 
@@ -493,7 +492,10 @@ Begin
   DisposeDynamicRdata(CAPAC);
 
   if Calc_tileros Then
-     DisposeDynamicRdata(TILEROS);
+   Begin
+    DisposeDynamicRdata(TILEROS);
+    DisposeDynamicGdata(ktil);
+   end;
 
   If Not Simplified Then
     Begin
