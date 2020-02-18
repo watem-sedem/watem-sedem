@@ -276,12 +276,13 @@ Begin
             // if sed_output_file leaves this pixel, the sed_output_file needs to be distributed over target cells
             DistributeFlux_Sediment(i, j, SEDI_IN, SEDI_OUT[i,j]);
           // SEDI_IN [m³]
-
-
-
       end; //skip
     End;
 
+  // releasing memory of some inputmaps
+  DisposeDynamicGdata(K_Factor);
+  DisposeDynamicRdata(C_factor);
+  DisposeDynamicRdata(P_factor);
 
   If Write_Routing_CR then
    Write_Routing_Table_RC(column, row);

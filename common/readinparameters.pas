@@ -433,9 +433,6 @@ Begin
       DisposedynamicGData(Ro);
     End;
 
-  DisposeDynamicGdata(K_Factor);
-  DisposeDynamicRdata(C_factor);
-  DisposeDynamicRdata(P_factor);
   DisposeDynamicRdata(ktc);
   DisposeDynamicGData(Buffermap);
 
