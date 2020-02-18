@@ -427,10 +427,10 @@ Begin
   SetDynamicRData(SEDI_EXPORT_kg);
   SetDynamicRData(SEDI_IN_kg);
   SetDynamicRData(SEDI_OUT_kg);
-  SetDynamicRData(TILEROS);
+
   SetDynamicRData(CAPAC);
-  if include_sewer Then
-   SetDynamicRData(SEWER_IN_kg);
+  if include_sewer Then SetDynamicRData(SEWER_IN_kg);
+  if Calc_tileros then SetDynamicRData(TILEROS);
   //************************
 
 End;
@@ -491,7 +491,9 @@ Begin
   DisposeDynamicRdata(SEDI_IN_kg);
   DisposeDynamicRdata(SEDI_OUT_kg);
   DisposeDynamicRdata(CAPAC);
-  DisposeDynamicRdata(TILEROS);
+
+  if Calc_tileros Then
+     DisposeDynamicRdata(TILEROS);
 
   If Not Simplified Then
     Begin
