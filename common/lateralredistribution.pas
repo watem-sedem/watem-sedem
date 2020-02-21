@@ -18,11 +18,7 @@ Function followriver(var i,j: integer): boolean;
 
 Implementation
 
-Var 
-
-  SEDI_OUT: RRaster;
-  SEDI_IN: RRaster;
-  SEWER_IN: RRaster;
+Var
   Waterero, sedprod, depprod: double;
   SedLoad, SedLoad_VHA, SedLoad_VHA_Cumulative: RVector;
 
@@ -135,10 +131,6 @@ Begin
   // in m      if < 0 => erosion & if > 0 => sedimentation
 End;
 
-
-
-
-
 Procedure Water;
 
 Var 
@@ -149,17 +141,25 @@ Var
   sed_output_file, sediment_VHA, sewer_out, cal_output_file: textfile;
 
 Begin
-  // Create temp 2D maps
+    //Create maps
   SetDynamicRData(SEDI_IN);
-  // Raster with sed_output_file input per gridcel?
   SetDynamicRData(SEDI_OUT);
-  //************************
+  SetDynamicRData(SEDI_EXPORT);
+  SetDynamicRData(WATEREROS);
+  SetDynamicRData(WATEREROS_cubmeter);
+  SetDynamicRData(WATEREROS_kg);
+  SetDynamicRData(RUSLE);
+  SetDynamicRData(CAPAC);
+  if include_sewer Then
+    begin
+    SetDynamicRData(SEWER_IN);
+    SetzeroR(SEWER_IN);
+    sewer_out_sed := 0;
+    end;
 
   SetzeroR(SEDI_IN);
   SetzeroR(SEDI_OUT);
   SetzeroR(SEDI_EXPORT);
-
-  // SEDI_EXPORT is defined in 'Readinparameters.pas' (in allocate_memory)
 
   If VHA Then //If the user wants output per river segment
     Begin
@@ -175,13 +175,6 @@ Begin
         sedload_VHA[i] :=0;
       //The length of a vector per river segment (+1) is set
     End;
-
-  If Include_sewer Then // If sewers are included
-    begin
-    SetDynamicRData(SEWER_IN);
-    SetzeroR(SEWER_IN);
-    sewer_out_sed := 0;
-    end;
 
   TEMP_river_sed_input := 0;
   TEMP_outside_sed_input := 0;
@@ -240,7 +233,6 @@ Begin
           WATEREROS_cubmeter[i,j] := WATEREROS[i, j] * Area / 1000;
           WATEREROS_kg[i,j] := WATEREROS_cubmeter[i,j] * BD;
 
-
           If (PRC[i, j] <> 0) And (PRC[i, j] <> -1) Then
             Begin
               If SEDI_IN[i, j] - SEDI_OUT[i, j] < 0 Then
@@ -277,12 +269,13 @@ Begin
             // if sed_output_file leaves this pixel, the sed_output_file needs to be distributed over target cells
             DistributeFlux_Sediment(i, j, SEDI_IN, SEDI_OUT[i,j]);
           // SEDI_IN [m³]
-
-
-
       end; //skip
     End;
 
+  // releasing memory of some inputmaps
+  DisposeDynamicGdata(K_Factor);
+  DisposeDynamicRdata(C_factor);
+  DisposeDynamicRdata(P_factor);
 
   If Write_Routing_CR then
    Write_Routing_Table_RC(column, row);
@@ -306,9 +299,6 @@ Begin
                   SEWER_IN[i,j] := -9999;
                  end;
             end;
-
-
-
 
   //***********
 
@@ -456,41 +446,34 @@ Begin
       //The memory of sed_output_file is released
     End;
 
+  //converting SEDI_IN, SEDI_OUT and SEDI_EXPORT to kg
+
   For m := 1 To nrow Do
     For n := 1 To ncol Do
       Begin
         if PRC[m,n]=0 then
           begin
-            SEDI_IN2[m,n] := -9999;
-            SEDI_OUT2[m,n] := -9999;
-            SEDI_EXPORT_kg[m,n] := -9999;
+            SEDI_IN[m,n] := -9999;
+            SEDI_OUT[m,n] := -9999;
+            SEDI_EXPORT[m,n] := -9999;
             if (Include_sewer) Then
               Begin
-                SEWER_IN2[m,n]:=-9999;
+                SEWER_IN[m,n]:=-9999;
               end;
           end
         else
         begin
-        SEDI_IN2[m,n] := SEDI_IN[m,n] * BD;
-          SEDI_OUT2[m,n] := SEDI_OUT[m,n] * BD;
-          //depprod2[m,n] := SEDI_IN2[m,n]-SEDI_OUT2[m,n];
-          SEDI_EXPORT_kg[m,n] := SEDI_EXPORT[m,n] * BD;
+        SEDI_IN[m,n] := SEDI_IN[m,n] * BD;
+          SEDI_OUT[m,n] := SEDI_OUT[m,n] * BD;
+          //depprod2[m,n] := SEDI_IN[m,n]-SEDI_OUT[m,n];
+          SEDI_EXPORT[m,n] := SEDI_EXPORT[m,n] * BD;
           if (include_sewer) Then
             Begin
-              SEWER_IN2[m,n]:=SEWER_IN[m,n]*BD;
+              SEWER_IN[m,n]:=SEWER_IN[m,n]*BD;
             end;
         end;
       End;
-  // Dispose Temp 2D maps
-  DisposeDynamicRdata(SEDI_IN);
-  DisposeDynamicRdata(SEDI_OUT);
-  if (include_sewer) Then
-    Begin
-      DisposeDynamicRdata(SEWER_IN);
-    end;
   //********************
-
-
 End;
 
 //sediment dat toekomt in elke outlet lineair verdelen over hydrogram
@@ -864,12 +847,12 @@ Begin
      j:= min_col[seg];
 
 
-     temp:=SedLoad_VHA_Cumulative[seg] - sedload_vha[seg] + SEDI_IN2[i,j];
+     temp:=SedLoad_VHA_Cumulative[seg] - sedload_vha[seg] + SEDI_IN[i,j];
      cumulative[i,j]:=temp;
     if (i=0) and (j=0) then continue; // skip empty segments
      while followriver(i,j) do
      begin
-       temp := temp + SEDI_IN2[i,j];
+       temp := temp + SEDI_IN[i,j];
        cumulative[i,j]:=temp;
      end;
 

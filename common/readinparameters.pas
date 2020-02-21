@@ -95,7 +95,6 @@ Type
 Function Distance1(r: TRoutingArray;i,j: integer): double;
 Function Distance2(r: TRoutingArray;i,j: integer): double;
 Procedure ReadInRasters;
-Procedure Allocate_Memory;
 Procedure Release_Memory;
 Function SetFileFromIni(inifile: Tinifile; inivalue, datadir: string; obliged: boolean): string;
 Procedure Readsettings(INI_filename:String);
@@ -124,14 +123,12 @@ Var
   TILEROS       : RRaster;
   //tillage erosion (unit: mm)
   SEDI_EXPORT   : RRaster;
-  // sediment export in m³
-  SEDI_EXPORT_kg   : RRaster;
   // sediment export in kg
-  SEDI_IN2       : RRaster;
+  SEDI_IN       : RRaster;
   // incoming sediment in kg
-  SEDI_OUT2      : RRaster;
+  SEDI_OUT      : RRaster;
   // outgoing sediment in kg
-  SEWER_IN2   : RRaster; //amount of sediment in kg entering sewersystem
+  SEWER_IN   : RRaster; //amount of sediment in kg entering sewersystem
   {Rasters to be read in--------------------------------------------------------}
   K_factor   : GRaster;    {RUSLE K-factor map kg m² h m-² MJ-1 mm-1}
   C_factor   : RRaster;
@@ -409,42 +406,17 @@ If Not doubArrayIsEqual(resAR) Then
 
 end;
 
-Procedure Allocate_Memory;
-Begin
-  // Create procedure to read in maps & allocate memory to global maps
-
-  // Assign internal & global 2D maps
-  SetDynamicRData(LS);
-  SetDynamicRData(UPAREA);
-  SetDynamicRData(SLOPE);
-  SetDynamicRData(ASPECT);
-
-  SetDynamicRData(WATEREROS);
-  SetDynamicRData(WATEREROS_cubmeter);
-  SetDynamicRData(WATEREROS_kg);
-  SetDynamicRData(RUSLE);
-  SetDynamicRData(SEDI_EXPORT);
-  SetDynamicRData(SEDI_EXPORT_kg);
-  SetDynamicRData(SEDI_IN2);
-  SetDynamicRData(SEDI_OUT2);
-  SetDynamicRData(TILEROS);
-  SetDynamicRData(CAPAC);
-  if include_sewer Then
-   SetDynamicRData(SEWER_IN2);
-  //************************
-
-End;
-
 Procedure Release_Memory;
 
 Begin
   // Release memory for input rasters
   DisposeDynamicRdata(DTM);
   DisposeDynamicRdata(PRC);
+
   If Include_sewer Then
    Begin
     DisposedynamicRData(SewerMap);
-      DisposeDynamicRdata(SEWER_IN2);
+      DisposeDynamicRdata(SEWER_IN);
    end;
 
 
@@ -459,10 +431,6 @@ Begin
       DisposedynamicGData(Ro);
     End;
 
-  DisposeDynamicGdata(K_Factor);
-  DisposeDynamicRdata(C_factor);
-  DisposeDynamicRdata(P_factor);
-  DisposeDynamicGdata(ktil);
   DisposeDynamicRdata(ktc);
   DisposeDynamicGData(Buffermap);
 
@@ -487,11 +455,15 @@ Begin
   DisposeDynamicRdata(WATEREROS_kg);
   DisposeDynamicRdata(RUSLE);
   DisposeDynamicRdata(SEDI_EXPORT);
-  DisposeDynamicRdata(SEDI_EXPORT_kg);
-  DisposeDynamicRdata(SEDI_IN2);
-  DisposeDynamicRdata(SEDI_OUT2);
+  DisposeDynamicRdata(SEDI_IN);
+  DisposeDynamicRdata(SEDI_OUT);
   DisposeDynamicRdata(CAPAC);
-  DisposeDynamicRdata(TILEROS);
+
+  if Calc_tileros Then
+   Begin
+    DisposeDynamicRdata(TILEROS);
+    DisposeDynamicGdata(ktil);
+   end;
 
   If Not Simplified Then
     Begin
@@ -520,7 +492,6 @@ Begin
   Else
      SetFileFromIni := '';
 End;
-
 
 Procedure ReadDownstreamSegments(filename: String; var kvArray: tintkvarray);
 var
@@ -1037,7 +1008,6 @@ Function CalculateCN(CNmax,Cc,Cr,c1,c2:integer): single;
 Begin
   CalculateCN := CNmax - ((Cc/100)*c1) + ((Cr/5)*c2);
 End;
-
 
 Procedure Create_ktil_map(Var ktil: GRaster);
 
