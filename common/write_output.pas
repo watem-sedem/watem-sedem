@@ -28,9 +28,9 @@ Begin
   If Write_Sediexport Then
     Begin
       //  writeIdrisi32file(ncol,nrow,File_output_dir+'SediExport_m3'+'.rst', SEDI_EXPORT);
-      writeIdrisi32file(ncol,nrow,File_output_dir+'SediExport_kg'+'.rst', SEDI_EXPORT_kg);
-      writeIdrisi32file(ncol,nrow,File_output_dir+'SediIn_kg'+'.rst', SEDI_IN_kg);
-      writeIdrisi32file(ncol,nrow,File_output_dir+'SediOut_kg'+'.rst', SEDI_OUT_kg);
+      writeIdrisi32file(ncol,nrow,File_output_dir+'SediExport_kg'+'.rst', SEDI_EXPORT);
+      writeIdrisi32file(ncol,nrow,File_output_dir+'SediIn_kg'+'.rst', SEDI_IN);
+      writeIdrisi32file(ncol,nrow,File_output_dir+'SediOut_kg'+'.rst', SEDI_OUT);
       writeIdrisi32file(ncol,nrow,File_output_dir+'Capacity'+'.rst', CAPAC);
       //writeIdrisi32file(ncol,nrow,File_output_dir+'Dep_prod_kg'+'.rst', depprod2);
 
@@ -75,7 +75,7 @@ Begin
 
   If (include_sewer) Then
     Begin
-    writeidrisi32file(ncol,nrow,File_output_dir+'sewer_in'+'.rst',SEWER_IN_kg);
+    writeidrisi32file(ncol,nrow,File_output_dir+'sewer_in'+'.rst',SEWER_IN);
     end;
 
 End;

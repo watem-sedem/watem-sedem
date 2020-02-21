@@ -123,14 +123,12 @@ Var
   TILEROS       : RRaster;
   //tillage erosion (unit: mm)
   SEDI_EXPORT   : RRaster;
-  // sediment export in m³
-  SEDI_EXPORT_kg   : RRaster;
   // sediment export in kg
-  SEDI_IN_kg       : RRaster;
+  SEDI_IN       : RRaster;
   // incoming sediment in kg
-  SEDI_OUT_kg      : RRaster;
+  SEDI_OUT      : RRaster;
   // outgoing sediment in kg
-  SEWER_IN_kg   : RRaster; //amount of sediment in kg entering sewersystem
+  SEWER_IN   : RRaster; //amount of sediment in kg entering sewersystem
   {Rasters to be read in--------------------------------------------------------}
   K_factor   : GRaster;    {RUSLE K-factor map kg m² h m-² MJ-1 mm-1}
   C_factor   : RRaster;
@@ -418,7 +416,7 @@ Begin
   If Include_sewer Then
    Begin
     DisposedynamicRData(SewerMap);
-      DisposeDynamicRdata(SEWER_IN_kg);
+      DisposeDynamicRdata(SEWER_IN);
    end;
 
 
@@ -457,9 +455,8 @@ Begin
   DisposeDynamicRdata(WATEREROS_kg);
   DisposeDynamicRdata(RUSLE);
   DisposeDynamicRdata(SEDI_EXPORT);
-  DisposeDynamicRdata(SEDI_EXPORT_kg);
-  DisposeDynamicRdata(SEDI_IN_kg);
-  DisposeDynamicRdata(SEDI_OUT_kg);
+  DisposeDynamicRdata(SEDI_IN);
+  DisposeDynamicRdata(SEDI_OUT);
   DisposeDynamicRdata(CAPAC);
 
   if Calc_tileros Then

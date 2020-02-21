@@ -18,11 +18,7 @@ Function followriver(var i,j: integer): boolean;
 
 Implementation
 
-Var 
-
-  SEDI_OUT: RRaster;
-  SEDI_IN: RRaster;
-  SEWER_IN: RRaster;
+Var
   Waterero, sedprod, depprod: double;
   SedLoad, SedLoad_VHA, SedLoad_VHA_Cumulative: RVector;
 
@@ -145,12 +141,9 @@ Var
   sed_output_file, sediment_VHA, sewer_out, cal_output_file: textfile;
 
 Begin
-  // Create temp 2D maps
+    //Create maps
   SetDynamicRData(SEDI_IN);
   SetDynamicRData(SEDI_OUT);
-  //************************
-
-  //Create maps
   SetDynamicRData(SEDI_EXPORT);
   SetDynamicRData(WATEREROS);
   SetDynamicRData(WATEREROS_cubmeter);
@@ -454,45 +447,32 @@ Begin
     End;
 
   //converting SEDI_IN, SEDI_OUT and SEDI_EXPORT to kg
-  // why are new variables used?
-  SetDynamicRData(SEDI_EXPORT_kg);
-  SetDynamicRData(SEDI_IN_kg);
-  SetDynamicRData(SEDI_OUT_kg);
-  if include_sewer Then SetDynamicRData(SEWER_IN_kg);
 
   For m := 1 To nrow Do
     For n := 1 To ncol Do
       Begin
         if PRC[m,n]=0 then
           begin
-            SEDI_IN_kg[m,n] := -9999;
-            SEDI_OUT_kg[m,n] := -9999;
-            SEDI_EXPORT_kg[m,n] := -9999;
+            SEDI_IN[m,n] := -9999;
+            SEDI_OUT[m,n] := -9999;
+            SEDI_EXPORT[m,n] := -9999;
             if (Include_sewer) Then
               Begin
-                SEWER_IN_kg[m,n]:=-9999;
+                SEWER_IN[m,n]:=-9999;
               end;
           end
         else
         begin
-        SEDI_IN_kg[m,n] := SEDI_IN[m,n] * BD;
-          SEDI_OUT_kg[m,n] := SEDI_OUT[m,n] * BD;
-          //depprod2[m,n] := SEDI_IN_kg[m,n]-SEDI_OUT_kg[m,n];
-          SEDI_EXPORT_kg[m,n] := SEDI_EXPORT[m,n] * BD;
+        SEDI_IN[m,n] := SEDI_IN[m,n] * BD;
+          SEDI_OUT[m,n] := SEDI_OUT[m,n] * BD;
+          //depprod2[m,n] := SEDI_IN[m,n]-SEDI_OUT[m,n];
+          SEDI_EXPORT[m,n] := SEDI_EXPORT[m,n] * BD;
           if (include_sewer) Then
             Begin
-              SEWER_IN_kg[m,n]:=SEWER_IN[m,n]*BD;
+              SEWER_IN[m,n]:=SEWER_IN[m,n]*BD;
             end;
         end;
       End;
-
-  // Dispose Temp 2D maps
-  DisposeDynamicRdata(SEDI_IN);
-  DisposeDynamicRdata(SEDI_OUT);
-  if (include_sewer) Then
-    Begin
-      DisposeDynamicRdata(SEWER_IN);
-    end;
   //********************
 End;
 
@@ -867,12 +847,12 @@ Begin
      j:= min_col[seg];
 
 
-     temp:=SedLoad_VHA_Cumulative[seg] - sedload_vha[seg] + SEDI_IN_kg[i,j];
+     temp:=SedLoad_VHA_Cumulative[seg] - sedload_vha[seg] + SEDI_IN[i,j];
      cumulative[i,j]:=temp;
     if (i=0) and (j=0) then continue; // skip empty segments
      while followriver(i,j) do
      begin
-       temp := temp + SEDI_IN_kg[i,j];
+       temp := temp + SEDI_IN[i,j];
        cumulative[i,j]:=temp;
      end;
 
