@@ -353,11 +353,10 @@ Begin
           TEMP_outside_sed_input * BD)*100)/100) + ' (kg)');
   Writeln(sed_output_file, 'Sediment trapped in buffers: ' + floattostr(round((TEMP_buffer_sed_input * BD)*
   100)/100) + ' (kg)');
-  Writeln(sed_output_file, 'Sediment trapped in open water: ' + floattostr(round((TEMP_pond_sed_input * BD)
-  *100)/100) + ' (kg)');
+  Writeln(sed_output_file, 'Sediment trapped in open water: ' + floattostr(round((TEMP_pond_sed_input * BD)*100)/100) + ' (kg)');
   If (Include_sewer) Then
     begin
-    Writeln(sed_output_file, 'Sediment entering sewer system: ' + (floattostr(sewer_out_sed*BD)) + ' (kg)');
+    Writeln(sed_output_file, 'Sediment entering sewer system: ' + floattostr(round((sewer_out_sed * BD)*100)/100) + ' (kg)');
     end;
   Writeln(sed_output_file,'_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _');
   Writeln(sed_output_file,'');
