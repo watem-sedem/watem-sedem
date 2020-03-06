@@ -78,8 +78,7 @@ End;
 Procedure GetGFile(Var Z:GRaster; Filename:String);
 
 Var 
-  i,j,hulpgetal: integer;
-  docfileIMG : textfile;
+  i,j: integer;
   fileIMG : file Of smallint;
   textfileIMG : textfile ;
   bytefileIMG : file Of byte;

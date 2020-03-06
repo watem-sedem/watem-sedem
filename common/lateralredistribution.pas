@@ -8,7 +8,7 @@ Interface
 
 Uses 
 Classes, SysUtils, FileUtil, RData_CN, ReadInParameters,
-Raster_calculations, math, CN_calculations, GData_CN, idrisi, write_output;
+Raster_calculations, math, CN_calculations, GData_CN, write_output;
 
 Procedure Water;
 Procedure Distribute_sediment;
@@ -134,11 +134,11 @@ End;
 Procedure Water;
 
 Var 
-  teller, i, j, k, l, m, n, t_r, t_c, ri, ii, tc, tr: integer;
+  teller, i, j, k, l, m, n, tc, tr: integer;
   area, sewer_out_sed, TEMP_river_sed_input, TEMP_outside_sed_input, TEMP_buffer_sed_input,
-  TEMP_pond_sed_input, SEDI_OUT_TMP: double;
+  TEMP_pond_sed_input: double;
   skip: boolean;
-  sed_output_file, sediment_VHA, sewer_out, cal_output_file: textfile;
+  sed_output_file, sediment_VHA, cal_output_file: textfile;
 
 Begin
     //Create maps

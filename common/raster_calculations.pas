@@ -319,7 +319,6 @@ var
   i,j,k: integer;
   routingfile: textfile;
   sep: char;
-  col_missing, row_missing: array of integer;
 Begin
   // in case any circular routing was determined, it should be broken
 
@@ -341,7 +340,6 @@ end;
 Procedure Apply_Routing;
 Var
   inv: TRoutingInvArray;
-  ii, teller: integer;
   q_index, last_index: integer;
 Begin
        // invert routing
@@ -638,13 +636,11 @@ End;
 //**************************************************************************
 Procedure DistributeRiver_Routing(i,j:integer);
 var
-  k, l, max, min, segment, nextsegment, rowmin, colmin: integer;
+  k, l, segment, nextsegment, rowmin, colmin: integer;
   OK, check: boolean;
   w: integer;
 Begin
   segment := rivseg[i,j];
-  min := river_routing_map[i,j];
-  max := maxint;
 
   OK := false;
 
@@ -728,11 +724,10 @@ Procedure DistributeTilDirEvent_Routing(i,j:integer; Topo:boolean);
 // Topo = wordt meegegeven vanuit CalculateUpareaOlivier
 
 Var 
-  CSN,SN,MINIMUM,MINIMUM2,PART1,PART2,extremum : extended;
-  K1,K2,l1,L2,ROWMIN,COLMIN,ROWMIN2,COLMIN2,K,L, Area, W : integer;
-  parequal,closeriver, closeditchdam, check, criterium: boolean;
+  CSN,SN,PART1,PART2,extremum : extended;
+  K1,K2,l1,L2,ROWMIN,COLMIN,K,L, Area : integer;
+  closeriver, closeditchdam, criterium: boolean;
   Direction : single;
-  center_x, center_y, center_ID: integer;
 Begin
   closeriver := false;
   closeditchdam := false;
@@ -1220,7 +1215,6 @@ Procedure Calculate_UpstreamArea(Var UPAREA:RRaster);
 
 Var 
   teller,i,j : integer;
-  Fluxout: single;
   oppcor: double;
 
 Begin
