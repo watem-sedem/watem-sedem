@@ -135,8 +135,7 @@ Procedure Water;
 
 Var 
   teller, i, j, k, l, m, n, tc, tr: integer;
-  area, sewer_out_sed, TEMP_river_sed_input, TEMP_outside_sed_input, TEMP_buffer_sed_input,
-  TEMP_pond_sed_input: double;
+  area, sewer_out_sed, TEMP_river_sed_input, TEMP_outside_sed_input, TEMP_buffer_sed_input: double;
   skip: boolean;
   sed_output_file, sediment_VHA, cal_output_file: textfile;
 
@@ -178,7 +177,6 @@ Begin
 
   TEMP_river_sed_input := 0;
   TEMP_outside_sed_input := 0;
-  TEMP_pond_sed_input := 0;
   TEMP_buffer_sed_input := 0;
 
     for teller:=0 to nrow*ncol-1 do
@@ -353,7 +351,6 @@ Begin
           TEMP_outside_sed_input * BD)*100)/100) + ' (kg)');
   Writeln(sed_output_file, 'Sediment trapped in buffers: ' + floattostr(round((TEMP_buffer_sed_input * BD)*
   100)/100) + ' (kg)');
-  Writeln(sed_output_file, 'Sediment trapped in open water: ' + floattostr(round((TEMP_pond_sed_input * BD)*100)/100) + ' (kg)');
   If (Include_sewer) Then
     begin
     Writeln(sed_output_file, 'Sediment entering sewer system: ' + floattostr(round((sewer_out_sed * BD)*100)/100) + ' (kg)');
@@ -387,7 +384,6 @@ Begin
       Write(cal_output_file, Formatfloat('0.00', TEMP_river_sed_input * BD) + ';');
       Write(cal_output_file, Formatfloat('0.00', TEMP_outside_sed_input * BD) + ';');
       Write(cal_output_file, Formatfloat('0.00', TEMP_buffer_sed_input * BD) + ';');
-      Write(cal_output_file,Formatfloat('0.00', TEMP_pond_sed_input * BD));
 
       // also write to every outlet
       For i := 1 To numOutlet Do
