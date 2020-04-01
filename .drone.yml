@@ -49,13 +49,13 @@ steps:
       - mkdir -p ~/.ssh && echo "$SSH_KEY" > ~/.ssh/id_rsa && chmod og-rwx ~/.ssh/id_rsa
       - echo "$GPG_KEY" | gpg --import
       - mkdir apt-repo && cd apt-repo
-      - rsync -az -e "ssh -p 22 -o StrictHostKeyChecking=no" droneci@noordzee:~/apt/amd64 .
+      - rsync -az -e "ssh -p 22 -o StrictHostKeyChecking=no" docs@ijzer:/appdata/static/apt/amd64 .
       - apt-ftparchive packages amd64 > Packages
       - gzip -c Packages > Packages.gz
       - apt-ftparchive release . > Release
       - gpg --clearsign -o InRelease Release
       - gpg -abs -o Release.gpg Release
-      - rsync -av . droneci@noordzee:~/apt
+      - rsync -av . docs@ijzer:/appdata/static/apt/
     when:
       branch:
         - master
