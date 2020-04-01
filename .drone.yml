@@ -21,12 +21,12 @@ steps:
     image: drillster/drone-rsync
     settings:
       hosts:
-        - noordzee
-      user: droneci
+        - ijzer
+      user: docs
       key:
          from_secret: ssh-key
       source: package/*.deb
-      target: ~/apt/amd64
+      target: /appdata/static/apt/amd64
     when:
       branch:
         - master
