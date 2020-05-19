@@ -104,9 +104,6 @@ Begin
       Exit;
 End;
 
-Allocate_Memory;
-// voor verschillende rasters
-
 If Not Simplified Then
   CalculateRe(ReMap, PRC, CNmap, alpha, beta);
 //Amount of rainfall excess or deficit is calculated

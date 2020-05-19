@@ -145,7 +145,6 @@ Begin
   Apply_Routing;
 End;
 
-
 Function Invert_routing(Routing: TRoutingArray): TRoutingInvArray;
 var
   inv: TRoutingInvArray;
@@ -236,8 +235,6 @@ begin
   Invert_routing:= inv;
 end;
 
-
-
 procedure addInverse(var inv:TroutingInvArray; i,j,t_c, t_r: integer);
 var
   pos:integer;
@@ -269,8 +266,6 @@ begin
            inv[i,j].treated[k] :=false;
        end;
 end;
-
-
 
 procedure setpointtreated(var inv: TRoutingInvArray; var last_index:integer; i,j,t_r, t_c: integer);
 // Sets the status of the goal cel [t_r, t_c] to treated for this origin cell
@@ -324,7 +319,6 @@ var
   i,j,k: integer;
   routingfile: textfile;
   sep: char;
-  col_missing, row_missing: array of integer;
 Begin
   // in case any circular routing was determined, it should be broken
 
@@ -343,11 +337,9 @@ Begin
     closefile(routingfile);
 end;
 
-
 Procedure Apply_Routing;
 Var
   inv: TRoutingInvArray;
-  ii, teller: integer;
   q_index, last_index: integer;
 Begin
        // invert routing
@@ -379,7 +371,6 @@ Begin
   missing_routes(inv);
 end;
 
-
 procedure add_queue(var inv: TRoutingInvArray; var q_index, last_index: integer) ;
 var
   t_r, t_c: integer;
@@ -410,8 +401,8 @@ Procedure CalculateSlopeAspect;
 Var 
   i,j: integer;
 Begin
-  SetDynamicRdata(Slope);
-  SetDynamicRdata(Aspect);
+  SetDynamicRData(Slope);
+  SetDynamicRData(Aspect);
   For i:=1 To nrow Do
     For j:=1 To ncol Do
       Begin
@@ -645,13 +636,11 @@ End;
 //**************************************************************************
 Procedure DistributeRiver_Routing(i,j:integer);
 var
-  k, l, max, min, segment, nextsegment, rowmin, colmin: integer;
+  k, l, segment, nextsegment, rowmin, colmin: integer;
   OK, check: boolean;
   w: integer;
 Begin
   segment := rivseg[i,j];
-  min := river_routing_map[i,j];
-  max := maxint;
 
   OK := false;
 
@@ -735,11 +724,10 @@ Procedure DistributeTilDirEvent_Routing(i,j:integer; Topo:boolean);
 // Topo = wordt meegegeven vanuit CalculateUpareaOlivier
 
 Var 
-  CSN,SN,MINIMUM,MINIMUM2,PART1,PART2,extremum : extended;
-  K1,K2,l1,L2,ROWMIN,COLMIN,ROWMIN2,COLMIN2,K,L, Area, W : integer;
-  parequal,closeriver, closeditchdam, check, criterium: boolean;
+  CSN,SN,PART1,PART2,extremum : extended;
+  K1,K2,l1,L2,ROWMIN,COLMIN,K,L, Area : integer;
+  closeriver, closeditchdam, criterium: boolean;
   Direction : single;
-  center_x, center_y, center_ID: integer;
 Begin
   closeriver := false;
   closeditchdam := false;
@@ -1223,17 +1211,14 @@ check, parequal: boolean;
           findlower:= True;
 end;
 
-
-
-
 Procedure Calculate_UpstreamArea(Var UPAREA:RRaster);
 
 Var 
   teller,i,j : integer;
-  Fluxout: single;
   oppcor: double;
 
 Begin
+  SetDynamicRData(UPAREA);  //allocate memory
   // SetnodataR(UPAREA);
 
   // set all valid cells to zero
@@ -1265,6 +1250,7 @@ Begin
       UPAREA[i,j] := UPAREA[i,j]+oppcor;
       DistributeUparea(i,j,UPAREA);
     End;
+  DisposeDynamicGData(PTEFmap);
   // end matrix loop
 
 End;
@@ -1275,6 +1261,7 @@ Var
   i,j     : integer;
   exp,Sfactor,Lfactor,adjust,B,locres : double;
 Begin
+  SetDynamicRData(LS);  // allocate memory
 
   // adjust the slope to the slope according to the actual routing table
   if adjusted_slope then
