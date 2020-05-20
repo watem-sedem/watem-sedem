@@ -1136,7 +1136,7 @@ check, parequal: boolean;
             If (abs(k)<>W) And (abs(l)<>W) Then continue;
 
          //The cell itself is not looked at + only the outer cells of the kernel are looked at
-            If ((i+k)<0)Or(i+k>nrow)Or(j+l<0)Or(j+l>ncol) Then continue;
+            If ((i+k)<1)Or(i+k>=nrow)Or(j+l<1)Or(j+l>=ncol) Then continue;
             //The cells at the border of the map are not looked at
             If ((DTM[I+K,J+L]<MINIMUM)And(DTM[I+K,J+L]<DTM[I,J])
                //Als de bestemmingscel lager gelegen is dan broncel

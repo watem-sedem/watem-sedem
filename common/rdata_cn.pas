@@ -23,6 +23,7 @@ Type
     Procedure SetzeroR(Var z:Rraster);
     Procedure SetnodataR(Var z:Rraster);
     Procedure DisposeDynamicRdata(Var Z:RRaster);
+    Procedure SetRasterBorders(Var Z:RRaster; value: single);
 
     Var 
       NROW,NCOL: integer;
@@ -42,7 +43,7 @@ Type
     //De waarden van de buitenste cellen worden vervangen door de waarden van de
     //cellen die een laag meer naar het midden liggen
     //********************************************************************
-    Procedure SetRasterBorders(Var Z:RRaster);
+    Procedure CopyRasterBorders(Var Z:RRaster);
 
     Var 
       i,j       : integer;
@@ -60,6 +61,25 @@ Type
         Begin
           Z[i,0] := Z[i,1];
           Z[i,ncol+1] := Z[i,ncol];
+        End;
+    End;
+
+    //*********************************************************************
+    // Set raster borders to a specific value, overriding copyrasterborders
+    //*********************************************************************
+    Procedure SetRasterBorders(Var Z:RRaster; value: single);
+    Var
+      i,j       : integer;
+    Begin
+      For j := 0 To ncol Do
+        Begin
+          Z[0,j] :=value;
+          Z[(nrow+1),j] := value;
+        End;
+      For  i := 0 To nrow Do
+        Begin
+          Z[i,0] := value;
+          Z[i,ncol+1] := value;
         End;
     End;
 
@@ -199,7 +219,7 @@ Type
       Closefile(DocfileImg);
 
       //De buitenste waarden van het raster worden aangepast
-      SetRasterBorders(Z);
+      CopyRasterBorders(Z);
 
       //ncol, nrow en res worden opgeslagen in array zodat achteraf kan worden nagegaan
       //of deze voor alle kaarten gelijk zijn

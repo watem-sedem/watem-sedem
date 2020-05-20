@@ -292,6 +292,9 @@ Begin
   setCurrentDir(datadir);
   GetRFile(DTM,DTM_Filename);
   GetRFile(PRC,PARCEL_filename);
+
+  SetRasterBorders(PRC, 0);
+
   GetRFile(P_factor, Pf_Data_filename);
 
   If Include_sewer Then
