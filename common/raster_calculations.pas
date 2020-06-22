@@ -745,7 +745,7 @@ Begin
      Apply_Buffer(i,j);
      // we should process dam, ditch and buffer if it is the endpoint of the buffer,
      // otherwise we should skip further steps.
-     if (Buffermap[i,j] > POWER(2,14)) then
+     if (Buffermap[i,j] > 16384) then
         exit;
    End;
 
@@ -1325,7 +1325,7 @@ Var
   BufferId: integer;
 Begin
   fluxout:=UpArea[i,j];
-  If Include_buffer and (Buffermap[i,j] > POWER(2,14)) Then
+  If Include_buffer and (Buffermap[i,j] > 16384) Then
     Begin
       flux := fluxout;
 
