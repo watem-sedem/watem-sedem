@@ -7,7 +7,7 @@ Unit Raster_calculations;
 
 Interface
 
-Uses 
+Uses
 Classes, SysUtils, Math, GData_CN, RData_CN, ReadInParameters;
 
 Type
@@ -48,7 +48,7 @@ Const
 
 Function X_Resolution(): double;
 
-Var 
+Var
   Yresdeg,Xresdeg,longitude: double;
 
 Begin
@@ -398,7 +398,7 @@ end;
 //******************************************************************************
 Procedure CalculateSlopeAspect;
 
-Var 
+Var
   i,j: integer;
 Begin
   SetDynamicRData(Slope);
@@ -413,7 +413,7 @@ End;
 
 //Slope calculation
 Function CalculateSLOPE(i,j:integer): double;
-Var 
+Var
   DIFFX,DIFFY: double;
 Begin
 
@@ -452,7 +452,7 @@ End;
 //Aspect calculation
 Function CalculateASPECT(i,j:integer) : double;
 
-Var 
+Var
   Diffx,Diffy,Slopex,Slopey,Asp,Grad: double;
 Begin
   ASP := 0;
@@ -573,7 +573,7 @@ end;
 //******************************************************************************
 Function LogReg(i,j:integer): double;
 
-Var 
+Var
   logitp,ep,angle : double;
   angle2,Td,Ad : double;
 Begin
@@ -619,7 +619,7 @@ End;
 Function SlopeDir(dir:double;i,j:integer;DTM:Rraster): double;
 // Zero direction is grid north
 
-Var 
+Var
   G,H: double;
 Begin
   G := (-DTM[i,j-1]+DTM[i,j+1])/(2*RES);
@@ -723,7 +723,7 @@ Procedure DistributeTilDirEvent_Routing(i,j:integer; Topo:boolean);
 // Input(raster) = UpArea (de geaccumuleerde hoeveelheid water per cel).
 // Topo = wordt meegegeven vanuit CalculateUpareaOlivier
 
-Var 
+Var
   CSN,SN,PART1,PART2,extremum : extended;
   K1,K2,l1,L2,ROWMIN,COLMIN,K,L, Area : integer;
   closeriver, closeditchdam, criterium: boolean;
@@ -745,7 +745,7 @@ Begin
      Apply_Buffer(i,j);
      // we should process dam, ditch and buffer if it is the endpoint of the buffer,
      // otherwise we should skip further steps.
-     if (Buffermap[i,j] > 100) then
+     if (Buffermap[i,j] > POWER(2,14)) then
         exit;
    End;
 
@@ -1213,7 +1213,7 @@ end;
 
 Procedure Calculate_UpstreamArea(Var UPAREA:RRaster);
 
-Var 
+Var
   teller,i,j : integer;
   oppcor: double;
 
@@ -1257,7 +1257,7 @@ End;
 
 
 Procedure CalculateLS(Var LS:RRaster;UPAREA:RRaster);
-Var 
+Var
   i,j     : integer;
   exp,Sfactor,Lfactor,adjust,B,locres : double;
 Begin
@@ -1325,13 +1325,13 @@ Var
   BufferId: integer;
 Begin
   fluxout:=UpArea[i,j];
-  If Include_buffer and (Buffermap[i,j] > 100) Then
+  If Include_buffer and (Buffermap[i,j] > POWER(2,14)) Then
     Begin
       flux := fluxout;
 
       if (Routing[i,j].Part1 > 0) and (Buffermap[Routing[i,j].Target1Row,Routing[i,j].Target1Col] >0) then
         begin
-         BufferId :=Buffermap[i,j] div 100;
+         BufferId := Buffermap[i,j] - 16384;
          ptef :=1-BufferData[BufferId].PTEF/100;
          flux := fluxout * ptef;
         end;
@@ -1456,7 +1456,7 @@ End;
 // flux decomposition algorithm
 Procedure DistributeFlux_Sediment(i,j:integer;Var Flux_IN: RRaster;flux_out: single);
 
-Var 
+Var
   flux: double;
 Begin
   // flux decomposition algoritme
@@ -1550,7 +1550,7 @@ Begin
                   Routing[i,j].Part2 := 0;
                   Routing[i,j].One_Target := True;
 
-                  If (buffermap[i+k,j+l] <> (buffermap[i,j]*100)) Then
+                  If (buffermap[i+k,j+l] <> buffermap[i,j]+16384) Then
                     //Check will be true when the target cell does not belong to the same buffer
                     check := true;
                 End;
