@@ -74,8 +74,20 @@ When the routing based on the built-in rules of the model is not correct (e.g. i
 This is done by enabling the Force Routing option. With force routing the routing algorithm will use the routing imposed by the user in stead of the digital elevation model.
 
 When `Force Routing = 1` the user will have to provide additional input: the variable `number of force routing` and a seperate
-section for every routing vector the user wants to add. Every section contains following variables:
-`from col`, `from row`, `target col` and `target row`. 
+section for every routing vector the user wants to add. `number of force routing` contains an integer value with the amount of routing vectors that are imposed by the user. 
+
+An example of a valid forced routing section looks like
+
+```
+[Force routing 1]
+from col = 25
+from row = 55
+target col = 30
+target row = 55
+```
+
+The keys in every force routing section are `from col`, `from row`, `target col` and `target row`. These are integer values representing the location of source and target pixel
+in the raster. 
 
 #### River Routing
 
@@ -112,7 +124,9 @@ The Calibrate-option allows the model user to run the model with a given set of 
 Both the ktc_high-factor as the ktc_low-factor are varied in an amount of steps between a lower and upper value. For every combination of ktc-factors where 
 ktc_high > ktc_low, the model will make a calculation and 
 
+#### Output per VHA river segment
 
+TO DO
 
 
 
