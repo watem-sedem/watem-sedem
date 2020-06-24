@@ -185,7 +185,7 @@ Following keys in the section `[Output maps]` adapt the output:
 - `write rainfall exces` (bool, default false): writes Remap.rst
 - `write total runoff` (bool, default false): writes Total runoff.rst
 
-In the section `User Choices` two keys impose some output too:
+In the section `[User Choices]` two keys impose some output too:
 - `Include sewer` (bool, default false): writes sewer_in.rst
 - `Output per VHA river segment` (bool, default false): writes Total Sediment VHA.txt, Total discharge.txt, Sediment_VHA.txt,
 Sediment concentration_VHA.txt, Cumulative sediment VHA.txt
