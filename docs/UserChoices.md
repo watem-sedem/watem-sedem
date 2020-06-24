@@ -41,14 +41,22 @@ When `Create ktc map = 0` the user will have to make a ktc map himself. The mode
 
 #### Include sewers
 
-When the include sewers-option is enabled, the user will have to provide two additional inputs:
-- sewermap
-- sewerexit
+When the include sewers-option is enabled, the user will have to provide two additional inputs: `sewer map filename` and `sewer exit`. 
+
+The value of the pixel in the sewer map is checked when the amount of outgoing sediment in a pixel is calculated. This value is the fraction of water
+and sediment that is trapped in the sewer system via this pixel. The outgoing sediment of the pixel is reduced with this fraction. The amount of trapped sediment is 
+written to output raster sewer_in.rst. 
+
+TO DO: sewer exit? 
 
 #### Include buffers
 
 An infrastructural measure that traps an amount of transported sediment is called a buffer. These measures can be simulated in the model by enabling
-the Include buffers option. This option 
+the Include buffers option. By enabling this option the `buffer map filename` becomes mandatory in the ini-file. Next to this raster, the ini-file must contain the 
+variable `number of buffers` and a seperate section for every buffer in the buffer map. In every buffer section in the ini-file some variables must be given.
+
+The Include buffers option adjusts the routing in the pixels. All pixels within a buffer with the buffer extension id are routed to the outletpixel of the buffer. This outletpixel
+in the bufferraster is marked with the buffer id. The amount of sediment that flows out of the bufferoutlet is reduced with the trapping efficiency of the buffer. 
 
 #### Include ditches and dams
 
@@ -61,6 +69,13 @@ Two options are available in the model:
 Both options are similar, but differences in C-factor and ktc
 
 #### Force Routing
+
+When the routing based on the built-in rules of the model is not correct (e.g. in the neighbourhood of infrastructure) the user has the possibility to impose the routing.
+This is done by enabling the Force Routing option. With force routing the routing algorithm will use the routing imposed by the user in stead of the digital elevation model.
+
+When `Force Routing = 1` the user will have to provide additional input: the variable `number of force routing` and a seperate
+section for every routing vector the user wants to add. Every section contains following variables:
+`from col`, `from row`, `target col` and `target row`. 
 
 #### River Routing
 
