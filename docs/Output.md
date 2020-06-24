@@ -167,4 +167,25 @@ Raster with total runoff (m³) generated in every pixel during a rainfall event.
 is the sum of the amount of rainfall and the amount of water flowing from upstream pixels, minus the infiltration 
 in the pixel. 
 
+## Modeloutput options
 
+In the above section all outputfiles where described. In this section, the different outputoptions and the linked
+files are described.
+
+Following keys in the section `[Output maps]` adapt the output:
+- `write aspect` (bool, default false): write AspectMap.rst 
+- `write LS factor` (bool, default false): write LS.rst 
+- `write upsream area` (bool, default false): write UPAREA.rst
+- `write slope` (bool, default false): write SLOPE.rst
+- `write routing table` (bool, default false): writes routing.txt and routing_missing.txt
+- `write routing column/row` (bool, default false): 
+- `write RUSLE` (bool, default false): writes RUSLE.rst
+- `write sediment export` (bool, default false): writes SediExport_kg.rst, SediIn_kg.rst, SediOut_kg.rst
+- `write water erosion` (bool, default false): writes WATEREROS (kg per gridcel).rst and WATEREROS (mm per gridcel).rst
+- `write rainfall exces` (bool, default false): writes Remap.rst
+- `write total runoff` (bool, default false): writes Total runoff.rst
+
+In the section `User Choices` two keys impose some output too:
+- `Include sewer` (bool, default false): writes sewer_in.rst
+- `Output per VHA river segment` (bool, default false): writes Total Sediment VHA.txt, Total discharge.txt, Sediment_VHA.txt,
+Sediment concentration_VHA.txt, Cumulative sediment VHA.txt
