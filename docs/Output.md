@@ -3,20 +3,20 @@
 In this section we will describe all possible modeloutput of the CN-WS model. Tables are written as txt-files, rasters are written as
 [Idrisi-rasters](https://gdal.org/drivers/raster/Idrisi.html). 
 
-### Routing only output
+### 1. Routing only output
 
 When the user chooses to only use the routing algorithm of the cn-ws model, following output can be generated.
 
 #### routing.txt
 
 Tab seperated table wich contains a row for every pixel in the spatial domain. For every pixel (row in the table) the following collumns are present:
-col, row: the position of the pixel in the raster
-target1col, target1row: the position of the first targetpixel in the raster. These values are -99 if target1 does not exist. 
-part1: the relative amount of outgoing sediment/water to the first target pixel
-distance1: the distance between the sourcepixel and the first target pixel
-target2col, target2row: the position of the second targetpixel in the raster. These values are -99 if target2 does not exist. 
-part2: the relative amount of outgoing sediment/water to the second target pixel. Togheter with part1 the sum must be 1.
-distance2: the distance between the sourcepixel and the second target pixel
+- col, row: the position of the pixel in the raster
+- target1col, target1row: the position of the first targetpixel in the raster. These values are -99 if target1 does not exist. 
+- part1: the relative amount of outgoing sediment/water to the first target pixel
+- distance1: the distance between the sourcepixel and the first target pixel
+- target2col, target2row: the position of the second targetpixel in the raster. These values are -99 if target2 does not exist. 
+- part2: the relative amount of outgoing sediment/water to the second target pixel. Togheter with part1 the sum must be 1.
+- distance2: the distance between the sourcepixel and the second target pixel
 
 The routing table is only generated when `write routing table = 1`.
 
@@ -42,7 +42,7 @@ Raster with the calculated slope in radians. This raster is only written if `wri
 
 Raster with the total upstream area (m²) for every pixel. This raster is only written if `write upstream area = 1`.
 
-### WaTEM-SEDEM output
+### 2. WaTEM-SEDEM output
 
 When the WaTEM-SEDEM model is used (`simple = 1`), the following rasters and tables can be written as output.
 
@@ -118,7 +118,7 @@ This raster is only written if `write rusle = 1`
 Raster with the calculated tillage erosion (mm/year). Negative values indicate erosion, positive values give sedimentation. 
 This raster is only written if `calculate tillage erosion = 1`.
 
-### CN-output
+### 3. CN-output
 
 When the CN-module is enabled (`simple=0`) it is possible to generate some additional output.
 
