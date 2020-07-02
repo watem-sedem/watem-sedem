@@ -271,9 +271,12 @@ Begin
     End;
 
   // releasing memory of some inputmaps
+  if not Calibrate then
+    Begin;
   DisposeDynamicGdata(K_Factor);
   DisposeDynamicRdata(C_factor);
   DisposeDynamicRdata(P_factor);
+    end;
 
   If Write_Routing_CR then
    Write_Routing_Table_RC(column, row);
