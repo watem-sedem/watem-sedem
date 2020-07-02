@@ -343,6 +343,8 @@ Begin
 
   // sedload has to be written to a .txt file as output of the model
 
+  if not Calibrate Then
+    Begin
   setcurrentDir(File_output_dir);
   assignfile(sed_output_file, 'Total sediment.txt');
   rewrite(sed_output_file);
@@ -374,8 +376,8 @@ Begin
     End;
   closefile(sed_output_file);
   //The memory of sed_output_file is released
-
-  if calibrate then
+  End
+  Else
     begin
     // also write to cal_output_file
       setcurrentDir(File_output_dir);
