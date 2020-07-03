@@ -626,6 +626,7 @@ Begin
   if Smodel > high(TSModel) then
     raise EInputException.Create('invalid S model: '+ inistring);
 
+  Outlet_select:= Inifile.ReadBool('User Choices','Manual outlet selection',false);
 
   {Filenames}
   DTM_filename := SetFileFromIni(Inifile, 'DTM filename', datadir, True);
@@ -638,7 +639,7 @@ Begin
   Dam_filename := SetFileFromIni(Inifile, 'Dam map filename', datadir, Include_dam);
   Pf_data_filename :=SetFileFromIni(Inifile, 'P factor map filename', datadir, true);
   Riversegment_filename := SetFileFromIni(Inifile, 'River segment filename', datadir, VHA or river_routing);
-  Outletfilename := inifile.readstring('Files', 'Outlet map filename', Default);
+  Outletfilename := SetFileFromIni(Inifile, 'Outlet map filename', datadir, Outlet_select);
   river_adjectant_filename:=SetFileFromIni(Inifile, 'adjectant segments', datadir, river_routing);
   river_upstream_filename:=SetFileFromIni(Inifile, 'upstream segments', datadir, river_routing);
   river_routing_filename := SetFileFromIni(Inifile, 'river routing filename', datadir, river_routing);
@@ -662,8 +663,6 @@ Begin
       raise EInputException.Create('Error in data input: Clay content parent material value missing or wrong data format');
       ;
     End;
-
- Outlet_select:= Inifile.ReadBool('User Choices','Manual outlet selection',false);
 
   If Outlet_select And Not (FileExists(Outletfilename)) Then
     Begin

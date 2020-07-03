@@ -271,9 +271,12 @@ Begin
     End;
 
   // releasing memory of some inputmaps
+  if not Calibrate then
+    Begin;
   DisposeDynamicGdata(K_Factor);
   DisposeDynamicRdata(C_factor);
   DisposeDynamicRdata(P_factor);
+    end;
 
   If Write_Routing_CR then
    Write_Routing_Table_RC(column, row);
@@ -340,6 +343,8 @@ Begin
 
   // sedload has to be written to a .txt file as output of the model
 
+  if not Calibrate Then
+    Begin
   setcurrentDir(File_output_dir);
   assignfile(sed_output_file, 'Total sediment.txt');
   rewrite(sed_output_file);
@@ -371,8 +376,8 @@ Begin
     End;
   closefile(sed_output_file);
   //The memory of sed_output_file is released
-
-  if calibrate then
+  End
+  Else
     begin
     // also write to cal_output_file
       setcurrentDir(File_output_dir);
