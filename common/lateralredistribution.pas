@@ -8,7 +8,7 @@ Interface
 
 Uses 
 Classes, SysUtils, FileUtil, RData_CN, ReadInParameters,
-Raster_calculations, math, CN_calculations, GData_CN, idrisi, write_output;
+Raster_calculations, math, CN_calculations, GData_CN, write_output;
 
 Procedure Water;
 Procedure Distribute_sediment;
@@ -134,11 +134,10 @@ End;
 Procedure Water;
 
 Var 
-  teller, i, j, k, l, m, n, t_r, t_c, ri, ii, tc, tr: integer;
-  area, sewer_out_sed, TEMP_river_sed_input, TEMP_outside_sed_input, TEMP_buffer_sed_input,
-  TEMP_pond_sed_input, SEDI_OUT_TMP: double;
+  teller, i, j, k, l, m, n, tc, tr: integer;
+  area, sewer_out_sed, TEMP_river_sed_input, TEMP_outside_sed_input, TEMP_buffer_sed_input: double;
   skip: boolean;
-  sed_output_file, sediment_VHA, sewer_out, cal_output_file: textfile;
+  sed_output_file, sediment_VHA, cal_output_file: textfile;
 
 Begin
     //Create maps
@@ -178,7 +177,6 @@ Begin
 
   TEMP_river_sed_input := 0;
   TEMP_outside_sed_input := 0;
-  TEMP_pond_sed_input := 0;
   TEMP_buffer_sed_input := 0;
 
     for teller:=0 to nrow*ncol-1 do
@@ -273,9 +271,12 @@ Begin
     End;
 
   // releasing memory of some inputmaps
+  if not Calibrate then
+    Begin;
   DisposeDynamicGdata(K_Factor);
   DisposeDynamicRdata(C_factor);
   DisposeDynamicRdata(P_factor);
+    end;
 
   If Write_Routing_CR then
    Write_Routing_Table_RC(column, row);
@@ -342,6 +343,8 @@ Begin
 
   // sedload has to be written to a .txt file as output of the model
 
+  if not Calibrate Then
+    Begin
   setcurrentDir(File_output_dir);
   assignfile(sed_output_file, 'Total sediment.txt');
   rewrite(sed_output_file);
@@ -353,11 +356,9 @@ Begin
           TEMP_outside_sed_input * BD)*100)/100) + ' (kg)');
   Writeln(sed_output_file, 'Sediment trapped in buffers: ' + floattostr(round((TEMP_buffer_sed_input * BD)*
   100)/100) + ' (kg)');
-  Writeln(sed_output_file, 'Sediment trapped in open water: ' + floattostr(round((TEMP_pond_sed_input * BD)
-  *100)/100) + ' (kg)');
   If (Include_sewer) Then
     begin
-    Writeln(sed_output_file, 'Sediment entering sewer system: ' + (floattostr(sewer_out_sed*BD)) + ' (kg)');
+    Writeln(sed_output_file, 'Sediment entering sewer system: ' + floattostr(round((sewer_out_sed * BD)*100)/100) + ' (kg)');
     end;
   Writeln(sed_output_file,'_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _');
   Writeln(sed_output_file,'');
@@ -375,8 +376,8 @@ Begin
     End;
   closefile(sed_output_file);
   //The memory of sed_output_file is released
-
-  if calibrate then
+  End
+  Else
     begin
     // also write to cal_output_file
       setcurrentDir(File_output_dir);
@@ -388,7 +389,6 @@ Begin
       Write(cal_output_file, Formatfloat('0.00', TEMP_river_sed_input * BD) + ';');
       Write(cal_output_file, Formatfloat('0.00', TEMP_outside_sed_input * BD) + ';');
       Write(cal_output_file, Formatfloat('0.00', TEMP_buffer_sed_input * BD) + ';');
-      Write(cal_output_file,Formatfloat('0.00', TEMP_pond_sed_input * BD));
 
       // also write to every outlet
       For i := 1 To numOutlet Do

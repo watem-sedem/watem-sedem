@@ -163,6 +163,9 @@ if not OnlyRouting Then
                   Water;
                 end;
               end;
+          DisposeDynamicGdata(K_Factor);
+          DisposeDynamicRdata(C_factor);
+          DisposeDynamicRdata(P_factor);
       End;
 
       If Not Simplified Then

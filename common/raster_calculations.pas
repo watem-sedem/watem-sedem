@@ -7,7 +7,7 @@ Unit Raster_calculations;
 
 Interface
 
-Uses 
+Uses
 Classes, SysUtils, Math, GData_CN, RData_CN, ReadInParameters;
 
 Type
@@ -48,7 +48,7 @@ Const
 
 Function X_Resolution(): double;
 
-Var 
+Var
   Yresdeg,Xresdeg,longitude: double;
 
 Begin
@@ -319,7 +319,6 @@ var
   i,j,k: integer;
   routingfile: textfile;
   sep: char;
-  col_missing, row_missing: array of integer;
 Begin
   // in case any circular routing was determined, it should be broken
 
@@ -341,7 +340,6 @@ end;
 Procedure Apply_Routing;
 Var
   inv: TRoutingInvArray;
-  ii, teller: integer;
   q_index, last_index: integer;
 Begin
        // invert routing
@@ -400,7 +398,7 @@ end;
 //******************************************************************************
 Procedure CalculateSlopeAspect;
 
-Var 
+Var
   i,j: integer;
 Begin
   SetDynamicRData(Slope);
@@ -415,7 +413,7 @@ End;
 
 //Slope calculation
 Function CalculateSLOPE(i,j:integer): double;
-Var 
+Var
   DIFFX,DIFFY: double;
 Begin
 
@@ -454,7 +452,7 @@ End;
 //Aspect calculation
 Function CalculateASPECT(i,j:integer) : double;
 
-Var 
+Var
   Diffx,Diffy,Slopex,Slopey,Asp,Grad: double;
 Begin
   ASP := 0;
@@ -575,7 +573,7 @@ end;
 //******************************************************************************
 Function LogReg(i,j:integer): double;
 
-Var 
+Var
   logitp,ep,angle : double;
   angle2,Td,Ad : double;
 Begin
@@ -621,7 +619,7 @@ End;
 Function SlopeDir(dir:double;i,j:integer;DTM:Rraster): double;
 // Zero direction is grid north
 
-Var 
+Var
   G,H: double;
 Begin
   G := (-DTM[i,j-1]+DTM[i,j+1])/(2*RES);
@@ -638,13 +636,11 @@ End;
 //**************************************************************************
 Procedure DistributeRiver_Routing(i,j:integer);
 var
-  k, l, max, min, segment, nextsegment, rowmin, colmin: integer;
+  k, l, segment, nextsegment, rowmin, colmin: integer;
   OK, check: boolean;
   w: integer;
 Begin
   segment := rivseg[i,j];
-  min := river_routing_map[i,j];
-  max := maxint;
 
   OK := false;
 
@@ -727,12 +723,11 @@ Procedure DistributeTilDirEvent_Routing(i,j:integer; Topo:boolean);
 // Input(raster) = UpArea (de geaccumuleerde hoeveelheid water per cel).
 // Topo = wordt meegegeven vanuit CalculateUpareaOlivier
 
-Var 
-  CSN,SN,MINIMUM,MINIMUM2,PART1,PART2,extremum : extended;
-  K1,K2,l1,L2,ROWMIN,COLMIN,ROWMIN2,COLMIN2,K,L, Area, W : integer;
-  parequal,closeriver, closeditchdam, check, criterium: boolean;
+Var
+  CSN,SN,PART1,PART2,extremum : extended;
+  K1,K2,l1,L2,ROWMIN,COLMIN,K,L, Area : integer;
+  closeriver, closeditchdam, criterium: boolean;
   Direction : single;
-  center_x, center_y, center_ID: integer;
 Begin
   closeriver := false;
   closeditchdam := false;
@@ -750,7 +745,7 @@ Begin
      Apply_Buffer(i,j);
      // we should process dam, ditch and buffer if it is the endpoint of the buffer,
      // otherwise we should skip further steps.
-     if (Buffermap[i,j] > 100) then
+     if (Buffermap[i,j] > 16384) then
         exit;
    End;
 
@@ -1141,7 +1136,7 @@ check, parequal: boolean;
             If (abs(k)<>W) And (abs(l)<>W) Then continue;
 
          //The cell itself is not looked at + only the outer cells of the kernel are looked at
-            If ((i+k)<0)Or(i+k>nrow)Or(j+l<0)Or(j+l>ncol) Then continue;
+            If ((i+k)<1)Or(i+k>=nrow)Or(j+l<1)Or(j+l>=ncol) Then continue;
             //The cells at the border of the map are not looked at
             If ((DTM[I+K,J+L]<MINIMUM)And(DTM[I+K,J+L]<DTM[I,J])
                //Als de bestemmingscel lager gelegen is dan broncel
@@ -1218,9 +1213,8 @@ end;
 
 Procedure Calculate_UpstreamArea(Var UPAREA:RRaster);
 
-Var 
+Var
   teller,i,j : integer;
-  Fluxout: single;
   oppcor: double;
 
 Begin
@@ -1263,7 +1257,7 @@ End;
 
 
 Procedure CalculateLS(Var LS:RRaster;UPAREA:RRaster);
-Var 
+Var
   i,j     : integer;
   exp,Sfactor,Lfactor,adjust,B,locres : double;
 Begin
@@ -1331,13 +1325,13 @@ Var
   BufferId: integer;
 Begin
   fluxout:=UpArea[i,j];
-  If Include_buffer and (Buffermap[i,j] > 100) Then
+  If Include_buffer and (Buffermap[i,j] > 16384) Then
     Begin
       flux := fluxout;
 
       if (Routing[i,j].Part1 > 0) and (Buffermap[Routing[i,j].Target1Row,Routing[i,j].Target1Col] >0) then
         begin
-         BufferId :=Buffermap[i,j] div 100;
+         BufferId := Buffermap[i,j] - 16384;
          ptef :=1-BufferData[BufferId].PTEF/100;
          flux := fluxout * ptef;
         end;
@@ -1462,7 +1456,7 @@ End;
 // flux decomposition algorithm
 Procedure DistributeFlux_Sediment(i,j:integer;Var Flux_IN: RRaster;flux_out: single);
 
-Var 
+Var
   flux: double;
 Begin
   // flux decomposition algoritme
@@ -1556,7 +1550,7 @@ Begin
                   Routing[i,j].Part2 := 0;
                   Routing[i,j].One_Target := True;
 
-                  If (buffermap[i+k,j+l] <> (buffermap[i,j]*100)) Then
+                  If (buffermap[i+k,j+l] <> buffermap[i,j]+16384) Then
                     //Check will be true when the target cell does not belong to the same buffer
                     check := true;
                 End;

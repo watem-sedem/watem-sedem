@@ -1287,7 +1287,6 @@ End;
 Procedure loadOutlet;
 Var
   i,j,k,l: integer;
-  height, max_uparea: double;
 Begin
   numOutlet := 1;
   k := 1;
