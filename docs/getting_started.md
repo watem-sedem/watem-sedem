@@ -19,7 +19,9 @@ sudo apt-install ...
 
 In a terminal the model executable can be run with
 
-`CN_WSmodel configfile.ini`
+```
+CN_WSmodel configfile.ini
+```
 
 The .ini-file contains all user choices, variables and other modelinput.
 There are some mandatory sections in this file:
@@ -80,7 +82,7 @@ max kernel = 50
 max kernel river = 100
 ```
 
-CN-WS has a lot of possible user choices:
+CN-WS provides the following user choices:
 
 __model choices__
 
