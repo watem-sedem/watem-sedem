@@ -37,6 +37,8 @@ For a complete description of the .ini-file we redirect to the .ini-reference se
 
 A gui version exists but is not maintained since january 2017.
 
+(inireference)=
+
 ## `.ini` reference
 
 The `.ini` file contains several sections. Here we describe every section and every possible key-word in these sections. Every part starts with a valid example of the described section.

@@ -12,6 +12,7 @@ Welcome to cnws's documentation!
 
    getting_started
    user_choices
+   inifile
    output
 
 
