@@ -1,6 +1,6 @@
-## Getting started
+# Getting started
 
-### Introduction
+## Introduction
 
 Welcome to the CNWS documentation.
 
@@ -13,9 +13,9 @@ Alternatively, if you're working with Linux, it is possible to install the lates
 sudo apt-install ...
 ```
 
-### Use the model
+## Use the model
 
-#### Using the console
+### Using the console
 
 In a terminal the model executable can be run with
 
@@ -31,15 +31,15 @@ There are some mandatory sections in this file:
 
 For a complete description of the .ini-file we redirect to the .ini-reference section.
 
-#### GUI version
+### GUI version
 
 A gui version exists but is not maintained since january 2017.
 
-### `.ini` reference
+## `.ini` reference
 
 The `.ini` file contains several sections. Here we describe every section and every possible key-word in these sections. Every part starts with a valid example of the described section.
 
-#### Working directories
+### Working directories
 
 ```
 [working directories]
@@ -55,7 +55,7 @@ The value of these keys is the absolute path where all inputfiles (including the
 results (the modeloutput) is written.
 If the output directory does not exist, it is created by the model. The input directory is mandatory.
 
-#### User choices
+### User choices
 
 ```
 [user choices]
@@ -126,10 +126,11 @@ efficiency of the considered buffer
 
 More information and background on these options is provided in the [user choices page](./user_choices.md).
 
-#### Files
+### Files
 
-| All inputfiles are idrisi rasters and must have the same spatial extent (number of rows and columns and resolution) |
-| --- |
+```{admonition} Remember
+All inputfiles are idrisi rasters and must have the same spatial extent (number of rows and columns and resolution)
+```
 
 ```
 [files]
@@ -201,7 +202,7 @@ can be given for multiple years/seasons:
 `C factor map fall 1`, `C factor map fall 2`, `C factor map winter 1` and  `C factor map winter 2` in stead of
 `C factor map filename`.
 
-#### Variables
+### Variables
 
 Next to the inputfiles, some variables need to be defined in the ini-file.
 
@@ -250,8 +251,7 @@ CN-specific:
 - `Final timestep output` (integer)
 - `Endtime model` (integer)
 
-
-#### Buffers
+### Buffers
 
 The .ini-file needs a separate section for every buffer in the buffer map. Of course, this is only mandatory if
 `include buffers = 1`. The section is numbered by the id of the buffer in the buffermap.
@@ -280,7 +280,7 @@ The other keys are also mandatory, but are only used when `Simplified model vers
 - `Discharge coefficient` (float)
 - `Width dam` (float)
 
-#### Force routing
+### Force routing
 
 For every location where the user wants to force the routing in a certain direction, a separate section needs to be
 added to the .ini-file.
@@ -295,7 +295,7 @@ target row = 55
 
 All keys in these sections represent the location of the source pixel (col, row) and target pixel (col, row).
 
-#### Calibration
+### Calibration
 
 If one wants to run the model in calibration mode (i.e. running the model for several combinations of ktc low and ktc high)
 an extra section needs to be added to de .ini-file. The calibration mode is enabled by `Calibrate = 1`
@@ -316,7 +316,7 @@ Following keys are required in the Calibration section:
 - `KTcLow_upper` (float, default 20), the upper limit for ktc low
 - `steps` (integer, default 12), the amount of steps between ktc lower and higher
 
-#### Model output options
+### Model output options
 
 ```
 [Output maps]
@@ -346,6 +346,6 @@ it is possible to enable or disable some modeloutputs. By default all modeloutpu
 - `write rainfall exces` (bool, default false):
 - `write total runoff` (bool, default false):
 
-### Description of the modeloutput
+## Description of the modeloutput
 
 When a model run finishes, the outputs are written to disk. See the [page on model outputs](./output.md) for detailed info on each of the outputs.
