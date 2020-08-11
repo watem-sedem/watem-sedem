@@ -64,3 +64,36 @@ steps:
         exclude:
           - pull_request
 
+
+---
+kind: pipeline
+type: docker
+name: documentation
+
+steps:
+  - name: build website
+    image: python
+    commands:
+      - pip install -r ./docs/requirements.txt
+      - sphinx-build ./docs ./docs/_build/
+
+  - name: rsync-docs
+    image: drillster/drone-rsync
+    environment:
+      RSYNC_KEY:
+        from_secret: rsync_key
+    settings:
+      hosts:
+        - 10.28.0.24
+      user: docs
+      key:
+          from_secret: ssh-key
+      source: ./docs/_build/html/
+      recursive: true
+      target: /appdata/static/docs/cnws-pascal
+    when:
+      branch:
+        - master
+      event:
+        exclude:
+          - pull_request
