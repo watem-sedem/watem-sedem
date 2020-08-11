@@ -89,7 +89,8 @@ steps:
       key:
           from_secret: ssh-key
       source: ./docs/_build/html/
-      recursive: true
+      recursive:
+      args: "--rsync-path='mkdir -p /appdata/static/docs/cnws-pascal && rsync'"
       target: /appdata/static/docs/cnws-pascal
     when:
       branch:
