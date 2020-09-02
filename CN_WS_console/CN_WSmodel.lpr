@@ -57,6 +57,7 @@ Var
   i : integer;
   high_i, low_i: integer;
   cal_output_file: textfile;
+  fs: TFormatSettings;
 
 Begin
   StartClock;
@@ -69,6 +70,9 @@ Begin
     filename := filename+ParamStr(i);
   WriteLn('Inifile : ', filename);
   writeln;
+
+  fs := DefaultFormatSettings;
+  fs.DecimalSeparator := '.';
 
   Try
      ReadSettings(filename);
