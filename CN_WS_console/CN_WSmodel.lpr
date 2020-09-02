@@ -34,6 +34,7 @@ Type
 Var 
   //execution var
   hr,mins,se,s1: word;
+  fs: TFormatSettings;
 
 Procedure StartClock;
 Begin
@@ -57,7 +58,7 @@ Var
   i : integer;
   high_i, low_i: integer;
   cal_output_file: textfile;
-  fs: TFormatSettings;
+
 
 Begin
   StartClock;
@@ -73,6 +74,7 @@ Begin
 
   fs := DefaultFormatSettings;
   fs.DecimalSeparator := '.';
+  DefaultFormatSettings := fs;
 
   Try
      ReadSettings(filename);
