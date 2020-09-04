@@ -6,10 +6,14 @@ In this section we will describe all possible modeloutput of the CN-WS model. Ta
 
 The created model output depends on the userchoices in in the ini-file. 
 
+.. _onlyroutingoutput:
+
 Routing only output
 ###################
 
 When the user chooses to only use the routing algorithm of the cn-ws model, following output can be generated.
+
+.. _routingtxt:
 
 routing.txt
 ***********
@@ -26,40 +30,58 @@ Tab seperated table wich contains a row for every pixel in the spatial domain. F
 
 The routing table is only generated when `write routing table = 1`.
 
+.. _missingroutingtxt:
+
 routing_missing.txt
 *******************
 
-Tab seperated table with the same headers as routing.txt. The entries in the table are a subset of those in routing.txt and are only included if...
+Tab seperated table with the same headers as :ref:`routing.txt <routingtxt>`. The entries in the table are a subset of those in routing.txt and are only included if...
 
 The routing table is only generated when `write routing table = 1`.
 
+.. _routingcolrow:
+
 routing_colrow.txt
 ******************
+
+to do
+
+.. _lsmap:
 
 LS.rst
 ******
 
 Raster with the calculated LS-factor (dimensionless). This raster is only written if `write ls factor = 1`.
 
+.. _aspectmap:
+
 AspectMap.rst
 *************
 
 Raster with the direction of slope (the aspect) in radians. This raster is only written if `write aspect = 1`.
+
+.. _slopemap:
 
 SLOPE.rst
 *********
 
 Raster with the calculated slope in radians. This raster is only written if `write slope = 1`.
 
+.. _upareamap:
+
 UPAREA.rst
 **********
 
 Raster with the total upstream area (m²) for every pixel. This raster is only written if `write upstream area = 1`.
 
+.. _watemsedemoutput:
+
 WaTEM-SEDEM output
 ##################
 
 When the WaTEM-SEDEM model is used (`simple = 1`), the following rasters and tables can be written as output.
+
+.. _totalsedimenttxt:
 
 Total Sediment.txt
 ******************
@@ -73,21 +95,29 @@ Txt-file where the first five rows give a summary of the results:
 
 The file contains from 9th row on a tab-seprated table where for every outlet the amount of incoming sediment is reported.
 
+.. _totalsedimentvhatxt:
+
 Total Sediment VHA.txt
 **********************
 
 Tab seperated table. Every row contains the id of a river segment and the total amount of sediment (kg) entering the segment.
 This table is only generated when `Output per VHA river segment = 1`.
 
+.. _cumsedvhatxt:
+
 Cumulative sediment VHA.txt
 ***************************
 
 This table is only generated when `Output per VHA river segment = 1`.
 
+.. _claycontentesedtxt:
+
 Clay content sediment.txt
 *************************
 
 Tab seperated table with the mean clay content (%) at every outlet. This table is only generated when `estimate clay content = 1`.
+
+.. _cumulativerst:
 
 cumulative.rst
 **************
@@ -97,10 +127,14 @@ sewer_in.rst
 
 Raster with the amount of sediment (kg) that is trapped in every sewer pixel. This raster is only generated when `Include sewers = 1`.
 
+.. _sediexportrst:
+
 SediExport_kg.rst
 *****************
 
 Raster with for every river cell the calculated amounts of sedimentinput (kg). This raster is only written if `write sediment export = 1`.
+
+.. _sedioutrst:
 
 SediOut_kg.rst
 **************
@@ -108,11 +142,15 @@ SediOut_kg.rst
 Raster with the amount of sediment (kg) that leaves every pixel and is distributed between the two target pixels.
 This raster is only written if `write sediment export = 1`.
 
+.. _sediinrst:
+
 SediIn_kg.rst
 *************
 
 Raster with the amount of sediment (kg) that enters a pixel from the upstream pixels.
 This raster is only written if `write sediment export = 1`.
+
+.. _watereroskgrst:
 
 WATEREROS (kg per gridcel).rst
 ******************************
@@ -121,6 +159,8 @@ Raster with the total amount of erosion or sedimentation in every pixel in kg. N
 indicate erosion (i.e. Incoming Sediment + RUSLE < Capacity), positive values indicate sedimentation
 (i.e. Incoming Sediment + RUSLE > Capacity). This raster is only written if `write water erosion = 1`.
 
+.. _watererosmmrst:
+
 WATEREROS (mm per gridcel).rst
 ******************************
 
@@ -128,10 +168,14 @@ Raster with the total amount of erosion or sedimentation in every pixel in mm. N
 indicate erosion (i.e. Incoming Sediment + RUSLE < Capacity), positive values indicate sedimentation
 (i.e. Incoming Sediment + RUSLE > Capacity). This raster is only written if `write water erosion = 1`.
 
+.. _capacityrst:
+
 Capacity.rst
 ************
 
 Raster with the calculated transport capacity (kg/m²) for every pixel.
+
+.. _ruslerst:
 
 RUSLE.rst
 *********
@@ -193,10 +237,14 @@ Total discharge.txt
 
 Table with the total amount of water (m³) that arives in every outlet after a rainfall event.
 
+.. _remaprst:
+
 Remap.rst
 *********
 
 Raster with the total amount of discharge (=rainfall - infiltration) per pixel for a rainfall event.
+
+.. _totalrunofrst:
 
 Total runoff.rst
 ****************

@@ -10,6 +10,7 @@ L model
 
 CN-WS allows the user to choose between two models to calculate the L-factor. The L-factor defines the impact of the slope length and is used
 in the calculation of RUSLE and transport capacity (TC). The two L-models are:
+
 * Desmet and Govers (1996)
 * McCool et al. (1989, 1987)
 
@@ -18,6 +19,7 @@ S model
 
 CN-WS allows the user to choose between two models to calculate the S-factor. The S-factor defines the effect of slope steepness and is used
 in the calculation of RUSLE and transport capacity (TC). The two S-models are:
+
 * Desmet and Govers (1996)
 * Nearing (1997)
 
@@ -25,12 +27,12 @@ Only Routing
 ############
 
 By enabling the Only Routing option, only the routing will be determined by CN-WS. No sediment calculations or discharge calculations are done:
-the WaTEM-SEDEM and CN modules are disabled.
+the WaTEM-SEDEM and CN modules are disabled. When using this option only :ref:`a limited model output <onlyroutingoutput>` is possible. 
 
 Simple
 ######
 
-TO DO
+When the option 'Simple' is enabled, only WaTEM-SEDEM is used and the CN-model is disabled. By disabling Simple, you will use the CN model. 
 
 Calculate tillage erosion
 #########################
@@ -159,35 +161,32 @@ the model expects an outlet raster: an integer raster where the outletpixels are
 Output
 ******
 
-In the above section all outputfiles where described. In this section, the different output options and the linked
-files are described.
-
-Following keys in the section `[Output maps]` adapt the output:
+The user has the option to generate extra output by defining following keys in the [Output maps]-section of the .ini-file.
 
 write aspect
 ############
 
-(bool, default false): write AspectMap.rst
+(bool, default false): write :ref:`AspectMap.rst <aspectmap>`
 
 write LS factor
 ###############
 
-(bool, default false): write LS.rst
+(bool, default false): write :ref:`LS.rst <lsmap>`
 
 write upstream area
 ###################
 
-(bool, default false): write UPAREA.rst
+(bool, default false): write :ref:`UPAREA.rst <upareamap>`
 
 write slope
 ###########
 
-(bool, default false): write SLOPE.rst
+(bool, default false): write :ref:`SLOPE.rst <slopemap>`
 
 write routing table
 ###################
 
-(bool, default false): writes routing.txt and routing_missing.txt
+(bool, default false): writes :ref:`routing.txt <routingtxt>` and :ref:`routing_missing.txt <missingroutingtxt>`
 
 write routing column/row
 ########################
@@ -197,27 +196,27 @@ write routing column/row
 write RUSLE
 ###########
 
-(bool, default false): writes RUSLE.rst
+(bool, default false): writes :ref:`RUSLE.rst <ruslerst>`
 
 write sediment export
 #####################
 
-(bool, default false): writes SediExport_kg.rst, SediIn_kg.rst, SediOut_kg.rst
+(bool, default false): writes :ref:`SediExport_kg.rst <sediexportrst>`, :ref:`SediIn_kg.rst <sediinrst>`, :ref:`SediOut_kg.rst <sedioutrst>`
 
 write water erosion
 ###################
 
-(bool, default false): writes WATEREROS (kg per gridcel).rst and WATEREROS (mm per gridcel).rst
+(bool, default false): writes :ref:`WATEREROS (kg per gridcel).rst <watereroskgrst>` and :ref:`WATEREROS (mm per gridcel).rst <watererosmmrst>`
 
 write rainfall exces
 ####################
 
-(bool, default false): writes Remap.rst
+(bool, default false): writes :ref:`Remap.rst <remaprst>`
 
 write total runoff
 ##################
 
-(bool, default false): writes Total runoff.rst
+(bool, default false): writes :ref:`Total runoff.rst <totalrunofrst>`
 
 In the section `[User Choices]` two keys impose some output too:
 * `Include sewer` (bool, default false): writes sewer_in.rst
