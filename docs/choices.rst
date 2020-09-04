@@ -43,10 +43,14 @@ Calculate tillage erosion
 
 TO DO
 
+.. _createktil:
+
 Create ktil map
 ###############
 
 CN-WS is able to create a raster with ktil-factors for ...
+
+.. _createktc:
 
 Create ktc map
 ##############
@@ -70,6 +74,8 @@ written to output raster sewer_in.rst.
 
 TO DO: sewer exit?
 
+.. _includebuffers:
+
 Include buffers
 ###############
 
@@ -80,16 +86,19 @@ variable `number of buffers` and a seperate section for every buffer in the buff
 The Include buffers option adjusts the routing in the pixels. All pixels within a buffer with the buffer extension id are routed to the outletpixel of the buffer. This outletpixel
 in the bufferraster is marked with the buffer id. The amount of sediment that flows out of the bufferoutlet is reduced with the trapping efficiency of the buffer.
 
-Include ditches and dams
-########################
+.. _includeditches:
 
-Ditches and dams alter the sediment flow. The sediment will follow the course of a ditch or dam in stead of along the steepest slope.
+Include ditches
+###############
 
-Two options are available in the model:
-- Include ditches
-- Include dams
+Ditches alter the sediment flow. The sediment will follow the course of a ditch in stead of along the steepest slope.
 
-Both options are similar, but differences in C-factor and ktc
+.. _includedams:
+
+Include dams
+############
+
+Same principle as include ditches, but differences in C-factor and ktc
 
 Force Routing
 #############
@@ -112,6 +121,8 @@ target row = 55
 
 The keys in every force routing section are `from col`, `from row`, `target col` and `target row`. These are integer values representing the location of source and target pixel
 in the raster.
+
+.. _riverrouting:
 
 River Routing
 #############
@@ -164,6 +175,8 @@ Output per VHA river segment
 ############################
 
 TO DO
+
+.. _manualoutlet:
 
 Manual outlet selection
 #######################
