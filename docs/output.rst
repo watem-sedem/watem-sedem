@@ -28,7 +28,7 @@ Tab seperated table wich contains a row for every pixel in the spatial domain. F
 * part2: the relative amount of outgoing sediment/water to the second target pixel. Togheter with part1 the sum must be 1.
 * distance2: the distance (in m) between the sourcepixel and the second target pixel
 
-The routing table is only generated when `write routing table = 1`.
+The routing table is only generated when :ref:`write routing table = 1 <writerouting>`.
 
 .. _missingroutingtxt:
 
@@ -37,7 +37,7 @@ routing_missing.txt
 
 Tab seperated table with the same headers as :ref:`routing.txt <routingtxt>`. The entries in the table are a subset of those in routing.txt and are only included if...
 
-The routing table is only generated when `write routing table = 1`.
+The routing table is only generated when :ref:`write routing table = 1 <writerouting>`.
 
 .. _routingcolrow:
 
@@ -51,35 +51,35 @@ to do
 LS.rst
 ******
 
-Raster with the calculated LS-factor (dimensionless). This raster is only written if `write ls factor = 1`.
+Raster with the calculated LS-factor (dimensionless). This raster is only written if :ref:`write ls factor = 1 <writels>`.
 
 .. _aspectmap:
 
 AspectMap.rst
 *************
 
-Raster with the direction of slope (the aspect) in radians. This raster is only written if `write aspect = 1`.
+Raster with the direction of slope (the aspect) in radians. This raster is only written if :ref:`write aspect = 1 <writeaspect>`.
 
 .. _slopemap:
 
 SLOPE.rst
 *********
 
-Raster with the calculated slope in radians. This raster is only written if `write slope = 1`.
+Raster with the calculated slope in radians. This raster is only written if :ref:`write slope = 1 <writeslope>`.
 
 .. _upareamap:
 
 UPAREA.rst
 **********
 
-Raster with the total upstream area (m²) for every pixel. This raster is only written if `write upstream area = 1`.
+Raster with the total upstream area (m²) for every pixel. This raster is only written if :ref:`write upstream area = 1 <writeuparea>`.
 
 .. _watemsedemoutput:
 
 WaTEM-SEDEM output
 ##################
 
-When the WaTEM-SEDEM model is used (`simple = 1`), the following rasters and tables can be written as output.
+When the WaTEM-SEDEM model is used (:ref:`simple = 1 <simple>`), the following rasters and tables can be written as output.
 
 .. _totalsedimenttxt:
 
@@ -101,38 +101,40 @@ Total Sediment VHA.txt
 **********************
 
 Tab seperated table. Every row contains the id of a river segment and the total amount of sediment (kg) entering the segment.
-This table is only generated when `Output per VHA river segment = 1`.
+This table is only generated when :ref:`Output per VHA river segment = 1 <outputVHA>`.
 
 .. _cumsedvhatxt:
 
 Cumulative sediment VHA.txt
 ***************************
 
-This table is only generated when `Output per VHA river segment = 1`.
+This table is only generated when :ref:`Output per VHA river segment = 1 <outputVHA>`.
 
 .. _claycontentesedtxt:
 
 Clay content sediment.txt
 *************************
 
-Tab seperated table with the mean clay content (%) at every outlet. This table is only generated when `estimate clay content = 1`.
+Tab seperated table with the mean clay content (%) at every outlet. This table is only generated when :ref:`estimate clay content = 1 <estimclay>`.
 
 .. _cumulativerst:
 
 cumulative.rst
 **************
 
+TO DO
+
 sewer_in.rst
 ************
 
-Raster with the amount of sediment (kg) that is trapped in every sewer pixel. This raster is only generated when `Include sewers = 1`.
+Raster with the amount of sediment (kg) that is trapped in every sewer pixel. This raster is only generated when :ref:`Include sewers = 1 <inlcudesewers>`.
 
 .. _sediexportrst:
 
 SediExport_kg.rst
 *****************
 
-Raster with for every river cell the calculated amounts of sedimentinput (kg). This raster is only written if `write sediment export = 1`.
+Raster with for every river cell the calculated amounts of sedimentinput (kg). This raster is only written if :ref:`write sediment export = 1 <writesedexport>`.
 
 .. _sedioutrst:
 
@@ -140,7 +142,7 @@ SediOut_kg.rst
 **************
 
 Raster with the amount of sediment (kg) that leaves every pixel and is distributed between the two target pixels.
-This raster is only written if `write sediment export = 1`.
+This raster is only written if :ref:`write sediment export = 1 <writesedexport>`.
 
 .. _sediinrst:
 
@@ -148,7 +150,7 @@ SediIn_kg.rst
 *************
 
 Raster with the amount of sediment (kg) that enters a pixel from the upstream pixels.
-This raster is only written if `write sediment export = 1`.
+This raster is only written if :ref:`write sediment export = 1 <writesedexport>`.
 
 .. _watereroskgrst:
 
@@ -157,7 +159,7 @@ WATEREROS (kg per gridcel).rst
 
 Raster with the total amount of erosion or sedimentation in every pixel in kg. Negative values
 indicate erosion (i.e. Incoming Sediment + RUSLE < Capacity), positive values indicate sedimentation
-(i.e. Incoming Sediment + RUSLE > Capacity). This raster is only written if `write water erosion = 1`.
+(i.e. Incoming Sediment + RUSLE > Capacity). This raster is only written if :ref:`write water erosion = 1 <writerwatereros>`.
 
 .. _watererosmmrst:
 
@@ -166,7 +168,7 @@ WATEREROS (mm per gridcel).rst
 
 Raster with the total amount of erosion or sedimentation in every pixel in mm. Negative values
 indicate erosion (i.e. Incoming Sediment + RUSLE < Capacity), positive values indicate sedimentation
-(i.e. Incoming Sediment + RUSLE > Capacity). This raster is only written if `write water erosion = 1`.
+(i.e. Incoming Sediment + RUSLE > Capacity). This raster is only written if :ref:`write water erosion = 1 <writerwatereros>`.
 
 .. _capacityrst:
 
@@ -181,18 +183,27 @@ RUSLE.rst
 *********
 
 Raster with the calculated RUSLE-values, the potential soil loss, for every pixel in kg/m².
-This raster is only written if `write rusle = 1`
+This raster is only written if :ref:`write rusle = 1 <writerusle>`
 
 TILEROS.rst
 ***********
 
 Raster with the calculated tillage erosion (mm/year). Negative values indicate erosion, positive values give sedimentation.
-This raster is only written if `calculate tillage erosion = 1`.
+This raster is only written if :ref:`calculate tillage erosion = 1 <calctileros>`.
+
+.. _calibrationtxt:
+
+Calibration.txt
+***************
+
+Only writen when :ref:`Calibratie = 1 <calibrate>`.
+
+TO DO 
 
 CN-output
 #########
 
-When the CN-module is enabled (`simple=0`) it is possible to generate some additional output.
+When the CN-module is enabled (:ref:`simple=0 <simple>`) it is possible to generate some additional output.
 
 Discharge.txt
 *************
@@ -203,7 +214,7 @@ Discharge_VHA.txt
 *****************
 
 Table with discharge (m³/s) as a function of time for every river segment. This table is only
-generated when `Output per VHA river segment = 1`.
+generated when :ref:`Output per VHA river segment = 1 <outputVHA>`.
 
 Sediment concentration.txt
 **************************
@@ -214,7 +225,7 @@ Sediment concentration_VHA.txt
 ******************************
 
 Table with the concentration of sediment (g/l) as a function of time for every river segment.
-This table is only generated when `Output per VHA river segment = 1`.
+This table is only generated when :ref:`Output per VHA river segment = 1 <outputVHA>`.
 
 Sediment.txt
 ************
@@ -225,7 +236,7 @@ Sediment_VHA.txt
 ****************
 
 Table with the sediment load (kg) as a function of time for river segment.
-This table is only generated when `Output per VHA river segment = 1`.
+This table is only generated when :ref:`Output per VHA river segment = 1 <outputVHA>`.
 
 Spillover per buffer.txt
 ************************

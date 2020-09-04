@@ -29,10 +29,14 @@ Only Routing
 By enabling the Only Routing option, only the routing will be determined by CN-WS. No sediment calculations or discharge calculations are done:
 the WaTEM-SEDEM and CN modules are disabled. When using this option only :ref:`a limited model output <onlyroutingoutput>` is possible. 
 
+.. _simple:
+
 Simple
 ######
 
 When the option 'Simple' is enabled, only WaTEM-SEDEM is used and the CN-model is disabled. By disabling Simple, you will use the CN model. 
+
+.. _calctileros:
 
 Calculate tillage erosion
 #########################
@@ -52,6 +56,8 @@ CN-WS is able to create a raster with ktc-factors for high erodible and non-erod
 otherwise `ktc low` is chosen.
 
 When `Create ktc map = 0` the user will have to make a ktc map himself. The model will expect the filename of this ktc map in `ktc map filename`.
+
+.. _inlcudesewers:
 
 Include sewers
 ##############
@@ -135,17 +141,24 @@ other rules (e.g. at parcel boundaries, in buffers,...) the slope of the directi
 Zevenbergen and Thorne (1987). In these cases the slope can be calculated by the absolute value of the height difference between the source
 and target pixel, divided by the distance between these two pixels. This calculation is enabled by setting `Adjusted Slope = 1`
 
+.. _estimclay:
+
 Estimate Clay content
 #####################
 
 TO DO
+
+.. _calibrate:
 
 Calibrate
 #########
 
 The Calibrate-option allows the model user to run the model with a given set of options, variables and inputfiles for a number of combinations of ktc-factors.
 Both the ktc_high-factor as the ktc_low-factor are varied in an amount of steps between a lower and upper value. For every combination of ktc-factors where
-ktc_high > ktc_low, the model will make a calculation and
+ktc_high > ktc_low, the model will make a calculation and write the results to a :ref:`Calibration file <calibrationtxt>`. 
+A more detailed explaination about how and why to calibrate can ben found :ref:`here <calibration>`
+
+.. _outputVHA:
 
 Output per VHA river segment
 ############################
@@ -163,25 +176,35 @@ Output
 
 The user has the option to generate extra output by defining following keys in the [Output maps]-section of the .ini-file.
 
+.. _writeaspect:
+
 write aspect
 ############
 
 (bool, default false): write :ref:`AspectMap.rst <aspectmap>`
+
+.. _writels:
 
 write LS factor
 ###############
 
 (bool, default false): write :ref:`LS.rst <lsmap>`
 
+.. _writeuparea:
+
 write upstream area
 ###################
 
 (bool, default false): write :ref:`UPAREA.rst <upareamap>`
 
+.. _writeslope:
+
 write slope
 ###########
 
 (bool, default false): write :ref:`SLOPE.rst <slopemap>`
+
+.. _writerouting:
 
 write routing table
 ###################
@@ -193,15 +216,21 @@ write routing column/row
 
 (bool, default false):
 
+.. _writerusle:
+
 write RUSLE
 ###########
 
 (bool, default false): writes :ref:`RUSLE.rst <ruslerst>`
 
+.. _writesedexport:
+
 write sediment export
 #####################
 
 (bool, default false): writes :ref:`SediExport_kg.rst <sediexportrst>`, :ref:`SediIn_kg.rst <sediinrst>`, :ref:`SediOut_kg.rst <sedioutrst>`
+
+.. _writerwatereros:
 
 write water erosion
 ###################
