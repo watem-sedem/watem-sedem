@@ -15,7 +15,7 @@ This documentation describes the background and the use of the CN-WS model.
    usage
    installation
    tutorial
-   iniref
+   inifile
    faq
    contributing
    authors
