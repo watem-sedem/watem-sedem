@@ -38,4 +38,4 @@ This project is licensed under the ??? License, see  `LICENSE <https://git.fluve
 Documentation
 =============
 
-The documentation of this project is available at https://docs.fluves.net/cn_ws
+The documentation of this project is available at https://docs.fluves.net/cnws-pascal/
