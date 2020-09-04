@@ -15,7 +15,7 @@ Types of Contributions
 Report Bugs
 ~~~~~~~~~~~
 
-Report bugs at https://git.fluves.net/cn_ws
+Report bugs at https://git.fluves.net/fluves/cn_ws
 
 If you are reporting a bug, please include:
 
@@ -45,7 +45,7 @@ articles, and such. Note that on every documentation page there is a small "edit
 Submit Feedback
 ~~~~~~~~~~~~~~~
 
-The best way to send feedback is to file an issue at https://git.fluves.net/cn_ws/issues.
+The best way to send feedback is to file an issue at https://git.fluves.net/fluves/cn_ws/issues.
 
 If you are proposing a feature:
 
@@ -112,7 +112,7 @@ To build the documentation locally, you need to install the doc requirements, wh
 
 After which you should be able to generate HTML output by typing ``make html`` from the `docs` directory.
 
-Publishing on the documentation website (https://doc.fluves.net/cn_ws ) will happen when changes
+Publishing on the documentation website (https://docs.fluves.net/cnws-pascal) will happen when changes
 to master build correctly. Note that this may mean that the documentation is actually a bit more recent than the last released version.
 
 .. _reStructuredText: http://docutils.sourceforge.net/rst.html
