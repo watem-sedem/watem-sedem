@@ -48,7 +48,12 @@ TO DO
 Create ktil map
 ###############
 
-CN-WS is able to create a raster with ktil-factors for ...
+CN-WS is able to create a raster with ktil-factors. The ktil value is the transport capacity coeficient for tillage erosion. When `Creat ktil map = 1`, the model
+expects two input variables: :ref:`ktil default <ktildefault>` and :ref:`ktil threshold <ktilthres>`. The C-factor map will be reclassed by these values: 
+C-factors higher than ktil threshold will get the value of ktil default, other pixels are set to zero. 
+
+When `Create ktil map = 0` the user will have to make a ktil map himself. The model will expect the filename of this ktil map in :ref:`ktil map filename <ktilmap>`.
+  
 
 .. _createktc:
 
@@ -56,10 +61,11 @@ Create ktc map
 ##############
 
 CN-WS is able to create a raster with ktc-factors for high erodible and non-erodible land-use. When `Create ktc map = 1` the model expects three variables:
-`ktc low`, `ktc high`, `ktc limit`. The C-factor map will be reclassed by these values: C-factors higher than `ktc limit` will get the value of `ktc high`,
-otherwise `ktc low` is chosen.
+:ref:`ktc low <ktclow>`, :ref:`ktc high <ktchigh>`, :ref:`ktc limit <ktclimit>`. 
+The C-factor map will be reclassed by these values: C-factors higher than ktc limit will get the value of ktc high,
+otherwise ktc low is chosen.
 
-When `Create ktc map = 0` the user will have to make a ktc map himself. The model will expect the filename of this ktc map in `ktc map filename`.
+When `Create ktc map = 0` the user will have to make a ktc map himself. The model will expect the filename of this ktc map in :ref:`ktc map filename <ktcmap>`.
 
 .. _inlcudesewers:
 
