@@ -208,8 +208,8 @@ Filename of the ktc map, a raster with transport capacity coeficients. This rast
 
 The dataype of the ktc map is float32.
 
-Parameters
-==========
+Variables
+=========
 
 Sewer exit
 **********
@@ -372,6 +372,87 @@ This parameter is only mandatory when :ref:`Use R factor = 0 <useR>`.
 	In a first model run for a catchment with a given rainfall event, the user must choose
 	the endtime large enough. By doing this, he makes sure the the whole runoff peak is modelled. 
 	After this first simulation, the model user can deminish the endtime to optimise the calculation time of the model.
- 
+
+max kernel
+**********
+
+TO DO
+
+max kernel river
+****************
+
+TO DO
+
+	
+Bufferdata
+==========	
+
+For every buffer, following variables must be defined. These variables are only mandatory when include buffers = 1. 
+
+volume
+******
+
+TO DO
+
+height dam
+**********
+
+TO DO
+
+height opening
+**************
+
+TO DO
+
+opening area
+************
+
+TO DO
+
+discharge coefficient
+*********************
+
+TO DO
+
+width dam
+*********
+
+TO DO
+
+trapping efficiency
+*******************
+
+TO DO
+
+extension id
+*************
+
+TO DO
+
+
+Forced routing data
+===================
+
+For every place where the user forces the routing in a certain direction, following parameters are mandatory.
+
+from col
+********
+
+TO DO
+
+from row
+********
+
+TO DO
+
+target col
+**********
+
+TO DO
+
+target row
+**********
+
+TO DO
 
 
