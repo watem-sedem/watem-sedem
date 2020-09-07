@@ -253,7 +253,11 @@ the mass of transported sediment to volumes. A good default value for belgium is
 R factor
 ********
 
-float
+The R-factor or rainfall erosivity factor in the RUSLE equation (float, in MJ.mm/ha.h.year). 
+This value is only mandatory when :ref:`Use R = 0 <useR>`.
+
+.. note::
+	the user must make sure that the R and C-factor represent the same time duration (year or month). 
 
 LS correction
 *************

@@ -190,6 +190,13 @@ Manual outlet selection
 By default, the model will determine the outlet pixel as the lowest (river) pixel within the model domain. However, by setting `Manual outlet selection = 1`,
 the model expects an outlet raster: an integer raster where the outletpixels are numbered from 1 to n. The user has to provide this input file.
 
+.. _useR:
+
+use r factor
+############
+
+TO DO
+
 Output
 ******
 
