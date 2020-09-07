@@ -320,12 +320,14 @@ ktil threshold is only mandatory when :ref:`Create ktil map = 1 <createktil>`.
 Parcel connectivity cropland
 ****************************
 
-int
+The parcel connectivity cropland expresses the fraction of sediment trapped at a
+parcel boundary. It is an integer value between 0 and 100. 
 
 Parcel connectivity forest
 **************************
 
-int
+The parcel connectivity forest expresses the fraction of sediment trapped at a boundary of a forest. 
+It is an integer value between 0 and 100.
 
 Parcel trapping efficiency cropland
 ***********************************
@@ -337,19 +339,39 @@ Parcel trapping efficiency pasture
 
 int
 
+.. _timestep:
+
 Desired timestep for model
 **************************
 
-int
+Runoff calculations are done with this timestep. The chosen timestep must comply with the 
+Courant Criterium. This criterium limits the timestep as a function of the spatial resolution (m) and the stream velocity
+of water over land (m/s). 
+
+dt <= spatial resolution/stream velocity. 
+
+The parameter is an integer value expressed in minutes and is only mandatory when :ref:`Use R factor = 1 <useR>`.
+
 
 Final timestep output
 *********************
 
-int
+The user has the option to resample the time-dependent output (runoff, sediment concentration, sediment load) 
+to a different timestep than the :ref:`timestep <timestep>` of the model. 
+The parameter is an integer value expressed in minutes and is only mandatory when :ref:`Use R factor = 1 <useR>`.
 
 Endtime model
 *************
 
-int 
+Total timespan (in minutes) the model has to simulate. This parameter is an integer value and must be a multiple
+of the :ref:`timestep <timestep>` of the model. 
+
+This parameter is only mandatory when :ref:`Use R factor = 0 <useR>`.
+
+.. note:
+	In a first model run for a catchment with a given rainfall event, the user must choose
+	the endtime large enough. By doing this, he makes sure the the whole runoff peak is modelled. 
+	After this first simulation, the model user can deminish the endtime to optimise the calculation time of the model.
+ 
 
 
