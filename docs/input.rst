@@ -23,6 +23,8 @@ The idirisi raster must be formatted as float32.
 	CN-WS does not take nodata values (e.g. -9999) into account. When a nodata value in the dtm raster is encountered, it is considered as an elevation. Consequently, slopes
 	are calculated wrong. Thus, the user must take care all pixels in the model domain have an elevation value, but at least two pixels outside the model domain have correct elevation data.
 
+.. _prcmap:
+
 Parcel filename
 ***************
 
@@ -59,18 +61,35 @@ The idrisi raster must be formated as float32.
 Sewer map filename
 ******************
 
-Filename of the sewer map. This raster is only mandatory when :ref:`Include sewers = 1 <inlcudesewers>`
+Filename of the sewer map. This raster is only mandatory when :ref:`Include sewers = 1 <inlcudesewers>`. 
+
+All pixels in the sewer map contain values between 0 and 1. The value represents the fraction of the outgoing sediment in this pixel that is entering the sewer system. 
+
+The datatype of the sewer map is float32.
 
 Tillage direction filename
 **************************
 
+Filename of a raster with the tillage direction in degrees to the North.
+
+The datatype of the tillage direction raster is float32.
+
 Oriented roughness filename
 ***************************
+
+Filename of a raster with the oriented roughness. The oriented roughness is the height of 
+the microrelief (in cm) due to ploughing. 
+
+The datatype of the oriented roughness raster is float32.
+
+.. _buffermap:
 
 Buffer map filename
 *******************
 
-Filename of the buffer map. This raster is only mandatory when :ref:`Include buffers = 1 <includebuffers>`
+Filename of the buffer map. This raster is only mandatory when :ref:`Include buffers = 1 <includebuffers>`.
+
+The datatype of the buffermap is integer16.
 
 Ditch map filename
 ******************
@@ -85,12 +104,20 @@ Filename of the dam map. This raster is only mandatory when :ref:`Include dams =
 P factor map filename
 *********************
 
-Filename of the P-factor map.
+Filename of the P-factor map. 
 
 River segment filename
 **********************
 
-Filename of the river segment map. This raster is only mandatory when :ref:`Output per VHA river segment = 1 <outputVHA>`
+Filename of the river segment map. This raster is only mandatory when :ref:`Output per VHA river segment = 1 <outputVHA>`.
+
+A river segment is a part of the river (usualy a part between two confluences with other rivers). To give detailed information about the sediment
+entering every river segment, a river segment map must be created. 
+
+The river segment map is raster where every river pixel (every pixel with value -1 in the :ref:`parcel map <prcmap>`) gets the id of the segment where it belongs too. 
+Every segment has a unique (integer) id. 
+
+The datatype of the river segment map is integer16.
 
 adjectant segments
 ******************
@@ -110,36 +137,61 @@ Filename of the river routing map. This raster is only mandatory when :ref:`Rive
 CN map filename
 ***************
 
-Filename of the CN map. This raster is only mandatory when :ref:`simple = 0 <simple>`
+Filename of the CN map. This raster is only mandatory when :ref:`simple = 0 <simple>`.
+
+This raster contains a CN-value for every pixel in the model domain. 
+
+TO DO: datatype map?
 
 Outlet map filename
 *******************
 
 Filename of the outlet map. This raster is only mandatory when :ref:`Manual outlet selection = 1 <manualoutlet>`.
 
+Every outletpixel needs a unique id. These integer id's are stored in the outlet map. All other pixels are zero.
+
+The datatype of the outlet map is integer16.
+
+.. _ktilmap:
+
 ktil map filename
 *****************
 
-Filename of the ktil map. This raster is only mandatory when :ref:`Create ktil map = 0 <createktil>`.
+Filename of the ktil map. The ktil map contains values for ktil, the transport capacity coefficient for tillage erosion. 
+This raster is only mandatory when :ref:`Create ktil map = 0 <createktil>`.
+
+TO DO: dataype map?
 
 Rainfall filename
 *****************
 
+Filename of a textfile with rainfall values. The text file contains a table (tab delimeted) with two columns without header.
+The first column contains the time in minutes (starting from 0), the second column contains the rainfall in mm. 
+
+The rainfall file is only mandatory when :ref:`Use R = 0 <useR>`.
+
 K factor filename
 *****************
 
-Filename of the K-factor map.
+Filename of the K-factor map. The soil erosivity factor or K-factor of the RUSLE-equation for every pixel
+in the modeldomain is stored in the K-factor map (kg.h/MJ.mm). 
 
 C factor map filename
 *********************
 
-Filename of the C-factor map.
+Filename of the C-factor map. This raster contains values between 0 and 1 and represent the dimensionless C-factor in the RUSLE equation. 
+Pixels outside the modeldomain are set to zero.
+
+The dataype of the outlet map is float32.
+
+.. _ktcmap:
 
 ktc map filename
 ****************
 
-Filename of the ktc map. This raster is only mandatory when :ref:`Create ktc map = 0 <createktc>`.
+Filename of the ktc map, a raster with transport capacity coeficients. This raster is only mandatory when :ref:`Create ktc map = 0 <createktc>`. 
 
+The dataype of the ktc map is float32.
 
 Parameters
 ==========
@@ -157,7 +209,8 @@ float
 5 day antecedent rainfall
 *************************
 
-float
+The total rainfall (in mm) during 5 days before the start of the rainfall event. 
+The antecedent rainfall (float) is only mandatory when :ref:`Use R = 0 <useR>`
 
 stream velocity
 ***************
@@ -167,17 +220,20 @@ float, mandatory when :ref:`simple = 0 <simple>`
 alpha
 *****
 
-float, mandatory when :ref:`simple = 0 <simple>`
+Alpha (float) is a calibration parameter of the CN-model. It determines the relation
+between runoff and rainfall intensity. The parameter is only mandatory when :ref:`simple = 0 <simple>`
 
 beta
 ****
 
-float, mandatory when :ref:`simple = 0 <simple>`
+Beta (float) is a calibration parameter of the CN-model. It determines the relation between
+runoff and antecedent rainfall. The parameter is only mandatory when :ref:`simple = 0 <simple>`
 
 bulk density
 ************
 
-int
+The average bulk density (in kg/m³) of the soil in the catchment (integer). This value is used to convert
+the mass of transported sediment to volumes. A good default value for belgium is 1350 kg/m³.
 
 R factor
 ********
@@ -192,37 +248,55 @@ float (default 1)
 Number of buffers
 *****************
 
-int, mandatory when :ref:`Include buffers = 1 <includebuffers>`
+The amount of buffers present in the :ref:`buffer map <buffermap>` is given in this parameter (integer). The parameter is only mandatory when :ref:`Include buffers = 1 <includebuffers>`
 
 Number of forced routing
 ************************
 
 int
 
+.. _ktclow:
+
 ktc low
 *******
 
-float, mandatory when :ref:`Create ktc map = 1 <createktc>`
+ktc low is the transport capacity coefficient (float) for pixels with a low erosion potential. The parameter is only mandatory when :ref:`Create ktc map = 1 <createktc>`.
+
+.. _ktchigh:
 
 ktc high
 ********
 
-float, mandatory when :ref:`Create ktc map = 1 <createktc>`
+ktc high is the transport capacity coefficient (float) for pixels with a high erosion potential. The parameter is only mandatory when :ref:`Create ktc map = 1 <createktc>`.
+
+.. _ktclimit:
 
 ktc limit
 *********
 
-float, mandatory when :ref:`Create ktc map = 0 <createktc>` or :ref:`Calibrate = 1 <Calibrate>`
+ktc limit is a threshold value (float). Pixels with a C-factor higher as ktc limit will get :ref:`ktc high <ktchigh>` in the ktc map, 
+pixels with a C-factor below ktc limit, will get :ref:`ktc low <ktclow>` in the ktc map.
+This parameter is only mandatory when :ref:`Create ktc map = 0 <createktc>` or :ref:`Calibrate = 1 <Calibrate>`
+
+.. _ktildefault:
 
 ktil default
 ************
 
-int, mandatory when :ref:`Create ktil map = 1 <createktil>`
+The transport capacity coefficient for tillage erosion on agricultural fields. 
+The integer value is expressed in kg/m/year. A recomended default value is 600 kg/m/year.
+
+This parameter is only mandatory when :ref:`Create ktil map = 1 <createktil>`
+
+.. _ktilthres:
 
 ktil threshold
 ***************
 
-float, mandatory when :ref:`Create ktil map = 1 <createktil>`
+ktil threshold is a float between 0 and 1. Pixels with a C-factor higher as ktil threshold will get :ref:`ktil default <ktildefault>` in the ktil map, 
+pixels with a C-factor below ktil threshold, are set to 0. A typical value for ktil threshold is 0.01. 
+
+ktil threshold is only mandatory when :ref:`Create ktil map = 1 <createktil>`.
 
 Parcel connectivity cropland
 ****************************
