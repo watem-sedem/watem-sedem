@@ -18,6 +18,7 @@ Procedure SetDynamicGData(Var Z:GRaster);
 Procedure SetzeroG(Var z:Graster);
 Procedure DisposeDynamicGdata(Var Z:GRaster);
 Procedure ReadHeadersIdrisi(docNfileIMG: string; Var Datatype: string);
+Procedure SetGRasterBorders(Var Z:GRaster);
 
 Implementation
 
@@ -30,7 +31,7 @@ Uses RData_CN;
 //in Lazarus is de eerste cel (0,0) terwijl deze in Idrisi (1,1) is!!!
 //**************************************************************************
 
-Procedure SetRasterBorders(Var Z:GRaster);
+Procedure SetGRasterBorders(Var Z:GRaster);
 
 Var 
   i,j       : integer;
@@ -138,7 +139,7 @@ Begin
         End;
     End;
 
-  SetRasterBorders(Z);
+  SetGRasterBorders(Z);
 
   //ncol, nrow en res worden opgeslagen in array zodat achteraf kan worden nagegaan
   //of deze voor alle kaarten gelijk zijn
