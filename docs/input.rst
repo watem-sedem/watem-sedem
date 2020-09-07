@@ -4,6 +4,21 @@ Model input
 
 This page describes all possible modelinput. 
 
+CN-WS accepts input files and **a lot** of parameters. All these inputs are described below.
+
+Folders
+=======
+
+input directory
+***************
+
+Path to the directory where all inputfiles can be found. If the path does not exist, an exception is raised and the model run will stop.
+
+output directory
+****************
+
+Path to the directory where all model output will be written. If the directory does not exist, it is created by the model. 
+
 Files
 =====
 
