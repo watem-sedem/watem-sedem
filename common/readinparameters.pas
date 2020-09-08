@@ -241,8 +241,8 @@ Var
   BufferData: TBufferDataArray;
   {End Parameters to be read form ini-file--------------------------------------}
 
-  PRC, DTM, CNmap, LU, ReMap, RunoffTotMap, SewerMap, cumulative: Rraster;
-  TilDir, Ro, BufferMap, Outlet, RivSeg, Ditch_map, Dam_map, PTEFmap, river_routing_map: GRaster;
+  DTM, CNmap, LU, ReMap, RunoffTotMap, SewerMap, cumulative: Rraster;
+  PRC, TilDir, Ro, BufferMap, Outlet, RivSeg, Ditch_map, Dam_map, PTEFmap, river_routing_map: GRaster;
   i, j, lowOutletX, lowOutletY: integer;
 
   ROW, COLUMN : Gvector;
@@ -291,9 +291,9 @@ Procedure ReadInRasters;
 Begin
   setCurrentDir(datadir);
   GetRFile(DTM,DTM_Filename);
-  GetRFile(PRC,PARCEL_filename);
+  GetGFile(PRC,PARCEL_filename);
 
-  SetRasterBorders(PRC, 0);
+  SetGRasterBorders(PRC);
 
   GetRFile(P_factor, Pf_Data_filename);
 
@@ -414,7 +414,7 @@ Procedure Release_Memory;
 Begin
   // Release memory for input rasters
   DisposeDynamicRdata(DTM);
-  DisposeDynamicRdata(PRC);
+  DisposeDynamicGdata(PRC);
 
   If Include_sewer Then
    Begin
