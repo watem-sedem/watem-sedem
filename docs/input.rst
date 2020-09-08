@@ -66,7 +66,7 @@ the model domain. Every pixel in the model domain must contain a landuse value. 
 | grass strips         | -6        |
 +----------------------+-----------+
 
-The idrisi raster must be formated as float32.
+The datatype of this raster is integer 16.
 
 .. note::
 	The Parcel raster can contain only values between -32757 and 32757. Therefore, only 32757 unique agricultural field id's can be used in the parcel map. 
