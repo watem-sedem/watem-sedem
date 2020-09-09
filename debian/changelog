@@ -1,9 +1,91 @@
-cn-ws (20200114-2) UNRELEASED; urgency=medium
+cn-ws (20200909-1) unstable; urgency=medium
 
+  [ Fluves Drone CI ]
   * Findlower: exit if no lower point is found
   * Enable automatic building using droneci (WIP)
 
- -- Fluves Drone CI <donotreply@fluves.net>  Sat, 25 Jan 2020 10:22:53 +0100
+  [ Daan Renders ]
+  * adding optional variable to correct LS-factor
+
+  [ Johan Van de Wauw ]
+  * Use sewermap to reduce UpArea
+  * Rename variable from FLUX_IN to UpArea
+  * Determine outlet after routing if no outlet is defined
+  * Publish apt on changes to master
+  * Only sign (and import key) on master
+  * Exclude signing on pull request
+  * Skip on PR
+  * Also skip rsync on PR
+  * Move deb to build dir (rest is removed in pipeline)
+  * Also move changes
+  * Publish from package dir
+  * Work correctly if outlet_select is false
+
+  [ Daan Renders ]
+  * making numOutlet global
+
+  [ Johan Van de Wauw ]
+  * Build apt repo after pushing
+
+  [ Daan Renders ]
+  * renaming SEDI_IN2, SEDI_OUT2, SEWER_IN2 to kg
+  * making allocating memory for TILEROS dependent of user choices
+  * Disposing ktil memory
+  * allocating memory at the places where it is needed in stead of in a procedure
+  * closing PTEFmap after last time it was used
+  * Moving allocation of SEDI_kg rasters
+  * closing K, C and P variables after last time they were used
+  * removing Allocate_Momory funciton from lpr function
+  * Removing variables SEDI_IN_kg, SEDI_OUT_kg,...
+  * First steps in documenting the use of the model
+  * Removing unused, but initialized variables
+  * Round sewer input in Total sediment.txt
+  * Removing open water from Total sediment.txt
+
+  [ Johan Van de Wauw ]
+  * Adjust paths fro drone build
+  * Update '.drone.yml'
+  * Set the border pixels of PRC to outside catchment
+  * Routing: don't jump to border pixels in findlower
+
+  [ sgobeyn ]
+  * Implemented and tested bufferextension_id =  buffer_id + 2**14
+  * Added exe and lps file to commit
+  * Changed 2**14 to 16384
+
+  [ Daan Renders ]
+  * Adding documentation about modeloutput
+  * making titles a bit smaller and add some more info
+  * numbering sections
+  * Adding first documentation on UserChoices
+  * extending doc UserChoices
+  * Extending doc Output
+  * Extending doc UserChoices
+  * Fixing typo
+  * Adding Manual Outlet selection
+  * Do not release C, K and P from memory when calibrating
+  * Release memory C, K, P when calibrating after loop
+  * Fixing reading of outlet raster
+  * Don't write Total Sediment.txt when calibrating
+
+  [ Stijn Van Hoey ]
+  * Update documentation markdown pages
+  * Exclude build docs
+  * Adjust heading sequence
+  * Add sphinx to render static website
+  * Adjust text
+  * Add drone pipeline to deploy documentation
+  * Add inifile overview tables
+  * Add requirements
+  * Test dirty rsyn path trick
+  * Fix local path
+
+  [ Johan Van de Wauw ]
+  * Fix the decimal seperator to .
+  * Overwrite default separator
+  * Use Integer for parcel grid
+
+ -- Johan Van de Wauw <johan@fluves.com>  Wed, 09 Sep 2020 13:41:09 +0200
 
 cn-ws (20200114-1) unstable; urgency=medium
 
