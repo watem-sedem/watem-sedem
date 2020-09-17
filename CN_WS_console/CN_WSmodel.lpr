@@ -91,16 +91,6 @@ Begin
 
 End;
 
-If Not OnlyRouting Then
-   Begin
-    If Not Use_Rfactor Then
-      Begin
-        ReadRainfallFile(Raindata, RainfallFilename);
-        //The .txt file with rainfall per timestep is read and written to a variable
-        CalculateRFactor;
-        // R factor is calculated from given rainfall record
-      End;
-   end;
 
 If (Not simplified) and (Timestep_model>=resAR[1]/0.3) Then
 Begin
@@ -130,6 +120,14 @@ end;
 
 if not OnlyRouting Then
    Begin
+      If Not Use_Rfactor Then
+      Begin
+        ReadRainfallFile(Raindata, RainfallFilename);
+        //The .txt file with rainfall per timestep is read and written to a variable
+        CalculateRFactor;
+        // R factor is calculated from given rainfall record
+      End;
+
       if not calibrate then Water;
       // Water erosion calculations
 
