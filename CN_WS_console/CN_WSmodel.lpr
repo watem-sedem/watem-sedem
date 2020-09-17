@@ -101,13 +101,16 @@ Begin
 End;
 
 try
-  if (Outlet_select) then loadOutlet;
   Topo_Calculations;
-  if not Outlet_select then calcOutlet;
   // Sort DTM, calculate slope and aspect, calculate routing, calculate UPAREA, calculate LS factor RUSLE
 
   if not OnlyRouting Then
    Begin
+       if Outlet_select then
+        loadOutlet
+       else
+        calcOutlet;
+
       If Not Use_Rfactor Then
       Begin
         ReadRainfallFile(Raindata, RainfallFilename);
