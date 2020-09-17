@@ -106,19 +106,7 @@ try
   if not Outlet_select then calcOutlet;
   // Sort DTM, calculate slope and aspect, calculate routing, calculate UPAREA, calculate LS factor RUSLE
 
-Except
-  on E: Exception Do
-        Begin
-          TextColor(red);
-          writeln(E.Message);
-          NormVideo();
-          Terminate(1);
-          Exit;
-        End;
-
-end;
-
-if not OnlyRouting Then
+  if not OnlyRouting Then
    Begin
       If Not Use_Rfactor Then
       Begin
@@ -180,16 +168,24 @@ if not OnlyRouting Then
       if Calc_tileros then
          Tillage_dif;
       // tillage erosion calculations
-
    end;
+Except
+  on E: Exception Do
+        Begin
+          TextColor(red);
+          writeln(E.Message);
+          NormVideo();
+          Terminate(1);
+          Exit;
+        End;
+
+end;
 
 write_maps;
 // write output maps
 
 If Write_routing Then
    Write_Routing_Table;
-
-//
 
 //The memory is released for all created maps
 Release_Memory;
