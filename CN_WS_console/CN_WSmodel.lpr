@@ -110,10 +110,6 @@ Begin
       Exit;
 End;
 
-If Not Simplified Then
-  CalculateRe(ReMap, PRC, CNmap, alpha, beta);
-//Amount of rainfall excess or deficit is calculated
-
 try
   if (Outlet_select) then loadOutlet;
   Topo_Calculations;
@@ -134,10 +130,6 @@ end;
 
 if not OnlyRouting Then
    Begin
-      If Not simplified Then
-        CalculateTimeDependentRunoff(Remap, RainData, Routing, PRC);
-      //Amount of runoff per timestep is calculated
-
       if not calibrate then Water;
       // Water erosion calculations
 
@@ -175,8 +167,14 @@ if not OnlyRouting Then
       End;
 
       If Not Simplified Then
-        Distribute_sediment;
+      Begin
+      CalculateRe(ReMap, PRC, CNmap, alpha, beta);
+      //Amount of rainfall excess or deficit is calculated
+      CalculateTimeDependentRunoff(Remap, RainData, Routing, PRC);
+      //Amount of runoff per timestep is calculated
+      Distribute_sediment;
       // Sediment is distributed over hydrogram
+      End;
 
       if river_routing then
          Cumulative_raster;
