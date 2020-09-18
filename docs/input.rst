@@ -177,6 +177,8 @@ This raster is only mandatory when :ref:`Create ktil map = 0 <createktil>`.
 
 TO DO: dataype map?
 
+.. _rainfallfile:
+
 Rainfall filename
 *****************
 
@@ -249,6 +251,8 @@ bulk density
 
 The average bulk density (in kg/m³) of the soil in the catchment (integer). This value is used to convert
 the mass of transported sediment to volumes. A good default value for belgium is 1350 kg/m³.
+
+.. _rfactor_var:
 
 R factor
 ********

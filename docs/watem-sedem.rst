@@ -74,6 +74,8 @@ RUSLE factors
 
 In this paragraph the different parameters of the RUSLE equation (Renard et al., 1997) are described.
 
+.. _rfactor:
+
 R-factor
 ########
 
