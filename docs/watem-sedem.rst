@@ -81,20 +81,28 @@ R-factor
 
 TO DO
 
+.. _kfactor:
+
 K-factor
 ########
 
 TO DO
+
+.. _lsfactor:
 
 LS-factor
 #########
 
 TO DO
 
+.. _cfactor:
+
 C-factor
 ########
 
 TO DO
+
+.. _pfactor:
 
 P-factor
 ########

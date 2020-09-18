@@ -111,15 +111,21 @@ Ditch map filename
 
 Filename of the ditch map. This raster is only mandatory when :ref:`Include ditches = 1 <includeditches>`
 
+TO DO: dataype raster
+
 Dam map filename
 ****************
 
 Filename of the dam map. This raster is only mandatory when :ref:`Include dams = 1 <includedams>`
 
+TO DO: dataype raster
+
 P factor map filename
 *********************
 
-Filename of the P-factor map. 
+Filename of the :ref:`P-factor <pfactor>` map. 
+
+TO DO: dataype raster
 
 River segment filename
 **********************
@@ -192,13 +198,13 @@ The rainfall file is only mandatory when :ref:`Use R = 0 <useR>`.
 K factor filename
 *****************
 
-Filename of the K-factor map. The soil erosivity factor or K-factor of the RUSLE-equation for every pixel
+Filename of the :ref:`K-factor <kfactor>` map. The soil erosivity factor or K-factor of the RUSLE-equation for every pixel
 in the modeldomain is stored in the K-factor map (kg.h/MJ.mm). 
 
 C factor map filename
 *********************
 
-Filename of the C-factor map. This raster contains values between 0 and 1 and represent the dimensionless C-factor in the RUSLE equation. 
+Filename of the :ref:`C-factor <cfactor>` map. This raster contains values between 0 and 1 and represent the dimensionless C-factor in the RUSLE equation. 
 Pixels outside the modeldomain are set to zero.
 
 The dataype of the outlet map is float32.
@@ -259,11 +265,11 @@ the mass of transported sediment to volumes. A good default value for belgium is
 R factor
 ********
 
-The R-factor or rainfall erosivity factor in the RUSLE equation (float, in MJ.mm/ha.h.year). 
+The :ref:`R-factor <rfactor>` or rainfall erosivity factor in the RUSLE equation (float, in MJ.mm/ha.h.year). 
 This value is only mandatory when :ref:`Use R = 0 <useR>`.
 
 .. note::
-	the user must make sure that the R and C-factor represent the same time duration (year or month). 
+	the user must make sure that the R and C-factor are calculated for the same time span (year, month, week,...). 
 
 LS correction
 *************

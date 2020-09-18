@@ -51,7 +51,7 @@ to do
 LS.rst
 ******
 
-Raster with the calculated LS-factor (dimensionless). This raster is only written if :ref:`write ls factor = 1 <writels>`.
+Raster with the calculated :ref:`LS-factor <lsfactor>` (dimensionless). This raster is only written if :ref:`write ls factor = 1 <writels>`.
 
 .. _aspectmap:
 
