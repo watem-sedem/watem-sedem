@@ -158,6 +158,8 @@ This raster contains a CN-value for every pixel in the model domain.
 
 TO DO: datatype map?
 
+.. _outletmap:
+
 Outlet map filename
 *******************
 
