@@ -14,6 +14,8 @@ in the calculation of RUSLE and transport capacity (TC). The two L-models are:
 * Desmet and Govers (1996)
 * McCool et al. (1989, 1987)
 
+TO DO: formulas, units
+
 S model
 #######
 
@@ -22,6 +24,8 @@ in the calculation of RUSLE and transport capacity (TC). The two S-models are:
 
 * Desmet and Govers (1996)
 * Nearing (1997)
+
+TO DO: formulas, units
 
 Only Routing
 ############
@@ -34,7 +38,7 @@ the WaTEM-SEDEM and CN modules are disabled. When using this option only :ref:`a
 Simple
 ######
 
-When the option 'Simple' is enabled, only WaTEM-SEDEM is used and the CN-model is disabled. By disabling Simple, you will use the CN model. 
+When the option 'Simple' is enabled, only WaTEM-SEDEM is used and the CN-model is disabled. By disabling Simple, you will use the full the CN-WS model. 
 
 .. _calctileros:
 
@@ -113,7 +117,7 @@ When the routing based on the built-in rules of the model is not correct (e.g. i
 This is done by enabling the Force Routing option. With force routing the routing algorithm will use the routing imposed by the user in stead of the digital elevation model.
 
 When `Force Routing = 1` the user will have to provide additional input: the variable `number of force routing` and a seperate
-section for every routing vector the user wants to add. `number of force routing` contains an integer value with the amount of routing vectors that are imposed by the user.
+section for every routing vector the user wants to add. `Number of force routing` contains an integer value with the amount of routing vectors that are imposed by the user.
 
 An example of a valid forced routing section looks like
 

@@ -2,16 +2,16 @@
 Model output
 ############
 
-In this section we will describe all possible modeloutput of the CN-WS model. Tables are written as txt-files, rasters are written as `Idrisi-rasters <https://gdal.org/drivers/raster/Idrisi.html>`_.
+In this section we will describe all possible outputs of the CN-WS model. Tables are written as tab-delimited txt-files, rasters are written as `Idrisi-rasters <https://gdal.org/drivers/raster/Idrisi.html>`_.
 
-The created model output depends on the userchoices in in the ini-file. 
+The created model output depends on the userchoices in the ini-file. 
 
 .. _onlyroutingoutput:
 
 Routing only output
 ###################
 
-When the user chooses to only use the routing algorithm of the cn-ws model, following output can be generated.
+Folllowing output can be generated when only the ‘routing only’ option in the user choices is set to 1:
 
 .. _routingtxt:
 
@@ -25,7 +25,7 @@ Tab seperated table wich contains a row for every pixel in the spatial domain. F
 * part1: the relative amount of outgoing sediment/water to the first target pixel
 * distance1: the distance (in m) between the sourcepixel and the first target pixel
 * target2col, target2row: the position of the second targetpixel in the raster. These values are -99 if target2 does not exist.
-* part2: the relative amount of outgoing sediment/water to the second target pixel. Togheter with part1 the sum must be 1.
+* part2: the relative amount of outgoing sediment/water to the second target pixel. Together with part1 the sum must be 1.
 * distance2: the distance (in m) between the sourcepixel and the second target pixel
 
 The routing table is only generated when :ref:`write routing table = 1 <writerouting>`.
