@@ -197,7 +197,8 @@ use r factor
 
 WaTEM-SEDEM requires an :ref:`R-factor <rfactor>` for the RUSLE calculation. When `Use R factor = 1`, the user will have to define the :ref:`R factor <rfactor_var>` himself.
 
-CN-WS is able to calculate an R-factor from a timeseries of rainfall data. To use this option, the user has to set `Use R factor = 0` and must define the :ref:`rainfall file <rainfallfile>`. 
+CN-WS is able to calculate an R-factor from a timeseries of rainfall data. This R-factor represents the erosivity of the rainfall event that is simulated by the model. 
+To use this option, the user has to set `Use R factor = 0` and must define the :ref:`rainfall file <rainfallfile>`. 
 
 (TO DO: add information about how R-factor is calculated?)
 
