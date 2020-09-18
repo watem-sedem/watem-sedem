@@ -2,9 +2,9 @@
 CN-WS
 #####
 
-CN-WS is a model that predics soil erosion and sediment transport in time and space. 
-The model is combination of two existing models: Curve Number (run-off model) and WaTEM-SEDEM (water erosion and sediment transport model). 
-CN-WS is developed to assess sediment input to rivers, soil erosion on argricultaral fields and to evaluate soil erosion management measures. 
+CN-WS is a model that simulates soil erosion and sediment transport in time and space. 
+The model is combination of two existing models: Curve Number (flow run-off model) and WaTEM-SEDEM (water erosion and sediment transport model). 
+CN-WS is developed to assess sediment input to rivers, soil erosion on argricultural fields and to evaluate soil erosion management measures. 
 
 Model versions
 ==============
