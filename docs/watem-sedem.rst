@@ -14,12 +14,12 @@ by comparing the the total available sediment in the cell (incoming sediment + *
 
 Two cases exist:
 
-* The total available sediment in a cell is lower than *TC*: 
-	* the resulting mass balance is negative (too little sediment available to transport, so 'erosion' will occur)
-	* the outgoing sediment is set equal to the available sediment
-* The available sediment exceeds *TC*:
-	* the resulting mass balance is positive (enough sediment to transport, some sediment will be 'deposited' in the cell)
-	* the outgoing sediment is equal to *TC* and (available sediment - TC) will be deposited in the cell. 
+- The total available sediment in a cell is lower than *TC*: 
+	- the resulting mass balance is negative (too little sediment available to transport, so 'erosion' will occur)
+	- the outgoing sediment is set equal to the available sediment
+- The available sediment exceeds *TC*:
+	- the resulting mass balance is positive (enough sediment to transport, some sediment will be 'deposited' in the cell)
+	- the outgoing sediment is equal to *TC* and (available sediment - TC) will be deposited in the cell. 
 
 The outgoing sediment of a cell is distributed to one or two target pixels. The target cells are determined by the routing algorithm.
 The outgoing sediment of pixel X to pixel Y is added to the incoming sediment of pixel Y. Pixel Y can receive sediment of multple pixels.
@@ -36,11 +36,11 @@ The mean annual soil erosion rate *E* (kg/m²/year) is calculated by
 	
 Where:
 
-* *R*: rainfall erosivity factor (MJ mm m-² h-1 a-1)
-* *K*: soil erodibility factor (ton 
-* *LS*: topgographical slope and length factor
-* *C*: crop erosivity factor
-* *P*: erosion control factor
+- *R*: rainfall erosivity factor (MJ mm m-² h-1 a-1)
+- *K*: soil erodibility factor (ton 
+- *LS*: topgographical slope and length factor
+- *C*: crop erosivity factor
+- *P*: erosion control factor
 
 A detailed description of these factors is given :ref:`here <ruslefactors>`.
 
@@ -54,10 +54,10 @@ For every grid cell the transport capacity *TC* (kg/m/year)  is calculated by
 	
 Where:
 
-* *kTC*: calibration factor
-* *R*: rainfall erosivity factor (MJ mm m-² h-1 a-1)
-* *K*: soil erodibility factor (ton 
-* *LS*: topgographical slope and length factor
+- *kTC*: calibration factor
+- *R*: rainfall erosivity factor (MJ mm m-² h-1 a-1)
+- *K*: soil erodibility factor (ton 
+- *LS*: topgographical slope and length factor
 
 A detailed description of these factors is given :ref:`here <ruslefactors>`.
 
