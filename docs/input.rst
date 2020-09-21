@@ -105,6 +105,8 @@ Buffer map filename
 
 Filename of the buffer map. This raster is only mandatory when :ref:`Include buffers = 1 <includebuffers>`.
 
+TO DO: figure with example bufid/buf extionsion id.
+
 The datatype of the buffermap is integer16.
 
 Ditch map filename
@@ -114,12 +116,16 @@ Filename of the ditch map. This raster is only mandatory when :ref:`Include ditc
 
 TO DO: dataype raster
 
+TO DO: figure with example routing
+
 Dam map filename
 ****************
 
 Filename of the dam map. This raster is only mandatory when :ref:`Include dams = 1 <includedams>`
 
 TO DO: dataype raster
+
+TO DO: figure with example routing
 
 P factor map filename
 *********************

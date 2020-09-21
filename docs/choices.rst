@@ -96,12 +96,16 @@ variable `number of buffers` and a seperate section for every buffer in the buff
 The Include buffers option adjusts the routing in the pixels. All pixels within a buffer with the buffer extension id are routed to the outletpixel of the buffer. This outletpixel
 in the bufferraster is marked with the buffer id. The amount of sediment that flows out of the bufferoutlet is reduced with the trapping efficiency of the buffer.
 
+TO DO: ktc and C-factor at these pixels
+
 .. _includeditches:
 
 Include ditches
 ###############
 
 Ditches alter the sediment flow. The sediment will follow the course of a ditch in stead of along the steepest slope.
+
+TO DO: ktc and C-factor at these pixels
 
 .. _includedams:
 
@@ -110,11 +114,13 @@ Include dams
 
 Same principle as include ditches, but differences in C-factor and ktc
 
+TO DO: ktc and C-factor at these pixels
+
 Force Routing
 #############
 
 When the routing based on the built-in rules of the model is not correct (e.g. in the neighbourhood of infrastructure) the user has the possibility to impose the routing.
-This is done by enabling the Force Routing option. With force routing the routing algorithm will use the routing imposed by the user in stead of the digital elevation model.
+This is done by enabling the Force Routing option. With force routing the routing algorithm will use the routing imposed by the user instead of the digital elevation model.
 
 When `Force Routing = 1` the user will have to provide additional input: the variable `number of force routing` and a seperate
 section for every routing vector the user wants to add. `Number of force routing` contains an integer value with the amount of routing vectors that are imposed by the user.
@@ -141,10 +147,10 @@ By enabling the river routing option, the routing between river pixels is impose
 This option is usefull because the calculated routing in a river, based on the digital elevation model, is not always correct.
 
 Following input-files are required when `River Routing = 1`:
-- river segement filename
-- river routing filename
-- adjectant segments
-- upstream segments
+* river segement filename
+* river routing filename
+* adjectant segments
+* upstream segments
 
 When this option is disabled, the model will use the digital elevation model to determine the routing between all river pixels.
 
