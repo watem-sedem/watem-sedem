@@ -121,6 +121,8 @@ Var
   RUSLE         : RRaster;
   // result of RUSLE equation in kg/m² = POTENTIAL soil loss
   TILEROS       : RRaster;
+  SEDTIL_IN     : RRaster;
+  SEDTIL_OUT    : RRaster;
   //tillage erosion (unit: mm)
   SEDI_EXPORT   : RRaster;
   // sediment export in kg
@@ -464,6 +466,8 @@ Begin
 
   if Calc_tileros Then
    Begin
+   DisposeDynamicRdata(SEDTIL_IN);
+   DisposeDynamicRdata(SEDTIL_OUT);
     DisposeDynamicRdata(TILEROS);
     DisposeDynamicGdata(ktil);
    end;
