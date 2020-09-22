@@ -43,7 +43,10 @@ Additional model features
 
 Some additional functionalities are built-in CN-WS, next to the basic model
 features of WaTEM-SEDEM and the CN model. These additional functionalities have
-a large impact on water and sediment transport through the model domain.
+a large impact on water and sediment transport through the model domain. By
+default, these additional features are disabled, but can be enabled in in the
+ini-file with the correct user choice. When the user enables an extra feature,
+the model will expect more user input (rasters and variables).
 
 Buffer basins
 *************
