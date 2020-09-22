@@ -31,7 +31,8 @@ author = 'Van de Wauw Johan, Renders Daan'
 # ones.
 extensions = [
     "myst_parser",
-    "sphinx_rtd_theme"
+    "sphinx_rtd_theme",
+	"sphinx.ext.mathjax"
 ]
 
 # Add any paths that contain templates here, relative to this directory.
