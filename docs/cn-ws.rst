@@ -41,7 +41,8 @@ Additional model features
 =========================
 
 Some additional functionalities are built-in CN-WS, next to the basic model
-features of WaTEM-SEDEM and the CN model.
+features of WaTEM-SEDEM and the CN model. These additional functionalities have
+a large impact on water and sediment transport through the model domain.
 
 Buffer basins
 *************
@@ -51,7 +52,10 @@ TO DO
 Dams and ditches
 ****************
 
-TO DO
+Dams and ditches change the direction of water and sediment transport and, thus,
+alter the routing. The routing along a dam or ditch is incorporated in the
+routing algorithm. A detailed explaination about these functionalities is given
+in the user choices section.
 
 Sewers/endpoints
 ****************
