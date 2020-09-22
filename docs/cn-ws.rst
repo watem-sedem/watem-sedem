@@ -51,7 +51,65 @@ the model will expect more user input (rasters and variables).
 Buffer basins
 *************
 
-TO DO
+Buffer basins have a large impact on the dynamics of water and sediment run-off
+in the landscape. These constructions are temporary storages of water and
+sediment is deposited in them. The delayed water run-off and sediment deposition
+is included in the model.
+
+All sediment entering the pixels of a buffer is multiplied with the sediment
+trapping efficiency of the buffer. This trapping efficiency is the fraction of
+the incoming sediment that is trapped in the buffer basin.
+
+The delayed water run-off is based on the report of Meert and Willems (2013) and
+uses following principles.
+
+Water will only flow out of a buffer basin when the water height in the basin
+exceeds the height of discharge pipe of the buffer. Therefore, the dead
+volume, :math:`V_{dead}`, is calculated by
+
+.. math::
+    V_{dead} = (\frac{H_{opening}}{H_{dam}}){V_{basin}}
+
+
+Where:
+
+- :math:`H_opening` is the height of the opening of the discharge pipe of the
+  buffer basin (m)
+- :math:`H_dam` is the height of the dam of the buffer basin (m)
+- :math:`V_basin` is the maximum volume of water that can be trapped in the
+  bufferbasin (:math:`m^{3}`).
+
+Two cases exist. A first case can be defined as when the watervolume in the
+buffer basin is larger than :math:`V_{dead}`, but smaller than :math:`V_basin`,
+the water will flow through the discharge pipe acording to
+
+.. math::
+    R(t) = (Q_{max}.\sqrt{\frac{V(t)}{V_{basin} - V_{dead}}}).dt
+
+where:
+
+- :math:`R(t)` is the amount of run-off during timestep t (:math:`m^{3}`)
+- :math:`Q_{max}` is the maximum discharge(:math:`m^{3} s^{-1}`)
+- :math:`V(t)`, the volume of water present in the buffer basin at timestep t
+  (:math:`m^{3}`)
+- :math:`dt`, the timestep (s)
+
+:math:`Q_{max}` is calculated for every buffer basin according to
+
+.. math::
+    Q_{max} = C_d.A_0.\sqrt{2.g.(H_{dam} - H_{opening})}
+
+Where :
+
+- :math:`C_d` is the discharge coefficient (-),
+- :math:`A_0` is the area of the discharge opening (:math:`m^{2}`)
+- :math:`g` is the gravitational acceleration (9.81 :math:`m.s^{-2}`)
+
+A second case arises when the watervolume in the buffer basin is larger than
+:math:`V_{basin}`. In this case the water will flow through the discharge pipe
+as via the overflow of the dam.
+
+
 
 Dams and ditches
 ****************
