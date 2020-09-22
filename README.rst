@@ -40,12 +40,14 @@ processing CN-WS input, outputs and user choices. At that point, CN-WS is
 submitted to versioning via git. These optimisation were executed by `Fluves
 <https://fluves.com/>`_.
 
+
 Model versions
 ==============
 
 CN-WS has thee modus operandi: CN_WS, CN_WS_console and CN_WS_LongTerm:
 
-1. CN_WS = CN_WS model to simulate one rainfall event; model version including
+1. The CN_WS model is used simulate the erosion and sediment run-off for one
+rainfall event. 
 graphical user interface (GUI).
 To start the model, use the "CN_WS" shortcut in the current folder. 
 To view the underlying source code, open the CN_WS folder and:
