@@ -29,7 +29,8 @@ over the hydrogram to obtain a sedigram (sediment concentration and sedimentload
 as a fuction of time). The sediment concentration *SC* is calculated for every
 timestep as:
 
-    $SC = \frac{(SV*1000}{R*1000}$
+.. math::
+    SC = \frac{(SV*1000)}{R*1000}
 
 With:
 
@@ -41,7 +42,11 @@ Additional model features
 =========================
 
 Some additional functionalities are built-in CN-WS, next to the basic model
-features of WaTEM-SEDEM and the CN model.
+features of WaTEM-SEDEM and the CN model. These additional functionalities have
+a large impact on water and sediment transport through the model domain. By
+default, these additional features are disabled, but can be enabled in in the
+ini-file with the correct user choice. When the user enables an extra feature,
+the model will expect more user input (rasters and variables).
 
 Buffer basins
 *************
@@ -51,7 +56,10 @@ TO DO
 Dams and ditches
 ****************
 
-TO DO
+Dams and ditches change the direction of water and sediment transport and, thus,
+alter the routing. The routing along a dam or ditch is incorporated in the
+routing algorithm. A detailed explaination about these functionalities is given
+in the user choices section.
 
 Sewers/endpoints
 ****************
@@ -61,10 +69,6 @@ TO DO
 References
 ==========
 
-- Renard K.G., Foster G.R., Weesies G.A., McCool D.K., Yoder D.C. (1997)
-  Predicting soil erosion by water: a guide to conservation planning with the
-  Revised Universal Soil Loss Equation (RUSLE). USDA Agricultural Handbook 703.
-  `link1 <https://www.ars.usda.gov/ARSUserFiles/64080530/RUSLE/AH_703.pdf>`_
 - Van Oost, K., Govers, G. & Desmet, P.J.J (2000) Evaluating the effects of
   changes in the landscape structure on soil erosion by water and tillage.
   Landscape Ecology 15, 577-589.
