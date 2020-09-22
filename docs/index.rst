@@ -3,18 +3,22 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to cnws's documentation!
-================================
+.. include:: ../README.rst
+
+This documentation describes the background and the use of the CN-WS model.
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
-
-   getting_started
-   user_choices
+   
+   model
+   usage
+   installation
+   tutorial
    inifile
-   output
-
+   faq
+   contributing
+   authors
 
 Indices and tables
 ==================
