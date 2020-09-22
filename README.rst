@@ -41,13 +41,29 @@ submitted to versioning via git. These optimisation were executed by `Fluves
 <https://fluves.com/>`_.
 
 
-Model versions
+For who is this page?
+=====================
+
+This page aims to explain how the CN-WS model can be run for a given case
+study, and which output can be analysed to study the specific case. In
+addition, it aims to explain how a specific run for case study can be set-up
+(i.e. which input data are needed? in which format?). Finally, this page is
+the location for background information on model concepts, options, inputs
+and outputs. In order to this, this set of minimal skills is required:
+
+ - Basic command line skills (know how to open your command line, and run an
+   executable).
+ - Opening text files in a text editor.
+ - Opening raster data in QGIS, ArcGIS or your favorite GIS program.
+
+Model
 ==============
 
-CN-WS has thee modus operandi: CN_WS, CN_WS_console and CN_WS_LongTerm:
+CN-WS has thee modus operandi: CN_WS, CN_WS_console and CN_WS_LongTerm.
+Typically the model is run in a command-line interface,
 
 1. The CN_WS model is used simulate the erosion and sediment run-off for one
-rainfall event. 
+rainfall event.
 graphical user interface (GUI).
 To start the model, use the "CN_WS" shortcut in the current folder. 
 To view the underlying source code, open the CN_WS folder and:
