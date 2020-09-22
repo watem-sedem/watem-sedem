@@ -130,15 +130,17 @@ Where :math:`A_{basin}` represents the area of the buffer basin in :math:`m^{2}`
 Dams and ditches
 ****************
 
-Dams and ditches influence the direction of water and sediment transport and, thus,
-alter the routing. The routing along a dam or ditch is incorporated in the
+Dams and ditches influence the direction of water and sediment transport and,
+thus, alter the routing. The routing along a dam or ditch is incorporated in the
 routing algorithm. A detailed explaination about these functionalities is given
-in the user choices section.
+in the user choices sections about :ref:`dams <includedams>` and
+:ref:`ditches <includeditches>`.
 
 Sewers/endpoints
 ****************
 
 TO DO
+see :ref:`here <inlcudesewers>` for more info
 
 References
 ==========
