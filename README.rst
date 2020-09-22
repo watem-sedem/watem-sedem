@@ -25,10 +25,10 @@ department (`Department of Earth and Environmental Sciences <https://ees
 sediment transport to the river was
 the coupling of:
 
- 1. WaTEM (Van Oost et al. 2000): a spatially distributed model that
-    computes erosion by rainfall and tillage.
- 2. SEDEM (Van Rompaey et al., 2001): a model simulating sediment-transport
-    to the river.
+1. WaTEM (Van Oost et al. 2000): a spatially distributed model that
+   computes erosion by rainfall and tillage.
+2. SEDEM (Van Rompaey et al., 2001): a model simulating sediment-transport
+   to the river.
 
 Since 2016, the Flemish government, Department for Environment (VPO), and the
 Flemisch Environment Agency (VMM) commissioned further developments for
@@ -51,10 +51,10 @@ addition, it aims to explain how a specific run for case study can be set-up
 the location for background information on model concepts, options, inputs
 and outputs. In order to this, this set of minimal skills is required:
 
- - Basic command line skills (know how to open your command line, and run an
-   executable).
- - Opening text files in a text editor.
- - Opening raster data in QGIS, ArcGIS or your favorite GIS program.
+- Basic command line skills (know how to open your command line, and run an
+  executable).
+- Opening text files in a text editor.
+- Opening raster data in QGIS, ArcGIS or your favorite GIS program.
 
 Model
 =====
