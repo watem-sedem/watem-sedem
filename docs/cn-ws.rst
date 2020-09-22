@@ -127,6 +127,9 @@ Where:
 
 Where :math:`A_{basin}` represents the area of the buffer basin in :math:`m^{2}`
 
+The practical use of buffer basins in the model is described
+:ref:`here <includebuffers>`.
+
 Dams and ditches
 ****************
 
