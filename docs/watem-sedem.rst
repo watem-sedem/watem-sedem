@@ -22,14 +22,14 @@ calculated by comparing the the total available sediment in the cell
 Two cases exist:
 
 - The total available sediment in a cell is lower than *TC*:
-	- the resulting mass balance is negative (the pixel can transport more
-than  the amount of sediment available to transport, so 'erosion' will occur)
-	- the outgoing sediment is set equal to the available sediment
+    - the resulting mass balance is negative (the pixel can transport more than
+        the amount of sediment available to transport, so 'erosion' will occur)
+    - the outgoing sediment is set equal to the available sediment
 - The available sediment exceeds *TC*:
-	- the resulting mass balance is positive (enough sediment to transport,
-some sediment will be 'deposited' in the cell)
-	- the outgoing sediment is equal to *TC* and (available sediment - TC)
-will be deposited in the cell.
+    - the resulting mass balance is positive (enough sediment to transport,
+        some sediment will be 'deposited' in the cell)
+    - the outgoing sediment is equal to *TC* and (available sediment - TC)
+        will be deposited in the cell.
 
 The outgoing sediment of a cell is distributed to one or two target pixels.
 The target cells are determined by the routing algorithm. The outgoing
