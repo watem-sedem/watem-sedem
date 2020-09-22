@@ -2,9 +2,41 @@
 CN-WS
 #####
 
-CN-WS is a model that simulates soil erosion and sediment transport in time and space. 
-The model is combination of two existing models: Curve Number (flow run-off model) and WaTEM-SEDEM (water erosion and sediment transport model). 
-CN-WS is developed to assess sediment input to rivers, soil erosion on argricultural fields and to evaluate soil erosion management measures. 
+The Curve Number-WaTEM-SEDEM (CN-WS) is a computer model that simulates soil
+erosion and sediment transport in time and space. The model is combination
+of two existing models: Curve Number (flow run-off model) and WaTEM-SEDEM
+(water erosion and sediment transport model). CN-WS is developed to assess
+sediment input to rivers, soil erosion on argricultural fields and to
+evaluate soil erosion management measures.
+
+A short history of CN-WS
+=============================
+
+The sediment export model CN-WS was developed starting from the year 2013
+until 2016 by KULeuven in partnership with Antea Belgium, commissioned by
+the Flemish government (Antea, 2016). The aim of the development were to
+create a tool that can quantify erosion, sediment/water run-off, and the
+effect of erosion mitigation measures on erosion & run-off to the river.
+
+The initial developments of WaTEM/SEDEM were initialised by KULeuven,
+departement (`Departement of Earth and Environmental Sciences <https://ees.kuleuven.be//>`_), before
+2013. A key component in the computation of sediment transport to the river was
+the coupling of:
+
+ 1. WaTEM (Van Oost et al. 2000): a spatially distributed model that
+    computes erosion by rainfall and tillage.
+ 2. SEDEM (Van Rompaey et al., 2001): a model simulating sediment-transport
+    to the river.
+
+Since 2016, the Flemish government commissioned further developments for
+CN-WS so it could become operational for management. Specifically, a number
+optimisations to the code were implemented to increase model
+performance, and allow a roll-out for Flanders. The latter is discussed in
+XXXX (TO DO: ref to CN_WS Python).
+
+A short history of CN-WS
+=============================
+
 
 Model versions
 ==============
@@ -39,3 +71,7 @@ Documentation
 =============
 
 The documentation of this project is available at https://docs.fluves.net/cnws-pascal/
+
+References
+==========
+Antea, 2016. Modellering van de sedimentaanvoer naar de waterlopen, het effect van erosiebestrijdingsmaatregelen en het transport van sediment in de onbevaarbare waterlopen. Antea Belgium NV, Antwerpen, Belgium.
