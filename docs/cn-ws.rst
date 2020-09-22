@@ -29,7 +29,8 @@ over the hydrogram to obtain a sedigram (sediment concentration and sedimentload
 as a fuction of time). The sediment concentration *SC* is calculated for every
 timestep as:
 
-    $SC = \frac{(SV*1000}{R*1000}$
+.. math::
+    SC = \frac{(SV*1000)}{R*1000}
 
 With:
 
