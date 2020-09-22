@@ -64,27 +64,30 @@ Typically the model is run in a command-line interface or a Graphical User
 Interface (GUI). Yet, since 2016, the GUI is not maintained. Users are thus
 advised to use the command line version.
 
- 1. The CN_WS model is used simulate the erosion and sediment run-off for one
-    rainfall event. This model can be used through the GUI. To start the model,
-    use the "CN_WS" shortcut in the current folder. To view the underlying
-    source code, open the CN_WS folder and:
-    - open the different .pas files in notepad
-    - OR open Invoerform.lpi in lazarus
+1. The CN_WS model is used simulate the erosion and sediment run-off for one
+   rainfall event. This model can be used through the GUI. To start the model,
+   use the "CN_WS" shortcut in the current folder. To view the underlying
+   source code, open the CN_WS folder and:
 
- 2. The CN_WS_console model is similar to CN_WS, but without GUI. This
-    version can be used through WINDOWS commandline (see manual) (This model
-    version is used by the long term version of the model to run each rainfall
-    event). To view the underlying source code, open the CN_WS_console folder
-    and:
-    - open the different .pas files in notepad
-    - OR open CN_WSmodel.lpi in lazarus
+   - open the different .pas files in notepad
+   - OR open Invoerform.lpi in lazarus
 
- 3. The CN_WS_LongTerm is the long term version of the model; including GUI.
-    To start the model, use the "CN_WS_LongTerm" shortcut in the current
-    folder. To view the underlying source code, open the CN_WS_LongTerm
-    folder and:
-    - open the different .pas files in notepad
-    - OR open Invoerform.lpi in lazarus
+2. The CN_WS_console model is similar to CN_WS, but without GUI. This
+   version can be used through WINDOWS commandline (see manual) (This model
+   version is used by the long term version of the model to run each rainfall
+   event). To view the underlying source code, open the CN_WS_console folder
+   and:
+
+   - open the different .pas files in notepad
+   - OR open CN_WSmodel.lpi in lazarus
+
+3. The CN_WS_LongTerm is the long term version of the model; including GUI.
+   To start the model, use the "CN_WS_LongTerm" shortcut in the current
+   folder. To view the underlying source code, open the CN_WS_LongTerm
+   folder and:
+
+   - open the different .pas files in notepad
+   - OR open Invoerform.lpi in lazarus
 
 License
 =======
