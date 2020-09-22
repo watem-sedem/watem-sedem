@@ -2,11 +2,11 @@
 CN-WS
 #####
 
-The Curve Number-WaTEM-SEDEM (CN-WS) is a computer model that simulates soil
+The Curve Number-WaTEM/SEDEM (CN-WS) is a computer model that simulates soil
 erosion and sediment transport in time and space. The model is combination
-of two existing models: Curve Number (flow run-off model) and WaTEM-SEDEM
+of two existing models: Curve Number (flow run-off model) and WaTEM/SEDEM
 (water erosion and sediment transport model). CN-WS is developed to assess
-sediment input to rivers, soil erosion on argricultural fields and to
+sediment input to rivers, soil erosion on agricultural fields and to
 evaluate soil erosion management measures.
 
 A short history of CN-WS
@@ -20,8 +20,9 @@ create a tool that can quantify erosion, sediment/water run-off, and the
 effect of erosion mitigation measures on erosion & run-off to the river.
 
 The initial developments of WaTEM/SEDEM were initialised by KULeuven,
-departement (`Departement of Earth and Environmental Sciences <https://ees.kuleuven.be//>`_), before
-2013. A key component in the computation of sediment transport to the river was
+department (`Departement of Earth and Environmental Sciences <https://ees
+.kuleuven.be//>`_), before 2013. A key component in the computation of
+sediment transport to the river was
 the coupling of:
 
  1. WaTEM (Van Oost et al. 2000): a spatially distributed model that
@@ -29,7 +30,8 @@ the coupling of:
  2. SEDEM (Van Rompaey et al., 2001): a model simulating sediment-transport
     to the river.
 
-Since 2016, the Flemish government commissioned further developments for
+Since 2016, the Flemish government, Department for Environment (VPO), and the
+Flemisch Environment Agency (VMM) commissioned further developments for
 CN-WS so it could become operational for management. Specifically, a number
 optimisations to the code were implemented to increase model performance and
 allow a roll-out on the scale of Flanders. In addition, the model was
@@ -41,22 +43,23 @@ submitted to versioning via git. These optimisation were executed by `Fluves
 Model versions
 ==============
 
-Three model versions exist:
+CN-WS has thee modus operandi: CN_WS, CN_WS_console and CN_WS_LongTerm:
 
-CN_WS = CN_WS model to simulate one rainfall event; model version including graphical user interface (GUI).
+1. CN_WS = CN_WS model to simulate one rainfall event; model version including
+graphical user interface (GUI).
 To start the model, use the "CN_WS" shortcut in the current folder. 
 To view the underlying source code, open the CN_WS folder and:
 - open the different *.pas files in notepad
 - OR open Invoerform.lpi in lazarus
 
-CN_WS_console = same model as CN_WS, but without GUI.
+2. CN_WS_console = same model as CN_WS, but without GUI.
 This version can be used through WINDOWS commandline (see manual).
 (This model version is used by the long term version of the model to run each rainfall event).
 To view the underlying source code, open the CN_WS_console folder and:
 - open the different *.pas files in notepad
 - OR open CN_WSmodel.lpi in lazarus
 	
-CN_WS_LongTerm = long term version of the model; including GUI.
+3. CN_WS_LongTerm = long term version of the model; including GUI.
 To start the model, use the "CN_WS_LongTerm" shortcut in the current folder.
 To view the underlying source code, open the CN_WS_LongTerm folder and:
 - open the different *.pas files in notepad
@@ -65,12 +68,17 @@ To view the underlying source code, open the CN_WS_LongTerm folder and:
 License
 =======
 
-This project is licensed under the ??? License, see  `LICENSE <https://git.fluves.net/cn_ws/LICENSE>`_ for more information.
+This project is licensed under the ??? License, see
+`LICENSE <https://git.fluves.net/cn_ws/LICENSE>`_ for more information.
 
 Documentation
 =============
 
-The documentation of this project is available at https://docs.fluves.net/cnws-pascal/
+The documentation of this project is available at https://docs.fluves
+.net/cnws-pascal/. In this documentation, a theoretical background of the
+model and an overview of the model usage are given (see :ref:`here <model>`
+and :ref:`here <usage>`). Next, an :ref:`installation guide <installation>` and
+:ref:`tutorial <tutorial>` is presented.
 
 
 References
