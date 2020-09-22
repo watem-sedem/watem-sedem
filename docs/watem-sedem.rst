@@ -12,12 +12,13 @@ Laboratry for Experimental Geomorphology (KU Leuven, Belgium). WaTEM stands
 for  Water and Tillage erosion model (Van Oost et al., 2000) and SEDEM is
 the abbreviation of Sediment Delivery Model (Van Rompaey et al., 2001).
 
-In WaTEM-SEDEM the mean annual soil erosion rate *E* and transport capacity
-*TC* are calculated for every pixel in the model domain. Next, the model
-iterates over all pixels according to the order determined by the routing
-algorithm. During the iteration, the outgoing sediment for every pixel is
-calculated by comparing the the total available sediment in the cell
-(incoming sediment + *E*) with the transport capacity.
+In WaTEM-SEDEM the mean annual soil erosion rate *E* (see :ref:`here <RULSE>`)
+and transport capacity *TC* (see :ref:`here <TC>`) are calculated for every
+pixel in the model  domain. Next, the model iterates over all pixels
+according to the order determined by the routing algorithm. During the
+iteration, the outgoing  sediment for every pixel is calculated by comparing
+the the total available  sediment in the cell (incoming sediment + *E*) with
+the transport capacity.
 
 Two cases exist:
  - The total available sediment in a cell is lower than *TC*: the resulting
@@ -27,7 +28,7 @@ Two cases exist:
  - The available sediment exceeds *TC*: the resulting mass balance is
    positive (enough sediment to transport some sediment will be 'deposited' in
    the cell). The outgoing sediment is equal to *TC* and (available sediment -
-   TC) will be deposited in the cell.
+   *TC*) will be deposited in the cell.
 
 The outgoing sediment of a cell is distributed to one or two target pixels.
 The target cells are determined by the routing algorithm. The outgoing
@@ -57,6 +58,8 @@ Where:
 - *P*: erosion control factor (-, $\in[0,1]$)
 
 A detailed description of these factors is given :ref:`here <ruslefactors>`.
+
+.. _TC:
 
 Transport capacity calculation
 ==============================
