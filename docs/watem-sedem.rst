@@ -20,16 +20,14 @@ calculated by comparing the the total available sediment in the cell
 (incoming sediment + *E*) with the transport capacity.
 
 Two cases exist:
-
-- The total available sediment in a cell is lower than *TC*:
-    - the resulting mass balance is negative (the pixel can transport more than
-        the amount of sediment available to transport, so 'erosion' will occur)
-    - the outgoing sediment is set equal to the available sediment
-- The available sediment exceeds *TC*:
-    - the resulting mass balance is positive (enough sediment to transport,
-        some sediment will be 'deposited' in the cell)
-    - the outgoing sediment is equal to *TC* and (available sediment - TC)
-        will be deposited in the cell.
+ - The total available sediment in a cell is lower than *TC*: the resulting
+   mass balance is negative (the pixel can transport more than the amount of
+   sediment available to transport, so 'erosion' will occur). The outgoing
+   sediment is set equal to the available sediment
+ - The available sediment exceeds *TC*: the resulting mass balance is
+   positive (enough sediment to transport some sediment will be 'deposited' in
+   the cell). The outgoing sediment is equal to *TC* and (available sediment -
+   TC) will be deposited in the cell.
 
 The outgoing sediment of a cell is distributed to one or two target pixels.
 The target cells are determined by the routing algorithm. The outgoing
@@ -39,6 +37,7 @@ Pixel Y can receive sediment of multple pixels.
 This process is illustrated in figure (TO DO: create figure with pixel).
 
 .. _RUSLE:
+
 Mean annual soil erosion rate
 =============================
 
@@ -58,7 +57,6 @@ Where:
 - *P*: erosion control factor (-, $\in[0,1]$)
 
 A detailed description of these factors is given :ref:`here <ruslefactors>`.
-
 
 Transport capacity calculation
 ==============================
@@ -129,7 +127,7 @@ TO DO
 C-factor
 ########
 
-The crop erosivity factor (C-factor) is based on the concept of deviatgion
+The crop erosivity factor (C-factor) is based on the concept of deviation
 from a standard, in this case defined by a parcel under clean-tilled
 continuous-fallow conditions (Renard et al., 1997). It can be quantified
 as the ratio of the soil loss of a specific parcel with crop cover -
