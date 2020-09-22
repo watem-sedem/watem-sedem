@@ -80,6 +80,7 @@ When you want to use CN-WS from the command line you need a valid ini-file with 
 
 	C:\cn_ws\CN_WSmodel.exe C:\modelinput\catchment.ini-file
 	
-It is possible to run the executable of CN-WS in every directory by adding its location to the system variable PATH.  
+It is possible to run the executable of CN-WS in every directory by adding its location to the system variable PATH. 
+The model was tested on dutch ("," as a decimal seperator) and english ("." as a decimal seperator) language system computers. Both work, other language systems are not tested yet. 
 
 The :doc: `tutorial` gives a practical example how to use the model and is the best place to continue from here.
