@@ -17,14 +17,14 @@ Type
   FloatArray2 = array Of array Of Double;
 
 Function CalculateRe_singlevalue(Rainfall, CN, alpha, beta, I10, AR5, duration :double): double;
-Procedure CalculateRe(Var Remap:Rraster; Perceelskaart:Rraster ; CNmap:Rraster; alpha,beta:double);
+Procedure CalculateRe(Var Remap:Rraster; Perceelskaart:Graster ; CNmap:Rraster; alpha,beta:double);
 {Procedure CalculateRunoffAcc(var UpArea: RRaster; Remap: RRaster; PRC: GRaster);}
 Procedure ReadRainfallFile (Var Raindata: TRainRecordArray; Rainfallfilename: String);
 Procedure ReadText(filename:String; Var Z: FloatArray2; rowRain, colRain:integer);
 Function interp(xOriginal:IntegerArray; xNew:IntegerArray; yOriginal:FloatArray): FloatArray;
 Function extrap(xOriginal:IntegerArray; xNew:IntegerArray; yOriginal:FloatArray): FloatArray;
 Procedure CalculateTimeDependentRunoff(Remap: Rraster; RainData: TRainRecordArray; Routing:
-                                       TRoutingArray; PRC: Rraster);
+                                       TRoutingArray; PRC: Graster);
 Procedure CalculateRFactor;
 Function  calcRivSeg(RivSeg:GRaster): integer;
 Function is_outlet(i,j:integer): boolean;
@@ -513,7 +513,7 @@ End;
 // In this procedure the time dependent runoff is calculated
 //******************************************************************************
 Procedure CalculateTimeDependentRunoff(Remap: Rraster; RainData: TRainRecordArray; Routing:
-                                       TRoutingArray; PRC: Rraster);
+                                       TRoutingArray; PRC: Graster);
 
 Var 
   RunoffMap, RunoffInputMap, RunoffInputMap_temp, RoutedMap_temp, RainfallMap,
@@ -1239,7 +1239,7 @@ End;
 //This procedure calculates the amount of rainfall excess (=runoff) or rainfall
 //deficit (= amount of water that can re-infiltrate in the grid cell)
 //******************************************************************************
-Procedure CalculateRe(Var Remap:Rraster; Perceelskaart:Rraster; CNmap:Rraster; alpha, beta:double);
+Procedure CalculateRe(Var Remap:Rraster; Perceelskaart:Graster; CNmap:Rraster; alpha, beta:double);
 
 Var 
   i,j, nrowPRC, ncolPRC : integer;
