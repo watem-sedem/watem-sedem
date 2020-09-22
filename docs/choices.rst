@@ -2,6 +2,9 @@
 Model choices
 #############
 
+Most model choices are boolean options and are enabled in the .ini-file with "1" and disabled with "0". Some options expect a string value. 
+The possible strings are described togheter with the modeloption.
+
 Input
 *****
 
@@ -14,7 +17,7 @@ in the calculation of RUSLE and transport capacity (TC). The two L-models are:
 * Desmet and Govers (1996)
 * McCool et al. (1989, 1987)
 
-TO DO: formulas, units
+TO DO: formulas, units, dtype (string)
 
 S model
 #######
@@ -25,13 +28,15 @@ in the calculation of RUSLE and transport capacity (TC). The two S-models are:
 * Desmet and Govers (1996)
 * Nearing (1997)
 
-TO DO: formulas, units
+TO DO: formulas, units, dtype (string)
 
 Only Routing
 ############
 
 By enabling the Only Routing option, only the routing will be determined by CN-WS. No sediment calculations or discharge calculations are done:
 the WaTEM-SEDEM and CN modules are disabled. When using this option only :ref:`a limited model output <onlyroutingoutput>` is possible. 
+
+TO DO: why should you do this?
 
 .. _simple:
 
