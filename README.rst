@@ -20,7 +20,7 @@ create a tool that can quantify erosion, sediment/water run-off, and the
 effect of erosion mitigation measures on erosion & run-off to the river.
 
 The initial developments of WaTEM/SEDEM were initialised by KULeuven,
-department (`Departement of Earth and Environmental Sciences <https://ees
+department (`Department of Earth and Environmental Sciences <https://ees
 .kuleuven.be//>`_), before 2013. A key component in the computation of
 sediment transport to the river was
 the coupling of:
@@ -62,27 +62,29 @@ Model
 CN-WS has thee modus operandi: CN_WS, CN_WS_console and CN_WS_LongTerm.
 Typically the model is run in a command-line interface or a Graphical User
 Interface (GUI). Yet, since 2016, the GUI is not maintained. Users are thus
-adviced to use the command line version.
+advised to use the command line version.
 
-1. The CN_WS model is used simulate the erosion and sediment run-off for one
-rainfall event. This model can be used through the GUI. To start the model,
-use the "CN_WS" shortcut in the current folder. To view the underlying
-source code, open the CN_WS folder and:
-- open the different *.pas files in notepad
-- OR open Invoerform.lpi in lazarus
+ 1. The CN_WS model is used simulate the erosion and sediment run-off for one
+    rainfall event. This model can be used through the GUI. To start the model,
+    use the "CN_WS" shortcut in the current folder. To view the underlying
+    source code, open the CN_WS folder and:
+    - open the different .pas files in notepad
+    - OR open Invoerform.lpi in lazarus
 
-2. The CN_WS_console model is similar to CN_WS, but without GUI. This
-version can be used through WINDOWS commandline (see manual) (This model
-version is used by the long term version of the model to run each rainfall
-event). To view the underlying source code, open the CN_WS_console folder and:
-- open the different *.pas files in notepad
-- OR open CN_WSmodel.lpi in lazarus
-	
-3. The CN_WS_LongTerm is the long term version of the model; including GUI.
-To start the model, use the "CN_WS_LongTerm" shortcut in the current folder.
-To view the underlying source code, open the CN_WS_LongTerm folder and:
-- open the different *.pas files in notepad
-- OR open Invoerform.lpi in lazarus
+ 2. The CN_WS_console model is similar to CN_WS, but without GUI. This
+    version can be used through WINDOWS commandline (see manual) (This model
+    version is used by the long term version of the model to run each rainfall
+    event). To view the underlying source code, open the CN_WS_console folder
+    and:
+    - open the different .pas files in notepad
+    - OR open CN_WSmodel.lpi in lazarus
+
+ 3. The CN_WS_LongTerm is the long term version of the model; including GUI.
+    To start the model, use the "CN_WS_LongTerm" shortcut in the current
+    folder. To view the underlying source code, open the CN_WS_LongTerm
+    folder and:
+    - open the different .pas files in notepad
+    - OR open Invoerform.lpi in lazarus
 
 License
 =======
@@ -94,12 +96,13 @@ Documentation
 =============
 
 The documentation of this project is available at https://docs.fluves
-.net/cnws-pascal/. In this documentation, a theoretical background of the
-model and an overview of the model usage are given (see :ref:`here <model>`
-and :ref:`here <usage>`). Next, an :ref:`installation guide <installation>` and
-:ref:`tutorial <tutorial>` is presented.
+.net/cnws-pascal/. In this documentation, a theoretical background of the model
+and an overview of the model usage are given, and an installation
+guide followerd by a tutorial.
 
 
 References
 ==========
-Antea, 2016. Modellering van de sedimentaanvoer naar de waterlopen, het effect van erosiebestrijdingsmaatregelen en het transport van sediment in de onbevaarbare waterlopen. Antea Belgium NV, Antwerpen, Belgium.
+Antea, 2016. Modellering van de sedimentaanvoer naar de waterlopen, het
+effect van erosiebestrijdingsmaatregelen en het transport van sediment in de
+onbevaarbare waterlopen. Antea Belgium NV, Antwerpen, Belgium.
