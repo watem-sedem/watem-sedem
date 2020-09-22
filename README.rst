@@ -13,7 +13,8 @@ A short history of CN-WS
 =============================
 
 The sediment export model CN-WS was developed starting from the year 2013
-until 2016 by KULeuven in partnership with Antea Belgium, commissioned by
+until 2016 by KULeuven in partnership with `Antea Belgium
+<https://anteagroup.be/>`_, commissioned by
 the Flemish government (Antea, 2016). The aim of the development were to
 create a tool that can quantify erosion, sediment/water run-off, and the
 effect of erosion mitigation measures on erosion & run-off to the river.
@@ -30,13 +31,12 @@ the coupling of:
 
 Since 2016, the Flemish government commissioned further developments for
 CN-WS so it could become operational for management. Specifically, a number
-optimisations to the code were implemented to increase model
-performance, and allow a roll-out for Flanders. The latter is discussed in
-XXXX (TO DO: ref to CN_WS Python).
-
-A short history of CN-WS
-=============================
-
+optimisations to the code were implemented to increase model performance and
+allow a roll-out on the scale of Flanders. In addition, the model was
+recalibrated (Deproost et al., 2018) and a framework was developed for
+processing CN-WS input, outputs and user choices. At that point, CN-WS is
+submitted to versioning via git. These optimisation were executed by `Fluves
+<https://fluves.com/>`_.
 
 Model versions
 ==============
@@ -71,6 +71,7 @@ Documentation
 =============
 
 The documentation of this project is available at https://docs.fluves.net/cnws-pascal/
+
 
 References
 ==========
