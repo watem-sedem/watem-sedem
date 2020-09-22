@@ -107,11 +107,13 @@ Where :
 
 A second case arises when the watervolume in the buffer basin is larger than
 :math:`V_{basin}`. In this case the water will flow through the discharge pipe
-as via the overflow of the dam.
+:math:`R_{opening}` as via the overflow of the dam :math:`R_{overflow}`.
 
 .. math::
     R = R_{opening} + R_{overflow}
+
     R_{opening} = Q_{max}.dt
+
     R_{overflow} = C_d.W_{dam}.\sqrt{g}.h(t)^{3/2}.dt
 
 Where:
