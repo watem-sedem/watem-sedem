@@ -2,6 +2,9 @@
 Model choices
 #############
 
+Most model choices are boolean options and are enabled in the .ini-file with "1" and disabled with "0". Some options expect a string value. 
+The possible strings are described togheter with the modeloption.
+
 Input
 *****
 
@@ -14,6 +17,8 @@ in the calculation of RUSLE and transport capacity (TC). The two L-models are:
 * Desmet and Govers (1996)
 * McCool et al. (1989, 1987)
 
+TO DO: formulas, units, dtype (string)
+
 S model
 #######
 
@@ -23,18 +28,22 @@ in the calculation of RUSLE and transport capacity (TC). The two S-models are:
 * Desmet and Govers (1996)
 * Nearing (1997)
 
+TO DO: formulas, units, dtype (string)
+
 Only Routing
 ############
 
 By enabling the Only Routing option, only the routing will be determined by CN-WS. No sediment calculations or discharge calculations are done:
 the WaTEM-SEDEM and CN modules are disabled. When using this option only :ref:`a limited model output <onlyroutingoutput>` is possible. 
 
+TO DO: why should you do this?
+
 .. _simple:
 
 Simple
 ######
 
-When the option 'Simple' is enabled, only WaTEM-SEDEM is used and the CN-model is disabled. By disabling Simple, you will use the CN model. 
+When the option 'Simple' is enabled, only WaTEM-SEDEM is used and the CN-model is disabled. By disabling Simple, you will use the full the CN-WS model. 
 
 .. _calctileros:
 
@@ -92,12 +101,16 @@ variable `number of buffers` and a seperate section for every buffer in the buff
 The Include buffers option adjusts the routing in the pixels. All pixels within a buffer with the buffer extension id are routed to the outletpixel of the buffer. This outletpixel
 in the bufferraster is marked with the buffer id. The amount of sediment that flows out of the bufferoutlet is reduced with the trapping efficiency of the buffer.
 
+TO DO: ktc and C-factor at these pixels
+
 .. _includeditches:
 
 Include ditches
 ###############
 
 Ditches alter the sediment flow. The sediment will follow the course of a ditch in stead of along the steepest slope.
+
+TO DO: ktc and C-factor at these pixels
 
 .. _includedams:
 
@@ -106,14 +119,16 @@ Include dams
 
 Same principle as include ditches, but differences in C-factor and ktc
 
+TO DO: ktc and C-factor at these pixels
+
 Force Routing
 #############
 
 When the routing based on the built-in rules of the model is not correct (e.g. in the neighbourhood of infrastructure) the user has the possibility to impose the routing.
-This is done by enabling the Force Routing option. With force routing the routing algorithm will use the routing imposed by the user in stead of the digital elevation model.
+This is done by enabling the Force Routing option. With force routing the routing algorithm will use the routing imposed by the user instead of the digital elevation model.
 
 When `Force Routing = 1` the user will have to provide additional input: the variable `number of force routing` and a seperate
-section for every routing vector the user wants to add. `number of force routing` contains an integer value with the amount of routing vectors that are imposed by the user.
+section for every routing vector the user wants to add. `Number of force routing` contains an integer value with the amount of routing vectors that are imposed by the user.
 
 An example of a valid forced routing section looks like
 
@@ -137,10 +152,10 @@ By enabling the river routing option, the routing between river pixels is impose
 This option is usefull because the calculated routing in a river, based on the digital elevation model, is not always correct.
 
 Following input-files are required when `River Routing = 1`:
-- river segement filename
-- river routing filename
-- adjectant segments
-- upstream segments
+* river segement filename
+* river routing filename
+* adjectant segments
+* upstream segments
 
 When this option is disabled, the model will use the digital elevation model to determine the routing between all river pixels.
 
@@ -188,14 +203,19 @@ Manual outlet selection
 #######################
 
 By default, the model will determine the outlet pixel as the lowest (river) pixel within the model domain. However, by setting `Manual outlet selection = 1`,
-the model expects an outlet raster: an integer raster where the outletpixels are numbered from 1 to n. The user has to provide this input file.
+the model expects an :ref:`outlet raster <outletmap>`: an integer raster where the outletpixels are numbered from 1 to n. The user has to provide this input file.
 
 .. _useR:
 
 use r factor
 ############
 
-TO DO
+WaTEM-SEDEM requires an :ref:`R-factor <rfactor>` for the RUSLE calculation. When `Use R factor = 1`, the user will have to define the :ref:`R factor <rfactor_var>` himself.
+
+CN-WS is able to calculate an R-factor from a timeseries of rainfall data. This R-factor represents the erosivity of the rainfall event that is simulated by the model. 
+To use this option, the user has to set `Use R factor = 0` and must define the :ref:`rainfall file <rainfallfile>`. 
+
+(TO DO: add information about how R-factor is calculated?)
 
 Output
 ******

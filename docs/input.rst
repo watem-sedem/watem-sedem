@@ -23,7 +23,7 @@ Files
 =====
 
 All input rasters must be `Idrisi-rasters <https://gdal.org/drivers/raster/Idrisi.html>`_ and must have the same amount of columns, rows and cellsize. 
-If one of the  input rasters has a different spatial extent, the model will raise an exception and will stop the excecution. 
+If one of the  input rasters has a different spatial extent, the model will raise an exception and will stop the execution. 
 
 Idrisi-rasters are the native file format of Idrisi gis, but can be opened, edited and saved with almost every GIS-package like QGIS or SAGA-GIS, 
 thanks to the `GDAL library <https://gdal.org>`. 
@@ -31,12 +31,12 @@ thanks to the `GDAL library <https://gdal.org>`.
 DTM filename
 ************
 
-Filename of the raster with a digital terrain model (DTM). This raster contains at least for every pixel inside the model domain or catchment an elvation value in meters. 
+Filename of the raster with a digital terrain model (DTM). This raster contains at least for every pixel inside the model domain or catchment an elevation value in meters. 
 The idirisi raster must be formatted as float32.
 
 .. note::
 	CN-WS does not take nodata values (e.g. -9999) into account. When a nodata value in the dtm raster is encountered, it is considered as an elevation. Consequently, slopes
-	are calculated wrong. Thus, the user must take care all pixels in the model domain have an elevation value, but at least two pixels outside the model domain have correct elevation data.
+	are calculated wrong. Thus, the user must ensure all pixels in the model domain have an elevation value, and that at least two pixels outside the model domain have a valid elevation value.
 
 .. _prcmap:
 
@@ -44,7 +44,8 @@ Parcel filename
 ***************
 
 Filename of the Parcel or Landuse map. CN-WS requires information about landuse and parcel boundaries in the routing algorithm, but also when distributing the sediment through
-the model domain. Every pixel in the model domain must contain a landuse value. Every value > 0 indicates a unique agricultural field. So, all pixels of an agricultural field have the same value. 
+the model domain. Every pixel in the model domain must contain a landuse value. Every value > 0 indicates a unique agricultural field. So, all pixels of an agricultural field have the same value et pixels belonging to a different parcel have different value. 
+The definition of these unique parcel values are important to define the routing within a parcel.
 
 +----------------------+-----------+
 |Landuse class         | pixel id  | 
@@ -104,6 +105,8 @@ Buffer map filename
 
 Filename of the buffer map. This raster is only mandatory when :ref:`Include buffers = 1 <includebuffers>`.
 
+TO DO: figure with example bufid/buf extionsion id.
+
 The datatype of the buffermap is integer16.
 
 Ditch map filename
@@ -111,15 +114,25 @@ Ditch map filename
 
 Filename of the ditch map. This raster is only mandatory when :ref:`Include ditches = 1 <includeditches>`
 
+TO DO: dataype raster
+
+TO DO: figure with example routing
+
 Dam map filename
 ****************
 
 Filename of the dam map. This raster is only mandatory when :ref:`Include dams = 1 <includedams>`
 
+TO DO: dataype raster
+
+TO DO: figure with example routing
+
 P factor map filename
 *********************
 
-Filename of the P-factor map. 
+Filename of the :ref:`P-factor <pfactor>` map. 
+
+TO DO: dataype raster
 
 River segment filename
 **********************
@@ -158,6 +171,8 @@ This raster contains a CN-value for every pixel in the model domain.
 
 TO DO: datatype map?
 
+.. _outletmap:
+
 Outlet map filename
 *******************
 
@@ -177,10 +192,12 @@ This raster is only mandatory when :ref:`Create ktil map = 0 <createktil>`.
 
 TO DO: dataype map?
 
+.. _rainfallfile:
+
 Rainfall filename
 *****************
 
-Filename of a textfile with rainfall values. The text file contains a table (tab delimeted) with two columns without header.
+Filename of a textfile with rainfall values. The text file contains a table (tab-delimeted) with two columns without header.
 The first column contains the time in minutes (starting from 0), the second column contains the rainfall in mm. 
 
 The rainfall file is only mandatory when :ref:`Use R = 0 <useR>`.
@@ -188,13 +205,13 @@ The rainfall file is only mandatory when :ref:`Use R = 0 <useR>`.
 K factor filename
 *****************
 
-Filename of the K-factor map. The soil erosivity factor or K-factor of the RUSLE-equation for every pixel
+Filename of the :ref:`K-factor <kfactor>` map. The soil erosivity factor or K-factor of the RUSLE-equation for every pixel
 in the modeldomain is stored in the K-factor map (kg.h/MJ.mm). 
 
 C factor map filename
 *********************
 
-Filename of the C-factor map. This raster contains values between 0 and 1 and represent the dimensionless C-factor in the RUSLE equation. 
+Filename of the :ref:`C-factor <cfactor>` map. This raster contains values between 0 and 1 and represent the dimensionless C-factor in the RUSLE equation. 
 Pixels outside the modeldomain are set to zero.
 
 The dataype of the outlet map is float32.
@@ -248,16 +265,18 @@ bulk density
 ************
 
 The average bulk density (in kg/m³) of the soil in the catchment (integer). This value is used to convert
-the mass of transported sediment to volumes. A good default value for belgium is 1350 kg/m³.
+the mass of transported sediment to volumes. A good default value for Belgium is 1350 kg/m³.
+
+.. _rfactor_var:
 
 R factor
 ********
 
-The R-factor or rainfall erosivity factor in the RUSLE equation (float, in MJ.mm/ha.h.year). 
+The :ref:`R-factor <rfactor>` or rainfall erosivity factor in the RUSLE equation (float, in MJ.mm/ha.h.year). 
 This value is only mandatory when :ref:`Use R = 0 <useR>`.
 
 .. note::
-	the user must make sure that the R and C-factor represent the same time duration (year or month). 
+	the user must make sure that the R and C-factor are calculated for the same time span (year, month, week,...). 
 
 LS correction
 *************

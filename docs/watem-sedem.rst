@@ -15,7 +15,7 @@ by comparing the the total available sediment in the cell (incoming sediment + *
 Two cases exist:
 
 - The total available sediment in a cell is lower than *TC*: 
-	- the resulting mass balance is negative (too little sediment available to transport, so 'erosion' will occur)
+	- the resulting mass balance is negative (the pixel can transport more than the amount of sediment available to transport, so 'erosion' will occur)
 	- the outgoing sediment is set equal to the available sediment
 - The available sediment exceeds *TC*:
 	- the resulting mass balance is positive (enough sediment to transport, some sediment will be 'deposited' in the cell)
@@ -30,7 +30,7 @@ Mean annual soil erosion rate
 =============================
 
 For every pixel in the model domain or catchment, the mean annual soil erosion rate is calculated with an adapted version of the RUSLE (Revised Universal Soil Loss Equation, Renard et al., 1997). 
-The mean annual soil erosion rate *E* (kg/m²/year) is calculated by
+The mean annual soil erosion rate *E* (kg/pixel/year) is calculated by
 
 	*E = R.K.LS.C.P*
 	
@@ -48,15 +48,15 @@ A detailed description of these factors is given :ref:`here <ruslefactors>`.
 Transport capacity calculation
 ==============================
 
-For every grid cell the transport capacity *TC* (kg/m/year)  is calculated by
+For every grid cell the transport capacity *TC* (TO DO: units)  is calculated by
 	
 	*TC = kTC.R.K.(LS - 4.12...)*
 	
 Where:
 
-- *kTC*: calibration factor
+- *kTC*: calibration factor (TO DO: units)
 - *R*: rainfall erosivity factor (MJ mm m-² h-1 a-1)
-- *K*: soil erodibility factor (ton 
+- *K*: soil erodibility factor (TO DO: units) 
 - *LS*: topgographical slope and length factor
 
 A detailed description of these factors is given :ref:`here <ruslefactors>`.
@@ -74,25 +74,35 @@ RUSLE factors
 
 In this paragraph the different parameters of the RUSLE equation (Renard et al., 1997) are described.
 
+.. _rfactor:
+
 R-factor
 ########
 
 TO DO
+
+.. _kfactor:
 
 K-factor
 ########
 
 TO DO
 
+.. _lsfactor:
+
 LS-factor
 #########
 
 TO DO
 
+.. _cfactor:
+
 C-factor
 ########
 
 TO DO
+
+.. _pfactor:
 
 P-factor
 ########

@@ -2,40 +2,44 @@
 Model output
 ############
 
-In this section we will describe all possible modeloutput of the CN-WS model. Tables are written as txt-files, rasters are written as `Idrisi-rasters <https://gdal.org/drivers/raster/Idrisi.html>`_.
+In this section we will describe all possible outputs of the CN-WS model. Tables are written as tab-delimited txt-files, rasters are written as `Idrisi-rasters <https://gdal.org/drivers/raster/Idrisi.html>`_.
 
-The created model output depends on the userchoices in in the ini-file. 
+The created model output depends on the userchoices in the ini-file. 
 
 .. _onlyroutingoutput:
 
 Routing only output
 ###################
 
-When the user chooses to only use the routing algorithm of the cn-ws model, following output can be generated.
+Folllowing output can be generated when only the ‘routing only’ option in the user choices is set to 1:
 
 .. _routingtxt:
 
 routing.txt
 ***********
 
-Tab seperated table wich contains a row for every pixel in the spatial domain. For every pixel (row in the table) the following collumns are present:
+Tab-delimited table wich contains a row for every pixel in the spatial domain. Following columns are present for every pixel (every pixel is a row in the table):
 
 * col, row: the position of the pixel in the raster
-* target1col, target1row: the position of the first targetpixel in the raster. These values are -99 if target1 does not exist.
+* target1col, target1row: the position of the first target pixel in the raster. These values are -99 if target1 does not exist.
 * part1: the relative amount of outgoing sediment/water to the first target pixel
-* distance1: the distance (in m) between the sourcepixel and the first target pixel
-* target2col, target2row: the position of the second targetpixel in the raster. These values are -99 if target2 does not exist.
-* part2: the relative amount of outgoing sediment/water to the second target pixel. Togheter with part1 the sum must be 1.
-* distance2: the distance (in m) between the sourcepixel and the second target pixel
+* distance1: the distance (in m) between the source pixel and the first target pixel
+* target2col, target2row: the position of the second target pixel in the raster. These values are -99 if target2 does not exist.
+* part2: the relative amount of outgoing sediment/water to the second target pixel. Together with part1 the sum must be 1.
+* distance2: the distance (in m) between the source pixel and the second target pixel
 
 The routing table is only generated when :ref:`write routing table = 1 <writerouting>`.
+
+TO DO: col/row orientation.
 
 .. _missingroutingtxt:
 
 routing_missing.txt
 *******************
 
-Tab seperated table with the same headers as :ref:`routing.txt <routingtxt>`. The entries in the table are a subset of those in routing.txt and are only included if...
+Tab-delimited table with the same headers as :ref:`routing.txt <routingtxt>`. The entries in the table are a subset of those in routing.txt and are only included if...
+
+TO DO: extend documentation of routing_missing.txt
 
 The routing table is only generated when :ref:`write routing table = 1 <writerouting>`.
 
@@ -51,7 +55,7 @@ to do
 LS.rst
 ******
 
-Raster with the calculated LS-factor (dimensionless). This raster is only written if :ref:`write ls factor = 1 <writels>`.
+Raster with the calculated :ref:`LS-factor <lsfactor>` (dimensionless). This raster is only written if :ref:`write ls factor = 1 <writels>`.
 
 .. _aspectmap:
 
@@ -79,7 +83,7 @@ Raster with the total upstream area (m²) for every pixel. This raster is only w
 WaTEM-SEDEM output
 ##################
 
-When the WaTEM-SEDEM model is used (:ref:`simple = 1 <simple>`), the following rasters and tables can be written as output.
+When WaTEM-SEDEM or the full CN-WS model is used, the following rasters and tables can be written as output.
 
 .. _totalsedimenttxt:
 
@@ -87,6 +91,7 @@ Total Sediment.txt
 ******************
 
 Txt-file where the first five rows give a summary of the results:
+
 * Total erosion (kg): the total amount of sediment eroded in the landscape. 
 * Total deposition (kg): the total amount of sediment deposited in the landscape (not entering sewers or rivers)
 * Sediment leaving the catchment, via the river (kg): the amount of sediment that enters all riverpixels
@@ -100,7 +105,7 @@ The file contains from 9th row on a tab-seprated table where for every outlet th
 Total Sediment VHA.txt
 **********************
 
-Tab seperated table. Every row contains the id of a river segment and the total amount of sediment (kg) entering the segment.
+Tab-delimited table. Every row contains the id of a river segment and the total amount of sediment (kg) entering the segment.
 This table is only generated when :ref:`Output per VHA river segment = 1 <outputVHA>`.
 
 .. _cumsedvhatxt:
@@ -115,7 +120,7 @@ This table is only generated when :ref:`Output per VHA river segment = 1 <output
 Clay content sediment.txt
 *************************
 
-Tab seperated table with the mean clay content (%) at every outlet. This table is only generated when :ref:`estimate clay content = 1 <estimclay>`.
+Tab-delimited table with the mean clay content (%) at every outlet. This table is only generated when :ref:`estimate clay content = 1 <estimclay>`.
 
 .. _cumulativerst:
 

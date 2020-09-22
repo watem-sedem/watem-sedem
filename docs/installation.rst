@@ -68,7 +68,8 @@ Building on Windows
 
 To build CN-WS on windows, you need to install the Lazarus IDE first. You can download it on https://www.lazarus-ide.org/
 
-Open the project in lazarus and build the executable. The executable can be run without further installation. 
+Open the project in lazarus (open the .lpi file) and build the executable (Shift + F9). The executable is stored in the same folder as the .lpi file and 
+can be run without further installation. 
 
 Running CN-WS
 *************
@@ -78,5 +79,8 @@ When you want to use CN-WS from the command line you need a valid ini-file with 
 .. code-block:: shell
 
 	C:\cn_ws\CN_WSmodel.exe C:\modelinput\catchment.ini-file
+	
+It is possible to run the executable of CN-WS in every directory by adding its location to the system variable PATH. 
+The model was tested on dutch ("," as a decimal seperator) and english ("." as a decimal seperator) language system computers. Both work, other language systems are not tested yet. 
 
 The :doc: `tutorial` gives a practical example how to use the model and is the best place to continue from here.

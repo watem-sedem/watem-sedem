@@ -11,7 +11,9 @@ CN-WS was inititially develloped at KU Leuven by
 * Jeroen Digerickx
 * and many, many students
 
-Currently, the development is mosly done at `Fluves`_, funded by the Department of Omgeving of the Flemish Government.
+Currently, the development is mosly done at `Fluves <www.fluves.com>`, funded by two organisations the Flemish Government:
+- Vlaams Plan Bureau, Department of Omgeving
+- Vlaamse Milieu Maatschappij
 
 Development Lead
 ----------------
@@ -29,4 +31,3 @@ Contributors
 
 Why not join?
 
- _Fluves: http://www.fluves.com
