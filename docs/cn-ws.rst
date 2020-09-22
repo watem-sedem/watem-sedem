@@ -65,10 +65,6 @@ TO DO
 References
 ==========
 
-- Renard K.G., Foster G.R., Weesies G.A., McCool D.K., Yoder D.C. (1997)
-  Predicting soil erosion by water: a guide to conservation planning with the
-  Revised Universal Soil Loss Equation (RUSLE). USDA Agricultural Handbook 703.
-  `link1 <https://www.ars.usda.gov/ARSUserFiles/64080530/RUSLE/AH_703.pdf>`_
 - Van Oost, K., Govers, G. & Desmet, P.J.J (2000) Evaluating the effects of
   changes in the landscape structure on soil erosion by water and tillage.
   Landscape Ecology 15, 577-589.
