@@ -57,27 +57,28 @@ and outputs. In order to this, this set of minimal skills is required:
  - Opening raster data in QGIS, ArcGIS or your favorite GIS program.
 
 Model
-==============
+=====
 
 CN-WS has thee modus operandi: CN_WS, CN_WS_console and CN_WS_LongTerm.
-Typically the model is run in a command-line interface,
+Typically the model is run in a command-line interface or a Graphical User
+Interface (GUI). Yet, since 2016, the GUI is not maintained. Users are thus
+adviced to use the command line version.
 
 1. The CN_WS model is used simulate the erosion and sediment run-off for one
-rainfall event.
-graphical user interface (GUI).
-To start the model, use the "CN_WS" shortcut in the current folder. 
-To view the underlying source code, open the CN_WS folder and:
+rainfall event. This model can be used through the GUI. To start the model,
+use the "CN_WS" shortcut in the current folder. To view the underlying
+source code, open the CN_WS folder and:
 - open the different *.pas files in notepad
 - OR open Invoerform.lpi in lazarus
 
-2. CN_WS_console = same model as CN_WS, but without GUI.
-This version can be used through WINDOWS commandline (see manual).
-(This model version is used by the long term version of the model to run each rainfall event).
-To view the underlying source code, open the CN_WS_console folder and:
+2. The CN_WS_console model is similar to CN_WS, but without GUI. This
+version can be used through WINDOWS commandline (see manual) (This model
+version is used by the long term version of the model to run each rainfall
+event). To view the underlying source code, open the CN_WS_console folder and:
 - open the different *.pas files in notepad
 - OR open CN_WSmodel.lpi in lazarus
 	
-3. CN_WS_LongTerm = long term version of the model; including GUI.
+3. The CN_WS_LongTerm is the long term version of the model; including GUI.
 To start the model, use the "CN_WS_LongTerm" shortcut in the current folder.
 To view the underlying source code, open the CN_WS_LongTerm folder and:
 - open the different *.pas files in notepad
