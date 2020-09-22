@@ -34,9 +34,9 @@ timestep as:
 
 With:
 
-- *SC*, the sediment concentration (g/l)
-- *SV*, the sedimentload (kg)
-- *R*, the run-off (m^3)
+- *SC*, the sediment concentration (:math:`g.l^{-1}`)
+- *SV*, the sedimentload (:math:`kg`)
+- *R*, the run-off (:math:`m^{3}`)
 
 Additional model features
 =========================
@@ -56,7 +56,7 @@ TO DO
 Dams and ditches
 ****************
 
-Dams and ditches change the direction of water and sediment transport and, thus,
+Dams and ditches influence the direction of water and sediment transport and, thus,
 alter the routing. The routing along a dam or ditch is incorporated in the
 routing algorithm. A detailed explaination about these functionalities is given
 in the user choices section.
