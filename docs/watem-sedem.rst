@@ -45,17 +45,18 @@ Mean annual soil erosion rate
 For every pixel in the model domain or catchment, the mean annual soil
 erosion  rate is calculated with an adapted version of the RUSLE (Revised
 Universal Soil Loss Equation, Renard et al., 1997). The mean annual soil
-erosion rate *E* (kg. m$^{-2}$. year$^{-1}$) is calculated by
+erosion rate *E* (:math:`\frac{\text{kg}}{\text{m}^{2}.\text{year}}`) is calculated by
 
-	*E = R.K.LS.C.P*
+.. math::
+    E = R.K.LS.C.P
 
 Where:
 
-- *R*: rainfall erosivity factor (MJ. mm. m$^{-2}$. h$^{-1}$. year$^{-1}$)
-- *K*: soil erodibility factor (kg. h. MJ$^{-1}$. mm$^{-1}$)
+- *R*: rainfall erosivity factor (:math:`\frac{\text{MJ.mm}}{\text{m}^2.\text{h.year}}`)
+- *K*: soil erodibility factor (:math:`\frac{\text{kg.h}}{\text{MJ.mm}}`)
 - *LS*: topgographical slope and length factor (-)
-- *C*: crop erosivity factor (-, $\in[0,1]$)
-- *P*: erosion control factor (-, $\in[0,1]$)
+- *C*: crop erosivity factor (-, :math:`\in [0,1]`)
+- *P*: erosion control factor (-, :math:`\in [0,1]`)
 
 A detailed description of these factors is given :ref:`here <ruslefactors>`.
 
@@ -64,25 +65,23 @@ A detailed description of these factors is given :ref:`here <ruslefactors>`.
 Transport capacity calculation
 ==============================
 
-For every grid cell the transport capacity *TC* (kg m$^{-1}$ year$^{-1}$)
+For every grid cell the transport capacity *TC* (:math:`\frac{\text{kg}}{\text{m.year}}`)
 is calculated by:
 
-	*TC = kTC.R.K.(LS - 4.12.S$_g$^{0.8}$)*
+.. math::
+    TC = kTC.R.K.(LS - 4.12.S_g^{0.8})
 
 Where:
 
 - *kTC*: transport capacity coeffient (m)
-- *R*: rainfall erosivity factor (MJ. mm. m$^{-2}$. h$^{-1}$. year$^{-1}$)
-- *K*: soil erodibility factor (kg. h. MJ$^{-1}$. mm$^{-1}$)
-- *LS*: topographical slope and length factor (-)
-- *S$_g$*: local slope (m. m$^{-1}$)
+- :math:`S_g`: local slope (:math:`\frac{\text{m}}{\text{m}}`)
 
 A detailed description of these factors is given :ref:`here <ruslefactors>`.
 It is important to note that the *kTC* factor is identified as a calibration
 factor. In addition, in order to compare *TC* with the available sediment in
-a pixel (see :ref:`here <Concept>`), units are converted to kg pixel$^{-1}$
-or m$^3$ pixel$^{-1}$ by making use of the model resolution (m) and bulk
-density (kg m$^{-1}$)
+a pixel (see :ref:`here <Concept>`), units are converted to :math:`\frac{\text{kg}}{\text{pixel}}`
+or :math:`\frac{\text{m}^3}{\text{pixel}}` by making use of the model resolution (m) and bulk
+density (:math:`\frac{\text{kg}}{\text{m}^3}`)
 
 
 Tillage erosion
@@ -107,9 +106,9 @@ The erosive power of rainfall is quantified in the rainfall erosivity factor
 events within a defined timeframe (year, month, number of days). The factor
 is computed by calculating the depth of rainfall (mm) and the kinetic energy
 of one event. For applications of the rainfall erosivity factor in the
-context of Flanders a value of 870 MJ mm  ha$^{-1}$  h$^{-1}$ jaar$^{-1}$ is
+context of Flanders a value of 870 :math:`\frac{\text{MJ.mm}}{\text{ha.h.year}}` is
 used since 2006 (Verstraeten et al., 2006). Recently, this value has been
-updated to 1250 MJ. mm. m$^{-2}$. h$^{-1}$ year$^{-1}$ (Deproost et al., 2018)
+updated to 1250 :math:`\frac{\text{MJ.mm}}{\text{ha.h.year}}` (Deproost et al., 2018)
 
 .. _kfactor:
 
