@@ -40,22 +40,6 @@ processing CN-WS input, outputs and user choices. At that point, CN-WS is
 submitted to versioning via git. These optimisation were executed by `Fluves
 <https://fluves.com/>`_.
 
-
-For who is this page?
-=====================
-
-This page aims to explain how the CN-WS model can be run for a given case
-study, and which output can be analysed to study the specific case. In
-addition, it aims to explain how a specific run for case study can be set-up
-(i.e. which input data are needed? in which format?). Finally, this page is
-the location for background information on model concepts, options, inputs
-and outputs. In order to this, this set of minimal skills is required:
-
-- Basic command line skills (know how to open your command line, and run an
-  executable).
-- Opening text files in a text editor.
-- Opening raster data in QGIS, ArcGIS or your favorite GIS program.
-
 Model
 =====
 
