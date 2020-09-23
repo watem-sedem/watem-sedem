@@ -56,12 +56,13 @@ in the landscape. These constructions are temporary storages of water and
 sediment is deposited in them. The delayed water run-off and sediment deposition
 is included in the model.
 
-All sediment entering the pixels of a buffer is multiplied with the sediment
-trapping efficiency of the buffer. This trapping efficiency is the fraction of
-the incoming sediment that is trapped in the buffer basin.
+In the WaTEM-SEDEM part of CN-WS, all sediment entering the pixels of a buffer
+is multiplied with the sediment trapping efficiency of the buffer. This trapping
+efficiency is the fraction of the incoming sediment that is trapped in the
+buffer basin.
 
 The delayed water run-off is based on the report of Meert and Willems (2013) and
-uses following principles.
+uses following principles in the CN-model in CN-WS:
 
 Water will only flow out of a buffer basin when the water height in the basin
 exceeds the height of discharge pipe of the buffer. Therefore, the dead
@@ -73,14 +74,14 @@ volume, :math:`V_{dead}`, is calculated by
 
 Where:
 
-- :math:`H_opening` is the height of the opening of the discharge pipe of the
+- :math:`H_{opening}` is the height of the opening of the discharge pipe of the
   buffer basin (m)
-- :math:`H_dam` is the height of the dam of the buffer basin (m)
-- :math:`V_basin` is the maximum volume of water that can be trapped in the
+- :math:`H_{dam}` is the height of the dam of the buffer basin (m)
+- :math:`V_{basin}` is the maximum volume of water that can be trapped in the
   bufferbasin (:math:`m^{3}`).
 
 Two cases exist. A first case can be defined as when the watervolume in the
-buffer basin is larger than :math:`V_{dead}`, but smaller than :math:`V_basin`,
+buffer basin is larger than :math:`V_{dead}`, but smaller than :math:`V_{basin}`,
 the water will flow through the discharge pipe acording to
 
 .. math::
@@ -89,7 +90,7 @@ the water will flow through the discharge pipe acording to
 where:
 
 - :math:`R(t)` is the amount of run-off during timestep t (:math:`m^{3}`)
-- :math:`Q_{max}` is the maximum discharge(:math:`m^{3} s^{-1}`)
+- :math:`Q_{max}` is the maximum discharge (:math:`m^{3} s^{-1}`)
 - :math:`V(t)`, the volume of water present in the buffer basin at timestep t
   (:math:`m^{3}`)
 - :math:`dt`, the timestep (s)
