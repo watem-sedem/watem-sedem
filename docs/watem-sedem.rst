@@ -50,7 +50,7 @@ erosion rate :math:`E` (:math:`\frac{\text{kg}}{\text{m}^{2}.\text{year}}`) is c
 .. math::
     E = R.K.LS.C.P
 
-Where:
+with
 
 - :math:`R`: rainfall erosivity factor (:math:`\frac{\text{MJ.mm}}{\text{m}^2.\text{h.year}}`)
 - :math:`K`: soil erodibility factor (:math:`\frac{\text{kg.h}}{\text{MJ.mm}}`)
@@ -71,7 +71,7 @@ is calculated by:
 .. math::
     TC = kTC.R.K.(LS - 4.12.S_g^{0.8})
 
-Where:
+with
 
 - :math:`kTC`: transport capacity coeffient (m)
 - :math:`S_g`: local slope (:math:`\frac{\text{m}}{\text{m}}`)
@@ -102,10 +102,25 @@ In this paragraph the different parameters of the RUSLE equation (Renard et al.
 R-factor
 ########
 The erosive power of rainfall is quantified in the rainfall erosivity factor
-:math:`kTC`. This is a measure for the total erosivity of a number of rainfall
+:math:`R`. This is a measure for the total erosivity of a number of rainfall
 events within a defined timeframe (year, month, number of days). The factor
-is computed by calculating the depth of rainfall (mm) and the kinetic energy
-of one event. For applications of the rainfall erosivity factor in the
+is computed by calculating for every year the sum of the depth of rainfall (mm) and the kinetic energy
+for every rainfall event, and taking the mean over all years:
+
+.. math::
+
+    R = \frac{1}{n}\sum_{j=1}^{n}[\sum_{k=1}^{m_j}E_k.(I_{30})_k]_j
+
+with
+
+ - :math:`n`, increment :math:`j` =  number of years
+ - :math:`m_j`, increment :math:`k` =  number of rain event in year :math:`j`
+ - :math:`E` = the total kinetic energy of one single rain event (:math:`\sum_{r=1}^0 e_r \Delta V_r`).
+    + There are a number of ways to compute the rain energy per unit depth :math:`e_r` (:math:`\text{J.m}^{-1}\text{mm}^{-1}`), see Verstraeten et al. (2006) and  Panagos et al. (2015).
+    + :math:`\Delta V_r` is the rain depth (mm).
+ - :math:`I_{30}` is the maximum rain intensity recorded within 30 consecutive minutes.
+
+For applications of the rainfall erosivity factor in the
 context of Flanders a value of 870 :math:`\frac{\text{MJ.mm}}{\text{ha.h.year}}` is
 used since 2006 (Verstraeten et al., 2006). Recently, this value has been
 updated to 1250 :math:`\frac{\text{MJ.mm}}{\text{ha.h.year}}` (Deproost et al., 2018)
@@ -122,22 +137,25 @@ TO DO
 LS-factor
 #########
 
-Erosion increases as the slope length (:math:`L`) and slope gradient (:math:`S`) increases. The effects of these factors are typically evaluated together. In the CN-WS model, contrary to the original RUSLE model, the LS-factor is computed by considering the 2-D stream flow algorithm in the CN-WS (Desmet and Govers, 1996). This allows for computing concentrated erosion flow, such as rill and gully erosion.
+Erosion increases as the slope length (:math:`L`) and slope gradient (:math:`S`) increases. The effects of these factors are typically evaluated together. In the CN-WS model, contrary to the original RUSLE model, the LS-factor is computed by considering the two-dimensional stream flow algorithm of CN-WS (Desmet and Govers, 1996). This allows for computing concentrated erosion flow, such as rill and gully erosion.
 
-The topographic length factor (L-factor) can be computed by using the formulation of Desmet and Govers (1996), considering the upstream area (:math:`A\text{ m}^2`) for every raster pixel:
+The topographic length factor (L-factor) can be computed by using the formulation of Desmet and Govers (1996), considering the upstream area (:math:`A`, :math:`\text{m}^2`) for every raster pixel:
 
 .. math::
     L = \frac{(A+D^2)^{m+1}-A^{m+1}}{D^{m+2}.x^m.22,13^m}
 
-with:
+with
 
-:math:`D` = grid resolution (m)
-:math:`m` = length exponent.
-:math:`x` = factor incorporating the flow direction.
+ - :math:`D` = grid resolution (m)
+ - :math:`m` = length exponent.
+ - :math:`x` = factor incorporating the flow direction.
 
-For the computation of :math:`m` and :math:`x`,, we refer to Deproost et al. (2018). The upstream area in a pixel is determined by the stream flow algorithm, by considering a parcel trapping efficiency and the parcel connectivity. The parcel trapping efficiency (PTEF) is used to potentially reduce the upstream area. It typically varies as a function of a number of land-use categories, e.g. forest, agriculture and infrastructure. For pixels with a land-use 'agriculture', the PTEF is typically set to 0. The parcel connectivity quantifies the flow amount, expressed in upstream area, that flows from an upstream to a downstream parcel (Notebaert et al., 2006). The upstream area is multiplied with a factor equal to the parcel connectivity. The parcel connectivity typically varies as a function of the land-use of the target pixel (Deproost et al., 2018).
+For the computation of :math:`m` and :math:`x`, we refer to Deproost et al. (2018). The upstream area in a pixel is determined by the stream flow algorithm, by considering a parcel trapping efficiency and the parcel connectivity. The parcel trapping efficiency (PTEF) is used to potentially reduce the upstream area. The PTEF typically varies as a function of a number of land-use categories, *e.g.* forest, agriculture and infrastructure. For pixels with a land-use 'agriculture', the PTEF is typically set to zero. The parcel connectivity quantifies the flow amount, expressed in upstream area, that flows from an upstream to a downstream parcel (Notebaert et al., 2006). The upstream area is multiplied with a factor equal to the parcel connectivity. The parcel connectivity typically varies as a function of the land-use of the target pixel (Deproost et al., 2018).
 
 The S-factor is computed based on Nearing (1997):
+
+.. math::
+    S = -1,5+\frac{17}{1+e^{2,3-6.1.\sin{\theta}}}
 
 with :math:`\theta` = the inclination angle (%)
 
@@ -178,6 +196,9 @@ Nearing, M.A., 1997. A single continuous function for slope steepness influence 
 
 
 Notebaert, B., Govers, G., Verstraeten, G., Van Oost, K., Poesen, J., Van Rompaey, A., 2006. Verfijnde erosiekaart Vlaanderen: eindrapport. K.U. Leuven, Leuven.
+
+Panagos, P., Ballabio, C., Borrelli, P., Meusburger, K., Klik, A., Rousseva, S., Tadić, M.P., Michaelides, S., Hrabalíková, M., Olsen, P., Aalto, J., Lakatos, M., Rymszewicz, A., Dumitrescu, A., Beguería, S., Alewell, C., 2015. Rainfall erosivity in Europe. Science of The Total Environment 511, 801–814. https://doi.org/10.1016/j.scitotenv.2015.01.008
+
 
 Renard, K.G., Foster, G.R., Weesies, G.A., McCool, D.K., Yoder, D.C.,
 1997, Predicting soil erosion by water: a guide to conservation planning with
