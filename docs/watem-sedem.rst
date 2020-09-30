@@ -207,8 +207,7 @@ with
 P-factor
 ########
 
-TO DO
-
+The support practice factor is the ratio of soil loss with a specific support practice to the corresponding loss with upslope and downslope tillage (Renard et al., 1997). Support pratice should affect erosion by modifying the flow pattern, grasde or direction of surface runoof and by reducing the amount an drate of runoff.
 
 References
 ==========
