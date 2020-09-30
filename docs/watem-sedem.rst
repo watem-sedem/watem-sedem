@@ -9,15 +9,15 @@ Concept
 
 WaTEM-SEDEM is a spatially distributed model that was created at the
 Laboratry for Experimental Geomorphology (KU Leuven, Belgium). WaTEM stands
-for  Water and Tillage erosion model (Van Oost et al., 2000) and SEDEM is
+for Water and Tillage erosion model (Van Oost et al., 2000) and SEDEM is
 the abbreviation of Sediment Delivery Model (Van Rompaey et al., 2001).
 
 In WaTEM-SEDEM, the mean annual soil erosion rate :math:`E` (see :ref:`here <rusle>`)
 and transport capacity :math:`TC` (see :ref:`here <TC>`) are calculated for every
-pixel in the model  domain. Next, the model iterates over all pixels
+pixel in the model domain. Next, the model iterates over all pixels
 according to the order determined by the routing algorithm. During the
-iteration, the outgoing  sediment for every pixel is calculated by comparing
-the the total available  sediment in the cell (incoming sediment + *E*) with
+iteration, the outgoing sediment for every pixel is calculated by comparing
+the the total available sediment in the cell (incoming sediment + *E*) with
 the transport capacity.
 
 Two cases exist:
@@ -43,7 +43,7 @@ Mean annual soil erosion rate
 =============================
 
 For every pixel in the model domain or catchment, the mean annual soil
-erosion  rate is calculated with an adapted version of the RUSLE (Revised
+erosion rate is calculated with an adapted version of the RUSLE (Revised
 Universal Soil Loss Equation, Renard et al., 1997). The mean annual soil
 erosion rate :math:`E` (:math:`\frac{\text{kg}}{\text{m}^{2}.\text{year}}`) is calculated by
 
@@ -78,7 +78,7 @@ with
 
 A detailed description of these factors is given :ref:`here <ruslefactors>`.
 It is important to note that the :math:`kTC` factor is identified as a calibration
-factor. In addition, in order to  use :math:`TC` to compare with the available sediment in
+factor. In addition, in order to use :math:`TC` to compare with the available sediment in
 a pixel (see :ref:`here <Concept>`), units are converted to :math:`\frac{\text{kg}}{\text{pixel}}`
 or :math:`\frac{\text{m}^3}{\text{pixel}}` by making use of the model resolution (m) and bulk
 density (:math:`\frac{\text{kg}}{\text{m}^3}`)
@@ -125,7 +125,7 @@ The total kinetic energy for one single rain event can be defined as:
     E = \sum_{r=1}^0 e_r \Delta V_r
 
 with
- - :math:`e_r`: the rain energy per unit depth (:math:`\frac{\text{J}}{\text{m}^{2}.\text{mm}}`). There are a number of ways to compute, see Verstraeten et al. (2006) and  Panagos et al. (2015).
+ - :math:`e_r`: the rain energy per unit depth (:math:`\frac{\text{J}}{\text{m}^{2}.\text{mm}}`). There are a number of ways to compute, see Verstraeten et al. (2006) and Panagos et al. (2015).
  - :math:`\Delta V_r`: the rain depth (mm).
 
 For applications of the rainfall erosivity factor in the
@@ -207,14 +207,14 @@ with
 P-factor
 ########
 
-The support practice factor is the ratio of soil loss with a specific support practice to the corresponding loss with upslope and downslope tillage (Renard et al., 1997). Support pratice should affect erosion by modifying the flow pattern, grasde or direction of surface runoof and by reducing the amount an drate of runoff.
+The support practice factor is the ratio of soil loss with a specific support practice to the corresponding loss with upslope and downslope tillage (Renard et al., 1997). Support practice should affect erosion by modifying the flow pattern, grade or direction of surface runnof and by reducing the amount an drate of runoff.
 
 References
 ==========
 
 Deproost, P., Renders, D., Van de Wauw, J., Van Ransbeeck, N.,
 Verstraeten, G., 2018, Herkalibratie van WaTEM/SEDEM met het DHMV-II als
-hoogtemodel: eindrapport. Brussel.  https://archief.onderzoek.omgeving.vlaanderen.be/Onderzoek-1812384
+hoogtemodel: eindrapport. Brussel. https://archief.onderzoek.omgeving.vlaanderen.be/Onderzoek-1812384
 
 Desmet, P.J.J., Govers, G., 1996. A gis procedure for automatically calculating the USLE LS factor on topographically complex landscapes. Journal of Soil and Water Conservation 51, 427–433.
 
@@ -245,7 +245,7 @@ Computermodel RUSLE c-factor. Universiteit Gent, Gent.
 
 Verstraeten, G., Poesen, J., Demarée, G., Salles, C., 2006, Long-term
 (105 years) variability in rain erosivity as derived from 10-min rainfall
-depth  data for Ukkel (Brussels, Belgium): Implications for assessing soil
+depth data for Ukkel (Brussels, Belgium): Implications for assessing soil
 erosion rates. J. Geophys. Res. 111, D22109. https://doi.org/10.1029/2006JD007169
 
 Verstraeten, G., Van Rompaey, A., Poesen, J., Van Oost, K., Govers, G.,
