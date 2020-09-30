@@ -112,18 +112,30 @@ for every rainfall event, and taking the mean over all years:
     R = \frac{1}{n}\sum_{j=1}^{n}[\sum_{k=1}^{m_j}E_k.(I_{30})_k]_j
 
 with
+ - :math:`R` = rainfall erosivity factor (:math:`\frac{\text{J.mm}}{\text{m}^2.\text{h.year}}`)
+ - :math:`n`, increment :math:`j` = number of years
+ - :math:`m_j`, increment :math:`k` = number of rain event in year :math:`j`
+ - :math:`E` = the total kinetic energy of one single rain event (:math:`\frac{J}{m^2}`).
+ - :math:`I_{30}` (:math:`\frac{mm}{h}`) is the maximum rain intensity recorded within 30 consecutive minutes.
 
- - :math:`n`, increment :math:`j` =  number of years
- - :math:`m_j`, increment :math:`k` =  number of rain event in year :math:`j`
- - :math:`E` = the total kinetic energy of one single rain event (:math:`\sum_{r=1}^0 e_r \Delta V_r`).
-    + There are a number of ways to compute the rain energy per unit depth :math:`e_r` (:math:`\text{J.m}^{-1}\text{mm}^{-1}`), see Verstraeten et al. (2006) and  Panagos et al. (2015).
-    + :math:`\Delta V_r` is the rain depth (mm).
- - :math:`I_{30}` is the maximum rain intensity recorded within 30 consecutive minutes.
+The total kinetic energy for one single rain event can be defined as:
+
+
+.. math::
+
+    E = \sum_{r=1}^0 e_r \Delta V_r
+
+with
+ - :math:`e_r` = the rain energy per unit depth (:math:`\frac{\text{J}}{\text{m}^{2}.\text{mm}}`). There are a number of ways to compute, see Verstraeten et al. (2006) and  Panagos et al. (2015).
+ - :math:`\Delta V_r` is the rain depth (mm).
 
 For applications of the rainfall erosivity factor in the
 context of Flanders a value of 870 :math:`\frac{\text{MJ.mm}}{\text{ha.h.year}}` is
 used since 2006 (Verstraeten et al., 2006). Recently, this value has been
-updated to 1250 :math:`\frac{\text{MJ.mm}}{\text{ha.h.year}}` (Deproost et al., 2018)
+updated to 1250 :math:`\frac{\text{MJ.mm}}{\text{ha.h.year}}` (Deproost et al., 2018).
+
+**Note:** The R-factor can also be defined on another temporal resolution. For computing WaTEM/SEDEM on a resolution of month, the value :math:`R` can be defined by the mean of each value for each month (mean fo all january values over 10 years). In this case the unit would be :math:`\frac{\text{J.mm}}{\text{m}^2.\text{h.month}}`
+
 
 .. _kfactor:
 
@@ -144,6 +156,7 @@ The topographic length factor (L-factor) can be computed by using the formulatio
 .. math::
     L = \frac{(A+D^2)^{m+1}-A^{m+1}}{D^{m+2}.x^m.22,13^m}
 
+
 with
 
  - :math:`D` = grid resolution (m)
@@ -156,6 +169,7 @@ The S-factor is computed based on Nearing (1997):
 
 .. math::
     S = -1,5+\frac{17}{1+e^{2,3-6.1.\sin{\theta}}}
+
 
 with :math:`\theta` = the inclination angle (%)
 
@@ -172,8 +186,22 @@ continuous-fallow conditions (Renard et al., 1997). It can be quantified
 as the ratio of the soil loss of a specific parcel with crop cover -
 cultivated under specific conditions - and soil loss that would occur on the
 same parcel without crop growth (with plowing perpendicular to the
-height lines) (Verbist et al., 2004). For an in-depth overview of the
-C-factor we refer to Renard et al. (1997).
+height lines) (Verbist et al., 2004). Typically the C-factor is defined in the context of one year.
+
+There are a number of ways to set the C-factor:
+
+1. Use default values varying as a function of the land-use. In the context of Flanders, the values 0.37, 0.01 and 0.001 are used to define the C-factor for pixels with respectively a land use equal to agriculture, temporary gras and permanent grass/forest.
+2. Use the default values as defined in 1., but vary the C-factor for pixels with land-use `agricultural` as a function of the crop.
+3. Use the default values as defined in 1., but vary the C-factor as a function of a crop growth model and crop rotation scheme:
+
+.. math::
+    C = \frac{\sum_i^t{R_i}.SLR_i}{\sum_i^t{R_i}}
+
+
+with
+ - :math:`R_i`: rainfall erosivity factor (:math:`\frac{\text{J.mm}}{\text{m}^2.\text{h.TR}}`). :math:`\text{TR}`: temporal resolution.
+ - :math:`t`: the maximum number of the increments for the specified temporal resolution (e.g. month: t = 12).
+ - :math:`SLR`: the soil loss ratio (-). The SLR varies as a function of the used C-factor model. We refer to Renard et al. (1997) for an in-depth overview of the C- and SLR-factor.
 
 .. _pfactor:
 
