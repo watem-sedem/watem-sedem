@@ -12,7 +12,7 @@ Laboratry for Experimental Geomorphology (KU Leuven, Belgium). WaTEM stands
 for  Water and Tillage erosion model (Van Oost et al., 2000) and SEDEM is
 the abbreviation of Sediment Delivery Model (Van Rompaey et al., 2001).
 
-In WaTEM-SEDEM the mean annual soil erosion rate :math:`E` (see :ref:`here <RULSE>`)
+In WaTEM-SEDEM, the mean annual soil erosion rate :math:`E` (see :ref:`here <rusle>`)
 and transport capacity :math:`TC` (see :ref:`here <TC>`) are calculated for every
 pixel in the model  domain. Next, the model iterates over all pixels
 according to the order determined by the routing algorithm. During the
@@ -21,14 +21,14 @@ the the total available  sediment in the cell (incoming sediment + *E*) with
 the transport capacity.
 
 Two cases exist:
- - The total available sediment in a cell is lower than *TC*: the resulting
+ - The total available sediment in a pixel is lower than :math:`TC`: the resulting
    mass balance is negative (the pixel can transport more than the amount of
    sediment available to transport, so 'erosion' will occur). The outgoing
    sediment is set equal to the available sediment
- - The available sediment exceeds *TC*: the resulting mass balance is
-   positive (enough sediment to transport some sediment will be 'deposited' in
-   the cell). The outgoing sediment is equal to *TC* and (available sediment -
-   *TC*) will be deposited in the cell.
+ - The available sediment exceeds :math:`TC`: the resulting mass balance is
+   positive (enough sediment to transport, some sediment will be 'deposited' in
+   the cell). The outgoing sediment is equal to :math:`TC` and (available sediment -
+   :math:`TC`) will be deposited in the cell.
 
 The outgoing sediment of a cell is distributed to one or two target pixels.
 The target cells are determined by the routing algorithm. The outgoing
@@ -37,7 +37,7 @@ Pixel Y can receive sediment of multple pixels.
 
 This process is illustrated in figure (TO DO: create figure with pixel).
 
-.. _RUSLE:
+.. _rusle:
 
 Mean annual soil erosion rate
 =============================
@@ -78,7 +78,7 @@ with
 
 A detailed description of these factors is given :ref:`here <ruslefactors>`.
 It is important to note that the :math:`kTC` factor is identified as a calibration
-factor. In addition, in order to compare :math:`kTC` with the available sediment in
+factor. In addition, in order to  use :math:`TC` to compare with the available sediment in
 a pixel (see :ref:`here <Concept>`), units are converted to :math:`\frac{\text{kg}}{\text{pixel}}`
 or :math:`\frac{\text{m}^3}{\text{pixel}}` by making use of the model resolution (m) and bulk
 density (:math:`\frac{\text{kg}}{\text{m}^3}`)
@@ -94,7 +94,7 @@ TO DO, see Van Oost et al. 2000.
 RUSLE factors
 =============
 
-In this paragraph the different parameters of the RUSLE equation (Renard et al.
+In this section, the different parameters of the RUSLE equation (Renard et al.
 , 1997) are described.
 
 .. _rfactor:
@@ -104,19 +104,18 @@ R-factor
 The erosive power of rainfall is quantified in the rainfall erosivity factor
 :math:`R`. This is a measure for the total erosivity of a number of rainfall
 events within a defined timeframe (year, month, number of days). The factor
-is computed by calculating for every year the sum of the depth of rainfall (mm) and the kinetic energy
-for every rainfall event, and taking the mean over all years:
+is computed by calculating the yearly sum of -for every rainfall event- the sum of the depth of rainfall (mm) and the kinetic energy, and taking the mean over all years:
 
 .. math::
 
     R = \frac{1}{n}\sum_{j=1}^{n}[\sum_{k=1}^{m_j}E_k.(I_{30})_k]_j
 
 with
- - :math:`R` = rainfall erosivity factor (:math:`\frac{\text{J.mm}}{\text{m}^2.\text{h.year}}`)
- - :math:`n`, increment :math:`j` = number of years
- - :math:`m_j`, increment :math:`k` = number of rain event in year :math:`j`
- - :math:`E` = the total kinetic energy of one single rain event (:math:`\frac{J}{m^2}`).
- - :math:`I_{30}` (:math:`\frac{mm}{h}`) is the maximum rain intensity recorded within 30 consecutive minutes.
+ - :math:`R`: rainfall erosivity factor (:math:`\frac{\text{J.mm}}{\text{m}^2.\text{h.year}}`)
+ - :math:`n`, increment :math:`j`: number of years
+ - :math:`m_j`, increment :math:`k`: number of rain event in year :math:`j`
+ - :math:`E`: the total kinetic energy of one single rain event (:math:`\frac{J}{m^2}`).
+ - :math:`I_{30}` (:math:`\frac{mm}{h}`): the maximum rain intensity recorded within 30 consecutive minutes.
 
 The total kinetic energy for one single rain event can be defined as:
 
@@ -126,15 +125,15 @@ The total kinetic energy for one single rain event can be defined as:
     E = \sum_{r=1}^0 e_r \Delta V_r
 
 with
- - :math:`e_r` = the rain energy per unit depth (:math:`\frac{\text{J}}{\text{m}^{2}.\text{mm}}`). There are a number of ways to compute, see Verstraeten et al. (2006) and  Panagos et al. (2015).
- - :math:`\Delta V_r` is the rain depth (mm).
+ - :math:`e_r`: the rain energy per unit depth (:math:`\frac{\text{J}}{\text{m}^{2}.\text{mm}}`). There are a number of ways to compute, see Verstraeten et al. (2006) and  Panagos et al. (2015).
+ - :math:`\Delta V_r`: the rain depth (mm).
 
 For applications of the rainfall erosivity factor in the
 context of Flanders a value of 870 :math:`\frac{\text{MJ.mm}}{\text{ha.h.year}}` is
 used since 2006 (Verstraeten et al., 2006). Recently, this value has been
 updated to 1250 :math:`\frac{\text{MJ.mm}}{\text{ha.h.year}}` (Deproost et al., 2018).
 
-**Note:** The R-factor can also be defined on another temporal resolution. For computing WaTEM/SEDEM on a resolution of month, the value :math:`R` can be defined by the mean of each value for each month (mean fo all january values over 10 years). In this case the unit would be :math:`\frac{\text{J.mm}}{\text{m}^2.\text{h.month}}`
+**Note:** The R-factor can also be defined with other temporal resolutions. For computing WaTEM/SEDEM on a resolution of month, the value :math:`R` can be defined by the mean of each value for each month over a number of years (mean fo all january values over 10 years). In this case the unit would be :math:`\frac{\text{J.mm}}{\text{m}^2.\text{h.month}}`
 
 
 .. _kfactor:
@@ -159,11 +158,11 @@ The topographic length factor (L-factor) can be computed by using the formulatio
 
 with
 
- - :math:`D` = grid resolution (m)
- - :math:`m` = length exponent.
- - :math:`x` = factor incorporating the flow direction.
+ - :math:`D`: grid resolution (m)
+ - :math:`m`: length exponent (-).
+ - :math:`x`: factor incorporating the flow direction (-).
 
-For the computation of :math:`m` and :math:`x`, we refer to Deproost et al. (2018). The upstream area in a pixel is determined by the stream flow algorithm, by considering a parcel trapping efficiency and the parcel connectivity. The parcel trapping efficiency (PTEF) is used to potentially reduce the upstream area. The PTEF typically varies as a function of a number of land-use categories, *e.g.* forest, agriculture and infrastructure. For pixels with a land-use 'agriculture', the PTEF is typically set to zero. The parcel connectivity quantifies the flow amount, expressed in upstream area, that flows from an upstream to a downstream parcel (Notebaert et al., 2006). The upstream area is multiplied with a factor equal to the parcel connectivity. The parcel connectivity typically varies as a function of the land-use of the target pixel (Deproost et al., 2018).
+For the computation of :math:`m` and :math:`x`, we refer to Deproost et al. (2018). The upstream area :math:`A` in a pixel is determined by the stream flow algorithm, by considering a parcel trapping efficiency and the parcel connectivity. The parcel trapping efficiency (PTEF) is used to potentially reduce the upstream area. The PTEF typically varies as a function of a number of land-use categories, *e.g.* forest, agriculture and infrastructure. For pixels with a land-use 'agriculture', the PTEF is typically set to zero. The parcel connectivity quantifies the flow amount, expressed in upstream area, that flows from an upstream to a downstream parcel (Notebaert et al., 2006). The upstream area is multiplied with a factor equal to the parcel connectivity. The parcel connectivity typically varies as a function of the land-use of the target pixel (Deproost et al., 2018).
 
 The S-factor is computed based on Nearing (1997):
 
@@ -171,7 +170,7 @@ The S-factor is computed based on Nearing (1997):
     S = -1,5+\frac{17}{1+e^{2,3-6.1.\sin{\theta}}}
 
 
-with :math:`\theta` = the inclination angle (%)
+with :math:`\theta`: the inclination angle (%)
 
 The computation of the inclincation angle is based on the four cardinal neighbouring pixels (Zevenbergen and Thorne, 1987).
 
@@ -186,13 +185,13 @@ continuous-fallow conditions (Renard et al., 1997). It can be quantified
 as the ratio of the soil loss of a specific parcel with crop cover -
 cultivated under specific conditions - and soil loss that would occur on the
 same parcel without crop growth (with plowing perpendicular to the
-height lines) (Verbist et al., 2004). Typically the C-factor is defined in the context of one year.
+height lines) (Verbist et al., 2004). Typically, the C-factor is defined in the context of one year.
 
 There are a number of ways to set the C-factor:
 
 1. Use default values varying as a function of the land-use. In the context of Flanders, the values 0.37, 0.01 and 0.001 are used to define the C-factor for pixels with respectively a land use equal to agriculture, temporary gras and permanent grass/forest.
-2. Use the default values as defined in 1., but vary the C-factor for pixels with land-use `agricultural` as a function of the crop.
-3. Use the default values as defined in 1., but vary the C-factor as a function of a crop growth model and crop rotation scheme:
+2. Use the default values as defined in 1., but vary the C-factor for pixels with land-use `agriculture` as a function of the crop.
+3. Use the default values as defined in 1., but vary the C-factor as a function of a crop growth model and crop rotation scheme (this for pixels with land-use `agriculture`:
 
 .. math::
     C = \frac{\sum_i^t{R_i}.SLR_i}{\sum_i^t{R_i}}
