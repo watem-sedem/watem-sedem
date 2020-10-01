@@ -161,7 +161,7 @@ continuous-fallow conditions (Renard et al., 1997). It can be quantified
 as the ratio of the soil loss of a specific parcel with crop cover -
 cultivated under specific conditions - and soil loss that would occur on the
 same parcel without crop growth (with plowing perpendicular to the
-height lines) (Verbist et al., 2004). Typically, the C-factor is defined in the context of one year.
+height lines) (Verbist et al., 2004). For a run of the simplified version of CN-WS, the C-factor is defined in the context of one year. The use of the long-term version of the model will require the definition of the C-factor for every season.
 
 There are a number of ways to set the C-factor:
 
