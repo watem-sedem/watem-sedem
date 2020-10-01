@@ -148,31 +148,7 @@ TO DO
 LS-factor
 #########
 
-Erosion increases as the slope length (:math:`L`) and slope gradient (:math:`S`) increases. The effects of these factors are typically evaluated together. In the CN-WS model, contrary to the original RUSLE model, the LS-factor is computed by considering the two-dimensional stream flow algorithm of CN-WS (Desmet and Govers, 1996). This allows for computing concentrated erosion flow, such as rill and gully erosion.
-
-The topographic length factor (L-factor) can be computed by using the formulation of Desmet and Govers (1996), considering the upstream area (:math:`A`, :math:`\text{m}^2`) for every raster pixel:
-
-.. math::
-    L = \frac{(A+D^2)^{m+1}-A^{m+1}}{D^{m+2}.x^m.22,13^m}
-
-
-with
-
- - :math:`D`: grid resolution (m)
- - :math:`m`: length exponent (-).
- - :math:`x`: factor incorporating the flow direction (-).
-
-For the computation of :math:`m` and :math:`x`, we refer to Deproost et al. (2018). The upstream area :math:`A` in a pixel is determined by the stream flow algorithm, by considering a parcel trapping efficiency and the parcel connectivity. The parcel trapping efficiency (PTEF) is used to potentially reduce the upstream area. The PTEF typically varies as a function of a number of land-use categories, *e.g.* forest, agriculture and infrastructure. For pixels with a land-use 'agriculture', the PTEF is typically set to zero. The parcel connectivity quantifies the flow amount, expressed in upstream area, that flows from an upstream to a downstream parcel (Notebaert et al., 2006). The upstream area is multiplied with a factor equal to the parcel connectivity. The parcel connectivity typically varies as a function of the land-use of the target pixel (Deproost et al., 2018).
-
-The S-factor is computed based on Nearing (1997):
-
-.. math::
-    S = -1,5+\frac{17}{1+e^{2,3-6.1.\sin{\theta}}}
-
-
-with :math:`\theta`: the inclination angle (%)
-
-The computation of the inclincation angle is based on the four cardinal neighbouring pixels (Zevenbergen and Thorne, 1987).
+The effect of topography on erosion is quantified in the LS-factor. Erosion increases as the slope length increases - quantified in the slope length factor (L), and as the slope steepness factor (S) increases. The L-factor is defined as the horizontal distance from the origin of overland flow to the point where either (1) the slope gradient decreases to the degree that deposition occurs or (2) runoff becomes concentrated in a defined channel. The effects of the L- and S-factor factors are typically evaluated together. In the CN-WS model, contrary to the original RUSLE model, the LS-factor is computed by considering the two-dimensional stream flow algorithm of CN-WS (Desmet and Govers, 1996). This allows for computing concentrated erosion flow, such as rill and gully erosion. It is important to note that there are different ways to compute the L- and S-factor (see also :ref:`here <lmodel>`).
 
 .. _cfactor:
 

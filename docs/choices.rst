@@ -4,10 +4,13 @@ Model choices
 
 Most model choices are boolean options and are enabled in the .ini-file with "1"
 and disabled with "0". Some options expect a string value. The possible strings
-are described togheter with the modeloption.
+are described together with the modeloption.
 
 Input
 *****
+
+
+.. _lmodel:
 
 L model
 #######
@@ -16,10 +19,24 @@ CN-WS allows the user to choose between two models to calculate the L-factor.
 The L-factor defines the impact of the slope length and is used in the
 calculation of RUSLE and transport capacity (TC). The two L-models are:
 
-* Desmet and Govers (1996)
-* McCool et al. (1989, 1987)
+**Desmet and Govers (1996):**
+
+.. math::
+    L = \frac{(A+D^2)^{m+1}-A^{m+1}}{D^{m+2}.x^m.22,13^m}
+
+with
+ - :math:`A`: upstream area for every raster pixel (:math:`\text{m}^2`).
+ - :math:`D`: grid resolution (m).
+ - :math:`m`: length exponent (-).
+ - :math:`x`: factor incorporating the flow direction (-).
+
+For the computation of :math:`m` and :math:`x`, we refer to Deproost et al. (2018). The upstream area :math:`A` in a pixel is determined by the stream flow algorithm, by considering a parcel trapping efficiency and the parcel connectivity. The parcel trapping efficiency (PTEF) is used to potentially reduce the upstream area. The PTEF typically varies as a function of a number of land-use categories, *e.g.* forest, agriculture and infrastructure. For pixels with a land-use 'agriculture', the PTEF is typically set to zero. The parcel connectivity quantifies the flow amount, expressed in upstream area, that flows from an upstream to a downstream parcel (Notebaert et al., 2006). The upstream area is multiplied with a factor equal to the parcel connectivity. The parcel connectivity typically varies as a function of the land-use of the target pixel (Deproost et al., 2018).
+
+**McCool et al. (1989, 1987):**
 
 TO DO: formulas, units, dtype (string)
+
+.. _smodel:
 
 S model
 #######
@@ -28,7 +45,16 @@ CN-WS allows the user to choose between two models to calculate the S-factor.
 The S-factor defines the effect of slope steepness and is used in the
 calculation of RUSLE and transport capacity (TC). The two S-models are:
 
-* Desmet and Govers (1996)
+* Desmet and Govers (1996):
+
+.. math::
+    S = -1,5+\frac{17}{1+e^{2,3-6.1.\sin{\theta}}}
+
+
+with :math:`\theta`: the inclination angle (%)
+
+The computation of the inclincation angle is based on the four cardinal neighbouring pixels (Zevenbergen and Thorne, 1987).
+
 * Nearing (1997)
 
 TO DO: formulas, units, dtype (string)
