@@ -17,9 +17,8 @@ L model
 
 CN-WS allows the user to choose between two models to calculate the L-factor.
 The L-factor defines the impact of the slope length and is used in the
-calculation of RUSLE and transport capacity (TC). The two L-models are:
-
-**Desmet and Govers (1996):**
+calculation of RUSLE and transport capacity (TC). The L-model is calculated
+according to the work of Desmet and Govers (1996):
 
 .. math::
     L = \frac{(A+D^2)^{m+1}-A^{m+1}}{D^{m+2}.x^m.22,13^m}
@@ -30,11 +29,48 @@ with
  - :math:`m`: length exponent (-).
  - :math:`x`: factor incorporating the flow direction (-).
 
-For the computation of :math:`m` and :math:`x`, we refer to Deproost et al. (2018). The upstream area :math:`A` in a pixel is determined by the stream flow algorithm, by considering a parcel trapping efficiency and the parcel connectivity. The parcel trapping efficiency (PTEF) is used to potentially reduce the upstream area. The PTEF typically varies as a function of a number of land-use categories, *e.g.* forest, agriculture and infrastructure. For pixels with a land-use 'agriculture', the PTEF is typically set to zero. The parcel connectivity quantifies the flow amount, expressed in upstream area, that flows from an upstream to a downstream parcel (Notebaert et al., 2006). The upstream area is multiplied with a factor equal to the parcel connectivity. The parcel connectivity typically varies as a function of the land-use of the target pixel (Deproost et al., 2018).
+:math:`x` is calculated as a function of the aspect :math:`\alpha` of the pixel:
+
+.. math::
+    x = |sin(\alpha)| + |cos(\alpha)|
+
+The upstream area :math:`A` in a pixel is determined by the stream flow
+algorithm, by considering a parcel trapping efficiency and the parcel
+connectivity.
+
+For the computation of :math:`m` two options exist:
+
+**Van Oost et al. 2003:**
+
+Van Oost et al. (2003) uses a different :math:`m` depending on the surface of
+the upstream area :math:`A`. If the upstream area is smaller than
+:math:`A_{ref}` = 10.000 ha, :math:`m` is calculated as
+
+.. math::
+    m = 0.3 + (\frac{A}{A_{ref}})^c
+
+otherwise :math:`m` is set to 0.72.
+
+The calculation method of Van Oost et al. (2003) can be chosen by setting
+the model choice *L model* to 'Desmet1996_Vanoost'. This is the default value
+for this model option.
 
 **McCool et al. (1989, 1987):**
 
-TO DO: formulas, units, dtype (string)
+McCool et al. (1989, 1987) calculate :math:`m` as:
+
+.. math::
+    m = \frac{\beta}{\beta + 1}
+
+with :math:`\beta` calculated as
+
+.. math::
+    \beta = \frac{\frac{sin(\theta)}{0.0896}}{3.sin^{0.8}(\theta) + 0.56}
+
+with :math:`\theta` the slope of the pixel
+
+The calculation method of McCool et al. (1989, 1987) can be chosen by setting
+the model choice *L model* to 'Desmet1996_McCool'.
 
 .. _smodel:
 
@@ -45,7 +81,7 @@ CN-WS allows the user to choose between two models to calculate the S-factor.
 The S-factor defines the effect of slope steepness and is used in the
 calculation of RUSLE and transport capacity (TC). The two S-models are:
 
-* Desmet and Govers (1996):
+**Desmet and Govers (1996)**:
 
 .. math::
     S = -1,5+\frac{17}{1+e^{2,3-6.1.\sin{\theta}}}
