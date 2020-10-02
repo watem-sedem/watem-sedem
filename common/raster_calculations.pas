@@ -1303,7 +1303,7 @@ Begin
           if SModel = TSModel.Nearing1997 then
              Sfactor := -1.5 + 17/(1+power(2.718281828,(2.3-6.1*sin(slope[i,j]))));
 
-          if SModel = TSModel.Desmet1996 then
+          if SModel = TSModel.McCool1987 then
              begin
                If (ArcTan(slope[i,j])*100.0 < 9.0) Then
                      Sfactor := (10.8*sin(slope[i,j]))+0.03
