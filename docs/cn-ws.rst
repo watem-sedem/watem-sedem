@@ -48,6 +48,8 @@ default, these additional features are disabled, but can be enabled in in the
 ini-file with the correct user choice. When the user enables an extra feature,
 the model will expect more user input (rasters and variables).
 
+.. _bufferbasins:
+
 Buffer basins
 *************
 
