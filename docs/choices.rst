@@ -79,21 +79,40 @@ S model
 
 CN-WS allows the user to choose between two models to calculate the S-factor.
 The S-factor defines the effect of slope steepness and is used in the
-calculation of RUSLE and transport capacity (TC). The two S-models are:
+calculation of RUSLE and transport capacity (TC). Both models are a function of
+:math:`\theta`: the inclination angle or slope (%). The computation of the
+inclincation angle is based on the four cardinal neighbouring pixels
+(Zevenbergen and Thorne, 1987).
 
-**Desmet and Govers (1996)**:
+The two S-models are:
+
+**Nearing (1997)**:
 
 .. math::
     S = -1,5+\frac{17}{1+e^{2,3-6.1.\sin{\theta}}}
 
+The method of Nearing (1997) can be activated in CNWS by setting
+*S model* to 'Nearing1997'. This is the default method to calculate the S factor.
 
-with :math:`\theta`: the inclination angle (%)
+**Desmet and Govers (1996)**
 
-The computation of the inclincation angle is based on the four cardinal neighbouring pixels (Zevenbergen and Thorne, 1987).
+Desmet and Govers (1996) distinguish two cases:
 
-* Nearing (1997)
+.. math::
+    S = (10.8.sin(\theta)) + 0.03
 
-TO DO: formulas, units, dtype (string)
+is valid when:
+
+.. math::
+    100.arctan(\theta) < 9.0
+
+otherwise, S is calculated as:
+
+.. math::
+    S = (16.8.sin(\theta)) - 0.5
+
+The method of Desmet and Govers (1996) can be activated in CNWS by setting
+*S model* to 'Desmet1996'.
 
 Only Routing
 ############
