@@ -131,7 +131,13 @@ Buffer map filename
 Filename of the buffer map. This raster is only mandatory when
 :ref:`Include buffers = 1 <includebuffers>`.
 
-TO DO: figure with example bufid/buf extionsion id.
+The figure shows an example of a buffermap with three buffer basins. The outlet
+of every buffer is marked with the buffer id (1, 2 and 3 in this example). The
+other pixels belonging to the buffer get the buffer extension id. All other
+pixels in the raster are set to zero. 
+
+.. figure:: _static/png/buffermap.png
+	:scale: 80%
 
 The datatype of the buffermap is integer16.
 
