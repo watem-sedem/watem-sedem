@@ -15,10 +15,12 @@ Input
 L model
 #######
 
-CN-WS allows the user to choose between two models to calculate the L-factor.
-The L-factor defines the impact of the slope length and is used in the
-calculation of RUSLE and transport capacity (TC). The L-model is calculated
-according to the work of Desmet and Govers (1996):
+CN-WS allows the user to choose between two models to calculate the
+:ref:`L-factor <lsfactor>`. The L-factor defines the impact of the slope length
+and is used in the calculation of :ref:`RUSLE <rusle>` and
+:ref:`transport capacity (TC) <TC>`.
+
+The L-model is calculated according to the work of Desmet and Govers (1996):
 
 .. math::
     L = \frac{(A+D^2)^{m+1}-A^{m+1}}{D^{m+2}.x^m.22,13^m}
@@ -77,12 +79,14 @@ the model choice *L model* to 'Desmet1996_McCool'.
 S model
 #######
 
-CN-WS allows the user to choose between two models to calculate the S-factor.
-The S-factor defines the effect of slope steepness and is used in the
-calculation of RUSLE and transport capacity (TC). Both models are a function of
-:math:`\theta`: the inclination angle or slope (%). The computation of the
-inclincation angle is based on the four cardinal neighbouring pixels
-(Zevenbergen and Thorne, 1987).
+CN-WS allows the user to choose between two models to calculate the
+:ref:`S-factor <lsfactor>`. The S-factor defines the effect of slope steepness
+and is used in the calculation of :ref:`RUSLE <rusle>` and
+:ref:`transport capacity (TC) <TC>`.
+
+Both models are a function of :math:`\theta`: the inclination angle or slope
+(%). The computation of the inclincation angle is based on the four cardinal
+neighbouring pixels (Zevenbergen and Thorne, 1987).
 
 The two S-models are:
 
