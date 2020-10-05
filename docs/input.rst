@@ -178,7 +178,7 @@ The river segment map is raster where every river pixel (every pixel with value
 -1 in the :ref:`parcel map <prcmap>`) gets the id of the segment where it
 belongs too. Every segment has a unique (integer) id.
 
-In the figure below, an example of a river segment map with five segments is
+In the figure below, an example of a river segment map with seven segments is
 given. All pixels which are no river pixels get value 0.
 
 .. figure:: _static/png/riversegment.png
