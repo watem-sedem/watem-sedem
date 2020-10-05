@@ -490,7 +490,8 @@ extension id
 *************
 
 The extension id of a buffer is calculated as the buffer id + 16384. It is an
-integer value. All pixels of the buffer in the :ref:`buffer map <buffermap>`
+integer value. 16384 is also the maximum amount of buffers possible in the model.
+All pixels of the buffer in the :ref:`buffer map <buffermap>`
 are given the value of the extension id, except the outlet pixel.
 
 Following variables are used in the CN-module. A full description about the
