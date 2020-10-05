@@ -57,9 +57,9 @@ The calculation method of Van Oost et al. (2003) can be chosen by setting
 the model choice *L model* to 'Desmet1996_Vanoost'. This is the default value
 for this model option.
 
-**McCool et al. (1989, 1987):**
+**McCool et al. (1989):**
 
-McCool et al. (1989, 1987) calculate :math:`m` as:
+McCool et al. (1989) calculate :math:`m` as:
 
 .. math::
     m = \frac{\beta}{\beta + 1}
