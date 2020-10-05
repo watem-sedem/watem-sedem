@@ -98,9 +98,9 @@ The two S-models are:
 The method of Nearing (1997) can be activated in CNWS by setting
 *S model* to 'Nearing1997'. This is the default method to calculate the S factor.
 
-**Desmet and Govers (1996)**
+**McCool et al. (1987)**
 
-Desmet and Govers (1996) distinguish two cases:
+McCool et al. (1987) distinguish two cases:
 
 .. math::
     S = (10.8.sin(\theta)) + 0.03
@@ -115,8 +115,8 @@ otherwise, S is calculated as:
 .. math::
     S = (16.8.sin(\theta)) - 0.5
 
-The method of Desmet and Govers (1996) can be activated in CNWS by setting
-*S model* to 'Desmet1996'.
+The method of McCool et al. (1987) can be activated in CNWS by setting
+*S model* to 'McCool1987'.
 
 Only Routing
 ############
