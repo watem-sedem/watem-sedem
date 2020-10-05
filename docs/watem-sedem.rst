@@ -148,7 +148,18 @@ TO DO
 LS-factor
 #########
 
-The effect of topography on erosion is quantified in the LS-factor. Erosion increases as the slope length increases - quantified in the slope length factor (L), and as the slope steepness factor (S) increases. The L-factor is defined as the horizontal distance from the origin of overland flow to the point where either (1) the slope gradient decreases to the degree that deposition occurs or (2) runoff becomes concentrated in a defined channel. The effects of the L- and S-factor factors are typically evaluated together. In the CN-WS model, contrary to the original RUSLE model, the LS-factor is computed by considering the two-dimensional stream flow algorithm of CN-WS (Desmet and Govers, 1996). This allows for computing concentrated erosion flow, such as rill and gully erosion. It is important to note that there are different ways to compute the L- and S-factor (see also :ref:`here <lmodel>`).
+The effect of topography on erosion is quantified in the LS-factor. Erosion
+increases as the slope length increases - quantified in the slope length factor
+(L), and as the slope steepness factor (S) increases. The L-factor is defined as
+the horizontal distance from the origin of overland flow to the point where
+either (1) the slope gradient decreases to the degree that deposition occurs or
+(2) runoff becomes concentrated in a defined channel. The effects of the L- and
+S-factor factors are typically evaluated together. In the CN-WS model, contrary
+to the original RUSLE model, the LS-factor is computed by considering the
+two-dimensional stream flow algorithm of CN-WS (Desmet and Govers, 1996). This
+allows for computing concentrated erosion flow, such as rill and gully erosion.
+It is important to note that there are different ways to compute the
+:ref:`L- <lmodel>` and :ref:`S-factor <smodel>`.
 
 .. _cfactor:
 
