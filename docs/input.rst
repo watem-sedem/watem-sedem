@@ -499,7 +499,7 @@ CN calculation in buffers can be found :ref:`here <bufferbasins>`
 volume
 ******
 
-the maximum volume of water that can be trapped in the
+The maximum volume of water that can be trapped in the
 bufferbasin, :math:`V_{basin}` (:math:`m^{3}`).
 
 height dam
