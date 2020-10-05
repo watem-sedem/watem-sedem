@@ -131,7 +131,14 @@ Buffer map filename
 Filename of the buffer map. This raster is only mandatory when
 :ref:`Include buffers = 1 <includebuffers>`.
 
-TO DO: figure with example bufid/buf extionsion id.
+The figure shows an example of a buffermap with three buffer basins. The outlet
+of every buffer is marked with the buffer id (1, 2 and 3 in this example). The
+other pixels belonging to the buffer get the
+:ref:`extension id <extension_id>`. All other pixels in the raster are set to
+zero.
+
+.. figure:: _static/png/buffermap.png
+	:scale: 80%
 
 The datatype of the buffermap is integer16.
 
@@ -398,7 +405,7 @@ Number of buffers
 
 The amount of buffers present in the :ref:`buffer map <buffermap>` is given in
 this parameter (integer). The parameter is only mandatory when
-:ref:`Include buffers = 1 <includebuffers>`
+:ref:`Include buffers = 1 <includebuffers>`.
 
 Number of forced routing
 ************************
@@ -534,45 +541,56 @@ Bufferdata
 For every buffer, following variables must be defined. These variables are only
 mandatory when include buffers = 1.
 
-volume
-******
-
-TO DO
-
-height dam
-**********
-
-TO DO
-
-height opening
-**************
-
-TO DO
-
-opening area
-************
-
-TO DO
-
-discharge coefficient
-*********************
-
-TO DO
-
-width dam
-*********
-
-TO DO
-
 trapping efficiency
 *******************
 
-TO DO
+The trapping efficiency is the fraction of the incoming sediment that is trapped
+in the buffer basin.
+
+.. _extension_id:
 
 extension id
 *************
 
-TO DO
+The extension id of a buffer is calculated as the buffer id + 16384. It is an
+integer value. 16384 is also the maximum amount of buffers possible in the model.
+All pixels of the buffer in the :ref:`buffer map <buffermap>`
+are given the value of the extension id, except the outlet pixel.
+
+Following variables are used in the CN-module. A full description about the
+CN calculation in buffers can be found :ref:`here <bufferbasins>`
+
+volume
+******
+
+The maximum volume of water that can be trapped in the
+bufferbasin, :math:`V_{basin}` (:math:`m^{3}`).
+
+height dam
+**********
+
+the height of the dam of the buffer basin, :math:`H_{dam}` (m)
+
+height opening
+**************
+
+the height of the opening of the discharge pipe of the buffer basin,
+:math:`H_{opening}` (m)
+
+opening area
+************
+
+the area of the discharge opening :math:`A_0` (:math:`m^{2}`)
+
+discharge coefficient
+*********************
+
+the discharge coefficient :math:`C_d` (-) of the buffer basin.
+
+width dam
+*********
+
+the width of the overflow on the bufferbasin dam :math:`W_{dam}` (m)
 
 
 Forced routing data
