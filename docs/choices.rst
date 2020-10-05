@@ -322,7 +322,21 @@ A more detailed explaination about how and why to calibrate can ben found
 Output per VHA river segment
 ############################
 
-TO DO
+A river segment is defined as a series of consequent river pixels. Mostly, a
+segment starts at a confluence of different rivers and it stops at the next
+confluence. CN-WS has the option to make a summary of the results per river
+segment. For every segment the total sedimentinput, total discharge or the
+sediment concentration is calculated.
+
+River segments are defined in a :ref:`separate raster <riversegmentfile>`. This
+raster is mandatory when this option is enabled.
+
+When this option is enabled, following output is written:
+- :ref:`Total Sediment VHA.txt <totalsedimentvhatxt>`
+- :ref:`Cumulative sediment VHA.txt <cumsedvhatxt>`
+- :ref:`Discharge_VHA.txt <dischargevha>`
+- :ref:`Sediment concentration_VHA.txt <sedconcenvha>`
+- :ref:`Sediment_VHA.txt <sedvhatxt>`
 
 .. _manualoutlet:
 

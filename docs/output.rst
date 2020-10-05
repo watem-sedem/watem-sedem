@@ -255,6 +255,8 @@ Discharge.txt
 
 Table with discharge (m³/s) as a function of time for every outlet.
 
+.. _dischargevha:
+
 Discharge_VHA.txt
 *****************
 
@@ -267,6 +269,8 @@ Sediment concentration.txt
 Table with the concentration of sediment (g/l) as a function of time for every
 outlet.
 
+.. _sedconcenvha:
+
 Sediment concentration_VHA.txt
 ******************************
 
@@ -278,6 +282,8 @@ Sediment.txt
 ************
 
 Table with the sediment load (kg) as a function of time for every outlet.
+
+.. _sedvhatxt:
 
 Sediment_VHA.txt
 ****************
