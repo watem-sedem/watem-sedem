@@ -69,7 +69,7 @@ with :math:`\beta` calculated as
 .. math::
     \beta = \frac{\frac{sin(\theta)}{0.0896}}{3.sin^{0.8}(\theta) + 0.56}
 
-with :math:`\theta` the slope of the pixel
+with :math:`\theta` the slope of the pixel in percentages.
 
 The calculation method of McCool et al. (1989, 1987) can be chosen by setting
 the model choice *L model* to 'Desmet1996_McCool'.
