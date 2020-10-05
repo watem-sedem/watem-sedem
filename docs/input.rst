@@ -224,7 +224,7 @@ Table with upstream segments. This table is only mandatory when
 - upstream edge (integer): segment id of one of the upstream segments of *edge*
 - proportion (float, between 0 and 1): the fraction of the upstream segment that
   flows into the considered downstream segment. If the fraction is < 1, the
-  upstream segement flows into two downstream segments.
+  upstream segment flows into two downstream segments.
 
 Based on the example :ref:`river segment map <riversegmentfile>`, an example
 table with adjectant upstream segments is displayed below:
