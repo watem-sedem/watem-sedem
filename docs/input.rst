@@ -169,6 +169,8 @@ Filename of the :ref:`P-factor <pfactor>` map.
 
 TO DO: dataype raster
 
+.. _riversegmentfile:
+
 River segment filename
 **********************
 
@@ -183,19 +185,80 @@ The river segment map is raster where every river pixel (every pixel with value
 -1 in the :ref:`parcel map <prcmap>`) gets the id of the segment where it
 belongs too. Every segment has a unique (integer) id.
 
+In the figure below, an example of a river segment map with seven segments is
+given. All pixels which are no river pixels get value 0.
+
+.. figure:: _static/png/riversegment.png
+	:scale: 80%
+
 The datatype of the river segment map is integer16.
 
 adjectant segments
 ******************
 
-Table with adjectant segments. This table is only mandatory when
-:ref:`River routing = 1 <riverrouting>`
+Table with adjectant  river segments. This table is only mandatory when
+:ref:`River routing = 1 <riverrouting>`. The table consists out of two columns:
+from and to. Every row indicates a connection between two segments:
+segment *from* flows into segment *to*. The values in the table represent the
+segment-ids of the :ref:`river segment map <riversegmentfile>`.
+
+Based on the example :ref:`river segment map <riversegmentfile>`, an example
+table with adjectant river segments is displayed below:
+
++-----+---+
+|from |to |
++=====+===+
+|1    |3  |
++-----+---+
+|2    |3  |
++-----+---+
+|3    |5  |
++-----+---+
+|4    |5  |
++-----+---+
+|6    |2  |
++-----+---+
+|7    |5  |
++-----+---+
 
 upstream segments
 *****************
 
 Table with upstream segments. This table is only mandatory when
-:ref:`River routing = 1 <riverrouting>`
+:ref:`River routing = 1 <riverrouting>`. In the table three columns are present:
+
+- edge (integer): segment id
+- upstream edge (integer): segment id of one of the upstream segments of *edge*
+- proportion (float, between 0 and 1): the fraction of the upstream segment that
+  flows into the considered downstream segment. If the fraction is < 1, the
+  upstream segment flows into two downstream segments.
+
+Based on the example :ref:`river segment map <riversegmentfile>`, an example
+table with adjectant upstream segments is displayed below:
+
++-----+--------------+-----------+
+|edge |upstream edge |proportion |
++=====+==============+===========+
+|3    |1             |1.0        |
++-----+--------------+-----------+
+|3    |2             |1.0        |
++-----+--------------+-----------+
+|5    |4             |1.0        |
++-----+--------------+-----------+
+|5    |3             |1.0        |
++-----+--------------+-----------+
+|5    |2             |1.0        |
++-----+--------------+-----------+
+|5    |1             |1.0        |
++-----+--------------+-----------+
+|5    |6             |1.0        |
++-----+--------------+-----------+
+|5    |7             |1.0        |
++-----+--------------+-----------+
+|6    |2             |1.0        |
++-----+--------------+-----------+
+|5    |1             |1.0        |
++-----+--------------+-----------+
 
 river routing filename
 **********************
