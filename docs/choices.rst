@@ -232,7 +232,7 @@ follow the course of a dam in stead of along the steepest slope. When this
 option is enabled, :ref:`a raster with information about the direction <dammap>`
 is mandatory.
 
-The model sets the C-factor at every dam pixel tot 0 Thus, it overwrites
+The model sets the C-factor at every dam pixel to 0. Thus, it overwrites
 the value of the pixel in the :ref:`C-factor raster <cmap> `.
 The ktc value of the pixel is set to -9999.
 
