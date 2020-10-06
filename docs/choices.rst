@@ -305,7 +305,7 @@ Adjusted Slope
 
 Normally, the slope of a pixel is determined by the algoritm of Zevenbergen and
 Thorne (1987) on the four neighbouring, cardinal cells.
-This procedure works good in areas where the routing is determined solely on the
+This procedure works good in areas where the routing is solely based on on the
 digital elevation model. In areas where the routing is imposed by other rules
 (e.g. at parcel boundaries, in buffers,...) the slope of the direction in the
 routing can be different than the calculated slope by Zevenbergen and
@@ -323,9 +323,10 @@ When using the full CN-WS model (i.e. :ref:`simple=0 <simple>`), it is possible
 to estimate the clay content at every outlet and in every river
 segment (the latter only when :ref:`output per VHA river segment <outputVHA>`
 is enabled). To do this, the user needs to define the
-:ref:`clay content of the parent material <claycontent>` (:math:`CC_{parent}`).
+:ref:`clay content of the parent material <claycontent>`
+(:math:`CC_{text{parent}}`).
 
-First, the enrichmentfactor :math:`EF` for clay is calculated:
+First, the enrichment factor :math:`EF` for clay is calculated:
 
 .. math::
     EF = 1 + 0.7732.\exp^{-0.0508.SC}
@@ -333,7 +334,7 @@ First, the enrichmentfactor :math:`EF` for clay is calculated:
 where :math:`SC` is the sediment concentration (g/l).
 
 The estimated clay content :math:`CC` (%) for an outlet or segment is calculated
-as a function of :math:`EF` and :math:`CC_{parent}`:
+as a function of :math:`EF` and :math:`CC_{text{parent}}`:
 
 .. math::
     CC = CC_{parent}.EF
