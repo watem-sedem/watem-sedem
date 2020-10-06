@@ -50,7 +50,6 @@ The idirisi raster must be formatted as float32.
 	pixels in the model domain have an elevation value, and that at least two
 	pixels outside the model domain have a valid elevation value.
 
-
 .. _prcmap:
 
 Parcel filename
@@ -108,12 +107,16 @@ system.
 
 The datatype of the sewer map is float32.
 
+.. _tildirmap:
+
 Tillage direction filename
 **************************
 
 Filename of a raster with the tillage direction in degrees to the North.
 
 The datatype of the tillage direction raster is float32.
+
+.. _orientedroughnessmap:
 
 Oriented roughness filename
 ***************************

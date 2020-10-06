@@ -288,7 +288,16 @@ determine the routing between all river pixels.
 Include tillage direction
 #########################
 
-TO DO
+This option alters the routing on agricultural fields. When this option is
+enabled, the routing will follow the tillage direction on these fields.
+
+Following input-files are required when `Include tillage direction = 1`:
+
+* :ref:`tillage direction map <tildirmap>`
+* :ref:`oriented roughness map <orientedroughnessmap>`
+
+.. note::
+    This option is not yet tested.
 
 Adjusted Slope
 ##############
