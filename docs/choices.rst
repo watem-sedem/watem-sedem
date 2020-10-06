@@ -209,8 +209,6 @@ outletpixel of the buffer. This outletpixel in the bufferraster is marked with
 the buffer id. The amount of sediment that flows out of the bufferoutlet is
 reduced with the :ref:`trapping efficiency <PTEFBuffer>` of the buffer.
 
-TO DO: ktc and C-factor at these pixels
-
 .. _includeditches:
 
 Include ditches
