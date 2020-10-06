@@ -559,7 +559,7 @@ model.
 
 This parameter is only mandatory when :ref:`Use R factor = 0 <useR>`.
 
-.. note:
+.. note::
 	In a first model run for a catchment with a given rainfall event, the user
 	must choose the endtime large enough. By doing this, he makes sure the the
 	whole runoff peak is modelled. After this first simulation, the model user

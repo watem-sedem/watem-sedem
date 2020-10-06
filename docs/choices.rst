@@ -9,7 +9,6 @@ are described together with the modeloption.
 Input
 *****
 
-
 .. _lmodel:
 
 L model
