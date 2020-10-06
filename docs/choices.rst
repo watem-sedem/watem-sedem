@@ -126,7 +126,8 @@ CN-WS. No sediment calculations or discharge calculations are done:
 the WaTEM-SEDEM and CN modules are disabled. When using this option only
 :ref:`a limited model output <onlyroutingoutput>` is possible.
 
-TO DO: why should you do this?
+This option is usefull in large catchments to evaluate the routing without
+calculating the sediment transport or discharges.
 
 .. _simple:
 
