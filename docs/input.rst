@@ -142,25 +142,23 @@ zero.
 
 The datatype of the buffermap is integer16.
 
+.. _ditchmap:
+
 Ditch map filename
 ******************
 
 Filename of the ditch map. This raster is only mandatory when
-:ref:`Include ditches = 1 <includeditches>`
+:ref:`Include ditches = 1 <includeditches>`. See :ref:`here <routingmap>` for
+more information on how to create this map.
 
-TO DO: dataype raster
-
-TO DO: figure with example routing
+.. _dammap:
 
 Dam map filename
 ****************
 
 Filename of the dam map. This raster is only mandatory when
-:ref:`Include dams = 1 <includedams>`
-
-TO DO: dataype raster
-
-TO DO: figure with example routing
+:ref:`Include dams = 1 <includedams>` See :ref:`here <routingmap>` for more
+information on how to create this map.
 
 P factor map filename
 *********************
@@ -193,6 +191,8 @@ given. All pixels which are no river pixels get value 0.
 
 The datatype of the river segment map is integer16.
 
+.. _adjsegments:
+
 adjectant segments
 ******************
 
@@ -220,6 +220,8 @@ table with adjectant river segments is displayed below:
 +-----+---+
 |7    |5  |
 +-----+---+
+
+.. _upstrsegments:
 
 upstream segments
 *****************
@@ -260,11 +262,42 @@ table with adjectant upstream segments is displayed below:
 |5    |1             |1.0        |
 +-----+--------------+-----------+
 
+.. _riverroutingmap:
+
 river routing filename
 **********************
 
 Filename of the river routing map. This raster is only mandatory when
-:ref:`River routing = 1 <riverrouting>`
+:ref:`River routing = 1 <riverrouting>`. See :ref:`here <routingmap>` for more
+information on how to create this map.
+
+.. _routingmap:
+
+routing map
+***********
+
+CN-WS accepts rasters where a single-flow routing along a line element in the
+landscape is imposed by the user. The
+:ref:`river routing map <riverroutingmap>`, :ref:`ditchmap <ditchmap>` and
+:ref:`dam map <dammap>` are made according to the principles described here.
+
+A routing map contains integer values between 0 and 8. Every value indicates a
+direction the routing will follow. A pixel set to zero has no imposed routing.
+
+Consider pixel X in the figure below. If the routing must flow from X to the
+upper cardinal cell, pixel X will get value 1 in the routing map. If the routing
+must flow from X to the lower left pixel, X will get value 6. All other
+directions are set in the same way, according to the numbers in the figure.
+
+.. figure:: _static/png/direction_routingmap.png
+	:scale: 80%
+
+An example of a routing map with two imposed routings is given here:
+
+.. figure:: _static/png/routingmap.png
+	:scale: 80%
+
+The datatype of a routing raster is integer16.
 
 CN map filename
 ***************
@@ -317,6 +350,8 @@ K factor filename
 Filename of the :ref:`K-factor <kfactor>` map. The soil erosivity factor or
 K-factor of the RUSLE-equation for every pixel in the modeldomain is stored in
 the K-factor map (kg.h/MJ.mm).
+
+.. _cmap:
 
 C factor map filename
 *********************
@@ -540,6 +575,8 @@ Bufferdata
 
 For every buffer, following variables must be defined. These variables are only
 mandatory when include buffers = 1.
+
+.. _PTEFBuffer:
 
 trapping efficiency
 *******************

@@ -203,10 +203,10 @@ in the buffer map. In every buffer section in the ini-file some variables must
 be given.
 
 The Include buffers option adjusts the routing in the pixels. All pixels within
-a buffer with the buffer extension id are routed to the outletpixel of the
-buffer. This outletpixel in the bufferraster is marked with the buffer id. The
-amount of sediment that flows out of the bufferoutlet is reduced with the
-trapping efficiency of the buffer.
+a buffer with the buffer :ref:`extension id <extension_id>` are routed to the
+outletpixel of the buffer. This outletpixel in the bufferraster is marked with
+the buffer id. The amount of sediment that flows out of the bufferoutlet is
+reduced with the :ref:`trapping efficiency <PTEFBuffer>` of the buffer.
 
 TO DO: ktc and C-factor at these pixels
 
@@ -215,19 +215,27 @@ TO DO: ktc and C-factor at these pixels
 Include ditches
 ###############
 
-Ditches alter the sediment flow. The sediment will follow the course of a ditch
-in stead of along the steepest slope.
+Ditches alter the routing. The sediment and water will follow the course of a
+ditch in stead of along the steepest slope. When this option is enabled,
+:ref:`a raster with information about the direction <ditchmap>` is mandatory.
 
-TO DO: ktc and C-factor at these pixels
+The model sets the C-factor at every ditch pixel tot 0.01. Thus, it overwrites
+the value of the pixel in the :ref:`C-factor raster <cmap> `.
+The ktc value of the pixel is set to :ref:`ktc low <ktclow>`.
 
 .. _includedams:
 
 Include dams
 ############
 
-Same principle as include ditches, but differences in C-factor and ktc
+Dams alter the routing in the same way as ditches. The sediment and water will
+follow the course of a dam in stead of along the steepest slope. When this
+option is enabled, :ref:`a raster with information about the direction <dammap>`
+is mandatory.
 
-TO DO: ktc and C-factor at these pixels
+The model sets the C-factor at every dam pixel tot 0 Thus, it overwrites
+the value of the pixel in the :ref:`C-factor raster <cmap> `.
+The ktc value of the pixel is set to -9999.
 
 Force Routing
 #############
@@ -269,10 +277,11 @@ This option is usefull because the calculated routing in a river, based on the
 digital elevation model, is not always correct.
 
 Following input-files are required when `River Routing = 1`:
-* river segement filename
-* river routing filename
-* adjectant segments
-* upstream segments
+
+* :ref:`river segement file <riversegmentfile>`
+* :ref:`river routing file <riverroutingmap>`
+* :ref:`adjectant segments file <adjsegments>`
+* :ref:`upstream segments file <upstrsegments>`
 
 When this option is disabled, the model will use the digital elevation model to
 determine the routing between all river pixels.
