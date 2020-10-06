@@ -318,7 +318,32 @@ setting `Adjusted Slope = 1`
 Estimate Clay content
 #####################
 
-TO DO
+When using the full CN-WS model (i.e. :ref:`simple=0 <simple>`), it is possible
+to estimate the clay content at every outlet and in every river
+segment (the latter only when :ref:`output per VHA river segment <outputVHA>`
+is enabled). To do this, the user needs to define the
+:ref:`clay content of the parent material <claycontent>` (:math:`CC_{parent}`).
+
+First, the enrichmentfactor :math:`EF` for clay is calculated:
+
+.. math::
+    EF = 1 + 0.7732.\exp^{-0.0508.SC}
+
+where :math:`SC` is the sediment concentration (g/l).
+
+The estimated clay content :math:`CC` (%) for an outlet or segment is calculated
+as a function of :math:`EF` and :math:`CC_{parent}`:
+
+.. math::
+    CC = CC_{parent}.EF
+
+After the calculation, following files are written:
+
+* :ref:`Clay content sediment.txt <claycontentesedtxt>`
+* :ref:`Clay content sediment VHA.txt <claycontentesedvhatxt>`
+
+.. note::
+    This option is not yet tested.
 
 .. _calibrate:
 

@@ -383,10 +383,13 @@ Sewer exit
 
 integer
 
+.. _claycontent:
+
 Clay content parent material
 ****************************
 
-float
+The average fraction of clay in the soil in the modelled catchment in
+percentages (float, between 0 and 1).
 
 5 day antecedent rainfall
 *************************

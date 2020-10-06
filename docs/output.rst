@@ -151,6 +151,16 @@ Clay content sediment.txt
 Tab-delimited table with the mean clay content (%) at every outlet. This table
 is only generated when :ref:`estimate clay content = 1 <estimclay>`.
 
+.. _claycontentesedvhatxt:
+
+Clay content sediment VHA.txt
+*****************************
+
+Tab-delimited table with the mean clay content (%) in every river segment. This
+table is only generated when :ref:`estimate clay content = 1 <estimclay>` and
+:ref:`Output per VHA river segment = 1 <outputVHA>`.
+
+
 .. _cumulativerst:
 
 cumulative.rst
