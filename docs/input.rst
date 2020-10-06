@@ -607,33 +607,42 @@ volume
 ******
 
 The maximum volume of water that can be trapped in the
-bufferbasin, :math:`V_{basin}` (:math:`m^{3}`).
+bufferbasin, :math:`V_{basin}` (:math:`m^{3}`). This parameter is only
+mandatory when using the CN-module (i.e. :ref:`simple = 0 <simple>`).
 
 height dam
 **********
 
-the height of the dam of the buffer basin, :math:`H_{dam}` (m)
+The height of the dam of the buffer basin, :math:`H_{dam}` (m). This parameter
+is only mandatory when using the CN-module (i.e. :ref:`simple = 0 <simple>`).
 
 height opening
 **************
 
-the height of the opening of the discharge pipe of the buffer basin,
-:math:`H_{opening}` (m)
+The height of the opening of the discharge pipe of the buffer basin,
+:math:`H_{opening}` (m). This parameter is only mandatory when using the
+CN-module (i.e. :ref:`simple = 0 <simple>`).
 
 opening area
 ************
 
-the area of the discharge opening :math:`A_0` (:math:`m^{2}`)
+The area of the discharge opening :math:`A_0` (:math:`m^{2}`).
+This parameter is only mandatory when using the CN-module (i.e.
+:ref:`simple = 0 <simple>`).
 
 discharge coefficient
 *********************
 
-the discharge coefficient :math:`C_d` (-) of the buffer basin.
+The discharge coefficient :math:`C_d` (-) of the buffer basin.
+This parameter is only mandatory when using the CN-module (i.e.
+:ref:`simple = 0 <simple>`).
 
 width dam
 *********
 
-the width of the overflow on the bufferbasin dam :math:`W_{dam}` (m)
+The width of the overflow on the bufferbasin dam :math:`W_{dam}` (m).
+This parameter is only mandatory when using the CN-module (i.e.
+:ref:`simple = 0 <simple>`).
 
 
 Forced routing data
