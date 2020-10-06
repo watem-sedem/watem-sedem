@@ -188,7 +188,9 @@ sediment that is trapped in the sewer system via this pixel. The outgoing
 sediment of the pixel is reduced with this fraction. The amount of trapped
 sediment is written to output raster sewer_in.rst.
 
-TO DO: sewer exit?
+.. note::
+    This option is fully tested for :ref:`simple=1`, but it is not yet tested
+    for the full CN-WS model.
 
 .. _includebuffers:
 
