@@ -84,10 +84,14 @@ Begin
   // kg/(m² * yr) (ok)
   // Erosion in kg/m²
 
+  if TCModel = TTCModel.VanOost2000 then
   // Capacity := ktc[i,j] * RUSLE[i, j] * distcorr;   // in kg (ok) KTC ZOALS IN VERSIE JEROEN
-  Capacity := ktc[i,j] * RFactor * K_Factor[i, j] * (LS[i, j] - 0.6 * 6.86 * power(tan(slope[i,j]),
-              0.8));
+  Capacity := ktc[i,j] * RFactor * K_Factor[i, j] * (LS[i, j] - 0.6 * 6.86 * power(tan(slope[i,j]), 0.8));
   // [kg/m] VOLGENS CODES BASTIAAN;
+
+  if TCModel = TTCModel.Verstraeten2007 then
+    //transport capacity formulation of Verstraeten et al., (2007)
+  Capacity := ktc[i,j] * RFactor * K_Factor[i, j] * power(UPAREA[i, j], 1.4) * power(slope[i, j], 1.4);
 
 
   // Verwijderd want niet aanwezig in WatemSedem2015
