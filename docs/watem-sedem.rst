@@ -12,13 +12,13 @@ Laboratry for Experimental Geomorphology (KU Leuven, Belgium). WaTEM stands
 for Water and Tillage erosion model (Van Oost et al., 2000) and SEDEM is
 the abbreviation of Sediment Delivery Model (Van Rompaey et al., 2001).
 
-In WaTEM-SEDEM, the mean annual soil erosion rate :math:`E` (see :ref:`here <rusle>`)
-and transport capacity :math:`TC` (see :ref:`here <TC>`) are calculated for every
-pixel in the model domain. Next, the model iterates over all pixels
-according to the order determined by the routing algorithm. During the
-iteration, the outgoing sediment for every pixel is calculated by comparing
-the the total available sediment in the cell (incoming sediment + *E*) with
-the transport capacity.
+In WaTEM-SEDEM, the mean annual soil erosion rate :math:`E` (see
+:ref:`here <rusle>`) and transport capacity :math:`TC` (see :ref:`here <TC>`)
+are calculated for every pixel in the model domain. Next, the model iterates
+over all pixels according to the order determined by the routing algorithm.
+During the iteration, the outgoing sediment for every pixel is calculated by
+comparing the the total available sediment in the cell (incoming sediment + *E*)
+with the transport capacity.
 
 Two cases exist:
  - The total available sediment in a pixel is lower than :math:`TC`: the resulting
@@ -45,7 +45,8 @@ Mean annual soil erosion rate
 For every pixel in the model domain or catchment, the mean annual soil
 erosion rate is calculated with an adapted version of the RUSLE (Revised
 Universal Soil Loss Equation, Renard et al., 1997). The mean annual soil
-erosion rate :math:`E` (:math:`\frac{\text{kg}}{\text{m}^{2}.\text{year}}`) is calculated by
+erosion rate :math:`E` (:math:`\frac{\text{kg}}{\text{m}^{2}.\text{year}}`) is
+calculated by
 
 .. math::
     E = R.K.LS.C.P
@@ -65,24 +66,28 @@ A detailed description of these factors is given :ref:`here <ruslefactors>`.
 Transport capacity calculation
 ==============================
 
-For every grid cell the transport capacity :math:`TC` (:math:`\frac{\text{kg}}{\text{m.year}}`)
-is calculated by:
+For every grid cell the transport capacity :math:`TC`
+(:math:`\frac{\text{kg}}{\text{m.year}}`) is calculated according to
 
 .. math::
-    TC = kTC.R.K.(LS - 4.12.S_g^{0.8})
+    TC = kTC.R.K.T
 
 with
 
 - :math:`kTC`: transport capacity coeffient (m)
-- :math:`S_g`: local slope (:math:`\frac{\text{m}}{\text{m}}`)
+- :math:`R`: :ref:`Rainfall erosivity factor <rfactor>`
+- :math:`K`: :ref:`Soil erobility factor <kfactor>`
+- :math:`T`: topographic factor (-)
 
-A detailed description of these factors is given :ref:`here <ruslefactors>`.
-It is important to note that the :math:`kTC` factor is identified as a calibration
-factor. In addition, in order to use :math:`TC` to compare with the available sediment in
-a pixel (see :ref:`here <Concept>`), units are converted to :math:`\frac{\text{kg}}{\text{pixel}}`
-or :math:`\frac{\text{m}^3}{\text{pixel}}` by making use of the model resolution (m) and bulk
-density (:math:`\frac{\text{kg}}{\text{m}^3}`)
+It is important to note that the :math:`kTC` factor is identified as a
+calibration factor. In addition, in order to use :math:`TC` to compare with the
+available sediment in a pixel (see :ref:`here <Concept>`), units are converted
+to :math:`\frac{\text{kg}}{\text{pixel}}` or
+:math:`\frac{\text{m}^3}{\text{pixel}}` by making use of the model resolution
+(m) and bulk density (:math:`\frac{\text{kg}}{\text{m}^3}`)
 
+CN-WS includes two ways to calculate :math:`T`. See
+:ref:`the section about the different TC models <TCmodel>` for more information.
 
 Tillage erosion
 ===============
@@ -134,7 +139,6 @@ used since 2006 (Verstraeten et al., 2006). Recently, this value has been
 updated to 1250 :math:`\frac{\text{MJ.mm}}{\text{ha.h.year}}` (Deproost et al., 2018).
 
 **Note:** The R-factor can also be defined with other temporal resolutions. For computing WaTEM/SEDEM on a resolution of month, the value :math:`R` can be defined by the mean of each value for each month over a number of years (mean fo all january values over 10 years). In this case the unit would be :math:`\frac{\text{J.mm}}{\text{m}^2.\text{h.month}}`
-
 
 .. _kfactor:
 

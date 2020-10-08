@@ -117,6 +117,42 @@ otherwise, S is calculated as:
 The method of Desmet and Govers (1996) can be activated in CNWS by setting
 *S model* to 'Desmet1996'.
 
+.. _tcmodel:
+
+TC Model
+########
+
+The Transport Capacity (TC) can be calculated in two ways in CN-WS. The default
+method is the method proposed by Van Oost et al. (2000):
+
+.. math::
+    TC = kTC.R.K.(LS - 4.12.S_g^{0.8})
+
+with
+
+- :math:`kTC`: transport capacity coeffient (m)
+- :math:`R`: :ref:`rain fall erosivity <rfactor>`
+- :math:`K`: :ref:`soil erobility factor <kfactor>`
+- :math:`LS`: :ref:`slope length and slope steepness factor <lsfactor>`
+- :math:`S_g`: local slope (:math:`\frac{\text{m}}{\text{m}}`)
+
+Most studies using WaTEM-SEDEM use the method of Van Oost et al. (2000).
+However, a second method, proposed by Verstraeten et al. (2007), also exists:
+
+.. math::
+    TC = kTC.R.K.A^{1.4}.S_g^{1.4}
+
+with
+
+- :math:`A`: the upstream area (m²) of the pixel
+
+A detailed description and comparison of both TC models can be found in
+Verstraeten et al. (2007).
+
+The method of Verstraeten et al. (2007) can be activated in CNWS by setting
+*TC model* to 'Verstraeten2007'. The method of Van Oost et al. (2000) is
+activated by setting *TC model* to 'VanOost2000', this is the default value.
+
 Only Routing
 ############
 

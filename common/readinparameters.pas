@@ -91,6 +91,7 @@ Type
 
   TLModel = (Desmet1996_McCool, Desmet1996_Vanoost2003);
   TSModel = (Desmet1996, Nearing1997);
+  TTCModel = (VanOost2000, Verstraeten2007);
 
 Function Distance1(r: TRoutingArray;i,j: integer): double;
 Function Distance2(r: TRoutingArray;i,j: integer): double;
@@ -234,6 +235,7 @@ Var
 
   LModel: TLModel;
   SModel: TSModel;
+  TCModel: TTCModel;
 
 
 
@@ -625,6 +627,11 @@ Begin
   Smodel := TSModel(GetEnumValue(Typeinfo(TSModel), inistring));
   if Smodel > high(TSModel) then
     raise EInputException.Create('invalid S model: '+ inistring);
+
+  inistring:= Inifile.ReadString('User Choices', 'TC model', 'VanOost2000');
+  TCmodel := TTCModel(GetEnumValue(Typeinfo(TTCModel), inistring));
+  if TCmodel > high(TTCModel) then
+    raise EInputException.Create('invalid TC model: '+ inistring);
 
   Outlet_select:= Inifile.ReadBool('User Choices','Manual outlet selection',false);
 
