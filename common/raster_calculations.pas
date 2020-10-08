@@ -1102,7 +1102,11 @@ Begin
           Routing[i,j].Target1Col := -99;
         End;
 
-
+      If Routing[i,j].Part2 = 0 Then
+        Begin
+          Routing[i,j].Target2Row := -99;
+          Routing[i,j].Target2Col := -99;
+        End;
 End;
 // end procedure DistributeTilDirEvent_Routing
 
