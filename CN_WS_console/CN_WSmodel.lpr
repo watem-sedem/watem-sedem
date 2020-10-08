@@ -91,16 +91,6 @@ Begin
 
 End;
 
-If Not OnlyRouting Then
-   Begin
-    If Not Use_Rfactor Then
-      Begin
-        ReadRainfallFile(Raindata, RainfallFilename);
-        //The .txt file with rainfall per timestep is read and written to a variable
-        CalculateRFactor;
-        // R factor is calculated from given rainfall record
-      End;
-   end;
 
 If (Not simplified) and (Timestep_model>=resAR[1]/0.3) Then
 Begin
@@ -110,33 +100,24 @@ Begin
       Exit;
 End;
 
-If Not Simplified Then
-  CalculateRe(ReMap, PRC, CNmap, alpha, beta);
-//Amount of rainfall excess or deficit is calculated
-
 try
-  if (Outlet_select) then loadOutlet;
   Topo_Calculations;
-  if not Outlet_select then calcOutlet;
   // Sort DTM, calculate slope and aspect, calculate routing, calculate UPAREA, calculate LS factor RUSLE
 
-Except
-  on E: Exception Do
-        Begin
-          TextColor(red);
-          writeln(E.Message);
-          NormVideo();
-          Terminate(1);
-          Exit;
-        End;
-
-end;
-
-if not OnlyRouting Then
+  if not OnlyRouting Then
    Begin
-      If Not simplified Then
-        CalculateTimeDependentRunoff(Remap, RainData, Routing, PRC);
-      //Amount of runoff per timestep is calculated
+       if Outlet_select then
+        loadOutlet
+       else
+        calcOutlet;
+
+      If Not Use_Rfactor Then
+      Begin
+        ReadRainfallFile(Raindata, RainfallFilename);
+        //The .txt file with rainfall per timestep is read and written to a variable
+        CalculateRFactor;
+        // R factor is calculated from given rainfall record
+      End;
 
       if not calibrate then Water;
       // Water erosion calculations
@@ -175,8 +156,14 @@ if not OnlyRouting Then
       End;
 
       If Not Simplified Then
-        Distribute_sediment;
+      Begin
+      CalculateRe(ReMap, PRC, CNmap, alpha, beta);
+      //Amount of rainfall excess or deficit is calculated
+      CalculateTimeDependentRunoff(Remap, RainData, Routing, PRC);
+      //Amount of runoff per timestep is calculated
+      Distribute_sediment;
       // Sediment is distributed over hydrogram
+      End;
 
       if river_routing then
          Cumulative_raster;
@@ -184,16 +171,24 @@ if not OnlyRouting Then
       if Calc_tileros then
          Tillage_dif;
       // tillage erosion calculations
-
    end;
+Except
+  on E: Exception Do
+        Begin
+          TextColor(red);
+          writeln(E.Message);
+          NormVideo();
+          Terminate(1);
+          Exit;
+        End;
+
+end;
 
 write_maps;
 // write output maps
 
 If Write_routing Then
    Write_Routing_Table;
-
-//
 
 //The memory is released for all created maps
 Release_Memory;

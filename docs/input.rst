@@ -50,7 +50,6 @@ The idirisi raster must be formatted as float32.
 	pixels in the model domain have an elevation value, and that at least two
 	pixels outside the model domain have a valid elevation value.
 
-
 .. _prcmap:
 
 Parcel filename
@@ -108,12 +107,16 @@ system.
 
 The datatype of the sewer map is float32.
 
+.. _tildirmap:
+
 Tillage direction filename
 **************************
 
 Filename of a raster with the tillage direction in degrees to the North.
 
 The datatype of the tillage direction raster is float32.
+
+.. _orientedroughnessmap:
 
 Oriented roughness filename
 ***************************
@@ -131,29 +134,34 @@ Buffer map filename
 Filename of the buffer map. This raster is only mandatory when
 :ref:`Include buffers = 1 <includebuffers>`.
 
-TO DO: figure with example bufid/buf extionsion id.
+The figure shows an example of a buffermap with three buffer basins. The outlet
+of every buffer is marked with the buffer id (1, 2 and 3 in this example). The
+other pixels belonging to the buffer get the
+:ref:`extension id <extension_id>`. All other pixels in the raster are set to
+zero.
+
+.. figure:: _static/png/buffermap.png
+	:scale: 80%
 
 The datatype of the buffermap is integer16.
+
+.. _ditchmap:
 
 Ditch map filename
 ******************
 
 Filename of the ditch map. This raster is only mandatory when
-:ref:`Include ditches = 1 <includeditches>`
+:ref:`Include ditches = 1 <includeditches>`. See :ref:`here <routingmap>` for
+more information on how to create this map.
 
-TO DO: dataype raster
-
-TO DO: figure with example routing
+.. _dammap:
 
 Dam map filename
 ****************
 
 Filename of the dam map. This raster is only mandatory when
-:ref:`Include dams = 1 <includedams>`
-
-TO DO: dataype raster
-
-TO DO: figure with example routing
+:ref:`Include dams = 1 <includedams>` See :ref:`here <routingmap>` for more
+information on how to create this map.
 
 P factor map filename
 *********************
@@ -161,6 +169,8 @@ P factor map filename
 Filename of the :ref:`P-factor <pfactor>` map. 
 
 TO DO: dataype raster
+
+.. _riversegmentfile:
 
 River segment filename
 **********************
@@ -176,25 +186,121 @@ The river segment map is raster where every river pixel (every pixel with value
 -1 in the :ref:`parcel map <prcmap>`) gets the id of the segment where it
 belongs too. Every segment has a unique (integer) id.
 
+In the figure below, an example of a river segment map with seven segments is
+given. All pixels which are no river pixels get value 0.
+
+.. figure:: _static/png/riversegment.png
+	:scale: 80%
+
 The datatype of the river segment map is integer16.
+
+.. _adjsegments:
 
 adjectant segments
 ******************
 
-Table with adjectant segments. This table is only mandatory when
-:ref:`River routing = 1 <riverrouting>`
+Table with adjectant  river segments. This table is only mandatory when
+:ref:`River routing = 1 <riverrouting>`. The table consists out of two columns:
+from and to. Every row indicates a connection between two segments:
+segment *from* flows into segment *to*. The values in the table represent the
+segment-ids of the :ref:`river segment map <riversegmentfile>`.
+
+Based on the example :ref:`river segment map <riversegmentfile>`, an example
+table with adjectant river segments is displayed below:
+
++-----+---+
+|from |to |
++=====+===+
+|1    |3  |
++-----+---+
+|2    |3  |
++-----+---+
+|3    |5  |
++-----+---+
+|4    |5  |
++-----+---+
+|6    |2  |
++-----+---+
+|7    |5  |
++-----+---+
+
+.. _upstrsegments:
 
 upstream segments
 *****************
 
 Table with upstream segments. This table is only mandatory when
-:ref:`River routing = 1 <riverrouting>`
+:ref:`River routing = 1 <riverrouting>`. In the table three columns are present:
+
+- edge (integer): segment id
+- upstream edge (integer): segment id of one of the upstream segments of *edge*
+- proportion (float, between 0 and 1): the fraction of the upstream segment that
+  flows into the considered downstream segment. If the fraction is < 1, the
+  upstream segment flows into two downstream segments.
+
+Based on the example :ref:`river segment map <riversegmentfile>`, an example
+table with adjectant upstream segments is displayed below:
+
++-----+--------------+-----------+
+|edge |upstream edge |proportion |
++=====+==============+===========+
+|3    |1             |1.0        |
++-----+--------------+-----------+
+|3    |2             |1.0        |
++-----+--------------+-----------+
+|5    |4             |1.0        |
++-----+--------------+-----------+
+|5    |3             |1.0        |
++-----+--------------+-----------+
+|5    |2             |1.0        |
++-----+--------------+-----------+
+|5    |1             |1.0        |
++-----+--------------+-----------+
+|5    |6             |1.0        |
++-----+--------------+-----------+
+|5    |7             |1.0        |
++-----+--------------+-----------+
+|6    |2             |1.0        |
++-----+--------------+-----------+
+|5    |1             |1.0        |
++-----+--------------+-----------+
+
+.. _riverroutingmap:
 
 river routing filename
 **********************
 
 Filename of the river routing map. This raster is only mandatory when
-:ref:`River routing = 1 <riverrouting>`
+:ref:`River routing = 1 <riverrouting>`. See :ref:`here <routingmap>` for more
+information on how to create this map.
+
+.. _routingmap:
+
+routing map
+***********
+
+CN-WS accepts rasters where a single-flow routing along a line element in the
+landscape is imposed by the user. The
+:ref:`river routing map <riverroutingmap>`, :ref:`ditchmap <ditchmap>` and
+:ref:`dam map <dammap>` are made according to the principles described here.
+
+A routing map contains integer values between 0 and 8. Every value indicates a
+direction the routing will follow. A pixel set to zero has no imposed routing.
+
+Consider pixel X in the figure below. If the routing must flow from X to the
+upper cardinal cell, pixel X will get value 1 in the routing map. If the routing
+must flow from X to the lower left pixel, X will get value 6. All other
+directions are set in the same way, according to the numbers in the figure.
+
+.. figure:: _static/png/direction_routingmap.png
+	:scale: 80%
+
+An example of a routing map with two imposed routings is given here:
+
+.. figure:: _static/png/routingmap.png
+	:scale: 80%
+
+The datatype of a routing raster is integer16.
 
 CN map filename
 ***************
@@ -248,6 +354,8 @@ Filename of the :ref:`K-factor <kfactor>` map. The soil erosivity factor or
 K-factor of the RUSLE-equation for every pixel in the modeldomain is stored in
 the K-factor map (kg.h/MJ.mm).
 
+.. _cmap:
+
 C factor map filename
 *********************
 
@@ -275,10 +383,13 @@ Sewer exit
 
 integer
 
+.. _claycontent:
+
 Clay content parent material
 ****************************
 
-float
+The average fraction of clay in the soil in the modelled catchment in
+percentages (float, between 0 and 1).
 
 5 day antecedent rainfall
 *************************
@@ -335,7 +446,7 @@ Number of buffers
 
 The amount of buffers present in the :ref:`buffer map <buffermap>` is given in
 this parameter (integer). The parameter is only mandatory when
-:ref:`Include buffers = 1 <includebuffers>`
+:ref:`Include buffers = 1 <includebuffers>`.
 
 Number of forced routing
 ************************
@@ -448,7 +559,7 @@ model.
 
 This parameter is only mandatory when :ref:`Use R factor = 0 <useR>`.
 
-.. note:
+.. note::
 	In a first model run for a catchment with a given rainfall event, the user
 	must choose the endtime large enough. By doing this, he makes sure the the
 	whole runoff peak is modelled. After this first simulation, the model user
@@ -471,45 +582,67 @@ Bufferdata
 For every buffer, following variables must be defined. These variables are only
 mandatory when include buffers = 1.
 
-volume
-******
-
-TO DO
-
-height dam
-**********
-
-TO DO
-
-height opening
-**************
-
-TO DO
-
-opening area
-************
-
-TO DO
-
-discharge coefficient
-*********************
-
-TO DO
-
-width dam
-*********
-
-TO DO
+.. _PTEFBuffer:
 
 trapping efficiency
 *******************
 
-TO DO
+The trapping efficiency is the fraction of the incoming sediment that is trapped
+in the buffer basin.
+
+.. _extension_id:
 
 extension id
 *************
 
-TO DO
+The extension id of a buffer is calculated as the buffer id + 16384. It is an
+integer value. 16384 is also the maximum amount of buffers possible in the model.
+All pixels of the buffer in the :ref:`buffer map <buffermap>`
+are given the value of the extension id, except the outlet pixel.
+
+Following variables are used in the CN-module. A full description about the
+CN calculation in buffers can be found :ref:`here <bufferbasins>`
+
+volume
+******
+
+The maximum volume of water that can be trapped in the
+bufferbasin, :math:`V_{basin}` (:math:`m^{3}`). This parameter is only
+mandatory when using the CN-module (i.e. :ref:`simple = 0 <simple>`).
+
+height dam
+**********
+
+The height of the dam of the buffer basin, :math:`H_{dam}` (m). This parameter
+is only mandatory when using the CN-module (i.e. :ref:`simple = 0 <simple>`).
+
+height opening
+**************
+
+The height of the opening of the discharge pipe of the buffer basin,
+:math:`H_{opening}` (m). This parameter is only mandatory when using the
+CN-module (i.e. :ref:`simple = 0 <simple>`).
+
+opening area
+************
+
+The area of the discharge opening :math:`A_0` (:math:`m^{2}`).
+This parameter is only mandatory when using the CN-module (i.e.
+:ref:`simple = 0 <simple>`).
+
+discharge coefficient
+*********************
+
+The discharge coefficient :math:`C_d` (-) of the buffer basin.
+This parameter is only mandatory when using the CN-module (i.e.
+:ref:`simple = 0 <simple>`).
+
+width dam
+*********
+
+The width of the overflow on the bufferbasin dam :math:`W_{dam}` (m).
+This parameter is only mandatory when using the CN-module (i.e.
+:ref:`simple = 0 <simple>`).
 
 
 Forced routing data

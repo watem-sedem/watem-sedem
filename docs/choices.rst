@@ -9,7 +9,6 @@ are described together with the modeloption.
 Input
 *****
 
-
 .. _lmodel:
 
 L model
@@ -118,6 +117,42 @@ otherwise, S is calculated as:
 The method of McCool et al. (1987) can be activated in CNWS by setting
 *S model* to 'McCool1987'.
 
+.. _tcmodel:
+
+TC Model
+########
+
+The Transport Capacity (TC) can be calculated in two ways in CN-WS. The default
+method is the method proposed by Van Oost et al. (2000):
+
+.. math::
+    TC = kTC.R.K.(LS - 4.12.S_g^{0.8})
+
+with
+
+- :math:`kTC`: transport capacity coeffient (m)
+- :math:`R`: :ref:`rain fall erosivity <rfactor>`
+- :math:`K`: :ref:`soil erobility factor <kfactor>`
+- :math:`LS`: :ref:`slope length and slope steepness factor <lsfactor>`
+- :math:`S_g`: local slope (:math:`\frac{\text{m}}{\text{m}}`)
+
+Most studies using WaTEM-SEDEM use the method of Van Oost et al. (2000).
+However, a second method, proposed by Verstraeten et al. (2007), also exists:
+
+.. math::
+    TC = kTC.R.K.A^{1.4}.S_g^{1.4}
+
+with
+
+- :math:`A`: the upstream area (m²) of the pixel
+
+A detailed description and comparison of both TC models can be found in
+Verstraeten et al. (2007).
+
+The method of Verstraeten et al. (2007) can be activated in CNWS by setting
+*TC model* to 'Verstraeten2007'. The method of Van Oost et al. (2000) is
+activated by setting *TC model* to 'VanOost2000', this is the default value.
+
 Only Routing
 ############
 
@@ -126,7 +161,8 @@ CN-WS. No sediment calculations or discharge calculations are done:
 the WaTEM-SEDEM and CN modules are disabled. When using this option only
 :ref:`a limited model output <onlyroutingoutput>` is possible.
 
-TO DO: why should you do this?
+This option is usefull in large catchments to evaluate the routing without
+calculating the sediment transport or discharges.
 
 .. _simple:
 
@@ -187,7 +223,9 @@ sediment that is trapped in the sewer system via this pixel. The outgoing
 sediment of the pixel is reduced with this fraction. The amount of trapped
 sediment is written to output raster sewer_in.rst.
 
-TO DO: sewer exit?
+.. note::
+    This option is fully tested for :ref:`simple=1`, but it is not yet tested
+    for the full CN-WS model.
 
 .. _includebuffers:
 
@@ -203,31 +241,37 @@ in the buffer map. In every buffer section in the ini-file some variables must
 be given.
 
 The Include buffers option adjusts the routing in the pixels. All pixels within
-a buffer with the buffer extension id are routed to the outletpixel of the
-buffer. This outletpixel in the bufferraster is marked with the buffer id. The
-amount of sediment that flows out of the bufferoutlet is reduced with the
-trapping efficiency of the buffer.
-
-TO DO: ktc and C-factor at these pixels
+a buffer with the buffer :ref:`extension id <extension_id>` are routed to the
+outletpixel of the buffer. This outletpixel in the bufferraster is marked with
+the buffer id. The amount of sediment that flows out of the bufferoutlet is
+reduced with the :ref:`trapping efficiency <PTEFBuffer>` of the buffer.
 
 .. _includeditches:
 
 Include ditches
 ###############
 
-Ditches alter the sediment flow. The sediment will follow the course of a ditch
-in stead of along the steepest slope.
+Ditches alter the routing. The sediment and water will follow the course of a
+ditch in stead of along the steepest slope. When this option is enabled,
+:ref:`a raster with information about the direction <ditchmap>` is mandatory.
 
-TO DO: ktc and C-factor at these pixels
+The model sets the C-factor at every ditch pixel tot 0.01. Thus, it overwrites
+the value of the pixel in the :ref:`C-factor raster <cmap> `.
+The ktc value of the pixel is set to :ref:`ktc low <ktclow>`.
 
 .. _includedams:
 
 Include dams
 ############
 
-Same principle as include ditches, but differences in C-factor and ktc
+Dams alter the routing in the same way as ditches. The sediment and water will
+follow the course of a dam in stead of along the steepest slope. When this
+option is enabled, :ref:`a raster with information about the direction <dammap>`
+is mandatory.
 
-TO DO: ktc and C-factor at these pixels
+The model sets the C-factor at every dam pixel to 0. Thus, it overwrites
+the value of the pixel in the :ref:`C-factor raster <cmap> `.
+The ktc value of the pixel is set to -9999.
 
 Force Routing
 #############
@@ -269,10 +313,11 @@ This option is usefull because the calculated routing in a river, based on the
 digital elevation model, is not always correct.
 
 Following input-files are required when `River Routing = 1`:
-* river segement filename
-* river routing filename
-* adjectant segments
-* upstream segments
+
+* :ref:`river segement file <riversegmentfile>`
+* :ref:`river routing file <riverroutingmap>`
+* :ref:`adjectant segments file <adjsegments>`
+* :ref:`upstream segments file <upstrsegments>`
 
 When this option is disabled, the model will use the digital elevation model to
 determine the routing between all river pixels.
@@ -280,28 +325,63 @@ determine the routing between all river pixels.
 Include tillage direction
 #########################
 
-TO DO
+This option alters the routing on agricultural fields. When this option is
+enabled, the routing will follow the tillage direction on these fields.
+
+Following input-files are required when `Include tillage direction = 1`:
+
+* :ref:`tillage direction map <tildirmap>`
+* :ref:`oriented roughness map <orientedroughnessmap>`
+
+.. note::
+    This option is not yet tested.
 
 Adjusted Slope
 ##############
 
 Normally, the slope of a pixel is determined by the algoritm of Zevenbergen and
 Thorne (1987) on the four neighbouring, cardinal cells.
-This procedure works good in areas where the routing is determined solely on the
+This procedure works good in areas where the routing is solely based on on the
 digital elevation model. In areas where the routing is imposed by other rules
 (e.g. at parcel boundaries, in buffers,...) the slope of the direction in the
 routing can be different than the calculated slope by Zevenbergen and
-Thorne (1987). In these cases the slope can be calculated by the absolute value
-of the height difference between the source and target pixel, divided by the
-distance between these two pixels. This calculation is enabled by setting
-`Adjusted Slope = 1`
+Thorne (1987). In these cases the slope can be calculated by dividing the
+absolute value of the height difference between the source and target pixel,
+with the distance between these two pixels. This calculation is enabled by
+setting `Adjusted Slope = 1`
 
 .. _estimclay:
 
 Estimate Clay content
 #####################
 
-TO DO
+When using the full CN-WS model (i.e. :ref:`simple=0 <simple>`), it is possible
+to estimate the clay content at every outlet and in every river
+segment (the latter only when :ref:`output per VHA river segment <outputVHA>`
+is enabled). To do this, the user needs to define the
+:ref:`clay content of the parent material <claycontent>`
+(:math:`CC_{text{parent}}`).
+
+First, the enrichment factor :math:`EF` for clay is calculated:
+
+.. math::
+    EF = 1 + 0.7732.\exp^{-0.0508.SC}
+
+where :math:`SC` is the sediment concentration (g/l).
+
+The estimated clay content :math:`CC` (%) for an outlet or segment is calculated
+as a function of :math:`EF` and :math:`CC_{text{parent}}`:
+
+.. math::
+    CC = CC_{parent}.EF
+
+After the calculation, following files are written:
+
+* :ref:`Clay content sediment.txt <claycontentesedtxt>`
+* :ref:`Clay content sediment VHA.txt <claycontentesedvhatxt>`
+
+.. note::
+    This option is not yet tested.
 
 .. _calibrate:
 
@@ -322,7 +402,21 @@ A more detailed explaination about how and why to calibrate can ben found
 Output per VHA river segment
 ############################
 
-TO DO
+A river segment is defined as a series of consequent river pixels. Mostly, a
+segment starts at a confluence of different rivers and it stops at the next
+confluence. CN-WS has the option to make a summary of the results per river
+segment. For every segment the total sedimentinput, total discharge or the
+sediment concentration is calculated.
+
+River segments are defined in a :ref:`separate raster <riversegmentfile>`. This
+raster is mandatory when this option is enabled.
+
+When this option is enabled, following output is written:
+- :ref:`Total Sediment VHA.txt <totalsedimentvhatxt>`
+- :ref:`Cumulative sediment VHA.txt <cumsedvhatxt>`
+- :ref:`Discharge_VHA.txt <dischargevha>`
+- :ref:`Sediment concentration_VHA.txt <sedconcenvha>`
+- :ref:`Sediment_VHA.txt <sedvhatxt>`
 
 .. _manualoutlet:
 

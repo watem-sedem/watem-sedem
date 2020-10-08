@@ -151,6 +151,16 @@ Clay content sediment.txt
 Tab-delimited table with the mean clay content (%) at every outlet. This table
 is only generated when :ref:`estimate clay content = 1 <estimclay>`.
 
+.. _claycontentesedvhatxt:
+
+Clay content sediment VHA.txt
+*****************************
+
+Tab-delimited table with the mean clay content (%) in every river segment. This
+table is only generated when :ref:`estimate clay content = 1 <estimclay>` and
+:ref:`Output per VHA river segment = 1 <outputVHA>`.
+
+
 .. _cumulativerst:
 
 cumulative.rst
@@ -255,6 +265,8 @@ Discharge.txt
 
 Table with discharge (m³/s) as a function of time for every outlet.
 
+.. _dischargevha:
+
 Discharge_VHA.txt
 *****************
 
@@ -267,6 +279,8 @@ Sediment concentration.txt
 Table with the concentration of sediment (g/l) as a function of time for every
 outlet.
 
+.. _sedconcenvha:
+
 Sediment concentration_VHA.txt
 ******************************
 
@@ -278,6 +292,8 @@ Sediment.txt
 ************
 
 Table with the sediment load (kg) as a function of time for every outlet.
+
+.. _sedvhatxt:
 
 Sediment_VHA.txt
 ****************

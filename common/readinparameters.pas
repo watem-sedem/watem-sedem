@@ -91,6 +91,7 @@ Type
 
   TLModel = (Desmet1996_McCool, Desmet1996_Vanoost2003);
   TSModel = (McCool1987, Nearing1997);
+  TTCModel = (VanOost2000, Verstraeten2007);
 
 Function Distance1(r: TRoutingArray;i,j: integer): double;
 Function Distance2(r: TRoutingArray;i,j: integer): double;
@@ -234,6 +235,7 @@ Var
 
   LModel: TLModel;
   SModel: TSModel;
+  TCModel: TTCModel;
 
 
 
@@ -626,6 +628,11 @@ Begin
   if Smodel > high(TSModel) then
     raise EInputException.Create('invalid S model: '+ inistring);
 
+  inistring:= Inifile.ReadString('User Choices', 'TC model', 'VanOost2000');
+  TCmodel := TTCModel(GetEnumValue(Typeinfo(TTCModel), inistring));
+  if TCmodel > high(TTCModel) then
+    raise EInputException.Create('invalid TC model: '+ inistring);
+
   Outlet_select:= Inifile.ReadBool('User Choices','Manual outlet selection',false);
 
   {Filenames}
@@ -843,33 +850,7 @@ Begin
       For i := 1 To Number_of_Buffers Do
         Begin
           Buffername := 'Buffer ' + IntToStr(i);
-          If Not TryStrToFloat(inifile.readstring(Buffername, 'Volume', Default), Bufferdata[i].
-             Volume) Then
-              raise EInputException.Create('Error in data input: Buffer '+intToStr(i)+
-                            ' volume value missing or wrong data format');
-          If Not TryStrToFloat(inifile.readstring(Buffername, 'Height dam', Default),Bufferdata[i]
-             .Height_dam) Then
-            raise EInputException.Create(
-                  'Error in data input: Buffer '+intToStr(i)+
-                  ' height dam value missing or wrong data format');
-          If Not TryStrToFloat(inifile.readstring(Buffername, 'Height opening', Default),
-             Bufferdata[i].Height_opening) Then
-              raise EInputException.Create('Error in data input: Buffer '+intToStr(i)+
-                            ' height opening value missing or wrong data format');
-          If Not  TryStrToFloat(inifile.readstring(Buffername, 'Opening area', Default),Bufferdata
-             [i].Opening_area) Then
-              raise EInputException.Create(
-              'Error in data input: Buffer '+intToStr(i)+
-                            ' opening area value missing or wrong data format');
-          If Not TryStrToFloat(inifile.readstring(Buffername, 'Discharge coefficient', Default),
-             Bufferdata[i].Cd) Then
-              raise EInputException.Create(
-                'Error in data input: Buffer '+intToStr(i)+
-                ' discharge coefficient value missing or wrong data format');
-          If Not TryStrToFloat(inifile.readstring(Buffername, 'Width dam', Default), Bufferdata[i]
-             .width_dam) Then
-              raise EInputException.Create('Error in data input: Buffer '+intToStr(i)+
-                            ' width dam value missing or wrong data format');
+
           If Not TryStrToFloat(inifile.readstring(Buffername, 'Trapping efficiency', Default),
              Bufferdata[i].PTEF) Then
               raise EInputException.Create( 'Error in data input: Buffer '+intToStr(i)+
@@ -878,10 +859,49 @@ Begin
              ].ext_ID) Then
               raise EInputException.Create('Error in data input: Buffer '+intToStr(i)+
                             ' extension ID missing or wrong data format');
-          If Bufferdata[i].Height_opening > Bufferdata[i].Height_dam Then
+
+          If Not simplified Then
+            Begin
+
+            If Not TryStrToFloat(inifile.readstring(Buffername, 'Volume', Default), Bufferdata[i].
+               Volume) Then
+                raise EInputException.Create('Error in data input: Buffer '+intToStr(i)+
+                              ' volume value missing or wrong data format');
+
+            If Not TryStrToFloat(inifile.readstring(Buffername, 'Height dam', Default),Bufferdata[i]
+               .Height_dam) Then
+              raise EInputException.Create(
+                    'Error in data input: Buffer '+intToStr(i)+
+                    ' height dam value missing or wrong data format');
+
+            If Not TryStrToFloat(inifile.readstring(Buffername, 'Height opening', Default),
+               Bufferdata[i].Height_opening) Then
+                raise EInputException.Create('Error in data input: Buffer '+intToStr(i)+
+                              ' height opening value missing or wrong data format');
+
+            If Not  TryStrToFloat(inifile.readstring(Buffername, 'Opening area', Default),Bufferdata
+               [i].Opening_area) Then
+                raise EInputException.Create(
+                'Error in data input: Buffer '+intToStr(i)+
+                              ' opening area value missing or wrong data format');
+
+            If Not TryStrToFloat(inifile.readstring(Buffername, 'Discharge coefficient', Default),
+               Bufferdata[i].Cd) Then
+                raise EInputException.Create(
+                  'Error in data input: Buffer '+intToStr(i)+
+                  ' discharge coefficient value missing or wrong data format');
+
+            If Not TryStrToFloat(inifile.readstring(Buffername, 'Width dam', Default), Bufferdata[i]
+               .width_dam) Then
+                raise EInputException.Create('Error in data input: Buffer '+intToStr(i)+
+                              ' width dam value missing or wrong data format');
+
+            If Bufferdata[i].Height_opening > Bufferdata[i].Height_dam Then
               raise EInputException.Create(
                 'Error in buffer input: the height of the opening cannot be larger than' +
                 ' the height of the dam. Please insert correct values.');
+
+            End;
         End;
     End;
 
