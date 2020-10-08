@@ -16,6 +16,8 @@ steps:
       - debuild -b
       - mkdir package
       - mv ../cn-ws*amd64* package
+        # also build normal (non package) version
+      - make
 
   - name: rsync-apt
     image: drillster/drone-rsync
@@ -98,3 +100,22 @@ steps:
       event:
         exclude:
           - pull_request
+
+---
+kind: pipeline
+type: docker
+name: windows build
+platform:
+  os: windows
+  version: 1809
+
+steps:
+  - name: build compiled version
+    image: registry.fluves.net/lazarus-windows
+    commands:
+      - c:\lazarus\lazbuild.exe cn_ws_console\CN_WSmodel.lpr
+      # strip debug symbols
+      - c:\lazarus\fpc\3.2.0\bin\x86_64-win64\strip.exe cn_ws_console\CN_WSmodel.exe
+  - name: windows: run tests
+    image: registry.fluves.net/lazarus-windows
+      - .\testfiles\test.bat
