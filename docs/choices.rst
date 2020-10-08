@@ -56,9 +56,9 @@ The calculation method of Van Oost et al. (2003) can be chosen by setting
 the model choice *L model* to 'Desmet1996_Vanoost'. This is the default value
 for this model option.
 
-**McCool et al. (1989, 1987):**
+**McCool et al. (1989):**
 
-McCool et al. (1989, 1987) calculate :math:`m` as:
+McCool et al. (1989) calculate :math:`m` as:
 
 .. math::
     m = \frac{\beta}{\beta + 1}
@@ -68,7 +68,7 @@ with :math:`\beta` calculated as
 .. math::
     \beta = \frac{\frac{sin(\theta)}{0.0896}}{3.sin^{0.8}(\theta) + 0.56}
 
-with :math:`\theta` the slope of the pixel
+with :math:`\theta` the slope of the pixel in percentages.
 
 The calculation method of McCool et al. (1989, 1987) can be chosen by setting
 the model choice *L model* to 'Desmet1996_McCool'.
@@ -97,9 +97,9 @@ The two S-models are:
 The method of Nearing (1997) can be activated in CNWS by setting
 *S model* to 'Nearing1997'. This is the default method to calculate the S factor.
 
-**Desmet and Govers (1996)**
+**McCool et al. (1987)**
 
-Desmet and Govers (1996) distinguish two cases:
+McCool et al. (1987) distinguish two cases:
 
 .. math::
     S = (10.8.sin(\theta)) + 0.03
@@ -114,8 +114,8 @@ otherwise, S is calculated as:
 .. math::
     S = (16.8.sin(\theta)) - 0.5
 
-The method of Desmet and Govers (1996) can be activated in CNWS by setting
-*S model* to 'Desmet1996'.
+The method of McCool et al. (1987) can be activated in CNWS by setting
+*S model* to 'McCool1987'.
 
 .. _tcmodel:
 

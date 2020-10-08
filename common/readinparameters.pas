@@ -90,7 +90,7 @@ Type
   TRoutingInvArray = array of array of TInvRouting;
 
   TLModel = (Desmet1996_McCool, Desmet1996_Vanoost2003);
-  TSModel = (Desmet1996, Nearing1997);
+  TSModel = (McCool1987, Nearing1997);
   TTCModel = (VanOost2000, Verstraeten2007);
 
 Function Distance1(r: TRoutingArray;i,j: integer): double;
