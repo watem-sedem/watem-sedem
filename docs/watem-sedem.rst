@@ -238,8 +238,7 @@ with land-use `agriculture`:
 
 with
  - :math:`R_i`: rainfall erosivity factor (:math:`\frac{\text{J.mm}}{\text{m}^2.\text{h.TR}}`) with :math:`\text{TR}`: temporal resolution.
- - :math:`t`: the maximum number of the increments for the specified
-temporal resolution (e.g. month: t = 12).
+ - :math:`t`: the maximum number of the increments.
  - :math:`SLR`: the soil loss ratio (-). The SLR varies as a function of the
 used C-factor model. We refer to Renard et al. (1997) for an in-depth
 overview of the C- and SLR-factor.
