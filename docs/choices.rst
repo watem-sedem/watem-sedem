@@ -314,7 +314,7 @@ digital elevation model, is not always correct.
 
 Following input-files are required when `River Routing = 1`:
 
-* :ref:`river segement file <riversegmentfile>`
+* :ref:`river segment file <riversegmentfile>`
 * :ref:`river routing file <riverroutingmap>`
 * :ref:`adjectant segments file <adjsegments>`
 * :ref:`upstream segments file <upstrsegments>`
