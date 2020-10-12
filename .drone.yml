@@ -4,7 +4,18 @@ type: docker
 name: cn_ws
 
 steps:
-  - name: build
+  - name: build linux
+    image: registry.fluves.net/lazarus-build
+    environment:
+    commands:
+      - make
+
+  - name: test
+    image: registry.fluves.net/lazarus-build
+    commands:
+      - testfiles/test.sh
+
+  - name: build debian package
     image: registry.fluves.net/lazarus-build
     environment:
       GPG_KEY:
@@ -16,8 +27,6 @@ steps:
       - debuild -b
       - mkdir package
       - mv ../cn-ws*amd64* package
-        # also build normal (non package) version
-      - make
 
   - name: rsync-apt
     image: drillster/drone-rsync
@@ -112,6 +121,7 @@ platform:
 steps:
   - name: build compiled version
     image: registry.fluves.net/lazarus-windows
+    image: microsoft/nanoserver 
     commands:
       - c:\lazarus\lazbuild.exe cn_ws_console\CN_WSmodel.lpr
       # strip debug symbols
