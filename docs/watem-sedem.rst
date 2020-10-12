@@ -86,7 +86,7 @@ to :math:`\frac{\text{kg}}{\text{pixel}}` or
 :math:`\frac{\text{m}^3}{\text{pixel}}` by making use of the model resolution
 (m) and bulk density (:math:`\frac{\text{kg}}{\text{m}^3}`)
 
-CN-WS includes two ways to calculate :math:`T`. See
+CN-WS includes two ways to calculate :math:`TC`. See
 :ref:`the section about the different TC models <TCmodel>` for more information.
 
 Tillage erosion
