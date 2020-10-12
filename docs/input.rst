@@ -192,7 +192,9 @@ given. All pixels which are no river pixels get value 0.
 .. figure:: _static/png/riversegment.png
 	:scale: 80%
 
-The datatype of the river segment map is integer16.
+The datatype of the river segment map is integer16. The segments id's in the
+context of Flanders are defined by the VHA (see also note
+:ref:`here <outputsegment>`.
 
 .. _adjsegments:
 
