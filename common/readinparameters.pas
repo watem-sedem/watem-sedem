@@ -609,7 +609,7 @@ Begin
   Include_ditch := Inifile.ReadBool('User Choices','Include ditches',false);
   Include_dam := Inifile.ReadBool('User Choices','Include dams',false);
 
-  VHA := Inifile.ReadBool('User Choices','Output per VHA river segment',false);
+  VHA := Inifile.ReadBool('User Choices','Output per river segment',false);
   max_kernel := Inifile.ReadInteger('User Choices', 'Max kernel', 50);
   max_kernel_river := Inifile.ReadInteger('User Choices', 'Max kernel river', 100);
 
