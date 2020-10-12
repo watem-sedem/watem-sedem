@@ -17,18 +17,25 @@ In WaTEM-SEDEM, the mean annual soil erosion rate :math:`E` (see
 are calculated for every pixel in the model domain. Next, the model iterates
 over all pixels according to the order determined by the routing algorithm.
 During the iteration, the outgoing sediment for every pixel is calculated by
-comparing the the total available sediment in the cell (incoming sediment + *E*)
-with the transport capacity.
+comparing the the total available sediment in the cell :math:`S_A` (incoming
+sediment, :math:`S_i` + :math:`E`) with the transport capacity.
 
 Two cases exist:
- - The total available sediment in a pixel is lower than :math:`TC`: the resulting
-   mass balance is negative (the pixel can transport more than the amount of
-   sediment available to transport, so 'erosion' will occur). The outgoing
-   sediment is set equal to the available sediment
- - The available sediment exceeds :math:`TC`: the resulting mass balance is
-   positive (enough sediment to transport, some sediment will be 'deposited' in
-   the cell). The outgoing sediment is equal to :math:`TC` and (available sediment -
-   :math:`TC`) will be deposited in the cell.
+ - :math:`S_A` < :math:`TC`: the resulting mass balance is negative (the
+   pixel can transport more than the amount of sediment available to
+   transport, so 'erosion' will occur). The outgoing sediment is set equal
+   to the available sediment
+ - :math:`S_A` > or equal to :math:`TC`: the resulting mass balance is
+   positive (enough sediment to transport, some sediment will be 'deposited'
+   in the pixel). The outgoing sediment (:math:`S_o` is equal to :math:`TC`
+   and (S_A - :math:`TC`) will be deposited in the cell.
+
+Or:
+
+.. math::
+    S_o & = & S_A & \text{ if } & S_A≤TC \\
+        & = & S_A-TC & \text{ else } & S_A>TC
+
 
 The outgoing sediment of a cell is distributed to one or two target pixels.
 The target cells are determined by the routing algorithm. The outgoing
@@ -118,14 +125,14 @@ mean over all years:
     R = \frac{1}{n}\sum_{j=1}^{n}[\sum_{k=1}^{m_j}E_k.(I_{30})_k]_j
 
 with
- - :math:`R`: rainfall erosivity factor (:math:`\frac{\text{J
-.mm}}{\text{m}^2.\text{h.year}}`)
+ - :math:`R`: rainfall erosivity factor(:math:`\frac{\text{J
+   .mm}}{\text{m}^2.\text{h.year}}`)
  - :math:`n`, increment :math:`j`: number of years
  - :math:`m_j`, increment :math:`k`: number of rain event in year :math:`j`
  - :math:`E`: the total kinetic energy of one single rain event
-(:math:`\frac{J}{m^2}`).
+   (:math:`\frac{J}{m^2}`).
  - :math:`I_{30}` (:math:`\frac{mm}{h}`): the maximum rain intensity
-recorded within 30 consecutive minutes.
+   recorded within 30 consecutive minutes.
 
 The total kinetic energy for one single rain event can be defined as:
 
@@ -136,8 +143,8 @@ The total kinetic energy for one single rain event can be defined as:
 
 with
  - :math:`e_r`: the rain energy per unit depth
-(:math:`\frac{\text{J}}{\text{m}^{2}.\text{mm}}`). There are a number of
-ways to compute, see Verstraeten et al. (2006) and Panagos et al. (2015).
+   (:math:`\frac{\text{J}}{\text{m}^{2}.\text{mm}}`). There are a number of
+   ways to compute, see Verstraeten et al. (2006) and Panagos et al. (2015).
  - :math:`\Delta V_r`: the rain depth (mm).
 
 For applications of the rainfall erosivity factor in the context of Flanders
@@ -181,7 +188,7 @@ with
 with
  - :math:`i` = the weight percentage of the texture class `i` (fraction).
  - :math:`d_i` and :math:`d_{i-1}` = the maximum and minimum diameter of the
-texture class :math:`i` (mm).
+   texture class :math:`i` (mm).
 
 By using the latter two equations with the soil texture map of Flanders, a
 K-factor was defined for every soil texture class.
@@ -240,8 +247,8 @@ with
  - :math:`R_i`: rainfall erosivity factor (:math:`\frac{\text{J.mm}}{\text{m}^2.\text{h.TR}}`) with :math:`\text{TR}`: temporal resolution.
  - :math:`t`: the maximum number of the increments.
  - :math:`SLR`: the soil loss ratio (-). The SLR varies as a function of the
-used C-factor model. We refer to Renard et al. (1997) for an in-depth
-overview of the C- and SLR-factor.
+   used C-factor model. We refer to Renard et al. (1997) for an in-depth
+   overview of the C- and SLR-factor.
 
 .. _pfactor:
 
