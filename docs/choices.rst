@@ -419,6 +419,11 @@ When this option is enabled, following output is written:
 - :ref:`Sediment concentration segments.txt <sedconcensegment>`
 - :ref:`Sediment_segments.txt <sedsegmenttxt>`
 
+**Note:** The CN-WS model was further optimized from 2016 to define river
+segments in the context of of Flanders water management. Therefore, the
+segments for Flanders are defined by the `Vlaams Hydrologische Atlas` (VHA).
+
+
 .. _manualoutlet:
 
 Manual outlet selection
