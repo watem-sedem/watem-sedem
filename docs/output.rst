@@ -125,23 +125,23 @@ Txt-file where the first five rows give a summary of the results:
 The file contains from 9th row on a tab-seprated table where for every outlet
 the amount of incoming sediment is reported.
 
-.. _totalsedimentvhatxt:
+.. _totalsedimentsegmenttxt:
 
-Total Sediment VHA.txt
-**********************
+Total Sediment segments.txt
+***************************
 
 Tab-delimited table. Every row contains the id of a river segment and the total
 amount of sediment (kg) entering the segment.
 This table is only generated when
-:ref:`Output per VHA river segment = 1 <outputVHA>`.
+:ref:`Output per river segment = 1 <outputsegment>`.
 
-.. _cumsedvhatxt:
+.. _cumsedsegmenttxt:
 
-Cumulative sediment VHA.txt
-***************************
+Cumulative sediment segments.txt
+********************************
 
 This table is only generated when
-:ref:`Output per VHA river segment = 1 <outputVHA>`.
+:ref:`Output per river segment = 1 <outputsegment>`.
 
 .. _claycontentesedtxt:
 
@@ -151,14 +151,14 @@ Clay content sediment.txt
 Tab-delimited table with the mean clay content (%) at every outlet. This table
 is only generated when :ref:`estimate clay content = 1 <estimclay>`.
 
-.. _claycontentesedvhatxt:
+.. _claycontentesedsegmenttxt:
 
-Clay content sediment VHA.txt
-*****************************
+Clay content sediment segments.txt
+**********************************
 
 Tab-delimited table with the mean clay content (%) in every river segment. This
 table is only generated when :ref:`estimate clay content = 1 <estimclay>` and
-:ref:`Output per VHA river segment = 1 <outputVHA>`.
+:ref:`Output per river segment = 1 <outputsegment>`.
 
 
 .. _cumulativerst:
@@ -265,13 +265,13 @@ Discharge.txt
 
 Table with discharge (m³/s) as a function of time for every outlet.
 
-.. _dischargevha:
+.. _dischargesegment:
 
-Discharge_VHA.txt
-*****************
+Discharge_segments.txt
+**********************
 
 Table with discharge (m³/s) as a function of time for every river segment. This
-table is only generated when :ref:`Output per VHA river segment = 1 <outputVHA>`.
+table is only generated when :ref:`Output per river segment = 1 <outputsegment>`.
 
 Sediment concentration.txt
 **************************
@@ -279,28 +279,28 @@ Sediment concentration.txt
 Table with the concentration of sediment (g/l) as a function of time for every
 outlet.
 
-.. _sedconcenvha:
+.. _sedconcensegment:
 
-Sediment concentration_VHA.txt
-******************************
+Sediment concentration segments.txt
+***********************************
 
 Table with the concentration of sediment (g/l) as a function of time for every
 river segment.
-This table is only generated when :ref:`Output per VHA river segment = 1 <outputVHA>`.
+This table is only generated when :ref:`Output per river segment = 1 <outputsegment>`.
 
 Sediment.txt
 ************
 
 Table with the sediment load (kg) as a function of time for every outlet.
 
-.. _sedvhatxt:
+.. _sedsegmenttxt:
 
-Sediment_VHA.txt
-****************
+Sediment_segments.txt
+*********************
 
 Table with the sediment load (kg) as a function of time for river segment.
 This table is only generated when
-:ref:`Output per VHA river segment = 1 <outputVHA>`.
+:ref:`Output per river segment = 1 <outputsegment>`.
 
 Spillover per buffer.txt
 ************************

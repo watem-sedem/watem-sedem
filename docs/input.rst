@@ -176,7 +176,7 @@ River segment filename
 **********************
 
 Filename of the river segment map. This raster is only mandatory when
-:ref:`Output per VHA river segment = 1 <outputVHA>`.
+:ref:`Output per river segment = 1 <outputsegment>`.
 
 A river segment is a part of the river (usualy a part between two confluences
 with other rivers). To give detailed information about the sediment

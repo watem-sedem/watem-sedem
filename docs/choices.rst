@@ -357,7 +357,7 @@ Estimate Clay content
 
 When using the full CN-WS model (i.e. :ref:`simple=0 <simple>`), it is possible
 to estimate the clay content at every outlet and in every river
-segment (the latter only when :ref:`output per VHA river segment <outputVHA>`
+segment (the latter only when :ref:`output per river segment <outputsegment>`
 is enabled). To do this, the user needs to define the
 :ref:`clay content of the parent material <claycontent>`
 (:math:`CC_{text{parent}}`).
@@ -378,7 +378,7 @@ as a function of :math:`EF` and :math:`CC_{text{parent}}`:
 After the calculation, following files are written:
 
 * :ref:`Clay content sediment.txt <claycontentesedtxt>`
-* :ref:`Clay content sediment VHA.txt <claycontentesedvhatxt>`
+* :ref:`Clay content sediment segments.txt <claycontentesedsegmenttxt>`
 
 .. note::
     This option is not yet tested.
@@ -397,10 +397,10 @@ ktc_high > ktc_low, the model will make a calculation and write the results to a
 A more detailed explaination about how and why to calibrate can ben found
 :ref:`here <calibration>`
 
-.. _outputVHA:
+.. _outputsegment:
 
-Output per VHA river segment
-############################
+Output per river segment
+########################
 
 A river segment is defined as a series of consequent river pixels. Mostly, a
 segment starts at a confluence of different rivers and it stops at the next
@@ -412,11 +412,12 @@ River segments are defined in a :ref:`separate raster <riversegmentfile>`. This
 raster is mandatory when this option is enabled.
 
 When this option is enabled, following output is written:
-- :ref:`Total Sediment VHA.txt <totalsedimentvhatxt>`
-- :ref:`Cumulative sediment VHA.txt <cumsedvhatxt>`
-- :ref:`Discharge_VHA.txt <dischargevha>`
-- :ref:`Sediment concentration_VHA.txt <sedconcenvha>`
-- :ref:`Sediment_VHA.txt <sedvhatxt>`
+
+- :ref:`Total Sediment segments.txt <totalsedimentsegmenttxt>`
+- :ref:`Cumulative sediment segments.txt <cumsedsegmenttxt>`
+- :ref:`Discharge_segments.txt <dischargesegment>`
+- :ref:`Sediment concentration segments.txt <sedconcensegment>`
+- :ref:`Sediment_segments.txt <sedsegmenttxt>`
 
 .. _manualoutlet:
 
@@ -529,8 +530,8 @@ write total runoff
 In the section `[User Choices]` two keys impose some output too:
 
 - `Include sewer` (bool, default false): writes sewer_in.rst
-- `Output per VHA river segment` (bool, default false): writes
-  Total Sediment VHA.txt, Total discharge.txt, Sediment_VHA.txt,
-  Sediment concentration_VHA.txt, Cumulative sediment VHA.txt
+- `Output per river segment` (bool, default false): writes
+  Total Sediment segments.txt, Total discharge.txt, Sediment_segments.txt,
+  Sediment concentration segments.txt, Cumulative sediment segments.txt
 
 
