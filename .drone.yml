@@ -118,14 +118,20 @@ platform:
   os: windows
   version: 1809
 
+
+clone:
+  disable: true
 steps:
+  - name: clone
+    image: registry.fluves.net/drone-git-lfs-windows
+
   - name: build compiled version
     image: registry.fluves.net/lazarus-windows
-    image: microsoft/nanoserver 
     commands:
       - c:\lazarus\lazbuild.exe cn_ws_console\CN_WSmodel.lpr
       # strip debug symbols
       - c:\lazarus\fpc\3.2.0\bin\x86_64-win64\strip.exe cn_ws_console\CN_WSmodel.exe
-  - name: windows: run tests
+  - name: windows - run tests
     image: registry.fluves.net/lazarus-windows
+    commands:
       - .\testfiles\test.bat
