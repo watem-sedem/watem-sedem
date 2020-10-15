@@ -26,16 +26,24 @@ land-use and presence of grass buffers, as shown in the scheme below:
 
 The `target1` or `target2` tag indicate that flow will follow strictly the path
 of the first or second cardinal flow direction. This is this case the flow
-is uni-directional, instead of two-directional. The `topology` tag indicates
-that the direction follows the direction as determined above (direction of
-steepest descent and tillage direction). A `jump` indicates the flow is
-routed further than one pixel. In this case, it skips its neighbouring
-pixels. This step is explained later.
+is uni-directional, instead of two-directional. The `find_lower` tag indicates
+that the direction is determined by a subfunction find_lower, which will be
+explained later in this section. A `jump` indicates the target is not a
+neighbouring pixel of the source. This typically occurs when a source
+is located in a minimum in the height profile.
 
-TO DO: shortlhy explain scheme
-TO DO: jumps
+In the sketch, three features of the two targets ands sources are accounted
+for to define a rule-bank for the flow direction: the height, the land-use
+code (landuse) and presence of grass buffers. First, it is checked whether
+the targets are higher or lower than the source pixel. In case one of the
+target pixels is higher, than the flow will be defined by the other target
+based on the landuse code and presence of grass buffers.
 
-
+If both targets cells are lower, than the landuse code of both targets is
+checked. If both are equal to the landuse code of the source, than the
+find_lower function is called. If one or both have a different land-use
+code, than it is checked whether the pixels is (are) (a) grass buffer(s): in
+this case flow will always be defined by the grass buffers.
 
 Buffers & Ditches
 =================
