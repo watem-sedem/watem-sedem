@@ -1165,11 +1165,10 @@ check_sameparcel: boolean;
                 ROWMIN2 := K;
                 COLMIN2 := L;
               end;
-            // dit spring toch naar de eerste lagere pixel? want één keer de lager cel gevonden is dan wordt de check op true gezet en beindigd de lus, terwijl  dit niet per see de laagste
+            // controleert voor de laagtste pixel en stuurt flow die richting
+            // Als er geen lagere pixel was binnen het perceel, en geen rivierpixel in window W, controleer dan of er een lagere pixel is in de pixels met een andere land-use code
             If ((DTM[I+K,J+L]<MINIMUM2)And(DTM[I+K,J+L]<DTM[I,J]) and not (check_river or check_sameparcel)) Then
-              // lager gelegen cel, ander perceel, nog niet behandeld, enkel indien geen rivier of cel in eigen peceel
               Begin
-               // logica: laatste blok enkel uitvoeren als er geen van die twee boven niet geval is
                 check_differentparcel := true;
                 MINIMUM2 := DTM[I+K,J+L];
                 ROWMIN2 := K;
@@ -1179,6 +1178,7 @@ check_sameparcel: boolean;
           End;
       Inc(W);
 
+    // Als er geen van de bovenstaande gevallen waar was, breidt kernel uit.
     Until check_river or check_sameparcel or check_differentparcel Or (W>max_kernel);
     If (W>max_kernel) Then
     begin
