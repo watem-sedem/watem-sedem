@@ -1116,10 +1116,11 @@ function FindLower(i,j, max_kernel: integer): boolean;
 var
 rowmin, rowmin2, colmin, colmin2, w, k,l : integer;
 minimum, minimum2: float;
-check, parequal: boolean;
+check_differentparcel: boolean;
+check_river: boolean;
+check_sameparcel: boolean;
 
   Begin
-    parequal := false;
     ROWMIN := 0;
     ROWMIN2 := 0;
     COLMIN := 0;
@@ -1127,7 +1128,9 @@ check, parequal: boolean;
     MINIMUM := 99999999.9;
     MINIMUM2 := 99999999.9;
     W := 1;
-    check := false;
+    check_differentparcel  := false;
+    check_river := false;
+    check_sameparcel := false;
 
     // CODE JEROEN
     Repeat
@@ -1147,26 +1150,26 @@ check, parequal: boolean;
                And(PRC[I+K,J+L]=PRC[I,J]))Then
               //En de bestemminscel nog niet behandeld is EN binnen hetzelfde perceel ligt
               Begin
-                check := true;
+                check_sameparcel:= true;
                 MINIMUM := DTM[I+K,J+L];
                 ROWMIN := K;
                 COLMIN := L;
-                parequal := true;
               End;
 
             // als er een rivier in de zoekstraal is springen we naar
             // de laagste riviercel die in de buurt ligt
             If ((DTM[I+K,J+L]<MINIMUM2) AND (PRC[I+K,J+L]=-1) )Then
               Begin;
-                check := true;
+                check_river := true;
                 MINIMUM2 := DTM[I+K,J+L];
                 ROWMIN2 := K;
                 COLMIN2 := L;
               end;
-            If ((DTM[I+K,J+L]<MINIMUM2)And(DTM[I+K,J+L]<DTM[I,J]) and not check)Then
-              // lager gelegen cel, ander perceel, nog niet behandeld, enkel indien geen rivier of cel in eigen peceel
+            // controleert voor de laagtste pixel en stuurt flow die richting
+            // Als er geen lagere pixel was binnen het perceel, en geen rivierpixel in window W, controleer dan of er een lagere pixel is in de pixels met een andere land-use code
+            If ((DTM[I+K,J+L]<MINIMUM2)And(DTM[I+K,J+L]<DTM[I,J]) and not (check_river or check_sameparcel)) Then
               Begin
-                check := true;
+                check_differentparcel := true;
                 MINIMUM2 := DTM[I+K,J+L];
                 ROWMIN2 := K;
                 COLMIN2 := L;
@@ -1175,7 +1178,8 @@ check, parequal: boolean;
           End;
       Inc(W);
 
-    Until ((check) Or(W>max_kernel));
+    // Als er geen van de bovenstaande gevallen waar was, breidt kernel uit.
+    Until check_river or check_sameparcel or check_differentparcel Or (W>max_kernel);
     If (W>max_kernel) Then
     begin
         Routing[i,j].One_Target := False;
@@ -1191,7 +1195,7 @@ check, parequal: boolean;
     end;
 
 
-    If parequal Then    // If receiving cell is in same parcel
+    If check_sameparcel Then    // If receiving cell is in same parcel
       Begin
         Routing[i,j].One_Target := True;
         Routing[i,j].Target1Row := i+ROWMIN;
