@@ -1,7 +1,7 @@
 CNWSmodel:
-	lazbuild CN_WSmodel.lpr
+	lazbuild cn_ws.lpr
 
-all: CNWSmodel
+all: cn_ws
 
 clean:
-	rm -f CN_WSmodel
+	rm -f cn_ws
