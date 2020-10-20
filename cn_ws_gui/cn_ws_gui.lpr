@@ -1,4 +1,4 @@
-program InvoerForm;
+program cn_ws_gui;
 
 {$mode objfpc}{$H+}
 
