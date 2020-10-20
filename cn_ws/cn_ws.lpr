@@ -1,5 +1,5 @@
 
-Program CN_WSmodel;
+Program cn_ws;
 
 {$mode objfpc}{$H+}
 
