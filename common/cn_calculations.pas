@@ -1083,7 +1083,7 @@ Begin
       Else
         Write(Discharge_VHA_txt, 'Time (sec)',chr(9));
       For m := 1 To numRivSeg Do
-        write(Discharge_VHA_txt, 'segment_id', m, chr(9));
+        write(Discharge_VHA_txt, 'segment ', m, chr(9));
       // write column headings
       writeln(Discharge_VHA_txt,'');
       // go to next line
