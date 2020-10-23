@@ -29,8 +29,10 @@ Var
   adjust,area, ploweros : double;
 Begin
   // Create temp 2D maps
+  {$push}{$warn 5091 off} // remove spurious warning about datatype not being initialized
   SetDynamicRData(SEDI_IN);
   SetDynamicRData(SEDI_OUT);
+  {$pop}
   //************************
   SetDynamicRData(TILEROS);
 

@@ -6,19 +6,18 @@ unit runmodel;
 interface
 
 Uses
-Classes, SysUtils, CustApp, Dos, Crt,
+Classes, SysUtils, Dos, Crt,
 ReadInParameters, Write_output,
-CN_calculations, Raster_calculations, LateralRedistribution, Idrisi, tillage,
+CN_calculations, Raster_calculations, LateralRedistribution, tillage,
 RData_CN, GData_CN;
 
 
-  Procedure Runmodel(inifilename: String);
+Procedure Runmodel(inifilename: String);
 implementation
 
 
 Procedure Runmodel (inifilename: String);
 var
-   hr,mins,se,s1: word;
    fs: TFormatSettings;
    cal_output_file: textfile;
    high_i, low_i: integer;

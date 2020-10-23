@@ -75,8 +75,9 @@ Begin
   Setlength(Rainfallseries, teller);
   //Regenval in mm (per timestep)
   NumberOfTimesteps := teller-1;
-
+  {$push}{$warn 5091 off} // remove spurious warning about datatype not being initialized
   ReadText(RainfallFilename,Z,teller,2);
+  {$pop}
   // see procedure below
 
   For 
@@ -540,12 +541,14 @@ Begin
   //takes places (this is added for every time step) and negative values where
   //re-infiltration takes place)
 
+  {$push}{$warn 5091 off} // remove spurious warning about datatype not being initialized
   SetDynamicRData(RunoffInputmap);
   //= map with total amount of runoff per
   SetDynamicRData(RunoffInputmap_Temp);
   //= map with runoff per pixel for every timestep
   SetdynamicRData(OutflowMap_temp);
   //= map with the removal of water (via routing) from every grid cell for every time step
+  {$pop}
   SetLength(Result,Numberoftimesteps+1,numOutlet+1);
   If Include_buffer Then
     Begin
@@ -563,8 +566,10 @@ Begin
       numRivSeg := calcRivSeg(RivSeg);
       Setlength(Discharge_VHA, Numberoftimesteps+1, numRivSeg+1);
     End;
+  {$push}{$warn 5091 off} // remove spurious warning about datatype not being initialized
   SetDynamicRData(RainfallMap);
   SetDynamicRData(Runoffmap);
+  {$pop}
   //=map in which the amount of runoff per timestep is stored
 
   For i := 1 To nrow Do
@@ -605,9 +610,11 @@ Begin
 
   //For every timestep the correct amount of runoff is added to RunoffMap and
   //is routed through the landscape
+  {$push}{$warn 5091 off} // remove spurious warning about datatype not being initialized
   SetDynamicRData(RoutedMap_temp);
   //Amount of transferred water during a particular time step
   SetDynamicRData(RunoffCummulMap);
+  {$pop}
 
 //Total amount of water that reaches every grid cell (both as a result of direct rainfall input and as a result of routed runoff from upland gidcells)
   SetzeroR(RunoffCummulMap);

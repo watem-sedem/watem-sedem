@@ -3,7 +3,6 @@ Unit ReadInParameters;
 
 {$mode objfpc}{$H+}
 {$R+}
-
 Interface
 
 Uses 
@@ -974,7 +973,9 @@ Begin
 
   //The numbers from the .txt file are stored in a variable (matrix) M
   //All numbers in the .txt file should be integers!!!
+  {$push}{$warn 5091 off} // remove spurious warning about datatype not being initialized
   SetDynamicGData(M);
+  {$pop}
   Begin
     Assignfile(Table,TempName);
     Reset(Table);
