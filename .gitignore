@@ -12,10 +12,12 @@
 _build/
 
 # Compiled CN_WSConsole
-CN_WS_console/CN_WSmodel
-CN_WS_console/CN_WSmodel.dbg
+cn_ws/cn_ws
 
 # debian package temporary files
 debian/.debhelper
 debian/cn-ws
+debian/cn-ws.substvars
+debian/files
+debian/debhelper*
 package
