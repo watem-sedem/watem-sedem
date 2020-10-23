@@ -1081,7 +1081,7 @@ Begin
   If VHA Then
     Begin
       setcurrentDir(File_output_dir);
-      assignfile(Discharge_VHA_txt,'Discharge_VHA.txt');
+      assignfile(Discharge_VHA_txt,'Discharge_segments.txt');
       rewrite(Discharge_VHA_txt);
       Writeln(Discharge_VHA_txt, 'Discharge to each river segment [m³/s]');
       // write title
@@ -1090,7 +1090,7 @@ Begin
       Else
         Write(Discharge_VHA_txt, 'Time (sec)',chr(9));
       For m := 1 To numRivSeg Do
-        write(Discharge_VHA_txt, 'VHA segment ', m, chr(9));
+        write(Discharge_VHA_txt, 'segment ', m, chr(9));
       // write column headings
       writeln(Discharge_VHA_txt,'');
       // go to next line
