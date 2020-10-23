@@ -10,7 +10,7 @@
       </Flags>
       <SessionStorage Value="InProjectDir"/>
       <MainUnit Value="0"/>
-      <Title Value="CN_WSmodel"/>
+      <Title Value="cn_ws"/>
       <UseAppBundle Value="False"/>
       <ResourceType Value="res"/>
     </General>
@@ -25,13 +25,13 @@
     </PublishOptions>
     <RunParams>
       <local>
-        <CommandLineParams Value="&quot;C:\Users\SachaGobeyn\Dropbox (Fluves)\FLUVES\Projecten\VMM\erosiemodule NEMO\uitvoering\berekeningen\cfactor_vergelijking\Ijse\scenario_1\modelinput\inifile_NEMO.ini&quot;"/>
+        <CommandLineParams Value="&quot;C:\test\bug_routing\modelinput\ini_Molenbeek_Ninove_scenario_1.ini&quot;"/>
       </local>
       <FormatVersion Value="2"/>
       <Modes Count="1">
         <Mode0 Name="default">
           <local>
-            <CommandLineParams Value="&quot;C:\Users\SachaGobeyn\Dropbox (Fluves)\FLUVES\Projecten\VMM\erosiemodule NEMO\uitvoering\berekeningen\cfactor_vergelijking\Ijse\scenario_1\modelinput\inifile_NEMO.ini&quot;"/>
+            <CommandLineParams Value="&quot;C:\test\bug_routing\modelinput\ini_Molenbeek_Ninove_scenario_1.ini&quot;"/>
           </local>
         </Mode0>
       </Modes>
@@ -43,7 +43,7 @@
     </RequiredPackages>
     <Units Count="10">
       <Unit0>
-        <Filename Value="CN_WSmodel.lpr"/>
+        <Filename Value="cn_ws.lpr"/>
         <IsPartOfProject Value="True"/>
       </Unit0>
       <Unit1>
@@ -96,7 +96,7 @@
     <Version Value="11"/>
     <PathDelim Value="\"/>
     <Target>
-      <Filename Value="CN_WSmodel"/>
+      <Filename Value="cn_ws"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>

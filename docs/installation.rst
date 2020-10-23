@@ -29,7 +29,7 @@ First dependencies should be installed. This includes lazarus
 
 
 Then either open the project in lazarus or enter the project directory and run
-`make`. This will build the binary CN_WS_model under the CN_WS_console directory.
+`make`. This will build the binary cn_ws under the cn_ws directory.
 
 Compiling a debian package
 ==========================
@@ -53,11 +53,11 @@ Next, build and install from source:
 	sudo dpkg -i ../cn_ws*deb
 
 
-To test your installation, run CN_WS_model from terminal:
+To test your installation, run cn_ws from terminal:
 
 .. code-block:: shell
 
-	CN_WS_model
+	cn_ws
 
 .. code-block:: shell
 
@@ -84,7 +84,7 @@ all references to inputfiles and modelchoices. The model can be run with
 
 .. code-block:: shell
 
-	C:\cn_ws\CN_WSmodel.exe C:\modelinput\catchment.ini-file
+	C:\cn_ws\cn_ws.exe C:\modelinput\catchment.ini-file
 	
 It is possible to run the executable of CN-WS in every directory by adding its
 location to the system variable PATH. The model was tested on dutch
