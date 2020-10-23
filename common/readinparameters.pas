@@ -557,14 +557,18 @@ Var
 Begin
   Default:='';
 
+  INI_filename := ExpandFileName(INI_filename);
   If Not FileExists(INI_filename) Then
     raise Exception.create('Inifile does not exist');
   Inifile := Tinifile.create(INI_filename);
 
   Datadir := Inifile.readstring('Working directories', 'Input directory', Default);
+  Datadir := expandfilename(datadir);
+
   If Not DirectoryExists(Datadir) Then
     raise EInputException.Create('Error: data directory not found: ' + Datadir);
   File_output_dir := Inifile.readstring('Working directories', 'Output directory', Default);
+  File_output_dir:=ExpandFileName(File_output_dir);
   If Not DirectoryExists(File_output_dir) Then ForceDirectories(File_output_dir);
 
   // Make sure that a trailing slash is added to the input/output dir
