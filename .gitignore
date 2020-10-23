@@ -7,7 +7,6 @@
 *.lps
 *.o
 *.ppu
-*.lpi
 
 # Python sphinx excludes
 _build/

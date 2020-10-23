@@ -37,7 +37,7 @@
     </RequiredPackages>
     <Units Count="12">
       <Unit0>
-        <Filename Value="InvoerForm.lpr"/>
+        <Filename Value="cn_ws_gui.lpr"/>
         <IsPartOfProject Value="True"/>
       </Unit0>
       <Unit1>
