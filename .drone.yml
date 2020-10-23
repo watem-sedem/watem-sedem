@@ -1,7 +1,7 @@
 ---
 kind: pipeline
 type: docker
-name: cn_ws
+name: cn_ws linux build + tests
 
 steps:
   - name: build linux
@@ -10,11 +10,17 @@ steps:
     commands:
       - make
 
-  - name: test
+  - name: test cnws runs without error
     image: registry.fluves.net/lazarus-build
     commands:
       - testfiles/test.sh
 
+---
+kind: pipeline
+type: docker
+name: Build debian package
+
+steps:
   - name: build debian package
     image: registry.fluves.net/lazarus-build
     environment:
