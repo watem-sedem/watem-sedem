@@ -64,19 +64,23 @@ Ready to contribute? Here's how to set up `CN-WS` for local development.
 
     $ git clone git@github.com:your_name_here/cn_ws.git
 
-3. Create a branch for local development::
+3. We use git LFS for our testfiles. If it is not installed, install [git-lfs](https://git-lfs.github.com/) and run:
+
+   $ git-lfs pull
+
+4. Create a branch for local development::
 
     $ git checkout -b name-of-your-bugfix-or-feature
 
    Now you can make your changes locally.
 
-4. Commit your changes and push your branch to GitHub::
+5. Commit your changes and push your branch to GitHub::
 
     $ git add .
     $ git commit -m "Your detailed description of your changes."
     $ git push origin name-of-your-bugfix-or-feature
 
-5. Submit a pull request through the GitHub website.
+6. Submit a pull request through the GitHub website.
 
 Pull Request Guidelines
 -----------------------
