@@ -613,14 +613,17 @@ Begin
   Include_ditch := Inifile.ReadBool('User Choices','Include ditches',false);
   Include_dam := Inifile.ReadBool('User Choices','Include dams',false);
 
-  VHA := Inifile.ReadBool('User Choices','Output per VHA river segment',false);
+  VHA := Inifile.ReadBool('User Choices','Output per river segment',false);
   max_kernel := Inifile.ReadInteger('User Choices', 'Max kernel', 50);
   max_kernel_river := Inifile.ReadInteger('User Choices', 'Max kernel river', 100);
 
   adjusted_slope := inifile.ReadBool('User Choices', 'Adjusted Slope', false);
   buffer_reduce_upstream_area := inifile.ReadBool('User Choices', 'Buffer reduce Area', false);
   force_routing := inifile.ReadBool('User Choices', 'Force Routing', false);
+
   river_routing := inifile.ReadBool('User Choices', 'River Routing', false);
+  if river_routing then
+   VHA := true;
 
   inistring:= Inifile.ReadString('User Choices', 'L model', 'Desmet1996_Vanoost2003');
   Lmodel := TLModel(GetEnumValue(Typeinfo(TLModel), inistring));
@@ -649,7 +652,7 @@ Begin
   Ditch_filename := SetFileFromIni(Inifile, 'Ditch map filename', datadir, Include_ditch);
   Dam_filename := SetFileFromIni(Inifile, 'Dam map filename', datadir, Include_dam);
   Pf_data_filename :=SetFileFromIni(Inifile, 'P factor map filename', datadir, true);
-  Riversegment_filename := SetFileFromIni(Inifile, 'River segment filename', datadir, VHA or river_routing);
+  Riversegment_filename := SetFileFromIni(Inifile, 'River segment filename', datadir, VHA);
   Outletfilename := SetFileFromIni(Inifile, 'Outlet map filename', datadir, Outlet_select);
   river_adjectant_filename:=SetFileFromIni(Inifile, 'adjectant segments', datadir, river_routing);
   river_upstream_filename:=SetFileFromIni(Inifile, 'upstream segments', datadir, river_routing);
