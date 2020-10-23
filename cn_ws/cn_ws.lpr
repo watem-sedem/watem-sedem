@@ -9,9 +9,7 @@ Uses
   {$IFDEF UNIX}{$IFDEF UseCThreads}
 cthreads,
   {$ENDIF}{$ENDIF}
-Classes, SysUtils, CustApp, Dos, Crt, ReadInParameters, Write_output,
-CN_calculations, Raster_calculations, LateralRedistribution, Idrisi, tillage,
-RData_CN, GData_CN, runmodel;
+Classes, SysUtils, CustApp, Dos, Crt, runmodel;
 
 
 Type 
@@ -33,7 +31,9 @@ Function StopClock(hr, mins, se, s1: word): string;
 Var 
   hr2,min2,se2 : word;
 Begin
+  {$push}{$warn 5057 off}
   GetTime(hr2,min2,se2,s1);
+  {$pop}
   result := floattostr(se2-se+(min2-mins)*60+(hr2-hr)*60*60+s1/100);
 End;
 
@@ -46,7 +46,9 @@ Var
   hr,mins,se,s1: word;
 
 Begin
+  {$push}{$warn 5057 off}
   GetTime(hr,mins,se,s1);
+  {$pop}
   writeln;
   writeln;
   writeln('CN_WS model');
