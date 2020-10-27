@@ -289,13 +289,14 @@ value with the amount of routing vectors that are imposed by the user.
 
 An example of a valid forced routing section looks like
 
-```
-[Force routing 1]
-from col = 25
-from row = 55
-target col = 30
-target row = 55
-```
+.. code-block:: ini
+
+    [Force routing 1]
+    from col = 25
+    from row = 55
+    target col = 30
+    target row = 55
+
 
 The keys in every force routing section are `from col`, `from row`, `target col`
 and `target row`. These are integer values representing the location of source
