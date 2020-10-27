@@ -103,6 +103,9 @@ The datatype of this raster is integer 16.
     (river, infrastructure, forest, pasture) are used interchangeable in the
     definition of the parcel raster. In this manual, we aim to define it as land
     cover rather than land use.
+
+.. _sewermapfile:
+
 Sewer map filename
 ******************
 
