@@ -62,7 +62,7 @@ In this situation, two cases can be defined:
  - The source pixel is a river pixel: the direction of routing is defined by
    the river routing raster (see :ref:`here <routingmap>`), if the river
    routing option is set to one (see :ref:`here <riverrouting>`). The routing
-   is defined as a unidirectional routing. If the river routing option is set
+   is defined as a uni-directional routing. If the river routing option is set
    to zero, than river pixels are considered as sinks.
 
 Situation 2: Target(s) is/are not equal to `river`
@@ -70,31 +70,32 @@ Situation 2: Target(s) is/are not equal to `river`
 
 In a first step, the routing algorithm checks whether the flow direction is
 steered by the steepest descent direction or the **tillage direction** (for the
-format of the input of the tillage direction, see :ref:`Tillage direction
-<tildirmap>`). In this check, the angle of the **steepest descend** is
-compared with the tillage direction to define the flow (see Takken et al.
-(2001)). At the end of this step, the direction is mapped to the (inter-)
-cardinal directions. These cardinal directions define the `target1` and
-`target2` pixels, and the weight (:math:`\in[0,1], \sum \text{weight} = 1`)
-they receive from the source pixel. This amount is used to weight the sediment
-load per pixel, the direct run-off depth and upstream area for each
-target pixel. In next step the flow directions and weights (cardinal space)
+format of the input of the tillage direction, see :ref:`here <tildirmap>`).
+In this check, the angle of the **steepest descend** is compared with the
+tillage direction to define the routing (see Takken et al. (2001)). At the end
+of this step, the direction is mapped to the (inter-) cardinal directions.
+These cardinal directions define the `target1` and `target2` pixels, and the
+weight (:math:`\in[0,1], \sum \text{weight} = 1`) they receive from the
+source pixel. This amount is can be used to weight the sediment load per
+pixel (WS), the direct run-off depth (CN) and upstream area (CN/WS) for each
+target pixel. In next step, the flow directions and weights (cardinal space)
 are adjusted according to elevation and land cover, as shown in the scheme
 below:
 
 .. figure:: _static/png/sketch_flow_algorithm.png
 	:scale: 80%
 
-In this figure, the `target1` or `target2` tag indicate that routing will
-follow strictly the path of the first or second cardinal flow direction. In this
-case the flow is uni-directional, instead of two-directional. The
-`find_lower` tag indicates that the algorithm will search for the lowest
-neighbouring pixel (single target). A `jump` indicates the target is not a
-neighbouring pixel of the source, and the routing jumps to a single target
-further than its vicinity defined as a window :math:`W`. This occurs when a
-source is located in a local elevation minimum. An important note is that the
-routing will always jump to the river :math:`W` if a river pixel is present in
-the window :math:`W`.
+In this figure, the `Flow(target1)` or `Flow(target2)` tag indicate that
+routing will follow strictly the path of the first or second cardinal flow
+direction. In these cases, the flow is uni-directional, instead of
+two-directional. The `find_lower` tag indicates that the algorithm will
+search for the lowest neighbouring pixel (single target). A `jump` indicates
+the target is not a neighbouring pixel of the source: the routing jumps
+to a single target further than its vicinity. Jumps are defined
+within a window :math:`W`. This occurs when a source is located in a local
+elevation minimum. An important note is that the routing will always jump to
+the closest river in :math:`W` if a river pixel is present in the window
+:math:`W`.
 
 In the sketch, three features of the two targets and sources are accounted
 for to define a rule-bank for the routing direction: the height, the land cover
@@ -104,24 +105,25 @@ target pixels is higher, than the flow will be defined by the other target
 based on the land cover code and presence of grass strips.
 
 If both targets pixels are lower, than the land-use code of both targets is
-checked. If both are equal to the land-use code of the source, than the
+checked. If both are diffrent to the land-use code of the source, than the
 find_lower function is called. If one or both have a different land-use
 code, than it is checked whether the pixels is (are) (a) grass strip(s): in
 this case flow will always be defined by the grass strips.
 
 The implementation of this rule-bank aims to satisfy following conditions:
 
+ - The routing should generally follow the height profile.
+
  - Routing within one agricultural parcel will remain in the parcel until
- the lowest point of the parcel is reached. Thus, the routing will follow the
- height profile in the direction of parcel boundaries rather than the
- steepest descent.
+   the lowest point of the parcel is reached. Thus, the routing will follow the
+   height profile in the direction of parcel boundaries rather than the
+   steepest descent.
 
- - Routing should target grass strips are as a priority target. An exception
- is defined if the two targets and source all have different land cover
- codes (with one target being a grass strip), and the target grass strip is
- higher than the other target: here the   routing goes to the lowest pixel.
-
-
+ - Routing should target grass strips as a priority targets. An exception
+   is defined if the two targets and source all have different land cover
+   codes (with one target being a grass strip), and the target grass strip
+   being higher than the other target: here the routing follows the
+   direction of to the lowest pixel.
 
 Buffers, ditches and routing dams
 =================================
