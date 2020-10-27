@@ -128,18 +128,20 @@ The implementation of this rule-bank aims to satisfy following conditions:
 Buffers, ditches and routing dams
 =================================
 
-For buffers and ditches, exceptions for the routing are defined. In case of one
+For buffers and ditches, exceptions for the routing are defined. In case one
 of the targets is a buffer, routing will flow to that one target. Within the
-buffer, all routing is defined to a single target pixel: the buffer_id (see
-also :ref:`here<buffermap>`). This is the pixel which is considered as the
-outlet. From this pixel, routing occurs are described above.
+buffer, all routing is defined to a single target pixel: the pixel
+defined with a non-zero buffer_id (see also :ref:`here<buffermap>`). This
+pixel is considered as the buffer outlet. From this pixel, routing occurs
+are described above.
 
 For ditches and routing dams, the routing is defined by the user by using
-routing map (see :ref:`here<routingmap>`). The routing is uni-directional.
+routing map (see :ref:`here<routingmap>`). The routing in ditches and
+routing dams is uni-directional.
 
 .. note::
-    Routing to ditches can also be defined as an end-point. In this case, the
-    ditch is considered to be a sink (see :ref:`here <sewermapfile>`).
+    Routing to ditches can also be defined as end-points. In this case, the
+    ditch is considered to be a sewer/sink (see :ref:`here <sewermapfile>`).
 
 References
 ==========
