@@ -82,8 +82,7 @@ This project is licensed under the ??? License, see
 Documentation
 =============
 
-The documentation of this project is available at https://docs.fluves
-.net/cnws-pascal/. In this documentation, a theoretical background of the model
+The documentation of this project is available at https://docs.fluves.net/cnws-pascal/.  In this documentation, a theoretical background of the model
 and an overview of the model usage are given, and an installation
 guide followerd by a tutorial.
 
