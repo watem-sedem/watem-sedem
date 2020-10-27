@@ -46,7 +46,7 @@ this manual the non-river pixels are sometimes referred to as `land pixels`.
 
     2. Routing can be defined in rivers, sewers and ditches. Yet, this
     routing should be user-defined (see :ref:`here <riverrouting>`). If one
-    does not have information to define this routing, then rivers, ditches
+    does not have information to define this routing, then rivers and ditches
     can be implemented as sinks. See :ref:`here <riverrouting>` for the
     implementation in rivers, and :ref:`here <inlcudesewers>` for sewer and
     ditches. When sewer and ditches are considered as sinks, than they are
@@ -63,7 +63,8 @@ In this situation, two cases can be defined:
    the river routing raster (see :ref:`here <routingmap>`), if the river
    routing option is set to one (see :ref:`here <riverrouting>`). The routing
    is defined as a uni-directional routing. If the river routing option is set
-   to zero, than river pixels are considered as sinks.
+   to zero, then river routing is defined by the height profile in the river
+   (routing stays within rivers).
 
 Situation 2: Target(s) is/are not equal to `river`
 ==================================================
@@ -76,7 +77,7 @@ tillage direction to define the routing (see Takken et al. (2001)). At the end
 of this step, the direction is mapped to the (inter-) cardinal directions.
 These cardinal directions define the `target1` and `target2` pixels, and the
 weight (:math:`\in[0,1], \sum \text{weight} = 1`) they receive from the
-source pixel. This amount is can be used to weight the sediment load per
+source pixel. This amount can be used to weight the sediment load per
 pixel (WS), the direct run-off depth (CN) and upstream area (CN/WS) for each
 target pixel. In next step, the flow directions and weights (cardinal space)
 are adjusted according to elevation and land cover, as shown in the scheme
@@ -129,14 +130,14 @@ Buffers, ditches and routing dams
 =================================
 
 For buffers and ditches, exceptions for the routing are defined. In case one
-of the targets is a buffer, routing will flow to that one target. Within the
-buffer, all routing is defined to a single target pixel: the pixel
+of the targets is a buffer, the routing will flow to that one target. Within
+the buffer, all routing is defined to a single target pixel: the pixel
 defined with a non-zero buffer_id (see also :ref:`here<buffermap>`). This
 pixel is considered as the buffer outlet. From this pixel, routing occurs
 are described above.
 
-For ditches and routing dams, the routing is defined by the user by using
-routing map (see :ref:`here<routingmap>`). The routing in ditches and
+For ditches and routing dams, the routing is defined by the user by
+using routing map (see :ref:`here<routingmap>`). The routing within ditches and
 routing dams is uni-directional.
 
 .. note::
