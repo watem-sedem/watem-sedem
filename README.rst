@@ -14,7 +14,7 @@ CN-WS is developed to assess sediment input to rivers, soil erosion on
 agricultural fields and to evaluate soil erosion management measures.
 
 A short history of CN-WS
-=============================
+========================
 
 The sediment export model CN-WS was developed starting from the year 2013
 until 2016 by KULeuven in partnership with `Antea Belgium
@@ -44,8 +44,25 @@ processing CN-WS input, outputs and user choices. At that point, CN-WS is
 submitted to versioning via git. These optimisation were executed by `Fluves
 <https://fluves.com/>`_.
 
-Model
-=====
+Package
+=======
+
+The CN-WS package described on this page consist of three modules used to
+run two models. In the following figure, the main input, modules, models and
+outputs are shown. Here a module is defined as a part of the code that can
+be separately used as a separate but for which the output is not necessarily
+the output at interest for the defined aim. A model is defined as a set of
+algorithms calculating outputs at interest, in this case **sediment load**
+and **river flow**.
+
+
+
+.. note::
+The CN-WS package is still being optimized to make sure the CN, WS and
+routing module can be run separately.
+
+Package
+=======
 
 CN-WS has thee modus operandi: CN_WS, CN_WS_console and CN_WS_LongTerm.
 Typically the model is run in a command-line interface or a Graphical User
