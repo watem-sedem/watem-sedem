@@ -3,16 +3,14 @@ Routing
 #######
 
 The flow and sediment routing is based on a multiple flow direction
-algorithm (ref?) implemented on a fixed grid. Specifically, the algorithm
-makes use of the height profile and definition of land-use to define flow
+algorithm implemented on a fixed grid. Specifically, the algorithm
+makes use of the height profile and definition of land cover to define flow
 from a source pixel to one or two target pixels. It is important to note
 that the multi-flow routing algorithm developed for CN-WS is an algorithm
 adjusted to the context of erosion and agriculture. This implies that the
 routing should represent the average pattern of routing. This way, off-site
 impacts (e.g. effect of erosion on an agricultural field on nearby urban
-area) can be estimated. This also implies that the model outputs at
-interest (routing over land, sediment load per pixel) are sensitive
-to the defined height profile.
+area) can be adequately be represented
 
 The flow routing varies a function of the difference in height between
 source and potential target pixels, and the land cover in the source and
@@ -43,13 +41,14 @@ this manual the non-river pixels are sometimes referred to as `land pixels`.
 +----------------------+-----------+
 
 .. note::
-    - Routing flows from land to land pixels, land to river pixels, from river
+    1. Routing flows from land to land pixels, land to river pixels, from river
     to river pixels, but not from river to land pixels!
-    - Routing can be defined in rivers, sewers and ditches. Yet, this
+
+    2. Routing can be defined in rivers, sewers and ditches. Yet, this
     routing should be user-defined (see :ref:`here <riverrouting>`). If one
-    does not have to define this routing, than rivers, ditches can be
-    implemented as sinks. See :ref:`here<riverroutin>` for the
-    implementation in rivers and :ref:`here <inlcudesewers>` for sewer and
+    does not have information to define this routing, then rivers, ditches
+    can be implemented as sinks. See :ref:`here <riverrouting>` for the
+    implementation in rivers, and :ref:`here <inlcudesewers>` for sewer and
     ditches. When sewer and ditches are considered as sinks, than they are
     also referred to as end points.
 
@@ -57,22 +56,22 @@ Situation 1: Target(s) is/are equal to `river`
 ==============================================
 In this situation, two cases can be defined:
 
-    - The source pixel is a land pixel: routing follows the direction of the
-    river pixel (one target).
+ - The source pixel is a land pixel: routing follows the direction of the
+   river pixel (one target).
 
-    - The source pixel is a river pixel: the direction of routing is defined by
-    the river routing raster (see :ref:`here <routingmap>`), if the river
-    routing option is set to one (see :ref:`here <riverrouting>`). The routing
-    is defined as a unidirectional routing. If the river routing option is set
-    to zero, than river pixels are considered as sinks.
+ - The source pixel is a river pixel: the direction of routing is defined by
+   the river routing raster (see :ref:`here <routingmap>`), if the river
+   routing option is set to one (see :ref:`here <riverrouting>`). The routing
+   is defined as a unidirectional routing. If the river routing option is set
+   to zero, than river pixels are considered as sinks.
 
 Situation 2: Target(s) is/are not equal to `river`
 ==================================================
 
 In a first step, the routing algorithm checks whether the flow direction is
-steered by the steepest descent direction or the  tillage direction (for the
+steered by the steepest descent direction or the **tillage direction** (for the
 format of the input of the tillage direction, see :ref:`Tillage direction
-<filename_tildirmap>`). In this check, the angle of the steepest descend is
+<tildirmap>`). In this check, the angle of the **steepest descend** is
 compared with the tillage direction to define the flow (see Takken et al.
 (2001)). At the end of this step, the direction is mapped to the (inter-)
 cardinal directions. These cardinal directions define the `target1` and
@@ -86,14 +85,14 @@ below:
 .. figure:: _static/png/sketch_flow_algorithm.png
 	:scale: 80%
 
-The `target1` or `target2` tag indicate that flow will follow strictly the path
-of the first or second cardinal flow direction. In this case the flow
-is uni-directional, instead of two-directional. The `find_lower` tag
-indicates that the algorithm will search for the lowest neighbouring
-pixel (single target). A `jump` indicates the target is not a neighbouring
-pixel of the source, and the routing jumps to a single target further than
-its vicinity defined as a window :math:`W`. This occurs when a source is
-located in a local elevation minimum. An important note is that the
+In this figure, the `target1` or `target2` tag indicate that routing will
+follow strictly the path of the first or second cardinal flow direction. In this
+case the flow is uni-directional, instead of two-directional. The
+`find_lower` tag indicates that the algorithm will search for the lowest
+neighbouring pixel (single target). A `jump` indicates the target is not a
+neighbouring pixel of the source, and the routing jumps to a single target
+further than its vicinity defined as a window :math:`W`. This occurs when a
+source is located in a local elevation minimum. An important note is that the
 routing will always jump to the river :math:`W` if a river pixel is present in
 the window :math:`W`.
 
@@ -110,6 +109,20 @@ find_lower function is called. If one or both have a different land-use
 code, than it is checked whether the pixels is (are) (a) grass strip(s): in
 this case flow will always be defined by the grass strips.
 
+The implementation of this rule-bank aims to satisfy following conditions:
+
+ - Routing within one agricultural parcel will remain in the parcel until
+ the lowest point of the parcel is reached. Thus, the routing will follow the
+ height profile in the direction of parcel boundaries rather than the
+ steepest descent.
+
+ - Routing should target grass strips are as a priority target. An exception
+ is defined if the two targets and source all have different land cover
+ codes (with one target being a grass strip), and the target grass strip is
+ higher than the other target: here the   routing goes to the lowest pixel.
+
+
+
 Buffers, ditches and routing dams
 =================================
 
@@ -123,7 +136,7 @@ For ditches and routing dams, the routing is defined by the user by using
 routing map (see :ref:`here<routingmap>`). The routing is uni-directional.
 
 .. note::
-    - Routing to ditches can also be defined as an end-point. In this case, the
+    Routing to ditches can also be defined as an end-point. In this case, the
     ditch is considered to be a sink (see :ref:`here <sewermapfile>`).
 
 References
