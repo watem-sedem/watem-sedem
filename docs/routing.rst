@@ -1,6 +1,7 @@
 #######
 Routing
 #######
+
 The flow and sediment routing is based on a multiple flow direction
 algorithm (ref?) implemented on a fixed grid. Specifically, the algorithm
 makes use of the height profile and definition of land-use to define flow
@@ -20,12 +21,6 @@ targets. The land cover is defined in following table (see also :ref:`here
 CN-WS. In a first step, we make a distinction between the land cover of
 (a) target(s) being equal to the class `river` (-1) (yes/no). Do note that in
 this manual the non-river pixels are sometimes referred to as `land pixels`.
-
-.. note::
-
-Routing flows from land to land pixels, land to river pixels, from river
-to river pixels, but not from river to land pixels!
-
 
 +----------------------+-----------+
 |Land cover/use class  | pixel id  |
@@ -47,18 +42,29 @@ to river pixels, but not from river to land pixels!
 | grass strips         | -6        |
 +----------------------+-----------+
 
+.. note::
+    - Routing flows from land to land pixels, land to river pixels, from river
+    to river pixels, but not from river to land pixels!
+    - Routing can be defined in rivers, sewers and ditches. Yet, this
+    routing should be user-defined (see :ref:`here <riverrouting>`). If one
+    does not have to define this routing, than rivers, ditches can be
+    implemented as sinks. See :ref:`here<riverroutin>` for the
+    implementation in rivers and :ref:`here <inlcudesewers>` for sewer and
+    ditches. When sewer and ditches are considered as sinks, than they are
+    also referred to as end points.
+
 Situation 1: Target(s) is/are equal to `river`
 ==============================================
 In this situation, two cases can be defined:
 
- - The source pixel is a land pixel: routing follows the direction of the
-river pixel (one target).
+    - The source pixel is a land pixel: routing follows the direction of the
+    river pixel (one target).
 
- - The source pixel is a river pixel: the direction of routing is defined by
-the river routing raster (see :ref:`here <routingmap>`), if the river
-routing option is set to one (see :ref:`here <riverrouting>`). The routing
-is defined as a unidirectional routing. If the river routing option is set
-to zero, than river pixels are considered as sinks.
+    - The source pixel is a river pixel: the direction of routing is defined by
+    the river routing raster (see :ref:`here <routingmap>`), if the river
+    routing option is set to one (see :ref:`here <riverrouting>`). The routing
+    is defined as a unidirectional routing. If the river routing option is set
+    to zero, than river pixels are considered as sinks.
 
 Situation 2: Target(s) is/are not equal to `river`
 ==================================================
@@ -84,7 +90,7 @@ The `target1` or `target2` tag indicate that flow will follow strictly the path
 of the first or second cardinal flow direction. In this case the flow
 is uni-directional, instead of two-directional. The `find_lower` tag
 indicates that the algorithm will search for the lowest neighbouring
- pixel (single target). A `jump` indicates the target is not a neighbouring
+pixel (single target). A `jump` indicates the target is not a neighbouring
 pixel of the source, and the routing jumps to a single target further than
 its vicinity defined as a window :math:`W`. This occurs when a source is
 located in a local elevation minimum. An important note is that the
@@ -117,8 +123,8 @@ For ditches and routing dams, the routing is defined by the user by using
 routing map (see :ref:`here<routingmap>`). The routing is uni-directional.
 
 .. note::
- - Routing to ditches can also be defined as an end-point. In this case, the
-ditch is considered to be a sink (see :ref:`here <sewermapfile>`).
+    - Routing to ditches can also be defined as an end-point. In this case, the
+    ditch is considered to be a sink (see :ref:`here <sewermapfile>`).
 
 References
 ==========
