@@ -5,7 +5,6 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
-import geopandas as gpd
 
 from cnws.utils import load_raster, load_total_sediment_file
 
@@ -21,6 +20,19 @@ def equal_rst(rst_file_1, rst_file_2, rtol=1e-8, atol=1e-8):
     s1, s2 = load_raster(rst_file_1), load_raster(rst_file_2)
     assert np.allclose(s1[0], s2[0], rtol=rtol, atol=atol, equal_nan=True), \
             "file %s and %s differ" % (rst_file_1, rst_file_2)
+
+def equal_table(tdbl_file_1, tdbl_file_2, rtol=1e-8, atol=1e-8, skiplines=0):
+    """Check if table data are the same"""
+    tbl_1 = pd.read_csv(tdbl_file_1, skiprows=skiplines, delimiter="\t")
+    tbl_2 = pd.read_csv(tdbl_file_2, skiprows=skiplines, delimiter="\t")
+    pd.testing.assert_frame_equal(tbl_1, tbl_2, rtol=rtol, atol=atol)
+
+def equal_total_sediment(sed_file_1, sed_file_2, rtol=1e-8, atol=1e-8):
+    """Check if total sediment output data of two files are the same"""
+    sed1 = load_total_sediment_file(sed_file_1)
+    sed2 = load_total_sediment_file(sed_file_2)
+    for val1, val2 in zip(sed1.values(), sed2.values()):
+        assert np.allclose(val1, val2, rtol=rtol, atol=atol)
 
 def _compare_folder(
     folder_benchmark,
