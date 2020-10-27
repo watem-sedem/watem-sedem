@@ -55,7 +55,8 @@ the output at interest for the defined aim. A model is defined as a set of
 algorithms calculating outputs at interest, in this case **sediment load**
 and **river flow**.
 
-
+.. figure:: _static/png/diagram_cn_ws_package.png
+	:scale: 80%
 
 .. note::
 The CN-WS package is still being optimized to make sure the CN, WS and
