@@ -137,7 +137,7 @@ Filename of the buffer map. This raster is only mandatory when
 The figure shows an example of a buffermap with three buffer basins. The outlet
 of every buffer is marked with the buffer id (1, 2 and 3 in this example). The
 other pixels belonging to the buffer get the
-:ref:`extension id <extension_id>`. All other pixels in the raster are set to
+:ref:`extension id <bufferdata>`. All other pixels in the raster are set to
 zero.
 
 .. figure:: _static/png/buffermap.png
@@ -577,7 +577,9 @@ max kernel river
 
 TO DO
 
-	
+.. _bufferdata:
+
+
 Bufferdata
 ==========	
 
@@ -609,7 +611,7 @@ ini-file::
 with:
 
  - trapping efficiency: the trapping efficiency is the fraction of the incoming
-sediment that is trapped.
+   sediment that is trapped.
 
  - extension id of a buffer is calculated as the buffer id + 16384. It is an
    integer value. All pixels of the buffer in the :ref:`buffer map <buffermap>`
