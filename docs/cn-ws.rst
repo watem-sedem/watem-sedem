@@ -1,8 +1,3 @@
-.. zotero-setup::
-   :style: chicago-author-date
-
-.. default-role:: xcite
-
 #####
 CN-WS
 #####
