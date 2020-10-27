@@ -581,71 +581,71 @@ TO DO
 Bufferdata
 ==========	
 
-For every buffer, following variables must be defined. These variables are only
-mandatory when include buffers = 1.
+The inclusion of erosion control buffers is based on input rasters and
+buffer parameters. The generation of the input rasters is described
+:ref:`here <buffermap>`. The buffer parameters must be defined in the
+ini-file::
 
-.. _PTEFBuffer:
+    [Buffer 1]
+    volume = 329.0
+    height dam = 0.37
+    height opening = 0
+    opening area = 0.03
+    discharge coefficient = 0.6
+    width dam = 7
+    trapping efficiency = 75
+    extension id = 16385
 
-trapping efficiency
-*******************
+    [Buffer 2]
+    volume = 1123.0
+    height dam = 1.5
+    height opening = 0
+    opening area = 0.03
+    discharge coefficient = 0.6
+    width dam = 7
+    trapping efficiency = 75
+    extension id = 16386
 
-The trapping efficiency is the fraction of the incoming sediment that is trapped
-in the buffer basin.
+with:
 
-.. _extension_id:
+ - trapping efficiency: the trapping efficiency is the fraction of the incoming
+sediment that is trapped.
 
-extension id
-*************
+ - extension id of a buffer is calculated as the buffer id + 16384. It is an
+   integer value. All pixels of the buffer in the :ref:`buffer map <buffermap>`
+   are given the value of the extension id, except the outlet pixel.
 
-The extension id of a buffer is calculated as the buffer id + 16384. It is an
-integer value. 16384 is also the maximum amount of buffers possible in the model.
-All pixels of the buffer in the :ref:`buffer map <buffermap>`
-are given the value of the extension id, except the outlet pixel.
+ - volume: the maximum volume of water that can be trapped in the
+   bufferbasin, :math:`V_{basin}` (:math:`m^{3}`). This parameter is only
+   mandatory when using the CN-module (i.e. :ref:`simple = 0 <simple>`).
 
-Following variables are used in the CN-module. A full description about the
-CN calculation in buffers can be found :ref:`here <bufferbasins>`
+ - height dam :The height of the dam of the buffer basin, :math:`H_{dam}`
+   (m). This parameter is only mandatory when using the CN-module (i.e.
+   :ref:`simple = 0 <simple>`).
 
-volume
-******
+ - height opening: The height of the opening of the discharge pipe of the
+   basin, :math:`H_{opening}` (m). This parameter is only mandatory when using
+   the CN-module (i.e. :ref:`simple = 0 <simple>`).
 
-The maximum volume of water that can be trapped in the
-bufferbasin, :math:`V_{basin}` (:math:`m^{3}`). This parameter is only
-mandatory when using the CN-module (i.e. :ref:`simple = 0 <simple>`).
+ - opening area: the area of the discharge opening :math:`A_0` (:math:`m^{2}`).
+   This parameter is only mandatory when using the CN-module (i.e.
+   :ref:`simple = 0 <simple>`).
 
-height dam
-**********
+ - discharge coefficient: The discharge coefficient :math:`C_d` (-) of the
+   buffer basin. This parameter is only mandatory when using the CN-module
+   (i.e.:ref:`simple = 0 <simple>`).
 
-The height of the dam of the buffer basin, :math:`H_{dam}` (m). This parameter
-is only mandatory when using the CN-module (i.e. :ref:`simple = 0 <simple>`).
+ - width dam: The width of the overflow on the bufferbasin dam
+   :math:`W_{dam}` (m). This parameter is only mandatory when using the
+   CN-module (i.e. :ref:`simple = 0 <simple>`).
 
-height opening
-**************
+A full description about the CN calculation in buffers can be found
+:ref:`here <bufferbasins>`. Note that the parameters are only mandatory when
+include buffers is equal to 1.
 
-The height of the opening of the discharge pipe of the buffer basin,
-:math:`H_{opening}` (m). This parameter is only mandatory when using the
-CN-module (i.e. :ref:`simple = 0 <simple>`).
-
-opening area
-************
-
-The area of the discharge opening :math:`A_0` (:math:`m^{2}`).
-This parameter is only mandatory when using the CN-module (i.e.
-:ref:`simple = 0 <simple>`).
-
-discharge coefficient
-*********************
-
-The discharge coefficient :math:`C_d` (-) of the buffer basin.
-This parameter is only mandatory when using the CN-module (i.e.
-:ref:`simple = 0 <simple>`).
-
-width dam
-*********
-
-The width of the overflow on the bufferbasin dam :math:`W_{dam}` (m).
-This parameter is only mandatory when using the CN-module (i.e.
-:ref:`simple = 0 <simple>`).
-
+.. note::
+    The definition of the buffer extension id equal to buffer id + 16384,
+    implies only 16384 can be modelled.
 
 Forced routing data
 ===================
