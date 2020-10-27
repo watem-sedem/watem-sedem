@@ -11,9 +11,22 @@ steps:
       - make
 
   - name: test cnws runs without error
-    image: registry.fluves.net/lazarus-build
+    image: debian:buster-slim
     commands:
       - testfiles/test.sh
+
+  - name: get CNWS-processing repo for tests
+    image: docker:git
+    commands:
+      - git clone https://git.fluves.net/fluves/CNWS-processing-scripts/
+
+  - name: run python tests
+    image: registry.fluves.net/cnws_test
+    commands:
+      # - pip3 install -e CNWS-processing-scripts/cnws/[develop]
+      - pytest-3 testfiles
+    environment:
+      PYTHONPATH: CNWS-processing-scripts/cnws/src
 
 ---
 kind: pipeline
