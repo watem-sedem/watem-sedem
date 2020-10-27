@@ -577,9 +577,6 @@ max kernel river
 
 TO DO
 
-.. _bufferdata:
-
-
 Bufferdata
 ==========	
 
@@ -654,27 +651,25 @@ include buffers is equal to 1.
 Forced routing data
 ===================
 
-For every place where the user forces the routing in a certain direction,
-following parameters are mandatory.
+A forced routing from a specified source to target pixel can be defined by
+the use, if the analysis of the routing and field validation shows that the
+routing is defined incorrectly. Forced routing is defined by the column and
+row of both the source and target pixel as follows:
 
-from col
-********
+.. code-block:: ini
 
-TO DO
+        [Forced Routing 1]
+        from col 10
+        from row 10
+        target col 11
+        target row 11
 
-from row
-********
+        [Forced Routing 2]
+        from col 15
+        from row 16
+        target col 20
+        target row 19
 
-TO DO
-
-target col
-**********
-
-TO DO
-
-target row
-**********
-
-TO DO
+These lines are added to the ini-file.
 
 

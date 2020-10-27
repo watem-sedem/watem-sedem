@@ -1,3 +1,8 @@
+.. zotero-setup::
+   :style: chicago-author-date
+
+.. default-role:: xcite
+
 #####
 CN-WS
 #####
@@ -22,7 +27,8 @@ WaTEM-SEDEM is used to model the total sediment load leaving the model domain
 via rivers or an outlet. This model is not time dependent, but the sediment is
 distributed spatially. CN-WS calculates the R-factor for WaTEM-SEDEM from the
 time series of rainfall data used in the CN model. The calculation of the
-R-factor is done with the methodology of Verstraeten et al. (2006).
+R-factor is done with the methodology of Verstraeten et al.
+(2006).
 
 The output of both models is combined: the total sediment load is distributed
 over the hydrogram to obtain a sedigram (sediment concentration and sedimentload
@@ -150,6 +156,7 @@ see :ref:`here <inlcudesewers>` for more info
 
 References
 ==========
+.. bibliography::
 
 - Van Oost, K., Govers, G. & Desmet, P.J.J (2000) Evaluating the effects of
   changes in the landscape structure on soil erosion by water and tillage.

@@ -1,6 +1,6 @@
-###########
-WaTEM-SEDEM
-###########
+#####################################################
+Erosion and sediment transport modelling: WaTEM-SEDEM
+#####################################################
 
 .. _Concept:
 
@@ -266,7 +266,6 @@ References
 
 Declercq, F., Poesen, J., 1992. Evaluation of two models to calculate the
 soil erodibility factor K. Pedologie XLII, 149–169.
-
 
 Deproost, P., Renders, D., Van de Wauw, J., Van Ransbeeck, N.,
 Verstraeten, G., 2018, Herkalibratie van WaTEM/SEDEM met het DHMV-II als
