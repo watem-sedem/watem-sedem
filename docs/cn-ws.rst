@@ -1,8 +1,3 @@
-.. zotero-setup::
-   :style: chicago-author-date
-
-.. default-role:: xcite
-
 #####
 CN-WS
 #####
@@ -156,7 +151,6 @@ see :ref:`here <inlcudesewers>` for more info
 
 References
 ==========
-.. bibliography::
 
 - Van Oost, K., Govers, G. & Desmet, P.J.J (2000) Evaluating the effects of
   changes in the landscape structure on soil erosion by water and tillage.
