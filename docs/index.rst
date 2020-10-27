@@ -25,7 +25,7 @@ and outputs. In order to this, this set of minimal skills is required:
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
-   
+
    model
    usage
    installation
