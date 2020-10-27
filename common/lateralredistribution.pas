@@ -600,7 +600,7 @@ Begin
           Write(Sediment_VHA, 'Time (sec)', chr(9));
         End;
       For j := 1 To numRivSeg Do
-        Write(Sediment_VHA, 'segment_id ', j, chr(9));
+        Write(Sediment_VHA, 'segment ', j, chr(9));
       // write column headings
       writeln(Sediment_VHA, '');
       // go to next line
@@ -707,7 +707,7 @@ Begin
       Else
         Write(Sed_conc_VHA, 'Time (sec)', chr(9));
       For j := 1 To numRivSeg Do
-        Write(Sed_conc_VHA, 'segment_id ', j, chr(9));
+        Write(Sed_conc_VHA, 'segment ', j, chr(9));
       // write column headings
       writeln(Sed_conc_VHA, '');
       // go to next line

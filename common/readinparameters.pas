@@ -3,7 +3,6 @@ Unit ReadInParameters;
 
 {$mode objfpc}{$H+}
 {$R+}
-
 Interface
 
 Uses 
@@ -557,14 +556,18 @@ Var
 Begin
   Default:='';
 
+  INI_filename := ExpandFileName(INI_filename);
   If Not FileExists(INI_filename) Then
     raise Exception.create('Inifile does not exist');
   Inifile := Tinifile.create(INI_filename);
 
   Datadir := Inifile.readstring('Working directories', 'Input directory', Default);
+  Datadir := expandfilename(datadir);
+
   If Not DirectoryExists(Datadir) Then
     raise EInputException.Create('Error: data directory not found: ' + Datadir);
   File_output_dir := Inifile.readstring('Working directories', 'Output directory', Default);
+  File_output_dir:=ExpandFileName(File_output_dir);
   If Not DirectoryExists(File_output_dir) Then ForceDirectories(File_output_dir);
 
   // Make sure that a trailing slash is added to the input/output dir
@@ -616,7 +619,10 @@ Begin
   adjusted_slope := inifile.ReadBool('User Choices', 'Adjusted Slope', false);
   buffer_reduce_upstream_area := inifile.ReadBool('User Choices', 'Buffer reduce Area', false);
   force_routing := inifile.ReadBool('User Choices', 'Force Routing', false);
+
   river_routing := inifile.ReadBool('User Choices', 'River Routing', false);
+  if river_routing then
+   VHA := true;
 
   inistring:= Inifile.ReadString('User Choices', 'L model', 'Desmet1996_Vanoost2003');
   Lmodel := TLModel(GetEnumValue(Typeinfo(TLModel), inistring));
@@ -645,7 +651,7 @@ Begin
   Ditch_filename := SetFileFromIni(Inifile, 'Ditch map filename', datadir, Include_ditch);
   Dam_filename := SetFileFromIni(Inifile, 'Dam map filename', datadir, Include_dam);
   Pf_data_filename :=SetFileFromIni(Inifile, 'P factor map filename', datadir, true);
-  Riversegment_filename := SetFileFromIni(Inifile, 'River segment filename', datadir, VHA or river_routing);
+  Riversegment_filename := SetFileFromIni(Inifile, 'River segment filename', datadir, VHA);
   Outletfilename := SetFileFromIni(Inifile, 'Outlet map filename', datadir, Outlet_select);
   river_adjectant_filename:=SetFileFromIni(Inifile, 'adjectant segments', datadir, river_routing);
   river_upstream_filename:=SetFileFromIni(Inifile, 'upstream segments', datadir, river_routing);
@@ -970,7 +976,9 @@ Begin
 
   //The numbers from the .txt file are stored in a variable (matrix) M
   //All numbers in the .txt file should be integers!!!
+  {$push}{$warn 5091 off} // remove spurious warning about datatype not being initialized
   SetDynamicGData(M);
+  {$pop}
   Begin
     Assignfile(Table,TempName);
     Reset(Table);

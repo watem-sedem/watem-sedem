@@ -1,8 +1,6 @@
 
 Unit RData_CN;
 
-//In de oorspronkelijk unit was er ook een formulier gedefinieerd.
-//Dit is hier voorlopig uitgelaten!
 
 {$mode objfpc}{$H+}
 {$R+}

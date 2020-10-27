@@ -1,14 +1,14 @@
 SUBDIRS := $(wildcard */.)
 
-all: CN_WS_console
+all: cn_ws
 
-CN_WS_console:
-	$(MAKE) -C CN_WS_console
+cn_ws:
+	$(MAKE) -C cn_ws
 
 clean:
-	$(MAKE) -C CN_WS_console clean
+	$(MAKE) -C cn_ws clean
 
-install: CN_WS_console
-	install -D CN_WS_console/CN_WSmodel $(DESTDIR)$(prefix)/bin/CN_WSmodel
+install: cn_ws
+	install -D cn_ws/cn_ws $(DESTDIR)$(prefix)/bin/cn_ws
 
-.PHONY: all CN_WS_console
+.PHONY: all cn_ws

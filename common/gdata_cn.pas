@@ -97,9 +97,9 @@ Begin
   '.rst', '.rdc' : begin docNfileIMG := changefileext(dumstr, '.rdc') ; NfileIMG :=  changefileext(dumstr, '.rst'); end;
   '.sdat', 'sgrd': begin docNfileIMG := changefileext(dumstr, '.sgrd') ; NfileIMG :=  changefileext(dumstr, '.sdat'); end;
   end;
-
+  {$push}{$warn 5091 off} // remove spurious warning about datatype not being initialized
   ReadHeadersIdrisi(docNfileIMG, Datatype);
-
+  {$pop}
   // Inlezen gegevens
   SetDynamicGData(Z);
   //Er wordt geheugen vrijgemaakt voor de matrix Z
