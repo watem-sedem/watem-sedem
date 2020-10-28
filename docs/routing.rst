@@ -20,25 +20,9 @@ CN-WS. In a first step, we make a distinction between the land cover of
 (a) target(s) being equal to the class `river` (-1) (yes/no). Do note that in
 this manual the non-river pixels are sometimes referred to as `land pixels`.
 
-+----------------------+-----------+
-|Land cover/use class  | pixel id  |
-+======================+===========+
-| agricultural fields  | > 0       |
-+----------------------+-----------+
-| outside model domain |  0        |
-+----------------------+-----------+
-| river                | -1        |
-+----------------------+-----------+
-| infrastructure       | -2        |
-+----------------------+-----------+
-| forest               | -3        |
-+----------------------+-----------+
-| pasture              | -4        |
-+----------------------+-----------+
-| open water           | -5        |
-+----------------------+-----------+
-| grass strips         | -6        |
-+----------------------+-----------+
+.. csv-table::
+    :file: _static/csv/landcover_pixelid.txt
+    :header-rows: 1
 
 .. note::
     1. Routing flows from land to land pixels, land to river pixels, from river
