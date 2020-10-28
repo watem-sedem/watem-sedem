@@ -49,13 +49,14 @@ more towards 0.05, certainly in an urbanized context. Combining equations
 
 .. math::
 
-    Q(P,S)=
-    \begin{pmatrix}
-    (P-cS)^2 & \text{if} & P>I_a \\
-    0   & \text{else} & P\leqI_a
-    \end{pmatrix}
+    Q(P,S) =
+        \Bigg\{
+            \begin{array}{ll}
+                (P-cS)^2 & \text{if} & P>I_a \\
+                0   & \text{else} & P \leq I_a
+            \end{array}
 
-:math:`S, finally, can be expressed in function of the curve number CN, an
+:math:`S`, finally, can be expressed in function of the curve number CN, an
 empirical parameter ranging between 0 (everything infiltrates, e.g. a dry
 very porous soil) and 100 (nothing infiltrates, e.g. a parking lot):
 
