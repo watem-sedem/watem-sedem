@@ -45,30 +45,26 @@ processing CN-WS input, outputs and user choices. At that point, CN-WS is
 submitted to versioning via git. These optimisation were executed by `Fluves
 <https://fluves.com/>`_.
 
-Package
-=======
+Model
+=====
 
-The CN-WS package described on this page consist of three modules used to
-run two models. In the following figure, the main input, modules, models and
-outputs are shown. Here a module is defined as a part of the code that can
-be separately used as a separate but for which the output is not necessarily
-the output at interest for the defined aim. A model is defined as a set of
-algorithms calculating outputs at interest, in this case **sediment load**
-and **river flow**.
-
-.. image:: _static/png/diagram_cn_ws_package.png
-    :width: 993px
-
-The figure above show which input data are required to develop a CN-WS model
+The CN-WS model described on this page consist of three models. In the
+following figure, the main input, models and outputs are shown. The figure
+above show which input data are required to develop a CN-WS model
 . These input data are used to run the routing, erosion or run-off module.
 The run-off and routing module is used in CN, whereas the erosion and
 routing module are used in WS. The outputs at interest are stated at the
 right of the diagram, whereas interesting state variables are shown in blue
 in the CN-WS package block.
 
+TO DO: expand explaination
+
+.. image:: _static/png/diagram_cn_ws_package.png
+    :width: 771px
+
 .. note::
     The CN-WS package is still being optimized to make sure the CN, WS and
-    routing module can be run separately.
+    routing model can be run separately.
 
 Package
 =======

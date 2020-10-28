@@ -1,6 +1,6 @@
-##################
-Curve Number Model
-##################
+##########################
+Runoff model: Curve Number
+##########################
 
 A rainfall-runoff module based on the curve number (CN) method is used to
 calculate runoff rates in the simulation domain.
