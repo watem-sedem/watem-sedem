@@ -80,6 +80,14 @@ this method spatio-temporarily lumpes output at even-scale. Finally, it is
 important to note that abstraction is made from processes like e.g. rainfall
 intensity, surface crust formation, crop cover, antecedent conditions.
 
+The runoff module used in CNWS does not represent the original CN method. To
+overcome some of the shortcomings mentioned above, some adjustments to the
+original CN method have been made. In the next section, these adjustments
+are explained.
+
+Titel
+=====
+
 References
 ==========
 
