@@ -67,7 +67,7 @@ The definition of these unique parcel values are important to define the routing
 within a parcel. Note that the data type of this raster is integer 16.
 
 .. csv-table::
-    :file: _static/csv/landcover_pixelid.txt
+    :file: _static/csv/landcover_pixelid.csv
     :header-rows: 1
 
 .. note::
@@ -569,6 +569,7 @@ max kernel river
 TO DO
 
 .. _bufferdata:
+
 Bufferdata
 ==========	
 

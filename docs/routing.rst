@@ -21,7 +21,7 @@ CN-WS. In a first step, we make a distinction between the land cover of
 this manual the non-river pixels are sometimes referred to as `land pixels`.
 
 .. csv-table::
-    :file: _static/csv/landcover_pixelid.txt
+    :file: _static/csv/landcover_pixelid.csv
     :header-rows: 1
 
 .. note::
