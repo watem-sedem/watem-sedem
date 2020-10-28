@@ -64,31 +64,11 @@ all
 pixels of an agricultural field have the same value et pixels belonging to a
 different parcel have different value.
 The definition of these unique parcel values are important to define the routing
-within a parcel.
+within a parcel. Note that the data type of this raster is integer 16.
 
-**Note:**
-
-+----------------------+-----------+
-|Land use/cover class  | pixel id  |
-+======================+===========+
-| agricultural fields  | > 0       |
-+----------------------+-----------+
-| outside model domain |  0        | 
-+----------------------+-----------+
-| river                | -1        | 
-+----------------------+-----------+
-| infrastructure       | -2        | 
-+----------------------+-----------+
-| forest               | -3        | 
-+----------------------+-----------+
-| pasture              | -4        | 
-+----------------------+-----------+
-| open water           | -5        | 
-+----------------------+-----------+
-| grass strips         | -6        |
-+----------------------+-----------+
-
-The datatype of this raster is integer 16.
+.. csv-table::
+    :file: _static/csv/landcover_pixelid.txt
+    :header-rows: 1
 
 .. note::
 	1. The Parcel raster can contain only values between -32757 and 32757.
