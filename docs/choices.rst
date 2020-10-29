@@ -257,8 +257,8 @@ Ditches alter the routing. The sediment and water will follow the course of a
 ditch in stead of along the steepest slope. When this option is enabled,
 :ref:`a raster with information about the direction <ditchmap>` is mandatory.
 
-The model sets the C-factor at every ditch pixel tot 0.01. Thus, it overwrites
-the value of the pixel in the :ref:`C-factor raster <cmap> `.
+The model sets the :ref:`C-factor <cfactor>` at every ditch pixel tot 0.01.
+Thus, it overwrites the value of the pixel in the :ref:`C-factor raster <cmap>`.
 The ktc value of the pixel is set to :ref:`ktc low <ktclow>`.
 
 .. _includedams:
