@@ -1,3 +1,5 @@
+.. _modeloutput:
+
 ############
 Model output
 ############
