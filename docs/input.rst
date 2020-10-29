@@ -587,7 +587,7 @@ Bufferdata
 The inclusion of erosion control buffers is based on input rasters and
 buffer parameters. The generation of the input rasters is described
 :ref:`here <buffermap>`. The buffer parameters must be defined in the
-ini-file:
+ini-file when when :ref:`include buffers = 1 <includebuffers>`.
 
 .. code-block:: ini
 
@@ -645,8 +645,7 @@ with:
    CN-module (i.e. :ref:`simple = 0 <simple>`).
 
 A full description about the CN calculation in buffers can be found
-:ref:`here <bufferbasins>`. Note that the parameters are only mandatory when
-include buffers is equal to 1.
+:ref:`here <bufferbasins>`.
 
 .. note::
     The definition of the buffer extension id equal to buffer id + 16384,
