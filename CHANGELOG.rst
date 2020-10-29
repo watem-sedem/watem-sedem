@@ -2,6 +2,15 @@
 Changelog
 =========
 
+version 2.0.0
+-------------
+
+Version used for calibration with DHMVII.
+
+- Add calculation of cumulative river sediment
+- Don't write empty routing lines in routing.txt, use tab seperation
+- Use proportion for upstream edges
+
 version 1.4.0
 -------------
 
@@ -23,7 +32,6 @@ project'.
 - Don't route cells without lower cells to themselve
 - Improved error message when input directory is missing
 - Add River Routing option
-- Add calculation of cumulative river sediment
 - Change default value of Create ktc map to True
 - Refactoring code
 
