@@ -443,6 +443,8 @@ LS correction
 
 float (default 1)
 
+.. _nrbuffers:
+
 Number of buffers
 *****************
 
@@ -576,6 +578,8 @@ max kernel river
 ****************
 
 TO DO
+
+.. _bufferdata:
 
 Bufferdata
 ==========	

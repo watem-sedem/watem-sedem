@@ -234,17 +234,19 @@ Include buffers
 
 An infrastructural measure that traps an amount of transported sediment is
 called a buffer. These measures can be simulated in the model by enabling
-the Include buffers option. By enabling this option the `buffer map filename`
-becomes mandatory in the ini-file. Next to this raster, the ini-file must
-contain the variable `number of buffers` and a seperate section for every buffer
+the Include buffers option. By enabling this option the
+:ref:`buffer map filename <buffermap>` becomes mandatory in the ini-file.
+Next to this raster, the ini-file must contain the variable
+:ref:`number of buffers <nrbuffers>` and a seperate section for every buffer
 in the buffer map. In every buffer section in the ini-file some variables must
 be given.
 
 The Include buffers option adjusts the routing in the pixels. All pixels within
-a buffer with the buffer :ref:`extension id <extension_id>` are routed to the
-outletpixel of the buffer. This outletpixel in the bufferraster is marked with
-the buffer id. The amount of sediment that flows out of the bufferoutlet is
-reduced with the :ref:`trapping efficiency <PTEFBuffer>` of the buffer.
+a buffer with the buffer extension id are routed to the outletpixel of the
+buffer. This outletpixel in the bufferraster is marked with the buffer id. The
+amount of sediment that flows out of the bufferoutlet is reduced with the
+trapping efficiency of the buffer. The buffer extension id, buffer id and
+trapping efficiency are explained at the :ref:`buffer data section <bufferdata>`.
 
 .. _includeditches:
 
