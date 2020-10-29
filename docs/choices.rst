@@ -272,7 +272,7 @@ option is enabled, :ref:`a raster with information about the direction <dammap>`
 is mandatory.
 
 The model sets the C-factor at every dam pixel to 0. Thus, it overwrites
-the value of the pixel in the :ref:`C-factor raster <cmap> `.
+the value of the pixel in the :ref:`C-factor raster <cmap>`.
 The ktc value of the pixel is set to -9999.
 
 Force Routing
