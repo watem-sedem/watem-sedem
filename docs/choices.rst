@@ -224,8 +224,8 @@ sediment of the pixel is reduced with this fraction. The amount of trapped
 sediment is written to output raster sewer_in.rst.
 
 .. note::
-    This option is fully tested for :ref:`simple=1`, but it is not yet tested
-    for the full CN-WS model.
+    This option is fully tested for :ref:`simple=1 <simple>`, but it is not yet
+    tested for the full CN-WS model.
 
 .. _includebuffers:
 
