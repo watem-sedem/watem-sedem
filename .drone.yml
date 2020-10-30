@@ -101,6 +101,11 @@ type: docker
 name: documentation
 
 steps:
+  - name: fetch tags
+    image: alpine/git
+    commands:
+    - git fetch --tags
+
   - name: build website
     image: python
     commands:
