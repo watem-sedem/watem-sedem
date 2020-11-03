@@ -109,19 +109,22 @@ Version numbering scheme
 
 Building the documentation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
-The documentation for the project can be found under the ``docs/`` folder, and is written using
-`reStructuredText`_.
+The documentation for the project can be found under the ``docs/`` folder, and
+is written using `reStructuredText`_.
 
-To build the documentation locally, you need to install the doc requirements, which are based on sphinx_.
+To build the documentation locally, you need to install the doc requirements,
+which are based on sphinx_.
 
 .. code-block:: bash
 
   $ pip install -r doc-requirements.txt
 
-After which you should be able to generate HTML output by typing ``make html`` from the `docs` directory.
+After which you should be able to generate HTML output by typing
+``make html`` from the `docs` directory.
 
-Publishing on the documentation website (https://docs.fluves.net/cnws-pascal) will happen when changes
-to master build correctly. Note that this may mean that the documentation is actually a bit more recent than the last released version.
+Publishing on the documentation website (https://docs.fluves.net/cnws-pascal)
+will happen when changes to master build correctly. Note that this may mean that
+the documentation is actually a bit more recent than the last released version.
 
 .. _reStructuredText: http://docutils.sourceforge.net/rst.html
 .. _sphinx: http://www.sphinx-doc.org/en/master/
