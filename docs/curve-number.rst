@@ -72,7 +72,8 @@ graph below.
 To conclude :math:`Q` can thus be expressed solely as a function of :math:`P` and :math:`CN` like
 depicted in the graph below.
 
-FIGURE
+.. image:: _static/png/cn_graph.png
+    :width: 600px
 
 The simplistic nature of the original CN method explains its widespread use.
 It is important to note that original CN method is best suited for
