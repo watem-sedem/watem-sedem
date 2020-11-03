@@ -2,6 +2,84 @@
 Changelog
 =========
 
+latest
+------
+
+- Extending documentation
+- Bugfix routing: if no lower pixel found in parcel, no river pixel in window W,
+  check if a lower pixel exists with other land use code.
+- Renamed model binaries and folder structure:
+    - console version: CN_WSModel > cn_ws
+    - gui version: CN_WS > cn_ws_gui
+    - LT verison: CN_WS_LongTerm > cn_ws_gui_LT
+- Moved logic of lpr file to a seperate .pas file
+- Remove spurious warnings when building the binary
+- remove VHA tag in files
+    - The option "Output per VHA river segment" became "Output per river segment"
+    - Discharge_VHA.txt was renamed to Discharge_segments.txt
+    - Total sediment VHA.txt was renamed to Total sediment segments.txt
+    - Cumulative sediment VHA.txt was renamed to Cumulative sediment segments.txt
+    - Sediment_VHA.txt was renamed to Sediment_segments.txt
+    - Sediment concentration_VHA.txt was renamed to Sediment concentration segments.txt
+    - Clay content sediment VHA.txt was renamed to Clay content sediment segments.txt
+- Enable the output per segment option by default when river routing is used
+
+NEMO final
+----------
+
+This version was delivered to VMM at the end of the NEMO project. It includes
+some smalle improvements and a fix for a bug discovered by Jan Coppens (Thanks!)
+
+- Allow relative paths in ini-file
+- Simplify logic in CN_WSmodel.lpr
+- Make bufferparameters 'Volume', 'Height Dam', 'Height opening', 'Opening area',
+  'Discharge coefficient', 'Width dam' only mandatory in ini-file when using the
+  CN module
+- Bugfix: Set Target2 to -99 when Part2 is 0 (as is done for Target1)
+- Added TC formula of Verstraeten et al 2007 as an option
+- Bugfix: Renaming SModel Desmet1996 to McCool1987
+- Extending documentation
+
+NEMO
+----
+
+This version includes several changes needed for the NEMO project
+
+- Change type of parcel raster to integer
+- Overwrite the system decimal seperator to '.'
+- Add documentation with sphinx
+- Don't write Total Sediment.txt when calibrating
+- Bugfix: read outlet raster when 'Manual outlet selection' is enabled
+- Improving memory management (releasing memory of rasters when they are not used anymore)
+- Change buffer extension ID to buffer_id + 16384
+- Routing: do not jump to border pixels of raster in findlower function
+- Removing 'Sediment trapped in open water' from Total sediment.txt
+- Round sewer input in Total sediment.txt to two decimals
+- Cleaning code: removing initialisation of unused variables
+- Determine outlet after routing when 'Manual outlet selection' is enabled
+- Refactoring: rename variable FLUX_IN to UpArea
+- Use sewermap to reduce uparea
+- Add optional LS correction factor
+
+version 20200114
+----------------
+
+- TO DO
+
+version 2.1.0 (2019109)
+-------------
+
+- Add option 'Only Routing'
+- Make routing table an optional output
+- Endtime model variable is now only mandatory in ini-file when needed
+- Add check to make sure number of river segments in rasters and files are
+  the same
+- Set the ktc value of a dam to ktc_low instead of 7
+- Flow to neighbour river cell even if that cell is higher as the origin
+
+TO DO: finish the changelog for this release
+ (done up to commit c11799ddc5f69e356d59ed5b7d3070e2a94813f3)
+
 version 2.0.0
 -------------
 
