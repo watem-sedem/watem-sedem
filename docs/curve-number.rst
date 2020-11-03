@@ -2,8 +2,10 @@
 Runoff model: Curve Number
 ##########################
 
-A rainfall-runoff module based on the curve number (CN) method is used to
-calculate runoff rates in the simulation domain.
+Both the processes of runoff and sediment production are closely intertwined.
+Within CNWS a rainfall-runoff module based on the curve number (CN) method is used to
+calculate runoff rates in the simulation domain. By Combining runoff rates and sediment 
+loads one can get an idea of the sediment concentrations reaching the rivers. 
 
 
 The original curve number method
@@ -11,7 +13,7 @@ The original curve number method
 
 The original CN method has been developed in the mid-50’s by the former
 American Soil Conservation Service (SCS) and has since then been revised more than once (NRCS, 2010).
-It is a simplistic empirical method that allows the prediction of surface runoff with a limited amount of
+It is a simplistic, empirical method that allows the prediction of surface runoff with a limited amount of
 input data. It is because of this simplicity the method has known widespread
 use in water and soil management.
 
@@ -19,6 +21,7 @@ The main governing assumption of the CN method is the following:
 
 .. math::
     \frac{Q}{P-I_a} = \frac{F}{S}
+    :label: eq1
 
 with:
 
@@ -37,11 +40,13 @@ The mass balance implies following equation:
 
 .. math::
     P = Q+F+I_a
+    :label: eq2
 
 Furthermore :math:`I_a` is expressed as follows:
 
 .. math::
     I_a=cS
+    :label: eq3
 
 This constant c was originally set to 0.2, however, the quality of choice has been often questioned.
 Nowadays it is often put at lower values (Ponce  V.M.  &  Hawkins, 1996), certainly in an urbanized context. 
@@ -52,9 +57,10 @@ Combining equations 1, 2 and 3 results in the following expression for :math:`Q`
     Q(P,S) =
         \Bigg\{
             \begin{array}{ll}
-                (P-cS)^2 & \text{if} & P>I_a \\
+                \frac{(P-cS)^2}{P+(1-c)S} & \text{if} & P>I_a \\
                 0   & \text{else} & P \leq I_a
             \end{array}
+    :label: eq4
 
 :math:`S`, finally, can be expressed in function of the curve number :math:`CN`, an
 empirical parameter ranging between 0 (everything infiltrates, e.g. a dry
@@ -63,6 +69,12 @@ very porous soil) and 100 (nothing infiltrates, e.g. a parking lot):
 .. math::
 
     S = \frac{25400}{CN}-254
+    :label: eq5
+
+with:
+
+- :math:`CN`: curve number (:math:`-`)
+
 
 The :math:`CN` values can be extracted from tables (NRCS, 2010), based on soil type, land use,
 hydrologic condition, and initial moisture conditions. To conclude :math:`Q` can
@@ -96,6 +108,7 @@ A first adaptation suggested by Van Oost 2003 is pre-processing the tabulated CN
 
 .. math::
     CN = CN_{max}  – (\frac{Cc}{100} c_1) + (\frac{Cr}{5} c_2)
+    :label: eq6
 
 with:
 
@@ -109,6 +122,7 @@ Furthermore, Van Oost 2003 also suggested a correction factor for the total simu
 
 .. math::
     Q = Q_{CNII} \frac{IN_{max10}}{10}^{\alpha}  + \frac{AR5}{10} \beta
+    :label: eq7
 
 with:
 
@@ -121,7 +135,7 @@ In grid cells at which the rainfall depth P is lower than the initial abstractio
 
 .. math::
     I = (I_a-P) \frac{D}{1440}        for P<I_a
-
+    :label: eq8
 with:
 
 - :math:`I`: infiltration (:math:`m`)
@@ -133,7 +147,7 @@ For all buffers present in the modelled catchment 3 properties are calculated:
 
 .. math::
     Q_{max}=C_{dam}*A_{opening} (2 \times 2.81 \times [H_{dam}-H_{opening}])^(0.5)
-
+    :label: eq9
 with:
 
 - :math:`Q_{max}`: maximum outflow (:math:`m^3s^{-1}`)
@@ -146,7 +160,7 @@ with:
 
 .. math::
     V_{dead}=\frac{H_{opening}}{H_{dam}} V
-
+    :label: eq10
 with:
 
 - :math:`V_{dead}`: dead volume (:math:`m^3`)
@@ -156,7 +170,7 @@ with:
 
 .. math::
     A_{buffer}=\frac{V_{buffer},H_{dam}} 
-
+    :label: eq11
 with:
 
 - :math:`A_{buffer}`: buffer area (:math:`m^2`)
@@ -169,7 +183,7 @@ Subsequently runoff redistribution through the landscape is modelled stepwise th
 
 .. math::
     R_{tot,t}=R_{r,t-1}+R_{P,t}+R_{in,t-1}
-
+    :label: eq12
 with:
 
 - :math:`R_{tot,t}`: total present runoff at timestep t (:math:`m^3`)
@@ -181,7 +195,7 @@ with:
 
 .. math::
     R_{out,t}=R_{tot,t}  \alpha  \frac{v \Delta t}{dist}
-
+    :label: eq13
 with:
 
 - :math:`R_{out,t}`: runoff leaving the grid cell towards the neighboring downstream grid cell at timestep t (:math:`m^3`)
@@ -199,12 +213,14 @@ For buffer grid cells, the runoff outflow is calculated in a alternative way, 3 
 
 .. math::
     R_{out,t}=Q_{max} (\frac{R_{tot,t}}{V_{buffer}-V_{dead}})^(0.5) \Delta t
+    :label: eq14
 
 3) The runoff volume present in the buffer exceeds the total buffer volume. The downstream water flow is the sum of the maximum buffer outflow Q_max and the spill flow. The latter is calculated as:
 
 .. math::
     spill=min⁡[C_{dam} w_{dam} 9.81^(0.5) [\frac{R_{tot,t}-V_{buffer}),A_{buffer}}]^{1.5},\frac{R_{tot,t}-V_{buffer}),\Delta t}]
-
+    :label: eq15
+    
 with:
 
 - :math:`spill`: spill flow (:math:`m^3s^{-1}`)
