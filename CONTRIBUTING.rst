@@ -112,7 +112,7 @@ To build the documentation locally, you need to install the doc requirements, wh
 
 .. code-block:: bash
 
-  $ pip install -r doc-requirements.txt
+  $ pip install -r docs/requirements.txt
 
 After which you should be able to generate HTML output by typing ``make html`` from the `docs` directory.
 
