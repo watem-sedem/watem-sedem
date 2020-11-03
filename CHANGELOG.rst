@@ -64,10 +64,31 @@ This version includes several changes needed for the NEMO project
 version 20200114
 ----------------
 
-- TO DO
+- do not route sewers to rivers
+- reduce sediout of sewer pixel with fraction defined in sewermap
+- write capacity to raster
+- removing outputfile 'Sewer output sediment.txt'
+- Adding 'Sediment entering sewer system' to Total sediment.txt
+- Bugfix: typo in variable name (2nd target vs 1st target)
+- If Target is -99 set distance to 0 in routing table
+- Change option 'Include tillage' to 'Include tillage direction'
+- Make calculation of tillage erosion optional
+
+- Change Fluxout from RRaster to single value
+-
+
+- Ring checking?
+- Use function to find lower pixel
+- Update routing algorithm (inverse routing)
+
+- Allow to stop routing algorithm in rivers and outlets
+- After using 'dedicated' routing in ditch, dam or buffer make sure to use
+  'normal' routing algorithm
+- Reduce upstream area with trapping efficiency of buffer
+
 
 version 2.1.0 (2019109)
--------------
+-----------------------
 
 - Add option 'Only Routing'
 - Make routing table an optional output
