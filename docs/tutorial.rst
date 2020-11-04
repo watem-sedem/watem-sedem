@@ -5,7 +5,7 @@ Tutorial
 ########
 
 To use CNWS a .ini configuration file is needed. In this tutorial we will
-explain how this configuration file is made and how options are enabled or
+explain how this configuration file is made and how model options are enabled or
 disabled.
 
 0. Getting started
@@ -16,16 +16,16 @@ This editor is needed to edit the configuration file. A GIS program is also
 needed to create the input rasters and to view the output rasters. We recommend
 `QGIS <https://www.qgis.org>`_ or `Saga <http://www.saga-gis.org/>`_. In this
 tutorial we will not explain how to use the gis software, nor how to make the
-input rasters, these are basic GIS-tasks and are explained in several tutorials
-on the net.
+input rasters, these are basic GIS-tasks and these are explained in several
+tutorials on the net.
 
 First, you need to download the latest release of the model. Pre-build binaries
 exist for windows and linux. It is also possible to build the model from source.
-
 See :ref:`the installation page <install>` for more information.
 
 All example model runs described below make use of the testdataset which is
-available in the repository under testfiles/molenbeek/modelinput.
+available in the repository under testfiles/molenbeek/modelinput. The ini-files
+used in these tutorials can be found in the docs folder of the repository.
 
 1. A basic model run with WaTEM-SEDEM
 *************************************
@@ -34,8 +34,47 @@ As a first exercise in the tutorial we will make a basic model run with the
 WaTEM-SEDEM module of CN-WS. The basic model run includes only mandatory files
 and input. This run disables all *advanced* modeloptions.
 
-.. literalinclude:: tutorial_1.ini
+.. literalinclude:: tutorial_1/tutorial_1.ini
     :language: ini
+
+In the folder where you have build the model, or installed the binary, you can
+run in your terminal
+
+.. code-block:: bash
+
+    $ cn_ws <path to cnws repository>/cn_ws/docs/tutorial_1/tutorial_1.ini
+
+When the model run starts you will see::
+
+    CN_WS model
+
+    Inifile : <path to cnws repository>/cn_ws/docs/tutorial_1/tutorial_1.ini
+
+After completion of the calculations the model reports the execution time::
+
+    Calculations completed. Program Execution Time: 5.96 sec
+
+Now, you can have a look in the modeloutput folder defined in the ini-file. A
+txt file with a summary of the results is written:
+:ref:`Total sediment.txt<totalsedimenttxt>`.
+
+.. literalinclude:: tutorial_1/Total sediment
+    :language: vim
+
+This table contains the sum of all pixels with a negative mass balance (Total
+erosion) and a positive mass balance (total deposition). It also reports how
+much sediment enters the river pixels (Sediment leaving the catchment, via the
+river). The sediment leaving the catchment, not via the river is (mostly) a small
+fraction of the sediment that leaves the catchment via the borders (to nodata pixels).
+
+In the ini-file of this tutorial we have not defined any outlets
+(:ref:`Manual outlet selection = 0 <manualoutlet>`). Therefore, the
+model made an outlet itself: the model looked for the lowest (river) pixel treated
+in the routing algorithm. If you have a look in the model input folder, you will see
+that :ref:`Outlet.rst <outletmap>` appeared. All pixels in this raster have
+value '0' except one pixel with value 1. This pixel is the outlet of the model.
+
+Congratulations! You just finished your first model calculation with CN-WS!
 
 2. Get more model output!
 *************************
@@ -58,18 +97,24 @@ enabling the options :ref:`write upstream area <writeuparea>`,
 When the model is ran with the this adapted ini-file
 
 .. code-block::
-    cn_ws tutorial_2.ini
 
-We see the following output rasters emerge: :ref:`uparea.rst <upareamap>`,
-:ref:`SediExport_kg.rst <sediexportrst>`, :ref:`SediOut_kg.rst <sedioutrst>`,
-:ref:`SediIn_kg.rst <sediinrst>`,
-:ref:`WATEREROS (kg per gridcel).rst <watereroskgrst>` and
-:ref:`WATEREROS (mm per gridcel).rst <watererosmmrst>`.
+    cn_ws <path to cnws repository>/cn_ws/docs/tutorial_2/tutorial_2.ini
+
+We see the following output rasters emerge in the outputfolder:
+
+- :ref:`uparea.rst <upareamap>`,
+- :ref:`SediExport_kg.rst <sediexportrst>`,
+- :ref:`SediOut_kg.rst <sedioutrst>`,
+- :ref:`SediIn_kg.rst <sediinrst>`,
+- :ref:`WATEREROS (kg per gridcel).rst <watereroskgrst>`,
+- :ref:`WATEREROS (mm per gridcel).rst <watererosmmrst>`
 
 These rasters can help us to identify the spatial patterns of the soil erosion
 and sediment deposition in the model area. The
 :ref:`SediExport_kg.rst <sediexportrst>` is a very useful raster when examining
-the points in the river with large sediment inputs. If you want to see the paths
+the points in the river with large sediment inputs.
+
+If you want to see the paths
 of the sediment transport through the landscape, you might have a look at
 :ref:`SediOut_kg.rst <sedioutrst>` or :ref:`SediIn_kg.rst <sediinrst>`. These
 rasters display how much sediment (in kg) is transported towards and outwards of
