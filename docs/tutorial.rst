@@ -58,7 +58,7 @@ Now, you can have a look in the modeloutput folder defined in the ini-file. A
 txt file with a summary of the results is written:
 :ref:`Total sediment.txt<totalsedimenttxt>`.
 
-.. literalinclude:: tutorial_1/Total sediment
+.. literalinclude:: tutorial_1/Total sediment.txt
     :language: vim
 
 This table contains the sum of all pixels with a negative mass balance (Total
