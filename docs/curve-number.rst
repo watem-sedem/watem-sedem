@@ -180,7 +180,7 @@ with:
   downstream grid cell at timestep t (:math:`m^3`)
 - :math:`R_{tot,t}`: total present runoff at timestep t (:math:`m^3`)
 - :math:`\alpha`: routing fraction towards the downstream grid cell (:math:`-`)
-- :math:`v`: flow velocity (:math:`ms^{-1}`)
+- :math:`v`: flow velocity (:math:`m s^{-1}`)
 - :math:`\Delta t`: time step duration (:math:`s`)
 - :math:`d`: flow distance to the downstream grid cell (:math:`m`)
 
