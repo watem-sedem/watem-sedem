@@ -9,12 +9,15 @@ latest
 - Bugfix routing: if no lower pixel found in parcel, no river pixel in window W,
   check if a lower pixel exists with other land use code.
 - Renamed model binaries and folder structure:
+
     - console version: CN_WSModel > cn_ws
     - gui version: CN_WS > cn_ws_gui
     - LT verison: CN_WS_LongTerm > cn_ws_gui_LT
+
 - Moved logic of lpr file to a seperate .pas file
 - Remove spurious warnings when building the binary
-- remove VHA tag in files
+- remove VHA tag in files:
+
     - The option "Output per VHA river segment" became "Output per river segment"
     - Discharge_VHA.txt was renamed to Discharge_segments.txt
     - Total sediment VHA.txt was renamed to Total sediment segments.txt
@@ -28,7 +31,7 @@ NEMO final
 ----------
 
 This version was delivered to VMM at the end of the NEMO project. It includes
-some smalle improvements and a fix for a bug discovered by Jan Coppens (Thanks!)
+some small improvements and a fix for a bug discovered by Jan Coppens (Thanks!)
 
 - Allow relative paths in ini-file
 - Simplify logic in CN_WSmodel.lpr
