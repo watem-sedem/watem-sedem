@@ -61,7 +61,7 @@ Combining equations 1, 2 and 3 results in the following expression for :math:`Q`
                 0   & \text{else} & P \leq I_a
             \end{array}
 
-:math:`S`, finally, can be expressed in function of the dimensionless
+:math:`S`, finally, can be expressed as a function of the dimensionless
 curve number :math:`CN`, an empirical parameter ranging between 0
 (everything infiltrates, e.g. a dry very porous soil) and 100 (nothing
 infiltrates, e.g. a parking lot):
@@ -133,7 +133,8 @@ with:
 - :math:`α, β`: tuning parameters (:math:`-`)
 
 In grid cells at which the rainfall depth P is lower than the initial abstraction
-I_a, infiltration is simulated following the equation below (Van Oost,2003):
+:math:`I_a`, infiltration is simulated following the equation below (Van Oost,
+2003):
 
 .. math::
     \begin{array}{ll}
