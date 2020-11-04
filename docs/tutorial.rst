@@ -102,7 +102,6 @@ When the model is ran with the this adapted ini-file
 
 We see the following output rasters emerge in the outputfolder:
 
-- :ref:`uparea.rst <upareamap>`,
 - :ref:`SediExport_kg.rst <sediexportrst>`,
 - :ref:`SediOut_kg.rst <sedioutrst>`,
 - :ref:`SediIn_kg.rst <sediinrst>`,
@@ -112,14 +111,25 @@ We see the following output rasters emerge in the outputfolder:
 These rasters can help us to identify the spatial patterns of the soil erosion
 and sediment deposition in the model area. The
 :ref:`SediExport_kg.rst <sediexportrst>` is a very useful raster when examining
-the points in the river with large sediment inputs.
+the points in the river with large sediment inputs. We can see in this raster
+how much sediment enters every river pixel. Remember, the total amount of
+sediment entering the rivers can be found in
+:ref:`Total sediment.txt <totalsedimenttxt>` (Sediment leaving the catchment,
+via the river). This amount is in fact the sum of all riverpixels in
+SediExport_kg.rst.
 
 If you want to see the paths
 of the sediment transport through the landscape, you might have a look at
 :ref:`SediOut_kg.rst <sedioutrst>` or :ref:`SediIn_kg.rst <sediinrst>`. These
 rasters display how much sediment (in kg) is transported towards and outwards of
-a cell. The paths seen in :ref:`SediOut_kg.rst <sedioutrst>` or
-:ref:`SediIn_kg.rst <sediinrst>` can
+a cell.
+
+Making a spatial analysis of areas where a lot of erosion occurs, or where a lot
+of depostion is possible, can be done with the WATEREROS rasters. These rasters
+represent the result of the comparison between the total available sediment and
+the trasport capacity of a pixel (for more information about this concept,
+see :ref:`here <Concept>`). Positive values in these rasters indicate deposition,
+negative values indicate erosion. 
 
 3. Adding buffer basins
 ***********************
