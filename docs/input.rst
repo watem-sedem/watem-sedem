@@ -55,45 +55,36 @@ The idirisi raster must be formatted as float32.
 Parcel filename
 ***************
 
-Filename of the Parcel or Landuse map. CN-WS requires information about landuse
+Filename of the Parcel or Land cover map. CN-WS requires information about
+land cover
 and parcel boundaries in the routing algorithm, but also when distributing the
 sediment through the model domain. Every pixel in the model domain must contain
-a landuse value. Every value > 0 indicates a unique agricultural field. So, all
+a land cover value. Every value > 0 indicates a unique agricultural field. So,
+all
 pixels of an agricultural field have the same value et pixels belonging to a
 different parcel have different value.
 The definition of these unique parcel values are important to define the routing
-within a parcel.
+within a parcel. Note that the data type of this raster is integer 16.
 
-+----------------------+-----------+
-|Landuse class         | pixel id  | 
-+======================+===========+
-| agricultural fiels   | > 0       | 
-+----------------------+-----------+
-| outside model domain |  0        | 
-+----------------------+-----------+
-| river                | -1        | 
-+----------------------+-----------+
-| infrastructure       | -2        | 
-+----------------------+-----------+
-| forest               | -3        | 
-+----------------------+-----------+
-| pasture              | -4        | 
-+----------------------+-----------+
-| open water           | -5        | 
-+----------------------+-----------+
-| grass strips         | -6        |
-+----------------------+-----------+
-
-The datatype of this raster is integer 16.
+.. csv-table::
+    :file: _static/csv/landcover_pixelid.csv
+    :header-rows: 1
 
 .. note::
-	The Parcel raster can contain only values between -32757 and 32757.
+	1. The Parcel raster can contain only values between -32757 and 32757.
 	Therefore, only 32757 unique agricultural field id's can be used in the
 	parcel map. When more parcel id's are necessary (e.g. in very large
 	catchments), you can give two or more agricultural fields the same id.
 	Theoretically, the model will consider these two parcels as a single parcel.
 	In practice, these two parcels will never be treated as one because they are
 	probably situated in another part of the catchment.
+
+    2. The concept of land use (agriculture, grass strips) and land cover
+    (river, infrastructure, forest, pasture) are used interchangeable in the
+    definition of the parcel raster. In this manual, we aim to define it as land
+    cover rather than land use.
+
+.. _sewermapfile:
 
 Sewer map filename
 ******************
@@ -137,7 +128,7 @@ Filename of the buffer map. This raster is only mandatory when
 The figure shows an example of a buffermap with three buffer basins. The outlet
 of every buffer is marked with the buffer id (1, 2 and 3 in this example). The
 other pixels belonging to the buffer get the
-:ref:`extension id <extension_id>`. All other pixels in the raster are set to
+:ref:`extension id <bufferdata>`. All other pixels in the raster are set to
 zero.
 
 .. figure:: _static/png/buffermap.png
@@ -443,6 +434,8 @@ LS correction
 
 float (default 1)
 
+.. _nrbuffers:
+
 Number of buffers
 *****************
 
@@ -577,100 +570,100 @@ max kernel river
 
 TO DO
 
-	
+.. _bufferdata:
+
 Bufferdata
 ==========	
 
-For every buffer, following variables must be defined. These variables are only
-mandatory when include buffers = 1.
+The inclusion of erosion control buffers is based on input rasters and
+buffer parameters. The generation of the input rasters is described
+:ref:`here <buffermap>`. The buffer parameters must be defined in the
+ini-file when :ref:`include buffers = 1 <includebuffers>`.
 
-.. _PTEFBuffer:
+.. code-block:: ini
 
-trapping efficiency
-*******************
+    [Buffer 1]
+    volume = 329.0
+    height dam = 0.37
+    height opening = 0
+    opening area = 0.03
+    discharge coefficient = 0.6
+    width dam = 7
+    trapping efficiency = 75
+    extension id = 16385
 
-The trapping efficiency is the fraction of the incoming sediment that is trapped
-in the buffer basin.
+    [Buffer 2]
+    volume = 1123.0
+    height dam = 1.5
+    height opening = 0
+    opening area = 0.03
+    discharge coefficient = 0.6
+    width dam = 7
+    trapping efficiency = 75
+    extension id = 16386
 
-.. _extension_id:
+with:
 
-extension id
-*************
+ - trapping efficiency: the trapping efficiency is the fraction of the incoming
+   sediment that is trapped.
 
-The extension id of a buffer is calculated as the buffer id + 16384. It is an
-integer value. 16384 is also the maximum amount of buffers possible in the model.
-All pixels of the buffer in the :ref:`buffer map <buffermap>`
-are given the value of the extension id, except the outlet pixel.
+ - extension id of a buffer is calculated as the buffer id + 16384. It is an
+   integer value. All pixels of the buffer in the :ref:`buffer map <buffermap>`
+   are given the value of the extension id, except the outlet pixel.
 
-Following variables are used in the CN-module. A full description about the
-CN calculation in buffers can be found :ref:`here <bufferbasins>`
+ - volume: the maximum volume of water that can be trapped in the
+   bufferbasin, :math:`V_{basin}` (:math:`m^{3}`). This parameter is only
+   mandatory when using the CN-module (i.e. :ref:`simple = 0 <simple>`).
 
-volume
-******
+ - height dam :The height of the dam of the buffer basin, :math:`H_{dam}`
+   (m). This parameter is only mandatory when using the CN-module (i.e.
+   :ref:`simple = 0 <simple>`).
 
-The maximum volume of water that can be trapped in the
-bufferbasin, :math:`V_{basin}` (:math:`m^{3}`). This parameter is only
-mandatory when using the CN-module (i.e. :ref:`simple = 0 <simple>`).
+ - height opening: The height of the opening of the discharge pipe of the
+   basin, :math:`H_{opening}` (m). This parameter is only mandatory when using
+   the CN-module (i.e. :ref:`simple = 0 <simple>`).
 
-height dam
-**********
+ - opening area: the area of the discharge opening :math:`A_0` (:math:`m^{2}`).
+   This parameter is only mandatory when using the CN-module (i.e.
+   :ref:`simple = 0 <simple>`).
 
-The height of the dam of the buffer basin, :math:`H_{dam}` (m). This parameter
-is only mandatory when using the CN-module (i.e. :ref:`simple = 0 <simple>`).
+ - discharge coefficient: The discharge coefficient :math:`C_d` (-) of the
+   buffer basin. This parameter is only mandatory when using the CN-module
+   (i.e.:ref:`simple = 0 <simple>`).
 
-height opening
-**************
+ - width dam: The width of the overflow on the bufferbasin dam
+   :math:`W_{dam}` (m). This parameter is only mandatory when using the
+   CN-module (i.e. :ref:`simple = 0 <simple>`).
 
-The height of the opening of the discharge pipe of the buffer basin,
-:math:`H_{opening}` (m). This parameter is only mandatory when using the
-CN-module (i.e. :ref:`simple = 0 <simple>`).
+A full description about the CN calculation in buffers can be found
+:ref:`here <bufferbasins>`.
 
-opening area
-************
-
-The area of the discharge opening :math:`A_0` (:math:`m^{2}`).
-This parameter is only mandatory when using the CN-module (i.e.
-:ref:`simple = 0 <simple>`).
-
-discharge coefficient
-*********************
-
-The discharge coefficient :math:`C_d` (-) of the buffer basin.
-This parameter is only mandatory when using the CN-module (i.e.
-:ref:`simple = 0 <simple>`).
-
-width dam
-*********
-
-The width of the overflow on the bufferbasin dam :math:`W_{dam}` (m).
-This parameter is only mandatory when using the CN-module (i.e.
-:ref:`simple = 0 <simple>`).
-
+.. note::
+    The definition of the buffer extension id equal to buffer id + 16384,
+    implies only 16384 can be modelled.
 
 Forced routing data
 ===================
 
-For every place where the user forces the routing in a certain direction,
-following parameters are mandatory.
+A forced routing from a specified source to target pixel can be defined by
+the use, if the analysis of the routing and field validation shows that the
+routing is defined incorrectly. Forced routing is defined by the column and
+row of both the source and target pixel as follows:
 
-from col
-********
+.. code-block:: ini
 
-TO DO
+        [Forced Routing 1]
+        from col 10
+        from row 10
+        target col 11
+        target row 11
 
-from row
-********
+        [Forced Routing 2]
+        from col 15
+        from row 16
+        target col 20
+        target row 19
 
-TO DO
-
-target col
-**********
-
-TO DO
-
-target row
-**********
-
-TO DO
+These lines are added to the ini-file.
 
 

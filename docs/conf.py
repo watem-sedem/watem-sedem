@@ -15,6 +15,8 @@
 # sys.path.insert(0, os.path.abspath('.'))
 
 import sphinx_rtd_theme
+import re
+import os
 
 
 # -- Project information -----------------------------------------------------
@@ -32,8 +34,8 @@ author = 'Van de Wauw Johan, Renders Daan'
 extensions = [
     "myst_parser",
     "sphinx_rtd_theme",
-	"sphinx.ext.mathjax"
-]
+    "sphinx.ext.mathjax"
+    ]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -55,3 +57,8 @@ html_theme = "sphinx_rtd_theme"
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
+
+# The full version, including alpha/beta/rc tags.
+release = re.sub('^v', '', os.popen('git describe').read().strip())
+# The short X.Y version.
+version = release

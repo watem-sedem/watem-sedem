@@ -2,15 +2,20 @@
 CN-WS
 #####
 
-The Curve Number-WaTEM/SEDEM (CN-WS) is a computer model that simulates soil
-erosion and sediment transport in time and space. The model is combination
-of two existing models: Curve Number (flow run-off model) and WaTEM/SEDEM
-(water erosion and sediment transport model). CN-WS is developed to assess
-sediment input to rivers, soil erosion on agricultural fields and to
-evaluate soil erosion management measures.
+The Curve Number-WaTEM/SEDEM (CN-WS) is a model that can be used to
+simulates soil erosion, sediment transport, water and sediment routing and
+flow run-off in time and space. The package combines three existing models:
+
+ - The curve number model for simulating flow run-off.
+ - The WaTEM/SEDEM model for simulating erosion and over-land sediment
+   transport.
+ - The routing algorithm simulating water and sediment routing over land.
+
+CN-WS is developed to assess sediment input to rivers, soil erosion on
+agricultural fields and to evaluate soil erosion management measures.
 
 A short history of CN-WS
-=============================
+========================
 
 The sediment export model CN-WS was developed starting from the year 2013
 until 2016 by KULeuven in partnership with `Antea Belgium
@@ -42,6 +47,27 @@ submitted to versioning via git. These optimisation were executed by `Fluves
 
 Model
 =====
+
+The CN-WS model described on this page consist of three models. In the
+following figure, the main input, models and outputs are shown. The figure
+above show which input data are required to develop a CN-WS model
+. These input data are used to run the routing, erosion or run-off module.
+The run-off and routing module is used in CN, whereas the erosion and
+routing module are used in WS. The outputs at interest are stated at the
+right of the diagram, whereas interesting state variables are shown in blue
+in the CN-WS package block.
+
+TO DO: expand explaination
+
+.. image:: _static/png/diagram_cn_ws_package.png
+    :width: 771px
+
+.. note::
+    The CN-WS package is still being optimized to make sure the CN, WS and
+    routing model can be run separately.
+
+Package
+=======
 
 CN-WS has thee modus operandi: CN_WS, CN_WS_console and CN_WS_LongTerm.
 Typically the model is run in a command-line interface or a Graphical User
@@ -82,8 +108,7 @@ This project is licensed under the ??? License, see
 Documentation
 =============
 
-The documentation of this project is available at https://docs.fluves
-.net/cnws-pascal/. In this documentation, a theoretical background of the model
+The documentation of this project is available at https://docs.fluves.net/cnws-pascal/.  In this documentation, a theoretical background of the model
 and an overview of the model usage are given, and an installation
 guide followerd by a tutorial.
 
