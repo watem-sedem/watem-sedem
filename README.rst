@@ -2,7 +2,7 @@
 CN-WS
 #####
 
-The Curve Number-WaTEM/SEDEM (CN-WS) is a package that can be used tp
+The Curve Number-WaTEM/SEDEM (CN-WS) is a model that can be used to
 simulates soil erosion, sediment transport, water and sediment routing and
 flow run-off in time and space. The package combines three existing models:
 
