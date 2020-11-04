@@ -61,18 +61,14 @@ Combining equations 1, 2 and 3 results in the following expression for :math:`Q`
                 0   & \text{else} & P \leq I_a
             \end{array}
 
-:math:`S`, finally, can be expressed in function of the curve number :math:`CN`, an
-empirical parameter ranging between 0 (everything infiltrates, e.g. a dry
-very porous soil) and 100 (nothing infiltrates, e.g. a parking lot):
+:math:`S`, finally, can be expressed in function of the dimensionless
+curve number :math:`CN`, an empirical parameter ranging between 0
+(everything infiltrates, e.g. a dry very porous soil) and 100 (nothing
+infiltrates, e.g. a parking lot):
 
 .. math::
     S = \frac{25400}{CN}-254
     
-with:
-
-- :math:`CN`: curve number (:math:`-`)
-
-
 The :math:`CN` values can be extracted from tables (NRCS, 2010), based on soil
 type, land use, hydrologic condition, and initial moisture conditions.
 To conclude :math:`Q` can thus be expressed solely as a function of :math:`P`
