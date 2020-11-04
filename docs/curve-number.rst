@@ -149,13 +149,6 @@ with:
 - :math:`I`: infiltration (:math:`m`)
 - :math:`D`: duration of the rainfall event. (:math:`min`)
 
-For all buffers present in the modelled catchment 3 properties are calculated:
-
-- Maximal outflow :math:`Q_{max}`
-- Dead volume :math:`V_{dead}`
-- Buffer area :math:`A_{buffer}`
-
-
 The total generated runoff is distributed over all timesteps proportional to the
 rainfall distribution during the event. This results in a generated runoff value
 for every grid cell at every time step.
@@ -191,33 +184,12 @@ with:
 - :math:`\Delta t`: time step duration (:math:`s`)
 - :math:`d`: flow distance to the downstream grid cell (:math:`m`)
 
-For buffer grid cells, the runoff outflow is calculated in a alternative way,
-3 cases are considered:
-
-1) If the runoff volume present in the buffer is smaller than the dead volume.
-All the runoff is stored in the buffer, no downstream buffer outflow is generated.
-
-2) The runoff volume present in the buffer lies between the dead volume and total
-buffer volume. A downstream buffer outflow volume is calculated:
-
-.. math::
-    R_{out,t}=Q_{max} \left(\frac{R_{tot,t}}{V_{buffer}-V_{dead}}\right)^{0.5} \Delta t
-
-3) The runoff volume present in the buffer exceeds the total buffer volume.
-The downstream water flow is the sum of the maximum buffer outflow Q_max and the
-spill flow. The latter is calculated as:
-
-.. math::
-    spill=min⁡ \left(C_{dam} w_{dam} 9.81^{0.5} \left(\frac{R_{tot,t}-V_{buffer}}{A_{buffer}}\right)^{1.5},\frac{R_{tot,t}-V_{buffer}}{\Delta t} \right)
-
-with:
-
-- :math:`spill`: spill flow (:math:`m^3s^{-1}`)
-- :math:`w_{dam}`: dam width (:math:`m`)
-
-If in the considered grid cell, a sewer inlet is modelled, a fraction of the
-runoff will be transported through the sewers. However this functionality has so
-far not been tested.
+For buffer grid cells, the runoff outflow is calculated in a alternative way.
+More information about the calculations in buffer can be found
+:ref:`here <bufferbasins>`. If in the considered grid cell, a sewer inlet is
+modelled, a fraction of the runoff will be transported through the sewers. More
+information about the sewer functionality in the model can be found
+:ref:`here <sewers>`.
 
 During the stepwise calculation of the runoff in the catchment the following
 variables are constantly updated for output at the end of the procedure:
