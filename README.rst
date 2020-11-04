@@ -51,26 +51,25 @@ Model
 The CN-WS model described on this page consist of three models. In the
 following figure, the main input, models and outputs are shown. In general,
 information on the land cover, parcels, crops, soil, erosion control
-measures, elevation and rainfall are needed to be able to develop the models.
+measures, elevation and rainfall are needed to be able to use the models.
 In addition, information on sewers and ditches can be used to refine the
 models.
 
-Both the WS and CN model make use of a routing table simulated by the
-routing model. The use of this routing table varies for both the CN and WS
-model. In WS, the routing table is used to compute slopes, upstream areas
-and the sediment mass balance, whereas in the CN model, the routing is used
-to spatially distribute the runoff. It is important to note that the
-distribution of the runoff in the CN model is computed sequentially for every
-time step :math:`dt`. This makes CN an event-based model, whereas WS is a
-year-based model. Note that it is technically possible to use WS as an
-event-based model, yet a year-based assessment is found to be more robust.
+Both the :ref:`WS <WS>` and :ref:`CN <CN>` model make use of a routing table
+simulated by the :ref:`routing model <routing>`. The use of this routing table
+varies for both the CN and WS model. In WS, the routing table is used to
+compute slopes, upstream areas and the sediment mass balance, whereas in the
+CN model, the routing is used to spatially distribute the runoff. It is
+important to note that the distribution of the runoff in the CN model is
+computed sequentially for every time step :math:`dt`. This makes CN an
+event-based model, whereas WS is a year-based model. Note that it is
+technically possible to use WS as an event-based model, yet a year-based
+assessment is found to be more robust.
 
 .. image:: _static/png/diagram_cn_ws_package.png
     :width: 771px
 
-The structure of the routing, WS and CN models, and their required input, are
-respectively explained :ref:`here <routing>`, :ref:`here <WS>` and
-:ref:`here <CN>`. The CN and WS model can also be together, by using the
+The CN and WS model can also be used together, by using the
 run-off to scale the yearly sediment load. This is explained :ref:`here
 <CNWS>`.
 
