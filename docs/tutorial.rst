@@ -178,6 +178,7 @@ have a look at the Total sediment file in the outputfolder:
 
 .. literalinclude:: tutorials/Total sediment 3b.txt
     :language: vim
+    :emphasize-lines: 5
 
 Compared with the results of the first tutorial, we see that there appeared an
 extra line in Total sediment.txt with the amount of sediment trapped in the 31
