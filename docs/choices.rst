@@ -172,6 +172,25 @@ Simple
 When the option 'Simple' is enabled, only WaTEM-SEDEM is used and the CN-model
 is disabled. By disabling Simple, you will use the full the CN-WS model.
 
+The user has to provide following input if this option is enabled:
+
+- :ref:`digital elevation model <demmap>`
+- :ref:`P factor map <pmap>`
+
+TO DO: extend this list!
+
+When you disable this option, you use the CN-module the following extra input is
+mandatory:
+
+- :ref:`alpha <alpha>`
+- :ref:`beta <beta>`
+- :ref:`stream velocity <streamvelocity>`
+- :ref:`5-day antecedent rainfall <5dayrainfall>`
+- :ref:`desired timestep for model <timestep>`
+- :ref:`endtime model <endtime>`
+- :ref:`cn map <cnmap>`
+- :ref:`rainfall file <rainfallfile>`
+
 .. _calctileros:
 
 Calculate tillage erosion
@@ -248,6 +267,13 @@ amount of sediment that flows out of the outlet pixel to downstream pixels is
 reduced with the trapping efficiency of the buffer. The definitions of buffer
 extension id, buffer id and trapping efficiency are explained at the
 :ref:`buffer data section <bufferdata>`.
+
+.. _bufferreduce:
+
+Buffer reduce area
+##################
+
+TO DO
 
 .. _includeditches:
 

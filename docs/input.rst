@@ -295,6 +295,8 @@ An example of a routing map with two imposed routings is given here:
 
 The datatype of a routing raster is integer16.
 
+.. _cnmap:
+
 CN map filename
 ***************
 
@@ -384,16 +386,22 @@ Clay content parent material
 The average fraction of clay in the soil in the modelled catchment in
 percentages (float, between 0 and 1).
 
+.. _5dayrainfall:
+
 5 day antecedent rainfall
 *************************
 
 The total rainfall (in mm) during 5 days before the start of the rainfall event. 
 The antecedent rainfall (float) is only mandatory when :ref:`Use R = 0 <useR>`
 
+.. _streamvelocity:
+
 stream velocity
 ***************
 
 float, mandatory when :ref:`simple = 0 <simple>`
+
+.. _alpha:
 
 alpha
 *****
@@ -401,6 +409,8 @@ alpha
 Alpha (float) is a calibration parameter of the CN-model. It determines the relation
 between runoff and rainfall intensity. The parameter is only mandatory when
 :ref:`simple = 0 <simple>`
+
+.. _beta:
 
 beta
 ****
@@ -544,6 +554,8 @@ The user has the option to resample the time-dependent output (runoff, sediment
 concentration, sediment load) to a different timestep than the
 :ref:`timestep <timestep>` of the model. The parameter is an integer value
 expressed in minutes and is only mandatory when :ref:`Use R factor = 1 <useR>`.
+
+.. _endtime:
 
 Endtime model
 *************
