@@ -32,7 +32,8 @@ used in these tutorials can be found in the docs folder of the repository.
 
 As a first exercise in the tutorial we will make a basic model run with the
 WaTEM-SEDEM module of CN-WS. The basic model run includes only mandatory files
-and input. This run does not use advanced modeloptions.
+and input. This run does not use advanced :ref:`model options <usage>`. All
+keywords used in an ini-file are explained in the :ref:`reference <usage>`.
 
 .. literalinclude:: tutorials/tutorial_1.ini
     :language: ini
@@ -62,7 +63,14 @@ txt file with a summary of the results is written:
     :language: vim
 
 This table contains the sum of all pixels with a negative mass balance (Total
-erosion) and a positive mass balance (total deposition). It also reports how
+erosion) and a positive mass balance (total deposition). A negative mass balance
+means that the available sediment (RUSLE + SEDIIN) in a pixel is smaller than the
+transport capacity. A positive mass balance means that the available sediment in
+the pixel is larger than the transport capacity. We refer to the
+:ref:`WaTEM-SEDEM section <Concept>` where these concepts are explained more in
+depth.
+
+The total sediment table also reports how
 much sediment enters the river pixels (Sediment leaving the catchment, via the
 river). The sediment leaving the catchment, not via the river is (mostly) a small
 fraction of the sediment that leaves the catchment via the borders (to nodata pixels).
@@ -125,7 +133,11 @@ of depostion is possible, can be done with the WATEREROS rasters. These rasters
 represent the result of the comparison between the total available sediment and
 the trasport capacity of a pixel (for more information about this concept,
 see :ref:`here <Concept>`). Positive values in these rasters indicate deposition,
-negative values indicate erosion.
+negative values indicate erosion. The
+:ref:`Total sediment file <totalsedimenttxt>`, discussed in tutorial 1,
+contained the values 'total erosion' and 'total deposition'. These values are
+calculated as the sum of all pixels in the WATEREROS raster where the pixel
+value is larger (deposition) or smaller (erosion) than zero.
 
 If you want more spatial output, have a look in :ref:`the reference <modeloutput>`
 about all the possibilities!
