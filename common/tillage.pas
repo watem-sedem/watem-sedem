@@ -13,9 +13,6 @@ Procedure tillage_dif;
 
 Implementation
 
-Var 
-  SEDTIL_OUT, SEDTIL_IN: RRaster;
-
 
 Procedure tillage_dif;
 // Based on Watem Tillage model
@@ -81,10 +78,6 @@ Begin
 
       End;
   //Einde  tweede matrixlus
-
-  // Dispose Temp 2D maps
-  //DisposeDynamicRdata(SEDTIL_IN);
-  //DisposeDynamicRdata(SEDTIL_OUT);
   //********************
 End;
 End.
