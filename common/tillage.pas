@@ -56,7 +56,7 @@ Begin
           End ;
 
       If SEDI_OUT[i,j] > 0 Then DistributeFlux_Sediment(i, j, SEDTIL_IN, SEDTIL_OUT[i,j]);    // if sed_output_file leaves this pixel, the sed_output_file needs to be distributed over target cells
-
+      end;
 
 
   For o := 1 To nrow Do
@@ -87,5 +87,4 @@ Begin
   //DisposeDynamicRdata(SEDTIL_OUT);
   //********************
 End;
-  End;
 End.
