@@ -7,7 +7,7 @@ Unit tillage;
 Interface
 
 Uses 
-Classes, SysUtils,  RData_CN, Raster_calculations, ReadInParameters, Idrisi;
+Classes, SysUtils,  RData_CN, Raster_calculations, ReadInParameters;
 
 Procedure tillage_dif;
 

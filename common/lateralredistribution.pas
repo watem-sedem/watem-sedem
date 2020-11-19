@@ -84,10 +84,14 @@ Begin
   // kg/(m² * yr) (ok)
   // Erosion in kg/m²
 
+  if TCModel = TTCModel.VanOost2000 then
   // Capacity := ktc[i,j] * RUSLE[i, j] * distcorr;   // in kg (ok) KTC ZOALS IN VERSIE JEROEN
-  Capacity := ktc[i,j] * RFactor * K_Factor[i, j] * (LS[i, j] - 0.6 * 6.86 * power(tan(slope[i,j]),
-              0.8));
+  Capacity := ktc[i,j] * RFactor * K_Factor[i, j] * (LS[i, j] - 0.6 * 6.86 * power(tan(slope[i,j]), 0.8));
   // [kg/m] VOLGENS CODES BASTIAAN;
+
+  if TCModel = TTCModel.Verstraeten2007 then
+    //transport capacity formulation of Verstraeten et al., (2007)
+  Capacity := ktc[i,j] * RFactor * K_Factor[i, j] * power(UPAREA[i, j], 1.4) * power(slope[i, j], 1.4);
 
 
   // Verwijderd want niet aanwezig in WatemSedem2015
@@ -404,11 +408,11 @@ Begin
   If VHA Then
     Begin
       setcurrentDir(File_output_dir);
-      assignfile(Sediment_VHA, 'Total sediment VHA.txt');
+      assignfile(Sediment_VHA, 'Total sediment segments.txt');
       rewrite(Sediment_VHA);
-      Writeln(Sediment_VHA, 'Total sediment flowing into each VHA river segment [kg]');
+      Writeln(Sediment_VHA, 'Total sediment flowing into each river segment [kg]');
       // write title
-      Write(Sediment_VHA, 'VHA segment', chr(9), 'Sediment');
+      Write(Sediment_VHA, 'segment_id', chr(9), 'Sediment');
       // write column headings
       writeln(Sediment_VHA, '');
       // go to next line
@@ -428,11 +432,11 @@ Begin
       Cumulative_sections;
 
       setcurrentDir(File_output_dir);
-      assignfile(Sediment_VHA, 'Cumulative sediment VHA.txt');
+      assignfile(Sediment_VHA, 'Cumulative sediment segments.txt');
       rewrite(Sediment_VHA);
       Writeln(Sediment_VHA, 'Cumulative sediment flowing into each VHA river segment [kg]');
       // write title
-      Write(Sediment_VHA, 'VHA segment', chr(9), 'Sediment');
+      Write(Sediment_VHA, 'segment_id', chr(9), 'Sediment');
       // write column headings
       writeln(Sediment_VHA, '');
       // go to next line
@@ -579,7 +583,7 @@ Begin
           End;
 
       // write sediment_result_VHA to .txt
-      assignfile(Sediment_VHA, 'Sediment_VHA.txt');
+      assignfile(Sediment_VHA, 'Sediment_segments.txt');
       rewrite(Sediment_VHA);
       If convert_output Then
         Begin
@@ -596,7 +600,7 @@ Begin
           Write(Sediment_VHA, 'Time (sec)', chr(9));
         End;
       For j := 1 To numRivSeg Do
-        Write(Sediment_VHA, 'VHA segment ', j, chr(9));
+        Write(Sediment_VHA, 'segment ', j, chr(9));
       // write column headings
       writeln(Sediment_VHA, '');
       // go to next line
@@ -694,16 +698,16 @@ Begin
           End;
 
       setcurrentDir(File_output_dir);
-      assignfile(Sed_conc_VHA, 'Sediment concentration_VHA.txt');
+      assignfile(Sed_conc_VHA, 'Sediment concentration segments.txt');
       rewrite(Sed_conc_VHA);
-      Writeln(Sed_conc_VHA, 'Sediment concentration for each VHA river segment [g/l]');
+      Writeln(Sed_conc_VHA, 'Sediment concentration for each river segment [g/l]');
       // write title
       If convert_output Then
         Write(Sed_conc_VHA, 'Time (min)', chr(9))
       Else
         Write(Sed_conc_VHA, 'Time (sec)', chr(9));
       For j := 1 To numRivSeg Do
-        Write(Sed_conc_VHA, 'VHA segment ', j, chr(9));
+        Write(Sed_conc_VHA, 'segment ', j, chr(9));
       // write column headings
       writeln(Sed_conc_VHA, '');
       // go to next line
@@ -774,12 +778,12 @@ Begin
 
           // write result to .txt file
           setcurrentDir(File_output_dir);
-          assignfile(clay_VHA_txt, 'Clay content sediment VHA.txt');
+          assignfile(clay_VHA_txt, 'Clay content sediment segments.txt');
           rewrite(clay_VHA_txt);
           Writeln(clay_VHA_txt,
                   'Clay content of sediment flowing in each river segment [%]');
           // write title
-          Write(clay_VHA_txt, 'River segment', chr(9), 'Clay content (%)');
+          Write(clay_VHA_txt, 'segment_id', chr(9), 'Clay content (%)');
           // write column headings
           writeln(clay_VHA_txt, '');
           // go to next line

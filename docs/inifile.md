@@ -37,7 +37,7 @@ The format need to be improved but it provides a single/complete general overvie
 |Include ditches                     | boolean     | false         | R, WS, CN     |          |
 |Include dams                        | boolean     | false         | R, WS, CN     |          |
 |  | | | | |          |
-|Output per VHA river segment        | boolean     | false         | R, WS, CN     |          |
+|Output per river segment            | boolean     | false         | R, WS, CN     |          |
 |Max kernel                          | int         | 50            | R, WS, CN     |          |
 |Max kernel river                    | int         | 100           | R, WS, CN     |          |
 |  | | | | |
@@ -185,7 +185,7 @@ The format is currently: if ... > then ... mandatory. These do not include the m
 - Include ditches > Ditch map filename
 - Include dams > Dam map filename
 - River Routing > River segment filename, adjectant segments, upstream segments, river routing filename
-- Output per VHA river segment > River segment filename
+- Output per river segment > River segment filename
 - NOT Use R factor > Rainfall filename
 - Estimate clay content > Clay content parent material
 - Manual outlet selection > Outlet map filename

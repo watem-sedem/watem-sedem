@@ -7,8 +7,7 @@ Unit Write_output;
 Interface
 
 Uses 
-Classes, SysUtils, RData_CN, ReadInParameters, CN_calculations, tillage,
-Idrisi;
+Classes, SysUtils, RData_CN, ReadInParameters, CN_calculations, Idrisi;
 
 Procedure Write_maps;
 Procedure Write_Routing_Table;

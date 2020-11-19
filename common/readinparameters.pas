@@ -3,7 +3,6 @@ Unit ReadInParameters;
 
 {$mode objfpc}{$H+}
 {$R+}
-
 Interface
 
 Uses 
@@ -90,7 +89,8 @@ Type
   TRoutingInvArray = array of array of TInvRouting;
 
   TLModel = (Desmet1996_McCool, Desmet1996_Vanoost2003);
-  TSModel = (Desmet1996, Nearing1997);
+  TSModel = (McCool1987, Nearing1997);
+  TTCModel = (VanOost2000, Verstraeten2007);
 
 Function Distance1(r: TRoutingArray;i,j: integer): double;
 Function Distance2(r: TRoutingArray;i,j: integer): double;
@@ -236,6 +236,7 @@ Var
 
   LModel: TLModel;
   SModel: TSModel;
+  TCModel: TTCModel;
 
 
 
@@ -559,14 +560,18 @@ Var
 Begin
   Default:='';
 
+  INI_filename := ExpandFileName(INI_filename);
   If Not FileExists(INI_filename) Then
     raise Exception.create('Inifile does not exist');
   Inifile := Tinifile.create(INI_filename);
 
   Datadir := Inifile.readstring('Working directories', 'Input directory', Default);
+  Datadir := expandfilename(datadir);
+
   If Not DirectoryExists(Datadir) Then
     raise EInputException.Create('Error: data directory not found: ' + Datadir);
   File_output_dir := Inifile.readstring('Working directories', 'Output directory', Default);
+  File_output_dir:=ExpandFileName(File_output_dir);
   If Not DirectoryExists(File_output_dir) Then ForceDirectories(File_output_dir);
 
   // Make sure that a trailing slash is added to the input/output dir
@@ -611,14 +616,17 @@ Begin
   Include_ditch := Inifile.ReadBool('User Choices','Include ditches',false);
   Include_dam := Inifile.ReadBool('User Choices','Include dams',false);
 
-  VHA := Inifile.ReadBool('User Choices','Output per VHA river segment',false);
+  VHA := Inifile.ReadBool('User Choices','Output per river segment',false);
   max_kernel := Inifile.ReadInteger('User Choices', 'Max kernel', 50);
   max_kernel_river := Inifile.ReadInteger('User Choices', 'Max kernel river', 100);
 
   adjusted_slope := inifile.ReadBool('User Choices', 'Adjusted Slope', false);
   buffer_reduce_upstream_area := inifile.ReadBool('User Choices', 'Buffer reduce Area', false);
   force_routing := inifile.ReadBool('User Choices', 'Force Routing', false);
+
   river_routing := inifile.ReadBool('User Choices', 'River Routing', false);
+  if river_routing then
+   VHA := true;
 
   inistring:= Inifile.ReadString('User Choices', 'L model', 'Desmet1996_Vanoost2003');
   Lmodel := TLModel(GetEnumValue(Typeinfo(TLModel), inistring));
@@ -629,6 +637,11 @@ Begin
   Smodel := TSModel(GetEnumValue(Typeinfo(TSModel), inistring));
   if Smodel > high(TSModel) then
     raise EInputException.Create('invalid S model: '+ inistring);
+
+  inistring:= Inifile.ReadString('User Choices', 'TC model', 'VanOost2000');
+  TCmodel := TTCModel(GetEnumValue(Typeinfo(TTCModel), inistring));
+  if TCmodel > high(TTCModel) then
+    raise EInputException.Create('invalid TC model: '+ inistring);
 
   Outlet_select:= Inifile.ReadBool('User Choices','Manual outlet selection',false);
 
@@ -642,7 +655,7 @@ Begin
   Ditch_filename := SetFileFromIni(Inifile, 'Ditch map filename', datadir, Include_ditch);
   Dam_filename := SetFileFromIni(Inifile, 'Dam map filename', datadir, Include_dam);
   Pf_data_filename :=SetFileFromIni(Inifile, 'P factor map filename', datadir, true);
-  Riversegment_filename := SetFileFromIni(Inifile, 'River segment filename', datadir, VHA or river_routing);
+  Riversegment_filename := SetFileFromIni(Inifile, 'River segment filename', datadir, VHA);
   Outletfilename := SetFileFromIni(Inifile, 'Outlet map filename', datadir, Outlet_select);
   river_adjectant_filename:=SetFileFromIni(Inifile, 'adjectant segments', datadir, river_routing);
   river_upstream_filename:=SetFileFromIni(Inifile, 'upstream segments', datadir, river_routing);
@@ -847,33 +860,7 @@ Begin
       For i := 1 To Number_of_Buffers Do
         Begin
           Buffername := 'Buffer ' + IntToStr(i);
-          If Not TryStrToFloat(inifile.readstring(Buffername, 'Volume', Default), Bufferdata[i].
-             Volume) Then
-              raise EInputException.Create('Error in data input: Buffer '+intToStr(i)+
-                            ' volume value missing or wrong data format');
-          If Not TryStrToFloat(inifile.readstring(Buffername, 'Height dam', Default),Bufferdata[i]
-             .Height_dam) Then
-            raise EInputException.Create(
-                  'Error in data input: Buffer '+intToStr(i)+
-                  ' height dam value missing or wrong data format');
-          If Not TryStrToFloat(inifile.readstring(Buffername, 'Height opening', Default),
-             Bufferdata[i].Height_opening) Then
-              raise EInputException.Create('Error in data input: Buffer '+intToStr(i)+
-                            ' height opening value missing or wrong data format');
-          If Not  TryStrToFloat(inifile.readstring(Buffername, 'Opening area', Default),Bufferdata
-             [i].Opening_area) Then
-              raise EInputException.Create(
-              'Error in data input: Buffer '+intToStr(i)+
-                            ' opening area value missing or wrong data format');
-          If Not TryStrToFloat(inifile.readstring(Buffername, 'Discharge coefficient', Default),
-             Bufferdata[i].Cd) Then
-              raise EInputException.Create(
-                'Error in data input: Buffer '+intToStr(i)+
-                ' discharge coefficient value missing or wrong data format');
-          If Not TryStrToFloat(inifile.readstring(Buffername, 'Width dam', Default), Bufferdata[i]
-             .width_dam) Then
-              raise EInputException.Create('Error in data input: Buffer '+intToStr(i)+
-                            ' width dam value missing or wrong data format');
+
           If Not TryStrToFloat(inifile.readstring(Buffername, 'Trapping efficiency', Default),
              Bufferdata[i].PTEF) Then
               raise EInputException.Create( 'Error in data input: Buffer '+intToStr(i)+
@@ -882,10 +869,49 @@ Begin
              ].ext_ID) Then
               raise EInputException.Create('Error in data input: Buffer '+intToStr(i)+
                             ' extension ID missing or wrong data format');
-          If Bufferdata[i].Height_opening > Bufferdata[i].Height_dam Then
+
+          If Not simplified Then
+            Begin
+
+            If Not TryStrToFloat(inifile.readstring(Buffername, 'Volume', Default), Bufferdata[i].
+               Volume) Then
+                raise EInputException.Create('Error in data input: Buffer '+intToStr(i)+
+                              ' volume value missing or wrong data format');
+
+            If Not TryStrToFloat(inifile.readstring(Buffername, 'Height dam', Default),Bufferdata[i]
+               .Height_dam) Then
+              raise EInputException.Create(
+                    'Error in data input: Buffer '+intToStr(i)+
+                    ' height dam value missing or wrong data format');
+
+            If Not TryStrToFloat(inifile.readstring(Buffername, 'Height opening', Default),
+               Bufferdata[i].Height_opening) Then
+                raise EInputException.Create('Error in data input: Buffer '+intToStr(i)+
+                              ' height opening value missing or wrong data format');
+
+            If Not  TryStrToFloat(inifile.readstring(Buffername, 'Opening area', Default),Bufferdata
+               [i].Opening_area) Then
+                raise EInputException.Create(
+                'Error in data input: Buffer '+intToStr(i)+
+                              ' opening area value missing or wrong data format');
+
+            If Not TryStrToFloat(inifile.readstring(Buffername, 'Discharge coefficient', Default),
+               Bufferdata[i].Cd) Then
+                raise EInputException.Create(
+                  'Error in data input: Buffer '+intToStr(i)+
+                  ' discharge coefficient value missing or wrong data format');
+
+            If Not TryStrToFloat(inifile.readstring(Buffername, 'Width dam', Default), Bufferdata[i]
+               .width_dam) Then
+                raise EInputException.Create('Error in data input: Buffer '+intToStr(i)+
+                              ' width dam value missing or wrong data format');
+
+            If Bufferdata[i].Height_opening > Bufferdata[i].Height_dam Then
               raise EInputException.Create(
                 'Error in buffer input: the height of the opening cannot be larger than' +
                 ' the height of the dam. Please insert correct values.');
+
+            End;
         End;
     End;
 
@@ -954,7 +980,9 @@ Begin
 
   //The numbers from the .txt file are stored in a variable (matrix) M
   //All numbers in the .txt file should be integers!!!
+  {$push}{$warn 5091 off} // remove spurious warning about datatype not being initialized
   SetDynamicGData(M);
+  {$pop}
   Begin
     Assignfile(Table,TempName);
     Reset(Table);

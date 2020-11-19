@@ -7,7 +7,17 @@
 *.lps
 *.o
 *.ppu
-*.lpi
 
 # Python sphinx excludes
 _build/
+
+# Compiled CN_WSConsole
+cn_ws/cn_ws
+
+# debian package temporary files
+debian/.debhelper
+debian/cn-ws
+debian/cn-ws.substvars
+debian/files
+debian/debhelper*
+package

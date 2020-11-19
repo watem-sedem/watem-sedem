@@ -1,10 +1,40 @@
 ---
 kind: pipeline
 type: docker
-name: cn_ws
+name: cn_ws linux build + tests
 
 steps:
-  - name: build
+  - name: build linux
+    image: registry.fluves.net/lazarus-build
+    environment:
+    commands:
+      - make
+
+  - name: test cnws runs without error
+    image: debian:buster-slim
+    commands:
+      - testfiles/test.sh
+
+  - name: get CNWS-processing repo for tests
+    image: docker:git
+    commands:
+      - git clone https://git.fluves.net/fluves/CNWS-processing-scripts/
+
+  - name: run python tests
+    image: registry.fluves.net/cnws_test
+    commands:
+      # - pip3 install -e CNWS-processing-scripts/cnws/[develop]
+      - pytest-3 testfiles
+    environment:
+      PYTHONPATH: CNWS-processing-scripts/cnws/src
+
+---
+kind: pipeline
+type: docker
+name: Build debian package
+
+steps:
+  - name: build debian package
     image: registry.fluves.net/lazarus-build
     environment:
       GPG_KEY:
@@ -71,6 +101,11 @@ type: docker
 name: documentation
 
 steps:
+  - name: fetch tags
+    image: alpine/git
+    commands:
+    - git fetch --tags
+
   - name: build website
     image: python
     commands:
@@ -98,3 +133,29 @@ steps:
       event:
         exclude:
           - pull_request
+
+---
+kind: pipeline
+type: docker
+name: windows build
+platform:
+  os: windows
+  version: 1809
+
+
+clone:
+  disable: true
+steps:
+  - name: clone
+    image: registry.fluves.net/drone-git-lfs-windows
+
+  - name: build compiled version
+    image: registry.fluves.net/lazarus-windows
+    commands:
+      - c:\lazarus\lazbuild.exe cn_ws\cn_ws.lpr
+      # strip debug symbols
+      - c:\lazarus\fpc\3.2.0\bin\x86_64-win64\strip.exe cn_ws\cn_ws.exe
+  - name: windows - run tests
+    image: registry.fluves.net/lazarus-windows
+    commands:
+      - .\testfiles\test.bat

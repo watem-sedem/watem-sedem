@@ -64,7 +64,7 @@ If the output directory does not exist, it is created by the model. The input di
 ```
 [user choices]
 simplified model version = 1
-output per vha river segment = 1
+output per river segment = 1
 manual outlet selection = 0
 use r factor = 1
 create ktc map = 0
@@ -116,7 +116,7 @@ the model domain will be considered as the outlet
 __other__
 
 - `Include sewers` (bool, default false), take sewers into account.
-- `Output per VHA river segment` (bool, default false), split sediment output per river segment
+- `Output per river segment` (bool, default false), split sediment output per river segment
 - `Create ktc map` (bool, default true), create a raster with transport capacities based on the C-factor map, if false
 the user will have to provide a ktc map
 - `Create ktil map` (bool, default false), create a raster with tillage factors based on the C-factor map, if false
@@ -179,7 +179,7 @@ same buffer get a 'buffer extension id' - idealy (id * 100). The buffer map is o
 - `Dam map filename`:
 - `P factor map filename`: raster with P-factor values (0 -1) for every pixel in the model domain.
 - `River segment filename`: All pixels belonging to the same river segment get the same id in this raster.
-Only mandatory if `Output per VHA river segment = 1`.
+Only mandatory if `Output per river segment = 1`.
 - `Outlet map filename`: raster with outlet pixels defined by the user. Every pixel contains a unique id. Only mandatory
 if `Manual outlet selection = 1`
 - `CN map filename`: raster with CN values (0-100) for every pixel in the model domain. Only mandatory if
