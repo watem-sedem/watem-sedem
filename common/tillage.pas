@@ -76,6 +76,10 @@ Begin
         TILEROS[o,p] := ploweros*1000;
         // unit: mm
 
+        // Convert in and outgoing sediment to kg
+        SEDTIL_IN[o,p] := SEDTIL_IN[o,p] * BD;
+        SEDTIL_OUT[o,p] := SEDTIL_OUT[O,p] * BD;
+
       End;
   //Einde  tweede matrixlus
   //********************
