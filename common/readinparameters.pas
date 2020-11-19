@@ -121,6 +121,7 @@ Var
   RUSLE         : RRaster;
   // result of RUSLE equation in kg/m² = POTENTIAL soil loss
   TILEROS       : RRaster;
+  TILEROS_kg    : RRaster;
   SEDTIL_IN     : RRaster;
   SEDTIL_OUT    : RRaster;
   //tillage erosion (unit: mm)

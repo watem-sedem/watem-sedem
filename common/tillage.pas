@@ -27,8 +27,11 @@ Begin
   SetDynamicRData(SEDTIL_OUT);
   SetZeroR(SEDTIL_IN);
   SetZeroR(SEDTIL_OUT);
-  //************************
+
   SetDynamicRData(TILEROS);
+  SetDynamicRData(TILEROS_kg);
+  SetZeroR(TILEROS);
+  SetZeroR(TILEROS_kg);
 
   If Raster_projection=plane Then area := sqr(res)
       Else  area := X_Resolution()*Y_Resolution();
@@ -79,6 +82,7 @@ Begin
         // Convert in and outgoing sediment to kg
         SEDTIL_IN[o,p] := SEDTIL_IN[o,p] * BD;
         SEDTIL_OUT[o,p] := SEDTIL_OUT[O,p] * BD;
+        TILEROS_kg[o,p] := SEDTIL_IN[o,p]-SEDTIL_OUT[o,p]
 
       End;
   //Einde  tweede matrixlus

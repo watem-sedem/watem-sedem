@@ -38,7 +38,8 @@ Begin
     End;
   If Calc_tileros Then
     Begin
-    writeIdrisi32file(ncol,nrow,File_output_dir+'TILEROS'+'.rst', TILEROS);
+    writeIdrisi32file(ncol,nrow,File_output_dir+'TILEROS (mm per gridcel)'+'.rst', TILEROS);
+    writeIdrisi32file(ncol,nrow,File_output_dir+'TILEROS (kg per gridcel)'+'.rst', TILEROS_kg);
     writeIdrisi32file(ncol,nrow,File_output_dir+'SEDTIL_IN'+'.rst', SEDTIL_IN);
     writeIdrisi32file(ncol,nrow,File_output_dir+'SEDTIL_OUT'+'.rst', SEDTIL_OUT);
     end;
