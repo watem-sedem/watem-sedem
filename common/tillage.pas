@@ -19,7 +19,6 @@ Procedure tillage_dif;
 
 Var
   teller, i, j, o, p: integer;
-  K3: double;
   adjust, area, ploweros : double;
 Begin
   // Create temp 2D maps
@@ -49,10 +48,9 @@ Begin
       // If DTM[i,j] < DTM[lowOutletX, lowOutletY] Then SEDTIL_OUT[i,j] := 0; // skip cells that are lower than lowest outlet
       Else
           Begin
-          K3 := ktil[i,j];
           // Calculate Sediment (OUTM) & Carbon (CSOUT) outflow for cell i,j
           ADJUST := (ABS(cos(aspect[i,j]))+ABS(sin(aspect[i,j])));
-          SEDTIL_OUT[i,j] := K3*sin(slope[i,j])*RES*ADJUST/BD; //OUTFLOW in m3
+          SEDTIL_OUT[i,j] := ktil[i,j]*sin(slope[i,j])*RES*ADJUST/BD; //OUTFLOW in m3
           End ;
 
       If SEDI_OUT[i,j] > 0 Then DistributeFlux_Sediment(i, j, SEDTIL_IN, SEDTIL_OUT[i,j]);    // if sed_output_file leaves this pixel, the sed_output_file needs to be distributed over target cells
