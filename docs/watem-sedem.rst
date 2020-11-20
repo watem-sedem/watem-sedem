@@ -99,7 +99,39 @@ CN-WS includes two ways to calculate :math:`TC`. See
 Tillage erosion
 ===============
 
-TO DO, see Van Oost et al. 2000.
+Tillage erosion, or soil translocation by tillage, is calculated according to
+the method of Van Oost et al. 2000. For every pixel the outgoing flux
+:math:`Q_{s,t}` due to tillage translocation is calculated as
+
+.. math::
+    Q_{s,t} = k_{til}.S
+
+with
+
+- :math:`ktil`: tillage transport coefficient (kg/m)
+- :math:`S`: the local slope gradient (-)
+
+:math:`S` is calculated as
+
+.. math::
+    S = dh/dx
+
+with
+
+- :math:`dh`: change in height (m)
+- :math:`dx`: change in distance in horizontal direction (m)
+
+The local erosion or depositon rate (:math:`E_t`) can then be calculated as:
+
+.. math::
+    E_t = - \frac{Q_{s,t}}{dx}
+
+The outgoing sediment of a cell is distributed to one or two target pixels.
+The target cells are determined by the routing algorithm. The outgoing
+sediment of pixel X to pixel Y is added to the incoming sediment of pixel Y.
+Pixel Y can receive sediment of multple pixels.
+
+Soil redistribution by tillage only takes place within agricultural fields.
 
 .. _ruslefactors:
 
