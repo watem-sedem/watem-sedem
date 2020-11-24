@@ -100,6 +100,11 @@ version 2.1.0 (2019109)
   the same
 - Set the ktc value of a dam to ktc_low instead of 7
 - Flow to neighbour river cell even if that cell is higher as the origin
+- Make sure that sediment transport uses the same routing as upstream area
+- Fix calculation of distance between source and target (wrong in peculiar cases)
+- Use river direction as input for river routing
+- Write sewer export to rasterfile
+- Add files to build a package on debian linux (for deploy on notebook server)
 
 TO DO: finish the changelog for this release
  (done up to commit c11799ddc5f69e356d59ed5b7d3070e2a94813f3)
