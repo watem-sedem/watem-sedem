@@ -1,3 +1,5 @@
+.. _modeloutput:
+
 ############
 Model output
 ############
@@ -253,6 +255,8 @@ Calibration.txt
 Only writen when :ref:`Calibratie = 1 <calibrate>`.
 
 TO DO 
+
+.. _CNoutput:
 
 CN-output
 #########
