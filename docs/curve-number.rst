@@ -202,12 +202,17 @@ variables are constantly updated for output at the end of the procedure:
 
 References
 ==========
-- Govers G., 1986, Mechanismen van akkererosie op lemige bodems, unpublished PhD
-  thesis, Faculteit Wetenschappen, KU Leuven.
-- NRCS,  2010,  Chapter  9  Hydrologic  Soil-Cover  Complexes,  National
-  Engineering  Handbook  Part  630 Hydrology, 20 pp.
-- Ponce  V.M.  &  Hawkins R.H.,  1996,  Runoff  Curve  Number:  has  it  reached
-  maturity?,  Journal  of Hydrologic Engineering, 1: 11-19.
-- Van  Oost  K., 2003,  Spatial  modeling  of  soil  redistribution  processes
-  in  agricultural  landscapes, unpublished PhD thesis, Faculty of Sciences,
-  KU Leuven.
+Govers G., 1986, Mechanismen van akkererosie op lemige bodems, unpublished PhD
+thesis, Faculteit Wetenschappen, KU Leuven.
+
+NRCS,  2010,  Chapter  9  Hydrologic  Soil-Cover  Complexes,  National
+Engineering  Handbook  Part  630 Hydrology, 20 pp. 
+https://directives.sc.egov.usda.gov/OpenNonWebContent.aspx?content=17758.wba
+
+Ponce  V.M.  &  Hawkins R.H.,  1996,  Runoff  Curve  Number:  has  it  reached
+maturity?,  Journal  of Hydrologic Engineering, 1: 11-19. 
+https://doi.org/10.1061/(ASCE)1084-0699(1996)1:1(11)
+
+Van  Oost  K., 2003,  Spatial  modeling  of  soil  redistribution  processes
+in  agricultural  landscapes, unpublished PhD thesis, Faculty of Sciences,
+KU Leuven.
