@@ -1,3 +1,5 @@
+.. _WS:
+
 ###################################
 Erosion/sediment model: WaTEM-SEDEM
 ###################################
@@ -152,11 +154,12 @@ a value of 870 :math:`\frac{\text{MJ.mm}}{\text{ha.h.year}}` is used since
 2006 (Verstraeten et al., 2006). Recently, this value has been updated to
 1250 :math:`\frac{\text{MJ.mm}}{\text{ha.h.year}}` (Deproost et al., 2018).
 
-**Note:** The R-factor can also be defined with other temporal resolutions.
-For computing WaTEM/SEDEM on a resolution of month, the value :math:`R` can
-be defined by the mean of each value for each month over a number of years
-(mean fo all january values over 10 years). In this case the unit would be
-:math:`\frac{\text{J.mm}}{\text{m}^2.\text{h.month}}`
+.. note::
+    The R-factor can also be defined with other temporal resolutions.
+    For computing WaTEM/SEDEM on a resolution of month, the value :math:`R` can
+    be defined by the mean of each value for each month over a number of years
+    (mean fo all january values over 10 years). In this case the unit would be
+    :math:`\frac{\text{J.mm}}{\text{m}^2.\text{h.month}}`
 
 .. _kfactor:
 
