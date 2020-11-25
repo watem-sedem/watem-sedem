@@ -148,8 +148,7 @@ End;
 Function Invert_routing(Routing: TRoutingArray): TRoutingInvArray;
 var
   inv: TRoutingInvArray;
-  i,j: integer;
-  t_c, t_r: integer;
+  i,j, t_c, t_r: integer;
   ring: boolean;
   delta1: float;
 begin
@@ -235,7 +234,7 @@ begin
   Invert_routing:= inv;
 end;
 
-procedure addInverse(var inv:TroutingInvArray; i,j,t_c, t_r: integer);
+procedure addInverse(var inv:TroutingInvArray; i,j,t_c,t_r: integer);
 var
   pos:integer;
 begin
@@ -255,7 +254,7 @@ end;
 
 procedure settreatedsize(var inv: TRoutingInvArray) ;
 var
- i,j, k: integer;
+ i,j,k: integer;
 begin
    For i := 1 To nrow Do
     //The DTM is read row per row (from l to r), for each next cell that is
@@ -1116,9 +1115,7 @@ function FindLower(i,j, max_kernel: integer): boolean;
 var
 rowmin, rowmin2, colmin, colmin2, w, k,l : integer;
 minimum, minimum2: float;
-check_differentparcel: boolean;
-check_river: boolean;
-check_sameparcel: boolean;
+check_differentparcel, check_river, check_sameparcel: boolean;
 
   Begin
     ROWMIN := 0;

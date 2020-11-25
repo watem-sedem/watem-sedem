@@ -25,9 +25,8 @@ Type
 
     Var 
       NROW,NCOL: integer;
-      RES: double;
       //fixed resolution for plane proj and dx=dy
-      MINX, MAXX, MINY, MAXY, MINZ, MAXZ : double;
+      RES, MINX, MAXX, MINY, MAXY, MINZ, MAXZ : double;
       Raster_Projection: TRaster_Projection;
       ncolAR, nrowAR: array Of integer;
       // array waarin resp. nrow, ncol en
