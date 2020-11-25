@@ -164,7 +164,7 @@ Begin
   SetzeroR(SEDI_OUT);
   SetzeroR(SEDI_EXPORT);
 
-  If VHA Then //If the user wants output per river segment
+  If segments Then //If the user wants output per river segment
     Begin
       numRivSeg := calcRivSeg(RivSeg);
       // check that numRivSeg calculated from the raster is not smaller than the
@@ -201,7 +201,7 @@ Begin
 
           SEDI_EXPORT[i, j] := SEDI_IN[i, j];
           // assign export sed_output_file (in m³) value for export cells
-          If (VHA) And (RivSeg[i, j] <> 0) Then
+          If (segments) And (RivSeg[i, j] <> 0) Then
             sedload_segm[RivSeg[i, j]] := sedload_segm[RivSeg[i, j]] + SEDI_EXPORT[i, j];
           // totale hoeveelheid sed_output_file per rivier segment wordt opgeslagen
           skip :=true;
@@ -339,7 +339,7 @@ Begin
     End;
 
   // voor elk riviersegment wordt sed_output_file omgezet naar kg
-  If VHA Then
+  If segments Then
     Begin
       For i := 1 To numRivSeg Do
         sedload_segm[i] := sedload_segm[i] * BD;
@@ -405,7 +405,7 @@ Begin
     end;
 
 
-  If VHA Then
+  If segments Then
     Begin
       setcurrentDir(File_output_dir);
       assignfile(Sediment_segm, 'Total sediment segments.txt');
@@ -428,7 +428,7 @@ Begin
 
     If river_routing Then
     Begin
-      // Calculate cumulative sediment for VHA sections
+      // Calculate cumulative sediment for river segments
       Cumulative_sections;
 
       setcurrentDir(File_output_dir);
@@ -564,9 +564,9 @@ Begin
   closefile(Sediment);
   //The memory of Sediment is released
 
-  // sediment load for each VHA segment is distributed over hydrogram and written to .txt file
+  // sediment load for each segment is distributed over hydrogram and written to .txt file
 
-  If VHA Then
+  If segments Then
     Begin
       setlength(fraction_discharge_segm, NTimesteps + 1, numRivSeg + 1);
       setlength(sediment_result_segm, NTimesteps + 1, numRivSeg + 1);
@@ -582,7 +582,7 @@ Begin
               End;
           End;
 
-      // write sediment_result_VHA to .txt
+      // write sediment_result_segm to .txt
       assignfile(Sediment_segm, 'Sediment_segments.txt');
       rewrite(Sediment_segm);
       If convert_output Then
@@ -682,7 +682,7 @@ Begin
   closefile(Sed_conc);
 
 
-  If VHA Then
+  If segments Then
     Begin
       setlength(sediment_conc_segm, NTimesteps + 1, numRivSeg + 1);
       For i := 0 To NTimesteps Do
@@ -765,14 +765,14 @@ Begin
         End;
       closefile(clay_txt);
 
-      If VHA Then     // estimate clay content of sediment for each VHA river segment
+      If segments Then     // estimate clay content of sediment for each river segment
         Begin
           setlength(clay_cont_segm, numRivSeg + 1);
           For i := 1 To numRivSeg Do
             Begin
               ER_clay := (0.7732 * exp(-0.0508 * sediment_conc_segm[1, i])) + 1;
               // formula Wang et al 2010
-              clay_cont_VHA[i] := ER_clay * clay_parent;
+              clay_cont_segm[i] := ER_clay * clay_parent;
             End;
 
           // write result to .txt file
@@ -782,9 +782,9 @@ Begin
           Writeln(clay_segm_txt,
                   'Clay content of sediment flowing in each river segment [%]');
           // write title
-          Write(clay_VHA_txt, 'segment_id', chr(9), 'Clay content (%)');
+          Write(clay_segm_txt, 'segment_id', chr(9), 'Clay content (%)');
           // write column headings
-          writeln(clay_VHA_txt, '');
+          writeln(clay_segm_txt, '');
           // go to next line
           For i := 1 To numRivSeg Do
             Begin

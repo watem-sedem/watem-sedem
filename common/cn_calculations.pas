@@ -561,7 +561,7 @@ Begin
   If Include_sewer Then
     sewer_out_water := 0;
 
-  If VHA Then
+  If segments Then
     Begin
       numRivSeg := calcRivSeg(RivSeg);
       Setlength(Discharge_segm, Numberoftimesteps+1, numRivSeg+1);
@@ -648,7 +648,7 @@ Begin
                 Else
                   Result[i,1] := Result[i,1]+RunoffInput;
               End;
-            If (VHA) And (RivSeg[k,l] <> 0) Then
+            If (segments) And (RivSeg[k,l] <> 0) Then
               Discharge_segm[i,RivSeg[k,l]] := Discharge_segm[i,RivSeg[k,l]] + RunoffInput;
           End;
 
@@ -748,7 +748,7 @@ Begin
                   Else
                     Result[i,1] := Result[i,1]+OutflowMap_temp[k,l];
                 End;
-              If VHA Then
+              If segments Then
                 Begin
                   If RivSeg[targetX,targetY]<>0 Then
                     // if buffer drains directly into river, the result is updated
@@ -829,7 +829,7 @@ Begin
                       Else
                         Result[i,1] := Result[i,1]+Part1_water;
                     End;
-                  If VHA Then
+                  If segments Then
                     Begin
                       If RivSeg[targetX,targetY]<>0 Then
                         Discharge_segm[i,RivSeg[targetX,targetY]] := Discharge_segm[i,RivSeg[targetX,
@@ -858,7 +858,7 @@ Begin
                             Result[i,1] := Result[i,1]+Part2_water;
                         End;
                     End;
-                  If VHA Then
+                  If segments Then
                     Begin
                       If RivSeg[targetX,targetY]<>0 Then
                         Begin
@@ -898,7 +898,7 @@ Begin
                       Else
                         Result[i,1] := Result[i,1]+Part1_water;
                     End;
-                  If VHA Then
+                  If segments Then
                     Begin
                       If (RivSeg[targetX,targetY]<>0) And (RivSeg[k,l] = 0) Then
         // only if target cell is river AND source cell is no river, discharge_segm should be updated
@@ -936,7 +936,7 @@ Begin
                     Else
                       Result[i,1] := Result[i,1]+Part2_water;
                   End;
-                If VHA Then
+                If segments Then
                   Begin
                     If RivSeg[targetX,targetY]<>0 Then
                       Discharge_segm[i,RivSeg[targetX,targetY]] := Discharge_segm[i,RivSeg[targetX,
@@ -993,7 +993,7 @@ Begin
             Result_Discharge[i,j] := Discharge_tmp_fin[i];
         End;
 
-      If VHA Then
+      If segments Then
         Begin
           setlength(Result_Discharge_segm, Ntimesteps2+1, numRivSeg+1);
           For j := 1 To numRivSeg Do
@@ -1012,7 +1012,7 @@ Begin
       setlength(Result_Discharge, numberoftimesteps+1, numOutlet+1);
       Result_Discharge := Result;
 
-      If VHA Then
+      If segments Then
         Begin
           setlength(Result_Discharge_segm, numberoftimesteps+1, numRivSeg+1);
           Result_Discharge_segm:= Discharge_segm;
@@ -1078,7 +1078,7 @@ Begin
 
   // The amount of water entering each river segment is written to a .txt file
 
-  If VHA Then
+  If segments Then
     Begin
       setcurrentDir(File_output_dir);
       assignfile(Discharge_segm_txt,'Discharge_segments.txt');
