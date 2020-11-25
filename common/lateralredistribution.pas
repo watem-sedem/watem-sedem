@@ -138,7 +138,7 @@ End;
 Procedure Water;
 
 Var 
-  counter, i, j, k, l, m, n, tc, tr: integer;
+  counter, i, j, k, l, m, n, t_c, t_r: integer;
   area, sewer_out_sed, TEMP_river_sed_input, TEMP_outside_sed_input, TEMP_buffer_sed_input: double;
   skip: boolean;
   sed_output_file, sediment_segm, cal_output_file: textfile;
@@ -255,15 +255,15 @@ Begin
 
               if Routing[i, j].Target2Row > 0 then
                 begin
-                   tc :=  Routing[i, j].Target2Col;
-                   tr := Routing[i, j].Target2Row ;
-                   SEDI_IN[tr, tc] += - SEDI_OUT[i,j] * Routing[i,j].Part2;
+                   t_c :=  Routing[i, j].Target2Col;
+                   t_r := Routing[i, j].Target2Row ;
+                   SEDI_IN[t_r, t_c] += - SEDI_OUT[i,j] * Routing[i,j].Part2;
                 end;
               if Routing[i, j].Target1Row > 0 then
                 begin
-                   tc :=  Routing[i, j].Target1Col;
-                   tr := Routing[i, j].Target1Row;
-                   SEDI_IN[tr, tc] += - SEDI_OUT[i,j] * Routing[i,j].Part1;
+                   t_c :=  Routing[i, j].Target1Col;
+                   t_r := Routing[i, j].Target1Row;
+                   SEDI_IN[t_r, t_c] += - SEDI_OUT[i,j] * Routing[i,j].Part1;
                 end;
             End;
 
