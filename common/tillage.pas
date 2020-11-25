@@ -18,7 +18,7 @@ Procedure tillage_dif;
 // Based on Watem Tillage model
 
 Var
-  teller, i, j, o, p: integer;
+  counter, i, j, o, p: integer;
   adjust, area, ploweros : double;
 Begin
   // Create temp 2D maps
@@ -35,11 +35,11 @@ Begin
   If Raster_projection=plane Then area := sqr(res)
       Else  area := X_Resolution()*Y_Resolution();
 
-  for teller:=0 to nrow*ncol-1 do
+  for counter:=0 to nrow*ncol-1 do
       begin
       // begin lus
-      i := row[teller];
-      j := column[teller];
+      i := row[counter];
+      j := column[counter];
 
       If PRC[i,j]<=0 Then
          BEgin
@@ -79,7 +79,7 @@ Begin
 
         // Convert in and outgoing sediment to kg
         SEDTIL_IN[o,p] := SEDTIL_IN[o,p] * BD;
-        SEDTIL_OUT[o,p] := SEDTIL_OUT[O,p] * BD;
+        SEDTIL_OUT[o,p] := SEDTIL_OUT[o,p] * BD;
         TILEROS_kg[o,p] := SEDTIL_IN[o,p]-SEDTIL_OUT[o,p]
 
       End;
