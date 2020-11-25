@@ -20,7 +20,7 @@ Implementation
 
 Var
   Waterero, sedprod, depprod: double;
-  SedLoad, SedLoad_VHA, SedLoad_VHA_Cumulative: RVector;
+  SedLoad, SedLoad_segm, SedLoad_segm_Cumulative: RVector;
 
 Procedure Calculatewaterero(i, j: integer);
 //waterero in meter: for the pixel that is being considered
@@ -141,7 +141,7 @@ Var
   counter, i, j, k, l, m, n, tc, tr: integer;
   area, sewer_out_sed, TEMP_river_sed_input, TEMP_outside_sed_input, TEMP_buffer_sed_input: double;
   skip: boolean;
-  sed_output_file, sediment_VHA, cal_output_file: textfile;
+  sed_output_file, sediment_segm, cal_output_file: textfile;
 
 Begin
     //Create maps
@@ -173,9 +173,9 @@ Begin
          if river_adjectant.key[i] > numRivSeg then
             raise EInputException.Create('Larger number of segments in adjectant segment file than in raster -check the input');
 
-      setlength(sedload_VHA, numRivSeg + 1);
+      setlength(sedload_segm, numRivSeg + 1);
       for i :=1 to numRivSeg Do
-        sedload_VHA[i] :=0;
+        sedload_segm[i] :=0;
       //The length of a vector per river segment (+1) is set
     End;
 
@@ -202,7 +202,7 @@ Begin
           SEDI_EXPORT[i, j] := SEDI_IN[i, j];
           // assign export sed_output_file (in m³) value for export cells
           If (VHA) And (RivSeg[i, j] <> 0) Then
-            sedload_VHA[RivSeg[i, j]] := sedload_VHA[RivSeg[i, j]] + SEDI_EXPORT[i, j];
+            sedload_segm[RivSeg[i, j]] := sedload_segm[RivSeg[i, j]] + SEDI_EXPORT[i, j];
           // totale hoeveelheid sed_output_file per rivier segment wordt opgeslagen
           skip :=true;
         End;
@@ -342,7 +342,7 @@ Begin
   If VHA Then
     Begin
       For i := 1 To numRivSeg Do
-        sedload_VHA[i] := sedload_VHA[i] * BD;
+        sedload_segm[i] := sedload_segm[i] * BD;
     End;
 
   // sedload has to be written to a .txt file as output of the model
@@ -408,21 +408,21 @@ Begin
   If VHA Then
     Begin
       setcurrentDir(File_output_dir);
-      assignfile(Sediment_VHA, 'Total sediment segments.txt');
-      rewrite(Sediment_VHA);
-      Writeln(Sediment_VHA, 'Total sediment flowing into each river segment [kg]');
+      assignfile(Sediment_segm, 'Total sediment segments.txt');
+      rewrite(Sediment_segm);
+      Writeln(Sediment_segm, 'Total sediment flowing into each river segment [kg]');
       // write title
-      Write(Sediment_VHA, 'segment_id', chr(9), 'Sediment');
+      Write(Sediment_segm, 'segment_id', chr(9), 'Sediment');
       // write column headings
-      writeln(Sediment_VHA, '');
+      writeln(Sediment_segm, '');
       // go to next line
 
       For i := 1 To numRivSeg Do
         Begin
-          Write(Sediment_VHA, IntToStr(i), chr(9), floattostr(sedload_VHA[i]));
-          writeln(Sediment_VHA, '');
+          Write(Sediment_segm, IntToStr(i), chr(9), floattostr(sedload_segm[i]));
+          writeln(Sediment_segm, '');
         End;
-      closefile(Sediment_VHA);
+      closefile(Sediment_segm);
       //The memory of sed_output_file is released
     End;
 
@@ -432,21 +432,21 @@ Begin
       Cumulative_sections;
 
       setcurrentDir(File_output_dir);
-      assignfile(Sediment_VHA, 'Cumulative sediment segments.txt');
-      rewrite(Sediment_VHA);
-      Writeln(Sediment_VHA, 'Cumulative sediment flowing into each VHA river segment [kg]');
+      assignfile(Sediment_segm, 'Cumulative sediment segments.txt');
+      rewrite(Sediment_segm);
+      Writeln(Sediment_segm, 'Cumulative sediment flowing into each river segment [kg]');
       // write title
-      Write(Sediment_VHA, 'segment_id', chr(9), 'Sediment');
+      Write(Sediment_segm, 'segment_id', chr(9), 'Sediment');
       // write column headings
-      writeln(Sediment_VHA, '');
+      writeln(Sediment_segm, '');
       // go to next line
 
       For i := 1 To numRivSeg Do
         Begin
-          Write(Sediment_VHA, IntToStr(i), chr(9), floattostr(sedload_VHA_cumulative[i]));
-          writeln(Sediment_VHA, '');
+          Write(Sediment_segm, IntToStr(i), chr(9), floattostr(sedload_segm_cumulative[i]));
+          writeln(Sediment_segm, '');
         End;
-      closefile(Sediment_VHA);
+      closefile(Sediment_segm);
       //The memory of sed_output_file is released
     End;
 
@@ -488,10 +488,10 @@ Procedure distribute_sediment;
 Var 
   i, j, NTimesteps: integer;
   ER_clay: double;
-  clay_cont, clay_cont_VHA: floatArray;
-  fraction_discharge, fraction_discharge_VHA, sediment_result,
-  sediment_conc, sediment_conc_VHA, sediment_result_VHA: floatArray2;
-  sediment, sediment_VHA, sed_conc, sed_conc_VHA, clay_txt, clay_VHA_txt: textfile;
+  clay_cont, clay_cont_segm: floatArray;
+  fraction_discharge, fraction_discharge_segm, sediment_result,
+  sediment_conc, sediment_conc_segm, sediment_result_segm: floatArray2;
+  sediment, sediment_segm, sed_conc, sed_conc_segm, clay_txt, clay_segm_txt: textfile;
 
 Begin
   If convert_output Then
@@ -568,66 +568,66 @@ Begin
 
   If VHA Then
     Begin
-      setlength(fraction_discharge_VHA, NTimesteps + 1, numRivSeg + 1);
-      setlength(sediment_result_VHA, NTimesteps + 1, numRivSeg + 1);
+      setlength(fraction_discharge_segm, NTimesteps + 1, numRivSeg + 1);
+      setlength(sediment_result_segm, NTimesteps + 1, numRivSeg + 1);
       For i := 0 To NTimesteps Do
         For j := 1 To numRivSeg Do
           Begin
-            If Sum_discharge_VHA[j] = 0 Then
-              sediment_result_VHA[i, j] := 0
+            If Sum_discharge_segm[j] = 0 Then
+              sediment_result_segm[i, j] := 0
             Else
               Begin
-                fraction_discharge_VHA[i, j] := Result_Discharge_VHA[i, j] / Sum_discharge_VHA[j];
-                sediment_result_VHA[i, j] := fraction_discharge_VHA[i, j] * sedload_VHA[j];
+                fraction_discharge_segm[i, j] := Result_Discharge_segm[i, j] / Sum_discharge_segm[j];
+                sediment_result_segm[i, j] := fraction_discharge_segm[i, j] * sedload_segm[j];
               End;
           End;
 
       // write sediment_result_VHA to .txt
-      assignfile(Sediment_VHA, 'Sediment_segments.txt');
-      rewrite(Sediment_VHA);
+      assignfile(Sediment_segm, 'Sediment_segments.txt');
+      rewrite(Sediment_segm);
       If convert_output Then
         Begin
-          Writeln(Sediment_VHA, 'Sediment flowing in each river segment [kg] with ',
+          Writeln(Sediment_segm, 'Sediment flowing in each river segment [kg] with ',
                   Timestep_output, ' minutes timestep');
           // write title
-          Write(Sediment_VHA, 'Time (min)', chr(9));
+          Write(Sediment_segm, 'Time (min)', chr(9));
         End
       Else
         Begin
-          Writeln(Sediment_VHA, 'Sediment passing in each river segment [kg] with ',
+          Writeln(Sediment_segm, 'Sediment passing in each river segment [kg] with ',
                   Timestep_model, ' seconds timestep');
           // write title
-          Write(Sediment_VHA, 'Time (sec)', chr(9));
+          Write(Sediment_segm, 'Time (sec)', chr(9));
         End;
       For j := 1 To numRivSeg Do
-        Write(Sediment_VHA, 'segment ', j, chr(9));
+        Write(Sediment_segm, 'segment ', j, chr(9));
       // write column headings
-      writeln(Sediment_VHA, '');
+      writeln(Sediment_segm, '');
       // go to next line
 
       If convert_output Then
         Begin
           For i := 0 To NTimeSteps2 Do
             Begin
-              Write(Sediment_VHA, IntToStr(TimeSeries_tmp_fin[i] Div 60), chr(9));
+              Write(Sediment_segm, IntToStr(TimeSeries_tmp_fin[i] Div 60), chr(9));
               For j := 1 To numRivSeg Do
-                Write(Sediment_VHA, floattostr(sediment_result_VHA[i, j]), chr(9));
+                Write(Sediment_segm, floattostr(sediment_result_segm[i, j]), chr(9));
               //Amount of sediment per time step is written to the .txt file
-              writeln(Sediment_VHA, '');
+              writeln(Sediment_segm, '');
             End;
         End
       Else
         Begin
           For i := 0 To NumberOfTimesteps Do
             Begin
-              Write(Sediment_VHA, IntToStr(RainData[i].Time), chr(9));
+              Write(Sediment_segm, IntToStr(RainData[i].Time), chr(9));
               For j := 1 To numRivSeg Do
-                Write(Sediment_VHA, floattostr(sediment_result_VHA[i, j]), chr(9));
+                Write(Sediment_segm, floattostr(sediment_result_segm[i, j]), chr(9));
               //Amount of sediment per time step is written to the .txt file
-              writeln(Sediment_VHA, '');
+              writeln(Sediment_segm, '');
             End;
         End;
-      closefile(Sediment_VHA);
+      closefile(Sediment_segm);
       //The memory of Sediment is released
     End;
 
@@ -684,57 +684,56 @@ Begin
 
   If VHA Then
     Begin
-      setlength(sediment_conc_VHA, NTimesteps + 1, numRivSeg + 1);
+      setlength(sediment_conc_segm, NTimesteps + 1, numRivSeg + 1);
       For i := 0 To NTimesteps Do
         For j := 1 To numRivSeg Do
           Begin
-            If Result_Discharge_VHA[i, j] = 0 Then
-              sediment_conc_VHA[i, j] := 0
+            If Result_Discharge_segm[i, j] = 0 Then
+              sediment_conc_segm[i, j] := 0
             Else
-              sediment_conc_VHA[i, j] := 
-                                         (sediment_result_VHA[i, j] * 1000) / (Result_Discharge_VHA[
-                                         i, j] * 1000);
+              sediment_conc_segm[i, j] :=
+                                         (sediment_result_segm[i, j] * 1000) / (Result_Discharge_segm[i, j] * 1000);
             // in g/l
           End;
 
       setcurrentDir(File_output_dir);
-      assignfile(Sed_conc_VHA, 'Sediment concentration segments.txt');
-      rewrite(Sed_conc_VHA);
-      Writeln(Sed_conc_VHA, 'Sediment concentration for each river segment [g/l]');
+      assignfile(Sed_conc_segm, 'Sediment concentration segments.txt');
+      rewrite(Sed_conc_segm);
+      Writeln(Sed_conc_segm, 'Sediment concentration for each river segment [g/l]');
       // write title
       If convert_output Then
-        Write(Sed_conc_VHA, 'Time (min)', chr(9))
+        Write(Sed_conc_segm, 'Time (min)', chr(9))
       Else
-        Write(Sed_conc_VHA, 'Time (sec)', chr(9));
+        Write(Sed_conc_segm, 'Time (sec)', chr(9));
       For j := 1 To numRivSeg Do
-        Write(Sed_conc_VHA, 'segment ', j, chr(9));
+        Write(Sed_conc_segm, 'segment ', j, chr(9));
       // write column headings
-      writeln(Sed_conc_VHA, '');
+      writeln(Sed_conc_segm, '');
       // go to next line
 
       If convert_output Then
         Begin
           For i := 0 To NTimeSteps2 Do
             Begin
-              Write(Sed_conc_VHA, IntToStr(TimeSeries_tmp_fin[i] Div 60), chr(9));
+              Write(Sed_conc_segm, IntToStr(TimeSeries_tmp_fin[i] Div 60), chr(9));
               For j := 1 To numRivSeg Do
-                Write(Sed_conc_VHA, floattostr(sediment_conc_VHA[i, j]), chr(9));
+                Write(Sed_conc_segm, floattostr(sediment_conc_segm[i, j]), chr(9));
               //Amount of sediment per time step is written to the .txt file
-              writeln(Sed_conc_VHA, '');
+              writeln(Sed_conc_segm, '');
             End;
         End
       Else
         Begin
           For i := 0 To NumberOfTimesteps Do
             Begin
-              Write(Sed_conc_VHA, IntToStr(RainData[i].Time), chr(9));
+              Write(Sed_conc_segm, IntToStr(RainData[i].Time), chr(9));
               For j := 1 To numRivSeg Do
-                Write(Sed_conc_VHA, floattostr(sediment_conc_VHA[i, j]), chr(9));
+                Write(Sed_conc_segm, floattostr(sediment_conc_segm[i, j]), chr(9));
               //Amount of sediment per time step is written to the .txt file
-              writeln(Sed_conc_VHA, '');
+              writeln(Sed_conc_segm, '');
             End;
         End;
-      closefile(Sed_conc_VHA);
+      closefile(Sed_conc_segm);
       //The memory of Sediment is released
     End;
 
@@ -768,19 +767,19 @@ Begin
 
       If VHA Then     // estimate clay content of sediment for each VHA river segment
         Begin
-          setlength(clay_cont_VHA, numRivSeg + 1);
+          setlength(clay_cont_segm, numRivSeg + 1);
           For i := 1 To numRivSeg Do
             Begin
-              ER_clay := (0.7732 * exp(-0.0508 * sediment_conc_VHA[1, i])) + 1;
+              ER_clay := (0.7732 * exp(-0.0508 * sediment_conc_segm[1, i])) + 1;
               // formula Wang et al 2010
               clay_cont_VHA[i] := ER_clay * clay_parent;
             End;
 
           // write result to .txt file
           setcurrentDir(File_output_dir);
-          assignfile(clay_VHA_txt, 'Clay content sediment segments.txt');
-          rewrite(clay_VHA_txt);
-          Writeln(clay_VHA_txt,
+          assignfile(clay_segm_txt, 'Clay content sediment segments.txt');
+          rewrite(clay_segm_txt);
+          Writeln(clay_segm_txt,
                   'Clay content of sediment flowing in each river segment [%]');
           // write title
           Write(clay_VHA_txt, 'segment_id', chr(9), 'Clay content (%)');
@@ -789,10 +788,10 @@ Begin
           // go to next line
           For i := 1 To numRivSeg Do
             Begin
-              Write(clay_VHA_txt, IntToStr(i), chr(9), floattostr(clay_cont_VHA[i]));
-              writeln(clay_VHA_txt, '');
+              Write(clay_segm_txt, IntToStr(i), chr(9), floattostr(clay_cont_segm[i]));
+              writeln(clay_segm_txt, '');
             End;
-          closefile(clay_VHA_txt);
+          closefile(clay_segm_txt);
         End;
     End;
 
@@ -804,13 +803,13 @@ procedure Cumulative_sections;
 var
   i: integer;
 Begin
-  setlength(SedLoad_VHA_Cumulative, length(sedload_vha));
-  for i:= 0 to length(sedload_vha)-1 do
-     SedLoad_VHA_Cumulative[i] := sedload_vha[i];
+  setlength(SedLoad_segm_Cumulative, length(sedload_segm));
+  for i:= 0 to length(sedload_segm)-1 do
+     SedLoad_segm_Cumulative[i] := sedload_segm[i];
 
   for i:= 0 to length(river_upstream.key)-1 do
   begin
-     SedLoad_VHA_Cumulative[river_upstream.key[i]] += sedload_vha[river_upstream.value[i]] * river_upstream_proportion.value[i];
+     SedLoad_segm_Cumulative[river_upstream.key[i]] += sedload_segm[river_upstream.value[i]] * river_upstream_proportion.value[i];
 
   end;
 End;
@@ -851,7 +850,7 @@ Begin
      j:= min_col[seg];
 
 
-     temp:=SedLoad_VHA_Cumulative[seg] - sedload_vha[seg] + SEDI_IN[i,j];
+     temp:=SedLoad_segm_Cumulative[seg] - sedload_segm[seg] + SEDI_IN[i,j];
      cumulative[i,j]:=temp;
     if (i=0) and (j=0) then continue; // skip empty segments
      while followriver(i,j) do
