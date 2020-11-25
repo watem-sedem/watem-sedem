@@ -138,7 +138,7 @@ End;
 Procedure Water;
 
 Var 
-  teller, i, j, k, l, m, n, tc, tr: integer;
+  counter, i, j, k, l, m, n, tc, tr: integer;
   area, sewer_out_sed, TEMP_river_sed_input, TEMP_outside_sed_input, TEMP_buffer_sed_input: double;
   skip: boolean;
   sed_output_file, sediment_VHA, cal_output_file: textfile;
@@ -183,11 +183,11 @@ Begin
   TEMP_outside_sed_input := 0;
   TEMP_buffer_sed_input := 0;
 
-    for teller:=0 to nrow*ncol-1 do
+    for counter:=0 to nrow*ncol-1 do
       begin
       // begin lus
-      i := row[teller];
-      j := column[teller];
+      i := row[counter];
+      j := column[counter];
 
      skip:=false;
       If (PRC[i, j] = 0) Or (PRC[i, j] = -1) Then

@@ -1222,7 +1222,7 @@ end;
 Procedure Calculate_UpstreamArea(Var UPAREA:RRaster);
 
 Var
-  teller,i,j : integer;
+  counter,i,j : integer;
   oppcor: double;
 
 Begin
@@ -1230,11 +1230,11 @@ Begin
   // SetnodataR(UPAREA);
 
   // set all valid cells to zero
-  for teller:=0 to nrow*ncol-1 do
+  for counter:=0 to nrow*ncol-1 do
     begin
     // begin lus
-    i := row[teller];
-    j := column[teller];
+    i := row[counter];
+    j := column[counter];
     if (i=0) and (j=0) then
       continue;
 
@@ -1244,10 +1244,10 @@ Begin
     uparea[i,j] := 0;
     end;
 
-  for teller:=0 to nrow*ncol-1 do
+  for counter:=0 to nrow*ncol-1 do
       begin
-      i := row[teller];
-      j := column[teller];
+      i := row[counter];
+      j := column[counter];
       if (i=0) and (j=0) then
         break;
 

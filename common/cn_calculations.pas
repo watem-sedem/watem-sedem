@@ -54,29 +54,29 @@ Procedure ReadRainfallFile (Var Raindata: TRainRecordArray; Rainfallfilename: St
 Var 
   TimeSeries_output, I10TimeSeries: IntegerArray;
   Cumul_Rain, Cumul_Interp, RainfallSeries_output,I10RainfallSeries, I10Series: FloatArray;
-  teller, i, j, nr, Timestep_rain, Fill_num: integer;
+  counter, i, j, nr, Timestep_rain, Fill_num: integer;
   x: double;
   datafile: textfile;
   a: string;
   Z: FloatArray2;
 
 Begin
-  teller := 0;
+  counter := 0;
   assignfile(datafile, RainfallFilename);
   reset(datafile);
   While Not eof(datafile) Do
     Begin
       //To determine the number of time steps and number of rows in the file
-      inc(teller);
+      inc(counter);
       Readln(datafile, a);
     End;
-  Setlength(TimeSeries, teller);
+  Setlength(TimeSeries, counter);
   //Time in seconds
-  Setlength(Rainfallseries, teller);
+  Setlength(Rainfallseries, counter);
   //Regenval in mm (per timestep)
-  NumberOfTimesteps := teller-1;
+  NumberOfTimesteps := counter-1;
   {$push}{$warn 5091 off} // remove spurious warning about datatype not being initialized
-  ReadText(RainfallFilename,Z,teller,2);
+  ReadText(RainfallFilename,Z,counter,2);
   {$pop}
   // see procedure below
 
@@ -519,7 +519,7 @@ Procedure CalculateTimeDependentRunoff(Remap: Rraster; RainData: TRainRecordArra
 Var 
   RunoffMap, RunoffInputMap, RunoffInputMap_temp, RoutedMap_temp, RainfallMap,
   RunoffCummulMap, OutflowMap_temp: Rraster;
-  i, j,  k , l, m, teller, targetX, targetY: integer;
+  i, j,  k , l, m, counter, targetX, targetY: integer;
   RunoffInput ,Part1_water, Part2_water, Speed, spill, sewer_out_water: double;
   Discharge, Discharge_tot, Discharge_VHA_txt, spillover_txt, sewer_out_txt: textfile;
   spillover, Discharge_result_tmp, Discharge_tmp_fin: FloatArray;
@@ -653,11 +653,11 @@ Begin
           End;
 
       //The runoff is routed for this time step
-      For teller:=0 to ncol*nrow-1 Do
+      For counter:=0 to ncol*nrow-1 Do
         Begin
-          k := row[teller];
+          k := row[counter];
           //row and col are vectors containing the row and column ID's from low to high
-          l := column[teller];
+          l := column[counter];
           if (k=0) and (l=0) then break;
           If PRC[k,l] = 0 Then continue;
           If RunoffMap[k,l] <= 0.0 Then continue;
