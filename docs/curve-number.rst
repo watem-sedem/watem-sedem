@@ -93,7 +93,7 @@ important to note that abstraction is made of certain processes like e.g. rainfa
 intensity, surface crust formation, crop cover, antecedent conditions, etc.
 
 The runoff module used in CNWS does not represent the original CN method. To
-overcome some of the shortcomings mentioned above, some adjustments to the
+overcome these shortcomings mentioned above, some adjustments to the
 original CN method have been made. On the one hand some processes are incorporated
 into the equations, on the other hand a spatio-temporal translation of the
 event-based output is implemented. In the following section the current
