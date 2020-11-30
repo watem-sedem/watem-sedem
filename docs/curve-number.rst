@@ -76,10 +76,7 @@ infiltrates, e.g. a parking lot):
     S = \frac{25400}{CN}-254
     
 The :math:`CN` values can be extracted from tables (NRCS, 2010), based on soil
-type, land use, hydrologic condition, and initial moisture conditions.
-To conclude :math:`Q` can thus be expressed solely as a function of :math:`P`
-and :math:`CN` like depicted in the graph below.
-
+type, land use, hydrologic condition, and initial moisture conditions. 
 Combining last two equations, :math:`Q` can thus be expressed solely as a
 function of :math:`P` and :math:`CN` like depicted in the graph below
 (source: USDA technical release 55, urban hydrology for small watersheds)
