@@ -2,22 +2,25 @@
 Runoff model: Curve Number
 ##########################
 
-Both the processes of runoff and sediment production are closely intertwined.
-Within CNWS a rainfall-runoff module based on the curve number (CN) method is
-used to calculate runoff rates in the simulation domain. By Combining runoff
-rates and sediment loads one can get an idea of the sediment concentrations
-reaching the rivers.
+The curve number (CN) method is an empirical runoff modeling approach which knows widespread use in the 
+hydrologic community. The low model complexity and limited input requirements explain the popularity of
+this model, especially in data-scarce areas. The original CN method has been developed in the mid-50’s 
+by the former American Soil Conservation Service (SCS) and has since then been revised more
+than once (NRCS, 2010). Based on field experiments with standardised
+rectangular runoff plots, local coefficients, so-called 'curve numbers' were originally determined and tabulated. 
+These take into account local conditions (soil type and land cover, ...) in order to accurately estimate 
+runoff from recorded rainfall input. Important to note is that the output of the original model formulation 
+is event-based, and is thus not temporally nor spatially distributed. However, in larger modeling frameworks 
+in which runoff is only one of the simulated phenomena, a spatiotemporal representation of the model output
+is common. Therefore, in order to incorporate the curve number approach, a translation of this event-based
+output is necessary. 
 
+In the documentation below the following 2 parts are discussed:
+- A description of the original CN method
+- The translation of the original model to the CN-based module which is in use in the CN-WS modelling framework
 
-The original curve number method
-================================
-
-The original CN method has been developed in the mid-50’s by the former
-American Soil Conservation Service (SCS) and has since then been revised more
-than once (NRCS, 2010). It is a simplistic, empirical method that allows the
-prediction of surface runoff with a limited amount of input data. It is because
-of this simplicity the method has known widespread use in water and soil
-management.
+The original CN method
+======================
 
 The main governing assumption of the CN method is the following:
 
@@ -96,11 +99,11 @@ into the equations, on the other hand a spatio-temporal translation of the
 event-based output is implemented. In the following section the current
 implementation of the CN-based runoff module is presented.
 
-The current runoff module
-=========================
+CN-based module in CN-WS 
+========================
 
 For every grid cell the total event-based runoff is calculated based on the
-local :math:`CN` value and the total rainfall depth :math:`P`.
+local :math:`CN` value and the total rainfall depth :math:`P` following the original CN-formulation.
 A first adaptation suggested by Van Oost 2003 is pre-processing the tabulated
 :math:`CN` values so that effects of crop cover and soil crusting are also
 accounted for:
