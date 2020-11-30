@@ -51,7 +51,8 @@ Furthermore :math:`I_a` is expressed as a fraction of the potential loss :math:`
 .. math::
     I_a=cS
 
-A higher constant :math:`c` essentially implies that more water is initially 'lost' by mainly infiltration and 
+A higher value for the dimensionless constant :math:`c` essentially implies 
+that more water is initially 'lost' by mainly infiltration and 
 evapotranspiration before the runoff phenomena starts to take place. It was originally set to 0.2, 
 however, the quality of choice has been often questioned. Nowadays it is often put at lower values
 (Ponce  V.M.  &  Hawkins, 1996), certainly in an urbanized context.
