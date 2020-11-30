@@ -31,27 +31,29 @@ with:
 
 - :math:`Q`: runoff depth (:math:`m`)
 - :math:`P`: rainfall depth (:math:`m`)
-- :math:`I_a`: initial abstractions (e.g. infiltration before runoff,
-  evaporation, interception) (:math:`m`)
+- :math:`I_a`: initial abstractions (e.g. infiltration depth before runoff starts,
+  evaporation, interception)(:math:`m`)
 - :math:`S`: potential loss (maximum water storage after runoff starts) (:math:`m`)
 - :math:`F`: actual loss (effective water storage) (:math:`m`)
 
-Important to note is that those variables do not represent time series
+Important to note is that the variables described above, do not represent time series
 variables. The CN method is an event-based model. All the variables are
-cumulative depths over an event.
+cumulative depths over an event. The term 'depth' indicates water volume per square meter, 
+hence the unit :math:`m`. 
 
 The mass balance implies following equation:
 
 .. math::
     P = Q+F+I_a
 
-Furthermore :math:`I_a` is expressed as follows:
+Furthermore :math:`I_a` is expressed as a fraction of the potential loss :math:`S`:
 
 .. math::
     I_a=cS
 
-This constant c was originally set to 0.2, however, the quality of choice has
-been often questioned. Nowadays it is often put at lower values
+A higher constant :math:`c` essentially implies that more water is initially 'lost' by mainly infiltration and 
+evapotranspiration before the runoff phenomena starts to take place. It was originally set to 0.2, 
+however, the quality of choice has been often questioned. Nowadays it is often put at lower values
 (Ponce  V.M.  &  Hawkins, 1996), certainly in an urbanized context.
 Combining equations 1, 2 and 3 results in the following expression for :math:`Q`:
 
