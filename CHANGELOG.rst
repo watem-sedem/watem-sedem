@@ -6,8 +6,8 @@ latest
 ------
 
 - Extending documentation
-- Bugfix routing: if no lower pixel found in parcel, no river pixel in window W,
-  check if a lower pixel exists with other land use code.
+- Bugfix routing: if both targets have a different land cover than the source
+  pixel, and the highest target is a gras strip, than route to the other target.
 - Renamed model binaries and folder structure:
 
     - console version: CN_WSModel > cn_ws
@@ -25,6 +25,7 @@ latest
     - Sediment_VHA.txt was renamed to Sediment_segments.txt
     - Sediment concentration_VHA.txt was renamed to Sediment concentration segments.txt
     - Clay content sediment VHA.txt was renamed to Clay content sediment segments.txt
+
 - Enable the output per segment option by default when river routing is used
 
 NEMO final
@@ -46,10 +47,14 @@ some small improvements and a fix for a bug discovered by Jan Coppens (Thanks!)
 NEMO
 ----
 
-This version includes several changes needed for the NEMO project
+This version includes several changes needed for CNWS to be compatible with the
+NEMO model of VMM (see
+https://www.vmm.be/water/kwaliteit-waterlopen/waterkwaliteitsmodellen/nemo_tw.pdf/@@download/file/NEMO_TW.pdf
+)
 
 - Change type of parcel raster to integer
-- Overwrite the system decimal seperator to '.'
+- Overwrite the system decimal seperator to '.' cn_ws can now be used for both a
+  float comma and point decimal system
 - Add documentation with sphinx
 - Don't write Total Sediment.txt when calibrating
 - Bugfix: read outlet raster when 'Manual outlet selection' is enabled
@@ -76,14 +81,10 @@ version 20200114
 - If Target is -99 set distance to 0 in routing table
 - Change option 'Include tillage' to 'Include tillage direction'
 - Make calculation of tillage erosion optional
-
 - Change Fluxout from RRaster to single value
--
-
-- Ring checking?
+- Ring checking
 - Use function to find lower pixel
 - Update routing algorithm (inverse routing)
-
 - Allow to stop routing algorithm in rivers and outlets
 - After using 'dedicated' routing in ditch, dam or buffer make sure to use
   'normal' routing algorithm
@@ -106,13 +107,11 @@ version 2.1.0 (2019109)
 - Write sewer export to rasterfile
 - Add files to build a package on debian linux (for deploy on notebook server)
 
-TO DO: finish the changelog for this release
- (done up to commit c11799ddc5f69e356d59ed5b7d3070e2a94813f3)
-
 version 2.0.0
 -------------
 
-Version used for calibration with DHMVII.
+Version used for calibration with an updated version of the digital elevation
+model of Flanders (DHMVII).
 
 - Add calculation of cumulative river sediment
 - Don't write empty routing lines in routing.txt, use tab seperation
@@ -125,10 +124,9 @@ This version was made for the third steering group of the 'calibration DHMVII
 project'.
 
 - remove name of ini-file from files-section in ini-file
-- simplify code
 - add option 'Buffer reduce area'
 - enabling range checking to avoid errors
-- PTEF is 100-based
+- PTEF is changed to base-100 (percentage) while it used to be 1-based
 - Remove sediment trapping in open water (-5 in parcel map) pixels and assign
   ktc 9999 to those pixels
 - bugfix to prevent out of range when calculating adjusted slope
@@ -136,11 +134,12 @@ project'.
   accordingly
 - Skip ktc low values higher than ktc high in calibration mode
 - Adding Force Routing option
-- Don't route cells without lower cells to themselve
+- Don't route cells without lower cells to themselves
 - Improved error message when input directory is missing
 - Add River Routing option
 - Change default value of Create ktc map to True
 - Refactoring code
+- Numerous model simplifications
 
 version 1.3.0
 -------------
@@ -149,7 +148,7 @@ This version was made for the second steering group of the 'calibration DHMVII
 project'.
 
 - Use adjusted slope calculation in LS calculation
-- Don't calculate slope and aspect twice
+- Restructure code so slope and aspect are calculated once, instead of twice
 - Add -9999 as no data value in all output rasters
 - Improve memory allocation for rasters
 - Refactoring code to read idrisi rasters
