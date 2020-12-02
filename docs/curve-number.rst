@@ -13,7 +13,7 @@ rectangular runoff plots, local coefficients, so-called 'curve numbers' were ori
 These take into account local conditions (soil type and land cover, ...) in order to accurately estimate 
 runoff from recorded rainfall input. Important to note is that the output of the original model formulation 
 is event-based, and is thus not temporally nor spatially distributed. However, in larger modeling frameworks 
-in which runoff is only one of the simulated phenomena, a spatiotemporal representation of the model output
+in which runoff is only one of the simulated phenomena, a spatio-temporal representation of the model output
 is common. Therefore, in order to incorporate the curve number approach, a translation of this event-based
 output is necessary. 
 
@@ -124,7 +124,7 @@ with:
 The :math:`c_2` coefficient is a constant (3), the :math:`c_2` coefficient is set in such a way that the calculated CN value
 is equal to the minimum value derived from the USDA SCS handbook in case of a crop cover of 100%. Soils prone to crust formation
 tend to be less permeable which results in more runoff generation. The crusting stage :math:`Cr` brings this effect into account.
-More details about this coefficient can be found in Govers et al, 1986.
+More details about this coefficient can be found in Govers et al. (1986).
 
 Furthermore, Van Oost 2003 also suggested a correction factor for the total
 simulated runoff value using rainfall intensity and antecedent rainfall depth:
@@ -222,7 +222,7 @@ NRCS,  2010,  Chapter  9  Hydrologic  Soil-Cover  Complexes,  National
 Engineering  Handbook  Part  630 Hydrology, 20 pp. 
 https://directives.sc.egov.usda.gov/OpenNonWebContent.aspx?content=17758.wba
 
-Ponce  V.M.  &  Hawkins R.H.,  1996,  Runoff  Curve  Number:  has  it  reached
+Ponce  V.M. and Hawkins R.H.,  1996,  Runoff  Curve  Number:  has  it  reached
 maturity?,  Journal  of Hydrologic Engineering, 1: 11-19. 
 https://doi.org/10.1061/(ASCE)1084-0699(1996)1:1(11)
 
