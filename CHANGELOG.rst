@@ -28,8 +28,8 @@ latest
 
 - Enable the output per segment option by default when river routing is used
 
-version 4.1.0 (NEMO final)
---------------------------
+version 4.1.0
+-------------
 
 This version was delivered to VMM at the end of the NEMO project. It includes
 some small improvements and a fix for a bug discovered by Jan Coppens (Thanks!)
@@ -44,8 +44,8 @@ some small improvements and a fix for a bug discovered by Jan Coppens (Thanks!)
 - Bugfix: Renaming SModel Desmet1996 to McCool1987
 - Extending documentation
 
-version 4.0.0 (NEMO)
---------------------
+version 4.0.0
+-------------
 
 This version includes several changes needed for CNWS to be compatible with the
 NEMO model of VMM (see
@@ -69,8 +69,8 @@ https://www.vmm.be/water/kwaliteit-waterlopen/waterkwaliteitsmodellen/nemo_tw.pd
 - Use sewermap to reduce uparea
 - Add optional LS correction factor
 
-version 3.0.0 (20200114)
-------------------------
+version 3.0.0
+-------------
 
 - do not route sewers to rivers
 - reduce sediout of sewer pixel with fraction defined in sewermap
@@ -91,8 +91,8 @@ version 3.0.0 (20200114)
 - Reduce upstream area with trapping efficiency of buffer
 
 
-version 2.1.0 (2019109)
------------------------
+version 2.1.0
+-------------
 
 - Add option 'Only Routing'
 - Make routing table an optional output
