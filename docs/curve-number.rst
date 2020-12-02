@@ -135,8 +135,13 @@ with:
 - :math:`Q_{CNII}`: the estimated direct runoff using antecedent moisture
   condition II (:math:`m`)
 - :math:`IN_{max10}`: the maximum 10-minute rainfall intensity (:math:`m`)
-- :math:`AR5`: the 5 days antecedent rainfall (:math:`m`)
+- :math:`AR5`: the 5 days antecedent rainfall depth (:math:`m`)
 - :math:`α, β`: tuning parameters (:math:`-`)
+
+:math:`CNII` indicates the standard tabulated curve number value. This value represents the curve number under
+average soil moisture conditions. A conversion table exists to translate :math:`CNII` into :math:`CNI` (dry soil) and :math:`CNIII` (wet soil).
+However Van Oost, 2003 opted for the 5 days antecedent rainfall depth :math:`AR5` to take into account antecedent 
+wetness conditions.
 
 In grid cells at which the rainfall depth P is lower than the initial abstraction
 :math:`I_a`, infiltration is simulated following the equation below (Van Oost,
