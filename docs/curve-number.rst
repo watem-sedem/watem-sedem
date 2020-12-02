@@ -109,17 +109,20 @@ A first adaptation suggested by Van Oost 2003 is pre-processing the tabulated
 accounted for:
 
 .. math::
-    CN = CN_{max}  – \frac{Cc}{100} c_1 + \frac{Cr}{5} c_2
+    CN = CN_{max}  – \frac{CC}{100} c_1 + \frac{Cr}{5} c_2
 
 with:
 
 - :math:`CN_{max}`: the maximum CN derived from the USDA SCS handbook (:math:`-`)
-- :math:`Cc`:  the percentage of crop cover (:math:`-`)
-- :math:`c_1`: coefficient where the value is set so that CN equals the CN_Min
-  for a given crop-soil combination when the crop cover equals 100% (:math`-`)
-- :math:`Cr`: the crusting stage (Govers et al, 1986) (:math:`-`)
-- :math:`c_2`: coefficient where the value is set so that CN equals the value
-  for a bare soil surface when the crop cover equals 0%. (:math:`-`)
+- :math:`CC`:  the percentage of crop cover (:math:`\%`)
+- :math:`c_1`: coefficient related to the crop cover(:math`-`)
+- :math:`Cr`: the crusting stage (:math:`-`)
+- :math:`c_2`: coefficient related to the crusting stage (:math:`-`)
+
+The :math:`c_2` coefficient is a constant (3), the :math:`c_2` coefficient is set in such a way that the calculated CN value
+is equal to the minimum value derived from the USDA SCS handbook in case of a crop cover of 100%. Soils prone to crust formation
+tend to be less permeable which results in more runoff generation. The crusting stage :math:`Cr` brings this effect into account.
+More details about this coefficient can be found in Govers et al, 1986.
 
 Furthermore, Van Oost 2003 also suggested a correction factor for the total
 simulated runoff value using rainfall intensity and antecedent rainfall depth:
