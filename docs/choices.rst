@@ -172,6 +172,25 @@ Simple
 When the option 'Simple' is enabled, only WaTEM-SEDEM is used and the CN-model
 is disabled. By disabling Simple, you will use the full the CN-WS model.
 
+The user has to provide following input if this option is enabled:
+
+- :ref:`digital elevation model <demmap>`
+- :ref:`P factor map <pmap>`
+
+TO DO: extend this list!
+
+When you disable this option, you use the CN-module the following extra input is
+mandatory:
+
+- :ref:`alpha <alpha>`
+- :ref:`beta <beta>`
+- :ref:`stream velocity <streamvelocity>`
+- :ref:`5-day antecedent rainfall <5dayrainfall>`
+- :ref:`desired timestep for model <timestep>`
+- :ref:`endtime model <endtime>`
+- :ref:`cn map <cnmap>`
+- :ref:`rainfall file <rainfallfile>`
+
 .. _calctileros:
 
 Calculate tillage erosion
@@ -249,6 +268,13 @@ reduced with the trapping efficiency of the buffer. The definitions of buffer
 extension id, buffer id and trapping efficiency are explained at the
 :ref:`buffer data section <bufferdata>`.
 
+.. _bufferreduce:
+
+Buffer reduce area
+##################
+
+TO DO
+
 .. _includeditches:
 
 Include ditches
@@ -292,13 +318,14 @@ value with the amount of routing vectors that are imposed by the user.
 
 An example of a valid forced routing section looks like
 
-```
-[Force routing 1]
-from col = 25
-from row = 55
-target col = 30
-target row = 55
-```
+.. code-block:: ini
+
+    [Force routing 1]
+    from col = 25
+    from row = 55
+    target col = 30
+    target row = 55
+
 
 The keys in every force routing section are `from col`, `from row`, `target col`
 and `target row`. These are integer values representing the location of source
