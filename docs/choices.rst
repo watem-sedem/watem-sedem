@@ -172,6 +172,25 @@ Simple
 When the option 'Simple' is enabled, only WaTEM-SEDEM is used and the CN-model
 is disabled. By disabling Simple, you will use the full the CN-WS model.
 
+The user has to provide following input if this option is enabled:
+
+- :ref:`digital elevation model <demmap>`
+- :ref:`P factor map <pmap>`
+
+TO DO: extend this list!
+
+When you disable this option, you use the CN-module the following extra input is
+mandatory:
+
+- :ref:`alpha <alpha>`
+- :ref:`beta <beta>`
+- :ref:`stream velocity <streamvelocity>`
+- :ref:`5-day antecedent rainfall <5dayrainfall>`
+- :ref:`desired timestep for model <timestep>`
+- :ref:`endtime model <endtime>`
+- :ref:`cn map <cnmap>`
+- :ref:`rainfall file <rainfallfile>`
+
 .. _calctileros:
 
 Calculate tillage erosion
@@ -224,8 +243,8 @@ sediment of the pixel is reduced with this fraction. The amount of trapped
 sediment is written to output raster sewer_in.rst.
 
 .. note::
-    This option is fully tested for :ref:`simple=1`, but it is not yet tested
-    for the full CN-WS model.
+    This option is fully tested for :ref:`simple=1 <simple>`, but it is not yet
+    tested for the full CN-WS model.
 
 .. _includebuffers:
 
@@ -234,17 +253,27 @@ Include buffers
 
 An infrastructural measure that traps an amount of transported sediment is
 called a buffer. These measures can be simulated in the model by enabling
-the Include buffers option. By enabling this option the `buffer map filename`
-becomes mandatory in the ini-file. Next to this raster, the ini-file must
-contain the variable `number of buffers` and a seperate section for every buffer
+the Include buffers option. By enabling this option the
+:ref:`buffer map filename <buffermap>` becomes mandatory in the ini-file.
+In addition, the ini-file must contain the variable
+:ref:`number of buffers <nrbuffers>` and a seperate section for every buffer
 in the buffer map. In every buffer section in the ini-file some variables must
 be given.
 
-The Include buffers option adjusts the routing in the pixels. All pixels within
-a buffer with the buffer :ref:`extension id <extension_id>` are routed to the
-outletpixel of the buffer. This outletpixel in the bufferraster is marked with
-the buffer id. The amount of sediment that flows out of the bufferoutlet is
-reduced with the :ref:`trapping efficiency <PTEFBuffer>` of the buffer.
+The Include buffers option adjusts the routing in the pixels. Routing within in
+a buffer is defined from the pixels with a buffer extension id to one outlet
+pixel with a coupled buffer id (to the buffer extension id). The
+amount of sediment that flows out of the outlet pixel to downstream pixels is
+reduced with the trapping efficiency of the buffer. The definitions of buffer
+extension id, buffer id and trapping efficiency are explained at the
+:ref:`buffer data section <bufferdata>`.
+
+.. _bufferreduce:
+
+Buffer reduce area
+##################
+
+TO DO
 
 .. _includeditches:
 
@@ -255,8 +284,8 @@ Ditches alter the routing. The sediment and water will follow the course of a
 ditch in stead of along the steepest slope. When this option is enabled,
 :ref:`a raster with information about the direction <ditchmap>` is mandatory.
 
-The model sets the C-factor at every ditch pixel tot 0.01. Thus, it overwrites
-the value of the pixel in the :ref:`C-factor raster <cmap> `.
+The model sets the :ref:`C-factor <cfactor>` at every ditch pixel tot 0.01.
+Thus, it overwrites the value of the pixel in the :ref:`C-factor raster <cmap>`.
 The ktc value of the pixel is set to :ref:`ktc low <ktclow>`.
 
 .. _includedams:
@@ -270,7 +299,7 @@ option is enabled, :ref:`a raster with information about the direction <dammap>`
 is mandatory.
 
 The model sets the C-factor at every dam pixel to 0. Thus, it overwrites
-the value of the pixel in the :ref:`C-factor raster <cmap> `.
+the value of the pixel in the :ref:`C-factor raster <cmap>`.
 The ktc value of the pixel is set to -9999.
 
 Force Routing
@@ -289,13 +318,14 @@ value with the amount of routing vectors that are imposed by the user.
 
 An example of a valid forced routing section looks like
 
-```
-[Force routing 1]
-from col = 25
-from row = 55
-target col = 30
-target row = 55
-```
+.. code-block:: ini
+
+    [Force routing 1]
+    from col = 25
+    from row = 55
+    target col = 30
+    target row = 55
+
 
 The keys in every force routing section are `from col`, `from row`, `target col`
 and `target row`. These are integer values representing the location of source

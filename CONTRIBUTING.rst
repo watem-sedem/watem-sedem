@@ -15,7 +15,7 @@ Types of Contributions
 Report Bugs
 ~~~~~~~~~~~
 
-Report bugs at https://git.fluves.net/fluves/cn_ws
+Report bugs at https://git.fluves.net/fluves/cn_ws/issues
 
 If you are reporting a bug, please include:
 
@@ -40,12 +40,15 @@ Write Documentation
 
 CN-WS could always use more documentation, whether as part of the
 official CN-WS docs, in docstrings, or even on the web in blog posts,
-articles, and such. Note that on every documentation page there is a small "edit on Github" link in the top right - if you catch small errors, please suggest improvements.
+articles, and such. Note that on every documentation page there is a small
+"edit on Github" link in the top right - if you catch small errors, please
+suggest improvements.
 
 Submit Feedback
 ~~~~~~~~~~~~~~~
 
-The best way to send feedback is to file an issue at https://git.fluves.net/fluves/cn_ws/issues.
+The best way to send feedback is to file an issue at
+https://git.fluves.net/fluves/cn_ws/issues.
 
 If you are proposing a feature:
 
@@ -64,7 +67,8 @@ Ready to contribute? Here's how to set up `CN-WS` for local development.
 
     $ git clone git@github.com:your_name_here/cn_ws.git
 
-3. We use git LFS for our testfiles. If it is not installed, install [git-lfs](https://git-lfs.github.com/) and run:
+3. We use git LFS for our testfiles. If it is not installed, install
+`git-lfs <https://git-lfs.github.com/>`_ and run::
 
    $ git-lfs pull
 
@@ -105,19 +109,22 @@ Version numbering scheme
 
 Building the documentation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
-The documentation for the project can be found under the ``docs/`` folder, and is written using
-`reStructuredText`_.
+The documentation for the project can be found under the ``docs/`` folder, and
+is written using `reStructuredText`_.
 
-To build the documentation locally, you need to install the doc requirements, which are based on sphinx_.
+To build the documentation locally, you need to install the doc requirements,
+which are based on sphinx_.
 
 .. code-block:: bash
 
   $ pip install -r doc-requirements.txt
 
-After which you should be able to generate HTML output by typing ``make html`` from the `docs` directory.
+After which you should be able to generate HTML output by typing
+``make html`` from the `docs` directory.
 
-Publishing on the documentation website (https://docs.fluves.net/cnws-pascal) will happen when changes
-to master build correctly. Note that this may mean that the documentation is actually a bit more recent than the last released version.
+Publishing on the documentation website (https://docs.fluves.net/cnws-pascal)
+will happen when changes to master build correctly. Note that this may mean that
+the documentation is actually a bit more recent than the last released version.
 
 .. _reStructuredText: http://docutils.sourceforge.net/rst.html
 .. _sphinx: http://www.sphinx-doc.org/en/master/

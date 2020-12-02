@@ -1,3 +1,6 @@
+.. _CNWS:
+
+
 #####
 CN-WS
 #####
@@ -154,20 +157,20 @@ see :ref:`here <inlcudesewers>` for more info
 References
 ==========
 
-- Van Oost, K., Govers, G. & Desmet, P.J.J (2000) Evaluating the effects of
-  changes in the landscape structure on soil erosion by water and tillage.
-  Landscape Ecology 15, 577-589.
-  `link2 <https://doi.org/10.1023/A:1008198215674>`_
-- Van Rompaey, A., Verstraeten, G., Van Oost, K. Govers, G. & Poesen, J. (2001)
-  Modelling mean annual sediment yield using a distributed approach. Earth
-  Surface Processes and Landforms 26(11), 1221-1236.
-  `link3 <https://doi.org/10.1002/esp.275>`_
-- Verstraeten, G., Van Oost, K., Van Rompaey, A., Poesen, J. & Govers, G. (2003)
-  Evaluating an integrated approach to catchment management to reduce soil loss
-  and sediment pollution through modelling. Soin Use and Management, 18, 386-394.
-  `link4 <https://doi.org/10.1111/j.1475-2743.2002.tb00257.x>`_
-- Verstraeten, G., Poesen, J., Demarée, G., Salles, C. (2006) Long-term (105
-  years) variability in rain erosivity as derived from 10-min rainfall depth
-  data for Ukkel (Brussels, Belgium): Implications for assessing soil erosion
-  rates. Journal of geophysical research, 111.
-  `link5 <https://doi.org/10.1029/2006JD007169>`_
+Van Oost, K., Govers, G. & Desmet, P.J.J., 2000, Evaluating the effects of
+changes in the landscape structure on soil erosion by water and tillage.
+Landscape Ecology 15, 577-589. https://doi.org/10.1023/A:1008198215674
+
+Van Rompaey, A., Verstraeten, G., Van Oost, K. Govers, G. & Poesen, J., 2001,
+Modelling mean annual sediment yield using a distributed approach. Earth
+Surface Processes and Landforms 26(11), 1221-1236. https://doi.org/10.1002/esp.275
+
+Verstraeten, G., Van Oost, K., Van Rompaey, A., Poesen, J. & Govers, G., 2003,
+Evaluating an integrated approach to catchment management to reduce soil loss
+and sediment pollution through modelling. Soil Use and Management, 18, 386-394.
+https://doi.org/10.1111/j.1475-2743.2002.tb00257.x
+
+Verstraeten, G., Poesen, J., Demarée, G., Salles, C, 2006, Long-term (105
+years) variability in rain erosivity as derived from 10-min rainfall depth
+data for Ukkel (Brussels, Belgium): Implications for assessing soil erosion
+rates. Journal of geophysical research, 111. https://doi.org/10.1029/2006JD007169
