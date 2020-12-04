@@ -33,6 +33,7 @@ and outputs. In order to this, this set of minimal skills is required:
    inifile
    faq
    contributing
+   changelog
    authors
 
 Indices and tables

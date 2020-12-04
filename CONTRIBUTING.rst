@@ -117,7 +117,7 @@ which are based on sphinx_.
 
 .. code-block:: bash
 
-  $ pip install -r doc-requirements.txt
+  $ pip install -r docs/requirements.txt
 
 After which you should be able to generate HTML output by typing
 ``make html`` from the `docs` directory.
