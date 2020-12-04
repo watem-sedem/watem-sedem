@@ -23,10 +23,10 @@ steps:
   - name: run python tests
     image: registry.fluves.net/cnws_test
     commands:
-      # - pip3 install -e CNWS-processing-scripts/cnws/[develop]
+      # - pip3 install -e CNWS-processing-scripts/pycnws/[develop]
       - pytest-3 testfiles
     environment:
-      PYTHONPATH: CNWS-processing-scripts/cnws/src
+      PYTHONPATH: CNWS-processing-scripts/pycnws/src
 
 ---
 kind: pipeline
