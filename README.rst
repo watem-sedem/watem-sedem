@@ -14,6 +14,10 @@ flow run-off in time and space. The package combines three existing models:
 CN-WS is developed to assess sediment input to rivers, soil erosion on
 agricultural fields and to evaluate soil erosion management measures.
 
+This documentation page explain how CN-WS works and how the model can be used. 
+The official code for CNWS can be found at https://git.fluves.net/fluves/cn_ws. 
+
+
 A short history of CN-WS
 ========================
 
@@ -42,7 +46,8 @@ optimisations to the code were implemented to increase model performance and
 allow a roll-out on the scale of Flanders. In addition, the model was
 recalibrated (Deproost et al., 2018) and a framework was developed for
 processing CN-WS input, outputs and user choices. At that point, CN-WS is
-submitted to versioning via git. These optimisation were executed by `Fluves
+submitted to versioning via git (https://git.fluves.net/fluves/cn_ws
+). These optimisation were executed by `Fluves
 <https://fluves.com/>`_.
 
 Model
