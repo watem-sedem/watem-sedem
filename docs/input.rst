@@ -1,3 +1,5 @@
+.. _modelinput:
+
 ###########
 Model input
 ###########
