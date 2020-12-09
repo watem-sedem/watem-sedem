@@ -63,11 +63,12 @@ The units of the :math:`R`-value and :math:`K`-raster are equal to:
  - :math:`R = \frac{\text{MJ.mm}}{\text{ha}.\text{h.year}}`. The unit of the R-value is converted (in CN-WS) to :math:`\frac{\text{MJ.mm}}{\text{m}^2.\text{h.year}}`.
  - :math:`K = \frac{\text{kg.h}}{\text{MJ.mm}}`.
 
-The model outputs pixel-sediment input :math:`S_i` (SediIn.rst),
-pixel-sediment output :math:`S_o` (SediOut.rst), sediment export
-:math:`S_e` (SediExport.rst) and :math:`TC` all have unit **kg** (converted
-by using :math:`\rho`). The RUSLE :math:`E` value (RUSLE.rst) is expressed
-in :math:`\frac{\text{kg}}{\text{m}^2}`!
+The model outputs sediment input :math:`S_i` (:ref:`SediIn <sediinrst>`),
+sediment output :math:`S_o` (:ref:`SediOut <sedioutrst>`), sediment
+export :math:`S_e` (:ref:`SediExport <sediexportrst>`) and :math:`TC`
+(:ref:`Capacity <capacityrst>`) all have unit **kg** (converted by using
+:math:`\rho`). The RUSLE :math:`E` value (:ref:`RUSLE <ruslerst>`) is
+expressed in :math:`\frac{\text{kg}}{\text{m}^2}`!
 
 In the table below the units of import input and output valeus/rasters are
 listed.
