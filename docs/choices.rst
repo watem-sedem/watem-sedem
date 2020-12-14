@@ -2,9 +2,9 @@
 Model choices
 #############
 
-Most model choices are boolean options and are enabled in the .ini-file with "1"
-and disabled with "0". Some options expect a string value. The possible strings
-are described together with the modeloption.
+Most model choices are boolean options and are enabled in the .ini-file with
+'1' and disabled with '0'. Some options expect a string value. The possible
+strings are described together with the modeloption.
 
 Input
 *****
@@ -372,7 +372,8 @@ in the raster.
 River Routing
 #############
 
-By enabling the river routing option (`River Routing = 1), the routing between
+By enabling the river routing option (`River Routing = 1`), the routing
+between
 river pixels is imposed by an input raster and two input tables.
 This option is usefull because the calculated routing in a river, based on the
 digital elevation model, is not always correct.
