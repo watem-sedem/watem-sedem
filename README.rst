@@ -42,7 +42,7 @@ the coupling of:
 Since 2016, the Flemish government, Department for Environment (VPO), and the
 Flemisch Environment Agency (VMM) commissioned further developments for
 CN-WS so it could become operational for management. Specifically, a number
-optimisations to the code were implemented to increase model performance and
+of optimisations to the code were implemented to increase model performance and
 allow a roll-out on the scale of Flanders. In addition, the model was
 recalibrated (Deproost et al., 2018) and a framework was developed for
 processing CN-WS input, outputs and user choices. At that point, CN-WS is
@@ -133,6 +133,7 @@ In order to run the CN-WS model, this set of minimal skills is required:
 - Opening raster data in QGIS, ArcGIS or your favorite GIS program.
 
 .. note::
+
     The defined skills above allow you to run the CN-WS model with the input
     files listed in the package (for an example, see :ref:`here<tutorial>`).
     For generating your own input data for the model, for a self-defined

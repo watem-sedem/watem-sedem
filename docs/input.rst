@@ -61,7 +61,7 @@ and parcel boundaries in the routing algorithm, but also when distributing the
 sediment through the model domain. Every pixel in the model domain must contain
 a land cover value. Every value > 0 indicates a unique agricultural field. So,
 all
-pixels of an agricultural field have the same value et pixels belonging to a
+pixels of an agricultural field have the same value at pixels belonging to a
 different parcel have different value.
 The definition of these unique parcel values are important to define the routing
 within a parcel. Note that the data type of this raster is integer 16.

@@ -102,7 +102,7 @@ we need to add a section in the ini-file with the desired output:
     :language: ini
     :lines: 28-30
 
-To do so, you can make a copy of the `tutorial_1.ini'-file in a directory
+To do so, you can make a copy of the `tutorial_1.ini`-file in a directory
 of your choice, and adapt the ini-file with the lines stated above.
 
 .. code-block::
@@ -110,9 +110,9 @@ of your choice, and adapt the ini-file with the lines stated above.
     cn_ws $your_favorite_folder/tutorial_2.ini
 
 If this is not working out as it should, please check if the reference
-`your_favorite_folder' is the folder where you saved the `tutorial_2.ini'-
+`your_favorite_folder` is the folder where you saved the `tutorial_2.ini`-
 file. If unsure, you can always check and run the reference `tutorial_2
-.ini'-file present in the repository:
+.ini`-file present in the repository:
 
 .. code-block::
 
