@@ -15,9 +15,12 @@ Install a simple text editor like `notepad++ <https://notepad-plus-plus.org/>`_.
 This editor is needed to edit the configuration file. A GIS program is also
 needed to create the input rasters and to view the output rasters. We recommend
 `QGIS <https://www.qgis.org>`_ or `Saga <http://www.saga-gis.org/>`_. In this
-tutorial we will not explain how to use the gis software, nor how to make the
+tutorial we will not explain how to use the gis software, not how to make the
 input rasters, these are basic GIS-tasks and these are explained in several
-tutorials on the net.
+tutorials on the net. We encourage readers to start the tutorial by using
+the tutorial_1.ini file, and adapt this file according to the exercise. The
+other tutorial ini files in the tutorials folder can be used to check your
+adaptation.
 
 First, you need to download the latest release of the model. Pre-build binaries
 exist for windows and linux. It is also possible to build the model from source.
