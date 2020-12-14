@@ -53,8 +53,13 @@ the upstream area :math:`A`. If the upstream area is smaller than
 otherwise :math:`m` is set to 0.72.
 
 The calculation method of Van Oost et al. (2003) can be chosen by setting
-the model choice *L model* to 'Desmet1996_Vanoost'. This is the default value
-for this model option.
+the model choice *L model* to 'Desmet1996_Vanoost2003' in the .ini-file (mind the quotes):
+
+.. code-block:: ini
+
+    L model='Desmet1996_Vanoost2003'
+
+This is the default value for this model option.
 
 **McCool et al. (1989):**
 
@@ -71,7 +76,11 @@ with :math:`\beta` calculated as
 with :math:`\theta` the slope of the pixel in percentages.
 
 The calculation method of McCool et al. (1989, 1987) can be chosen by setting
-the model choice *L model* to 'Desmet1996_McCool'.
+the model choice *L model* to 'Desmet1996_McCool' in the ini-file (mind the quotes):
+
+.. code-block:: ini
+
+    L model='Desmet1996_McCool'
 
 .. _smodel:
 
@@ -95,7 +104,13 @@ The two S-models are:
     S = -1,5+\frac{17}{1+e^{2,3-6.1.\sin{\theta}}}
 
 The method of Nearing (1997) can be activated in CNWS by setting
-*S model* to 'Nearing1997'. This is the default method to calculate the S factor.
+*S model* to 'Nearing1997' in the ini-file (mind the quotes):
+
+.. code-block:: ini
+
+    S model='Nearing1997'
+
+This is the default method to calculate the S-factor.
 
 **McCool et al. (1987)**
 
@@ -115,7 +130,11 @@ otherwise, S is calculated as:
     S = (16.8.sin(\theta)) - 0.5
 
 The method of McCool et al. (1987) can be activated in CNWS by setting
-*S model* to 'McCool1987'.
+*S model* to 'McCool1987' in the ini-file (mind the quotes):
+
+.. code-block:: ini
+
+    S model='McCool1987'
 
 .. _tcmodel:
 
@@ -136,7 +155,16 @@ with
 - :math:`LS`: :ref:`slope length and slope steepness factor <lsfactor>`
 - :math:`S_g`: local slope (:math:`\frac{\text{m}}{\text{m}}`)
 
-Most studies using WaTEM-SEDEM use the method of Van Oost et al. (2000).
+Most studies using WaTEM-SEDEM use the method of Van Oost et al. (2000). The
+method of Van Oost et al. (2000) can be activated in CNWS by setting
+*TC model* to 'VanOost2000' in the ini-file (mind the quotes):
+
+.. code-block:: ini
+
+    TC model='VanOost2000'
+
+This is the default value.
+
 However, a second method, proposed by Verstraeten et al. (2007), also exists:
 
 .. math::
@@ -150,8 +178,11 @@ A detailed description and comparison of both TC models can be found in
 Verstraeten et al. (2007).
 
 The method of Verstraeten et al. (2007) can be activated in CNWS by setting
-*TC model* to 'Verstraeten2007'. The method of Van Oost et al. (2000) is
-activated by setting *TC model* to 'VanOost2000', this is the default value.
+*TC model* to 'Verstraeten2007' in the ini-file (mind the quotes):
+
+.. code-block:: ini
+
+    TC model='Verstraeten2007'
 
 Only Routing
 ############
