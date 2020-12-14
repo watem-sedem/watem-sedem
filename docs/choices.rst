@@ -187,7 +187,9 @@ The method of Verstraeten et al. (2007) can be activated in CNWS by setting
 Only Routing
 ############
 
-By enabling the Only Routing option, only the routing will be determined by
+By enabling the Only Routing (`Only Routing = 1`) option, only the routing will
+be
+determined by
 CN-WS. No sediment calculations or discharge calculations are done:
 the WaTEM-SEDEM and CN modules are disabled. When using this option only
 :ref:`a limited model output <onlyroutingoutput>` is possible.
@@ -264,7 +266,8 @@ model will expect the filename of this ktc map in
 Include sewers
 ##############
 
-When the include sewers-option is enabled, the user will have to provide two
+When the include sewers-option is enabled (`Include sewers = 1`), the user
+will have to provide two
 additional inputs: `sewer map filename` and `sewer exit`.
 
 The value of the pixel in the sewer map is checked when the amount of outgoing
@@ -284,16 +287,16 @@ Include buffers
 
 An infrastructural measure that traps an amount of transported sediment is
 called a buffer. These measures can be simulated in the model by enabling
-the Include buffers option. By enabling this option the
-:ref:`buffer map filename <buffermap>` becomes mandatory in the ini-file.
+the Include buffers option. By enabling this option (`Include buffers = 1`)
+the :ref:`buffer map filename <buffermap>` becomes mandatory in the ini-file.
 In addition, the ini-file must contain the variable
 :ref:`number of buffers <nrbuffers>` and a seperate section for every buffer
 in the buffer map. In every buffer section in the ini-file some variables must
 be given.
 
-The Include buffers option adjusts the routing in the pixels. Routing within in
-a buffer is defined from the pixels with a buffer extension id to one outlet
-pixel with a coupled buffer id (to the buffer extension id). The
+The `Include buffers` option adjusts the routing in the pixels. Routing
+within in a buffer is defined from the pixels with a buffer extension id to
+one outlet pixel with a coupled buffer id (to the buffer extension id). The
 amount of sediment that flows out of the outlet pixel to downstream pixels is
 reduced with the trapping efficiency of the buffer. The definitions of buffer
 extension id, buffer id and trapping efficiency are explained at the
@@ -312,8 +315,9 @@ Include ditches
 ###############
 
 Ditches alter the routing. The sediment and water will follow the course of a
-ditch in stead of along the steepest slope. When this option is enabled,
-:ref:`a raster with information about the direction <ditchmap>` is mandatory.
+ditch in stead of along the steepest slope. When this option is enabled
+(`Include ditches = 1`), :ref:`a raster with information about the direction
+<ditchmap>` is mandatory.
 
 The model sets the :ref:`C-factor <cfactor>` at every ditch pixel tot 0.01.
 Thus, it overwrites the value of the pixel in the :ref:`C-factor raster <cmap>`.
@@ -326,8 +330,8 @@ Include dams
 
 Dams alter the routing in the same way as ditches. The sediment and water will
 follow the course of a dam in stead of along the steepest slope. When this
-option is enabled, :ref:`a raster with information about the direction <dammap>`
-is mandatory.
+option is enabled (`Include dams = 1`), :ref:`a raster with information about
+the direction <dammap>` is mandatory.
 
 The model sets the C-factor at every dam pixel to 0. Thus, it overwrites
 the value of the pixel in the :ref:`C-factor raster <cmap>`.
@@ -368,8 +372,8 @@ in the raster.
 River Routing
 #############
 
-By enabling the river routing option, the routing between river pixels is
-imposed by an input raster and two input tables.
+By enabling the river routing option (`River Routing = 1), the routing between
+river pixels is imposed by an input raster and two input tables.
 This option is usefull because the calculated routing in a river, based on the
 digital elevation model, is not always correct.
 
@@ -419,7 +423,8 @@ Estimate Clay content
 When using the full CN-WS model (i.e. :ref:`simple=0 <simple>`), it is possible
 to estimate the clay content at every outlet and in every river
 segment (the latter only when :ref:`output per river segment <outputsegment>`
-is enabled). To do this, the user needs to define the
+is enabled). To do this (`Estimate clay content = 1` in the ini-file), the
+user additionaly needs to define the
 :ref:`clay content of the parent material <claycontent>`
 (:math:`CC_{text{parent}}`).
 
@@ -480,11 +485,12 @@ When this option is enabled, following output is written:
 - :ref:`Sediment concentration segments.txt <sedconcensegment>`
 - :ref:`Sediment_segments.txt <sedsegmenttxt>`
 
-**Note:** The CN-WS model was further optimized from 2016 to define river
+.. note::
+
+The CN-WS model was further optimized from 2016 to define river
 segments in the context of of Flanders water management. Therefore, the
 segments in CN-WS for Flanders are defined by the `Vlaams Hydrologische Atlas`
 (VHA).
-
 
 .. _manualoutlet:
 
