@@ -132,12 +132,11 @@ In order to run the CN-WS model, this set of minimal skills is required:
 - Opening text files in a text editor.
 - Opening raster data in QGIS, ArcGIS or your favorite GIS program.
 
-__Note__:
-
-The defined skills above allow you to run the CN-WS model with the input
-files listed in the package (for an example, see :ref:`here<tutorial>`). For
-generating your own input data for the model, for a self-defined case study, a
-good knowledge of GIS is required.
+.. note::
+    The defined skills above allow you to run the CN-WS model with the input
+    files listed in the package (for an example, see :ref:`here<tutorial>`).
+    For generating your own input data for the model, for a self-defined
+    case study, a good knowledge of GIS is required.
 
 License
 =======
