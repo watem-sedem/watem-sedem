@@ -71,13 +71,14 @@ within a parcel. Note that the data type of this raster is integer 16.
     :header-rows: 1
 
 .. note::
-	1. The Parcel raster can contain only values between -32757 and 32757.
-	Therefore, only 32757 unique agricultural field id's can be used in the
-	parcel map. When more parcel id's are necessary (e.g. in very large
-	catchments), you can give two or more agricultural fields the same id.
-	Theoretically, the model will consider these two parcels as a single parcel.
-	In practice, these two parcels will never be treated as one because they are
-	probably situated in another part of the catchment.
+
+    1. The Parcel raster can contain only values between -32757 and 32757.
+    Therefore, only 32757 unique agricultural field id's can be used in the
+    parcel map. When more parcel id's are necessary (e.g. in very large
+    catchments), you can give two or more agricultural fields the same id.
+    Theoretically, the model will consider these two parcels as a single
+    parcel. In practice, these two parcels will never be treated as one
+    because they are probably situated in another part of the catchment.
 
     2. The concept of land use (agriculture, grass strips) and land cover
     (river, infrastructure, forest, pasture) are used interchangeable in the
@@ -616,13 +617,6 @@ ini-file when :ref:`include buffers = 1 <includebuffers>`.
 
 with:
 
- - trapping efficiency: the trapping efficiency is the fraction of the incoming
-   sediment that is trapped.
-
- - extension id of a buffer is calculated as the buffer id + 16384. It is an
-   integer value. All pixels of the buffer in the :ref:`buffer map <buffermap>`
-   are given the value of the extension id, except the outlet pixel.
-
  - volume: the maximum volume of water that can be trapped in the
    bufferbasin, :math:`V_{basin}` (:math:`m^{3}`). This parameter is only
    mandatory when using the CN-module (i.e. :ref:`simple = 0 <simple>`).
@@ -646,6 +640,13 @@ with:
  - width dam: The width of the overflow on the bufferbasin dam
    :math:`W_{dam}` (m). This parameter is only mandatory when using the
    CN-module (i.e. :ref:`simple = 0 <simple>`).
+
+ - trapping efficiency: the trapping efficiency is the fraction of the incoming
+   sediment that is trapped.
+
+ - extension id of a buffer is calculated as the buffer id + 16384. It is an
+   integer value. All pixels of the buffer in the :ref:`buffer map <buffermap>`
+   are given the value of the extension id, except the outlet pixel.
 
 A full description about the CN calculation in buffers can be found
 :ref:`here <bufferbasins>`.
