@@ -102,7 +102,17 @@ we need to add a section in the ini-file with the desired output:
     :language: ini
     :lines: 28-30
 
-When the model is ran with the this adapted ini-file
+To do so, you can make a copy of the `tutorial_1.ini'-file in a directory
+of your choice, and adapt the ini-file with the lines stated above.
+
+.. code-block::
+
+    cn_ws $your_favorite_folder/tutorial_2.ini
+
+If this is not working out as it should, please check if the reference
+`your_favorite_folder' is the folder where you saved the `tutorial_2.ini'-
+file. If unsure, you can always check and run the reference `tutorial_2
+.ini'-file present in the repository:
 
 .. code-block::
 
@@ -167,7 +177,7 @@ the buffer map filename and the number of buffers the ini-file looks like this:
     :language: ini
     :emphasize-lines: 11,16,29
 
-If we run the model with this configuration we get::
+If we run the model with this configuration (tutorial_3a.ini) we get::
 
     CN_WS model
 
@@ -183,13 +193,13 @@ format. This can be fixed by reading :ref:`the reference  <includebuffers>`
 better. We can read that for every buffer we need to define the trapping
 efficiency, the extension id and buffer id in the configuration file (see
 :ref:`here <bufferdata>`). This was not done here. So, we need to add 31 sections,
-one for every buffer, with these data.
+one for every buffer, with these data (see also tutorials/tutorial_3b.ini):
 
 .. literalinclude:: tutorials/tutorial_3b.ini
     :language: ini
 
 Buffers trap sediment. So, after a succesfull run with the above ini-file, we
-have a look at the Total sediment file in the outputfolder:
+have a look at the Total sediment file in the output folder:
 
 .. literalinclude:: tutorials/Total sediment 3b.txt
     :language: vim
