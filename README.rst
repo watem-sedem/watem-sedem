@@ -115,6 +115,30 @@ advised to use the command line version.
    - open the different .pas files in notepad
    - OR open Invoerform.lpi in lazarus
 
+For who is this documentation?
+==============================
+
+This page aims to explain how the CN-WS model can be run for a given case
+study, and which output can be analysed to study the specific case. In
+addition, it aims to explain how a specific run for case study can be set-up
+(i.e. which input data are needed? in which format?). Finally, this page
+is the reference for background information on model concepts, options, inputs
+and outputs.
+
+In order to run the CN-WS model, this set of minimal skills is required:
+
+- Basic command line skills (know how to open your command line, and run an
+  executable).
+- Opening text files in a text editor.
+- Opening raster data in QGIS, ArcGIS or your favorite GIS program.
+
+__Note__:
+
+The defined skills above allow you to run the CN-WS model with the input
+files listed in the package (for an example, see :ref:`here<tutorial>`). For
+generating your own input data for the model, for a self-defined case study, a
+good knowledge of GIS is required.
+
 License
 =======
 
@@ -124,9 +148,10 @@ This project is licensed under the ??? License, see
 Documentation
 =============
 
-The documentation of this project is available at https://docs.fluves.net/cnws-pascal/.  In this documentation, a theoretical background of the model
-and an overview of the model usage are given, and an installation
-guide followerd by a tutorial.
+The documentation of this project is available at https://docs.fluves.net/cnws-pascal/.
+In this documentation, a theoretical background of the model and an overview
+of the model usage are given, and an installation guide followed by a
+tutorial.
 
 
 References
