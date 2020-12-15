@@ -146,6 +146,8 @@ routing algorithm. A detailed explaination about these functionalities is given
 in the user choices sections about :ref:`dams <includedams>` and
 :ref:`ditches <includeditches>`.
 
+.. _sewers:
+
 Sewers/endpoints
 ****************
 
