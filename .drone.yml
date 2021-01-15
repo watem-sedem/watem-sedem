@@ -44,7 +44,7 @@ steps:
       DEBFULLNAME: "Fluves Drone CI"
       DEBEMAIL: donotreply@fluves.net
     commands:
-      - gbp dch --snapshot --ignore-branch --snapshot-number=$DRONE_BUILD_NUMBER
+      - gbp dch --snapshot --ignore-branch -R --newversion=${DRONE_TAG}
       - debuild -b
       - mkdir package
       - mv ../cn-ws*amd64* package
@@ -63,9 +63,7 @@ steps:
       branch:
         - master
         - drone
-      event:
-        exclude:
-          - pull_request
+      event: tag
 
   # copy all packages from repo and rebuild index
   - name: Update repo
@@ -89,12 +87,7 @@ steps:
       - gpg -abs -o Release.gpg Release
       - rsync -av . docs@ijzer:/appdata/static/apt/
     when:
-      branch:
-        - master
-        - drone
-      event:
-        exclude:
-          - pull_request
+      event: tag
 
 
 ---
@@ -161,3 +154,23 @@ steps:
     image: registry.fluves.net/lazarus-windows
     commands:
       - .\testfiles\test.bat
+  - name: build zipfile
+    image: registry.fluves.net/lazarus-windows
+    commands:
+      - 'Set-Content -Path version.txt -Value "tag: ${DRONE_TAG}`nsha: ${DRONE_COMMIT_SHA}"'
+      - Compress-Archive -Path cn_ws\cn_ws.exe VERSION.TXT cn_ws_win64_${DRONE_TAG}.zip
+    when: 
+      event: tag
+
+  - name: upload zip
+    image: plugins/gitea-release
+    settings:
+      api_key:
+        from_secret: release_token
+      base_url: https://git.fluves.net
+      files: cn_ws_win64*zip
+      title: ${DRONE_TAG}
+      prerelease: true
+      note: automted build
+    when:
+      event: tag
