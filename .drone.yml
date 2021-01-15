@@ -163,7 +163,7 @@ steps:
       event: tag
 
   - name: upload zip
-    image: plugins/gitea-release
+    image: plugins/gitea-release:windows-amd64
     settings:
       api_key:
         from_secret: release_token
