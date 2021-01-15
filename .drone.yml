@@ -48,6 +48,8 @@ steps:
       - debuild -b
       - mkdir package
       - mv ../cn-ws*amd64* package
+    when:
+      event: tag
 
   - name: rsync-apt
     image: drillster/drone-rsync
@@ -60,9 +62,6 @@ steps:
       source: package/*.deb
       target: /appdata/static/apt/amd64
     when:
-      branch:
-        - master
-        - drone
       event: tag
 
   # copy all packages from repo and rebuild index
@@ -158,7 +157,7 @@ steps:
     image: registry.fluves.net/lazarus-windows
     commands:
       - 'Set-Content -Path version.txt -Value "tag: ${DRONE_TAG}`nsha: ${DRONE_COMMIT_SHA}"'
-      - Compress-Archive -Path cn_ws\cn_ws.exe VERSION.TXT cn_ws_win64_${DRONE_TAG}.zip
+      - Compress-Archive -Path cn_ws\cn_ws.exe VERSION.TXT -DestinationPath cn_ws_win64_${DRONE_TAG}.zip
     when: 
       event: tag
 
