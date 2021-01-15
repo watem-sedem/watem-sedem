@@ -44,7 +44,7 @@ steps:
       DEBFULLNAME: "Fluves Drone CI"
       DEBEMAIL: donotreply@fluves.net
     commands:
-      - gbp dch --snapshot --ignore-branch -R --newversion=${DRONE_TAG}
+      - gbp dch --snapshot --ignore-branch -R --new-version=${DRONE_TAG}
       - debuild -b
       - mkdir package
       - mv ../cn-ws*amd64* package
