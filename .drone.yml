@@ -157,7 +157,8 @@ steps:
     image: registry.fluves.net/lazarus-windows
     commands:
       - 'Set-Content -Path version.txt -Value "tag: ${DRONE_TAG}`nsha: ${DRONE_COMMIT_SHA}"'
-      - Compress-Archive -Path cn_ws\cn_ws.exe VERSION.TXT -DestinationPath cn_ws_win64_${DRONE_TAG}.zip
+      - dir
+      - Compress-Archive -Path cn_ws\cn_ws.exe -DestinationPath cn_ws_win64_${DRONE_TAG}.zip
     when: 
       event: tag
 
