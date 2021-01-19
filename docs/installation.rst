@@ -10,7 +10,7 @@ Linux (debian/linux)
 Installing on linux (debian/linux)
 ==================================
 
-Pre-built binary packages of cn-ws exist on apt.fluves.net . 
+Pre-built binary packages of cn-ws exist on apt.fluves.net or https://git.fluves.net/fluves/cn_ws 
 
 To install a specific version, go to https://apt.fluves.net/amd64/ and pick a
 file. This file can be installed using:
@@ -68,15 +68,20 @@ To test your installation, run cn_ws from terminal:
 Windows
 *******
 
+.. _buildwindows:
+
 Building on Windows
 ===================
 
 To build CN-WS on windows, you need to install the Lazarus IDE first.
 You can download it on https://www.lazarus-ide.org/
 
-Open the project in lazarus (open the .lpi file) and build the executable
-(Shift + F9). The executable is stored in the same folder as the .lpi file and
-can be run without further installation. 
+Open the project in lazarus (open the .lpi file, see subfolder `cn_ws/cn_ws/cn_ws.lpi) 
+and build the executable (Shift + F9). The executable is stored in the same folder as
+the .lpi file and can be run without further installation. 
+
+__Note__: This step only has to be done if no cn_ws.exe file is present in the subfolder 
+`cn_ws/cn_ws`
 
 Running CN-WS
 *************
