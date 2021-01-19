@@ -40,7 +40,7 @@ the coupling of:
    to the river.
 
 Since 2016, the Flemish government, Department for Environment (VPO), and the
-Flemisch Environment Agency (VMM) commissioned further developments for
+Flemish Environment Agency (VMM) commissioned further developments for
 CN-WS so it could become operational for management. Specifically, a number
 of optimisations to the code were implemented to increase model performance and
 allow a roll-out on the scale of Flanders. In addition, the model was
