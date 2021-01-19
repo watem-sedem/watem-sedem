@@ -188,10 +188,8 @@ Only Routing
 ############
 
 By enabling the Only Routing (`Only Routing = 1`) option, only the routing will
-be
-determined by
-CN-WS. No sediment calculations or discharge calculations are done:
-the WaTEM-SEDEM and CN modules are disabled. When using this option only
+be determined by CN-WS. No sediment calculations or discharge calculations are
+done: the WaTEM-SEDEM and CN modules are disabled. When using this option only
 :ref:`a limited model output <onlyroutingoutput>` is possible.
 
 This option is usefull in large catchments to evaluate the routing without
