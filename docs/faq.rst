@@ -30,6 +30,10 @@ executable, e.g.
     'cn_ws' is not recognized as an internal or external command,
     operable program or batch file.
 
+.. code-block:: bash
+    $ cn_ws
+    bash: cn_ws command not found
+
 What now?
 
 **Answer:** Check if you have a compiled version in the subfolder cn_ws/cn_ws. 
