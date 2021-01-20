@@ -376,10 +376,11 @@ The dataype of the ktc map is float32.
 Variables
 =========
 
+.. _sewerexit:
 Sewer exit
 **********
 
-integer
+CN, integer
 
 .. _claycontent:
 
@@ -422,6 +423,8 @@ Beta (float) is a calibration parameter of the CN-model. It determines the
 relation between runoff and antecedent rainfall. The parameter is only mandatory
 when :ref:`simple = 0 <simple>`
 
+.. _bulkdensity:
+
 bulk density
 ************
 
@@ -441,6 +444,8 @@ The :ref:`R-factor <rfactor>` or rainfall erosivity factor in the RUSLE equation
 .. note::
 	the user must make sure that the R and C-factor are calculated for the same
 	time span (year, month, week,...).
+
+.. _lscorrection:
 
 LS correction
 *************
@@ -513,11 +518,15 @@ ktil threshold is 0.01.
 
 ktil threshold is only mandatory when :ref:`Create ktil map = 1 <createktil>`.
 
+.. _parcelconncrop:
+
 Parcel connectivity cropland
 ****************************
 
 The parcel connectivity cropland expresses the fraction of sediment trapped at a
 parcel boundary. It is an integer value between 0 and 100. 
+
+.. _parcelconnforest:
 
 Parcel connectivity forest
 **************************
@@ -525,15 +534,25 @@ Parcel connectivity forest
 The parcel connectivity forest expresses the fraction of sediment trapped at a
 boundary of a forest. It is an integer value between 0 and 100.
 
+.. _parceltrapppingcrop:
+
 Parcel trapping efficiency cropland
 ***********************************
 
 int
 
+.. _parceltrappingpasture:
 Parcel trapping efficiency pasture
 **********************************
 
 int
+
+.. _parceltrappingforest:
+Parcel trapping efficiency pasture
+**********************************
+
+int
+
 
 .. _timestep:
 
@@ -575,10 +594,14 @@ This parameter is only mandatory when :ref:`Use R factor = 0 <useR>`.
 	whole runoff peak is modelled. After this first simulation, the model user
 	can deminish the endtime to optimise the calculation time of the model.
 
+.. _maxkernel:
+
 max kernel
 **********
 
 TO DO
+
+.. _maxkernelriver:
 
 max kernel river
 ****************
