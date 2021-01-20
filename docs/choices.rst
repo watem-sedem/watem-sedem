@@ -300,13 +300,6 @@ reduced with the trapping efficiency of the buffer. The definitions of buffer
 extension id, buffer id and trapping efficiency are explained at the
 :ref:`buffer data section <bufferdata>`.
 
-.. _bufferreduce:
-
-Buffer reduce area
-##################
-
-TO DO
-
 .. _includeditches:
 
 Include ditches
