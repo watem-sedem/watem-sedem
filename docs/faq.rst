@@ -25,14 +25,17 @@ My system can not find cn_ws
 executable, e.g.
 
 .. code-block:: bash
- 
+
     C:\>cn_ws
     'cn_ws' is not recognized as an internal or external command,
     operable program or batch file.
 
+
 .. code-block:: bash
+
     $ cn_ws
     bash: cn_ws command not found
+
 
 What now?
 
