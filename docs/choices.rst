@@ -1,3 +1,6 @@
+
+.. _choicespage:
+
 #############
 Model choices
 #############
