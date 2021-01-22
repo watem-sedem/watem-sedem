@@ -308,7 +308,10 @@ extension id, buffer id and trapping efficiency are explained at the
 Buffer reduce area
 ##################
 
-TO DO
+This options (boolean) allows to reduce the upstream area for the buffer with the efficiency of the buffer (see :ref:`buffer data section <bufferdata>`)
+
+.. note::
+    This option is not fully operational.
 
 .. _includeditches:
 
