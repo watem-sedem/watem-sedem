@@ -27,6 +27,7 @@ latest
     - Clay content sediment VHA.txt was renamed to Clay content sediment segments.txt
 
 - Enable the output per segment option by default when river routing is used
+- Make content of Total Sediment.txt dependent on used options in ini-file
 
 version 4.1.0
 -------------
