@@ -110,20 +110,32 @@ tables can be written as output.
 Total Sediment.txt
 ******************
 
-Txt-file where the first five rows give a summary of the results:
+Txt-file where the first rows give a summary of the results:
 
 * Total erosion (kg): the total amount of sediment eroded in the landscape. 
 * Total deposition (kg): the total amount of sediment deposited in the landscape
   (not entering sewers or rivers)
 * Sediment leaving the catchment, via the river (kg): the amount of sediment
   that enters all riverpixels
-* Sediment leaving the catchment, not via the river (kg): the amout of sediment
+* Sediment leaving the catchment, not via the river (kg): the amount of sediment
   that enters pixels outside the modeldomain
+  
+if :ref:`Include buffers = 1 <includebuffers>` following row is added to the file: 
+
 * Sediment trapped in buffers (kg): the amount of sediment that is trapped in
   all buffer basins.
+  
+if :ref:`Include sewers = 1 <inlcudesewers>` following row is added to the file: 
 
-The file contains from 9th row on a tab-seprated table where for every outlet
+* Sediment entering sewer system (kg): the amount of sediment that enters the sewer pixels
+
+After the above mentioned rows, a tab-seprated table where for every outlet
 the amount of incoming sediment is reported.
+
+An example output is given here:
+
+.. literalinclude:: ../testfiles/molenbeek/modeloutput_ref/Total sediment.txt
+    :language: vim
 
 .. _totalsedimentsegmenttxt:
 
