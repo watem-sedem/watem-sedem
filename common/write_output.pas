@@ -7,8 +7,7 @@ Unit Write_output;
 Interface
 
 Uses 
-Classes, SysUtils, RData_CN, ReadInParameters, CN_calculations,
-Idrisi;
+Classes, SysUtils, RData_CN, ReadInParameters, CN_calculations, Idrisi;
 
 Procedure Write_maps;
 Procedure Write_Routing_Table;
@@ -37,7 +36,14 @@ Begin
 {writeGIdrisi32file(ncol,nrow,File_output_dir+'row'+'.rst', row2);
      writeGIdrisi32file(ncol,nrow,File_output_dir+'col'+'.rst', col2);   }
     End;
-  If Calc_tileros Then writeIdrisi32file(ncol,nrow,File_output_dir+'TILEROS'+'.rst', TILEROS);
+  If Calc_tileros Then
+    Begin
+    writeIdrisi32file(ncol,nrow,File_output_dir+'TILEROS (mm per gridcel)'+'.rst', TILEROS);
+    writeIdrisi32file(ncol,nrow,File_output_dir+'TILEROS (kg per gridcel)'+'.rst', TILEROS_kg);
+    writeIdrisi32file(ncol,nrow,File_output_dir+'SEDTIL_IN'+'.rst', SEDTIL_IN);
+    writeIdrisi32file(ncol,nrow,File_output_dir+'SEDTIL_OUT'+'.rst', SEDTIL_OUT);
+    end;
+
   If Write_WATEREROS Then
     Begin
       writeIdrisi32file(ncol,nrow,File_output_dir+'WATEREROS (mm per gridcel)'+'.rst', WATEREROS);

@@ -252,12 +252,34 @@ Raster with the calculated RUSLE-values, the potential soil loss, for every
 pixel in kg/m². This raster is only written if
 :ref:`write rusle = 1 <writerusle>`
 
-TILEROS.rst
-***********
+TILEROS (mm per gridcel).rst
+****************************
 
 Raster with the calculated tillage erosion (mm/year). Negative values indicate
 erosion, positive values give sedimentation.
 This raster is only written if :ref:`calculate tillage erosion = 1 <calctileros>`.
+
+TILEROS (kg per gridcel).rst
+****************************
+
+Raster with the calculated tillage erosion (kg/year). Negative values indicate
+erosion, positive values give sedimentation.
+This raster is only written if :ref:`calculate tillage erosion = 1 <calctileros>`.
+
+SEDTIL_IN.rst
+*************
+
+Raster with the amount of sediment (kg) due to tillage erosion that enters a
+pixel from the upstream pixels.
+This raster is only written if :ref:`calculate tillage erosion = 1 <calctileros>`.
+
+SEDTIL_OUT.rst
+**************
+
+Raster with the amount of sediment (kg) due to tillage erosion that leaves every
+pixel and is distributed between the two target pixels.
+This raster is only written if :ref:`calculate tillage erosion = 1 <calctileros>`.
+
 
 .. _calibrationtxt:
 
