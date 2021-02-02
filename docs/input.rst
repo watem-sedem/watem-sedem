@@ -419,6 +419,8 @@ Beta (float) is a calibration parameter of the CN-model. It determines the
 relation between runoff and antecedent rainfall. The parameter is only mandatory
 when :ref:`simple = 0 <simple>`
 
+.. _bulkdensity:
+
 bulk density
 ************
 
