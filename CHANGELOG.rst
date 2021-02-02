@@ -28,6 +28,10 @@ latest
 
 - Enable the output per segment option by default when river routing is used
 - Make content of Total Sediment.txt dependent on used options in ini-file
+- Correct tillage erosion:
+    - sin --> tan in formula Van Oost et al., (2000)
+    - use the same routing for tillage erosion as in the water erosion 
+- Add SEDTIL_IN and SEDTIL_OUT-files to output
 
 version 4.1.0
 -------------
