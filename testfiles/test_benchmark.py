@@ -6,7 +6,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from cnws.utils import load_raster, load_total_sediment_file
+from pycnws.core.utils import load_raster, load_total_sediment_file
 
 
 def _get_filenames(path):
