@@ -1,3 +1,5 @@
+.. _modelinput:
+
 ###########
 Model input
 ###########
@@ -61,7 +63,7 @@ and parcel boundaries in the routing algorithm, but also when distributing the
 sediment through the model domain. Every pixel in the model domain must contain
 a land cover value. Every value > 0 indicates a unique agricultural field. So,
 all
-pixels of an agricultural field have the same value et pixels belonging to a
+pixels of an agricultural field have the same value at pixels belonging to a
 different parcel have different value.
 The definition of these unique parcel values are important to define the routing
 within a parcel. Note that the data type of this raster is integer 16.
@@ -71,13 +73,14 @@ within a parcel. Note that the data type of this raster is integer 16.
     :header-rows: 1
 
 .. note::
-	1. The Parcel raster can contain only values between -32757 and 32757.
-	Therefore, only 32757 unique agricultural field id's can be used in the
-	parcel map. When more parcel id's are necessary (e.g. in very large
-	catchments), you can give two or more agricultural fields the same id.
-	Theoretically, the model will consider these two parcels as a single parcel.
-	In practice, these two parcels will never be treated as one because they are
-	probably situated in another part of the catchment.
+
+    1. The Parcel raster can contain only values between -32757 and 32757.
+    Therefore, only 32757 unique agricultural field id's can be used in the
+    parcel map. When more parcel id's are necessary (e.g. in very large
+    catchments), you can give two or more agricultural fields the same id.
+    Theoretically, the model will consider these two parcels as a single
+    parcel. In practice, these two parcels will never be treated as one
+    because they are probably situated in another part of the catchment.
 
     2. The concept of land use (agriculture, grass strips) and land cover
     (river, infrastructure, forest, pasture) are used interchangeable in the
@@ -373,10 +376,11 @@ The dataype of the ktc map is float32.
 Variables
 =========
 
+.. _sewerexit:
 Sewer exit
 **********
 
-integer
+CN, integer
 
 .. _claycontent:
 
@@ -440,6 +444,8 @@ The :ref:`R-factor <rfactor>` or rainfall erosivity factor in the RUSLE equation
 .. note::
 	the user must make sure that the R and C-factor are calculated for the same
 	time span (year, month, week,...).
+
+.. _lscorrection:
 
 LS correction
 *************
@@ -512,11 +518,15 @@ ktil threshold is 0.01.
 
 ktil threshold is only mandatory when :ref:`Create ktil map = 1 <createktil>`.
 
+.. _parcelconncrop:
+
 Parcel connectivity cropland
 ****************************
 
 The parcel connectivity cropland expresses the fraction of sediment trapped at a
 parcel boundary. It is an integer value between 0 and 100. 
+
+.. _parcelconnforest:
 
 Parcel connectivity forest
 **************************
@@ -524,15 +534,25 @@ Parcel connectivity forest
 The parcel connectivity forest expresses the fraction of sediment trapped at a
 boundary of a forest. It is an integer value between 0 and 100.
 
+.. _parceltrapppingcrop:
+
 Parcel trapping efficiency cropland
 ***********************************
 
 int
 
+.. _parceltrappingpasture:
 Parcel trapping efficiency pasture
 **********************************
 
 int
+
+.. _parceltrappingforest:
+Parcel trapping efficiency pasture
+**********************************
+
+int
+
 
 .. _timestep:
 
@@ -574,10 +594,14 @@ This parameter is only mandatory when :ref:`Use R factor = 0 <useR>`.
 	whole runoff peak is modelled. After this first simulation, the model user
 	can deminish the endtime to optimise the calculation time of the model.
 
+.. _maxkernel:
+
 max kernel
 **********
 
 TO DO
+
+.. _maxkernelriver:
 
 max kernel river
 ****************
@@ -618,13 +642,6 @@ ini-file when :ref:`include buffers = 1 <includebuffers>`.
 
 with:
 
- - trapping efficiency: the trapping efficiency is the fraction of the incoming
-   sediment that is trapped.
-
- - extension id of a buffer is calculated as the buffer id + 16384. It is an
-   integer value. All pixels of the buffer in the :ref:`buffer map <buffermap>`
-   are given the value of the extension id, except the outlet pixel.
-
  - volume: the maximum volume of water that can be trapped in the
    bufferbasin, :math:`V_{basin}` (:math:`m^{3}`). This parameter is only
    mandatory when using the CN-module (i.e. :ref:`simple = 0 <simple>`).
@@ -648,6 +665,13 @@ with:
  - width dam: The width of the overflow on the bufferbasin dam
    :math:`W_{dam}` (m). This parameter is only mandatory when using the
    CN-module (i.e. :ref:`simple = 0 <simple>`).
+
+ - trapping efficiency: the trapping efficiency is the fraction of the incoming
+   sediment that is trapped.
+
+ - extension id of a buffer is calculated as the buffer id + 16384. It is an
+   integer value. All pixels of the buffer in the :ref:`buffer map <buffermap>`
+   are given the value of the extension id, except the outlet pixel.
 
 A full description about the CN calculation in buffers can be found
 :ref:`here <bufferbasins>`.

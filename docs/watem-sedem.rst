@@ -1,3 +1,5 @@
+.. _WS:
+
 ###################################
 Erosion/sediment model: WaTEM-SEDEM
 ###################################
@@ -189,11 +191,12 @@ a value of 870 :math:`\frac{\text{MJ.mm}}{\text{ha.h.year}}` is used since
 2006 (Verstraeten et al., 2006). Recently, this value has been updated to
 1250 :math:`\frac{\text{MJ.mm}}{\text{ha.h.year}}` (Deproost et al., 2018).
 
-**Note:** The R-factor can also be defined with other temporal resolutions.
-For computing WaTEM/SEDEM on a resolution of month, the value :math:`R` can
-be defined by the mean of each value for each month over a number of years
-(mean fo all january values over 10 years). In this case the unit would be
-:math:`\frac{\text{J.mm}}{\text{m}^2.\text{h.month}}`
+.. note::
+    The R-factor can also be defined with other temporal resolutions.
+    For computing WaTEM/SEDEM on a resolution of month, the value :math:`R` can
+    be defined by the mean of each value for each month over a number of years
+    (mean fo all january values over 10 years). In this case the unit would be
+    :math:`\frac{\text{J.mm}}{\text{m}^2.\text{h.month}}`
 
 .. _kfactor:
 
@@ -301,24 +304,27 @@ reducing the amount an drate of runoff.
 References
 ==========
 
-Declercq, F., Poesen, J., 1992. Evaluation of two models to calculate the
+Declercq, F., Poesen, J., 1992, Evaluation of two models to calculate the
 soil erodibility factor K. Pedologie XLII, 149–169.
 
 Deproost, P., Renders, D., Van de Wauw, J., Van Ransbeeck, N.,
 Verstraeten, G., 2018, Herkalibratie van WaTEM/SEDEM met het DHMV-II als
-hoogtemodel: eindrapport. Brussel. https://archief.onderzoek.omgeving
-.vlaanderen.be/Onderzoek-1812384
+hoogtemodel: eindrapport. Brussel.
+https://archief.onderzoek.omgeving.vlaanderen.be/Onderzoek-1812384
 
-Desmet, P.J.J., Govers, G., 1996. A gis procedure for automatically
+Desmet, P.J.J., Govers, G., 1996, A gis procedure for automatically
 calculating the USLE LS factor on topographically complex landscapes.
 Journal of Soil and Water Conservation 51, 427–433.
+https://www.jswconline.org/content/51/5/427
 
-Nearing, M.A., 1997. A single continuous function for slope steepness
+Nearing, M.A., 1997, A single continuous function for slope steepness
 influence on soil loss. Soil Science Society of America Journal 61, 917–919.
+https://doi.org/10.2136/sssaj1997.03615995006100030029x
 
 Notebaert, B., Govers, G., Verstraeten, G., Van Oost, K., Poesen, J., Van
-Rompaey, A., 2006. Verfijnde erosiekaart Vlaanderen: eindrapport. K.U.
+Rompaey, A., 2006, Verfijnde erosiekaart Vlaanderen: eindrapport. K.U.
 Leuven, Leuven.
+https://omgeving.vlaanderen.be/sites/default/files/atoms/files/Verfijnde_erosiekaart.pdf
 
 Panagos, P., Ballabio, C., Borrelli, P., Meusburger, K., Klik, A., Rousseva,
 S., Tadić, M.P., Michaelides, S., Hrabalíková, M., Olsen, P., Aalto, J.,
@@ -338,7 +344,8 @@ Landscape Ecology 15, 577–589. https://doi.org/10.1023/A:1008198215674
 
 Van Rompaey, A.J.J., Verstraeten, G., Van Oost, K., Govers, G., Poesen, J
 ., 2001, Modelling mean annual sediment yield using a distributed approach.
-Earth Surf. Process. Landforms 26, 1221–1236. https://doi.org/10.1002/esp.275
+Earth Surface Processes and Landforms 26, 1221–1236. 
+https://doi.org/10.1002/esp.275
 
 Verbist, K., Schiettecatte, W., Gabriels, D., 2004, End report.
 Computermodel RUSLE c-factor. Universiteit Gent, Gent.
@@ -351,8 +358,9 @@ erosion rates. J. Geophys. Res. 111, D22109. https://doi.org/10.1029/2006JD00716
 Verstraeten, G., Van Rompaey, A., Poesen, J., Van Oost, K., Govers, G.,
 2003, Evaluating the impact of watershed management scenarios on changes in
 sediment delivery to rivers? Hydrobiologia 494, 153–158.
+https://link.springer.com/chapter/10.1007/978-94-017-3366-3_21
 
-Zevenbergen, L.W., Thorne, C.R., 1987. Quantitative analysis of land surface
-topography. Earth Surf. Process. Landforms 12, 47–56. https://doi.org/10
-.1002/esp.3290120107
+Zevenbergen, L.W., Thorne, C.R., 1987, Quantitative analysis of land surface
+topography. Earth Surface Processes and Landforms 12, 47–56.
+https://doi.org/10.1002/esp.3290120107
 

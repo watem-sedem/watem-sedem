@@ -1,3 +1,5 @@
+.. _routing:
+
 #######
 Routing
 #######
@@ -133,5 +135,5 @@ routing dams is uni-directional.
 References
 ==========
 Takken, I., Govers, G., Jetten, V., Nachtergaele, J., Steegen, A., Poesen, J
-., 2001. Effects of tillage on runoff and erosion patterns. Soil and Tillage
+., 2001, Effects of tillage on runoff and erosion patterns. Soil and Tillage
 Research 61, 55–60. https://doi.org/10.1016/S0167-1987(01)00178-7

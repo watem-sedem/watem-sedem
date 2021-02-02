@@ -1,10 +1,13 @@
+
+.. _choicespage:
+
 #############
 Model choices
 #############
 
-Most model choices are boolean options and are enabled in the .ini-file with "1"
-and disabled with "0". Some options expect a string value. The possible strings
-are described together with the modeloption.
+Most model choices are boolean options and are enabled in the .ini-file with
+'1' and disabled with '0'. Some options expect a string value. The possible
+strings are described together with the modeloption.
 
 Input
 *****
@@ -53,8 +56,13 @@ the upstream area :math:`A`. If the upstream area is smaller than
 otherwise :math:`m` is set to 0.72.
 
 The calculation method of Van Oost et al. (2003) can be chosen by setting
-the model choice *L model* to 'Desmet1996_Vanoost'. This is the default value
-for this model option.
+the model choice *L model* to 'Desmet1996_Vanoost2003' in the .ini-file (mind the quotes):
+
+.. code-block:: ini
+
+    L model='Desmet1996_Vanoost2003'
+
+This is the default value for this model option.
 
 **McCool et al. (1989):**
 
@@ -71,7 +79,11 @@ with :math:`\beta` calculated as
 with :math:`\theta` the slope of the pixel in percentages.
 
 The calculation method of McCool et al. (1989, 1987) can be chosen by setting
-the model choice *L model* to 'Desmet1996_McCool'.
+the model choice *L model* to 'Desmet1996_McCool' in the ini-file (mind the quotes):
+
+.. code-block:: ini
+
+    L model='Desmet1996_McCool'
 
 .. _smodel:
 
@@ -95,7 +107,13 @@ The two S-models are:
     S = -1,5+\frac{17}{1+e^{2,3-6.1.\sin{\theta}}}
 
 The method of Nearing (1997) can be activated in CNWS by setting
-*S model* to 'Nearing1997'. This is the default method to calculate the S factor.
+*S model* to 'Nearing1997' in the ini-file (mind the quotes):
+
+.. code-block:: ini
+
+    S model='Nearing1997'
+
+This is the default method to calculate the S-factor.
 
 **McCool et al. (1987)**
 
@@ -115,7 +133,11 @@ otherwise, S is calculated as:
     S = (16.8.sin(\theta)) - 0.5
 
 The method of McCool et al. (1987) can be activated in CNWS by setting
-*S model* to 'McCool1987'.
+*S model* to 'McCool1987' in the ini-file (mind the quotes):
+
+.. code-block:: ini
+
+    S model='McCool1987'
 
 .. _tcmodel:
 
@@ -136,7 +158,16 @@ with
 - :math:`LS`: :ref:`slope length and slope steepness factor <lsfactor>`
 - :math:`S_g`: local slope (:math:`\frac{\text{m}}{\text{m}}`)
 
-Most studies using WaTEM-SEDEM use the method of Van Oost et al. (2000).
+Most studies using WaTEM-SEDEM use the method of Van Oost et al. (2000). The
+method of Van Oost et al. (2000) can be activated in CNWS by setting
+*TC model* to 'VanOost2000' in the ini-file (mind the quotes):
+
+.. code-block:: ini
+
+    TC model='VanOost2000'
+
+This is the default value.
+
 However, a second method, proposed by Verstraeten et al. (2007), also exists:
 
 .. math::
@@ -150,15 +181,18 @@ A detailed description and comparison of both TC models can be found in
 Verstraeten et al. (2007).
 
 The method of Verstraeten et al. (2007) can be activated in CNWS by setting
-*TC model* to 'Verstraeten2007'. The method of Van Oost et al. (2000) is
-activated by setting *TC model* to 'VanOost2000', this is the default value.
+*TC model* to 'Verstraeten2007' in the ini-file (mind the quotes):
+
+.. code-block:: ini
+
+    TC model='Verstraeten2007'
 
 Only Routing
 ############
 
-By enabling the Only Routing option, only the routing will be determined by
-CN-WS. No sediment calculations or discharge calculations are done:
-the WaTEM-SEDEM and CN modules are disabled. When using this option only
+By enabling the Only Routing (`Only Routing = 1`) option, only the routing will
+be determined by CN-WS. No sediment calculations or discharge calculations are
+done: the WaTEM-SEDEM and CN modules are disabled. When using this option only
 :ref:`a limited model output <onlyroutingoutput>` is possible.
 
 This option is usefull in large catchments to evaluate the routing without
@@ -233,7 +267,8 @@ model will expect the filename of this ktc map in
 Include sewers
 ##############
 
-When the include sewers-option is enabled, the user will have to provide two
+When the include sewers-option is enabled (`Include sewers = 1`), the user
+will have to provide two
 additional inputs: `sewer map filename` and `sewer exit`.
 
 The value of the pixel in the sewer map is checked when the amount of outgoing
@@ -253,16 +288,16 @@ Include buffers
 
 An infrastructural measure that traps an amount of transported sediment is
 called a buffer. These measures can be simulated in the model by enabling
-the Include buffers option. By enabling this option the
-:ref:`buffer map filename <buffermap>` becomes mandatory in the ini-file.
+the Include buffers option. By enabling this option (`Include buffers = 1`)
+the :ref:`buffer map filename <buffermap>` becomes mandatory in the ini-file.
 In addition, the ini-file must contain the variable
 :ref:`number of buffers <nrbuffers>` and a seperate section for every buffer
 in the buffer map. In every buffer section in the ini-file some variables must
 be given.
 
-The Include buffers option adjusts the routing in the pixels. Routing within in
-a buffer is defined from the pixels with a buffer extension id to one outlet
-pixel with a coupled buffer id (to the buffer extension id). The
+The `Include buffers` option adjusts the routing in the pixels. Routing
+within in a buffer is defined from the pixels with a buffer extension id to
+one outlet pixel with a coupled buffer id (to the buffer extension id). The
 amount of sediment that flows out of the outlet pixel to downstream pixels is
 reduced with the trapping efficiency of the buffer. The definitions of buffer
 extension id, buffer id and trapping efficiency are explained at the
@@ -273,7 +308,10 @@ extension id, buffer id and trapping efficiency are explained at the
 Buffer reduce area
 ##################
 
-TO DO
+This options (boolean) allows to reduce the upstream area for the buffer with the efficiency of the buffer (see :ref:`buffer data section <bufferdata>`)
+
+.. note::
+    This option is not fully operational.
 
 .. _includeditches:
 
@@ -281,8 +319,9 @@ Include ditches
 ###############
 
 Ditches alter the routing. The sediment and water will follow the course of a
-ditch in stead of along the steepest slope. When this option is enabled,
-:ref:`a raster with information about the direction <ditchmap>` is mandatory.
+ditch in stead of along the steepest slope. When this option is enabled
+(`Include ditches = 1`), :ref:`a raster with information about the direction
+<ditchmap>` is mandatory.
 
 The model sets the :ref:`C-factor <cfactor>` at every ditch pixel tot 0.01.
 Thus, it overwrites the value of the pixel in the :ref:`C-factor raster <cmap>`.
@@ -295,12 +334,14 @@ Include dams
 
 Dams alter the routing in the same way as ditches. The sediment and water will
 follow the course of a dam in stead of along the steepest slope. When this
-option is enabled, :ref:`a raster with information about the direction <dammap>`
-is mandatory.
+option is enabled (`Include dams = 1`), :ref:`a raster with information about
+the direction <dammap>` is mandatory.
 
 The model sets the C-factor at every dam pixel to 0. Thus, it overwrites
 the value of the pixel in the :ref:`C-factor raster <cmap>`.
 The ktc value of the pixel is set to -9999.
+
+.. _forcerouting:
 
 Force Routing
 #############
@@ -337,8 +378,9 @@ in the raster.
 River Routing
 #############
 
-By enabling the river routing option, the routing between river pixels is
-imposed by an input raster and two input tables.
+By enabling the river routing option (`River Routing = 1`), the routing
+between
+river pixels is imposed by an input raster and two input tables.
 This option is usefull because the calculated routing in a river, based on the
 digital elevation model, is not always correct.
 
@@ -351,6 +393,8 @@ Following input-files are required when `River Routing = 1`:
 
 When this option is disabled, the model will use the digital elevation model to
 determine the routing between all river pixels.
+
+.. _includetillagedirection:
 
 Include tillage direction
 #########################
@@ -365,6 +409,8 @@ Following input-files are required when `Include tillage direction = 1`:
 
 .. note::
     This option is not yet tested.
+
+.. _adjustslope:
 
 Adjusted Slope
 ##############
@@ -388,7 +434,8 @@ Estimate Clay content
 When using the full CN-WS model (i.e. :ref:`simple=0 <simple>`), it is possible
 to estimate the clay content at every outlet and in every river
 segment (the latter only when :ref:`output per river segment <outputsegment>`
-is enabled). To do this, the user needs to define the
+is enabled). To do this (`Estimate clay content = 1` in the ini-file), the
+user additionaly needs to define the
 :ref:`clay content of the parent material <claycontent>`
 (:math:`CC_{text{parent}}`).
 
@@ -449,11 +496,12 @@ When this option is enabled, following output is written:
 - :ref:`Sediment concentration segments.txt <sedconcensegment>`
 - :ref:`Sediment_segments.txt <sedsegmenttxt>`
 
-**Note:** The CN-WS model was further optimized from 2016 to define river
+.. note::
+
+The CN-WS model was further optimized from 2016 to define river
 segments in the context of of Flanders water management. Therefore, the
 segments in CN-WS for Flanders are defined by the `Vlaams Hydrologische Atlas`
 (VHA).
-
 
 .. _manualoutlet:
 
@@ -553,11 +601,14 @@ write water erosion
 :ref:`WATEREROS (kg per gridcel).rst <watereroskgrst>` and
 :ref:`WATEREROS (mm per gridcel).rst <watererosmmrst>`
 
+.. _writerainfallexcess:
+
 write rainfall exces
 ####################
 
 (bool, default false): writes :ref:`Remap.rst <remaprst>`
 
+.. _writetotalrunoff:
 write total runoff
 ##################
 
