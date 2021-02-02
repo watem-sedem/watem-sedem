@@ -7,7 +7,7 @@ Unit tillage;
 Interface
 
 Uses 
-Classes, SysUtils,  RData_CN, Raster_calculations, ReadInParameters;
+Classes, SysUtils, math, RData_CN, Raster_calculations, ReadInParameters;
 
 Procedure tillage_dif;
 
@@ -19,7 +19,7 @@ Procedure tillage_dif;
 
 Var
   counter, i, j, o, p: integer;
-  adjust, area, ploweros : double;
+  adjust, area, ploweros: double;
 Begin
   // Create temp 2D maps
   SetDynamicRData(SEDTIL_IN);
@@ -50,7 +50,7 @@ Begin
           Begin
           // Calculate Sediment (OUTM) & Carbon (CSOUT) outflow for cell i,j
           ADJUST := (ABS(cos(aspect[i,j]))+ABS(sin(aspect[i,j])));
-          SEDTIL_OUT[i,j] := ktil[i,j]*sin(slope[i,j])*RES*ADJUST/BD; //OUTFLOW in m3
+          SEDTIL_OUT[i,j] := ktil[i,j]*tan(slope[i,j])*RES*ADJUST/BD; //OUTFLOW in m3
           End ;
 
       If SEDI_OUT[i,j] > 0 Then DistributeFlux_Sediment(i, j, SEDTIL_IN, SEDTIL_OUT[i,j]);    // if sed_output_file leaves this pixel, the sed_output_file needs to be distributed over target cells
