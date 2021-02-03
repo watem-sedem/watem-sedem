@@ -631,19 +631,19 @@ Begin
             //The runoff for that timestep is determined by scaling the total runoff
             //for that grid cell with the fraction of rainfall that falls during this time step
             RunoffInputmap_Temp[k,l] := RunoffInput;
-            RunoffMap[k,l] := RunoffMap[k,l] + RunoffInput;
+            RunoffMap[k,l] += RunoffInput;
             //The amount of runoff for this time step is added to the amount of runoff
             //that was already present at the beginning of the time step
 
             If is_outlet(k,l) Then
               Begin
                 If outlet_Select Then
-                  Result[i,Outlet[k,l]] := Result[i,Outlet[k,l]]+RunoffInput
+                  Result[i,Outlet[k,l]] += RunoffInput
                 Else
-                  Result[i,1] := Result[i,1]+RunoffInput;
+                  Result[i,1] += RunoffInput;
               End;
             If (segments) And (RivSeg[k,l] <> 0) Then
-              Discharge_segm[i,RivSeg[k,l]] := Discharge_segm[i,RivSeg[k,l]] + RunoffInput;
+              Discharge_segm[i,RivSeg[k,l]] += RunoffInput;
           End;
 
       //The runoff is routed for this time step
@@ -662,35 +662,33 @@ Begin
           //Water velocity in m/s (based on Govers 1992)
 
           //If buffers are present:
-          If (Include_buffer) And (Buffermap[k,l] <> 0) And (Buffermap[k,l] <= Number_of_Buffers)
-             And (RunoffMap[k,l]>0) Then
-     // discharge from buffer is only altered at buffer center (place where the opening is situated)
+          If (Include_buffer) And (Buffermap[k,l] <> 0) And (Buffermap[k,l] <= Number_of_Buffers) And (RunoffMap[k,l]>0) Then
+          // discharge from buffer is only altered at buffer center (place where the opening is situated)
             Begin
               If RunoffMap[k,l] > BufferData[Buffermap[k,l]].Volume Then
-//The maximum capacity of the buffer is reached: all the runoff that enters the buffer flows over it
+              //The maximum capacity of the buffer is reached: all the runoff that enters the buffer flows over it
                 Begin
                   spill := BufferData[BufferMap[k,l]].Cd*
                            BufferData[BufferMap[k,l]].width_dam*
                            sqrt(9.81)*
                            Power(((RunoffMap[k,l]-BufferData[BufferMap[k,l]].Volume)/BufferData[BufferMap[k,l]].area),(3/2))* Timestep_model;
 
-      // calculate maximum amount of water flowing over dam (formula from project Pieter Meert p.68)
+                  // calculate maximum amount of water flowing over dam (formula from project Pieter Meert p.68)
                   If spill > RunoffMap[k,l]-BufferData[BufferMap[k,l]].Volume Then
-             // water flowing over dam cannot exceed amount of water that does not fit in the buffer
+                  // water flowing over dam cannot exceed amount of water that does not fit in the buffer
                     spill := RunoffMap[k,l]-BufferData[BufferMap[k,l]].Volume;
                   Part1_Water := (BufferData[Buffermap[k,l]].Qmax * Timestep_model) + spill;
+                  //Part1_water is composed of (1) the volume of water inside the buffer that flows through the opening and (2) the additional water (>volume of the buffer) that flows over the dam
 
-//Part1_water is composed of (1) the volume of water inside the buffer that flows through the opening and (2) the additional water (>volume of the buffer) that flows over the dam
                   RoutedMap_temp[Routing[k,l].Target1row, Routing[k,l].Target1col] += Part1_water;
-                  RunoffMap[k,l] := RunoffMap[k,l] - Part1_water;
-                  //RunoffMap is updated
+                  RunoffMap[k,l] := RunoffMap[k,l] - Part1_water; //RunoffMap is updated
                   OutflowMap_temp[k,l] := Part1_water;
-                  spillover[Buffermap[k,l]] := spillover[BufferMap[k,l]]+spill;
+                  spillover[Buffermap[k,l]] += spill;
                 End
 
               Else
                 If RunoffMap[k,l] > BufferData[Buffermap[k,l]].Volume_dead Then
-           //The volume of water in the buffer is larger than the dead volume: part of it will drain
+                //The volume of water in the buffer is larger than the dead volume: part of it will drain
                   Begin
                     Part1_water := (BufferData[Buffermap[k,l]].Qmax * sqrt(RunoffMap[k,l]/(
                                    BufferData[Buffermap[k,l]].Volume - BufferData[Buffermap[k,l]].
