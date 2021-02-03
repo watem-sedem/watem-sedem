@@ -112,20 +112,32 @@ tables can be written as output.
 Total Sediment.txt
 ******************
 
-Txt-file where the first five rows give a summary of the results:
+Txt-file where the first rows give a summary of the results:
 
 * Total erosion (kg): the total amount of sediment eroded in the landscape. 
 * Total deposition (kg): the total amount of sediment deposited in the landscape
   (not entering sewers or rivers)
 * Sediment leaving the catchment, via the river (kg): the amount of sediment
   that enters all riverpixels
-* Sediment leaving the catchment, not via the river (kg): the amout of sediment
+* Sediment leaving the catchment, not via the river (kg): the amount of sediment
   that enters pixels outside the modeldomain
+  
+if :ref:`Include buffers = 1 <includebuffers>` following row is added to the file: 
+
 * Sediment trapped in buffers (kg): the amount of sediment that is trapped in
   all buffer basins.
+  
+if :ref:`Include sewers = 1 <inlcudesewers>` following row is added to the file: 
 
-The file contains from 9th row on a tab-seprated table where for every outlet
+* Sediment entering sewer system (kg): the amount of sediment that enters the sewer pixels
+
+After the above mentioned rows, a tab-seprated table where for every outlet
 the amount of incoming sediment is reported.
+
+An example output is given here:
+
+.. literalinclude:: ../testfiles/molenbeek/modeloutput_ref/Total sediment.txt
+    :language: vim
 
 .. _totalsedimentsegmenttxt:
 
@@ -240,12 +252,34 @@ Raster with the calculated RUSLE-values, the potential soil loss, for every
 pixel in kg/m². This raster is only written if
 :ref:`write rusle = 1 <writerusle>`
 
-TILEROS.rst
-***********
+TILEROS (mm per gridcel).rst
+****************************
 
 Raster with the calculated tillage erosion (mm/year). Negative values indicate
 erosion, positive values give sedimentation.
 This raster is only written if :ref:`calculate tillage erosion = 1 <calctileros>`.
+
+TILEROS (kg per gridcel).rst
+****************************
+
+Raster with the calculated tillage erosion (kg/year). Negative values indicate
+erosion, positive values give sedimentation.
+This raster is only written if :ref:`calculate tillage erosion = 1 <calctileros>`.
+
+SEDTIL_IN.rst
+*************
+
+Raster with the amount of sediment (kg) due to tillage erosion that enters a
+pixel from the upstream pixels.
+This raster is only written if :ref:`calculate tillage erosion = 1 <calctileros>`.
+
+SEDTIL_OUT.rst
+**************
+
+Raster with the amount of sediment (kg) due to tillage erosion that leaves every
+pixel and is distributed between the two target pixels.
+This raster is only written if :ref:`calculate tillage erosion = 1 <calctileros>`.
+
 
 .. _calibrationtxt:
 

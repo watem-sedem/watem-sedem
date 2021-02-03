@@ -1,3 +1,6 @@
+
+.. _choicespage:
+
 #############
 Model choices
 #############
@@ -305,7 +308,10 @@ extension id, buffer id and trapping efficiency are explained at the
 Buffer reduce area
 ##################
 
-TO DO
+This options (boolean) allows to reduce the upstream area for the buffer with the efficiency of the buffer (see :ref:`buffer data section <bufferdata>`)
+
+.. note::
+    This option is not fully operational.
 
 .. _includeditches:
 
@@ -334,6 +340,8 @@ the direction <dammap>` is mandatory.
 The model sets the C-factor at every dam pixel to 0. Thus, it overwrites
 the value of the pixel in the :ref:`C-factor raster <cmap>`.
 The ktc value of the pixel is set to -9999.
+
+.. _forcerouting:
 
 Force Routing
 #############
@@ -386,6 +394,8 @@ Following input-files are required when `River Routing = 1`:
 When this option is disabled, the model will use the digital elevation model to
 determine the routing between all river pixels.
 
+.. _includetillagedirection:
+
 Include tillage direction
 #########################
 
@@ -399,6 +409,8 @@ Following input-files are required when `Include tillage direction = 1`:
 
 .. note::
     This option is not yet tested.
+
+.. _adjustslope:
 
 Adjusted Slope
 ##############
@@ -589,11 +601,14 @@ write water erosion
 :ref:`WATEREROS (kg per gridcel).rst <watereroskgrst>` and
 :ref:`WATEREROS (mm per gridcel).rst <watererosmmrst>`
 
+.. _writerainfallexcess:
+
 write rainfall exces
 ####################
 
 (bool, default false): writes :ref:`Remap.rst <remaprst>`
 
+.. _writetotalrunoff:
 write total runoff
 ##################
 

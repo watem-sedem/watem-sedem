@@ -358,8 +358,13 @@ Begin
           TEMP_river_sed_input * BD)*100)/100) + ' (kg)');
   Writeln(sed_output_file, 'Sediment leaving the catchment, not via the river: ' + floattostr(round((
           TEMP_outside_sed_input * BD)*100)/100) + ' (kg)');
+
+  If (Include_buffer) Then
+    begin
   Writeln(sed_output_file, 'Sediment trapped in buffers: ' + floattostr(round((TEMP_buffer_sed_input * BD)*
   100)/100) + ' (kg)');
+    end;
+
   If (Include_sewer) Then
     begin
     Writeln(sed_output_file, 'Sediment entering sewer system: ' + floattostr(round((sewer_out_sed * BD)*100)/100) + ' (kg)');
