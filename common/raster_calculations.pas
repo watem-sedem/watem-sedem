@@ -744,8 +744,7 @@ Begin
      Apply_Buffer(i,j);
      // we should process dam, ditch and buffer if it is the endpoint of the buffer,
      // otherwise we should skip further steps.
-     if (Buffermap[i,j] > 16384) then
-        exit;
+     exit;
    End;
 
     If (Include_ditch) And (Ditch_map[i,j] <> 0) Then
