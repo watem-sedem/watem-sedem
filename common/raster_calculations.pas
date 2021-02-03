@@ -1550,8 +1550,8 @@ Begin
                   Routing[i,j].Target1Row := i+k;
                   Routing[i,j].Target1Col := j+l;
                   Routing[i,j].Part1 := 1.0;
-                  Routing[i,j].Target2Row := 0;
-                  Routing[i,j].Target2Col := 0;
+                  Routing[i,j].Target2Row := -99;
+                  Routing[i,j].Target2Col := -99;
                   Routing[i,j].Part2 := 0;
                   Routing[i,j].One_Target := True;
 
