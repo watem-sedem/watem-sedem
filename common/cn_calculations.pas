@@ -37,8 +37,8 @@ Var
   numOutlet, numRivSeg: integer;
   Rainfall, Duration, I10: double;
   TimeSeries, Timeseries_tmp_fin : integerArray;
-  RainfallSeries, Sum_discharge, Sum_discharge_VHA: FloatArray;
-  Result_Discharge, Result_Discharge_VHA : FloatArray2;
+  RainfallSeries, Sum_discharge, Sum_discharge_segm: FloatArray;
+  Result_Discharge, Result_Discharge_segm : FloatArray2;
 
 
 Implementation
@@ -54,29 +54,29 @@ Procedure ReadRainfallFile (Var Raindata: TRainRecordArray; Rainfallfilename: St
 Var 
   TimeSeries_output, I10TimeSeries: IntegerArray;
   Cumul_Rain, Cumul_Interp, RainfallSeries_output,I10RainfallSeries, I10Series: FloatArray;
-  teller, i, j, nr, Timestep_rain, Fill_num: integer;
+  counter, i, j, nr, Timestep_rain, Fill_num: integer;
   x: double;
   datafile: textfile;
   a: string;
   Z: FloatArray2;
 
 Begin
-  teller := 0;
+  counter := 0;
   assignfile(datafile, RainfallFilename);
   reset(datafile);
   While Not eof(datafile) Do
     Begin
       //To determine the number of time steps and number of rows in the file
-      inc(teller);
+      inc(counter);
       Readln(datafile, a);
     End;
-  Setlength(TimeSeries, teller);
+  Setlength(TimeSeries, counter);
   //Time in seconds
-  Setlength(Rainfallseries, teller);
+  Setlength(Rainfallseries, counter);
   //Regenval in mm (per timestep)
-  NumberOfTimesteps := teller-1;
+  NumberOfTimesteps := counter-1;
   {$push}{$warn 5091 off} // remove spurious warning about datatype not being initialized
-  ReadText(RainfallFilename,Z,teller,2);
+  ReadText(RainfallFilename,Z,counter,2);
   {$pop}
   // see procedure below
 
@@ -519,11 +519,11 @@ Procedure CalculateTimeDependentRunoff(Remap: Rraster; RainData: TRainRecordArra
 Var 
   RunoffMap, RunoffInputMap, RunoffInputMap_temp, RoutedMap_temp, RainfallMap,
   RunoffCummulMap, OutflowMap_temp: Rraster;
-  i, j,  k , l, m, teller, targetX, targetY: integer;
+  i, j,  k , l, m, counter, targetX, targetY: integer;
   RunoffInput ,Part1_water, Part2_water, Speed, spill, sewer_out_water: double;
-  Discharge, Discharge_tot, Discharge_VHA_txt, spillover_txt, sewer_out_txt: textfile;
+  Discharge, Discharge_tot, Discharge_segm_txt, spillover_txt, sewer_out_txt: textfile;
   spillover, Discharge_result_tmp, Discharge_tmp_fin: FloatArray;
-  Result, Discharge_VHA: FloatArray2;
+  Result, Discharge_segm: FloatArray2;
   Timeseries_tmp: integerArray;
 
   Label SKIP;
@@ -561,10 +561,10 @@ Begin
   If Include_sewer Then
     sewer_out_water := 0;
 
-  If VHA Then
+  If segments Then
     Begin
       numRivSeg := calcRivSeg(RivSeg);
-      Setlength(Discharge_VHA, Numberoftimesteps+1, numRivSeg+1);
+      Setlength(Discharge_segm, Numberoftimesteps+1, numRivSeg+1);
     End;
   {$push}{$warn 5091 off} // remove spurious warning about datatype not being initialized
   SetDynamicRData(RainfallMap);
@@ -648,16 +648,16 @@ Begin
                 Else
                   Result[i,1] := Result[i,1]+RunoffInput;
               End;
-            If (VHA) And (RivSeg[k,l] <> 0) Then
-              Discharge_VHA[i,RivSeg[k,l]] := Discharge_VHA[i,RivSeg[k,l]] + RunoffInput;
+            If (segments) And (RivSeg[k,l] <> 0) Then
+              Discharge_segm[i,RivSeg[k,l]] := Discharge_segm[i,RivSeg[k,l]] + RunoffInput;
           End;
 
       //The runoff is routed for this time step
-      For teller:=0 to ncol*nrow-1 Do
+      For counter:=0 to ncol*nrow-1 Do
         Begin
-          k := row[teller];
+          k := row[counter];
           //row and col are vectors containing the row and column ID's from low to high
-          l := column[teller];
+          l := column[counter];
           if (k=0) and (l=0) then break;
           If PRC[k,l] = 0 Then continue;
           If RunoffMap[k,l] <= 0.0 Then continue;
@@ -748,11 +748,11 @@ Begin
                   Else
                     Result[i,1] := Result[i,1]+OutflowMap_temp[k,l];
                 End;
-              If VHA Then
+              If segments Then
                 Begin
                   If RivSeg[targetX,targetY]<>0 Then
                     // if buffer drains directly into river, the result is updated
-                    Discharge_VHA[i,RivSeg[targetX,targetY]] := Discharge_VHA[i,RivSeg[targetX,
+                    Discharge_segm[i,RivSeg[targetX,targetY]] := Discharge_segm[i,RivSeg[targetX,
                                                                 targetY]]+OutflowMap_temp[k,l];
                 End;
               Goto SKIP;
@@ -829,10 +829,10 @@ Begin
                       Else
                         Result[i,1] := Result[i,1]+Part1_water;
                     End;
-                  If VHA Then
+                  If segments Then
                     Begin
                       If RivSeg[targetX,targetY]<>0 Then
-                        Discharge_VHA[i,RivSeg[targetX,targetY]] := Discharge_VHA[i,RivSeg[targetX,
+                        Discharge_segm[i,RivSeg[targetX,targetY]] := Discharge_segm[i,RivSeg[targetX,
                                                                     targetY]]+Part1_water;
                     End;
 
@@ -858,17 +858,17 @@ Begin
                             Result[i,1] := Result[i,1]+Part2_water;
                         End;
                     End;
-                  If VHA Then
+                  If segments Then
                     Begin
                       If RivSeg[targetX,targetY]<>0 Then
                         Begin
                           If (Include_sewer) And (SewerMap[k,l] <> 0) Then
-                            Discharge_VHA[i,RivSeg[targetX,targetY]] := Discharge_VHA[i,RivSeg[
+                            Discharge_segm[i,RivSeg[targetX,targetY]] := Discharge_segm[i,RivSeg[
                                                                         targetX,targetY]]+(
                                                                         Part2_water*(1-(sewer_exit/
                                                                         100)))
                           Else
-                            Discharge_VHA[i,RivSeg[targetX,targetY]] := Discharge_VHA[i,RivSeg[
+                            Discharge_segm[i,RivSeg[targetX,targetY]] := Discharge_segm[i,RivSeg[
                                                                         targetX,targetY]]+
                                                                         Part2_water;
                         End;
@@ -898,11 +898,11 @@ Begin
                       Else
                         Result[i,1] := Result[i,1]+Part1_water;
                     End;
-                  If VHA Then
+                  If segments Then
                     Begin
                       If (RivSeg[targetX,targetY]<>0) And (RivSeg[k,l] = 0) Then
-        // only if target cell is river AND source cell is no river, discharge_VHA should be updated
-                        Discharge_VHA[i,RivSeg[targetX,targetY]] := Discharge_VHA[i,RivSeg[targetX,
+        // only if target cell is river AND source cell is no river, discharge_segm should be updated
+                        Discharge_segm[i,RivSeg[targetX,targetY]] := Discharge_segm[i,RivSeg[targetX,
                                                                     targetY]]+Part1_water;
                     End;
                 End;
@@ -936,10 +936,10 @@ Begin
                     Else
                       Result[i,1] := Result[i,1]+Part2_water;
                   End;
-                If VHA Then
+                If segments Then
                   Begin
                     If RivSeg[targetX,targetY]<>0 Then
-                      Discharge_VHA[i,RivSeg[targetX,targetY]] := Discharge_VHA[i,RivSeg[targetX,
+                      Discharge_segm[i,RivSeg[targetX,targetY]] := Discharge_segm[i,RivSeg[targetX,
                                                                   targetY]]+Part2_water;
                   End;
 
@@ -993,16 +993,16 @@ Begin
             Result_Discharge[i,j] := Discharge_tmp_fin[i];
         End;
 
-      If VHA Then
+      If segments Then
         Begin
-          setlength(Result_Discharge_VHA, Ntimesteps2+1, numRivSeg+1);
+          setlength(Result_Discharge_segm, Ntimesteps2+1, numRivSeg+1);
           For j := 1 To numRivSeg Do
             Begin
               For i:=0 To Numberoftimesteps Do
-                Discharge_result_tmp[i] := Discharge_VHA[i,j];
+                Discharge_result_tmp[i] := Discharge_segm[i,j];
               Discharge_tmp_fin := extrap(TimeSeries_tmp,TimeSeries_tmp_fin,Discharge_result_tmp);
               For i :=0 To NTimesteps2 Do
-                Result_Discharge_VHA[i,j] := Discharge_tmp_fin[i];
+                Result_Discharge_segm[i,j] := Discharge_tmp_fin[i];
             End;
         End;
 
@@ -1012,10 +1012,10 @@ Begin
       setlength(Result_Discharge, numberoftimesteps+1, numOutlet+1);
       Result_Discharge := Result;
 
-      If VHA Then
+      If segments Then
         Begin
-          setlength(Result_Discharge_VHA, numberoftimesteps+1, numRivSeg+1);
-          Result_Discharge_VHA := Discharge_VHA;
+          setlength(Result_Discharge_segm, numberoftimesteps+1, numRivSeg+1);
+          Result_Discharge_segm:= Discharge_segm;
         End;
     End;
 
@@ -1076,41 +1076,41 @@ Begin
   //The memory of Discharge is released
 
 
-  // The amount of water entering each VHA river segment is written to a .txt file
+  // The amount of water entering each river segment is written to a .txt file
 
-  If VHA Then
+  If segments Then
     Begin
       setcurrentDir(File_output_dir);
-      assignfile(Discharge_VHA_txt,'Discharge_segments.txt');
-      rewrite(Discharge_VHA_txt);
-      Writeln(Discharge_VHA_txt, 'Discharge to each river segment [m³/s]');
+      assignfile(Discharge_segm_txt,'Discharge_segments.txt');
+      rewrite(Discharge_segm_txt);
+      Writeln(Discharge_segm_txt, 'Discharge to each river segment [m³/s]');
       // write title
       If convert_output Then
-        Write(Discharge_VHA_txt, 'Time (min)',chr(9))
+        Write(Discharge_segm_txt, 'Time (min)',chr(9))
       Else
-        Write(Discharge_VHA_txt, 'Time (sec)',chr(9));
+        Write(Discharge_segm_txt, 'Time (sec)',chr(9));
       For m := 1 To numRivSeg Do
-        write(Discharge_VHA_txt, 'segment ', m, chr(9));
+        write(Discharge_segm_txt, 'segment ', m, chr(9));
       // write column headings
-      writeln(Discharge_VHA_txt,'');
+      writeln(Discharge_segm_txt,'');
       // go to next line
 
-      setlength(Sum_discharge_VHA,numRivSeg+1);
+      setlength(Sum_discharge_segm,numRivSeg+1);
       For m := 1 To numRivSeg Do
-        Sum_discharge_VHA[m] := 0;
+        Sum_discharge_segm[m] := 0;
 
       If convert_output Then
         Begin
           For i := 0 To NTimesteps2 Do
             Begin
-              Write(Discharge_VHA_txt, inttostr(Timeseries_tmp_fin[i] Div 60), chr(9));
+              Write(Discharge_segm_txt, inttostr(Timeseries_tmp_fin[i] Div 60), chr(9));
               For m := 1 To numRivSeg Do
-                write (Discharge_VHA_txt, floattostr(Result_Discharge_VHA[i,m]/(Timestep_output*60))
+                write (Discharge_segm_txt, floattostr(Result_Discharge_segm[i,m]/(Timestep_output*60))
                 , chr(9));
               //Amount of discharge per time step is written to the .txt file
-              writeln(Discharge_VHA_txt, '');
+              writeln(Discharge_segm_txt, '');
               For m := 1 To numRivSeg Do
-                Sum_discharge_VHA[m] := Sum_discharge_VHA[m] + Result_Discharge_VHA[i,m];
+                Sum_discharge_segm[m] := Sum_discharge_segm[m] + Result_Discharge_segm[i,m];
               // total amount of water entering each river segment
             End;
         End
@@ -1118,19 +1118,19 @@ Begin
         Begin
           For i := 0 To Numberoftimesteps Do
             Begin
-              Write(Discharge_VHA_txt, inttostr(RainData[i].Time), chr(9));
+              Write(Discharge_segm_txt, inttostr(RainData[i].Time), chr(9));
               For m := 1 To numRivSeg Do
-                write (Discharge_VHA_txt, floattostr(Result_Discharge_VHA[i,m]/Timestep_model), chr(
+                write (Discharge_segm_txt, floattostr(Result_Discharge_segm[i,m]/Timestep_model), chr(
                                                                                                    9
                 ));
               //Amount of discharge per time step is written to the .txt file
-              writeln(Discharge_VHA_txt, '');
+              writeln(Discharge_segm_txt, '');
               For m := 1 To numRivSeg Do
-                Sum_discharge_VHA[m] := Sum_discharge_VHA[m] + Result_Discharge_VHA[i,m];
+                Sum_discharge_segm[m] := Sum_discharge_segm[m] + Result_Discharge_segm[i,m];
               // total amount of water entering each river segment
             End;
         End;
-      closefile(Discharge_VHA_txt);
+      closefile(Discharge_segm_txt);
     End;
 
 

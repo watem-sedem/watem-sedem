@@ -148,8 +148,7 @@ End;
 Function Invert_routing(Routing: TRoutingArray): TRoutingInvArray;
 var
   inv: TRoutingInvArray;
-  i,j: integer;
-  t_c, t_r: integer;
+  i,j, t_c, t_r: integer;
   ring: boolean;
   delta1: float;
 begin
@@ -235,7 +234,7 @@ begin
   Invert_routing:= inv;
 end;
 
-procedure addInverse(var inv:TroutingInvArray; i,j,t_c, t_r: integer);
+procedure addInverse(var inv:TroutingInvArray; i,j,t_c,t_r: integer);
 var
   pos:integer;
 begin
@@ -255,7 +254,7 @@ end;
 
 procedure settreatedsize(var inv: TRoutingInvArray) ;
 var
- i,j, k: integer;
+ i,j,k: integer;
 begin
    For i := 1 To nrow Do
     //The DTM is read row per row (from l to r), for each next cell that is
@@ -1116,9 +1115,7 @@ function FindLower(i,j, max_kernel: integer): boolean;
 var
 rowmin, rowmin2, colmin, colmin2, w, k,l : integer;
 minimum, minimum2: float;
-check_differentparcel: boolean;
-check_river: boolean;
-check_sameparcel: boolean;
+check_differentparcel, check_river, check_sameparcel: boolean;
 
   Begin
     ROWMIN := 0;
@@ -1222,7 +1219,7 @@ end;
 Procedure Calculate_UpstreamArea(Var UPAREA:RRaster);
 
 Var
-  teller,i,j : integer;
+  counter,i,j : integer;
   oppcor: double;
 
 Begin
@@ -1230,11 +1227,11 @@ Begin
   // SetnodataR(UPAREA);
 
   // set all valid cells to zero
-  for teller:=0 to nrow*ncol-1 do
+  for counter:=0 to nrow*ncol-1 do
     begin
     // begin lus
-    i := row[teller];
-    j := column[teller];
+    i := row[counter];
+    j := column[counter];
     if (i=0) and (j=0) then
       continue;
 
@@ -1244,10 +1241,10 @@ Begin
     uparea[i,j] := 0;
     end;
 
-  for teller:=0 to nrow*ncol-1 do
+  for counter:=0 to nrow*ncol-1 do
       begin
-      i := row[teller];
-      j := column[teller];
+      i := row[counter];
+      j := column[counter];
       if (i=0) and (j=0) then
         break;
 
@@ -1497,7 +1494,7 @@ Procedure Routing_Slope(Var Routing: TRoutingArray; Var Slope: RRaster);
 // This procedure overwrites the slope using the actual direction of the routing table
 // if the routing is not using the standard split discharge.
 Var
-  i, j, target_row, target_col: integer;
+  i, j, t_r, t_c: integer;
   s1, s2: double;
 Begin
   for i := nrow downto 1 do
@@ -1511,16 +1508,16 @@ Begin
         if  (Routing[i][j].Part1 > 0.0000001) and (Routing[i][j].Part2 > 0.0000001) then
           continue; // the original slope is used
 
-        target_row := Routing[i,j].Target1Row;
-        target_col := Routing[i,j].Target1Col;
+        t_r := Routing[i,j].Target1Row;
+        t_c := Routing[i,j].Target1Col;
         if Routing[i][j].Part1 > 0.0000001 then
-           s1 := (DTM[i,j] - DTM[target_row, target_col]) / Distance1(Routing,i,j)
+           s1 := (DTM[i,j] - DTM[t_r, t_c]) / Distance1(Routing,i,j)
         else
            s1:= 0;
-        target_row := Routing[i,j].Target2Row;
-        target_col := Routing[i,j].Target2Col;
+        t_r := Routing[i,j].Target2Row;
+        t_c := Routing[i,j].Target2Col;
         if Routing[i][j].Part2 > 0.0000001 then
-           s2 := (DTM[i,j] - DTM[target_row, target_col]) / Distance2(Routing, i,j)
+           s2 := (DTM[i,j] - DTM[t_r, t_c]) / Distance2(Routing, i,j)
         else
            s2 :=0;
         slope[i,j] := arctan(sqrt(sqr(s1) + sqr(s2)))
