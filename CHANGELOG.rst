@@ -32,6 +32,7 @@ latest
     - sin --> tan in formula Van Oost et al., (2000)
     - use the same routing for tillage erosion as in the water erosion 
 - Add SEDTIL_IN and SEDTIL_OUT-files to output
+- Bugfix: do not overwrite determined routing for bufferpixels with standard routing
 
 version 4.1.0
 -------------
