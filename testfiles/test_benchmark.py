@@ -106,7 +106,7 @@ def _compare_rst_folder(ref, new):
         ]:
             rtol, atol = 1e-5, 1e-3
         elif file_name.name in ["WATEREROS (kg per gridcel).rst"]:
-            rtol, atol = 1e-4, 1e-6
+            rtol, atol = 1e-4, 1e-3
         elif file_name.name in [
             "LS.rst",
             "AspectMap.rst",
