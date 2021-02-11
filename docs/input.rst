@@ -333,7 +333,7 @@ Filename of the ktil map. The ktil map contains values for ktil, the transport
 capacity coefficient for tillage erosion.
 This raster is only mandatory when :ref:`Create ktil map = 0 <createktil>`.
 
-TO DO: dataype map?
+The datatype of the ktil map is integer16.
 
 .. _rainfallfile:
 
