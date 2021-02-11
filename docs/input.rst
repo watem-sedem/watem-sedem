@@ -464,10 +464,14 @@ The amount of buffers present in the :ref:`buffer map <buffermap>` is given in
 this parameter (integer). The parameter is only mandatory when
 :ref:`Include buffers = 1 <includebuffers>`.
 
+.. _nrforcedrouting:
+
 Number of forced routing
 ************************
 
-int
+The amount of times where the user wants to force the routing is given by this
+parameter (integer).
+This is only mandatory when :ref:`Force Routing = 1 <forcerouting>`
 
 .. _ktclow:
 
@@ -714,6 +718,8 @@ row of both the source and target pixel as follows:
         target col 20
         target row 19
 
-These lines are added to the ini-file.
+These lines are added to the ini-file. Note that the amount of sections with
+forced routing vectors is defined by the variable
+:ref:`Number of forced routing <nrforcedrouting>`
 
 
