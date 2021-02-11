@@ -37,6 +37,8 @@ Idrisi-rasters are the native file format of Idrisi gis, but can be opened,
 edited and saved with almost every GIS-package like QGIS or SAGA-GIS,
 thanks to the `GDAL library <https://gdal.org>`. 
 
+.. _dtmmap:
+
 DTM filename
 ************
 
@@ -600,14 +602,23 @@ This parameter is only mandatory when :ref:`Use R factor = 0 <useR>`.
 max kernel
 **********
 
-TO DO
+If the routing algorithm of CN-WS encounters a local minimum in the
+:ref:`digital elevation model <dtmmap>` it will not find a lower, neighbouring
+pixel. Therefore, the algorithm will search for a lower pixel within a search
+radius around the local minimum. The variable 'max kernel' defines the search
+radius expressed in pixels.
 
 .. _maxkernelriver:
 
 max kernel river
 ****************
 
-TO DO
+If the routing algorithm of CN-WS encounters a local minimum in the
+:ref:`digital elevation model <dtmmap>` it will not find a lower, neighbouring
+pixel. If this pixel is a river pixel, the routing will remain in the river and
+the routing will look within a search radius around the local minimum with the
+same landuse (river). The variable 'max kernel river' defines the search radius
+expressed in pixels.
 
 .. _bufferdata:
 
