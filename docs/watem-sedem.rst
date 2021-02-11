@@ -98,6 +98,8 @@ to :math:`\frac{\text{kg}}{\text{pixel}}` or
 CN-WS includes two ways to calculate :math:`TC`. See
 :ref:`the section about the different TC models <TCmodel>` for more information.
 
+.. _tillageerosionmodel:
+
 Tillage erosion
 ===============
 

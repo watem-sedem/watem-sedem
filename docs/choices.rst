@@ -230,7 +230,8 @@ mandatory:
 Calculate tillage erosion
 #########################
 
-TO DO
+This option enables the tillage erosion model of Van Oost et al. (2000). See
+:ref:`here <tillageerosionmodel>` for more information about this model.
 
 .. _createktil:
 
@@ -238,13 +239,14 @@ Create ktil map
 ###############
 
 CN-WS is able to create a raster with ktil-factors. The ktil value is the
-transport capacity coeficient for tillage erosion. When `Creat ktil map = 1`,
+transport capacity coeficient for tillage erosion. When `Create ktil map = 1`,
 the model expects two input variables: :ref:`ktil default <ktildefault>` and
 :ref:`ktil threshold <ktilthres>`. The C-factor map will be reclassed by these
 values: C-factors higher than ktil threshold will get the value of ktil default,
 other pixels are set to zero. When `Create ktil map = 0` the user will have to
 make a ktil map himself. The model will expect the filename of this ktil map
-in :ref:`ktil map filename <ktilmap>`.
+in :ref:`ktil map filename <ktilmap>`. This option is only mandatory if
+:ref:`Calculate tillage erosion = 1 <calctileros>`
 
 .. _createktc:
 
