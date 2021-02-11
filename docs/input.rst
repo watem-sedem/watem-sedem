@@ -162,7 +162,7 @@ P factor map filename
 
 Filename of the :ref:`P-factor <pfactor>` map. 
 
-TO DO: dataype raster
+The datatype of the raster is float32.
 
 .. _riversegmentfile:
 
