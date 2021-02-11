@@ -99,5 +99,5 @@ location to the system variable PATH. The model was tested on dutch
 ("," as a decimal seperator) and english ("." as a decimal seperator) language
 system computers. Both work, other language systems are not tested yet.
 
-The :doc: `tutorial` gives a practical example how to use the model and is the
-best place to continue from here.
+The :ref:`tutorial <tutorial>` gives a practical example how to use the model
+and is the best place to continue from here.
