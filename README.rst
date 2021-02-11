@@ -144,7 +144,7 @@ In order to run the CN-WS model, this set of minimal skills is required:
 License
 =======
 
-This project is licensed under the ??? License, see
+This project is licensed under the GNU General Public License v3.0, see
 `LICENSE <https://git.fluves.net/cn_ws/LICENSE>`_ for more information.
 
 Documentation
