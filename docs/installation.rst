@@ -80,8 +80,9 @@ Open the project in lazarus (open the .lpi file, see subfolder `cn_ws/cn_ws/cn_w
 and build the executable (Shift + F9). The executable is stored in the same folder as
 the .lpi file and can be run without further installation. 
 
-__Note__: This step only has to be done if no cn_ws.exe file is present in the subfolder 
-`cn_ws/cn_ws`
+.. note::
+    This step only has to be done if no cn_ws.exe file is present in the subfolder
+    `cn_ws/cn_ws`
 
 Running CN-WS
 *************
