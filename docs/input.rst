@@ -306,9 +306,10 @@ CN map filename
 Filename of the CN map. This raster is only mandatory when
 :ref:`simple = 0 <simple>`.
 
-This raster contains a CN-value for every pixel in the model domain. 
+This raster contains a CN-value (between 0 and 100) for every pixel in the model
+domain.
 
-TO DO: datatype map?
+The datatype of the CN raster is float32.
 
 .. _outletmap:
 
