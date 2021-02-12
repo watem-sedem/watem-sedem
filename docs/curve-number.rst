@@ -117,7 +117,7 @@ with:
 
 - :math:`CN_{max}`: the maximum CN derived from the USDA SCS handbook (:math:`-`)
 - :math:`CC`:  the percentage of crop cover (:math:`\%`)
-- :math:`c_1`: coefficient related to the crop cover(:math`-`)
+- :math:`c_1`: coefficient related to the crop cover (:math:`-`)
 - :math:`Cr`: the crusting stage (:math:`-`)
 - :math:`c_2`: coefficient related to the crusting stage (:math:`-`)
 

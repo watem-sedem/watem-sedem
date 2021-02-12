@@ -382,6 +382,7 @@ Variables
 =========
 
 .. _sewerexit:
+
 Sewer exit
 **********
 
@@ -551,12 +552,14 @@ Parcel trapping efficiency cropland
 int
 
 .. _parceltrappingpasture:
+
 Parcel trapping efficiency pasture
 **********************************
 
 int
 
 .. _parceltrappingforest:
+
 Parcel trapping efficiency pasture
 **********************************
 
