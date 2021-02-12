@@ -291,26 +291,46 @@ begin
     Distance2 := 0;
 end;
 
+Function CheckExtrema(inrst: RRaster; minval,maxval: integer):boolean;
+begin
+   CheckExtrema := True;
+   For i := 1 To nrow Do
+       For j := 1 To ncol Do
+          Begin
+            If (PRC[i,j] <> 0) And ((inrst[i,j] > maxval) Or (inrst[i,j] < minval)) Then
+               CheckExtrema:=False
+          End;
+end;
+
 Procedure ReadInRasters;
 Begin
   setCurrentDir(datadir);
-  GetRFile(DTM,DTM_Filename);
-  GetGFile(PRC,PARCEL_filename);
+  GetRFile(DTM, DTM_Filename);
+  GetGFile(PRC, PARCEL_filename);
 
   SetGRasterBorders(PRC);
 
   GetRFile(P_factor, Pf_Data_filename);
 
   If Include_sewer Then
-    GetRFile(SewerMap,Sewerfilename);
+    Begin
+    GetRFile(SewerMap, Sewerfilename);
+    if not CheckExtrema(SewerMap, 0, 1) Then
+       raise EInputException.Create('Error in data input: SewerMap contains values out of range (0-1)');
+    end;
 
   If Not Simplified Then
     Begin
       GetRfile(CNmap, CNmapfilename);
+      if not CheckExtrema(CNmap, 0, 100) Then
+         raise EInputException.Create('Error in data input: CN contains values out of range (0-100)');
     End;
+
   If not topo Then // als topo = false wordt de ploegrichting in rekening gebracht
     Begin
       GetGFile(TilDir, TilDirFilename);
+      //if not CheckExtrema(TilDir, 0, 360) Then
+      //   raise EInputException.Create('Error in data input: Tilage Direction contains values out of range (0-360)');
       GetGfile(Ro, RoFilename);
     End;
 
@@ -318,6 +338,9 @@ Begin
     Begin
          GetGFile(K_factor, K_Factor_filename);
          GetRFile(C_factor, Cf_Data_filename);
+         if not CheckExtrema(C_factor, 0, 1) Then
+           raise EInputException.Create('Error in data input: C-factor contains values out of range (0-1)');
+
          If not calibrate Then
           If Create_ktc Then
             Create_ktc_map(ktc)
@@ -334,12 +357,10 @@ Begin
 
     end;
 
-
-
   //If buffers are taken into account the buffermap is loaded
   If Include_buffer Then
     Begin
-      GetGfile(BufferMap,Bufferfilename);
+      GetGfile(BufferMap, Bufferfilename);
       For i := 1 To nrow Do
         //The row and column of every buffer are stored in the record
         For j := 1 To ncol Do
