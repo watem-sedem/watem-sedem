@@ -208,7 +208,7 @@ is disabled. By disabling Simple, you will use the full the CN-WS model.
 
 The user has to provide following input if this option is enabled:
 
-- :ref:`digital elevation model <demmap>`
+- :ref:`digital elevation model <dtmmap>`
 - :ref:`P factor map <pmap>`
 
 TO DO: extend this list!
@@ -499,11 +499,10 @@ When this option is enabled, following output is written:
 - :ref:`Sediment_segments.txt <sedsegmenttxt>`
 
 .. note::
-
-The CN-WS model was further optimized from 2016 to define river
-segments in the context of of Flanders water management. Therefore, the
-segments in CN-WS for Flanders are defined by the `Vlaams Hydrologische Atlas`
-(VHA).
+    The CN-WS model was further optimized from 2016 to define river
+    segments in the context of of Flanders water management. Therefore, the
+    segments in CN-WS for Flanders are defined by the `Vlaams Hydrologische Atlas`
+    (VHA).
 
 .. _manualoutlet:
 
@@ -611,6 +610,7 @@ write rainfall exces
 (bool, default false): writes :ref:`Remap.rst <remaprst>`
 
 .. _writetotalrunoff:
+
 write total runoff
 ##################
 

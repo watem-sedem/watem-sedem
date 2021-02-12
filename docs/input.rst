@@ -159,6 +159,8 @@ Filename of the dam map. This raster is only mandatory when
 :ref:`Include dams = 1 <includedams>` See :ref:`here <routingmap>` for more
 information on how to create this map.
 
+.. _pmap:
+
 P factor map filename
 *********************
 
