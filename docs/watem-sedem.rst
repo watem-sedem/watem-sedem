@@ -35,7 +35,7 @@ Two cases exist:
 Or:
 
 .. math::
-    S_o & = & S_A & \text{ if } & S_A≤TC \\
+    S_o & = & S_A & \text{ if } & S_A \leq TC \\
         & = & S_A-TC & \text{ else } & S_A>TC
 
 

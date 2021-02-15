@@ -138,7 +138,7 @@ with:
   condition II (:math:`m`)
 - :math:`IN_{max10}`: the maximum 10-minute rainfall intensity (:math:`m`)
 - :math:`AR5`: the 5 days antecedent rainfall depth (:math:`m`)
-- :math:`α, β`: tuning parameters (:math:`-`)
+- :math:`\alpha, \beta`: tuning parameters (:math:`-`)
 
 :math:`CNII` indicates the standard tabulated curve number value. This value represents the curve number under
 average soil moisture conditions. A conversion table exists to translate :math:`CNII` into :math:`CNI` (dry soil) and :math:`CNIII` (wet soil).
