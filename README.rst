@@ -74,8 +74,11 @@ event-based model, whereas WS is a year-based model. Note that it is
 technically possible to use WS as an event-based model, yet a year-based
 assessment is found to be more robust.
 
-.. image:: _static/png/diagram_cn_ws_package.png
+.. figure:: _static/png/diagram_cn_ws_package.png
     :width: 771px
+    :align: center
+
+    Schematic diagram of the cn-ws package
 
 The CN and WS model can also be used together, by using the
 run-off to scale the yearly sediment load. This is explained :ref:`here
