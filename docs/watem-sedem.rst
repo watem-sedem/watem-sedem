@@ -35,9 +35,10 @@ Two cases exist:
 Or:
 
 .. math::
-    S_o & = & S_A & \text{ if } & S_A \leq TC \\
-        & = & S_A-TC & \text{ else } & S_A>TC
+        S_o = S_A \quad\text{ if } S_A \leq TC
 
+.. math::
+        S_o = S_A-TC \quad\text{ if } S_A>TC
 
 The outgoing sediment of a cell is distributed to one or two target pixels.
 The target cells are determined by the routing algorithm. The outgoing

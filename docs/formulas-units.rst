@@ -25,8 +25,10 @@ comparing **volumes** (:math:`m^3`) or (see :ref:`concept <Concept>`, with
 :math:`S_A =S_i+E`):
 
 .. math::
-    S_o & = & S_i+E & \text{ if } & S_i+E≤TC \\
-        & = & S_i+E-TC & \text{ else } & S_i+E>TC
+    S_o = S_i + E \quad\text{ if } S_i+E \leq TC
+
+.. math::
+    S_o = S_i + E -TC \quad\text{ if } S_i>TC
 
 with the units for :math:`E` and :math:`TC`:
 
@@ -35,13 +37,15 @@ with the units for :math:`E` and :math:`TC`:
 
 These units are converted to :math:`\frac{m^3}{year}` (:math:`E_v` and
 :math:`TC_v`) by making use of the pixel area (:math:`A_c, m^2`), the soil
-bulk density (:math:`\rho, \frac{kg}{m^3}`) and the correction factor for
+bulk density (:math:`\rho \frac{kg}{m^3}`) and the correction factor for
 the grid cell dimension (:math:`x`, resolution multiplied by :math:`|sin
 (\alpha)|+|cos (\alpha)|`).
 
 .. math::
-    E_v & = & \frac{E * A_c}{\rho} (\frac{m^3}{year})\\
-    TC_v  & = & \frac{TC * x}{\rho} (\frac{m^3}{year})
+    E_v = \frac{E * A_c}{\rho} (\frac{m^3}{year})
+
+.. math::
+    TC_v = \frac{TC * x}{\rho} (\frac{m^3}{year})
 
 The values for the outgoing sediment per pixel are in the code thus defined
 as state variables in :math:`\frac{m^3}{year}`. Consequently, the

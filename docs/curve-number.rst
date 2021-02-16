@@ -61,13 +61,10 @@ however, the quality of choice has been often questioned. Nowadays it is often p
 Combining equations 1, 2 and 3 results in the following expression for :math:`Q`:
 
 .. math::
+    Q(P,S) = \frac{(P-cS)^2}{P+(1-c)S}  \quad\text{if }  P>I_a
 
-    Q(P,S) =
-        \Bigg\{
-            \begin{array}{ll}
-                \frac{(P-cS)^2}{P+(1-c)S} & \text{if} & P>I_a \\
-                0   & \text{else} & P \leq I_a
-            \end{array}
+.. math::
+    Q(P,S) = 0  \quad\text{if } P \leq I_a
 
 :math:`S`, finally, can be expressed as a function of the dimensionless
 curve number :math:`CN`, an empirical parameter ranging between 0
@@ -150,9 +147,7 @@ In grid cells at which the rainfall depth P is lower than the initial abstractio
 2003):
 
 .. math::
-    \begin{array}{ll}
-        I=(I_a-P) \frac{D}{1440} & if & P<I_a
-    \end{array}
+    I=(I_a-P) \frac{D}{1440}  \quad\text{if } P<I_a
 
 with:
 
