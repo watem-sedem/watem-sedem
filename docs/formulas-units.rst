@@ -81,3 +81,4 @@ listed.
 .. csv-table::
     :file: _static/csv/units.csv
     :header-rows: 1
+    :align: center

@@ -80,8 +80,11 @@ Combining last two equations, :math:`Q` can thus be expressed solely as a
 function of :math:`P` and :math:`CN` like depicted in the graph below
 (source: USDA technical release 55, urban hydrology for small watersheds)
 
-.. image:: _static/png/cn_graph.png
+.. figure:: _static/png/cn_graph.png
     :width: 600px
+    :align: center
+
+    TO DO: Caption (USDA technical release 55, urban hydrology for small watersheds)
 
 
 The simplistic nature of the original CN method explains its widespread use.

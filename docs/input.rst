@@ -73,6 +73,7 @@ within a parcel. Note that the data type of this raster is integer 16.
 .. csv-table::
     :file: _static/csv/landcover_pixelid.csv
     :header-rows: 1
+    :align: center
 
 .. note::
 
@@ -137,7 +138,9 @@ other pixels belonging to the buffer get the
 zero.
 
 .. figure:: _static/png/buffermap.png
-	:scale: 80%
+    :align: center
+
+    Example of a buffermap with three buffer basins.
 
 The datatype of the buffermap is integer16.
 
@@ -188,7 +191,9 @@ In the figure below, an example of a river segment map with seven segments is
 given. All pixels which are no river pixels get value 0.
 
 .. figure:: _static/png/riversegment.png
-	:scale: 80%
+    :align: center
+
+    Example of a river segment map with seven segments.
 
 The datatype of the river segment map is integer16. The segments id's in the
 context of Flanders are defined by the VHA (see also note
@@ -208,21 +213,24 @@ segment-ids of the :ref:`river segment map <riversegmentfile>`.
 Based on the example :ref:`river segment map <riversegmentfile>`, an example
 table with adjectant river segments is displayed below:
 
-+-----+---+
-|from |to |
-+=====+===+
-|1    |3  |
-+-----+---+
-|2    |3  |
-+-----+---+
-|3    |5  |
-+-----+---+
-|4    |5  |
-+-----+---+
-|6    |2  |
-+-----+---+
-|7    |5  |
-+-----+---+
+.. table:: example adjectant segment file
+    :align: center
+
+    +-----+---+
+    |from |to |
+    +=====+===+
+    |1    |3  |
+    +-----+---+
+    |2    |3  |
+    +-----+---+
+    |3    |5  |
+    +-----+---+
+    |4    |5  |
+    +-----+---+
+    |6    |2  |
+    +-----+---+
+    |7    |5  |
+    +-----+---+
 
 .. _upstrsegments:
 
@@ -241,29 +249,32 @@ Table with upstream segments. This table is only mandatory when
 Based on the example :ref:`river segment map <riversegmentfile>`, an example
 table with adjectant upstream segments is displayed below:
 
-+-----+--------------+-----------+
-|edge |upstream edge |proportion |
-+=====+==============+===========+
-|3    |1             |1.0        |
-+-----+--------------+-----------+
-|3    |2             |1.0        |
-+-----+--------------+-----------+
-|5    |4             |1.0        |
-+-----+--------------+-----------+
-|5    |3             |1.0        |
-+-----+--------------+-----------+
-|5    |2             |1.0        |
-+-----+--------------+-----------+
-|5    |1             |1.0        |
-+-----+--------------+-----------+
-|5    |6             |1.0        |
-+-----+--------------+-----------+
-|5    |7             |1.0        |
-+-----+--------------+-----------+
-|6    |2             |1.0        |
-+-----+--------------+-----------+
-|5    |1             |1.0        |
-+-----+--------------+-----------+
+.. table:: example upstream segment file
+    :align: center
+
+    +-----+--------------+-----------+
+    |edge |upstream edge |proportion |
+    +=====+==============+===========+
+    |3    |1             |1.0        |
+    +-----+--------------+-----------+
+    |3    |2             |1.0        |
+    +-----+--------------+-----------+
+    |5    |4             |1.0        |
+    +-----+--------------+-----------+
+    |5    |3             |1.0        |
+    +-----+--------------+-----------+
+    |5    |2             |1.0        |
+    +-----+--------------+-----------+
+    |5    |1             |1.0        |
+    +-----+--------------+-----------+
+    |5    |6             |1.0        |
+    +-----+--------------+-----------+
+    |5    |7             |1.0        |
+    +-----+--------------+-----------+
+    |6    |2             |1.0        |
+    +-----+--------------+-----------+
+    |5    |1             |1.0        |
+    +-----+--------------+-----------+
 
 .. _riverroutingmap:
 
@@ -293,12 +304,16 @@ must flow from X to the lower left pixel, X will get value 6. All other
 directions are set in the same way, according to the numbers in the figure.
 
 .. figure:: _static/png/direction_routingmap.png
-	:scale: 80%
+    :align: center
+
+    TO DO: Caption
 
 An example of a routing map with two imposed routings is given here:
 
 .. figure:: _static/png/routingmap.png
-	:scale: 80%
+    :align: center
+
+    Example of a routing map
 
 The datatype of a routing raster is integer16.
 
