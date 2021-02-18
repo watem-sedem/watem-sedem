@@ -282,15 +282,19 @@ Raster with the amount of sediment (kg) due to tillage erosion that leaves every
 pixel and is distributed between the two target pixels.
 This raster is only written if :ref:`calculate tillage erosion = 1 <calctileros>`.
 
-
 .. _calibrationtxt:
 
 Calibration.txt
 ***************
 
-Only writen when :ref:`Calibratie = 1 <calibrate>`.
+This file contains the same output as
+:ref:`Total Sediment.txt <totalsedimenttxt>`, but for all ktc combinations defined
+in the :ref:`Calibration-option <calibration>`. It is only writen when
+:ref:`Calibratie = 1 <calibrate>`.
 
-TO DO 
+The txt-file contains a table, all columns seperated by ';'. The columns in the
+table are: ktc_low, ktc_high, tot_erosion, tot_sedimentation, sed_river,
+sed_noriver, sed_buffer, sed_openwater, outlet_1, outlet_2.
 
 .. _CNoutput:
 
