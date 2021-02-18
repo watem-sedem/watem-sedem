@@ -471,7 +471,25 @@ The :ref:`R-factor <rfactor>` or rainfall erosivity factor in the RUSLE equation
 LS correction
 *************
 
-float (default 1)
+Notebaert et al. (2005) describes that changes in spatial resolution have major
+scaling effects on topographic variables like the :ref:`L and S-factor <lsfactor>`.
+
+The LS-factor will
+decrease on a higher resolution (smaller pixels, more height information) and
+extreme LS values will occur more. To be able to compare the calculated RUSLE
+values on different spatial resolutions, a correction factor can be calculated.
+This correction factor :math:`LS_{cor}` is calculated as
+
+.. math::
+    LS_{cor} = \frac{LS_{avg,x}}{LS_{avg,y}}
+
+with
+
+- :math:`LS_{avg,x}`: the average LS factor in a catchment on resolution x
+- :math:`LS_{avg,y}`: the average LS factor in a catchment on resolution y
+
+The input variable is a float (default value 1, i.e. no correction).
+The LS-factor in the model is divided by this variable.
 
 .. _nrbuffers:
 
@@ -789,3 +807,10 @@ steps
 
 The amount of steps between the lower and upper values for ktc low and ktc high
 during a calibration run. This value is an integer and by default 12.
+
+References
+==========
+
+Notebaert, B,. Govers, G.n Verstraeten, G., Van Oost, K., Ruysschaert, G.,
+Poesen, J., Van Rompay, A. (2005): Verfijnde ersoiekaart Vlaanderen: eindrapport,
+Departement Omgeving, Brussel, 53 pp.
