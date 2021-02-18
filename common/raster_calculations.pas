@@ -1329,25 +1329,23 @@ Var
   BufferId: integer;
 Begin
   fluxout:=UpArea[i,j];
-  If Include_buffer and (Buffermap[i,j] > 16384) Then
-    Begin
-      flux := fluxout;
 
-      if (Routing[i,j].Part1 > 0) and (Buffermap[Routing[i,j].Target1Row,Routing[i,j].Target1Col] >0) then
+  If Include_buffer and (Buffermap[i,j] > 0) Then
+     Begin;
+      if (Buffermap[i,j] < 16384) and buffer_reduce_upstream_area Then //buffer outlet pixel
         begin
-         BufferId := Buffermap[i,j] - 16384;
+         BufferId := Buffermap[i,j];
          ptef :=1-BufferData[BufferId].PTEF/100;
          flux := fluxout * ptef;
-        end;
+        end
+      else
+          flux := fluxout;
 
       if (Routing[i,j].Part1 > 0) then
-        begin
-        UpArea[Routing[i,j].Target1Row,Routing[i,j].Target1Col] += Routing[i,j].Part1 * flux;
-
-        end;
+        UpArea[Routing[i,j].Target1Row, Routing[i,j].Target1Col] += Routing[i,j].Part1 * flux;
 
       if (Routing[i,j].Part2 > 0) then
-        UpArea[Routing[i,j].Target2Row,Routing[i,j].Target2Col] += Routing[i,j].Part2 * flux;
+        UpArea[Routing[i,j].Target2Row, Routing[i,j].Target2Col] += Routing[i,j].Part2 * flux;
 
       exit;
     End;
