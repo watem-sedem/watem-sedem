@@ -742,4 +742,50 @@ These lines are added to the ini-file. Note that the amount of sections with
 forced routing vectors is defined by the variable
 :ref:`Number of forced routing <nrforcedrouting>`
 
+.. _calibrationparamters:
 
+Calibration data
+================
+
+The following parameters are only mandatory when :ref:`Calibrate=1 <calibrate>`.
+These parameters must be grouped in a seperate section in the ini-file with the
+header 'Calibration':
+
+.. code-block:: ini
+
+    [Calibration]
+    KTcHigh_lower=1
+    KTcHigh_upper=20
+    KTcLow_lower=1
+    KTcLow_upper=20
+    steps=20
+
+KTcHigh_lower
+*************
+
+The lower range of ktc-high values in the calibration mode. The value is a float
+and by default 5.
+
+KTcHigh_upper
+*************
+
+The upper range of ktc-high values in the calibration mode. The value is a float
+and by default 40.
+
+KTcLow_lower
+*************
+
+The lower range of ktc-low values in the calibration mode. The value is a float
+and by default 1.
+
+KTcLow_upper
+*************
+
+The upper range of ktc-low values in the calibration mode. The value is a float
+and by default 1.
+
+steps
+*****
+
+The amount of steps between the lower and upper values for ktc low and ktc high
+during a calibration run. This value is an integer and by default 12.
