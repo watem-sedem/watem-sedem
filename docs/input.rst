@@ -9,6 +9,8 @@ This page describes all possible modelinput.
 CN-WS accepts input files and **a lot** of parameters. All these inputs are
 described below.
 
+.. _folders:
+
 Folders
 =======
 
@@ -23,6 +25,8 @@ output directory
 
 Path to the directory where all model output will be written. If the directory
 does not exist, it is created by the model.
+
+.. _files:
 
 Files
 =====
@@ -393,6 +397,8 @@ raster is only mandatory when :ref:`Create ktc map = 0 <createktc>`.
 
 The dataype of the ktc map is float32.
 
+.. _variables:
+
 Variables
 =========
 
@@ -733,6 +739,8 @@ A full description about the CN calculation in buffers can be found
 .. note::
     The definition of the buffer extension id equal to buffer id + 16384,
     implies only 16384 can be modelled.
+
+.. _forcedroutingdata:
 
 Forced routing data
 ===================

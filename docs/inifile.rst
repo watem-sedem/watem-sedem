@@ -1,9 +1,12 @@
-Configuration ``ini`` file
+Summary ``ini`` file
 ==========================
 
-This page gives an overview of all possible entries in the ini-file of the model.
+This page gives an overview and summary of all possible entries in the ini-file
+of the model.
+
 The ini-file is a configuration file where all model options are controlled.
-For each input in the ``ini`` file, it defines:
+
+For each input in the ``ini`` file, this overview defines:
 
 - the name (key) of the variable
 - the data type of the variable
@@ -14,7 +17,7 @@ For each input in the ``ini`` file, it defines:
 Overview
 --------
 
--  [Working directories]
+-  :ref:`[Working directories] <folders>`
 
 +--------------------+---------+-----------+--------------+-----------+
 | NAME               | DTYPE   | DEFAULT   | MODEL PART   | M or C?   |
@@ -24,7 +27,7 @@ Overview
 | Output directory   | str     | ''        | R, WS, CN    |           |
 +--------------------+---------+-----------+--------------+-----------+
 
--  [User Choices]
+-  :ref:`[User Choices] <choicespage>`
 
 +-----------------------------+-----------+---------------------------+--------------+-----------+
 | NAME                        | DTYPE     | DEFAULT                   | MODEL PART   | M or C?   |
@@ -76,7 +79,7 @@ Overview
 | Convert output              | boolean   | false                     | R, WS, CN    |           |
 +-----------------------------+-----------+---------------------------+--------------+-----------+
 
--  [Variables]
+-  :ref:`[Variables] <variables>`
 
 +---------------------------------------+---------+-----------+--------------+-----------+
 | NAME                                  | DTYPE   | DEFAULT   | MODEL PART   | M or C?   |
@@ -130,7 +133,7 @@ Overview
 | Endtime model                         | int     | ''        | CN           | M         |
 +---------------------------------------+---------+-----------+--------------+-----------+
 
--  [Calibration]
+-  :ref:`[Calibration] <calibrationparamters>`
 
 +------------------+-----------+-----------+--------------+-----------+
 | NAME             | DTYPE     | DEFAULT   | MODEL PART   | M or C?   |
@@ -148,7 +151,7 @@ Overview
 | steps            | int       | 12        | R, WS, CN    | C         |
 +------------------+-----------+-----------+--------------+-----------+
 
--  [Files]
+-  :ref:`[Files] <files>`
 
 +-------------------------------+---------+-----------+--------------+-----------+
 | NAME                          | DTYPE   | DEFAULT   | MODEL PART   | M or C?   |
@@ -194,7 +197,7 @@ Overview
 | ktc map filename              | str     |           | WS, CN       | C         |
 +-------------------------------+---------+-----------+--------------+-----------+
 
--  [Output maps]
+-  :ref:`[Output maps] <outputchoices>`
 
 +----------------------------+-----------+-----------+--------------+-----------+
 | NAME                       | DTYPE     | DEFAULT   | MODEL PART   | M or C?   |
@@ -222,8 +225,11 @@ Overview
 | Write total runoff         | boolean   | false     | CN           |           |
 +----------------------------+-----------+-----------+--------------+-----------+
 
--  [Forced Routing X] IF Force Routing WITH X 1 -> Number of Forced
-   Routing
+-  :ref:`[Forced Routing X] <forcedroutingdata>`
+
+This section is only mandatory when :ref:`Force Routing <forcerouting>` is
+enabled. The section is repeated for every force routing vector (i.e. X ranges
+from 1 to :ref:`Number of forced routing <nrforcedrouting>`.
 
 +--------------+---------+-----------+--------------+-----------+
 | NAME         | DTYPE   | DEFAULT   | MODEL PART   | M or C?   |
@@ -237,7 +243,11 @@ Overview
 | target row   | int     | ''        | R, WS, CN    | M         |
 +--------------+---------+-----------+--------------+-----------+
 
--  [Buffer X] IF Include buffers WITH X 1 -> Number of buffers
+-  :ref:`[Buffer X] <bufferdata>`
+
+This section is only mandatory when :ref:`Include buffers <includebuffers>` is
+enabled. The section is repeated for every buffer id (i.e. X ranges from 1 to
+:ref:`Number of buffers <nrbuffers>`).
 
 +-------------------------+---------+-----------+--------------+-----------+
 | NAME                    | DTYPE   | DEFAULT   | MODEL PART   | M or C?   |
@@ -303,9 +313,3 @@ Multi\|year (long-term)
 -  parcel filename -> parcel filename X
 -  CN map filename -> CN map SEASON X
 -  C factor map filename -> C factor map SEASON X
-
-Help variables used in pascal code
-----------------------------------
-
-Simplified = "Only Routing" \| "Simplified model version" -> R \| WS top
-= NOT "Include tillage direction"

@@ -532,6 +532,8 @@ must define the :ref:`rainfall file <rainfallfile>`.
 
 (TO DO: add information about how R-factor is calculated?)
 
+.. _outputchoices:
+
 Output
 ******
 
