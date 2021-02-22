@@ -241,9 +241,9 @@ Capacity). This raster is only written if
 Capacity.rst
 ************
 
-Raster with the calculated transport capacity (kg/m²) for every pixel. The
-values in this raster are calculated according the chosen formula for the
-:ref:`transport capacity <tcmodel>`
+Raster with the calculated transport capacity :math:`\frac{kg}{m^2}` for every
+pixel. The values in this raster are calculated according the chosen formula for
+the :ref:`transport capacity <tcmodel>`
 
 .. _ruslerst:
 

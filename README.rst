@@ -78,7 +78,7 @@ assessment is found to be more robust.
     :width: 771px
     :align: center
 
-    Schematic diagram of the cn-ws package
+    Schematic diagram of the CN-WS package
 
 The CN and WS model can also be used together, by using the
 run-off to scale the yearly sediment load. This is explained :ref:`here

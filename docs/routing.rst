@@ -75,7 +75,7 @@ below:
 .. figure:: _static/png/sketch_flow_algorithm.png
     :align: center
 
-    Flow-chart of the routing algorithm in cn-ws
+    Flow-chart of the routing algorithm in CN-WS
 
 In this figure, the `Flow(target1)` or `Flow(target2)` tag indicate that
 routing will follow strictly the path of the first or second cardinal flow

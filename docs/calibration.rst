@@ -7,28 +7,28 @@ Calibration
 Theoretical background
 ======================
 
-WaTEM-SEDEM can be calibrated by comparing the calculated sedimentfluxes to the
-rivers with the observed sedimentfluxes in :math:`i` catchments.
+WaTEM-SEDEM can be calibrated by comparing the calculated sediment fluxes to the
+rivers with the observed sedimentfluxes in :math:`n` catchments.
 The :ref:`transport capacity <tcmodel>` used in WaTEM-SEDEM contains the ktc-value.
-this parameter can be adapted to calibrate the model.
+This parameter can be adapted to calibrate the model.
 
-Two kTC-values are used in the modelruns: kTC-low and kTC-high. The first value
-is used for land covers with low erosion potential (e.g. forest, grassland), the
+Two kTC-values are used in the model runs: kTC-low and kTC-high. The first value
+is used for land covers with low erosion potential (i.e. forest, grassland), the
 latter, kTC-high, is used for arable land. To select the correct kTC-values,
 WaTEM-SEDEM must be ran for a range of kTC values for all measurement areas in
 the dataset. The optimal combination of both kTC-values is obtained by three criteria.
 
 The first step in the selection process is the calculation of the
-modelefficiency :math:`ME` defined by Nash and Sutcliffe (1970):
+model efficiency :math:`ME` defined by Nash and Sutcliffe (1970):
 
 .. math::
     ME = 1 - \frac{\sum_{i}^{n}(SE_{obs,i}-SE_{sim,i})^2}{\sum_{i}^{n}(SE_{obs,i}-SE_{avg})^2}
 
 with
 
-- :math:`SE_{obs,i}`: the observed sedimentexport for measurement point i
-- :math:`SE_{sim,i}`: the simulated sedimentexport for measurement point i
-- :math:`SE_{avg}`: the average observed sedimentexport of all :math:`n` measurement points
+- :math:`SE_{obs,i}`: the observed sediment export for measurement point :math:`i`
+- :math:`SE_{sim,i}`: the simulated sediment export for measurement point :math:`i`
+- :math:`SE_{avg}`: the average observed sediment export of all :math:`n` measurement points
 
 Model efficiencies vary between :math:`-\infty`  and 1. A :math:`ME` smaller than
 zero means that the model is not efficient, i.e., the model delivers a result
@@ -47,10 +47,10 @@ in a plot as shown by Deproost et al. (2018).
 Model simulations with a combination of kTC-values with a high :math:`ME` are
 further analysed. Two criteria are used to select the best performing kTC-factors.
 The first criterium is the slope of the linear regression (with intercept 0)
-between the observed and simulated values. The simulated sedimentexport is
+between the observed and simulated values. The simulated sediment export is
 good if the calculated slope lies between 0.95 and 1.05. Ohterwise, the
 bias between modelresult and observation will be to high (systematically more
-than 5% too high or too low).
+than 5 % too high or too low).
 
 The last criterium is the ratio between kTC-low and kTC-high. Verstraeten et al.
 (2006) showed that this ratio must lie between 0.25 and 0.35. When a ratio in
