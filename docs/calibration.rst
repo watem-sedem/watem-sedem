@@ -4,6 +4,12 @@
 Calibration
 ###########
 
+.. note::
+    This chapter only describes the calibration of :ref:`WaTEM-SEDEM <WS>`. The
+    :ref:`CN module <CN>` can be calibrated using the parameters
+    :ref:`alpha <alpha>` and :ref:`beta <beta>`. We refer to the literature
+    about the Curve Number methodology on how to use these parameters.
+
 Theoretical background
 ======================
 
@@ -14,7 +20,10 @@ This parameter can be adapted to calibrate the model.
 
 Two kTC-values are used in the model runs: kTC-low and kTC-high. The first value
 is used for land covers with low erosion potential (i.e. forest, grassland), the
-latter, kTC-high, is used for arable land. To select the correct kTC-values,
+latter, kTC-high, is used for arable land. Land covers with no erosion potential
+(i.e. roads and water) are automatically appointed with a very high kTC value (i.e. 9999).
+
+To select the correct kTC-values,
 WaTEM-SEDEM must be ran for a range of kTC values for all measurement areas in
 the dataset. The optimal combination of both kTC-values is obtained by three criteria.
 
@@ -30,7 +39,7 @@ with
 - :math:`SE_{sim,i}`: the simulated sediment export for measurement point :math:`i`
 - :math:`SE_{avg}`: the average observed sediment export of all :math:`n` measurement points
 
-Model efficiencies vary between :math:`-\infty`  and 1. A :math:`ME` smaller than
+Model efficiencies vary between :math:`-\infty`  and 1. An :math:`ME` smaller than
 zero means that the model is not efficient, i.e., the model delivers a result
 that is less accurate than the mean value of the observed values. A :math:`ME`
 of 1 can be interpreted as a very performant model.
@@ -67,9 +76,10 @@ calibration and future model runs. In the ini-file for every catchment the user
 has to enable the :ref:`calibration option <calibrate>` and define the
 :ref:`range of ktc values <calibrationparamters>`.
 
-The model will loop over all combinations of ktc values in the defined range,
-creates a :ref:`ktc map <ktcmap>` for every combination and runs the model for
-every combination. :ref:`A calibration file <calibrationtxt>` with the amount of
+The model will loop over all combinations of ktc values in the defined range.
+A :ref:`ktc map <ktcmap>` is created by the programm for every combination.
+Afterwards, the model is run for every combination.
+:ref:`A calibration file <calibrationtxt>` with the amount of
 sediment at each
 outlet of the model, for each combination of ktc-values in the defined range is
 available after running the model in calibration mode for every catchment. These
