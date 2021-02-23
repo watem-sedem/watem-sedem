@@ -72,7 +72,7 @@ to do
 LS.rst
 ******
 
-Raster with the calculated :ref:`LS-factor <lsfactor>` (dimensionless). This
+Raster with the calculated :ref:`LS-factor <lsfactor>` (-). This
 raster is only written if :ref:`write ls factor = 1 <writels>`.
 
 .. _aspectmap:
@@ -96,7 +96,7 @@ Raster with the calculated slope in radians. This raster is only written if
 UPAREA.rst
 **********
 
-Raster with the total upstream area (m²) for every pixel. This raster is only
+Raster with the total upstream area :math:`(m^2)` for every pixel. This raster is only
 written if :ref:`write upstream area = 1 <writeuparea>`.
 
 .. _watemsedemoutput:
@@ -114,22 +114,22 @@ Total Sediment.txt
 
 Txt-file where the first rows give a summary of the results:
 
-* Total erosion (kg): the total amount of sediment eroded in the landscape. 
-* Total deposition (kg): the total amount of sediment deposited in the landscape
+* Total erosion :math:`(kg)`: the total amount of sediment eroded in the landscape.
+* Total deposition :math:`(kg)`: the total amount of sediment deposited in the landscape
   (not entering sewers or rivers)
-* Sediment leaving the catchment, via the river (kg): the amount of sediment
+* Sediment leaving the catchment, via the river :math:`(kg)`: the amount of sediment
   that enters all riverpixels
-* Sediment leaving the catchment, not via the river (kg): the amount of sediment
+* Sediment leaving the catchment, not via the river :math:`(kg)`: the amount of sediment
   that enters pixels outside the modeldomain
   
 if :ref:`Include buffers = 1 <includebuffers>` following row is added to the file: 
 
-* Sediment trapped in buffers (kg): the amount of sediment that is trapped in
+* Sediment trapped in buffers :math:`(kg)`: the amount of sediment that is trapped in
   all buffer basins.
   
 if :ref:`Include sewers = 1 <inlcudesewers>` following row is added to the file: 
 
-* Sediment entering sewer system (kg): the amount of sediment that enters the sewer pixels
+* Sediment entering sewer system :math:`(kg)`: the amount of sediment that enters the sewer pixels
 
 After the above mentioned rows, a tab-seprated table where for every outlet
 the amount of incoming sediment is reported.
@@ -145,7 +145,7 @@ Total Sediment segments.txt
 ***************************
 
 Tab-delimited table. Every row contains the id of a river segment and the total
-amount of sediment (kg) entering the segment.
+amount of sediment :math:`(kg)` entering the segment.
 This table is only generated when
 :ref:`Output per river segment = 1 <outputsegment>`.
 
@@ -185,7 +185,7 @@ TO DO
 sewer_in.rst
 ************
 
-Raster with the amount of sediment (kg) that is trapped in every sewer pixel.
+Raster with the amount of sediment :math:`(kg)` that is trapped in every sewer pixel.
 This raster is only generated when :ref:`Include sewers = 1 <inlcudesewers>`.
 
 .. _sediexportrst:
@@ -193,7 +193,7 @@ This raster is only generated when :ref:`Include sewers = 1 <inlcudesewers>`.
 SediExport_kg.rst
 *****************
 
-Raster with for every river cell the calculated amounts of sedimentinput (kg).
+Raster with for every river cell the calculated amounts of sedimentinput :math:`(kg)`.
 This raster is only written if :ref:`write sediment export = 1 <writesedexport>`.
 
 .. _sedioutrst:
@@ -201,7 +201,7 @@ This raster is only written if :ref:`write sediment export = 1 <writesedexport>`
 SediOut_kg.rst
 **************
 
-Raster with the amount of sediment (kg) that leaves every pixel and is
+Raster with the amount of sediment :math:`(kg)` that leaves every pixel and is
 distributed between the two target pixels.
 This raster is only written if :ref:`write sediment export = 1 <writesedexport>`.
 
@@ -210,7 +210,7 @@ This raster is only written if :ref:`write sediment export = 1 <writesedexport>`
 SediIn_kg.rst
 *************
 
-Raster with the amount of sediment (kg) that enters a pixel from the upstream
+Raster with the amount of sediment :math:`(kg)` that enters a pixel from the upstream
 pixels. This raster is only written if
 :ref:`write sediment export = 1 <writesedexport>`.
 
@@ -219,7 +219,7 @@ pixels. This raster is only written if
 WATEREROS (kg per gridcel).rst
 ******************************
 
-Raster with the total amount of erosion or sedimentation in every pixel in kg.
+Raster with the total amount of erosion or sedimentation in every pixel in :math:`(kg)`.
 Negative values indicate erosion (i.e. Incoming Sediment + RUSLE < Capacity),
 positive values indicate sedimentation (i.e. Incoming Sediment + RUSLE >
 Capacity). This raster is only written if
@@ -230,7 +230,7 @@ Capacity). This raster is only written if
 WATEREROS (mm per gridcel).rst
 ******************************
 
-Raster with the total amount of erosion or sedimentation in every pixel in mm.
+Raster with the total amount of erosion or sedimentation in every pixel in :math:`(mm)`.
 Negative values indicate erosion (i.e. Incoming Sediment + RUSLE < Capacity),
 positive values indicate sedimentation (i.e. Incoming Sediment + RUSLE >
 Capacity). This raster is only written if
@@ -241,7 +241,7 @@ Capacity). This raster is only written if
 Capacity.rst
 ************
 
-Raster with the calculated transport capacity :math:`\frac{kg}{m^2}` for every
+Raster with the calculated transport capacity :math:`(kg.m^{-2})` for every
 pixel. The values in this raster are calculated according the chosen formula for
 the :ref:`transport capacity <tcmodel>`
 
@@ -251,34 +251,34 @@ RUSLE.rst
 *********
 
 Raster with the calculated RUSLE-values, the potential soil loss, for every
-pixel in kg/m². This raster is only written if
+pixel in :math:`(kg.m^2)`. This raster is only written if
 :ref:`write rusle = 1 <writerusle>`
 
 TILEROS (mm per gridcel).rst
 ****************************
 
-Raster with the calculated tillage erosion (mm/year). Negative values indicate
+Raster with the calculated tillage erosion :math:`(mm.year^{-1})`. Negative values indicate
 erosion, positive values give sedimentation.
 This raster is only written if :ref:`calculate tillage erosion = 1 <calctileros>`.
 
 TILEROS (kg per gridcel).rst
 ****************************
 
-Raster with the calculated tillage erosion (kg/year). Negative values indicate
+Raster with the calculated tillage erosion :math:`(kg.year^{-1})`. Negative values indicate
 erosion, positive values give sedimentation.
 This raster is only written if :ref:`calculate tillage erosion = 1 <calctileros>`.
 
 SEDTIL_IN.rst
 *************
 
-Raster with the amount of sediment (kg) due to tillage erosion that enters a
+Raster with the amount of sediment :math:`(kg)` due to tillage erosion that enters a
 pixel from the upstream pixels.
 This raster is only written if :ref:`calculate tillage erosion = 1 <calctileros>`.
 
 SEDTIL_OUT.rst
 **************
 
-Raster with the amount of sediment (kg) due to tillage erosion that leaves every
+Raster with the amount of sediment :math:`(kg)` due to tillage erosion that leaves every
 pixel and is distributed between the two target pixels.
 This raster is only written if :ref:`calculate tillage erosion = 1 <calctileros>`.
 
@@ -307,20 +307,20 @@ generate some additional output.
 Discharge.txt
 *************
 
-Table with discharge (m³/s) as a function of time for every outlet.
+Table with discharge :math:`(m^3 s^{-1})` as a function of time for every outlet.
 
 .. _dischargesegment:
 
 Discharge_segments.txt
 **********************
 
-Table with discharge (m³/s) as a function of time for every river segment. This
+Table with discharge :math:`(m^3 s^{-1})` as a function of time for every river segment. This
 table is only generated when :ref:`Output per river segment = 1 <outputsegment>`.
 
 Sediment concentration.txt
 **************************
 
-Table with the concentration of sediment (g/l) as a function of time for every
+Table with the concentration of sediment :math:`(g.l^{-1})` as a function of time for every
 outlet.
 
 .. _sedconcensegment:
@@ -328,34 +328,34 @@ outlet.
 Sediment concentration segments.txt
 ***********************************
 
-Table with the concentration of sediment (g/l) as a function of time for every
+Table with the concentration of sediment :math:`(g.l^{-1})` as a function of time for every
 river segment.
 This table is only generated when :ref:`Output per river segment = 1 <outputsegment>`.
 
 Sediment.txt
 ************
 
-Table with the sediment load (kg) as a function of time for every outlet.
+Table with the sediment load :math:`(kg)` as a function of time for every outlet.
 
 .. _sedsegmenttxt:
 
 Sediment_segments.txt
 *********************
 
-Table with the sediment load (kg) as a function of time for river segment.
+Table with the sediment load :math:`(kg)` as a function of time for river segment.
 This table is only generated when
 :ref:`Output per river segment = 1 <outputsegment>`.
 
 Spillover per buffer.txt
 ************************
 
-Table with the amount of water (m³) that leaves every buffer basin via the
+Table with the amount of water :math:`(m^3)` that leaves every buffer basin via the
 overflow.
 
 Total discharge.txt
 *******************
 
-Table with the total amount of water (m³) that arives in every outlet after a
+Table with the total amount of water :math:`(m^3)` that arives in every outlet after a
 rainfall event.
 
 .. _remaprst:
@@ -371,6 +371,6 @@ for a rainfall event.
 Total runoff.rst
 ****************
 
-Raster with total runoff (m³) generated in every pixel during a rainfall event.
+Raster with total runoff :math:`(m^3)` generated in every pixel during a rainfall event.
 The value in every pixel is the sum of the amount of rainfall and the amount of
 water flowing from upstream pixels, minus the infiltration in the pixel.

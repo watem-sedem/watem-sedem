@@ -84,8 +84,8 @@ function of :math:`P` and :math:`CN` like depicted in the graph below
     :width: 600px
     :align: center
 
-    TO DO: Caption (USDA technical release 55, urban hydrology for small watersheds)
-
+    Run-off as a function of rainfall for different CN-values
+    (USDA technical release 55, urban hydrology for small watersheds)
 
 The simplistic nature of the original CN method explains its widespread use.
 It is important to note that original CN method is best suited for

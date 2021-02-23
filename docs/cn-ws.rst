@@ -81,8 +81,8 @@ volume, :math:`V_{dead}`, is calculated by
 Where:
 
 - :math:`H_{opening}` is the height of the opening of the discharge pipe of the
-  buffer basin (m)
-- :math:`H_{dam}` is the height of the dam of the buffer basin (m)
+  buffer basin :math:`(m)`
+- :math:`H_{dam}` is the height of the dam of the buffer basin :math:`(m)`
 - :math:`V_{basin}` is the maximum volume of water that can be trapped in the
   bufferbasin (:math:`m^{3}`).
 
@@ -99,7 +99,7 @@ where:
 - :math:`Q_{max}` is the maximum discharge (:math:`m^{3} s^{-1}`)
 - :math:`V(t)`, the volume of water present in the buffer basin at timestep t
   (:math:`m^{3}`)
-- :math:`dt`, the timestep (s)
+- :math:`dt`, the timestep :math:`(s)`
 
 :math:`Q_{max}` is calculated for every buffer basin according to
 
@@ -108,7 +108,7 @@ where:
 
 Where :
 
-- :math:`C_d` is the discharge coefficient (-),
+- :math:`C_d` is the discharge coefficient :math:`(-)`,
 - :math:`A_0` is the area of the discharge opening (:math:`m^{2}`)
 - :math:`g` is the gravitational acceleration (9.81 :math:`m.s^{-2}`)
 
@@ -125,8 +125,8 @@ A second case arises when the watervolume in the buffer basin is larger than
 
 Where:
 
-- :math:`W_{dam}` is the width of the overflow on the bufferbasin dam (m)
-- :math:`h` is the height of the water above the overflow (m) and is calculated
+- :math:`W_{dam}` is the width of the overflow on the bufferbasin dam :math:`(m)`
+- :math:`h` is the height of the water above the overflow :math:`(m)` and is calculated
   for every timestep by:
 
 .. math::

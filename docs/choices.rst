@@ -29,7 +29,7 @@ The L-model is calculated according to the work of Desmet and Govers (1996):
 
 with
  - :math:`A`: upstream area for every raster pixel (:math:`\text{m}^2`).
- - :math:`D`: grid resolution (m).
+ - :math:`D`: grid resolution :math:`(m)`.
  - :math:`m`: length exponent (-).
  - :math:`x`: factor incorporating the flow direction (-).
 
@@ -152,7 +152,7 @@ method is the method proposed by Van Oost et al. (2000):
 
 with
 
-- :math:`kTC`: transport capacity coeffient (m)
+- :math:`kTC`: transport capacity coeffient :math:`(m)`
 - :math:`R`: :ref:`rain fall erosivity <rfactor>`
 - :math:`K`: :ref:`soil erobility factor <kfactor>`
 - :math:`LS`: :ref:`slope length and slope steepness factor <lsfactor>`
@@ -175,7 +175,7 @@ However, a second method, proposed by Verstraeten et al. (2007), also exists:
 
 with
 
-- :math:`A`: the upstream area (m²) of the pixel
+- :math:`A`: the upstream area :math:`(m^2)` of the pixel
 
 A detailed description and comparison of both TC models can be found in
 Verstraeten et al. (2007).
@@ -313,9 +313,6 @@ Buffer reduce area
 This options (boolean) allows to reduce the upstream area for the buffer with the
 efficiency of the buffer (see :ref:`buffer data section <bufferdata>`)
 
-.. note::
-    This option is not fully operational.
-
 .. _includeditches:
 
 Include ditches
@@ -447,9 +444,9 @@ First, the enrichment factor :math:`EF` for clay is calculated:
 .. math::
     EF = 1 + 0.7732.\exp^{-0.0508.SC}
 
-where :math:`SC` is the sediment concentration (g/l).
+where :math:`SC` is the sediment concentration :math:`(g/l)`.
 
-The estimated clay content :math:`CC` (%) for an outlet or segment is calculated
+The estimated clay content :math:`CC` :math:`(%)` for an outlet or segment is calculated
 as a function of :math:`EF` and :math:`CC_{text{parent}}`:
 
 .. math::

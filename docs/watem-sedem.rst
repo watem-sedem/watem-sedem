@@ -84,7 +84,7 @@ For every grid cell the transport capacity :math:`TC`
 
 with
 
-- :math:`kTC`: transport capacity coeffient (m)
+- :math:`kTC`: transport capacity coeffient :math:`(m)`
 - :math:`R`: :ref:`Rainfall erosivity factor <rfactor>`
 - :math:`K`: :ref:`Soil erobility factor <kfactor>`
 - :math:`T`: topographic factor (-)
@@ -106,14 +106,14 @@ Tillage erosion
 
 Tillage erosion, or soil translocation by tillage, is calculated according to
 the method of Van Oost et al. 2000. For every pixel the outgoing flux
-:math:`Q_{s,t}` (kg/m) due to tillage translocation is calculated as
+:math:`Q_{s,t}` :math:`(\frac{kg}{m})`  due to tillage translocation is calculated as
 
 .. math::
     Q_{s,t} = k_{til}.S
 
 with
 
-- :math:`ktil`: tillage transport coefficient (kg/m)
+- :math:`ktil`: tillage transport coefficient :math:`(\frac{kg}{m})`
 - :math:`S`: the local slope gradient (-)
 
 :math:`S` is calculated as
@@ -123,8 +123,8 @@ with
 
 with
 
-- :math:`dh`: change in height (m)
-- :math:`dx`: change in distance in horizontal direction (m)
+- :math:`dh`: change in height :math:`(m)`
+- :math:`dx`: change in distance in horizontal direction :math:`(m)`
 
 Note that the CN-WS model uses the same slope calculation for the calculation
 of the LS-factor and the tillage erosion. The calculated slope can be consulted
@@ -187,7 +187,7 @@ with
  - :math:`e_r`: the rain energy per unit depth
    (:math:`\frac{\text{J}}{\text{m}^{2}.\text{mm}}`). There are a number of
    ways to compute, see Verstraeten et al. (2006) and Panagos et al. (2015).
- - :math:`\Delta V_r`: the rain depth (mm).
+ - :math:`\Delta V_r`: the rain depth :math:`(mm)`.
 
 For applications of the rainfall erosivity factor in the context of Flanders
 a value of 870 :math:`\frac{\text{MJ.mm}}{\text{ha.h.year}}` is used since
@@ -222,16 +222,16 @@ map of Flanders:
     K  = 0.0035 + 0.03888 \exp^{0.5(\frac{\log_{10}{D_g}+1.519}{0.7584})^2}
 
 with
- - :math:`D_g` =  geometric mean particle diameter (mm):
+ - :math:`D_g` =  geometric mean particle diameter :math:`(mm)`:
 
 .. math::
 
     D_g = \exp^{\sum{f_i \ln(d_i+d_{i-1})0.5}}
 
 with
- - :math:`i` = the weight percentage of the texture class `i` (fraction).
+ - :math:`i` = the weight percentage of the texture class :math:`i` (fraction).
  - :math:`d_i` and :math:`d_{i-1}` = the maximum and minimum diameter of the
-   texture class :math:`i` (mm).
+   texture class :math:`i` :math:`(mm)`.
 
 By using the latter two equations with the soil texture map of Flanders, a
 K-factor was defined for every soil texture class.
