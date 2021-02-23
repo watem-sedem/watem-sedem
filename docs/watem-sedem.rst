@@ -92,9 +92,9 @@ with
 It is important to note that the :math:`kTC` factor is identified as a
 calibration factor. In addition, in order to use :math:`TC` to compare with the
 available sediment in a pixel (see :ref:`here <Concept>`), units are converted
-to :math:`\frac{\text{kg}}{\text{pixel}}` or
-:math:`\frac{\text{m}^3}{\text{pixel}}` by making use of the model resolution
-(m) and bulk density (:math:`\frac{\text{kg}}{\text{m}^3}`)
+to :math:`kg.pixel^{-1}` or
+:math:`m^3.pixel^{-1}` by making use of the model resolution
+(m) and bulk density (:math:`kg.m^{-3}`)
 
 CN-WS includes two ways to calculate :math:`TC`. See
 :ref:`the section about the different TC models <TCmodel>` for more information.
@@ -106,14 +106,14 @@ Tillage erosion
 
 Tillage erosion, or soil translocation by tillage, is calculated according to
 the method of Van Oost et al. 2000. For every pixel the outgoing flux
-:math:`Q_{s,t}` :math:`(\frac{kg}{m})`  due to tillage translocation is calculated as
+:math:`Q_{s,t}` :math:`(kg.m^{-1})`  due to tillage translocation is calculated as
 
 .. math::
     Q_{s,t} = k_{til}.S
 
 with
 
-- :math:`ktil`: tillage transport coefficient :math:`(\frac{kg}{m})`
+- :math:`ktil`: tillage transport coefficient :math:`(kg.m^{-1})`
 - :math:`S`: the local slope gradient (-)
 
 :math:`S` is calculated as
@@ -173,7 +173,7 @@ with
  - :math:`m_j`, increment :math:`k`: number of rain event in year :math:`j`
  - :math:`E`: the total kinetic energy of one single rain event
    (:math:`\frac{J}{m^2}`).
- - :math:`I_{30}` (:math:`\frac{mm}{h}`): the maximum rain intensity
+ - :math:`I_{30}` (:math:`mm.h^{-1}`): the maximum rain intensity
    recorded within 30 consecutive minutes.
 
 The total kinetic energy for one single rain event can be defined as:
