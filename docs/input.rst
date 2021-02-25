@@ -369,6 +369,8 @@ time in minutes (starting from 0), the second column contains the rainfall in mm
 
 The rainfall file is only mandatory when :ref:`Use R = 0 <useR>`.
 
+.. _kmap:
+
 K factor filename
 *****************
 

@@ -206,12 +206,24 @@ Simple
 When the option 'Simple' is enabled, only WaTEM-SEDEM is used and the CN-model
 is disabled. By disabling Simple, you will use the full the CN-WS model.
 
-The user has to provide following input if this option is enabled:
+The user has to provide following minimal input if this option is enabled:
 
 - :ref:`digital elevation model <dtmmap>`
 - :ref:`P factor map <pmap>`
+- :ref:`K factor map <kmap>`
+- :ref:`C factor map <cmap>`
+- :ref:`R factor <rfactor_var>`
+- :ref:`ktc low <ktclow>`
+- :ref:`ktc high <ktchigh>`
+- :ref:`ktc limit <ktclimit>`
+- :ref:`parcel connectivity cropland <parcelconncrop>`
+- :ref:`parcel connectivity forest <parcelconnforest>`
+- :ref:`parcel trapping efficiency cropland <parceltrapppingcrop>`
+- :ref:`parcel trapping efficiency forest <parceltrappingforest>`
+- :ref:`parcel trapping efficiency pasture <parceltrappingpasture>`
 
-TO DO: extend this list!
+Additional or alternative inputs are possible based on the chosen
+model options.
 
 When you disable this option, you use the CN-module the following extra input is
 mandatory:
