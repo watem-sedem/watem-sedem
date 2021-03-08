@@ -291,14 +291,25 @@ begin
     Distance2 := 0;
 end;
 
-Function CheckExtrema(inrst: RRaster; minval,maxval: integer):boolean;
+Function CheckExtrema_RRaster(inrst: RRaster; minval,maxval: integer):boolean;
 begin
-   CheckExtrema := True;
+   CheckExtrema_RRaster := True;
    For i := 1 To nrow Do
        For j := 1 To ncol Do
           Begin
             If (PRC[i,j] <> 0) And ((inrst[i,j] > maxval) Or (inrst[i,j] < minval)) Then
-               CheckExtrema:=False
+               CheckExtrema_RRaster:=False
+          End;
+end;
+
+Function CheckExtrema_GRaster(inrst: GRaster; minval,maxval: integer):boolean;
+begin
+   CheckExtrema_GRaster := True;
+   For i := 1 To nrow Do
+       For j := 1 To ncol Do
+          Begin
+            If (PRC[i,j] <> 0) And ((inrst[i,j] > maxval) Or (inrst[i,j] < minval)) Then
+               CheckExtrema_GRaster:=False
           End;
 end;
 
@@ -315,22 +326,22 @@ Begin
   If Include_sewer Then
     Begin
     GetRFile(SewerMap, Sewerfilename);
-    if not CheckExtrema(SewerMap, 0, 1) Then
+    if not CheckExtrema_RRaster(SewerMap, 0, 1) Then
        raise EInputException.Create('Error in data input: SewerMap contains values out of range (0-1)');
     end;
 
   If Not Simplified Then
     Begin
       GetRfile(CNmap, CNmapfilename);
-      if not CheckExtrema(CNmap, 0, 100) Then
+      if not CheckExtrema_RRaster(CNmap, 0, 100) Then
          raise EInputException.Create('Error in data input: CN contains values out of range (0-100)');
     End;
 
   If not topo Then // als topo = false wordt de ploegrichting in rekening gebracht
     Begin
       GetGFile(TilDir, TilDirFilename);
-      //if not CheckExtrema(TilDir, 0, 360) Then
-      //   raise EInputException.Create('Error in data input: Tilage Direction contains values out of range (0-360)');
+      if not CheckExtrema_GRaster(TilDir, 0, 360) Then
+         raise EInputException.Create('Error in data input: Tilage Direction contains values out of range (0-360)');
       GetGfile(Ro, RoFilename);
     End;
 
@@ -338,7 +349,7 @@ Begin
     Begin
          GetGFile(K_factor, K_Factor_filename);
          GetRFile(C_factor, Cf_Data_filename);
-         if not CheckExtrema(C_factor, 0, 1) Then
+         if not CheckExtrema_RRaster(C_factor, 0, 1) Then
            raise EInputException.Create('Error in data input: C-factor contains values out of range (0-1)');
 
          If not calibrate Then
