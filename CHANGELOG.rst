@@ -33,6 +33,7 @@ latest
     - use the same routing for tillage erosion as in the water erosion 
 - Add SEDTIL_IN and SEDTIL_OUT-files to output
 - Bugfix: do not overwrite determined routing for bufferpixels with standard routing
+- Bugfix: reduce uparea from buffer outlet pixel when Buffer reduce area is enabled
 
 version 4.1.0
 -------------

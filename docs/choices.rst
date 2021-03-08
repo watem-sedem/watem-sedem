@@ -29,7 +29,7 @@ The L-model is calculated according to the work of Desmet and Govers (1996):
 
 with
  - :math:`A`: upstream area for every raster pixel (:math:`\text{m}^2`).
- - :math:`D`: grid resolution (m).
+ - :math:`D`: grid resolution :math:`(m)`.
  - :math:`m`: length exponent (-).
  - :math:`x`: factor incorporating the flow direction (-).
 
@@ -152,7 +152,7 @@ method is the method proposed by Van Oost et al. (2000):
 
 with
 
-- :math:`kTC`: transport capacity coeffient (m)
+- :math:`kTC`: transport capacity coeffient :math:`(m)`
 - :math:`R`: :ref:`rain fall erosivity <rfactor>`
 - :math:`K`: :ref:`soil erobility factor <kfactor>`
 - :math:`LS`: :ref:`slope length and slope steepness factor <lsfactor>`
@@ -175,7 +175,7 @@ However, a second method, proposed by Verstraeten et al. (2007), also exists:
 
 with
 
-- :math:`A`: the upstream area (m²) of the pixel
+- :math:`A`: the upstream area :math:`(m^2)` of the pixel
 
 A detailed description and comparison of both TC models can be found in
 Verstraeten et al. (2007).
@@ -206,12 +206,24 @@ Simple
 When the option 'Simple' is enabled, only WaTEM-SEDEM is used and the CN-model
 is disabled. By disabling Simple, you will use the full the CN-WS model.
 
-The user has to provide following input if this option is enabled:
+The user has to provide following minimal input if this option is enabled:
 
-- :ref:`digital elevation model <demmap>`
+- :ref:`digital elevation model <dtmmap>`
 - :ref:`P factor map <pmap>`
+- :ref:`K factor map <kmap>`
+- :ref:`C factor map <cmap>`
+- :ref:`R factor <rfactor_var>`
+- :ref:`ktc low <ktclow>`
+- :ref:`ktc high <ktchigh>`
+- :ref:`ktc limit <ktclimit>`
+- :ref:`parcel connectivity cropland <parcelconncrop>`
+- :ref:`parcel connectivity forest <parcelconnforest>`
+- :ref:`parcel trapping efficiency cropland <parceltrapppingcrop>`
+- :ref:`parcel trapping efficiency forest <parceltrappingforest>`
+- :ref:`parcel trapping efficiency pasture <parceltrappingpasture>`
 
-TO DO: extend this list!
+Additional or alternative inputs are possible based on the chosen
+model options.
 
 When you disable this option, you use the CN-module the following extra input is
 mandatory:
@@ -230,7 +242,8 @@ mandatory:
 Calculate tillage erosion
 #########################
 
-TO DO
+This option enables the tillage erosion model of Van Oost et al. (2000). See
+:ref:`here <tillageerosionmodel>` for more information about this model.
 
 .. _createktil:
 
@@ -238,13 +251,14 @@ Create ktil map
 ###############
 
 CN-WS is able to create a raster with ktil-factors. The ktil value is the
-transport capacity coeficient for tillage erosion. When `Creat ktil map = 1`,
+transport capacity coeficient for tillage erosion. When `Create ktil map = 1`,
 the model expects two input variables: :ref:`ktil default <ktildefault>` and
 :ref:`ktil threshold <ktilthres>`. The C-factor map will be reclassed by these
 values: C-factors higher than ktil threshold will get the value of ktil default,
 other pixels are set to zero. When `Create ktil map = 0` the user will have to
 make a ktil map himself. The model will expect the filename of this ktil map
-in :ref:`ktil map filename <ktilmap>`.
+in :ref:`ktil map filename <ktilmap>`. This option is only mandatory if
+:ref:`Calculate tillage erosion = 1 <calctileros>`
 
 .. _createktc:
 
@@ -308,10 +322,8 @@ extension id, buffer id and trapping efficiency are explained at the
 Buffer reduce area
 ##################
 
-This options (boolean) allows to reduce the upstream area for the buffer with the efficiency of the buffer (see :ref:`buffer data section <bufferdata>`)
-
-.. note::
-    This option is not fully operational.
+This options (boolean) allows to reduce the upstream area for the buffer with the
+efficiency of the buffer (see :ref:`buffer data section <bufferdata>`)
 
 .. _includeditches:
 
@@ -444,9 +456,9 @@ First, the enrichment factor :math:`EF` for clay is calculated:
 .. math::
     EF = 1 + 0.7732.\exp^{-0.0508.SC}
 
-where :math:`SC` is the sediment concentration (g/l).
+where :math:`SC` is the sediment concentration :math:`(g/l)`.
 
-The estimated clay content :math:`CC` (%) for an outlet or segment is calculated
+The estimated clay content :math:`CC` :math:`(%)` for an outlet or segment is calculated
 as a function of :math:`EF` and :math:`CC_{text{parent}}`:
 
 .. math::
@@ -497,11 +509,10 @@ When this option is enabled, following output is written:
 - :ref:`Sediment_segments.txt <sedsegmenttxt>`
 
 .. note::
-
-The CN-WS model was further optimized from 2016 to define river
-segments in the context of of Flanders water management. Therefore, the
-segments in CN-WS for Flanders are defined by the `Vlaams Hydrologische Atlas`
-(VHA).
+    The CN-WS model was further optimized from 2016 to define river
+    segments in the context of of Flanders water management. Therefore, the
+    segments in CN-WS for Flanders are defined by the `Vlaams Hydrologische Atlas`
+    (VHA).
 
 .. _manualoutlet:
 
@@ -529,6 +540,8 @@ by the model. To use this option, the user has to set `Use R factor = 0` and
 must define the :ref:`rainfall file <rainfallfile>`.
 
 (TO DO: add information about how R-factor is calculated?)
+
+.. _outputchoices:
 
 Output
 ******
@@ -609,6 +622,7 @@ write rainfall exces
 (bool, default false): writes :ref:`Remap.rst <remaprst>`
 
 .. _writetotalrunoff:
+
 write total runoff
 ##################
 

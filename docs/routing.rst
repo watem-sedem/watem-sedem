@@ -25,6 +25,7 @@ this manual the non-river pixels are sometimes referred to as `land pixels`.
 .. csv-table::
     :file: _static/csv/landcover_pixelid.csv
     :header-rows: 1
+    :align: center
 
 .. note::
     1. Routing flows from land to land pixels, land to river pixels, from river
@@ -72,7 +73,9 @@ are adjusted according to elevation and land cover, as shown in the scheme
 below:
 
 .. figure:: _static/png/sketch_flow_algorithm.png
-	:scale: 80%
+    :align: center
+
+    Flow-chart of the routing algorithm in CN-WS
 
 In this figure, the `Flow(target1)` or `Flow(target2)` tag indicate that
 routing will follow strictly the path of the first or second cardinal flow
