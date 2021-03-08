@@ -622,7 +622,10 @@ Begin
   max_kernel_river := Inifile.ReadInteger('User Choices', 'Max kernel river', 100);
 
   adjusted_slope := inifile.ReadBool('User Choices', 'Adjusted Slope', false);
-  buffer_reduce_upstream_area := inifile.ReadBool('User Choices', 'Buffer reduce Area', false);
+
+  if include_buffer then
+     buffer_reduce_upstream_area := inifile.ReadBool('User Choices', 'Buffer reduce Area', false);
+
   force_routing := inifile.ReadBool('User Choices', 'Force Routing', false);
 
   river_routing := inifile.ReadBool('User Choices', 'River Routing', false);
