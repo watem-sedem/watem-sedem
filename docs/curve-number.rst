@@ -61,13 +61,10 @@ however, the quality of choice has been often questioned. Nowadays it is often p
 Combining equations 1, 2 and 3 results in the following expression for :math:`Q`:
 
 .. math::
+    Q(P,S) = \frac{(P-cS)^2}{P+(1-c)S}  \quad\text{if }  P>I_a
 
-    Q(P,S) =
-        \Bigg\{
-            \begin{array}{ll}
-                \frac{(P-cS)^2}{P+(1-c)S} & \text{if} & P>I_a \\
-                0   & \text{else} & P \leq I_a
-            \end{array}
+.. math::
+    Q(P,S) = 0  \quad\text{if } P \leq I_a
 
 :math:`S`, finally, can be expressed as a function of the dimensionless
 curve number :math:`CN`, an empirical parameter ranging between 0
@@ -83,9 +80,12 @@ Combining last two equations, :math:`Q` can thus be expressed solely as a
 function of :math:`P` and :math:`CN` like depicted in the graph below
 (source: USDA technical release 55, urban hydrology for small watersheds)
 
-.. image:: _static/png/cn_graph.png
+.. figure:: _static/png/cn_graph.png
     :width: 600px
+    :align: center
 
+    Run-off as a function of rainfall for different CN-values
+    (USDA technical release 55, urban hydrology for small watersheds)
 
 The simplistic nature of the original CN method explains its widespread use.
 It is important to note that original CN method is best suited for
@@ -117,7 +117,7 @@ with:
 
 - :math:`CN_{max}`: the maximum CN derived from the USDA SCS handbook (:math:`-`)
 - :math:`CC`:  the percentage of crop cover (:math:`\%`)
-- :math:`c_1`: coefficient related to the crop cover(:math`-`)
+- :math:`c_1`: coefficient related to the crop cover (:math:`-`)
 - :math:`Cr`: the crusting stage (:math:`-`)
 - :math:`c_2`: coefficient related to the crusting stage (:math:`-`)
 
@@ -138,7 +138,7 @@ with:
   condition II (:math:`m`)
 - :math:`IN_{max10}`: the maximum 10-minute rainfall intensity (:math:`m`)
 - :math:`AR5`: the 5 days antecedent rainfall depth (:math:`m`)
-- :math:`α, β`: tuning parameters (:math:`-`)
+- :math:`\alpha, \beta`: tuning parameters (:math:`-`)
 
 :math:`CNII` indicates the standard tabulated curve number value. This value represents the curve number under
 average soil moisture conditions. A conversion table exists to translate :math:`CNII` into :math:`CNI` (dry soil) and :math:`CNIII` (wet soil).
@@ -150,9 +150,7 @@ In grid cells at which the rainfall depth P is lower than the initial abstractio
 2003):
 
 .. math::
-    \begin{array}{ll}
-        I=(I_a-P) \frac{D}{1440} & if & P<I_a
-    \end{array}
+    I=(I_a-P) \frac{D}{1440}  \quad\text{if } P<I_a
 
 with:
 

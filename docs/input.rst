@@ -9,6 +9,8 @@ This page describes all possible modelinput.
 CN-WS accepts input files and **a lot** of parameters. All these inputs are
 described below.
 
+.. _folders:
+
 Folders
 =======
 
@@ -24,6 +26,8 @@ output directory
 Path to the directory where all model output will be written. If the directory
 does not exist, it is created by the model.
 
+.. _files:
+
 Files
 =====
 
@@ -36,6 +40,8 @@ raise an exception and will stop the execution.
 Idrisi-rasters are the native file format of Idrisi gis, but can be opened,
 edited and saved with almost every GIS-package like QGIS or SAGA-GIS,
 thanks to the `GDAL library <https://gdal.org>`. 
+
+.. _dtmmap:
 
 DTM filename
 ************
@@ -71,6 +77,7 @@ within a parcel. Note that the data type of this raster is integer 16.
 .. csv-table::
     :file: _static/csv/landcover_pixelid.csv
     :header-rows: 1
+    :align: center
 
 .. note::
 
@@ -135,7 +142,9 @@ other pixels belonging to the buffer get the
 zero.
 
 .. figure:: _static/png/buffermap.png
-	:scale: 80%
+    :align: center
+
+    Example of a buffermap with three buffer basins.
 
 The datatype of the buffermap is integer16.
 
@@ -157,12 +166,14 @@ Filename of the dam map. This raster is only mandatory when
 :ref:`Include dams = 1 <includedams>` See :ref:`here <routingmap>` for more
 information on how to create this map.
 
+.. _pmap:
+
 P factor map filename
 *********************
 
 Filename of the :ref:`P-factor <pfactor>` map. 
 
-TO DO: dataype raster
+The datatype of the raster is float32.
 
 .. _riversegmentfile:
 
@@ -184,7 +195,9 @@ In the figure below, an example of a river segment map with seven segments is
 given. All pixels which are no river pixels get value 0.
 
 .. figure:: _static/png/riversegment.png
-	:scale: 80%
+    :align: center
+
+    Example of a river segment map with seven segments.
 
 The datatype of the river segment map is integer16. The segments id's in the
 context of Flanders are defined by the VHA (see also note
@@ -204,21 +217,24 @@ segment-ids of the :ref:`river segment map <riversegmentfile>`.
 Based on the example :ref:`river segment map <riversegmentfile>`, an example
 table with adjectant river segments is displayed below:
 
-+-----+---+
-|from |to |
-+=====+===+
-|1    |3  |
-+-----+---+
-|2    |3  |
-+-----+---+
-|3    |5  |
-+-----+---+
-|4    |5  |
-+-----+---+
-|6    |2  |
-+-----+---+
-|7    |5  |
-+-----+---+
+.. table:: example adjectant segment file
+    :align: center
+
+    +-----+---+
+    |from |to |
+    +=====+===+
+    |1    |3  |
+    +-----+---+
+    |2    |3  |
+    +-----+---+
+    |3    |5  |
+    +-----+---+
+    |4    |5  |
+    +-----+---+
+    |6    |2  |
+    +-----+---+
+    |7    |5  |
+    +-----+---+
 
 .. _upstrsegments:
 
@@ -237,29 +253,32 @@ Table with upstream segments. This table is only mandatory when
 Based on the example :ref:`river segment map <riversegmentfile>`, an example
 table with adjectant upstream segments is displayed below:
 
-+-----+--------------+-----------+
-|edge |upstream edge |proportion |
-+=====+==============+===========+
-|3    |1             |1.0        |
-+-----+--------------+-----------+
-|3    |2             |1.0        |
-+-----+--------------+-----------+
-|5    |4             |1.0        |
-+-----+--------------+-----------+
-|5    |3             |1.0        |
-+-----+--------------+-----------+
-|5    |2             |1.0        |
-+-----+--------------+-----------+
-|5    |1             |1.0        |
-+-----+--------------+-----------+
-|5    |6             |1.0        |
-+-----+--------------+-----------+
-|5    |7             |1.0        |
-+-----+--------------+-----------+
-|6    |2             |1.0        |
-+-----+--------------+-----------+
-|5    |1             |1.0        |
-+-----+--------------+-----------+
+.. table:: example upstream segment file
+    :align: center
+
+    +-----+--------------+-----------+
+    |edge |upstream edge |proportion |
+    +=====+==============+===========+
+    |3    |1             |1.0        |
+    +-----+--------------+-----------+
+    |3    |2             |1.0        |
+    +-----+--------------+-----------+
+    |5    |4             |1.0        |
+    +-----+--------------+-----------+
+    |5    |3             |1.0        |
+    +-----+--------------+-----------+
+    |5    |2             |1.0        |
+    +-----+--------------+-----------+
+    |5    |1             |1.0        |
+    +-----+--------------+-----------+
+    |5    |6             |1.0        |
+    +-----+--------------+-----------+
+    |5    |7             |1.0        |
+    +-----+--------------+-----------+
+    |6    |2             |1.0        |
+    +-----+--------------+-----------+
+    |5    |1             |1.0        |
+    +-----+--------------+-----------+
 
 .. _riverroutingmap:
 
@@ -289,12 +308,16 @@ must flow from X to the lower left pixel, X will get value 6. All other
 directions are set in the same way, according to the numbers in the figure.
 
 .. figure:: _static/png/direction_routingmap.png
-	:scale: 80%
+    :align: center
+
+    TO DO: Caption
 
 An example of a routing map with two imposed routings is given here:
 
 .. figure:: _static/png/routingmap.png
-	:scale: 80%
+    :align: center
+
+    Example of a routing map
 
 The datatype of a routing raster is integer16.
 
@@ -306,9 +329,10 @@ CN map filename
 Filename of the CN map. This raster is only mandatory when
 :ref:`simple = 0 <simple>`.
 
-This raster contains a CN-value for every pixel in the model domain. 
+This raster contains a CN-value (between 0 and 100) for every pixel in the model
+domain.
 
-TO DO: datatype map?
+The datatype of the CN raster is float32.
 
 .. _outletmap:
 
@@ -332,7 +356,7 @@ Filename of the ktil map. The ktil map contains values for ktil, the transport
 capacity coefficient for tillage erosion.
 This raster is only mandatory when :ref:`Create ktil map = 0 <createktil>`.
 
-TO DO: dataype map?
+The datatype of the ktil map is integer16.
 
 .. _rainfallfile:
 
@@ -344,6 +368,8 @@ Filename of a textfile with rainfall values. The text file contains a table
 time in minutes (starting from 0), the second column contains the rainfall in mm.
 
 The rainfall file is only mandatory when :ref:`Use R = 0 <useR>`.
+
+.. _kmap:
 
 K factor filename
 *****************
@@ -373,10 +399,13 @@ raster is only mandatory when :ref:`Create ktc map = 0 <createktc>`.
 
 The dataype of the ktc map is float32.
 
+.. _variables:
+
 Variables
 =========
 
 .. _sewerexit:
+
 Sewer exit
 **********
 
@@ -450,7 +479,25 @@ The :ref:`R-factor <rfactor>` or rainfall erosivity factor in the RUSLE equation
 LS correction
 *************
 
-float (default 1)
+Notebaert et al. (2005) describes that changes in spatial resolution have major
+scaling effects on topographic variables like the :ref:`L and S-factor <lsfactor>`.
+
+The LS-factor will
+decrease on a higher resolution (smaller pixels, more height information) and
+extreme LS values will occur more. To be able to compare the calculated RUSLE
+values on different spatial resolutions, a correction factor can be calculated.
+This correction factor :math:`LS_{cor}` is calculated as
+
+.. math::
+    LS_{cor} = \frac{LS_{avg,x}}{LS_{avg,y}}
+
+with
+
+- :math:`LS_{avg,x}`: the average LS factor in a catchment on resolution x
+- :math:`LS_{avg,y}`: the average LS factor in a catchment on resolution y
+
+The input variable is a float (default value 1, i.e. no correction).
+The LS-factor in the model is divided by this variable.
 
 .. _nrbuffers:
 
@@ -461,10 +508,14 @@ The amount of buffers present in the :ref:`buffer map <buffermap>` is given in
 this parameter (integer). The parameter is only mandatory when
 :ref:`Include buffers = 1 <includebuffers>`.
 
+.. _nrforcedrouting:
+
 Number of forced routing
 ************************
 
-int
+The amount of times where the user wants to force the routing is given by this
+parameter (integer).
+This is only mandatory when :ref:`Force Routing = 1 <forcerouting>`
 
 .. _ktclow:
 
@@ -542,12 +593,14 @@ Parcel trapping efficiency cropland
 int
 
 .. _parceltrappingpasture:
+
 Parcel trapping efficiency pasture
 **********************************
 
 int
 
 .. _parceltrappingforest:
+
 Parcel trapping efficiency pasture
 **********************************
 
@@ -599,14 +652,23 @@ This parameter is only mandatory when :ref:`Use R factor = 0 <useR>`.
 max kernel
 **********
 
-TO DO
+If the routing algorithm of CN-WS encounters a local minimum in the
+:ref:`digital elevation model <dtmmap>` it will not find a lower, neighbouring
+pixel. Therefore, the algorithm will search for a lower pixel within a search
+radius around the local minimum. The variable 'max kernel' defines the search
+radius expressed in pixels.
 
 .. _maxkernelriver:
 
 max kernel river
 ****************
 
-TO DO
+If the routing algorithm of CN-WS encounters a local minimum in the
+:ref:`digital elevation model <dtmmap>` it will not find a lower, neighbouring
+pixel. If this pixel is a river pixel, the routing will remain in the river and
+the routing will look within a search radius around the local minimum with the
+same landuse (river). The variable 'max kernel river' defines the search radius
+expressed in pixels.
 
 .. _bufferdata:
 
@@ -680,6 +742,8 @@ A full description about the CN calculation in buffers can be found
     The definition of the buffer extension id equal to buffer id + 16384,
     implies only 16384 can be modelled.
 
+.. _forcedroutingdata:
+
 Forced routing data
 ===================
 
@@ -702,6 +766,61 @@ row of both the source and target pixel as follows:
         target col 20
         target row 19
 
-These lines are added to the ini-file.
+These lines are added to the ini-file. Note that the amount of sections with
+forced routing vectors is defined by the variable
+:ref:`Number of forced routing <nrforcedrouting>`
 
+.. _calibrationparamters:
 
+Calibration data
+================
+
+The following parameters are only mandatory when :ref:`Calibrate=1 <calibrate>`.
+These parameters must be grouped in a seperate section in the ini-file with the
+header 'Calibration':
+
+.. code-block:: ini
+
+    [Calibration]
+    KTcHigh_lower=1
+    KTcHigh_upper=20
+    KTcLow_lower=1
+    KTcLow_upper=20
+    steps=20
+
+KTcHigh_lower
+*************
+
+The lower range of ktc-high values in the calibration mode. The value is a float
+and by default 5.
+
+KTcHigh_upper
+*************
+
+The upper range of ktc-high values in the calibration mode. The value is a float
+and by default 40.
+
+KTcLow_lower
+*************
+
+The lower range of ktc-low values in the calibration mode. The value is a float
+and by default 1.
+
+KTcLow_upper
+*************
+
+The upper range of ktc-low values in the calibration mode. The value is a float
+and by default 1.
+
+steps
+*****
+
+The amount of steps between the lower and upper values for ktc low and ktc high
+during a calibration run. This value is an integer and by default 12.
+
+References
+==========
+
+Notebaert, B,. Govers, G.n Verstraeten, G., Van Oost, K., Ruysschaert, G.,
+Poesen, J., Van Rompay, A. (2005): Verfijnde ersoiekaart Vlaanderen: eindrapport,
+Departement Omgeving, Brussel, 53 pp.

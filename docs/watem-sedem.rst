@@ -35,9 +35,10 @@ Two cases exist:
 Or:
 
 .. math::
-    S_o & = & S_A & \text{ if } & S_A≤TC \\
-        & = & S_A-TC & \text{ else } & S_A>TC
+        S_o = S_A \quad\text{ if } S_A \leq TC
 
+.. math::
+        S_o = S_A-TC \quad\text{ if } S_A>TC
 
 The outgoing sediment of a cell is distributed to one or two target pixels.
 The target cells are determined by the routing algorithm. The outgoing
@@ -83,7 +84,7 @@ For every grid cell the transport capacity :math:`TC`
 
 with
 
-- :math:`kTC`: transport capacity coeffient (m)
+- :math:`kTC`: transport capacity coeffient :math:`(m)`
 - :math:`R`: :ref:`Rainfall erosivity factor <rfactor>`
 - :math:`K`: :ref:`Soil erobility factor <kfactor>`
 - :math:`T`: topographic factor (-)
@@ -91,26 +92,28 @@ with
 It is important to note that the :math:`kTC` factor is identified as a
 calibration factor. In addition, in order to use :math:`TC` to compare with the
 available sediment in a pixel (see :ref:`here <Concept>`), units are converted
-to :math:`\frac{\text{kg}}{\text{pixel}}` or
-:math:`\frac{\text{m}^3}{\text{pixel}}` by making use of the model resolution
-(m) and bulk density (:math:`\frac{\text{kg}}{\text{m}^3}`)
+to :math:`kg.pixel^{-1}` or
+:math:`m^3.pixel^{-1}` by making use of the model resolution
+(m) and bulk density (:math:`kg.m^{-3}`)
 
 CN-WS includes two ways to calculate :math:`TC`. See
 :ref:`the section about the different TC models <TCmodel>` for more information.
+
+.. _tillageerosionmodel:
 
 Tillage erosion
 ===============
 
 Tillage erosion, or soil translocation by tillage, is calculated according to
 the method of Van Oost et al. 2000. For every pixel the outgoing flux
-:math:`Q_{s,t}` (kg/m) due to tillage translocation is calculated as
+:math:`Q_{s,t}` :math:`(kg.m^{-1})`  due to tillage translocation is calculated as
 
 .. math::
     Q_{s,t} = k_{til}.S
 
 with
 
-- :math:`ktil`: tillage transport coefficient (kg/m)
+- :math:`ktil`: tillage transport coefficient :math:`(kg.m^{-1})`
 - :math:`S`: the local slope gradient (-)
 
 :math:`S` is calculated as
@@ -120,8 +123,8 @@ with
 
 with
 
-- :math:`dh`: change in height (m)
-- :math:`dx`: change in distance in horizontal direction (m)
+- :math:`dh`: change in height :math:`(m)`
+- :math:`dx`: change in distance in horizontal direction :math:`(m)`
 
 Note that the CN-WS model uses the same slope calculation for the calculation
 of the LS-factor and the tillage erosion. The calculated slope can be consulted
@@ -170,7 +173,7 @@ with
  - :math:`m_j`, increment :math:`k`: number of rain event in year :math:`j`
  - :math:`E`: the total kinetic energy of one single rain event
    (:math:`\frac{J}{m^2}`).
- - :math:`I_{30}` (:math:`\frac{mm}{h}`): the maximum rain intensity
+ - :math:`I_{30}` (:math:`mm.h^{-1}`): the maximum rain intensity
    recorded within 30 consecutive minutes.
 
 The total kinetic energy for one single rain event can be defined as:
@@ -184,7 +187,7 @@ with
  - :math:`e_r`: the rain energy per unit depth
    (:math:`\frac{\text{J}}{\text{m}^{2}.\text{mm}}`). There are a number of
    ways to compute, see Verstraeten et al. (2006) and Panagos et al. (2015).
- - :math:`\Delta V_r`: the rain depth (mm).
+ - :math:`\Delta V_r`: the rain depth :math:`(mm)`.
 
 For applications of the rainfall erosivity factor in the context of Flanders
 a value of 870 :math:`\frac{\text{MJ.mm}}{\text{ha.h.year}}` is used since
@@ -219,16 +222,16 @@ map of Flanders:
     K  = 0.0035 + 0.03888 \exp^{0.5(\frac{\log_{10}{D_g}+1.519}{0.7584})^2}
 
 with
- - :math:`D_g` =  geometric mean particle diameter (mm):
+ - :math:`D_g` =  geometric mean particle diameter :math:`(mm)`:
 
 .. math::
 
     D_g = \exp^{\sum{f_i \ln(d_i+d_{i-1})0.5}}
 
 with
- - :math:`i` = the weight percentage of the texture class `i` (fraction).
+ - :math:`i` = the weight percentage of the texture class :math:`i` (fraction).
  - :math:`d_i` and :math:`d_{i-1}` = the maximum and minimum diameter of the
-   texture class :math:`i` (mm).
+   texture class :math:`i` :math:`(mm)`.
 
 By using the latter two equations with the soil texture map of Flanders, a
 K-factor was defined for every soil texture class.

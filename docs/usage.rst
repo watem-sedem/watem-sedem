@@ -14,10 +14,16 @@ choices. It is noted that a lot of inputs, outputs and options are
 available, and that - for a first introduction to the use of the CN-WS model
 - one is referred to the tutorial (:ref:`click here <tutorial>`).
 
+All user choices, input, outputs and options are defined in an ini-file. The
+model reads the ini-file and uses this info to model a catchment according the
+user choices. In the following chapters all possible keywords of the ini-file are
+discussed.
+
 .. toctree::
   
   choices
   input
   output
   calibration
+  inifile
  
