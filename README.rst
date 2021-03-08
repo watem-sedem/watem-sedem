@@ -26,11 +26,12 @@ A short history of CN-WS
 The sediment export model CN-WS was developed starting from the year 2013
 until 2016 by KULeuven in partnership with `Antea Belgium
 <https://anteagroup.be/>`_, commissioned by
-the Flemish government (Antea, 2016). The aim of the development were to
+the Flemish government (Antea, 2016). The aim of the development was to
 create a tool that can quantify erosion, sediment/water run-off, and the
 effect of erosion mitigation measures on erosion & run-off to the river.
+CN-WS was developed on top of the original code of WaTEM/SEDEM.
 
-The initial developments of WaTEM/SEDEM were initialised by KULeuven,
+The initial developments of WaTEM/SEDEM were done by KULeuven,
 department (`Department of Earth and Environmental Sciences <https://ees
 .kuleuven.be//>`_), before 2013. A key component in the computation of
 sediment transport to the river was
@@ -73,8 +74,11 @@ event-based model, whereas WS is a year-based model. Note that it is
 technically possible to use WS as an event-based model, yet a year-based
 assessment is found to be more robust.
 
-.. image:: _static/png/diagram_cn_ws_package.png
+.. figure:: _static/png/diagram_cn_ws_package.png
     :width: 771px
+    :align: center
+
+    Schematic diagram of the CN-WS package
 
 The CN and WS model can also be used together, by using the
 run-off to scale the yearly sediment load. This is explained :ref:`here

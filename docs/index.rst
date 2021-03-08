@@ -13,7 +13,6 @@
    usage
    installation
    tutorial
-   inifile
    faq
    contributing
    changelog

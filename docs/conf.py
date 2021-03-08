@@ -62,3 +62,63 @@ html_static_path = ['_static']
 release = re.sub('^v', '', os.popen('git describe').read().strip())
 # The short X.Y version.
 version = release
+
+# -- Options for LaTeX output ---------------------------------------------
+
+latex_elements = {
+     # The paper size ('letterpaper' or 'a4paper').
+     #
+     'papersize': 'a4paper',
+
+     # The font size ('10pt', '11pt' or '12pt').
+     #
+     # 'pointsize': '10pt',
+
+     # Additional stuff for the LaTeX preamble.
+     #
+     # 'preamble': '',
+
+     # Latex figure (float) alignment
+     #
+     # 'figure_align': 'htbp',
+}
+
+# Grouping the document tree into LaTeX files. List of tuples
+# (source start file, target name, title,
+#  author, documentclass [howto, manual, or own class]).
+# latex_documents = [
+#     (master_doc, 'cnws.tex', 'cn_ws Documentation',
+#     'Johan Van de Wauw', 'manual'),
+# ]
+
+# The name of an image file (relative to this directory) to place at the top of
+# the title page.
+#
+# latex_logo = None
+
+# For "manual" documents, if this is true, then toplevel headings are parts,
+# not chapters.
+#
+# latex_use_parts = False
+
+# If true, show page references after internal links.
+#
+# latex_show_pagerefs = False
+
+# If true, show URL addresses after external links.
+#
+# latex_show_urls = False
+
+# Documents to append as an appendix to all manuals.
+#
+# latex_appendices = []
+
+# It false, will not define \strong, \code, 	itleref, \crossref ... but only
+# \sphinxstrong, ..., \sphinxtitleref, ... To help avoid clash with user added
+# packages.
+#
+# latex_keep_old_macro_names = True
+
+# If false, no module index is generated.
+#
+# latex_domain_indices = True
