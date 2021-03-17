@@ -1264,18 +1264,42 @@ Begin
   numOutlet := 1;
   // calculation of x and y coordinates of outlet... (= lowest river pixel)
   setlength(OutletArray, k+1, 2);
+
   height := 9999;
-  For i := 1 To nrow Do
-    For j := 1 To ncol Do
-      Begin
-        If (PRC[i,j] = -1) And (DTM[i,j]<height) Then
+  if river_routing Then
+    // if no explicit river routing is applied, select the lowest river pixel
+    // as outlet
+    Begin
+      For i := 1 To nrow Do
+        For j := 1 To ncol Do
           Begin
-            OutletArray[k,0] := i;
-            OutletArray[k,1] := j;
-            height := DTM[i,j];
+            If (PRC[i,j] = -1) And (DTM[i,j]<height) Then
+              Begin
+                OutletArray[k,0] := i;
+                OutletArray[k,1] := j;
+                height := DTM[i,j];
+              End;
           End;
-      End;
-  If height = 9999 Then
+    End;
+
+  max_uparea := 0;
+  if river_routing Then
+  // if explicit river routing is applied, select the river pixel with the 
+  // largest uparea as outlet
+    Begin
+      For i := 1 To nrow Do
+        For j := 1 To ncol Do
+          Begin
+            If (PRC[i,j] = -1) And (UPAREA[i,j] > max_uparea) Then
+              Begin
+                OutletArray[k,0] := i;
+                OutletArray[k,1] := j;
+                max_uparea := UPAREA[i,j];
+              End;
+          End;
+    End;
+
+  If (height = 9999) and (max_uparea = 0) Then
     // if no riverpixels present => select pixel with largest UPAREA as outlet
     Begin
       max_uparea := 0;
@@ -1290,6 +1314,7 @@ Begin
               End;
           End;
     End;
+
   lowOutletX := OutletArray[k,0];
   // lowest outlet = only outlet
   lowOutletY := OutletArray[k,1];
