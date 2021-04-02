@@ -23,14 +23,14 @@ file. This file can be installed using:
 Building on linux
 =================
 
-First dependencies should be installed. This includes lazarus
+First dependencies should be installed. This includes Lazarus
 
 .. code-block:: shell
 
 	apt install build-essential lazarus
 
 
-Then either open the project in lazarus or enter the project directory and run
+Then either open the project in Lazarus or enter the project directory and run
 `make`. This will build the binary cn_ws under the cn_ws directory.
 
 Compiling a debian package
@@ -76,7 +76,7 @@ Building on Windows
 To build CN-WS on windows, you need to install the Lazarus IDE first.
 You can download it on https://www.lazarus-ide.org/
 
-Open the project in lazarus (open the .lpi file, see subfolder cn_ws/cn_ws/cn_ws.lpi)
+Open the project in Lazarus (open the .lpi file, see subfolder cn_ws/cn_ws/cn_ws.lpi)
 and build the executable (Shift + F9). The executable is stored in the same folder as
 the .lpi file and can be run without further installation. 
 
@@ -95,8 +95,8 @@ all references to inputfiles and modelchoices. The model can be run with
 	C:\cn_ws\cn_ws.exe C:\modelinput\catchment.ini-file
 	
 It is possible to run the executable of CN-WS in every directory by adding its
-location to the system variable PATH. The model was tested on dutch
-("," as a decimal seperator) and english ("." as a decimal seperator) language
+location to the system variable PATH. The model was tested on Dutch
+("," as a decimal separator) and English ("." as a decimal separator) language
 system computers. Both work, other language systems are not tested yet.
 
 The :ref:`tutorial <tutorial>` gives a practical example how to use the model
