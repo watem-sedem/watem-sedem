@@ -43,7 +43,7 @@ Or:
 The outgoing sediment of a cell is distributed to one or two target pixels.
 The target cells are determined by the routing algorithm. The outgoing
 sediment of pixel X to pixel Y is added to the incoming sediment of pixel Y.
-Pixel Y can receive sediment of multple pixels.
+Pixel Y can receive sediment of multiple pixels.
 
 This process is illustrated in figure (TO DO: create figure with pixel).
 
@@ -65,8 +65,8 @@ with
 
 - :math:`R`: rainfall erosivity factor (:math:`\frac{\text{MJ.mm}}{\text{m}^2.\text{h.year}}`)
 - :math:`K`: soil erodibility factor (:math:`\frac{\text{kg.h}}{\text{MJ.mm}}`)
-- :math:`LS`: topgographical slope and length factor (-)
-- :math:`C`: crop erosivity factor (-, :math:`\in [0,1]`)
+- :math:`LS`: topographical slope and length factor (-)
+- :math:`C`: crop management factor (-, :math:`\in [0,1]`)
 - :math:`P`: erosion control factor (-, :math:`\in [0,1]`)
 
 A detailed description of these factors is given :ref:`here <ruslefactors>`.
@@ -85,9 +85,9 @@ For every grid cell the transport capacity :math:`TC`
 with
 
 - :math:`kTC`: transport capacity coeffient :math:`(m)`
-- :math:`R`: :ref:`Rainfall erosivity factor <rfactor>`
-- :math:`K`: :ref:`Soil erobility factor <kfactor>`
-- :math:`T`: topographic factor (-)
+- :math:`R`: :ref:`rainfall erosivity factor <rfactor>`
+- :math:`K`: :ref:`soil erobility factor <kfactor>`
+- :math:`T`: topographical factor (-)
 
 It is important to note that the :math:`kTC` factor is identified as a
 calibration factor. In addition, in order to use :math:`TC` to compare with the
@@ -96,7 +96,7 @@ to :math:`kg.pixel^{-1}` or
 :math:`m^3.pixel^{-1}` by making use of the model resolution
 (m) and bulk density (:math:`kg.m^{-3}`)
 
-CN-WS includes two ways to calculate :math:`TC`. See
+CN-WS includes two ways to calculate :math:`T`. See
 :ref:`the section about the different TC models <TCmodel>` for more information.
 
 .. _tillageerosionmodel:
@@ -105,7 +105,7 @@ Tillage erosion
 ===============
 
 Tillage erosion, or soil translocation by tillage, is calculated according to
-the method of Van Oost et al. 2000. For every pixel the outgoing flux
+the method of Van Oost et al. (2000). For every pixel the outgoing flux
 :math:`Q_{s,t}` :math:`(kg.m^{-1})`  due to tillage translocation is calculated as
 
 .. math::
@@ -114,7 +114,7 @@ the method of Van Oost et al. 2000. For every pixel the outgoing flux
 with
 
 - :math:`ktil`: tillage transport coefficient :math:`(kg.m^{-1})`
-- :math:`S`: the local slope gradient (-)
+- :math:`S`: local slope gradient (-)
 
 :math:`S` is calculated as
 
@@ -128,9 +128,9 @@ with
 
 Note that the CN-WS model uses the same slope calculation for the calculation
 of the LS-factor and the tillage erosion. The calculated slope can be consulted
-in the :ref:`slope raster <slopemap>`
+in the :ref:`slope raster <slopemap>`.
 
-The local erosion or depositon rate (:math:`E_t`) can then be calculated as:
+The local erosion or deposition rate by tillage (:math:`E_t`) can then be calculated as:
 
 .. math::
     E_t = - \frac{Q_{s,t}}{dx}
@@ -170,7 +170,7 @@ with
  - :math:`R`: rainfall erosivity factor(:math:`\frac{\text{J
    .mm}}{\text{m}^2.\text{h.year}}`)
  - :math:`n`, increment :math:`j`: number of years
- - :math:`m_j`, increment :math:`k`: number of rain event in year :math:`j`
+ - :math:`m_j`, increment :math:`k`: number of rain events in year :math:`j`
  - :math:`E`: the total kinetic energy of one single rain event
    (:math:`\frac{J}{m^2}`).
  - :math:`I_{30}` (:math:`mm.h^{-1}`): the maximum rain intensity
@@ -196,9 +196,9 @@ a value of 870 :math:`\frac{\text{MJ.mm}}{\text{ha.h.year}}` is used since
 
 .. note::
     The R-factor can also be defined with other temporal resolutions.
-    For computing WaTEM/SEDEM on a resolution of month, the value :math:`R` can
+    For computing WaTEM/SEDEM on a monthly resolution, the value :math:`R` can
     be defined by the mean of each value for each month over a number of years
-    (mean fo all january values over 10 years). In this case the unit would be
+    (mean fo all january values over 10 years). In this case the unit is
     :math:`\frac{\text{J.mm}}{\text{m}^2.\text{h.month}}`
 
 .. _kfactor:
@@ -206,13 +206,13 @@ a value of 870 :math:`\frac{\text{MJ.mm}}{\text{ha.h.year}}` is used since
 K-factor
 ########
 
-The soil erodibility index, :math:`K`,  is an index that quantifies the
+The soil erodibility factor, :math:`K`,  is an index that quantifies the
 change in the soil per unit of applied external force or energy, in this
 case rainfall. It is thus related to the integrated effect of rainfall,
 runoff and infiltration on soil loss. The unit of :math:`K` is expressed in
 soil loss per rainfall erosion index unit, in this case
 :math:`\frac{\text{kg.h}}{\text{MJ.mm}}` (Renard et al., 1997). In
-practical terms, the :math:`K`-factor is lumped parameter often  varying as
+practical terms, the :math:`K`-factor is a lumped parameter often varying as
 a function of the soil texture. In the context of Flanders,  Declrercq and
 Poesen (1991) applied this on the soil texture classes in the digital soil
 map of Flanders:
@@ -243,8 +243,8 @@ LS-factor
 
 The effect of topography on erosion is quantified in the LS-factor. Erosion
 increases as the slope length increases - quantified in the slope length
-factor (L), and as the slope steepness factor (S) increases. The L-factor is
-defined as the horizontal distance from the origin of overland flow to the
+factor (L), and as the slope steepness factor (S) increases. In general the
+L-factor is defined as the horizontal distance from the origin of overland flow to the
 point where either (1) the slope gradient decreases to the degree that
 deposition occurs or (2) runoff becomes concentrated in a defined channel.
 The effects of the L- and S-factor factors are typically evaluated together
@@ -259,13 +259,13 @@ different ways to compute the :ref:`L- <lmodel>` and :ref:`S-factor <smodel>`.
 C-factor
 ########
 
-The crop erosivity factor (C-factor) is based on the concept of deviation
+The crop management factor (C-factor) is based on the concept of deviation
 from a standard, in this case defined by a parcel under clean-tilled
 continuous-fallow conditions (Renard et al., 1997). It can be quantified
 as the ratio of the soil loss of a specific parcel with crop cover -
 cultivated under specific conditions - and soil loss that would occur on the
 same parcel without crop growth (with plowing perpendicular to the
-height lines) (Verbist et al., 2004). For a run of the simplified version of
+contour lines) (Verbist et al., 2004). For a run of the simplified version of
 CN-WS, the C-factor is defined in the context of one year. The use of the
 long-term version of the model will require the definition of the C-factor
 for every season.
@@ -273,14 +273,16 @@ for every season.
 There are a number of ways to set the C-factor:
 
 1. Use default values varying as a function of the land-use. In the context
-of Flanders, the values 0.37, 0.01 and 0.001 are used to define the C-factor
-for pixels with respectively a land use equal to agriculture, temporary gras
-and permanent grass/forest.
+of Flanders, the general values 0.37, 0.01 and 0.001 are used to define the C-factor
+for pixels with respectively a land use equal to agriculture, grassland
+and forest.
+
 2. Use the default values as defined in 1., but vary the C-factor for pixels
 with land-use `agriculture` as a function of the crop.
-3. Use the default values as defined in 1., but vary the C-factor as a
-function of a crop growth model and crop rotation scheme (this for pixels
-with land-use `agriculture`:
+
+3. Use the default values as defined in 1., but vary the C-factor in
+function of a crop growth model and crop rotation scheme, eventualy combined
+with crop management (this for pixels with land-use `agriculture`:
 
 .. math::
     C = \frac{\sum_i^t{R_i}.SLR_i}{\sum_i^t{R_i}}
@@ -301,8 +303,8 @@ P-factor
 The support practice factor is the ratio of soil loss with a specific
 support practice to the corresponding loss with upslope and downslope
 tillage (Renard et al., 1997). Support practice should affect erosion by
-modifying the flow pattern, grade or direction of surface runnof and by
-reducing the amount an drate of runoff.
+modifying the flow pattern, grade or direction of surface run-of and by
+reducing the amount an rate of run-off.
 
 References
 ==========
