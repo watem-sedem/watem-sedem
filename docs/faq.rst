@@ -18,8 +18,8 @@ at the earliest point in the line where the error was detected.
 
 .. _issuetracker: https://git.fluves.net/cn_ws/issues
 
-My system can not find cn_ws
-============================
+My system cannot find cn_ws
+===========================
 
 **Question:** When I type `cn_ws` in my terminal it says it does not find the 
 executable, e.g.
