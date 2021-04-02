@@ -31,10 +31,16 @@ funded by two organisations of the Flemish Government:
 .. image:: _static/png/VMM_logo.png
     :width: 150
 
+Supervision and coordination
+----------------------------
+
+* Petra Deproost
+* Nele Van Ransbeeck
+
 Development Lead
 ----------------
 
-* `Johan Van de Wauw <johan.vandewauw@fluves.com>`_
+* Johan Van de Wauw
 
 Contributors
 ------------
