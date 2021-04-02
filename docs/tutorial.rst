@@ -4,7 +4,7 @@
 Tutorial
 ########
 
-To use CNWS a .ini configuration file is needed. In this tutorial we will
+To use CN-WS a .ini configuration file is needed. In this tutorial we will
 explain how this configuration file is made and how model options are enabled or
 disabled.
 
@@ -15,7 +15,7 @@ Install a simple text editor like `notepad++ <https://notepad-plus-plus.org/>`_.
 This editor is needed to edit the configuration file. A GIS program is also
 needed to create the input rasters and to view the output rasters. We recommend
 `QGIS <https://www.qgis.org>`_ or `Saga <http://www.saga-gis.org/>`_. In this
-tutorial we will not explain how to use the gis software, not how to make the
+tutorial we will not explain how to use GIS, not how to make the
 input rasters, these are basic GIS-tasks and these are explained in several
 tutorials on the net. We encourage readers to start the tutorial by using
 the tutorial_1.ini file, and adapt this file according to the exercise. The
@@ -26,7 +26,7 @@ First, you need to download the latest release of the model. Pre-build binaries
 exist for windows and linux. It is also possible to build the model from source.
 See :ref:`the installation page <install>` for more information.
 
-All example model runs described below make use of the testdataset which is
+All example model runs described below make use of the test dataset which is
 available in the repository under testfiles/molenbeek/modelinput. The ini-files
 used in these tutorials can be found in the docs folder of the repository.
 
@@ -46,19 +46,19 @@ run in your terminal
 
 .. code-block:: bash
 
-    $ cn_ws "<path to cnws repository>/cn_ws/docs/tutorials/tutorial_1.ini"
+    $ cn_ws "<path to cn-ws repository>/cn_ws/docs/tutorials/tutorial_1.ini"
 
 When the model run starts you will see::
 
     CN_WS model
 
-    Inifile : <path to cnws repository>/cn_ws/docs/tutorials/tutorial_1.ini
+    Inifile : <path to cn-ws repository>/cn_ws/docs/tutorials/tutorial_1.ini
 
 After completion of the calculations the model reports the execution time::
 
     Calculations completed. Program Execution Time: 5.96 sec
 
-Now, you can have a look in the modeloutput folder defined in the ini-file. A
+Now, you can have a look in the model output folder defined in the ini-file. A
 txt file with a summary of the results is written:
 :ref:`Total sediment.txt<totalsedimenttxt>`.
 
@@ -116,9 +116,9 @@ file. If unsure, you can always check and run the reference `tutorial_2
 
 .. code-block::
 
-    cn_ws <path to cnws repository>/cn_ws/docs/tutorials/tutorial_2.ini
+    cn_ws <path to cn-ws repository>/cn_ws/docs/tutorials/tutorial_2.ini
 
-We see the following output rasters emerge in the outputfolder:
+We see the following output rasters emerge in the output folder:
 
 - :ref:`SediExport_kg.rst <sediexportrst>`,
 - :ref:`SediOut_kg.rst <sedioutrst>`,
@@ -133,7 +133,7 @@ the points in the river with large sediment inputs. We can see in this raster
 how much sediment enters every river pixel. Remember, the total amount of
 sediment entering the rivers can be found in
 :ref:`Total sediment.txt <totalsedimenttxt>` (Sediment leaving the catchment,
-via the river). This amount is in fact the sum of all riverpixels in
+via the river). This amount is in fact the sum of all river pixels in
 SediExport_kg.rst.
 
 If you want to see the paths of the sediment transport through the landscape,
@@ -142,7 +142,7 @@ you might have a look at :ref:`SediOut_kg.rst <sedioutrst>` or
 (in kg) is transported towards and outwards of a cell.
 
 Making a spatial analysis of areas where a lot of erosion occurs, or where a lot
-of depostion is possible, can be done with the WATEREROS rasters. These rasters
+of deposition is possible, can be done with the WATEREROS rasters. These rasters
 represent the result of the comparison between the total available sediment and
 the trasport capacity of a pixel (for more information about this concept,
 see :ref:`here <Concept>`). Positive values in these rasters indicate deposition,
@@ -159,7 +159,7 @@ about all the possibilities!
 ***********************
 
 In the previous tutorials we learned how to make a model run with WS and how to
-enable or disable modeloutput. In this tutorial we will explain how to enable
+enable or disable model output. In this tutorial we will explain how to enable
 one of the *advanced* features of CN-WS. The example will make use of the
 :ref:`Include Buffers <includebuffers>` option, but the same principles can be
 used for all other options!
@@ -198,7 +198,7 @@ one for every buffer, with these data (see also tutorials/tutorial_3b.ini):
 .. literalinclude:: tutorials/tutorial_3b.ini
     :language: ini
 
-Buffers trap sediment. So, after a succesfull run with the above ini-file, we
+Buffers trap sediment. So, after a successfull run with the above ini-file, we
 have a look at the Total sediment file in the output folder:
 
 .. literalinclude:: tutorials/Total sediment 3b.txt
@@ -261,7 +261,7 @@ We refer to the documentation about CN for the interpretation of the output.
 5. More examples?
 *****************
 
-Do you want to experiment even more with the options of CN-WS? The testfiles
+Do you want to experiment even more with the options of CN-WS? The test files
 in the repository contain an example project where following options are used:
 
 - river routing
