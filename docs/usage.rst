@@ -1,7 +1,7 @@
 .. _usage:
 
 ###########
-Model usage
+Model Usage
 ###########
 
 The CN-WS model is a composite model simulating the hydrological and
