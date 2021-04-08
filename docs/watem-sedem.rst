@@ -251,8 +251,14 @@ The effects of the L- and S-factor factors are typically evaluated together
 . In the CN-WS model, contrary to the original RUSLE model, the LS-factor is
 computed by considering the two-dimensional stream flow algorithm of CN-WS
 (Desmet and Govers, 1996). This allows for computing concentrated erosion
-flow, such as rill and gully erosion. It is important to note that there are
-different ways to compute the :ref:`L- <lmodel>` and :ref:`S-factor <smodel>`.
+flow, such as rill and gully erosion. 
+
+It is important to note that the computation of the LS-factor is defined
+by the definition of the flow routing algorithm, and not by the neighbouring
+pixels. This is important in cases where the flow routing is not defined by
+digital elevation model, but by other factors (see :ref:`routing <routing>`).  
+Finally, note that there exist  different ways to compute the 
+:ref:`L- <lmodel>` and :ref:`S-factor <smodel>`.
 
 .. _cfactor:
 
