@@ -4,7 +4,7 @@
 Model input
 ###########
 
-This page describes all possible modelinput. 
+This page describes all possible model input.
 
 CN-WS accepts input files and **a lot** of parameters. All these inputs are
 described below.
@@ -17,7 +17,7 @@ Folders
 input directory
 ***************
 
-Path to the directory where all inputfiles can be found. If the path does not
+Path to the directory where all input files can be found. If the path does not
 exist, an exception is raised and the model run will stop.
 
 output directory
@@ -33,7 +33,7 @@ Files
 
 All input rasters must be
 `Idrisi-rasters <https://gdal.org/drivers/raster/Idrisi.html>`_ and must have
-the same amount of columns, rows and cellsize.
+the same amount of columns, rows and cell size.
 If one of the  input rasters has a different spatial extent, the model will
 raise an exception and will stop the execution.
 
@@ -53,7 +53,7 @@ The idirisi raster must be formatted as float32.
 
 .. note::
 	CN-WS does not take nodata values (e.g. -9999) into account. When a nodata
-	value in the dtm raster is encountered, it is considered as an elevation.
+	value in the DTM raster is encountered, it is considered as an elevation.
 	Consequently, slopes are calculated wrong. Thus, the user must ensure all
 	pixels in the model domain have an elevation value, and that at least two
 	pixels outside the model domain have a valid elevation value.
@@ -69,7 +69,7 @@ and parcel boundaries in the routing algorithm, but also when distributing the
 sediment through the model domain. Every pixel in the model domain must contain
 a land cover value. Every value > 0 indicates a unique agricultural field. So,
 all
-pixels of an agricultural field have the same value at pixels belonging to a
+pixels of an agricultural field have the same value and pixels belonging to a
 different parcel have different value.
 The definition of these unique parcel values are important to define the routing
 within a parcel. Note that the data type of this raster is integer 16.
@@ -87,12 +87,12 @@ within a parcel. Note that the data type of this raster is integer 16.
     catchments), you can give two or more agricultural fields the same id.
     Theoretically, the model will consider these two parcels as a single
     parcel. In practice, these two parcels will never be treated as one
-    because they are probably situated in another part of the catchment.
+    because chance that these parcels are adjacent parcels is negligibly small.
 
     2. The concept of land use (agriculture, grass strips) and land cover
-    (river, infrastructure, forest, pasture) are used interchangeable in the
-    definition of the parcel raster. In this manual, we aim to define it as land
-    cover rather than land use.
+    (river, infrastructure, forest, pasture) are used interchangeably in the
+    definition of the parcel raster. In this manual, we aim to define this as
+    land cover rather than land use.
 
 .. _sewermapfile:
 
@@ -183,16 +183,16 @@ River segment filename
 Filename of the river segment map. This raster is only mandatory when
 :ref:`Output per river segment = 1 <outputsegment>`.
 
-A river segment is a part of the river (usualy a part between two confluences
+A river segment is a part of the river (usually a part between two confluences
 with other rivers). To give detailed information about the sediment
 entering every river segment, a river segment map must be created. 
 
-The river segment map is raster where every river pixel (every pixel with value
+The river segment map is a raster where every river pixel (every pixel with value
 -1 in the :ref:`parcel map <prcmap>`) gets the id of the segment where it
-belongs too. Every segment has a unique (integer) id.
+belongs to. Every segment has a unique (integer) id.
 
 In the figure below, an example of a river segment map with seven segments is
-given. All pixels which are no river pixels get value 0.
+given. All pixels which are no river pixels get the value 0.
 
 .. figure:: _static/png/riversegment.png
     :align: center
@@ -291,15 +291,16 @@ information on how to create this map.
 
 .. _routingmap:
 
-routing map
-***********
+Routing maps
+************
 
-CN-WS accepts rasters where a single-flow routing along a line element in the
-landscape is imposed by the user. The
+The routing algorithm of CN-WS can take into account rasters that impose a
+single-flow routing along a line element in the
+landscape as defined by the user. The
 :ref:`river routing map <riverroutingmap>`, :ref:`ditchmap <ditchmap>` and
 :ref:`dam map <dammap>` are made according to the principles described here.
 
-A routing map contains integer values between 0 and 8. Every value indicates a
+A routing map contains integer values between 0 and 8. Every value indicates the
 direction the routing will follow. A pixel set to zero has no imposed routing.
 
 Consider pixel X in the figure below. If the routing must flow from X to the
@@ -342,7 +343,7 @@ Outlet map filename
 Filename of the outlet map. This raster is only mandatory when
 :ref:`Manual outlet selection = 1 <manualoutlet>`.
 
-Every outletpixel needs a unique id. These integer id's are stored in the outlet
+Every outlet pixel needs a unique id. These integer id's are stored in the outlet
 map. All other pixels are zero.
 
 The datatype of the outlet map is integer16.
@@ -364,7 +365,7 @@ Rainfall filename
 *****************
 
 Filename of a textfile with rainfall values. The text file contains a table
-(tab-delimeted) with two columns without header. The first column contains the
+(tab-delimited) with two columns without header. The first column contains the
 time in minutes (starting from 0), the second column contains the rainfall in mm.
 
 The rainfall file is only mandatory when :ref:`Use R = 0 <useR>`.
@@ -374,7 +375,7 @@ The rainfall file is only mandatory when :ref:`Use R = 0 <useR>`.
 K factor filename
 *****************
 
-Filename of the :ref:`K-factor <kfactor>` map. The soil erosivity factor or
+Filename of the :ref:`K-factor <kfactor>` map. The soil erodibility factor or
 K-factor of the RUSLE-equation for every pixel in the modeldomain is stored in
 the K-factor map (kg.h/MJ.mm).
 
@@ -387,14 +388,14 @@ Filename of the :ref:`C-factor <cfactor>` map. This raster contains values
 between 0 and 1 and represent the dimensionless C-factor in the RUSLE equation.
 Pixels outside the modeldomain are set to zero.
 
-The dataype of the outlet map is float32.
+The datatype of the outlet map is float32.
 
 .. _ktcmap:
 
 ktc map filename
 ****************
 
-Filename of the ktc map, a raster with transport capacity coeficients. This
+Filename of the ktc map, a raster with transport capacity coefficients. This
 raster is only mandatory when :ref:`Create ktc map = 0 <createktc>`.
 
 The dataype of the ktc map is float32.
@@ -432,7 +433,7 @@ The antecedent rainfall (float) is only mandatory when :ref:`Use R = 0 <useR>`
 stream velocity
 ***************
 
-float, mandatory when :ref:`simple = 0 <simple>`
+Float, mandatory when :ref:`simple = 0 <simple>`
 
 .. _alpha:
 
@@ -513,7 +514,7 @@ this parameter (integer). The parameter is only mandatory when
 Number of forced routing
 ************************
 
-The amount of times where the user wants to force the routing is given by this
+The amount of locations where the user wants to force the routing is given by this
 parameter (integer).
 This is only mandatory when :ref:`Force Routing = 1 <forcerouting>`
 
@@ -540,7 +541,7 @@ erosion potential. The parameter is only mandatory when
 ktc limit
 *********
 
-ktc limit is a threshold value (float). Pixels with a C-factor higher as
+ktc limit is a threshold value (float). Pixels with a C-factor higher than
 ktc limit will get :ref:`ktc high <ktchigh>` in the ktc map,
 pixels with a C-factor below ktc limit, will get :ref:`ktc low <ktclow>` in the
 ktc map. This parameter is only mandatory when
@@ -552,7 +553,7 @@ ktil default
 ************
 
 The transport capacity coefficient for tillage erosion on agricultural fields. 
-The integer value is expressed in kg/m/year. A recomended default value is
+The integer value is expressed in kg/m/year. A recommended default value is
 600 kg/m/year.
 
 This parameter is only mandatory when :ref:`Create ktil map = 1 <createktil>`
@@ -653,7 +654,7 @@ max kernel
 **********
 
 If the routing algorithm of CN-WS encounters a local minimum in the
-:ref:`digital elevation model <dtmmap>` it will not find a lower, neighbouring
+:ref:`digital elevation model, <dtmmap>` it will not find a lower, neighbouring
 pixel. Therefore, the algorithm will search for a lower pixel within a search
 radius around the local minimum. The variable 'max kernel' defines the search
 radius expressed in pixels.
@@ -708,11 +709,11 @@ with:
    bufferbasin, :math:`V_{basin}` (:math:`m^{3}`). This parameter is only
    mandatory when using the CN-module (i.e. :ref:`simple = 0 <simple>`).
 
- - height dam :The height of the dam of the buffer basin, :math:`H_{dam}`
+ - height dam: the height of the dam of the buffer basin, :math:`H_{dam}`
    (m). This parameter is only mandatory when using the CN-module (i.e.
    :ref:`simple = 0 <simple>`).
 
- - height opening: The height of the opening of the discharge pipe of the
+ - height opening: the height of the opening of the discharge pipe of the
    basin, :math:`H_{opening}` (m). This parameter is only mandatory when using
    the CN-module (i.e. :ref:`simple = 0 <simple>`).
 
@@ -720,11 +721,11 @@ with:
    This parameter is only mandatory when using the CN-module (i.e.
    :ref:`simple = 0 <simple>`).
 
- - discharge coefficient: The discharge coefficient :math:`C_d` (-) of the
+ - discharge coefficient: the discharge coefficient :math:`C_d` (-) of the
    buffer basin. This parameter is only mandatory when using the CN-module
    (i.e.:ref:`simple = 0 <simple>`).
 
- - width dam: The width of the overflow on the bufferbasin dam
+ - width dam: the width of the overflow on the bufferbasin dam
    :math:`W_{dam}` (m). This parameter is only mandatory when using the
    CN-module (i.e. :ref:`simple = 0 <simple>`).
 
@@ -748,7 +749,7 @@ Forced routing data
 ===================
 
 A forced routing from a specified source to target pixel can be defined by
-the use, if the analysis of the routing and field validation shows that the
+the user, if the analysis of the routing and field validation shows that the
 routing is defined incorrectly. Forced routing is defined by the column and
 row of both the source and target pixel as follows:
 

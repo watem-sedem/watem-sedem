@@ -4,20 +4,23 @@
 CN-WS
 #####
 
-The Curve Number-WaTEM/SEDEM (CN-WS) is a model that can be used to
-simulates soil erosion, sediment transport, water and sediment routing and
-flow run-off in time and space. The package combines three existing models:
+The CN-WS is a model that can be used to
+simulate soil erosion, sediment transport, water and sediment routing and
+flow run-off in time and space. The package combines three existing submodels:
 
- - The curve number model for simulating flow run-off.
- - The WaTEM/SEDEM model for simulating erosion and over-land sediment
+ - The Curve Number model (CN) for simulating flow run-off.
+ - The WaTEM/SEDEM model (WS) for simulating erosion and over-land sediment
    transport.
- - The routing algorithm simulating water and sediment routing over land.
+ - The routing algorithm for simulating water and sediment routing over land.
 
-CN-WS is developed to assess sediment input to rivers, soil erosion on
-agricultural fields and to evaluate soil erosion management measures.
+CN-WS is developed to assess soil erosion on
+agricultural fields, sediment transport through the landscape and sediment
+delivery to watercourses and sewage systems. As the impact of soil erosion
+mitigation measures is incorporated, the model can also be used to evaluate soil
+erosion management measures and compare mitigation strategies.
 
-This documentation page explain how CN-WS works and how the model can be used. 
-The official code for CNWS can be found at https://git.fluves.net/fluves/cn_ws. 
+This documentation page explains how CN-WS works and how the model can be used.
+The official code for CN-WS can be found at https://git.fluves.net/fluves/cn_ws.
 
 
 A short history of CN-WS
@@ -27,13 +30,13 @@ The sediment export model CN-WS was developed starting from the year 2013
 until 2016 by KULeuven in partnership with `Antea Belgium
 <https://anteagroup.be/>`_, commissioned by
 the Flemish government (Antea, 2016). The aim of the development was to
-create a tool that can quantify erosion, sediment/water run-off, and the
-effect of erosion mitigation measures on erosion & run-off to the river.
+create a tool that can quantify erosion, sediment transport and water run-off,
+and the effect of erosion mitigation measures on erosion, sediment transport and
+sediment delivery to the river.
 CN-WS was developed on top of the original code of WaTEM/SEDEM.
 
-The initial developments of WaTEM/SEDEM were done by KULeuven,
-department (`Department of Earth and Environmental Sciences <https://ees
-.kuleuven.be//>`_), before 2013. A key component in the computation of
+The developments of WaTEM/SEDEM was initialised by the KULeuven (`Department of Earth and Environmental Sciences <https://ees
+.kuleuven.be//>`_), in 2000. A key component in the computation of
 sediment transport to the river was
 the coupling of:
 
@@ -42,28 +45,30 @@ the coupling of:
 2. SEDEM (Van Rompaey et al., 2001): a model simulating sediment-transport
    to the river.
 
-Since 2016, the Flemish government, Department for Environment (VPO), and the
-Flemish Environment Agency (VMM) commissioned further developments for
-CN-WS so it could become operational for management. Specifically, a number
-of optimisations to the code were implemented to increase model performance and
+Since 2016, the Government of Flanders, Department of Environment and Spatial
+Development (Division VPO), and the
+Flanders Environment Agency (VMM) commissioned further developments of
+CN-WS to make the model operational for management and policy purposes.
+Specifically, a number
+of optimisations to the code were implemented to increase the model performance and
 allow a roll-out on the scale of Flanders. In addition, the model was
 recalibrated (Deproost et al., 2018) and a framework was developed for
 processing CN-WS input, outputs and user choices. At that point, CN-WS is
 submitted to versioning via git (https://git.fluves.net/fluves/cn_ws
-). These optimisation were executed by `Fluves
+). These optimization were executed by `Fluves
 <https://fluves.com/>`_.
 
 Model
 =====
 
-The CN-WS model described on this page consist of three models. In the
+The CN-WS model consists of three submodels. In the
 following figure, the main input, models and outputs are shown. In general,
-information on the land cover, parcels, crops, soil, erosion control
+information on the land cover, agricultural parcels, crops, soil, erosion control
 measures, elevation and rainfall are needed to be able to use the models.
 In addition, information on sewers and ditches can be used to refine the
 models.
 
-Both the :ref:`WS <WS>` and :ref:`CN <CN>` model make use of a routing table
+Both the :ref:`WS <WS>` and :ref:`CN <CN>` models make use of a routing table
 simulated by the :ref:`routing model <routing>`. The use of this routing table
 varies for both the CN and WS model. In WS, the routing table is used to
 compute slopes, upstream areas and the sediment mass balance, whereas in the
@@ -96,13 +101,13 @@ Typically the model is run in a command-line interface or a Graphical User
 Interface (GUI). Yet, since 2016, the GUI is not maintained. Users are thus
 advised to use the command line version.
 
-1. The CN_WS model is used simulate the erosion and sediment run-off for one
+1. The CN_WS model is used simulate the erosion and sediment transport for one
    rainfall event. This model can be used through the GUI. To start the model,
    use the "CN_WS" shortcut in the current folder. To view the underlying
    source code, open the CN_WS folder and:
 
-   - open the different .pas files in notepad
-   - OR open Invoerform.lpi in lazarus
+   - open the different .pas files in Notepad
+   - OR open Invoerform.lpi in Lazarus
 
 2. The CN_WS_console model is similar to CN_WS, but without GUI. This
    version can be used through WINDOWS commandline (see manual) (This model
@@ -110,23 +115,23 @@ advised to use the command line version.
    event). To view the underlying source code, open the CN_WS_console folder
    and:
 
-   - open the different .pas files in notepad
-   - OR open CN_WSmodel.lpi in lazarus
+   - open the different .pas files in Notepad
+   - OR open CN_WSmodel.lpi in Lazarus
 
 3. The CN_WS_LongTerm is the long term version of the model; including GUI.
    To start the model, use the "CN_WS_LongTerm" shortcut in the current
    folder. To view the underlying source code, open the CN_WS_LongTerm
    folder and:
 
-   - open the different .pas files in notepad
-   - OR open Invoerform.lpi in lazarus
+   - open the different .pas files in Notepad
+   - OR open Invoerform.lpi in Lazarus
 
 For who is this documentation?
 ==============================
 
 This page aims to explain how the CN-WS model can be run for a given case
 study, and which output can be analysed to study the specific case. In
-addition, it aims to explain how a specific run for case study can be set-up
+addition, it aims to explain how a specific run for a case study can be set-up
 (i.e. which input data are needed? in which format?). Finally, this page
 is the reference for background information on model concepts, options, inputs
 and outputs.
@@ -156,7 +161,7 @@ Documentation
 
 The documentation of this project is available at https://docs.fluves.net/cnws-pascal/.
 In this documentation, a theoretical background of the model and an overview
-of the model usage are given, and an installation guide followed by a
+of the model usage are given, as well as an installation guide followed by a
 tutorial.
 
 
@@ -165,3 +170,9 @@ References
 Antea, 2016. Modellering van de sedimentaanvoer naar de waterlopen, het
 effect van erosiebestrijdingsmaatregelen en het transport van sediment in de
 onbevaarbare waterlopen. Antea Belgium NV, Antwerpen, Belgium.
+
+Deproost, P., Renders, D., Van de Wauw, J., Van Ransbeeck, N.,
+Verstraeten, G., 2018, Herkalibratie van WaTEM/SEDEM met het DHMV-II als
+hoogtemodel: eindrapport. Brussel.
+https://archief.onderzoek.omgeving.vlaanderen.be/Onderzoek-1812384
+

@@ -8,14 +8,14 @@ In this section we will describe all possible outputs of the CN-WS model. Tables
 are written as tab-delimited txt-files, rasters are written as
 `Idrisi-rasters <https://gdal.org/drivers/raster/Idrisi.html>`_.
 
-The created model output depends on the userchoices in the ini-file. 
+The created model output depends on the user choices in the ini-file.
 
 .. _onlyroutingoutput:
 
 Routing only output
 ###################
 
-Folllowing output can be generated when only the ‘routing only’ option in the
+Following output can be generated when only the ‘routing only’ option in the
 user choices is set to 1:
 
 .. _routingtxt:
@@ -23,7 +23,7 @@ user choices is set to 1:
 routing.txt
 ***********
 
-Tab-delimited table wich contains a row for every pixel in the spatial domain.
+Tab-delimited table which contains a row for every pixel in the spatial domain.
 Following columns are present for every pixel (every pixel is a row in the
 table):
 
@@ -101,10 +101,10 @@ written if :ref:`write upstream area = 1 <writeuparea>`.
 
 .. _watemsedemoutput:
 
-WaTEM-SEDEM output
+WaTEM/SEDEM output
 ##################
 
-When WaTEM-SEDEM or the full CN-WS model is used, the following rasters and
+When WaTEM/SEDEM or the full CN-WS model is used, the following rasters and
 tables can be written as output.
 
 .. _totalsedimenttxt:
@@ -118,9 +118,9 @@ Txt-file where the first rows give a summary of the results:
 * Total deposition :math:`(kg)`: the total amount of sediment deposited in the landscape
   (not entering sewers or rivers)
 * Sediment leaving the catchment, via the river :math:`(kg)`: the amount of sediment
-  that enters all riverpixels
+  that enters all river pixels
 * Sediment leaving the catchment, not via the river :math:`(kg)`: the amount of sediment
-  that enters pixels outside the modeldomain
+  that enters pixels outside the model domain
   
 if :ref:`Include buffers = 1 <includebuffers>` following row is added to the file: 
 
@@ -131,7 +131,7 @@ if :ref:`Include sewers = 1 <inlcudesewers>` following row is added to the file:
 
 * Sediment entering sewer system :math:`(kg)`: the amount of sediment that enters the sewer pixels
 
-After the above mentioned rows, a tab-seprated table where for every outlet
+After the above mentioned rows, a tab-separated table where for every outlet
 the amount of incoming sediment is reported.
 
 An example output is given here:
@@ -193,7 +193,7 @@ This raster is only generated when :ref:`Include sewers = 1 <inlcudesewers>`.
 SediExport_kg.rst
 *****************
 
-Raster with for every river cell the calculated amounts of sedimentinput :math:`(kg)`.
+Raster with for every river cell the calculated amounts of sediment input :math:`(kg)`.
 This raster is only written if :ref:`write sediment export = 1 <writesedexport>`.
 
 .. _sedioutrst:
@@ -220,9 +220,9 @@ WATEREROS (kg per gridcel).rst
 ******************************
 
 Raster with the total amount of erosion or sedimentation in every pixel in :math:`(kg)`.
-Negative values indicate erosion (i.e. Incoming Sediment + RUSLE < Capacity),
+Negative values indicate erosion (i.e. Incoming Sediment + RUSLE < Transport Capacity),
 positive values indicate sedimentation (i.e. Incoming Sediment + RUSLE >
-Capacity). This raster is only written if
+Transport Capacity). This raster is only written if
 :ref:`write water erosion = 1 <writerwatereros>`.
 
 .. _watererosmmrst:
@@ -289,7 +289,7 @@ Calibration.txt
 
 This file contains the same output as
 :ref:`Total Sediment.txt <totalsedimenttxt>`, but for all ktc combinations defined
-in the :ref:`Calibration-option <calibration>`. It is only writen when
+in the :ref:`Calibration-option <calibration>`. It is only written when
 :ref:`Calibratie = 1 <calibrate>`.
 
 The txt-file contains a table, all columns seperated by ';'. The columns in the
@@ -342,8 +342,8 @@ Table with the sediment load :math:`(kg)` as a function of time for every outlet
 Sediment_segments.txt
 *********************
 
-Table with the sediment load :math:`(kg)` as a function of time for river segment.
-This table is only generated when
+Table with the sediment load :math:`(kg)` as a function of time for the river
+segments. This table is only generated when
 :ref:`Output per river segment = 1 <outputsegment>`.
 
 Spillover per buffer.txt
@@ -355,8 +355,8 @@ overflow.
 Total discharge.txt
 *******************
 
-Table with the total amount of water :math:`(m^3)` that arives in every outlet after a
-rainfall event.
+Table with the total amount of water :math:`(m^3)` that arrives in every outlet
+after a rainfall event.
 
 .. _remaprst:
 
