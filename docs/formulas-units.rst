@@ -36,8 +36,8 @@ with the units for :math:`E` and :math:`TC`:
  - :math:`TC = \frac{\text{kg}}{\text{m.year}}` (see :ref:`here <TC>`).
 
 These units are converted to :math:`\frac{m^3}{year}` (:math:`E_v` and
-:math:`TC_v`) by making use of the pixel area (:math:`A_c, m^2`), the soil
-bulk density (:math:`\rho \frac{kg}{m^3}`) and the correction factor for
+:math:`TC_v`) by making use of the pixel area (:math:`A_c, unit: m^2`), the soil
+bulk density (:math:`\rho, unit: \frac{kg}{m^3}`) and the correction factor for
 the grid cell dimension (:math:`x`, resolution multiplied by :math:`|sin
 (\alpha)|+|cos (\alpha)|`).
 
