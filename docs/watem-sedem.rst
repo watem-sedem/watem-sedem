@@ -142,7 +142,7 @@ The outgoing sediment volume of a cell is distributed to one or two target pixel
 Every target cell receives a fraction of the available sediment of the source cell.
 The target cells are determined by the routing algorithm. The fraction of the
 outgoing sediment of pixel X to pixel Y is added to the incoming sediment of
-pixel Y. 
+pixel Y.
 Pixel Y can receive sediment of multple pixels. The volume is converted to mass
 via the :ref:`bulkdensity <bulkdensity>`.
 

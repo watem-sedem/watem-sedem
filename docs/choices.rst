@@ -242,8 +242,9 @@ input is mandatory:
 Calculate tillage erosion
 #########################
 
-This option enables the tillage erosion model of Van Oost et al. (2000). See
-:ref:`here <tillageerosionmodel>` for more information about this model.
+This option enables the tillage erosion model of Van Oost et al. (2000). We
+refer to :ref:`the dedicated section <tillageerosionmodel>` for more information
+about this model.
 
 .. _createktil:
 
@@ -322,7 +323,7 @@ extension id, buffer id and trapping efficiency are explained in the
 Buffer reduce area
 ##################
 
-This options (boolean) allows to reduce the upstream area downstream of buffer
+This option (boolean) allows to reduce the upstream area downstream of a buffer
 with the efficiency of the buffer (see :ref:`buffer data section <bufferdata>`)
 
 .. _includeditches:
