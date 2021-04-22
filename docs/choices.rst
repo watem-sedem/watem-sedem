@@ -290,7 +290,7 @@ The value of the pixel in the sewer map is checked when the amount of outgoing
 sediment in a pixel is calculated. This value is the fraction of water and
 sediment that is trapped in the sewer system via this pixel. The outgoing
 sediment of the pixel is reduced with this fraction. The amount of trapped
-sediment is written to the output raster sewer_in.rst.
+sediment is written to the output raster :ref:`sewer_in.rst <sewerinrst>`.
 
 .. note::
     This option is fully tested for :ref:`simple=1 <simple>`, but it is not yet
