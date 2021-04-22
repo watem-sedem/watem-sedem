@@ -9,21 +9,21 @@ CN-WS was developed in 2016 by KU Leuven (in a consortium with Antea group Belgi
 This model was made to simulate the sediment transport to watercourses and to
 evaluate the effects of erosion control measures, both in space and time, based
 on time series of rainfall events. The model combines two existing models:
-WaTEM-SEDEM and the Curve Number model.
+WaTEM/SEDEM and the Curve Number model.
 
 Description of the CN-WS model
 ==============================
 
 As stated above, two models are combined to simulate sediment transport to a
-river during a rainfall event: the Curve Number model and WaTEM-SEDEM.
+river during a rainfall event: the Curve Number model and WaTEM/SEDEM.
 
 The CN model is used to simulate the run-off as a function of time and space. 
 For every outlet or (optionally) river segment a hydrogram (stream velocity as a
 function of time) is generated.
 
-WaTEM-SEDEM is used to model the total sediment load leaving the model domain
+WaTEM/SEDEM is used to model the total sediment load leaving the model domain
 via rivers or an outlet. This model is not time dependent, but the sediment is
-distributed spatially. CN-WS calculates the R-factor for WaTEM-SEDEM from the
+distributed spatially. CN-WS calculates the R-factor for WaTEM/SEDEM from the
 time series of rainfall data used in the CN model. The calculation of the
 R-factor is done with the methodology of Verstraeten et al.
 (2006).
@@ -46,7 +46,7 @@ Additional model features
 =========================
 
 Some additional functionalities were added to CN-WS, next to the basic model
-features of WaTEM-SEDEM and the CN model. These additional functionalities have
+features of WaTEM/SEDEM and the CN model. These additional functionalities have
 a large impact on water and sediment transport through the model domain. By
 default, these additional features are disabled, but can be enabled in the
 ini-file with the correct user choice. When the user enables an extra feature,
@@ -62,7 +62,7 @@ in the landscape. These constructions are temporary storages of water and
 sediment traps. The delayed water run-off and sediment deposition
 is included in the model.
 
-In the WaTEM-SEDEM part of CN-WS, all sediment entering the pixels of a buffer
+In the WaTEM/SEDEM part of CN-WS, all sediment entering the pixels of a buffer
 is multiplied with the sediment trapping efficiency of the buffer. This trapping
 efficiency is the fraction of the incoming sediment that is trapped in the
 buffer basin.

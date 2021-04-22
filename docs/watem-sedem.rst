@@ -1,7 +1,7 @@
 .. _WS:
 
 ###################################
-Erosion/sediment model: WaTEM-SEDEM
+Erosion/sediment model: WaTEM/SEDEM
 ###################################
 
 .. _Concept:
@@ -9,12 +9,12 @@ Erosion/sediment model: WaTEM-SEDEM
 Concept
 =======
 
-WaTEM-SEDEM is a spatially distributed model that was created at the
+WaTEM/SEDEM is a spatially distributed model that was created at the
 Laboratry for Experimental Geomorphology (KU Leuven, Belgium). WaTEM stands
 for Water and Tillage erosion model (Van Oost et al., 2000) and SEDEM is
 the abbreviation of Sediment Delivery Model (Van Rompaey et al., 2001).
 
-In WaTEM-SEDEM, the mean annual soil erosion rate :math:`E` (see
+In WaTEM/SEDEM, the mean annual soil erosion rate :math:`E` (see
 :ref:`here <rusle>`) and transport capacity :math:`TC` (see :ref:`here <TC>`)
 are calculated for every pixel in the model domain. Next, the model iterates
 over all pixels according to the order determined by the routing algorithm.

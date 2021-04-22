@@ -5,7 +5,7 @@ Calibration
 ###########
 
 .. note::
-    This chapter only describes the calibration of :ref:`WaTEM-SEDEM <WS>`. The
+    This chapter only describes the calibration of :ref:`WaTEM/SEDEM <WS>`. The
     :ref:`CN module <CN>` can be calibrated using the parameters
     :ref:`alpha <alpha>` and :ref:`beta <beta>`. We refer to the literature
     about the Curve Number methodology on how to use these parameters.
@@ -13,9 +13,9 @@ Calibration
 Theoretical background
 ======================
 
-WaTEM-SEDEM can be calibrated by comparing the calculated sediment fluxes to the
+WaTEM/SEDEM can be calibrated by comparing the calculated sediment fluxes to the
 rivers with the observed sedimentfluxes in :math:`n` catchments.
-The :ref:`transport capacity <tcmodel>` used in WaTEM-SEDEM contains the ktc-value.
+The :ref:`transport capacity <tcmodel>` used in WaTEM/SEDEM contains the ktc-value.
 This parameter can be adapted to calibrate the model.
 
 Two kTC-values are used in the model runs: kTC-low and kTC-high. The first value
@@ -24,7 +24,7 @@ latter, kTC-high, is used for arable land. Land covers with no erosion potential
 (i.e. roads and water) are automatically appointed with a very high kTC value (i.e. 9999).
 
 To select the correct kTC-values,
-WaTEM-SEDEM must be ran for a range of kTC values for all measurement areas in
+WaTEM/SEDEM must be ran for a range of kTC values for all measurement areas in
 the dataset. The optimal combination of both kTC-values is obtained by three criteria.
 
 The first step in the selection process is the calculation of the
@@ -69,7 +69,7 @@ effectivity of this type of erosion control measure.
 Practical execution
 ===================
 
-CN-WS has a built-in calibration tool for WaTEM-SEDEM. First, the user has to
+CN-WS has a built-in calibration tool for WaTEM/SEDEM. First, the user has to
 make a set of input rasters for every catchment in the calibration dataset and
 has to define all the :ref:`options <choicespage>` that need to be used in the
 calibration and future model runs. In the ini-file for every catchment the user

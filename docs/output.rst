@@ -101,10 +101,10 @@ written if :ref:`write upstream area = 1 <writeuparea>`.
 
 .. _watemsedemoutput:
 
-WaTEM-SEDEM output
+WaTEM/SEDEM output
 ##################
 
-When WaTEM-SEDEM or the full CN-WS model is used, the following rasters and
+When WaTEM/SEDEM or the full CN-WS model is used, the following rasters and
 tables can be written as output.
 
 .. _totalsedimenttxt:

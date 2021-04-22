@@ -158,7 +158,7 @@ with
 - :math:`LS`: :ref:`slope length and slope steepness factor <lsfactor>`
 - :math:`S_g`: local slope (:math:`\frac{\text{m}}{\text{m}}`)
 
-Most studies using WaTEM-SEDEM use the method of Van Oost et al. (2000). The
+Most studies using WaTEM/SEDEM use the method of Van Oost et al. (2000). The
 method of Van Oost et al. (2000) can be activated in CN-WS by setting
 *TC model* to 'VanOost2000' in the ini-file (mind the quotes):
 
@@ -192,7 +192,7 @@ Only Routing
 
 By enabling the Only Routing (`Only Routing = 1`) option, only the routing will
 be determined by CN-WS. No sediment calculations or discharge calculations are
-done: the WaTEM-SEDEM and CN modules are disabled. When using this option only
+done: the WaTEM/SEDEM and CN modules are disabled. When using this option only
 :ref:`a limited model output <onlyroutingoutput>` is possible.
 
 This option is usefull in large catchments to evaluate the routing without
@@ -203,7 +203,7 @@ calculating the sediment transport or discharges.
 Simple
 ######
 
-When the option 'Simple' is enabled, only WaTEM-SEDEM is used and the CN-model
+When the option 'Simple' is enabled, only WaTEM/SEDEM is used and the CN-model
 is disabled. By disabling Simple, you will use the complete CN-WS model.
 
 The user has to provide following minimal input if this option is enabled:
@@ -531,7 +531,7 @@ file.
 use r factor
 ############
 
-WaTEM-SEDEM requires an :ref:`R-factor <rfactor>` for the RUSLE calculation.
+WaTEM/SEDEM requires an :ref:`R-factor <rfactor>` for the RUSLE calculation.
 When `Use R factor = 1`, the user will have to define the
 :ref:`R factor <rfactor_var>` himself.
 

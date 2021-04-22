@@ -30,11 +30,11 @@ All example model runs described below make use of the test dataset which is
 available in the repository under testfiles/molenbeek/modelinput. The ini-files
 used in these tutorials can be found in the docs folder of the repository.
 
-1. A basic model run with WaTEM-SEDEM
+1. A basic model run with WaTEM/SEDEM
 *************************************
 
 As a first exercise in the tutorial we will make a basic model run with the
-WaTEM-SEDEM module of CN-WS. The basic model run includes only mandatory files
+WaTEM/SEDEM module of CN-WS. The basic model run includes only mandatory files
 and input. This run does not use advanced :ref:`model options <usage>`. All
 keywords used in an ini-file are explained in the :ref:`reference <usage>`.
 
@@ -70,7 +70,7 @@ erosion) and a positive mass balance (total deposition). A negative mass balance
 means that the available sediment (RUSLE + SEDIIN) in a pixel is smaller than the
 transport capacity. A positive mass balance means that the available sediment in
 the pixel is larger than the transport capacity. We refer to the
-:ref:`WaTEM-SEDEM section <Concept>` where these concepts are explained more in
+:ref:`WaTEM/SEDEM section <Concept>` where these concepts are explained more in
 depth.
 
 The total sediment table also reports how
