@@ -96,7 +96,7 @@ and is used in the calculation of :ref:`RUSLE <rusle>` and
 :ref:`transport capacity (TC) <TC>`.
 
 Both models are a function of :math:`\theta`: the inclination angle or slope
-(%). The computation of the inclincation angle is based on the four cardinal
+(%). The computation of the inclination angle is based on the four cardinal
 neighbouring pixels (Zevenbergen and Thorne, 1987).
 
 The two S-models are:
