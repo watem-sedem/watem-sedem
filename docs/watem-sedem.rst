@@ -23,14 +23,17 @@ comparing the the total available sediment in the cell :math:`S_A` (incoming
 sediment, :math:`S_i` + :math:`E`) with the transport capacity.
 
 Two cases exist:
- - :math:`S_A` < :math:`TC`: the resulting mass balance is negative (the
-   pixel can transport more than the amount of sediment available to
-   transport, so 'erosion' will occur). The outgoing sediment is set equal
-   to the available sediment
- - :math:`S_A` > or equal to :math:`TC`: the resulting mass balance is
-   positive (enough sediment to transport, some sediment will be 'deposited'
-   in the pixel). The outgoing sediment (:math:`S_o` is equal to :math:`TC`
-   and (S_A - :math:`TC`) will be deposited in the cell.
+ - :math:`S_A \leq TC`: the pixel can transport the total
+   available sediment :math:`S_A`, so erosion will occur at the mean annual soil
+   erosion rate. The outgoing sediment :math:`S_o` is set equal to the available
+   sediment :math:`S_A`.
+ - :math:`S_A` > :math:`TC`: the total available sediment :math:`S_A` is higher
+   than the amount of sediment that can be transported. The outgoing sediment
+   (:math:`S_o`) equals the transport capacity :math:`TC`.
+   The net erosion rate is lower than the mean annual erosion rate :math:`E`
+   and equals :math:`TC - S_i`. If the incoming sediment :math:`S_i` is higher
+   than the transport capacity :math:`TC`, net sediment deposition will occur
+   and equals :math:`S_i - TC`.
 
 Or:
 
@@ -38,7 +41,7 @@ Or:
         S_o = S_A \quad\text{ if } S_A \leq TC
 
 .. math::
-        S_o = S_A-TC \quad\text{ if } S_A>TC
+        S_o = TC \quad\text{ if } S_A>TC
 
 The outgoing sediment of a cell is distributed to one or two target pixels.
 The target cells are determined by the routing algorithm. The outgoing
