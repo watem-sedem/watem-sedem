@@ -14,8 +14,8 @@ Laboratry for Experimental Geomorphology (KU Leuven, Belgium). WaTEM stands
 for Water and Tillage erosion model (Van Oost et al., 2000) and SEDEM is
 the abbreviation of Sediment Delivery Model (Van Rompaey et al., 2001).
 
-In WaTEM/SEDEM, the mean annual soil erosion rate :math:`E` (see
-:ref:`here <rusle>`) and transport capacity :math:`TC` (see :ref:`here <TC>`)
+In WaTEM/SEDEM, :ref:`the mean annual soil erosion rate <rusle>` :math:`E`
+and :ref:`transport capacity <TC>` :math:`TC`
 are calculated for every pixel in the model domain. Next, the model iterates
 over all pixels according to the order determined by the routing algorithm.
 During the iteration, the outgoing sediment for every pixel is calculated by
