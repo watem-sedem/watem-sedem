@@ -292,7 +292,7 @@ Calibration.txt
 This file contains the same output as
 :ref:`Total Sediment.txt <totalsedimenttxt>`, but for all ktc combinations defined
 in the :ref:`Calibration-option <calibration>`. It is only written when
-:ref:`Calibratie = 1 <calibrate>`.
+:ref:`Calibrate = 1 <calibrate>`.
 
 The txt-file contains a table, all columns seperated by ';'. The columns in the
 table are: ktc_low, ktc_high, tot_erosion, tot_sedimentation, sed_river,
