@@ -51,8 +51,8 @@ In this situation, two cases can be defined:
    to zero, then river routing is defined by the height profile in the river
    (routing stays within rivers).
 
-Situation 2: Target(s) is/are not equal to `river`
-==================================================
+Situation 2: No target pixel is equal to `river`
+================================================
 
 In a first step, the routing algorithm checks whether the flow direction is
 steered by the steepest descent direction or the **tillage direction** (for the
@@ -85,18 +85,18 @@ elevation minimum. An important note is that the routing will always jump to
 the closest river in :math:`W` if a river pixel is present in the window
 :math:`W`.
 
-In the sketch, three features of the two targets and sources are accounted
+In the sketch, three features of the source pixel and two target pixels are accounted
 for to define a rule-bank for the routing direction: the height, the land cover
 code and presence of grass strips. First, it is checked whether
 the targets are higher or lower than the source pixel. In case one of the
 target pixels is higher, than the flow will be defined by the other target
 based on the land cover code and presence of grass strips.
 
-If both targets pixels are lower, than the land-use code of both targets is
-checked. If both are diffrent to the land-use code of the source, than the
+If both target pixels are lower, the land-use code of both targets is
+checked. If both are different to the land-use code of the source, the
 find_lower function is called. If one or both have a different land-use
-code, than it is checked whether the pixels is (are) (a) grass strip(s): in
-this case flow will always be defined by the grass strips.
+code, it is checked whether the pixels is (are) (a) grass strip(s): in
+this case the flow direction will always be defined by the grass strips.
 
 The implementation of this rule-bank aims to satisfy following conditions:
 
@@ -107,10 +107,10 @@ The implementation of this rule-bank aims to satisfy following conditions:
    height profile in the direction of parcel boundaries rather than the
    steepest descent.
 
- - Routing should target grass strips as a priority targets. An exception
-   is defined if the two targets and source all have different land cover
-   codes (with one target being a grass strip), and the target grass strip
-   being higher than the other target: here the routing follows the
+ - Routing should target grass strips as a priority target. An exception
+   is defined if the two target pixels and the source pixel all have different
+   land cover codes (with one target pixel being a grass strip), and the target
+   grass strip being higher than the other target: here the routing follows the
    direction of to the lowest pixel.
 
 Buffers, ditches and routing dams
@@ -121,15 +121,11 @@ of the targets is a buffer, the routing will flow to that one target. Within
 the buffer, all routing is defined to a single target pixel: the pixel
 defined with a non-zero buffer_id (see also :ref:`here<buffermap>`). This
 pixel is considered as the buffer outlet. From this pixel, routing occurs
-are described above.
+as described above.
 
-For ditches and routing dams, the routing is defined by the user by
-using routing map (see :ref:`here<routingmap>`). The routing within ditches and
-routing dams is uni-directional.
-
-.. note::
-    Routing to ditches can also be defined as end-points. In this case, the
-    ditch is considered to be a sewer/sink (see :ref:`here <sewermapfile>`).
+For ditches and conductive dams, the routing is defined by the user by
+using a routing map (see :ref:`here<routingmap>`). The routing within ditches
+and the routing along dams is uni-directional.
 
 References
 ==========
