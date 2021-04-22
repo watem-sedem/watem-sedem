@@ -339,7 +339,7 @@ ditch instead of the steepest slope. When this option is enabled
 The model sets the :ref:`C-factor <cfactor>` at every ditch pixel tot 0.01,
 assuming that the ditch is covered with grass.
 Thus, it overwrites the value of the pixel in the :ref:`C-factor raster <cmap>`.
-The ktc value of the pixel is set to :ref:`ktc low <ktclow>`.
+The ktc value of the pixel is set to 9999.
 
 .. _includedams:
 
@@ -353,7 +353,7 @@ the direction <dammap>` is mandatory.
 
 The model sets the C-factor at every dam pixel to 0. Thus, it overwrites
 the value of the pixel in the :ref:`C-factor raster <cmap>`.
-The ktc value of the pixel is set to -9999.
+The ktc value of the pixel is set to :ref:`ktc low <ktclow>`.
 
 .. _forcerouting:
 
