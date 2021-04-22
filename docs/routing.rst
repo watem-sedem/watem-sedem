@@ -31,14 +31,10 @@ this manual the non-river pixels are sometimes referred to as `land pixels`.
     1. Routing flows from land to land pixels, land to river pixels, from river
     to river pixels, but not from river to land pixels!
 
-    2. Routing can be defined in rivers, dams and ditches. Yet, this
-    routing should be user-defined (see :ref:`here <riverrouting>`). If one
-    does not have information to define this routing, then rivers and ditches
-    can be implemented as sinks. See :ref:`here <riverrouting>` for the
-    implementation in rivers, and :ref:`here <ditchmap>` and 
-    :ref:`here <dammap>` for ditches and dams. It is important to note that
-    ditches can also be modelled as end-points, see 
-    :ref:`here <sewermapfile>`.
+    2. Routing can be defined in rivers, dams and ditches. Yet,
+    this routing should be user-defined. We refer to separate sections for the
+    defintion of routing in :ref:`rivers <riverrouting>`, :ref:`ditches <ditchmap>`
+    and :ref:`dams <dammap>`.
     
 
 Situation 1: Target(s) is/are equal to `river`
