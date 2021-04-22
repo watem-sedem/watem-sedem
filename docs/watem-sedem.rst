@@ -139,8 +139,10 @@ The local erosion or deposition rate by tillage (:math:`E_t`) can then be calcul
     E_t = - \frac{Q_{s,t}}{dx}
 
 The outgoing sediment volume of a cell is distributed to one or two target pixels.
-The target cells are determined by the routing algorithm. The outgoing
-sediment of pixel X to pixel Y is added to the incoming sediment of pixel Y.
+Every target cell receives a fraction of the available sediment of the source cell.
+The target cells are determined by the routing algorithm. The fraction of the
+outgoing sediment of pixel X to pixel Y is added to the incoming sediment of
+pixel Y. 
 Pixel Y can receive sediment of multple pixels. The volume is converted to mass
 via the :ref:`bulkdensity <bulkdensity>`.
 
