@@ -34,7 +34,7 @@ as a function of time). The sediment concentration :math:`SC` is calculated for 
 timestep as:
 
 .. math::
-    SC = \frac{(SV_{event}*1000)}{R_{O,event}*1000}
+    SC = \frac{(SV_{event}*1000)}{RO_{event}*1000}
 
 With:
 
