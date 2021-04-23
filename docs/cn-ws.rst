@@ -30,17 +30,20 @@ R-factor is done with the methodology of Verstraeten et al.
 
 The output of both models is combined: the total sediment load is distributed
 over the hydrogram to obtain a sedigram (sediment concentration and sedimentload
-as a function of time). The sediment concentration *SC* is calculated for every
+as a function of time). The sediment concentration :math:`SC` is calculated for every
 timestep as:
 
 .. math::
-    SC = \frac{(SV*1000)}{R*1000}
+    SC = \frac{(SV_{event}*1000)}{R_{O,event}*1000}
 
 With:
 
-- *SC*, the sediment concentration (:math:`g.l^{-1}`)
-- *SV*, the sedimentload (:math:`kg`)
-- *R*, the run-off (:math:`m^{3}`)
+- :math:`SC`, the sediment concentration for an event (:math:`g.l^{-1}`).
+- :math:`SV`, the total sedimentload for one event (:math:`kg`).
+- :math:`RO_{event}`, the total run-off volume for one event (:math:`m^{3}`).
+
+Do note that the sedigram is a constant over time, as sediment load and flow
+is integrated over time for one event.
 
 Additional model features
 =========================
