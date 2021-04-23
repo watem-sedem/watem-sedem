@@ -39,7 +39,7 @@ timestep as:
 With:
 
 - :math:`SC`, the sediment concentration for an event (:math:`g.l^{-1}`).
-- :math:`SV`, the total sedimentload for one event (:math:`kg`).
+- :math:`SV_{event}`, the total sedimentload for one event (:math:`kg`).
 - :math:`RO_{event}`, the total run-off volume for one event (:math:`m^{3}`).
 
 Do note that the sedigram is a constant over time, as sediment load and flow
