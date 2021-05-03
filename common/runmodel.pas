@@ -70,6 +70,7 @@ if not OnlyRouting Then
       //The .txt file with rainfall per timestep is read and written to a variable
       CalculateRFactor;
       // R factor is calculated from given rainfall record
+      Write_RFactor;
     End;
 
     if not calibrate then Water;

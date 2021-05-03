@@ -12,6 +12,7 @@ Classes, SysUtils, RData_CN, ReadInParameters, CN_calculations, Idrisi;
 Procedure Write_maps;
 Procedure Write_Routing_Table;
 Procedure Write_Routing_Table_RC(routing_cols, routing_rows: Gvector);
+Procedure Write_RFactor;
 
 Implementation
 
@@ -120,7 +121,6 @@ Begin
 
 End;
 
-
 Procedure Write_Routing_Table_RC(routing_cols, routing_rows: Gvector);
 // writes the routing table to a textfile
 
@@ -151,6 +151,20 @@ Begin
   closefile(routingfile);
 End;
 
+Procedure Write_RFactor;
+// Writes the calculated R-Factor to a file
+Var
+   rfactorfile: textfile;
+   sep: char;
+Begin
+  setcurrentDir(File_output_dir);
+  sep := #9;
+  assignfile(rfactorfile, 'rfactor.txt');
+  rewrite(rfactorfile);
+  Writeln(rfactorfile, 'r-factor'+sep);
+  Writeln(rfactorfile, RFactor);
+  closefile(rfactorfile);
+end;
 
 End.
 
