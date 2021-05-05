@@ -34,6 +34,7 @@ latest
 - Add SEDTIL_IN and SEDTIL_OUT-files to output
 - Bugfix: do not overwrite determined routing for buffer pixels with standard routing
 - Bugfix: reduce uparea from buffer outlet pixel when Buffer reduce area is enabled
+- Add file rfactor.txt to modeloutput when the rfactor is calculated from a rainfall timeseries
 
 version 4.1.0
 -------------
