@@ -64,14 +64,18 @@ if not OnlyRouting Then
      else
       calcOutlet;
 
+     if (not simplified) or (not use_rfactor) Then
+      Begin
+     ReadRainfallFile(Raindata, RainfallFilename); //The .txt file with rainfall per timestep is read and written to a variable
+     End;
+
     If Not Use_Rfactor Then
     Begin
-      ReadRainfallFile(Raindata, RainfallFilename);
-      //The .txt file with rainfall per timestep is read and written to a variable
       CalculateRFactor;
       // R factor is calculated from given rainfall record
       Write_RFactor;
     End;
+           Write_RFactor;
 
     if not calibrate then Water;
     // Water erosion calculations

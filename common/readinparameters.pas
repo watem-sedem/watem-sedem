@@ -701,7 +701,7 @@ Begin
   if not OnlyRouting then
     Begin
     ktil_Data_Filename := SetFileFromIni(Inifile, 'ktil map filename', datadir, (not Create_ktil and Calc_tileros));
-    Rainfallfilename := SetFileFromIni(Inifile, 'Rainfall filename', datadir, not use_rfactor);
+    Rainfallfilename := SetFileFromIni(Inifile, 'Rainfall filename', datadir, (not use_rfactor or not simplified));
     K_Factor_filename := SetFileFromIni(Inifile, 'K factor filename', datadir, True);
     Cf_data_filename := SetFileFromIni(Inifile, 'C factor map filename', datadir, True);
 
@@ -757,6 +757,14 @@ Begin
       End;
 
   {Variables}
+  if Use_Rfactor Then
+  Begin
+  If Not TryStrToFloat(Inifile.Readstring('Variables', 'R factor', Default),Rfactor) Then
+          raise EInputException.Create('Error in data input: R factor value missing or wrong data format');
+      Rfactor := Rfactor / 10000;
+  // in MJ.mm/m².h.year
+  end;
+
   If Not Simplified Then
     Begin
       If Not Use_RFactor Then
@@ -781,9 +789,6 @@ Begin
   Else
    If not OnlyRouting Then
     Begin
-      If Not TryStrToFloat(Inifile.Readstring('Variables', 'R factor', Default),Rfactor) Then
-          raise EInputException.Create('Error in data input: R factor value missing or wrong data format');
-
       If Not TryStrToInt(Inifile.Readstring('Variables', 'Bulk density', Default), BD) Then
           raise EInputException.Create('Error in data input: BD value missing or wrong data format');
     End;
@@ -963,9 +968,6 @@ Begin
       cal.steps:=Inifile.ReadInteger('Calibration', 'steps', 12);
     end;
 
-    If Use_Rfactor Then
-    Rfactor := Rfactor / 10000;
-  // in MJ.mm/m².h.year
 
   Inifile.Destroy;
 End;
