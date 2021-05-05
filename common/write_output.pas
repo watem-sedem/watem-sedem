@@ -161,8 +161,8 @@ Begin
   sep := #9;
   assignfile(rfactorfile, 'rfactor.txt');
   rewrite(rfactorfile);
-  Writeln(rfactorfile, 'r-factor'+sep);
-  Writeln(rfactorfile, RFactor);
+  Writeln(rfactorfile, 'r-factor');
+  Writeln(rfactorfile, RFactor*10000);  // write R-factor in same units as for the input R-factor
   closefile(rfactorfile);
 end;
 
