@@ -75,7 +75,6 @@ if not OnlyRouting Then
       // R factor is calculated from given rainfall record
       Write_RFactor;
     End;
-           Write_RFactor;
 
     if not calibrate then Water;
     // Water erosion calculations
