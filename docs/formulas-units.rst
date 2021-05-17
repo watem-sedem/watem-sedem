@@ -29,7 +29,7 @@ comparing **volumes** (:math:`m^3`) or (see :ref:`concept <Concept>`, with
     S_o = TC \quad\text{ if } S_i+E > TC
 
 .. math::
-    S_o = S_i + E -TC \quad\text{ if } S_i \leq TC
+    S_o = S_A = S_i + E \quad\text{ if } S_i \leq TC
 
 with the units for :math:`E` and :math:`TC`:
 
