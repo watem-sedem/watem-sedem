@@ -17,6 +17,7 @@
    contributing
    changelog
    authors
+   contact
 
 Indices and tables
 ==================

@@ -591,22 +591,32 @@ boundary of a forest. It is an integer value between 0 and 100.
 Parcel trapping efficiency cropland
 ***********************************
 
-int
+The parcel trapping efficiency (PTEF) is used to compute the upstream area for
+every raster pixel :math:`A` (see also :ref:`L-model <lmodel>`). The PTEF 
+takes into account the land-use defined in :ref:`the CN-WS parcels raster <prcmap>`:
+as a function of the land-use, a pixel will contribute to the upstream area with a
+given percentage (100-PTEF). The parcel trapping efficiency for cropland is 
+defined by the Parcel trapping efficiency cropland (% as int e.g. 87).
 
 .. _parceltrappingpasture:
 
 Parcel trapping efficiency pasture
 **********************************
 
-int
+The parcel trapping efficiency for pasture is defined by the Parcel trapping 
+efficiency pasture (% as int e.g. 25). For a definition of the Parcel trapping
+efficiency, see
+:ref:`Parcel trapping efficiency cropland <parceltrapppingcrop>`
 
 .. _parceltrappingforest:
 
-Parcel trapping efficiency pasture
+Parcel trapping efficiency forest
 **********************************
 
-int
-
+The parcel trapping efficiency for forest is defined by the Parcel trapping 
+efficiency forest (% as int e.g. 25). For a definition of the Parcel trapping
+efficiency, see
+:ref:`Parcel trapping efficiency cropland <parceltrapppingcrop>`
 
 .. _timestep:
 
