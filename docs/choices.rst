@@ -242,8 +242,9 @@ input is mandatory:
 Calculate tillage erosion
 #########################
 
-This option enables the tillage erosion model of Van Oost et al. (2000). See
-:ref:`here <tillageerosionmodel>` for more information about this model.
+This option enables the tillage erosion model of Van Oost et al. (2000). We
+refer to :ref:`the dedicated section <tillageerosionmodel>` for more information
+about this model.
 
 .. _createktil:
 
@@ -289,7 +290,7 @@ The value of the pixel in the sewer map is checked when the amount of outgoing
 sediment in a pixel is calculated. This value is the fraction of water and
 sediment that is trapped in the sewer system via this pixel. The outgoing
 sediment of the pixel is reduced with this fraction. The amount of trapped
-sediment is written to the output raster sewer_in.rst.
+sediment is written to the output raster :ref:`sewer_in.rst <sewerinrst>`.
 
 .. note::
     This option is fully tested for :ref:`simple=1 <simple>`, but it is not yet
@@ -322,7 +323,7 @@ extension id, buffer id and trapping efficiency are explained in the
 Buffer reduce area
 ##################
 
-This options (boolean) allows to reduce the upstream area downstream of buffer
+This option (boolean) allows to reduce the upstream area downstream of a buffer
 with the efficiency of the buffer (see :ref:`buffer data section <bufferdata>`)
 
 .. _includeditches:
@@ -338,7 +339,7 @@ ditch instead of the steepest slope. When this option is enabled
 The model sets the :ref:`C-factor <cfactor>` at every ditch pixel tot 0.01,
 assuming that the ditch is covered with grass.
 Thus, it overwrites the value of the pixel in the :ref:`C-factor raster <cmap>`.
-The ktc value of the pixel is set to :ref:`ktc low <ktclow>`.
+The ktc value of the pixel is set to 9999.
 
 .. _includedams:
 
@@ -352,7 +353,7 @@ the direction <dammap>` is mandatory.
 
 The model sets the C-factor at every dam pixel to 0. Thus, it overwrites
 the value of the pixel in the :ref:`C-factor raster <cmap>`.
-The ktc value of the pixel is set to -9999.
+The ktc value of the pixel is set to :ref:`ktc low <ktclow>`.
 
 .. _forcerouting:
 
@@ -508,12 +509,6 @@ When this option is enabled, following output is written:
 - :ref:`Discharge_segments.txt <dischargesegment>`
 - :ref:`Sediment concentration segments.txt <sedconcensegment>`
 - :ref:`Sediment_segments.txt <sedsegmenttxt>`
-
-.. note::
-    The CN-WS model was further optimized from 2016 to define river
-    segments in the context of of Flanders water management. Therefore, the
-    segments in CN-WS for Flanders are defined by the `Vlaams Hydrologische Atlas`
-    (VHA).
 
 .. _manualoutlet:
 

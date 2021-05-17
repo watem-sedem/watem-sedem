@@ -14,8 +14,8 @@ Laboratry for Experimental Geomorphology (KU Leuven, Belgium). WaTEM stands
 for Water and Tillage erosion model (Van Oost et al., 2000) and SEDEM is
 the abbreviation of Sediment Delivery Model (Van Rompaey et al., 2001).
 
-In WaTEM/SEDEM, the mean annual soil erosion rate :math:`E` (see
-:ref:`here <rusle>`) and transport capacity :math:`TC` (see :ref:`here <TC>`)
+In WaTEM/SEDEM, :ref:`the mean annual soil erosion rate <rusle>` :math:`E`
+and :ref:`transport capacity <TC>` :math:`TC`
 are calculated for every pixel in the model domain. Next, the model iterates
 over all pixels according to the order determined by the routing algorithm.
 During the iteration, the outgoing sediment for every pixel is calculated by
@@ -23,14 +23,17 @@ comparing the the total available sediment in the cell :math:`S_A` (incoming
 sediment, :math:`S_i` + :math:`E`) with the transport capacity.
 
 Two cases exist:
- - :math:`S_A` < :math:`TC`: the resulting mass balance is negative (the
-   pixel can transport more than the amount of sediment available to
-   transport, so 'erosion' will occur). The outgoing sediment is set equal
-   to the available sediment
- - :math:`S_A` > or equal to :math:`TC`: the resulting mass balance is
-   positive (enough sediment to transport, some sediment will be 'deposited'
-   in the pixel). The outgoing sediment (:math:`S_o` is equal to :math:`TC`
-   and (S_A - :math:`TC`) will be deposited in the cell.
+ - :math:`S_A \leq TC`: the pixel can transport the total
+   available sediment :math:`S_A`, so erosion will occur at the mean annual soil
+   erosion rate. The outgoing sediment :math:`S_o` is set equal to the available
+   sediment :math:`S_A`.
+ - :math:`S_A` > :math:`TC`: the total available sediment :math:`S_A` is higher
+   than the amount of sediment that can be transported. The outgoing sediment
+   (:math:`S_o`) equals the transport capacity :math:`TC`.
+   The net erosion rate is lower than the mean annual erosion rate :math:`E`
+   and equals :math:`TC - S_i`. If the incoming sediment :math:`S_i` is higher
+   than the transport capacity :math:`TC`, net sediment deposition will occur
+   and equals :math:`S_i - TC`.
 
 Or:
 
@@ -38,7 +41,7 @@ Or:
         S_o = S_A \quad\text{ if } S_A \leq TC
 
 .. math::
-        S_o = S_A-TC \quad\text{ if } S_A>TC
+        S_o = TC \quad\text{ if } S_A>TC
 
 The outgoing sediment of a cell is distributed to one or two target pixels.
 The target cells are determined by the routing algorithm. The outgoing
@@ -136,8 +139,10 @@ The local erosion or deposition rate by tillage (:math:`E_t`) can then be calcul
     E_t = - \frac{Q_{s,t}}{dx}
 
 The outgoing sediment volume of a cell is distributed to one or two target pixels.
-The target cells are determined by the routing algorithm. The outgoing
-sediment of pixel X to pixel Y is added to the incoming sediment of pixel Y.
+Every target cell receives a fraction of the available sediment of the source cell.
+The target cells are determined by the routing algorithm. The fraction of the
+outgoing sediment of pixel X to pixel Y is added to the incoming sediment of
+pixel Y.
 Pixel Y can receive sediment of multple pixels. The volume is converted to mass
 via the :ref:`bulkdensity <bulkdensity>`.
 

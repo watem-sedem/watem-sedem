@@ -19,16 +19,17 @@ WaTEM/SEDEM
 ===========
 
 As explained in :ref:`the concept <WS>`, the amount of erosion and deposition in
-each pixel is determined by comparing the mean annual soil erosion and incoming
-sediment with the transport capacity. In the CN-WS code this is done by
+each pixel is determined by comparing the mean annual soil erosion :math:`E`
+and incoming sediment :math:`S_i` with the transport capacity :math:`TC`.
+In the CN-WS code this is done by
 comparing **volumes** (:math:`m^3`) or (see :ref:`concept <Concept>`, with
 :math:`S_A =S_i+E`):
 
 .. math::
-    S_o = S_i + E \quad\text{ if } S_i+E \leq TC
+    S_o = TC \quad\text{ if } S_i+E > TC
 
 .. math::
-    S_o = S_i + E -TC \quad\text{ if } S_i>TC
+    S_o = S_A = S_i + E \quad\text{ if } S_i \leq TC
 
 with the units for :math:`E` and :math:`TC`:
 
