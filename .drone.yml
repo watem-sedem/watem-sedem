@@ -162,7 +162,3 @@ steps:
     commands:
       - .\testfiles\test.bat
 
----
-kind: pipeline
-type: docker
-name: build conda package (linux)
