@@ -80,9 +80,7 @@ Var
   fileIMG : file Of smallint;
   textfileIMG : textfile ;
   bytefileIMG : file Of byte;
-  docnfileIMG,NfileIMG,dumstr: string;
   bytedata : byte;
-  datatype: string;
   header: THeader;
 Begin
   //dumstr := extractfilename(filename);

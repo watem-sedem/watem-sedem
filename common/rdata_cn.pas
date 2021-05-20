@@ -19,7 +19,7 @@ Type
 
   THeader = record
     ncol, nrow: integer;
-    res, minx, maxx, miny, maxy: double;
+    res, minx, maxx, miny, maxy, nodata_value: double;
     datafile: string;
     datatype: string; // byte, integer in RDC
     raster_projection: TRaster_Projection;
@@ -33,6 +33,7 @@ Type
     Procedure DisposeDynamicRdata(Var Z:RRaster);
     Procedure SetRasterBorders(Var Z:RRaster; value: single);
     Function ReadRDC(Filename: String): THeader;
+    Function ReadSGRD(Filename: String): THeader;
 
     Var 
       NROW,NCOL: integer;
@@ -108,23 +109,67 @@ Type
       Z := Nil;
     End;
 
+
+    //**************************************************************************
+    // This function reads an SGRDC file and returns the properties in a header object
+    //**************************************************************************
+    Function ReadSGRD(Filename: String): THeader;
+    var
+      header_filename, line, key, value: string;
+      line_split: array of string;
+      header_file: textfile;
+    begin
+     header_filename := ExtractFileNameWithoutExt(Filename) + '.sgrd';
+     ReadSGRD.datafile:=ExtractFileNameWithoutExt(Filename) + '.sdat';
+     Assignfile(header_file, header_filename);
+     reset(header_file);
+     while not eof(header_file) do
+     begin
+       readln(header_file, line);
+       line_split:= line.Split('=');
+       key := line_split[0].trim();
+       if length(line_split) < 2 then
+         continue;
+       value := line_split[1].trim();
+       case (key) of
+         'DATAFORMAT': readsgrd.datatype:=value;
+         'POSITION_XMIN': readsgrd.minx:=StrToFloat(value);
+         'POSITION_YMIN': readsgrd.miny:=StrToFloat(value);
+         'CELLSIZE': readsgrd.res:=StrToFloat(Value);
+         'CELLCOUNT_X': readsgrd.ncol:=StrToInt(Value);
+         'CELLCOUNT_Y': readsgrd.nrow:=StrToInt(Value);
+         'NODATA_VALUE': readsgrd.nodata_value:=StrToFloat(Value);
+       end;
+
+     end;
+       // idrisi and cnws reports middle of the cell, while saga uses
+       // outer of the cell
+       readsgrd.minx += -readsgrd.res/2;
+       readsgrd.miny += -readsgrd.res/2;
+
+       readsgrd.maxx:= readsgrd.minx + readsgrd.res * readsgrd.ncol;
+       readsgrd.maxy:= readsgrd.miny + readsgrd.res * readsgrd.nrow;
+
+     closefile(header_file);
+
+    end;
+
     //**************************************************************************
     // This function reads an IMG/RDC file and returns the properties in a header object
     //**************************************************************************
 
     Function ReadRDC(Filename: String): THeader;
     var
-      filename_nopath, filename_noext, docNfileIMG, dumstr: string;
+      filename_noext, docNfileIMG, dumstr: string;
       idrisi32 : boolean;
       docfileIMG : textfile;
       i: integer;
     begin
-      filename_nopath := ExtractFilename(filename);
-      If ExtractFileExt(filename_nopath)='.img' Then
+      If ExtractFileExt(Filename)='.img' Then
         idrisi32 := false
       Else idrisi32 := true;
 
-      filename_noext := ExtractFileNameWithoutExt(filename_nopath);
+      filename_noext := ExtractFileNameWithoutExt(filename);
 
       If Idrisi32 Then //Voor Idrisi32 bestanden
         Begin
@@ -192,7 +237,6 @@ Type
           );
         End;
 
-
     end;
 
     //********************************************************************
@@ -200,16 +244,12 @@ Type
     //en wordt de nodige informatie hieruit gehaald.
     //********************************************************************
 
-
-
     Procedure GetRFile(Var Z:RRaster; Filename:String);
 
     Var 
       i,j: integer;
-      docfileIMG : textfile;
       fileIMG : file Of single ;
       textfileIMG : textfile ;
-      idrisi32,asciidatatype : boolean;
       header: THeader;
     Begin
 
