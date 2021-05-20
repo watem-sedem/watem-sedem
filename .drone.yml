@@ -161,3 +161,8 @@ steps:
     image: registry.fluves.net/lazarus-windows
     commands:
       - .\testfiles\test.bat
+
+---
+kind: pipeline
+type: docker
+name: build conda package (linux)
