@@ -8,13 +8,23 @@ Unit RData_CN;
 Interface
 
 Uses 
-Classes, SysUtils;
+Classes, SysUtils, LazFileUtils;
 
-Type 
-  Rraster = array Of array Of single ;
+Type
+  generic Traster<T> = array of array of T;
+  Rraster = specialize Traster<single> ;
   TRaster_Projection = (plane,LATLONG);
 
   ERasterException = Class(Exception);
+
+  THeader = record
+    ncol, nrow: integer;
+    res, minx, maxx, miny, maxy: double;
+    datafile: string;
+    datatype: string; // byte, integer in RDC
+    raster_projection: TRaster_Projection;
+    asciidatatype: boolean;
+    end;
 
     Procedure GetRfile(Var Z:RRaster; Filename:String);
     Procedure SetDynamicRData(Var Z:RRaster);
@@ -22,11 +32,12 @@ Type
     Procedure SetnodataR(Var z:Rraster);
     Procedure DisposeDynamicRdata(Var Z:RRaster);
     Procedure SetRasterBorders(Var Z:RRaster; value: single);
+    Function ReadRDC(Filename: String): THeader;
 
     Var 
       NROW,NCOL: integer;
       //fixed resolution for plane proj and dx=dy
-      RES, MINX, MAXX, MINY, MAXY, MINZ, MAXZ : double;
+      RES, MINX, MAXX, MINY, MAXY : double;
       Raster_Projection: TRaster_Projection;
       ncolAR, nrowAR: array Of integer;
       // array waarin resp. nrow, ncol en
@@ -97,107 +108,140 @@ Type
       Z := Nil;
     End;
 
-    //********************************************************************
-    //In onderstaande regels wordt het RDC bestand van elke .rst kaart gescand
-    //en wordt de nodige informatie hieruit gehaald.
-    //********************************************************************
+    //**************************************************************************
+    // This function reads an IMG/RDC file and returns the properties in a header object
+    //**************************************************************************
 
-    Procedure GetRFile(Var Z:RRaster; Filename:String);
-
-    Var 
-      i,j,hulpgetal: integer;
+    Function ReadRDC(Filename: String): THeader;
+    var
+      filename_nopath, filename_noext, docNfileIMG, dumstr: string;
+      idrisi32 : boolean;
       docfileIMG : textfile;
-      fileIMG : file Of single ;
-      textfileIMG : textfile ;
-      docnfileIMG,NfileIMG,dumstr : string;
-      idrisi32,asciidatatype : boolean;
-    Begin
-      dumstr := ExtractFilename(filename);
-      If ExtractFileExt(dumstr)='.img' Then
+      i: integer;
+    begin
+      filename_nopath := ExtractFilename(filename);
+      If ExtractFileExt(filename_nopath)='.img' Then
         idrisi32 := false
       Else idrisi32 := true;
 
-      hulpgetal := length(dumstr)-2;
-      delete(dumstr,hulpgetal,3);
-      //De extensie wordt verwijderd
+      filename_noext := ExtractFileNameWithoutExt(filename_nopath);
+
       If Idrisi32 Then //Voor Idrisi32 bestanden
         Begin
-          docNfileIMG := dumstr + 'rdc' ;
-          NfileIMG := dumstr + 'rst';
+          docNfileIMG := filename_noext + '.rdc' ;
+          ReadRDC.datafile := filename_noext + '.rst';
           // ==> De namen van de betreffende .rst en .rdc bestanden worden nagemaakt
         End
       Else //Voor .IMG bestanden
         Begin
-          docNfileIMG := dumstr + 'doc' ;
-          NfileIMG := dumstr + 'img';
+          docNfileIMG := filename_noext + '.doc' ;
+          ReadRDC.datafile := filename_noext + '.img';
         End;
       // INLEZEN NCOLS
       Assignfile(docfileIMG, docNfileIMG);
       //Een 'filehandle' wordt toegewezen aan de bestanden
       reset(docfileIMG);
-      //Het .rdc bestand wordt geopend om te lezen
+
+       //Het .rdc bestand wordt geopend om te lezen
       If Idrisi32 Then
         For i := 1 To 3 Do
           readln(docfileIMG, dumstr);
       delete (dumstr,1,14);
       //Na 14 tekens staat het data type
-      If (dumstr='integer') Or (dumstr='byte') Then
-        Begin
-          closefile(docfileIMG);
-          Raise ERasterException.Create(
-                 'Error in reading one of the rasters: data type must be real, please re-enter data'
-          );
-        End;
+
+      ReadRDC.datatype := dumstr;
+
       readln(docfileIMG, dumstr);
       delete (dumstr,1,14);
       //Het filetype wordt opgeslagen
-      If dumstr='binary' Then
-        asciidatatype := false
-      Else asciidatatype := true;
+      readrdc.asciidatatype:= not (dumstr='binary');
       readln(docfileIMG, dumstr);
       delete (dumstr,1,14);
-      ncol := strtoint(dumstr);
+      ReadRDC.ncol := strtoint(dumstr);
+
       // INLEZEN NROWS
       readln(docfileIMG, dumstr);
       delete (dumstr,1,14);
-      nrow := strtoint(dumstr);
+      ReadRDC.nrow := strtoint(dumstr);
       readln(docfileIMG, dumstr);
       delete(dumstr,1,14);
-      If (dumstr='plane') Or (dumstr='') Then Raster_Projection := plane
+      If (dumstr='plane') Or (dumstr='') Then ReadRDC.Raster_Projection := plane
       Else Raster_Projection := LATLONG;
       readln(docfileIMG);
       readln(docfileIMG);
       readln(docfileIMG,dumstr);
       delete(dumstr,1,14);
-      MINX := strtofloat(dumstr);
+      ReadRDC.MINX := strtofloat(dumstr);
       readln(docfileIMG,dumstr);
       delete(dumstr,1,14);
-      MAXX := strtofloat(dumstr);
+      ReadRDC.MAXX := strtofloat(dumstr);
       readln(docfileIMG,dumstr);
       delete(dumstr,1,14);
-      MINY := strtofloat(dumstr);
+      ReadRDC.MINY := strtofloat(dumstr);
       readln(docfileIMG,dumstr);
       delete(dumstr,1,14);
-      MAXY :=  strtofloat(dumstr);
+      ReadRDC.MAXY :=  strtofloat(dumstr);
       readln(docfileIMG);
       readln(docfileIMG, dumstr);
       delete(dumstr,1,14);
-      res := strtofloat(dumstr);
-      If (res=0.0) Then
+      ReadRDC.res := strtofloat(dumstr);
+      If (ReadRDC.res=0.0) Then
         Begin
           Raise ERasterException.Create('Error in reading one of the rasters: Resolution is invalid'
           );
         End;
 
+      closefile(docfileIMG);
+    end;
+
+    //********************************************************************
+    //In onderstaande regels wordt het RDC bestand van elke .rst kaart gescand
+    //en wordt de nodige informatie hieruit gehaald.
+    //********************************************************************
+
+
+
+    Procedure GetRFile(Var Z:RRaster; Filename:String);
+
+    Var 
+      i,j: integer;
+      docfileIMG : textfile;
+      fileIMG : file Of single ;
+      textfileIMG : textfile ;
+      idrisi32,asciidatatype : boolean;
+      header: THeader;
+    Begin
+
+      header := readrdc(filename);
+
+      If (header.datatype ='integer') Or (header.datatype='byte') Then
+        Begin
+
+          Raise ERasterException.Create(
+                 'Error in reading one of the rasters: data type must be real, please re-enter data'
+          );
+        End;
+
       // Inlezen gegevens
+
+      ncol := header.ncol;
+      nrow := header.nrow;
+      res := header.res;
+
+      // it would make more sense to keep these in a header object for the future
+      minx := header.minx;
+      maxx := header.maxx;
+      miny := header.miny;
+      maxy := header.maxy;
+
 
       //Er wordt geheugen vrijgemaakt voor de kaart (array) in kwestie
       SetDynamicRData(Z);
 
       //Het .rst bestand wordt ingelezen en opgeslaan
-      If asciidatatype Then
+      If header.asciidatatype Then
         Begin
-          assignfile(textFileIMG, NfileIMG);
+          assignfile(textFileIMG, header.datafile);
           reset (textfileIMG);
           For i:= 1 To nrow Do
             For j:= 1 To ncol Do
@@ -206,14 +250,14 @@ Type
         End
       Else
         Begin
-          assignfile(FileIMG, NfileIMG);
+          assignfile(FileIMG, header.datafile);
           reset (fileIMG);
           For i:= 1 To nrow Do
             For j:= 1 To ncol Do
               read(fileIMG, Z[i,j]);
           Closefile(Fileimg);
         End;
-      Closefile(DocfileImg);
+
 
       //De buitenste waarden van het raster worden aangepast
       CopyRasterBorders(Z);
