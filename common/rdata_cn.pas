@@ -185,13 +185,14 @@ Type
       readln(docfileIMG, dumstr);
       delete(dumstr,1,14);
       ReadRDC.res := strtofloat(dumstr);
+      closefile(docfileIMG);
       If (ReadRDC.res=0.0) Then
         Begin
           Raise ERasterException.Create('Error in reading one of the rasters: Resolution is invalid'
           );
         End;
 
-      closefile(docfileIMG);
+
     end;
 
     //********************************************************************

@@ -121,7 +121,7 @@ Begin
   //Er wordt geheugen vrijgemaakt voor de matrix Z
   If header.Datatype = 'ascii' Then
     Begin
-      assignfile(textFileIMG, NfileIMG);
+      assignfile(textFileIMG, header.datafile);
       reset (textfileIMG);
       For i:= 1 To nrow Do
         For j:= 1 To ncol Do
@@ -132,7 +132,7 @@ Begin
     Begin
       If header.DataType = 'byte' Then
         Begin
-          assignfile(byteFileIMG, NfileIMG);
+          assignfile(byteFileIMG, header.datafile);
           reset (bytefileIMG);
           For i:= 1 To nrow Do
             For j:= 1 To ncol Do
@@ -144,7 +144,7 @@ Begin
         End
       Else
         Begin
-          assignfile(FileIMG, NfileIMG);
+          assignfile(FileIMG, header.datafile);
           reset (fileIMG);
           For i:= 1 To nrow Do
             For j:= 1 To ncol Do
