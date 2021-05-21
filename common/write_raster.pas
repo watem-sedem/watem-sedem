@@ -1,5 +1,5 @@
 
-Unit Idrisi;
+Unit Write_raster;
 
 {$mode objfpc}{$H+}
 {$R+}
@@ -9,17 +9,14 @@ Interface
 Uses 
 Classes, SysUtils, RData_CN, GData_CN, LazFileUtils, strutils;
 
-Procedure writeIdrisi32file(pncol,pnrow : Integer;filename:String;z: Rraster);
-Procedure writeGIdrisi32file(pncol,pnrow : Integer;filename:String;z: Graster);
+Procedure writefloatfile(pncol,pnrow : Integer;filename:String;z: Rraster);
+Procedure writeSmallintFile(pncol,pnrow : Integer;filename:String;z: Graster);
 
 Implementation
 
 Procedure writeIdrisi32header(header: THeader);
 Var
   dumstr: string;
-  i,j,hulpgetal : integer;
-  MAXZ,MINZ: real;
-  outputf : file Of single;
   outputdoc: textfile;
 
 Begin
@@ -108,14 +105,12 @@ end;
 //***************************************************************
 //Procedure om Idrisi kaarten van het type float weg te schrijven
 //***************************************************************
-Procedure writeIdrisi32file(pncol,pnrow : Integer;filename:String; z: Rraster);
+Procedure writefloatfile(pncol,pnrow : Integer;filename:String; z: Rraster);
 
-Var 
-  dumstr: string;
-  i,j,hulpgetal : integer;
+Var
+  i,j : integer;
   MAXZ,MINZ: real;
   outputf : file Of single;
-  outputdoc: textfile;
   header: THeader;
 Begin
   If matchstr(ExtractFileExt(filename), idrisi_extensions) Then
@@ -159,14 +154,12 @@ End;
 //*****************************************************************
 //Procedure om Idrisi kaarten van het type integer weg te schrijven
 //*****************************************************************
-Procedure writeGIdrisi32file(pncol,pnrow : Integer; filename:String; z: Graster);
+Procedure writeSmallintFile(pncol,pnrow : Integer; filename:String; z: Graster);
 
-Var 
-  dumstr: string;
-  i,j,hulpgetal : integer;
+Var
+  i,j : integer;
   MAXZ,MINZ: real;
   outputf : file Of smallint;
-  outputdoc: textfile;
   header: THeader;
 Begin
   If ExtractFileExt(filename)='' Then filename := filename+'.rst';
