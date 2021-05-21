@@ -21,68 +21,68 @@ Begin
 
      if not outlet_select then
        begin
-        writeGIdrisi32file(ncol,nrow, Datadir+'Outlet'+'.rst',Outlet);
+        writeGIdrisi32file(ncol,nrow, Datadir+'Outlet',Outlet);
        end;
 
 
   If Write_Sediexport Then
     Begin
-      //  writeIdrisi32file(ncol,nrow,File_output_dir+'SediExport_m3'+'.rst', SEDI_EXPORT);
-      writeIdrisi32file(ncol,nrow,File_output_dir+'SediExport_kg'+'.rst', SEDI_EXPORT);
-      writeIdrisi32file(ncol,nrow,File_output_dir+'SediIn_kg'+'.rst', SEDI_IN);
-      writeIdrisi32file(ncol,nrow,File_output_dir+'SediOut_kg'+'.rst', SEDI_OUT);
-      writeIdrisi32file(ncol,nrow,File_output_dir+'Capacity'+'.rst', CAPAC);
-      //writeIdrisi32file(ncol,nrow,File_output_dir+'Dep_prod_kg'+'.rst', depprod2);
+      //  writeIdrisi32file(ncol,nrow,File_output_dir+'SediExport_m3', SEDI_EXPORT);
+      writeIdrisi32file(ncol,nrow,File_output_dir+'SediExport_kg', SEDI_EXPORT);
+      writeIdrisi32file(ncol,nrow,File_output_dir+'SediIn_kg', SEDI_IN);
+      writeIdrisi32file(ncol,nrow,File_output_dir+'SediOut_kg', SEDI_OUT);
+      writeIdrisi32file(ncol,nrow,File_output_dir+'Capacity', CAPAC);
+      //writeIdrisi32file(ncol,nrow,File_output_dir+'Dep_prod_kg', depprod2);
 
-{writeGIdrisi32file(ncol,nrow,File_output_dir+'row'+'.rst', row2);
-     writeGIdrisi32file(ncol,nrow,File_output_dir+'col'+'.rst', col2);   }
+{writeGIdrisi32file(ncol,nrow,File_output_dir+'row', row2);
+     writeGIdrisi32file(ncol,nrow,File_output_dir+'col', col2);   }
     End;
   If Calc_tileros Then
     Begin
-    writeIdrisi32file(ncol,nrow,File_output_dir+'TILEROS (mm per gridcel)'+'.rst', TILEROS);
-    writeIdrisi32file(ncol,nrow,File_output_dir+'TILEROS (kg per gridcel)'+'.rst', TILEROS_kg);
-    writeIdrisi32file(ncol,nrow,File_output_dir+'SEDTIL_IN'+'.rst', SEDTIL_IN);
-    writeIdrisi32file(ncol,nrow,File_output_dir+'SEDTIL_OUT'+'.rst', SEDTIL_OUT);
+    writeIdrisi32file(ncol,nrow,File_output_dir+'TILEROS (mm per gridcel)', TILEROS);
+    writeIdrisi32file(ncol,nrow,File_output_dir+'TILEROS (kg per gridcel)', TILEROS_kg);
+    writeIdrisi32file(ncol,nrow,File_output_dir+'SEDTIL_IN', SEDTIL_IN);
+    writeIdrisi32file(ncol,nrow,File_output_dir+'SEDTIL_OUT', SEDTIL_OUT);
     end;
 
   If Write_WATEREROS Then
     Begin
-      writeIdrisi32file(ncol,nrow,File_output_dir+'WATEREROS (mm per gridcel)'+'.rst', WATEREROS);
+      writeIdrisi32file(ncol,nrow,File_output_dir+'WATEREROS (mm per gridcel)', WATEREROS);
       // WATEREROS [mm]
 
-// writeIdrisi32file(ncol, nrow, File_output_dir + 'WATEREROS (m3 per gridcel)' + '.rst', watereros_cubmeter);
-      writeIdrisi32file(ncol, nrow, File_output_dir + 'WATEREROS (kg per gridcel)' + '.rst',
+// writeIdrisi32file(ncol, nrow, File_output_dir + 'WATEREROS (m3 per gridcel)' , watereros_cubmeter);
+      writeIdrisi32file(ncol, nrow, File_output_dir + 'WATEREROS (kg per gridcel)' ,
                         WATEREROS_kg);
     End;
-  If Write_UPAREA Then writeIdrisi32file(ncol,nrow,File_output_dir+'UPAREA'+'.rst', UPAREA);
-  If Write_LS Then writeIdrisi32file(ncol,nrow,File_output_dir+'LS'+'.rst', LS);
+  If Write_UPAREA Then writeIdrisi32file(ncol,nrow,File_output_dir+'UPAREA', UPAREA);
+  If Write_LS Then writeIdrisi32file(ncol,nrow,File_output_dir+'LS', LS);
   If Write_SLOPE Then
-    writeIdrisi32file(ncol,nrow,File_output_dir+'SLOPE'+'.rst', SLOPE);
+    writeIdrisi32file(ncol,nrow,File_output_dir+'SLOPE', SLOPE);
   If Write_RUSLE Then
-    writeidrisi32file(ncol,nrow,File_output_dir+'RUSLE'+'.rst',RUSLE);
+    writeidrisi32file(ncol,nrow,File_output_dir+'RUSLE',RUSLE);
   // potential soil erosion
   If Write_ASPECT Then
-    writeidrisi32file(ncol,nrow,File_output_dir+'AspectMap'+'.rst',Aspect);
+    writeidrisi32file(ncol,nrow,File_output_dir+'AspectMap',Aspect);
   //Aspectmap (.RST) is created
 
   If Not simplified Then
     Begin
       If Write_TOTRUN Then
-        writeidrisi32file(ncol,nrow,File_output_dir+'Total runoff'+'.rst',RunoffTotMap);
+        writeidrisi32file(ncol,nrow,File_output_dir+'Total runoff',RunoffTotMap);
       //Cumulative runoff for the entire event
       If write_RE Then
-        writeidrisi32file(ncol,nrow,File_output_dir+'Remap'+'.rst',Remap);
+        writeidrisi32file(ncol,nrow,File_output_dir+'Remap',Remap);
       // rainfall excess map
     End;
 
   If river_routing Then
     Begin
-    writeidrisi32file(ncol,nrow,File_output_dir+'cumulative'+'.rst',cumulative);
+    writeidrisi32file(ncol,nrow,File_output_dir+'cumulative',cumulative);
     End;
 
   If (include_sewer) Then
     Begin
-    writeidrisi32file(ncol,nrow,File_output_dir+'sewer_in'+'.rst',SEWER_IN);
+    writeidrisi32file(ncol,nrow,File_output_dir+'sewer_in',SEWER_IN);
     end;
 
 End;

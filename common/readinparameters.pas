@@ -428,7 +428,7 @@ Begin
         End;
       End;
 
-  writeGidrisi32file(ncol,nrow,datadir+'PTEFmap'+'.rst', PTEFmap);
+  writeGidrisi32file(ncol,nrow,datadir+'PTEFmap', PTEFmap);
 
   //Check whether number of rows, number of columns and resolution are equal for all input maps
 If Not intArrayIsEqual(nrowAR) Then
@@ -1068,7 +1068,7 @@ Begin
       End;
 
   //The CN map is stored as an Idrisi map
-  writeidrisi32file(ncolPRC,nrowPRC,datadir+'\CNmap'+'.rst',CNmap);
+  writeidrisi32file(ncolPRC,nrowPRC,datadir+'\CNmap',CNmap);
   DisposeDynamicGData(M);
 End;
 
@@ -1096,7 +1096,7 @@ Begin
           ktil[i,j] := ktil_Default;
       End;
 
-  writeGidrisi32file(ncol,nrow,datadir+'ktilmap'+'.rst',ktil);
+  writeGidrisi32file(ncol,nrow,datadir+'ktilmap',ktil);
 End;
 
 Procedure Create_ktc_map(Var ktc: RRaster);
@@ -1120,7 +1120,7 @@ Begin
           ktc[i,j] := 9999;
       End;
 
-  writeidrisi32file(ncol,nrow,datadir+'ktcmap'+'.rst',ktc);
+  writeidrisi32file(ncol,nrow,datadir+'ktcmap',ktc);
 End;
 
 // ***************************************************************************
