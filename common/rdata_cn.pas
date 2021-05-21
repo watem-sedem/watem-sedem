@@ -8,7 +8,7 @@ Unit RData_CN;
 Interface
 
 Uses 
-Classes, SysUtils, LazFileUtils;
+Classes, SysUtils, LazFileUtils, strutils;
 
 Type
   generic Traster<T> = array of array of T;
@@ -251,8 +251,14 @@ Type
       fileIMG : file Of single ;
       textfileIMG : textfile ;
       header: THeader;
+
+    const
+      saga_extensions: array[0..1] of UnicodeString = ('.sdat', '.sgrd');
     Begin
 
+     if  matchstr(filename, saga_extensions) then
+       header:= ReadSGRD(filename)
+     else
       header := readrdc(filename);
 
       If (header.datatype ='integer') Or (header.datatype='byte') Then
