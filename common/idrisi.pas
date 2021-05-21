@@ -7,7 +7,7 @@ Unit Idrisi;
 Interface
 
 Uses 
-Classes, SysUtils, RData_CN, GData_CN, LazFileUtils;
+Classes, SysUtils, RData_CN, GData_CN, LazFileUtils, strutils;
 
 Procedure writeIdrisi32file(pncol,pnrow : Integer;filename:String;z: Rraster);
 Procedure writeGIdrisi32file(pncol,pnrow : Integer;filename:String;z: Graster);
@@ -65,6 +65,31 @@ Begin
 
 end;
 
+Procedure writeSGRDheader(header: THeader);
+var
+  outputdoc: textfile;
+  dataformat: string;
+begin
+  assignfile(outputdoc, ExtractFileNameWithoutExt(header.datafile)+'.sgrd');
+  rewrite(outputdoc);
+  writeln(outputdoc,'NAME'#9'= ' + ExtractFileNameWithoutExt(header.datafile));
+  writeln(outputdoc,'DESCRIPTION'#9'= ');
+  writeln(outputdoc,'UNIT'#9'= ');
+  writeln(outputdoc, 'DATAFILE_OFFSET'#9'= 0');
+  if header.datatype='real' then  dataformat := 'FLOAT' else dataformat := 'SMALLINT';
+  writeln(outputdoc, 'DATAFORMAT'#9'= ' + dataformat);
+  writeln(outputdoc, 'BYTEORDER_BIG'#9'= FALSE');
+  writeln(outputdoc,'POSITION_XMIN'#9'= '+ floattostr(header.minx + header.res/2));
+  writeln(outputdoc,'POSITION_YMIN'#9'= '+ floattostr(header.miny + header.res/2));
+  writeln(outputdoc,'CELLCOUNT_X'#9'= ' + inttostr(header.ncol));
+  writeln(outputdoc,'CELLCOUNT_Y'#9'= ' + inttostr(header.nrow));
+  writeln(outputdoc,'CELLSIZE'#9'= ' + floattostr(header.res));
+  writeln(outputdoc,'ZFACTOR'#9'= 1');
+  writeln(outputdoc,'NODATA_VALUE'#9'= -9999.00');
+  writeln(outputdoc,'TOPTOBOTTOM'#9'= FALSE');
+  Closefile(outputdoc);
+end;
+
 ///**************************************************************
 // Gets header values from the global scope
 //***************************************************************
@@ -93,9 +118,10 @@ Var
   outputdoc: textfile;
   header: THeader;
 Begin
-  If ExtractFileExt(filename)='' Then
-    filename := filename+'.rst';
-  //De .rst naam wordt aangemaakt
+  If matchstr(ExtractFileExt(filename), idrisi_extensions) Then
+    filename := ExtractFileNameWithoutExt(filename)+'.rst'
+  else
+    filename:= ExtractFileNameWithoutExt(filename)+'.sdat';
 
   Assignfile(outputf,filename);
   rewrite(outputf);
@@ -123,7 +149,11 @@ Begin
   header.maxz:=maxz;
   header.datafile:=filename;
   header.datatype:='real';
-  writeIdrisi32header(header);
+
+  If matchstr(ExtractFileExt(filename), saga_extensions) Then
+    writeSGRDheader(header)
+  else
+    writeIdrisi32header(header);
 End;
 
 //*****************************************************************

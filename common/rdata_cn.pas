@@ -48,6 +48,8 @@ Type
 
     const
       saga_extensions: array[0..1] of UnicodeString = ('.sdat', '.sgrd');
+      idrisi_extensions: array[0..1] of UnicodeString = ('.rst', '.rdc');
+      // note that in theory also .doc/.img exists for idrisi, but we don't use them
     Implementation
 
     //********************************************************************
@@ -256,7 +258,7 @@ Type
 
     Begin
 
-     if  matchstr(filename, saga_extensions) then
+     if  matchstr(ExtractFileExt(filename), saga_extensions) then
        header:= ReadSGRD(filename)
      else
       header := readrdc(filename);
