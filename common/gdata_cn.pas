@@ -83,18 +83,11 @@ Var
   bytedata : byte;
   header: THeader;
 Begin
-  //dumstr := extractfilename(filename);
-  //case ExtractFileExt(filename) of
-  //'.img', '.doc' :
-  //  begin
-  //    docNfileIMG := ChangeFileExt(dumstr, '.doc');
-  //    NfileIMG := ChangeFileExt(dumstr, '.img');
-  //  end;
-  //'.rst', '.rdc' : begin docNfileIMG := changefileext(dumstr, '.rdc') ; NfileIMG :=  changefileext(dumstr, '.rst'); end;
-  //'.sdat', 'sgrd': begin docNfileIMG := changefileext(dumstr, '.sgrd') ; NfileIMG :=  changefileext(dumstr, '.sdat'); end;
-  //end;
 
-  header := readrdc(filename);
+  if  matchstr(filename, saga_extensions) then
+    header:= ReadSGRD(filename)
+  else
+   header := readrdc(filename);
 
     If (header.datatype ='real') Then
       Begin

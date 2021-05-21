@@ -46,6 +46,8 @@ Type
       // res van elke ingelezen kaart wordt opgeslagen
       lengthAR: integer;
 
+    const
+      saga_extensions: array[0..1] of UnicodeString = ('.sdat', '.sgrd');
     Implementation
 
     //********************************************************************
@@ -252,8 +254,6 @@ Type
       textfileIMG : textfile ;
       header: THeader;
 
-    const
-      saga_extensions: array[0..1] of UnicodeString = ('.sdat', '.sgrd');
     Begin
 
      if  matchstr(filename, saga_extensions) then
