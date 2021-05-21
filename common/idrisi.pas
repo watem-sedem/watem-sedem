@@ -7,12 +7,78 @@ Unit Idrisi;
 Interface
 
 Uses 
-Classes, SysUtils, RData_CN, GData_CN;
+Classes, SysUtils, RData_CN, GData_CN, LazFileUtils;
 
 Procedure writeIdrisi32file(pncol,pnrow : Integer;filename:String;z: Rraster);
 Procedure writeGIdrisi32file(pncol,pnrow : Integer;filename:String;z: Graster);
 
 Implementation
+
+Procedure writeIdrisi32header(header: THeader);
+Var
+  dumstr: string;
+  i,j,hulpgetal : integer;
+  MAXZ,MINZ: real;
+  outputf : file Of single;
+  outputdoc: textfile;
+
+Begin
+  assignfile(outputdoc, ExtractFileNameWithoutExt(header.datafile)+'.rdc');
+  // De .rdc naam wordt aangemaakt
+  rewrite(outputdoc);
+  writeln(outputdoc,'file format : IDRISI Raster A.1');
+  writeln(outputdoc,'file title :');
+  writeln(outputdoc,'data type   : ' + header.datatype);
+  writeln(outputdoc,'filetype    : binary');
+  dumstr := 'columns     : ' + inttostr(header.ncol);
+  writeln(outputdoc, dumstr);
+  dumstr := 'rows        : ' + inttostr(header.nrow);
+  writeln(outputdoc, dumstr);
+  writeln(outputdoc, 'ref. system : plane');
+  writeln(outputdoc, 'ref. units  : m');
+  writeln(outputdoc, 'unit dist.  : 1');
+  dumstr := 'min. X      : ' + floattostr(header.minx);
+  writeln(outputdoc, dumstr);
+  dumstr := 'max. X      : ' + floattostr(header.maxx);
+  writeln(outputdoc, dumstr);
+  dumstr := 'min. Y      : ' + floattostr(header.miny);
+  writeln(outputdoc, dumstr);
+  dumstr := 'max. Y      : ' + floattostr(header.maxy);
+  writeln(outputdoc, dumstr);
+  writeln(outputdoc, 'posnn error : unknown');
+  dumstr := 'resolution  : ' + floattostr(header.res);
+  writeln(outputdoc, dumstr);
+  dumstr := 'min. value  : ' + floattostr(header.minz);
+  writeln(outputdoc, dumstr);
+  dumstr := 'max. value  : ' + floattostr(header.maxz);
+  writeln(outputdoc, dumstr);
+  dumstr := 'display min : '+floattostr(header.minz);
+  writeln(outputdoc,dumstr);
+  dumstr := 'display max : '+floattostr(header.maxz);
+  writeln(outputdoc,dumstr);
+  writeln(outputdoc,'value units : unspecified');
+  writeln(outputdoc,'value error : unknown');
+  writeln(outputdoc,'flag value  : -9999');
+  writeln(outputdoc,'flag def''n  : missing data');
+  writeln(outputdoc,'legend cats : 0');
+  Closefile(outputdoc);
+
+end;
+
+///**************************************************************
+// Gets header values from the global scope
+//***************************************************************
+
+function global_header: THeader;
+begin
+  global_header.minx:=minx;
+  global_header.miny:=miny;
+  global_header.ncol:=ncol;
+  global_header.nrow:=nrow;
+  global_header.res:=res;
+end;
+
+
 
 //***************************************************************
 //Procedure om Idrisi kaarten van het type float weg te schrijven
@@ -25,6 +91,7 @@ Var
   MAXZ,MINZ: real;
   outputf : file Of single;
   outputdoc: textfile;
+  header: THeader;
 Begin
   If ExtractFileExt(filename)='' Then
     filename := filename+'.rst';
@@ -51,49 +118,12 @@ Begin
       End;
   Closefile(outputf);
 
-  hulpgetal := length(filename)-2;
-  delete(filename,hulpgetal,3);
-  //De extensie wordt van de filename geknipt
-  assignfile(outputdoc, filename+'rdc');
-  // De .rdc naam wordt aangemaakt
-  rewrite(outputdoc);
-  writeln(outputdoc,'file format : IDRISI Raster A.1');
-  writeln(outputdoc,'file title :');
-  writeln(outputdoc,'data type   : real');
-  writeln(outputdoc,'filetype    : binary');
-  dumstr := 'columns     : ' + inttostr(pNCOL);
-  writeln(outputdoc, dumstr);
-  dumstr := 'rows        : ' + inttostr(pNROW);
-  writeln(outputdoc, dumstr);
-  writeln(outputdoc, 'ref. system : plane');
-  writeln(outputdoc, 'ref. units  : m');
-  writeln(outputdoc, 'unit dist.  : 1');
-  dumstr := 'min. X      : ' + floattostr(MINX);
-  // Waar komen de min en max waarden vandaan???
-  writeln(outputdoc, dumstr);
-  dumstr := 'max. X      : ' + floattostr(MAXX);
-  writeln(outputdoc, dumstr);
-  dumstr := 'min. Y      : ' + floattostr(MINY);
-  writeln(outputdoc, dumstr);
-  dumstr := 'max. Y      : ' + floattostr(MAXY);
-  writeln(outputdoc, dumstr);
-  writeln(outputdoc, 'posnn error : unknown');
-  dumstr := 'resolution  : ' + floattostr(RES);
-  writeln(outputdoc, dumstr);
-  dumstr := 'min. value  : ' + floattostr(MINZ);
-  writeln(outputdoc, dumstr);
-  dumstr := 'max. value  : ' + floattostr(MAXZ);
-  writeln(outputdoc, dumstr);
-  dumstr := 'display min : '+floattostr(minz);
-  writeln(outputdoc,dumstr);
-  dumstr := 'display max : '+floattostr(maxz);
-  writeln(outputdoc,dumstr);
-  writeln(outputdoc,'value units : unspecified');
-  writeln(outputdoc,'value error : unknown');
-  writeln(outputdoc,'flag value  : -9999');
-  writeln(outputdoc,'flag def''n  : missing data');
-  writeln(outputdoc,'legend cats : 0');
-  Closefile(outputdoc);
+  header:= global_header;
+  header.minz:=minz;
+  header.maxz:=maxz;
+  header.datafile:=filename;
+  header.datatype:='real';
+  writeIdrisi32header(header);
 End;
 
 //*****************************************************************
@@ -107,6 +137,7 @@ Var
   MAXZ,MINZ: real;
   outputf : file Of smallint;
   outputdoc: textfile;
+  header: THeader;
 Begin
   If ExtractFileExt(filename)='' Then filename := filename+'.rst';
   Assignfile(outputf,filename);
@@ -121,46 +152,14 @@ Begin
         write(outputf, Z[i,j]);
       End;
   Closefile(outputf);
-  hulpgetal := length(filename)-2;
-  delete(filename,hulpgetal,3);
-  assignfile(outputdoc, filename+'rdc');
-  rewrite(outputdoc);
-  writeln(outputdoc,'file format : IDRISI Raster A.1');
-  writeln(outputdoc,'file title :');
-  writeln(outputdoc,'data type   : integer');
-  writeln(outputdoc,'filetype    : binary');
-  dumstr := 'columns     : ' + inttostr(pNCOL);
-  writeln(outputdoc, dumstr);
-  dumstr := 'rows        : ' + inttostr(pNROW);
-  writeln(outputdoc, dumstr);
-  writeln(outputdoc, 'ref. system : plane');
-  writeln(outputdoc, 'ref. units  : m');
-  writeln(outputdoc, 'unit dist.  : 1');
-  dumstr := 'min. X      : ' + floattostr(MINX);
-  writeln(outputdoc, dumstr);
-  dumstr := 'max. X      : ' + floattostr(MAXX);
-  writeln(outputdoc, dumstr);
-  dumstr := 'min. Y      : ' + floattostr(MINY);
-  writeln(outputdoc, dumstr);
-  dumstr := 'max. Y      : ' + floattostr(MAXY);
-  writeln(outputdoc, dumstr);
-  writeln(outputdoc, 'posnn error : unknown');
-  dumstr := 'resolution  : ' + floattostr(RES);
-  writeln(outputdoc, dumstr);
-  dumstr := 'min. value  : ' + floattostr(MINZ);
-  writeln(outputdoc, dumstr);
-  dumstr := 'max. value  : ' + floattostr(MAXZ);
-  writeln(outputdoc, dumstr);
-  dumstr := 'display min : '+floattostr(minz);
-  writeln(outputdoc,dumstr);
-  dumstr := 'display max : '+floattostr(maxz);
-  writeln(outputdoc,dumstr);
-  writeln(outputdoc,'value units : unspecified');
-  writeln(outputdoc,'value error : unknown');
-  writeln(outputdoc,'flag value  : none');
-  writeln(outputdoc,'flag defnn  : none');
-  writeln(outputdoc,'legend cats : 0');
-  Closefile(outputdoc);
+
+  header:= global_header;
+  header.minz:=minz;
+  header.maxz:=maxz;
+  header.datafile:=filename;
+  header.datatype:='integer';
+  writeIdrisi32header(header);
+
 End;
 
 End.

@@ -19,7 +19,7 @@ Type
 
   THeader = record
     ncol, nrow: integer;
-    res, minx, maxx, miny, maxy, nodata_value: double;
+    res, minx, maxx, miny, maxy, nodata_value, minz, maxz: double;
     datafile: string;
     datatype: string; // byte, integer in RDC
     raster_projection: TRaster_Projection;
