@@ -7,7 +7,7 @@ Unit GData_CN;
 Interface
 
 Uses 
-Classes, SysUtils, RData_CN;
+Classes, SysUtils, RData_CN, strutils;
 
 Type 
   Graster = specialize Traster<smallint>;
