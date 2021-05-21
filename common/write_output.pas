@@ -155,10 +155,8 @@ Procedure Write_RFactor;
 // Writes the calculated R-Factor to a file
 Var
    rfactorfile: textfile;
-   sep: char;
 Begin
   setcurrentDir(File_output_dir);
-  sep := #9;
   assignfile(rfactorfile, 'rfactor.txt');
   rewrite(rfactorfile);
   Writeln(rfactorfile, 'r-factor');
