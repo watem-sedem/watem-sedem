@@ -28,7 +28,7 @@ Begin
   If Write_Sediexport Then
     Begin
       //  writefloatfile(ncol,nrow,File_output_dir+'SediExport_m3'+ext, SEDI_EXPORT);
-      writefloatfile(ncol,nrow,File_output_dir+'SediExport_kg', SEDI_EXPORT);
+      writefloatfile(ncol,nrow,File_output_dir+'SediExport_kg'+ext, SEDI_EXPORT);
       writefloatfile(ncol,nrow,File_output_dir+'SediIn_kg'+ext, SEDI_IN);
       writefloatfile(ncol,nrow,File_output_dir+'SediOut_kg'+ext, SEDI_OUT);
       writefloatfile(ncol,nrow,File_output_dir+'Capacity'+ext, CAPAC);
