@@ -726,7 +726,7 @@ Begin
   Convert_output := Inifile.ReadBool('User Choices','Convert output',false);
 
   {Output maps}
-  Saga_Grids := Inifile.ReadBool('Output maps', 'Export .sgrd grids', true);
+  Saga_Grids := Inifile.ReadBool('Output maps', 'Export .sgrd grids', false);
   if saga_grids then ext:='.sdat' else ext:='.rst';
   Write_ASPECT := Inifile.ReadBool('Output maps','Write aspect',false);
   Write_LS := Inifile.ReadBool('Output maps','Write LS factor',false);
