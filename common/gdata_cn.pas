@@ -84,7 +84,7 @@ Var
   header: THeader;
 Begin
 
-  if  matchstr(filename, saga_extensions) then
+  if  matchstr(ExtractFileExt(filename),saga_extensions) then
     header:= ReadSGRD(filename)
   else
    header := readrdc(filename);
