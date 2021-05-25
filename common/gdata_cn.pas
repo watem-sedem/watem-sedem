@@ -76,7 +76,7 @@ End;
 Procedure GetGFile(Var Z:GRaster; Filename:String);
 
 Var 
-  i,j: integer;
+  i,j, irow: integer;
   fileIMG : file Of smallint;
   textfileIMG : textfile ;
   bytefileIMG : file Of byte;
@@ -116,7 +116,8 @@ Begin
       reset (textfileIMG);
       For i:= 1 To nrow Do
         For j:= 1 To ncol Do
-          read(textfileIMG, Z[i,j]);
+          if header.toptobottom then irow:=i else irow:=nrow-i+1;
+          read(textfileIMG, Z[irow,j]);
       Closefile(textfileimg);
     End
   Else
@@ -129,7 +130,8 @@ Begin
             For j:= 1 To ncol Do
               Begin
                 read(bytefileIMG, bytedata);
-                Z[i,j] := bytedata;
+                if header.toptobottom then irow:=i else irow:=nrow-i+1;
+                Z[irow,j] := bytedata;
               End;
           Closefile(byteFileimg);
         End
@@ -140,7 +142,8 @@ Begin
           For i:= 1 To nrow Do
             For j:= 1 To ncol Do
               Begin
-                read(fileIMG,Z[i,j]);
+                if header.toptobottom then irow:=i else irow:=nrow-i+1;
+                read(fileIMG,Z[irow,j]);
               End;
           Closefile(fileimg);
         End;

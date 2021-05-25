@@ -10,18 +10,18 @@ from test_benchmark import _compare_folder, _get_filenames, _compare_rst_folder,
 # check 'modeloutput' files
 
 def test_modeloutput():
-    refoutput = Path("testfiles/molenbeek/modeloutput_ref")
-    output = Path("testfiles/molenbeek/modeloutput")
-
-    assert _get_filenames(refoutput) == _get_filenames(output)
-    _compare_rst_folder(refoutput, output, ext='.rst')
-
     # test saga output
     refoutput = Path("testfiles/molenbeek/modeloutput_ref_sdat")
     output = Path("testfiles/molenbeek/modeloutput_sdat")
 
     assert _get_filenames(refoutput) == _get_filenames(output)
     _compare_rst_folder(refoutput, output, ext='.sdat')
+    refoutput = Path("testfiles/molenbeek/modeloutput_ref")
+    output = Path("testfiles/molenbeek/modeloutput")
+
+    assert _get_filenames(refoutput) == _get_filenames(output)
+    _compare_rst_folder(refoutput, output, ext='.rst')
+
 
 
 def test_modelinput_ref():

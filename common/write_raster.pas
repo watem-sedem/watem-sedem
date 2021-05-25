@@ -117,15 +117,23 @@ end;
 Procedure writefloatfile(pncol,pnrow : Integer;filename:String; z: Rraster);
 
 Var
-  i,j : integer;
+  i,j, irow : integer;
   MAXZ,MINZ: real;
   outputf : file Of single;
   header: THeader;
 Begin
+
+    header:= global_header;
   If matchstr(ExtractFileExt(filename), idrisi_extensions) Then
-    filename := ExtractFileNameWithoutExt(filename)+'.rst'
+    begin
+        filename := ExtractFileNameWithoutExt(filename)+'.rst';
+        header.toptobottom:=true;
+    end
   else
-    filename:= ExtractFileNameWithoutExt(filename)+'.sdat';
+    begin
+      filename:= ExtractFileNameWithoutExt(filename)+'.sdat';
+      header.toptobottom:=false;
+    end;
 
   Assignfile(outputf,filename);
   rewrite(outputf);
@@ -133,22 +141,21 @@ Begin
   MAXZ := -999999999.99;
   MINZ := 999999999.99;
   For i:=1 To pnrow Do
-    // Hiermee worden de kleinste en grootste variabelewaarden
-    For j:=1 To pncol Do
-      // op de kaart bepaald
-      Begin
-        write(outputf, Z[i,j]);
-        //wegschrijven waarde op kaart
-        if Z[i,j] = -9999 then continue;
-        If Z[i,j]>MAXZ Then
-          MAXZ := Z[i,j];
-        If Z[i,j]<MINZ Then
-          MINZ := Z[i,j];
+      For j:=1 To pncol Do
+        Begin
+          if header.toptobottom then irow:= i else irow:=pnrow-i+1;
+          write(outputf, Z[irow,j]);
+          if Z[irow,j] = -9999 then continue;
+          If Z[irow,j]>MAXZ Then
+            MAXZ := Z[irow,j];
+          If Z[irow,j]<MINZ Then
+            MINZ := Z[irow,j];
+        End;
 
-      End;
+
   Closefile(outputf);
 
-  header:= global_header;
+;
   header.minz:=minz;
   header.maxz:=maxz;
   header.datafile:=filename;
@@ -166,11 +173,27 @@ End;
 Procedure writeSmallintFile(pncol,pnrow : Integer; filename:String; z: Graster);
 
 Var
-  i,j : integer;
+  i,j, irow : integer;
   MAXZ,MINZ: real;
   outputf : file Of smallint;
   header: THeader;
 Begin
+
+  header:= global_header;
+  header.minz:=minz;
+  header.maxz:=maxz;
+  header.datafile:=filename;
+  header.datatype:='integer';
+
+  If matchstr(ExtractFileExt(filename), saga_extensions) Then
+    begin
+    header.toptobottom:=false;
+    end
+  else
+  begin
+    header.toptobottom:=true;
+  end;
+
   If ExtractFileExt(filename)='' Then filename := filename+'.rst';
   Assignfile(outputf,filename);
   rewrite(outputf);
@@ -179,21 +202,22 @@ Begin
   For i:=1 To pnrow Do
     For j:=1 To pncol Do
       Begin
-        If Z[i,j]>MAXZ Then MAXZ := Z[i,j];
-        If Z[i,j]<MINZ Then MINZ := Z[i,j];
-        write(outputf, Z[i,j]);
+        if header.toptobottom then irow:= i else irow:=pnrow-i+1;
+        If Z[irow,j]>MAXZ Then MAXZ := Z[irow,j];
+        If Z[irow,j]<MINZ Then MINZ := Z[irow,j];
+        write(outputf, Z[irow,j]);
       End;
   Closefile(outputf);
 
-  header:= global_header;
-  header.minz:=minz;
-  header.maxz:=maxz;
-  header.datafile:=filename;
-  header.datatype:='integer';
   If matchstr(ExtractFileExt(filename), saga_extensions) Then
-    writeSGRDheader(header)
+    begin
+    writeSGRDheader(header);
+    end
   else
+  begin
     writeIdrisi32header(header);
+  end;
+
 End;
 
 End.

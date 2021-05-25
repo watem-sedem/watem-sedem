@@ -24,6 +24,7 @@ Type
     datatype: string; // byte, integer in RDC
     raster_projection: TRaster_Projection;
     asciidatatype: boolean;
+    toptobottom: boolean;
     end;
 
     Procedure GetRfile(Var Z:RRaster; Filename:String);
@@ -143,6 +144,7 @@ Type
          'CELLCOUNT_X': readsgrd.ncol:=StrToInt(Value);
          'CELLCOUNT_Y': readsgrd.nrow:=StrToInt(Value);
          'NODATA_VALUE': readsgrd.nodata_value:=StrToFloat(Value);
+         'TOPTOBOTTOM': readsgrd.toptobottom:=StrToBool(Value);
        end;
 
      end;
@@ -240,6 +242,7 @@ Type
           Raise ERasterException.Create('Error in reading one of the rasters: Resolution is invalid'
           );
         End;
+      READRDC.toptobottom:=True;
 
     end;
 
@@ -251,7 +254,7 @@ Type
     Procedure GetRFile(Var Z:RRaster; Filename:String);
 
     Var 
-      i,j: integer;
+      i,j, irow: integer;
       fileIMG : file Of single ;
       textfileIMG : textfile ;
       header: THeader;
@@ -294,7 +297,8 @@ Type
           reset (textfileIMG);
           For i:= 1 To nrow Do
             For j:= 1 To ncol Do
-              read(textfileIMG, Z[i,j]);
+              if header.toptobottom then irow:=i else irow:=nrow-i+1;
+              read(textfileIMG, Z[irow,j]);
           Closefile(textfileimg);
         End
       Else
@@ -303,7 +307,10 @@ Type
           reset (fileIMG);
           For i:= 1 To nrow Do
             For j:= 1 To ncol Do
-              read(fileIMG, Z[i,j]);
+              begin
+                if header.toptobottom then irow:=i else irow:=nrow-i+1;
+               read(fileIMG, Z[irow,j]);
+              end;
           Closefile(Fileimg);
         End;
 
