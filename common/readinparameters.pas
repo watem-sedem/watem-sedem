@@ -430,7 +430,7 @@ Begin
         End;
       End;
 
-  writeSmallintFile(ncol,nrow,datadir+'PTEFmap', PTEFmap);
+  writeSmallintFile(ncol,nrow,datadir+'PTEFmap'+ext, PTEFmap);
 
   //Check whether number of rows, number of columns and resolution are equal for all input maps
 If Not intArrayIsEqual(nrowAR) Then
@@ -1100,7 +1100,7 @@ Begin
           ktil[i,j] := ktil_Default;
       End;
 
-  writeSmallintFile(ncol,nrow,datadir+'ktilmap',ktil);
+  writeSmallintFile(ncol,nrow,datadir+'ktilmap'+ext,ktil);
 End;
 
 Procedure Create_ktc_map(Var ktc: RRaster);

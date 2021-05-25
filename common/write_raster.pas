@@ -74,7 +74,7 @@ begin
   writeln(outputdoc,'DESCRIPTION'#9'= ');
   writeln(outputdoc,'UNIT'#9'= ');
   writeln(outputdoc, 'DATAFILE_OFFSET'#9'= 0');
-  if header.datatype='real' then  dataformat := 'FLOAT' else dataformat := 'SMALLINT';
+  if header.datatype='real' then  dataformat := 'FLOAT' else dataformat := 'SHORTINT';
   writeln(outputdoc, 'DATAFORMAT'#9'= ' + dataformat);
   writeln(outputdoc, 'BYTEORDER_BIG'#9'= FALSE');
   writeln(outputdoc,'POSITION_XMIN'#9'= '+ floattostr(header.minx + header.res/2));
@@ -190,8 +190,10 @@ Begin
   header.maxz:=maxz;
   header.datafile:=filename;
   header.datatype:='integer';
-  writeIdrisi32header(header);
-
+  If matchstr(ExtractFileExt(filename), saga_extensions) Then
+    writeSGRDheader(header)
+  else
+    writeIdrisi32header(header);
 End;
 
 End.
