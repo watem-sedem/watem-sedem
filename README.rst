@@ -169,7 +169,9 @@ References
 ==========
 Antea, 2016. Modellering van de sedimentaanvoer naar de waterlopen, het
 effect van erosiebestrijdingsmaatregelen en het transport van sediment in de
-onbevaarbare waterlopen. Antea Belgium NV, Antwerpen, Belgium.
+onbevaarbare waterlopen. Departement Omgeving. Afdeling Gebiedsontwikkeling,
+Omgevingsplannen en -projecten. Land en Bodembescherming, Brussel.
+https://www.vlaanderen.be/publicaties/modellering-van-de-sedimentaanvoer-naar-de-waterlopen-het-effect-van-erosiebestrijdingsmaatregelen-en-het-transport-van-sediment-in-de-onbevaarbare-waterlopen
 
 Deproost, P., Renders, D., Van de Wauw, J., Van Ransbeeck, N.,
 Verstraeten, G., 2018, Herkalibratie van WaTEM/SEDEM met het DHMV-II als
