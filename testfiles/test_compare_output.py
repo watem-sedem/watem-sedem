@@ -35,13 +35,13 @@ def test_modelinput_ref():
     output = Path("testfiles/molenbeek/modelinput")
 
     assert _get_filenames(refoutput).issubset(_get_filenames(output))
-    _compare_rst_folder(refoutput, output)
+    _compare_rst_folder(refoutput, output, ext='.rst')
 
     refoutput = Path("testfiles/molenbeek/modelinput_ref_sdat")
     output = Path("testfiles/molenbeek/modelinput_sdat")
 
     assert _get_filenames(refoutput).issubset(_get_filenames(output))
-    _compare_rst_folder(refoutput, output)
+    _compare_rst_folder(refoutput, output, ext='.sdat')
 
 def test_tables():
     refoutputs = [Path("testfiles/molenbeek/modeloutput_ref"),

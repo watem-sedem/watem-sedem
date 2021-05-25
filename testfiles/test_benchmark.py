@@ -105,15 +105,15 @@ def _compare_rst_folder(ref, new, ext='.rst'):
             f"SLOPE{ext}",
         ]:
             rtol, atol = 1e-5, 1e-3
-        elif file_name.name in ["WATEREROS (kg per gridcel){ext}"]:
+        elif file_name.name in [f"WATEREROS (kg per gridcel){ext}"]:
             rtol, atol = 1e-4, 1e-3
         elif file_name.name in [
-            "LS{ext}",
-            "AspectMap{ext}",
-            "sewer_in{ext}",
-            "cumulative{ext}",
-            "UPAREA{ext}",
-            "SediOut_kg{ext}",
+            f"LS{ext}",
+            f"AspectMap{ext}",
+            f"sewer_in{ext}",
+            f"cumulative{ext}",
+            f"UPAREA{ext}",
+            f"SediOut_kg{ext}",
         ]:
             rtol, atol = 1e-5, 1e-8
         else:
