@@ -14,7 +14,14 @@ def test_modeloutput():
     output = Path("testfiles/molenbeek/modeloutput")
 
     assert _get_filenames(refoutput) == _get_filenames(output)
-    _compare_rst_folder(refoutput, output)
+    _compare_rst_folder(refoutput, output, ext='.rst')
+
+    # test saga output
+    refoutput = Path("testfiles/molenbeek/modeloutput_ref_sdat")
+    output = Path("testfiles/molenbeek/modeloutput_sdat")
+
+    assert _get_filenames(refoutput) == _get_filenames(output)
+    _compare_rst_folder(refoutput, output, ext='.sdat')
 
 
 def test_modelinput_ref():
@@ -30,30 +37,38 @@ def test_modelinput_ref():
     assert _get_filenames(refoutput).issubset(_get_filenames(output))
     _compare_rst_folder(refoutput, output)
 
+    refoutput = Path("testfiles/molenbeek/modelinput_ref_sdat")
+    output = Path("testfiles/molenbeek/modelinput_sdat")
+
+    assert _get_filenames(refoutput).issubset(_get_filenames(output))
+    _compare_rst_folder(refoutput, output)
+
 def test_tables():
-    refoutput = Path("testfiles/molenbeek/modeloutput_ref")
+    refoutputs = [Path("testfiles/molenbeek/modeloutput_ref"),
+            Path("testfiles/molenbeek/modeloutput_ref_sdat")]
     output = Path("testfiles/molenbeek/modeloutput")
-    for file_name in refoutput.glob("*.txt"):
-        if file_name.name == "Total sediment.txt":
-            equal_total_sediment(
-                file_name,
-                (output / file_name.name),
-                rtol=1e-8,
-                atol=1e-8,
-            )
-        elif file_name.name == "Total sediment segment.txt":
-            equal_table(
-                file_name,
-                (output / file_name.name),
-                rtol=1e-8,
-                atol=1e-8,
-                skiplines=1,
-            )
-        else:
-            equal_table(
-                file_name,
-                (output / file_name.name),
-                rtol=1e-8,
-                atol=1e-8,
-                skiplines=0,
-            )
+    for refoutput in refoutputs:
+        for file_name in refoutput.glob("*.txt"):
+            if file_name.name == "Total sediment.txt":
+                equal_total_sediment(
+                    file_name,
+                    (output / file_name.name),
+                    rtol=1e-8,
+                    atol=1e-8,
+                )
+            elif file_name.name == "Total sediment segment.txt":
+                equal_table(
+                    file_name,
+                    (output / file_name.name),
+                    rtol=1e-8,
+                    atol=1e-8,
+                    skiplines=1,
+                )
+            else:
+                equal_table(
+                    file_name,
+                    (output / file_name.name),
+                    rtol=1e-8,
+                    atol=1e-8,
+                    skiplines=0,
+                )

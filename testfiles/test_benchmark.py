@@ -12,11 +12,11 @@ from pycnws.core.utils import load_raster, load_total_sediment_file
 def _get_filenames(path):
     """"""
     return set(
-        [item.name for item in path.iterdir() if ".rst.aux.xml" not in item.name]
+        [item.name for item in path.iterdir() if ".aux.xml" not in item.name]
     )
 
 def equal_rst(rst_file_1, rst_file_2, rtol=1e-8, atol=1e-8):
-    """Check if idrisi files are the same"""
+    """Check if idrisi/sdat files are the same"""
     s1, s2 = load_raster(rst_file_1), load_raster(rst_file_2)
     assert np.allclose(s1[0], s2[0], rtol=rtol, atol=atol, equal_nan=True), \
             "file %s and %s differ" % (rst_file_1, rst_file_2)
@@ -88,32 +88,32 @@ def _compare_folder(
     )
 
 
-def _compare_rst_folder(ref, new):
+def _compare_rst_folder(ref, new, ext='.rst'):
     """ Compare RST files in two folders
     """
-    for file_name in ref.glob("*.rst"):
+    for file_name in ref.glob(f"*{ext}"):
 
         # adjust the numerical tolerance as function of the data; cumulative
         # data need to have more relative tolerance
         # TODO sgobeyn/daanr - revise these categories
         if file_name.name in [
-            "WATEREROS (mm per gridcel).rst",
-            "RUSLE.rst",
-            "Capacity.rst",
-            "SediExport_kg.rst",
-            "SediIn_kg.rst",
-            "SLOPE.rst",
+            f"WATEREROS (mm per gridcel){ext}",
+            f"RUSLE{ext}",
+            f"Capacity{ext}",
+            f"SediExport_kg{ext}",
+            f"SediIn_kg{ext}",
+            f"SLOPE{ext}",
         ]:
             rtol, atol = 1e-5, 1e-3
-        elif file_name.name in ["WATEREROS (kg per gridcel).rst"]:
+        elif file_name.name in ["WATEREROS (kg per gridcel){ext}"]:
             rtol, atol = 1e-4, 1e-3
         elif file_name.name in [
-            "LS.rst",
-            "AspectMap.rst",
-            "sewer_in.rst",
-            "cumulative.rst",
-            "UPAREA.rst",
-            "SediOut_kg.rst",
+            "LS{ext}",
+            "AspectMap{ext}",
+            "sewer_in{ext}",
+            "cumulative{ext}",
+            "UPAREA{ext}",
+            "SediOut_kg{ext}",
         ]:
             rtol, atol = 1e-5, 1e-8
         else:
@@ -132,12 +132,14 @@ def _compare_rst(
     year="2018",
     name="molenbeek",
     scenario="scenario_1",
+    ext='.rst'
 ):
     """Compare RST files for a scenario"""
     """rst files in input and outfolder should be the same"""
     for folder in ['modelinput', 'modeloutput']:
         _compare_rst_folder( folder_benchmark / name / scenario / folder,
-                folder_output / name / scenario / folder)
+                folder_output / name / scenario / folder,
+                ext)
 
 
 def _compare_table(
