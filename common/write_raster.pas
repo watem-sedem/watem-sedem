@@ -86,6 +86,12 @@ begin
   writeln(outputdoc,'NODATA_VALUE'#9'= -9999.00');
   writeln(outputdoc,'TOPTOBOTTOM'#9'= FALSE');
   Closefile(outputdoc);
+
+  // write projection
+  assignfile(outputdoc, ExtractFileNameWithoutExt(header.datafile)+'.prj');
+  rewrite(outputdoc);
+  Closefile(outputdoc);
+
 end;
 
 ///**************************************************************
@@ -96,6 +102,8 @@ function global_header: THeader;
 begin
   global_header.minx:=minx;
   global_header.miny:=miny;
+  global_header.maxx:=maxx;
+  global_header.maxy:=maxy;
   global_header.ncol:=ncol;
   global_header.nrow:=nrow;
   global_header.res:=res;
