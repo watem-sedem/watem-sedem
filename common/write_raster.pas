@@ -11,6 +11,7 @@ Classes, SysUtils, RData_CN, GData_CN, LazFileUtils, strutils;
 
 Procedure writefloatfile(pncol,pnrow : Integer;filename:String;z: Rraster);
 Procedure writeSmallintFile(pncol,pnrow : Integer;filename:String;z: Graster);
+Procedure writeIdrisi32header(header: THeader);
 
 Implementation
 
@@ -103,7 +104,7 @@ end;
 
 
 //***************************************************************
-//Procedure om Idrisi kaarten van het type float weg te schrijven
+//Procedure om Raster kaarten van het type float weg te schrijven
 //***************************************************************
 Procedure writefloatfile(pncol,pnrow : Integer;filename:String; z: Rraster);
 
@@ -152,7 +153,7 @@ Begin
 End;
 
 //*****************************************************************
-//Procedure om Idrisi kaarten van het type integer weg te schrijven
+//Procedure om Raster kaarten van het type integer weg te schrijven
 //*****************************************************************
 Procedure writeSmallintFile(pncol,pnrow : Integer; filename:String; z: Graster);
 
