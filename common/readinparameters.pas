@@ -321,7 +321,7 @@ Begin
   GetRFile(DTM, DTM_Filename);
   GetGFile(PRC, PARCEL_filename);
 
-  SetGRasterBorders(PRC);
+  PRC.SetRasterBorders;
 
   GetRFile(P_factor, Pf_Data_filename);
 

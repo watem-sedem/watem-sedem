@@ -14,12 +14,13 @@ Type
   generic Traster<T> = class
        r: array of array of T;
        ncol, nrow: integer;
-      constructor Create(ncol_c, nrow_c: integer);
+      constructor Create(nrow_c, ncol_c: integer);
       destructor Destroy;
       function getItem(row, col:integer): T;
       procedure setItem(row, col:integer; value: T);
-      procedure setzero;
       property item[row, col:Integer]:T read getItem write setItem; default;
+      procedure CopyRasterBorders;
+      procedure SetRasterBorders;
   end;
 
   Rraster = specialize Traster<single> ;
@@ -42,7 +43,6 @@ Type
     Procedure SetzeroR(Var z:Rraster);
     Procedure SetnodataR(Var z:Rraster);
     Procedure DisposeDynamicRdata(Var Z:RRaster);
-    Procedure SetRasterBorders(Var Z:RRaster; value: single);
     Function ReadRDC(Filename: String): THeader;
     Function ReadSGRD(Filename: String): THeader;
 
@@ -63,12 +63,12 @@ Type
       // note that in theory also .doc/.img exists for idrisi, but we don't use them
     Implementation
 
-    constructor TRaster.Create(ncol_c, nrow_c: integer);
+    constructor TRaster.Create(nrow_c, ncol_c: integer);
     begin
       nrow := nrow_c;
       ncol := ncol_c;
       // two extra lines are added around the grid
-      setlength(self.r, ncol+2, nrow + 2);
+      setlength(self.r, nrow+2, ncol + 2);
     end;
 
     destructor TRaster.Destroy;
@@ -86,55 +86,50 @@ Type
       self.r[row, col] := value;
     end;
 
-    procedure TRaster.setZero;
-    begin
-      fillchar(r[0], sizeof(r), 0);
-    end;
-
-
     //********************************************************************
     //De waarden van de buitenste cellen worden vervangen door de waarden van de
     //cellen die een laag meer naar het midden liggen
     //********************************************************************
-    Procedure CopyRasterBorders(Var Z:RRaster);
+    Procedure TRaster.CopyRasterBorders;
 
-    Var 
-      i,j       : integer;
-    Begin
-      Z[0,0] := Z[1,1];
-      Z[0,(ncol+1)] := Z[1,ncol];
-      Z[nrow+1,0] := Z[nrow,1];
-      Z[nrow+1,ncol+1] := Z[nrow,ncol];
-      For j := 1 To ncol Do
-        Begin
-          Z[0,j] := Z[1,j];
-          Z[(nrow+1),j] := Z[nrow,j];
-        End;
-      For  i := 1 To nrow Do
-        Begin
-          Z[i,0] := Z[i,1];
-          Z[i,ncol+1] := Z[i,ncol];
-        End;
-    End;
-
-    //*********************************************************************
-    // Set raster borders to a specific value, overriding copyrasterborders
-    //*********************************************************************
-    Procedure SetRasterBorders(Var Z:RRaster; value: single);
     Var
       i,j       : integer;
     Begin
-      For j := 0 To ncol Do
+      r[0,0] := r[1,1];
+      r[0,(ncol+1)] := r[1,ncol];
+      r[nrow+1,0] := r[nrow,1];
+      r[nrow+1,ncol+1] := r[nrow,ncol];
+      For j := 1 To ncol Do
         Begin
-          Z[0,j] :=value;
-          Z[(nrow+1),j] := value;
+          r[0,j] := r[1,j];
+          r[(nrow+1),j] := r[nrow,j];
         End;
-      For  i := 0 To nrow Do
+      For  i := 1 To nrow Do
         Begin
-          Z[i,0] := value;
-          Z[i,ncol+1] := value;
+          r[i,0] := r[i,1];
+          r[i,ncol+1] := r[i,ncol];
         End;
     End;
+
+
+   // Set raster borders (outside actual grid domain) to zero
+
+Procedure TRaster.SetRasterBorders;
+
+Var
+  i,j       : integer;
+Begin
+  For j := 0 To ncol+1 Do
+    Begin
+      r[0,j] := 0;
+      r[(nrow+1),j] := 0;
+    End;
+  For  i := 1 To nrow Do
+    Begin
+      r[i,0] := 0;
+      r[i,ncol+1] := 0;
+    End;
+End;
 
     //********************************************************************
     //In onderstaande regels wordt er geheugen vrij gemaakt voor de verschillende
@@ -356,7 +351,7 @@ Type
 
 
       //De buitenste waarden van het raster worden aangepast
-      CopyRasterBorders(Z);
+      Z.CopyRasterBorders;
 
       //ncol, nrow en res worden opgeslagen in array zodat achteraf kan worden nagegaan
       //of deze voor alle kaarten gelijk zijn

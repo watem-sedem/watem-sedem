@@ -17,37 +17,8 @@ Procedure GetGFile(Var Z:GRaster; Filename:String);
 Procedure SetDynamicGData(Var Z:GRaster);
 Procedure SetzeroG(Var z:Graster);
 Procedure DisposeDynamicGdata(Var Z:GRaster);
-Procedure SetGRasterBorders(Var Z:GRaster);
 
 Implementation
-
-
-//**************************************************************************
-//De waarden van de buitenste cellen worden vervangen door de nullen
-//WANT de buitenste cellen zijn steeds 0 wanneer het bestand wordt aangemaakt:
-//in Lazarus is de eerste cel (0,0) terwijl deze in Idrisi (1,1) is!!!
-//**************************************************************************
-
-Procedure SetGRasterBorders(Var Z:GRaster);
-
-Var 
-  i,j       : integer;
-Begin
-  Z[0,0] := 0;
-  Z[0,(ncol+1)] := 0;
-  Z[nrow+1,0] := 0;
-  Z[nrow+1,ncol+1] := 0;
-  For j := 1 To ncol Do
-    Begin
-      Z[0,j] := 0;
-      Z[(nrow+1),j] := 0;
-    End;
-  For  i := 1 To nrow Do
-    Begin
-      Z[i,0] := 0;
-      Z[i,ncol+1] := 0;
-    End;
-End;
 
 //**********************************************
 //Er wordt geheugen vrijgemaakt voor de matrix Z
@@ -149,7 +120,7 @@ Begin
         End;
     End;
 
-  SetGRasterBorders(Z);
+  z.SetRasterBorders;
 
   //ncol, nrow en res worden opgeslagen in array zodat achteraf kan worden nagegaan
   //of deze voor alle kaarten gelijk zijn
