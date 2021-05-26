@@ -631,7 +631,7 @@ Begin
             //The runoff for that timestep is determined by scaling the total runoff
             //for that grid cell with the fraction of rainfall that falls during this time step
             RunoffInputmap_Temp[k,l] := RunoffInput;
-            RunoffMap[k,l] += RunoffInput;
+            RunoffMap.r[k,l] += RunoffInput;
             //The amount of runoff for this time step is added to the amount of runoff
             //that was already present at the beginning of the time step
 
@@ -680,7 +680,7 @@ Begin
                   Part1_Water := (BufferData[Buffermap[k,l]].Qmax * Timestep_model) + spill;
                   //Part1_water is composed of (1) the volume of water inside the buffer that flows through the opening and (2) the additional water (>volume of the buffer) that flows over the dam
 
-                  RoutedMap_temp[Routing[k,l].Target1row, Routing[k,l].Target1col] += Part1_water;
+                  RoutedMap_temp.r[Routing[k,l].Target1row, Routing[k,l].Target1col] += Part1_water;
                   RunoffMap[k,l] := RunoffMap[k,l] - Part1_water; //RunoffMap is updated
                   OutflowMap_temp[k,l] := Part1_water;
                   spillover[Buffermap[k,l]] += spill;
@@ -694,8 +694,8 @@ Begin
                                    BufferData[Buffermap[k,l]].Volume - BufferData[Buffermap[k,l]].
                                    Volume_dead))) * Timestep_model;
                     // Amount of discharge = [Qmax * sqrt(vol(t)/vol(max))] * timestep
-                    RoutedMap_temp[Routing[k,l].Target1row,Routing[k,l].Target1col] += Part1_water;
-                    RunoffMap[k,l] += -Part1_water;
+                    RoutedMap_temp.r[Routing[k,l].Target1row,Routing[k,l].Target1col] += Part1_water;
+                    RunoffMap.r[k,l] += -Part1_water;
                     //RunoffMap is updated
                     OutflowMap_temp[k,l] := Part1_water;
                   End
@@ -704,8 +704,8 @@ Begin
           //The volume of water in the buffer is smaller than the dead volume: nothing will flow out
                 Begin
                   Part1_water := 0;
-                  RoutedMap_temp[Routing[k,l].Target1row,Routing[k,l].Target1col] += Part1_water;
-                  RunoffMap[k,l] += -Part1_water;
+                  RoutedMap_temp.r[Routing[k,l].Target1row,Routing[k,l].Target1col] += Part1_water;
+                  RunoffMap.r[k,l] += -Part1_water;
                   //RunoffMap is updated
                   OutflowMap_temp[k,l] := Part1_water;
                 End;
@@ -746,15 +746,15 @@ Begin
 
                   Part1_water := (RunoffMap[k,l]*Routing[k,l].Part1)*((Speed*TimeStep_model)/Distance1(Routing,k,l));
                   //Amount of water that is transfered to neighbor 1
-                  RoutedMap_temp[Routing[k,l].Target1row,Routing[k,l].Target1col] += Part1_water;
+                  RoutedMap_temp.r[Routing[k,l].Target1row,Routing[k,l].Target1col] += Part1_water;
                   If (Include_sewer) And (SewerMap[k,l] <> 0) Then
                     Begin
-                      RoutedMap_temp[Routing[k,l].Target2row, Routing[k,l].Target2col] += (Part2_water * (1-(sewer_exit/100)));
+                      RoutedMap_temp.r[Routing[k,l].Target2row, Routing[k,l].Target2col] += (Part2_water * (1-(sewer_exit/100)));
                       sewer_out_water := sewer_out_water + (Part2_water * (sewer_exit/100));
                     End
                   Else
-                    RoutedMap_temp[Routing[k,l].Target2row, Routing[k,l].Target2col] += Part2_water;
-                  RunoffMap[k,l] += -(Part1_water + Part2_water);
+                    RoutedMap_temp.r[Routing[k,l].Target2row, Routing[k,l].Target2col] += Part2_water;
+                  RunoffMap.r[k,l] += -(Part1_water + Part2_water);
 
 //The total amount of runoff that leaves the grid cell during this time step is subtracted from the RunoffMap
                   OutflowMap_temp[k,l] := Part1_water + Part2_water;
@@ -816,8 +816,8 @@ Begin
                   Part1_water := (RunoffMap[k,l]*Routing[k,l].Part1)
                                  *((Speed*TimeStep_model)
                                  /Distance1(Routing, k, l));
-                  RoutedMap_temp[Routing[k,l].Target1row,Routing[k,l].Target1col] += Part1_water;
-                  RunoffMap[k,l] += -Part1_water;
+                  RoutedMap_temp.r[Routing[k,l].Target1row,Routing[k,l].Target1col] += Part1_water;
+                  RunoffMap.r[k,l] += -Part1_water;
                   //RunoffMap is updated
                   OutflowMap_temp[k,l] := Part1_water;
                   If RunoffMap[k,l] < 0 Then RunoffMap[k,l] := 0;
@@ -847,8 +847,8 @@ Begin
                 //If the runoff is transfered to only 1 neighbor (part 2 = 1)
                 Part2_water := (RunoffMap[k,l]*Routing[k,l].Part2)
                                *((Speed*TimeStep_model)/Distance2(Routing, k, l));
-                RoutedMap_temp[Routing[k,l].Target2row,Routing[k,l].Target2col] += Part2_water;
-                RunoffMap[k,l] += -Part2_water;
+                RoutedMap_temp.r[Routing[k,l].Target2row,Routing[k,l].Target2col] += Part2_water;
+                RunoffMap.r[k,l] += -Part2_water;
                 OutflowMap_temp[k,l] := Part2_water;
                 If RunoffMap[k,l] < 0 Then RunoffMap[k,l] := 0;
 
@@ -879,12 +879,12 @@ Begin
           // runoff cumul map = amount of water entering each cell
           Begin
             If PRC[k,l] = 0 Then continue;
-            RunoffMap[k,l] += RoutedMap_temp[k,l];
+            RunoffMap.r[k,l] += RoutedMap_temp[k,l];
             //RunoffCummulMap[k,l] := RunoffCummulMap[k,l] + RoutedMap_temp[k,l];
             If RunoffMap[k,l] >= 0 Then
 
 //RunoffCummulMap[k,l] := RunoffCummulMap[k,l] + ((RunoffMap[k,l]*Speed*Timestep)/res) //Geeft totale hoeveelheid water (rekening houdend met snelheid en tijdstap)
-              RunoffCummulMap[k,l] += RoutedMap_temp[k,l] + RunoffInputmap_Temp[k,l];
+              RunoffCummulMap.r[k,l] += RoutedMap_temp[k,l] + RunoffInputmap_Temp[k,l];
             //else RunoffCummulMap[k,l] := 0;
           End;
     End;
@@ -1177,7 +1177,7 @@ Var
 Begin
   nrowPRC := nrow;
   ncolPRC := ncol;
-  SetLength(Remap,nrowPRC+1, ncolPRC+1);
+  Remap:= RRaster.create(nrow, ncol);
 
   For i:= 1 To nrowPRC Do
     For j := 1 To ncolPRC Do

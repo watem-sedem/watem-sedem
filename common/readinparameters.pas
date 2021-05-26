@@ -1056,7 +1056,7 @@ Begin
 
   //Based on the .txt table and the land use map (which is being read in the main unit
   //the CN map is created
-  Setlength(CNmap,NrowPRC+1, NColPRC+1);
+  Setlength(CNmap.r,NrowPRC+1, NColPRC+1);
   //+1 because [0] is being used by Lazarus
   For i := 1 To nrowPRC Do
     For j := 1 To ncolPRC Do

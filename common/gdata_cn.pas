@@ -55,7 +55,7 @@ End;
 
 Procedure SetDynamicGData(Var Z:GRaster);
 Begin
-  SetLength(Z,nrow+2, ncol+2);
+  Z:= GRaster.create(nrow, ncol);
 End;
 
 
@@ -117,7 +117,7 @@ Begin
       For i:= 1 To nrow Do
         For j:= 1 To ncol Do
           if header.toptobottom then irow:=i else irow:=nrow-i+1;
-          read(textfileIMG, Z[irow,j]);
+          read(textfileIMG, Z.r[irow,j]);
       Closefile(textfileimg);
     End
   Else
@@ -143,7 +143,7 @@ Begin
             For j:= 1 To ncol Do
               Begin
                 if header.toptobottom then irow:=i else irow:=nrow-i+1;
-                read(fileIMG,Z[irow,j]);
+                read(fileIMG,Z.r[irow,j]);
               End;
           Closefile(fileimg);
         End;
@@ -171,8 +171,8 @@ Procedure SetzeroG(Var z:Graster);
 Var
     i: integer;
 Begin
-  For i:=Low(Z) To High(Z) Do
-    Fillword(z[i][0], ncol+2, 0);
+  For i:=Low(Z.r) To High(Z.r) Do
+    Fillword(z.r[i][0], ncol+2, 0);
 End;
 
 

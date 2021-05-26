@@ -257,13 +257,13 @@ Begin
                 begin
                    t_c :=  Routing[i, j].Target2Col;
                    t_r := Routing[i, j].Target2Row ;
-                   SEDI_IN[t_r, t_c] += - SEDI_OUT[i,j] * Routing[i,j].Part2;
+                   SEDI_IN.r[t_r, t_c] += - SEDI_OUT[i,j] * Routing[i,j].Part2;
                 end;
               if Routing[i, j].Target1Row > 0 then
                 begin
                    t_c :=  Routing[i, j].Target1Col;
                    t_r := Routing[i, j].Target1Row;
-                   SEDI_IN[t_r, t_c] += - SEDI_OUT[i,j] * Routing[i,j].Part1;
+                   SEDI_IN.r[t_r, t_c] += - SEDI_OUT[i,j] * Routing[i,j].Part1;
                 end;
             End;
 

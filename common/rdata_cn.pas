@@ -11,7 +11,17 @@ Uses
 Classes, SysUtils, LazFileUtils, strutils;
 
 Type
-  generic Traster<T> = array of array of T;
+  generic Traster<T> = class
+       r: array of array of T;
+       ncol, nrow: integer;
+      constructor Create(ncol_c, nrow_c: integer);
+      destructor Destroy;
+      function getItem(row, col:integer): T;
+      procedure setItem(row, col:integer; value: T);
+      procedure setzero;
+      property item[row, col:Integer]:T read getItem write setItem; default;
+  end;
+
   Rraster = specialize Traster<single> ;
   TRaster_Projection = (plane,LATLONG);
 
@@ -52,6 +62,35 @@ Type
       idrisi_extensions: array[0..1] of UnicodeString = ('.rst', '.rdc');
       // note that in theory also .doc/.img exists for idrisi, but we don't use them
     Implementation
+
+    constructor TRaster.Create(ncol_c, nrow_c: integer);
+    begin
+      nrow := nrow_c;
+      ncol := ncol_c;
+      // two extra lines are added around the grid
+      setlength(self.r, ncol+2, nrow + 2);
+    end;
+
+    destructor TRaster.Destroy;
+    begin
+      setlength(self.r, 0);
+      self.r:=nil;
+    end;
+    function TRaster.getItem(row, col: integer): T;
+    begin
+      getItem:= self.r[row, col];
+    end;
+
+    procedure TRaster.setItem(row, col:integer; value: T);
+    begin
+      self.r[row, col] := value;
+    end;
+
+    procedure TRaster.setZero;
+    begin
+      fillchar(r[0], sizeof(r), 0);
+    end;
+
 
     //********************************************************************
     //De waarden van de buitenste cellen worden vervangen door de waarden van de
@@ -103,7 +142,7 @@ Type
     //********************************************************************
     Procedure SetDynamicRData(Var Z:RRaster);
     Begin
-      SetLength(Z,nrow+2, ncol+2);
+      Z := RRaster.Create(nrow, ncol);
     End;
 
     //***************************************************************************
@@ -299,7 +338,7 @@ Type
           For i:= 1 To nrow Do
             For j:= 1 To ncol Do
               if header.toptobottom then irow:=i else irow:=nrow-i+1;
-              read(textfileIMG, Z[irow,j]);
+              read(textfileIMG, Z.r[irow,j]);
           Closefile(textfileimg);
         End
       Else
@@ -310,7 +349,7 @@ Type
             For j:= 1 To ncol Do
               begin
                 if header.toptobottom then irow:=i else irow:=nrow-i+1;
-               read(fileIMG, Z[irow,j]);
+               read(fileIMG, Z.r[irow,j]);
               end;
           Closefile(Fileimg);
         End;
@@ -339,8 +378,8 @@ Type
     Var
       i: integer;
     Begin
-        For i:=Low(Z) To High(Z) Do
-            Filldword(z[i][0], ncol+2, 0);
+        For i:=Low(Z.r) To High(Z.r) Do
+            Filldword(z.r[i][0], ncol+2, 0);
     End;
 
     Procedure SetnodataR(Var z:Rraster);
@@ -349,8 +388,8 @@ Type
       val: single;
     Begin
       val := -9999;
-        For i:=Low(Z) To High(Z) Do
-            filldword(z[i][0], ncol+2,  dword(val));
+        For i:=Low(Z.r) To High(Z.r) Do
+            filldword(z.r[i][0], ncol+2,  dword(val));
     End;
 
 
