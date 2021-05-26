@@ -17,16 +17,22 @@ Implementation
 
 Procedure writeIdrisi32header(header: THeader);
 Var
-  dumstr: string;
+  dumstr, datatype_idrisi: string;
   outputdoc: textfile;
 
 Begin
+  case (header.datatype) of
+  'single': datatype_idrisi:='real';
+  'smallint': datatype_idrisi:='integer';
+  else raise Exception('invalid datatype when saving headers for ' + header.datafile);
+  end;
+
   assignfile(outputdoc, ExtractFileNameWithoutExt(header.datafile)+'.rdc');
   // De .rdc naam wordt aangemaakt
   rewrite(outputdoc);
   writeln(outputdoc,'file format : IDRISI Raster A.1');
   writeln(outputdoc,'file title :');
-  writeln(outputdoc,'data type   : ' + header.datatype);
+  writeln(outputdoc,'data type   : ' + datatype_idrisi);
   writeln(outputdoc,'filetype    : binary');
   dumstr := 'columns     : ' + inttostr(header.ncol);
   writeln(outputdoc, dumstr);
