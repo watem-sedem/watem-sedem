@@ -32,7 +32,7 @@ procedure TTestReadHeaders.TestReadSGRD;
 var
   header: theader;
 begin
-  header:=ReadSGRD('../testfiles/molenbeek/modelinput/K3_CNWS_molenbeek.sdat');
+  header:=ReadSGRD('../testfiles/molenbeek/modelinput_sdat/K3_CNWS_molenbeek.sdat');
   assertequals(20, header.res);
   assertequals (201620, header.minx);
   assertequals (153880, header.miny);
