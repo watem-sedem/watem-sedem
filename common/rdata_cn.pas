@@ -8,13 +8,24 @@ Unit RData_CN;
 Interface
 
 Uses 
-Classes, SysUtils;
+Classes, SysUtils, LazFileUtils, strutils;
 
-Type 
-  Rraster = array Of array Of single ;
+Type
+  generic Traster<T> = array of array of T;
+  Rraster = specialize Traster<single> ;
   TRaster_Projection = (plane,LATLONG);
 
   ERasterException = Class(Exception);
+
+  THeader = record
+    ncol, nrow: integer;
+    res, minx, maxx, miny, maxy, nodata_value, minz, maxz: double;
+    datafile: string;
+    datatype: string; // byte, integer in RDC
+    raster_projection: TRaster_Projection;
+    asciidatatype: boolean;
+    toptobottom: boolean;
+    end;
 
     Procedure GetRfile(Var Z:RRaster; Filename:String);
     Procedure SetDynamicRData(Var Z:RRaster);
@@ -22,11 +33,13 @@ Type
     Procedure SetnodataR(Var z:Rraster);
     Procedure DisposeDynamicRdata(Var Z:RRaster);
     Procedure SetRasterBorders(Var Z:RRaster; value: single);
+    Function ReadRDC(Filename: String): THeader;
+    Function ReadSGRD(Filename: String): THeader;
 
     Var 
       NROW,NCOL: integer;
       //fixed resolution for plane proj and dx=dy
-      RES, MINX, MAXX, MINY, MAXY, MINZ, MAXZ : double;
+      RES, MINX, MAXX, MINY, MAXY : double;
       Raster_Projection: TRaster_Projection;
       ncolAR, nrowAR: array Of integer;
       // array waarin resp. nrow, ncol en
@@ -34,6 +47,10 @@ Type
       // res van elke ingelezen kaart wordt opgeslagen
       lengthAR: integer;
 
+    const
+      saga_extensions: array[0..1] of UnicodeString = ('.sdat', '.sgrd');
+      idrisi_extensions: array[0..1] of UnicodeString = ('.rst', '.rdc');
+      // note that in theory also .doc/.img exists for idrisi, but we don't use them
     Implementation
 
     //********************************************************************
@@ -97,6 +114,138 @@ Type
       Z := Nil;
     End;
 
+
+    //**************************************************************************
+    // This function reads an SGRDC file and returns the properties in a header object
+    //**************************************************************************
+    Function ReadSGRD(Filename: String): THeader;
+    var
+      header_filename, line, key, value: string;
+      line_split: array of string;
+      header_file: textfile;
+    begin
+     header_filename := ExtractFileNameWithoutExt(Filename) + '.sgrd';
+     ReadSGRD.datafile:=ExtractFileNameWithoutExt(Filename) + '.sdat';
+     Assignfile(header_file, header_filename);
+     reset(header_file);
+     while not eof(header_file) do
+     begin
+       readln(header_file, line);
+       line_split:= line.Split('=');
+       key := line_split[0].trim();
+       if length(line_split) < 2 then
+         continue;
+       value := line_split[1].trim();
+       case (key) of
+         'DATAFORMAT': readsgrd.datatype:=value;
+         'POSITION_XMIN': readsgrd.minx:=StrToFloat(value);
+         'POSITION_YMIN': readsgrd.miny:=StrToFloat(value);
+         'CELLSIZE': readsgrd.res:=StrToFloat(Value);
+         'CELLCOUNT_X': readsgrd.ncol:=StrToInt(Value);
+         'CELLCOUNT_Y': readsgrd.nrow:=StrToInt(Value);
+         'NODATA_VALUE': readsgrd.nodata_value:=StrToFloat(Value);
+         'TOPTOBOTTOM': readsgrd.toptobottom:=StrToBool(Value);
+       end;
+
+     end;
+       // idrisi and cnws reports middle of the cell, while saga uses
+       // outer of the cell
+       readsgrd.minx += -readsgrd.res/2;
+       readsgrd.miny += -readsgrd.res/2;
+
+       readsgrd.maxx:= readsgrd.minx + readsgrd.res * readsgrd.ncol;
+       readsgrd.maxy:= readsgrd.miny + readsgrd.res * readsgrd.nrow;
+
+     closefile(header_file);
+
+    end;
+
+    //**************************************************************************
+    // This function reads an IMG/RDC file and returns the properties in a header object
+    //**************************************************************************
+
+    Function ReadRDC(Filename: String): THeader;
+    var
+      filename_noext, docNfileIMG, dumstr: string;
+      idrisi32 : boolean;
+      docfileIMG : textfile;
+      i: integer;
+    begin
+      If ExtractFileExt(Filename)='.img' Then
+        idrisi32 := false
+      Else idrisi32 := true;
+
+      filename_noext := ExtractFileNameWithoutExt(filename);
+
+      If Idrisi32 Then //Voor Idrisi32 bestanden
+        Begin
+          docNfileIMG := filename_noext + '.rdc' ;
+          ReadRDC.datafile := filename_noext + '.rst';
+          // ==> De namen van de betreffende .rst en .rdc bestanden worden nagemaakt
+        End
+      Else //Voor .IMG bestanden
+        Begin
+          docNfileIMG := filename_noext + '.doc' ;
+          ReadRDC.datafile := filename_noext + '.img';
+        End;
+      // INLEZEN NCOLS
+      Assignfile(docfileIMG, docNfileIMG);
+      //Een 'filehandle' wordt toegewezen aan de bestanden
+      reset(docfileIMG);
+
+       //Het .rdc bestand wordt geopend om te lezen
+      If Idrisi32 Then
+        For i := 1 To 3 Do
+          readln(docfileIMG, dumstr);
+      delete (dumstr,1,14);
+      //Na 14 tekens staat het data type
+
+      ReadRDC.datatype := dumstr;
+
+      readln(docfileIMG, dumstr);
+      delete (dumstr,1,14);
+      //Het filetype wordt opgeslagen
+      readrdc.asciidatatype:= not (dumstr='binary');
+      readln(docfileIMG, dumstr);
+      delete (dumstr,1,14);
+      ReadRDC.ncol := strtoint(dumstr);
+
+      // INLEZEN NROWS
+      readln(docfileIMG, dumstr);
+      delete (dumstr,1,14);
+      ReadRDC.nrow := strtoint(dumstr);
+      readln(docfileIMG, dumstr);
+      delete(dumstr,1,14);
+      If (dumstr='plane') Or (dumstr='') Then ReadRDC.Raster_Projection := plane
+      Else Raster_Projection := LATLONG;
+      readln(docfileIMG);
+      readln(docfileIMG);
+      readln(docfileIMG,dumstr);
+      delete(dumstr,1,14);
+      ReadRDC.MINX := strtofloat(dumstr);
+      readln(docfileIMG,dumstr);
+      delete(dumstr,1,14);
+      ReadRDC.MAXX := strtofloat(dumstr);
+      readln(docfileIMG,dumstr);
+      delete(dumstr,1,14);
+      ReadRDC.MINY := strtofloat(dumstr);
+      readln(docfileIMG,dumstr);
+      delete(dumstr,1,14);
+      ReadRDC.MAXY :=  strtofloat(dumstr);
+      readln(docfileIMG);
+      readln(docfileIMG, dumstr);
+      delete(dumstr,1,14);
+      ReadRDC.res := strtofloat(dumstr);
+      closefile(docfileIMG);
+      If (ReadRDC.res=0.0) Then
+        Begin
+          Raise ERasterException.Create('Error in reading one of the rasters: Resolution is invalid'
+          );
+        End;
+      READRDC.toptobottom:=True;
+
+    end;
+
     //********************************************************************
     //In onderstaande regels wordt het RDC bestand van elke .rst kaart gescand
     //en wordt de nodige informatie hieruit gehaald.
@@ -105,115 +254,66 @@ Type
     Procedure GetRFile(Var Z:RRaster; Filename:String);
 
     Var 
-      i,j,hulpgetal: integer;
-      docfileIMG : textfile;
+      i,j, irow: integer;
       fileIMG : file Of single ;
       textfileIMG : textfile ;
-      docnfileIMG,NfileIMG,dumstr : string;
-      idrisi32,asciidatatype : boolean;
-    Begin
-      dumstr := ExtractFilename(filename);
-      If ExtractFileExt(dumstr)='.img' Then
-        idrisi32 := false
-      Else idrisi32 := true;
+      header: THeader;
 
-      hulpgetal := length(dumstr)-2;
-      delete(dumstr,hulpgetal,3);
-      //De extensie wordt verwijderd
-      If Idrisi32 Then //Voor Idrisi32 bestanden
+    Begin
+
+     if  matchstr(ExtractFileExt(filename), saga_extensions) then
+       header:= ReadSGRD(filename)
+     else
+      header := readrdc(filename);
+
+      If (header.datatype ='integer') Or (header.datatype='byte') Then
         Begin
-          docNfileIMG := dumstr + 'rdc' ;
-          NfileIMG := dumstr + 'rst';
-          // ==> De namen van de betreffende .rst en .rdc bestanden worden nagemaakt
-        End
-      Else //Voor .IMG bestanden
-        Begin
-          docNfileIMG := dumstr + 'doc' ;
-          NfileIMG := dumstr + 'img';
-        End;
-      // INLEZEN NCOLS
-      Assignfile(docfileIMG, docNfileIMG);
-      //Een 'filehandle' wordt toegewezen aan de bestanden
-      reset(docfileIMG);
-      //Het .rdc bestand wordt geopend om te lezen
-      If Idrisi32 Then
-        For i := 1 To 3 Do
-          readln(docfileIMG, dumstr);
-      delete (dumstr,1,14);
-      //Na 14 tekens staat het data type
-      If (dumstr='integer') Or (dumstr='byte') Then
-        Begin
-          closefile(docfileIMG);
+
           Raise ERasterException.Create(
                  'Error in reading one of the rasters: data type must be real, please re-enter data'
-          );
-        End;
-      readln(docfileIMG, dumstr);
-      delete (dumstr,1,14);
-      //Het filetype wordt opgeslagen
-      If dumstr='binary' Then
-        asciidatatype := false
-      Else asciidatatype := true;
-      readln(docfileIMG, dumstr);
-      delete (dumstr,1,14);
-      ncol := strtoint(dumstr);
-      // INLEZEN NROWS
-      readln(docfileIMG, dumstr);
-      delete (dumstr,1,14);
-      nrow := strtoint(dumstr);
-      readln(docfileIMG, dumstr);
-      delete(dumstr,1,14);
-      If (dumstr='plane') Or (dumstr='') Then Raster_Projection := plane
-      Else Raster_Projection := LATLONG;
-      readln(docfileIMG);
-      readln(docfileIMG);
-      readln(docfileIMG,dumstr);
-      delete(dumstr,1,14);
-      MINX := strtofloat(dumstr);
-      readln(docfileIMG,dumstr);
-      delete(dumstr,1,14);
-      MAXX := strtofloat(dumstr);
-      readln(docfileIMG,dumstr);
-      delete(dumstr,1,14);
-      MINY := strtofloat(dumstr);
-      readln(docfileIMG,dumstr);
-      delete(dumstr,1,14);
-      MAXY :=  strtofloat(dumstr);
-      readln(docfileIMG);
-      readln(docfileIMG, dumstr);
-      delete(dumstr,1,14);
-      res := strtofloat(dumstr);
-      If (res=0.0) Then
-        Begin
-          Raise ERasterException.Create('Error in reading one of the rasters: Resolution is invalid'
           );
         End;
 
       // Inlezen gegevens
 
+      ncol := header.ncol;
+      nrow := header.nrow;
+      res := header.res;
+
+      // it would make more sense to keep these in a header object for the future
+      minx := header.minx;
+      maxx := header.maxx;
+      miny := header.miny;
+      maxy := header.maxy;
+
+
       //Er wordt geheugen vrijgemaakt voor de kaart (array) in kwestie
       SetDynamicRData(Z);
 
       //Het .rst bestand wordt ingelezen en opgeslaan
-      If asciidatatype Then
+      If header.asciidatatype Then
         Begin
-          assignfile(textFileIMG, NfileIMG);
+          assignfile(textFileIMG, header.datafile);
           reset (textfileIMG);
           For i:= 1 To nrow Do
             For j:= 1 To ncol Do
-              read(textfileIMG, Z[i,j]);
+              if header.toptobottom then irow:=i else irow:=nrow-i+1;
+              read(textfileIMG, Z[irow,j]);
           Closefile(textfileimg);
         End
       Else
         Begin
-          assignfile(FileIMG, NfileIMG);
+          assignfile(FileIMG, header.datafile);
           reset (fileIMG);
           For i:= 1 To nrow Do
             For j:= 1 To ncol Do
-              read(fileIMG, Z[i,j]);
+              begin
+                if header.toptobottom then irow:=i else irow:=nrow-i+1;
+               read(fileIMG, Z[irow,j]);
+              end;
           Closefile(Fileimg);
         End;
-      Closefile(DocfileImg);
+
 
       //De buitenste waarden van het raster worden aangepast
       CopyRasterBorders(Z);

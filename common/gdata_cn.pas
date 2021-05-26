@@ -7,22 +7,19 @@ Unit GData_CN;
 Interface
 
 Uses 
-Classes, SysUtils;
+Classes, SysUtils, RData_CN, strutils;
 
 Type 
-  Graster = array Of array Of smallint;
+  Graster = specialize Traster<smallint>;
   ERasterException = Class(Exception);
 
 Procedure GetGFile(Var Z:GRaster; Filename:String);
 Procedure SetDynamicGData(Var Z:GRaster);
 Procedure SetzeroG(Var z:Graster);
 Procedure DisposeDynamicGdata(Var Z:GRaster);
-Procedure ReadHeadersIdrisi(docNfileIMG: string; Var Datatype: string);
 Procedure SetGRasterBorders(Var Z:GRaster);
 
 Implementation
-
-Uses RData_CN;
 
 
 //**************************************************************************
@@ -79,61 +76,74 @@ End;
 Procedure GetGFile(Var Z:GRaster; Filename:String);
 
 Var 
-  i,j: integer;
+  i,j, irow: integer;
   fileIMG : file Of smallint;
   textfileIMG : textfile ;
   bytefileIMG : file Of byte;
-  docnfileIMG,NfileIMG,dumstr: string;
   bytedata : byte;
-  datatype: string;
+  header: THeader;
 Begin
-  dumstr := extractfilename(filename);
-  case ExtractFileExt(filename) of
-  '.img', '.doc' :
-    begin
-      docNfileIMG := ChangeFileExt(dumstr, '.doc');
-      NfileIMG := ChangeFileExt(dumstr, '.img');
-    end;
-  '.rst', '.rdc' : begin docNfileIMG := changefileext(dumstr, '.rdc') ; NfileIMG :=  changefileext(dumstr, '.rst'); end;
-  '.sdat', 'sgrd': begin docNfileIMG := changefileext(dumstr, '.sgrd') ; NfileIMG :=  changefileext(dumstr, '.sdat'); end;
-  end;
-  {$push}{$warn 5091 off} // remove spurious warning about datatype not being initialized
-  ReadHeadersIdrisi(docNfileIMG, Datatype);
-  {$pop}
-  // Inlezen gegevens
+
+  if  matchstr(ExtractFileExt(filename),saga_extensions) then
+    header:= ReadSGRD(filename)
+  else
+   header := readrdc(filename);
+
+    If (header.datatype ='real') Then
+      Begin
+
+        Raise ERasterException.Create(
+               'Error in reading one of the rasters: data type must be integer, please re-enter data'
+        );
+      End;
+
+    ncol := header.ncol;
+    nrow := header.nrow;
+    res := header.res;
+
+    // it would make more sense to keep these in a header object for the future
+    minx := header.minx;
+    maxx := header.maxx;
+    miny := header.miny;
+    maxy := header.maxy;
+
+
   SetDynamicGData(Z);
   //Er wordt geheugen vrijgemaakt voor de matrix Z
-  If Datatype = 'ascii' Then
+  If header.Datatype = 'ascii' Then
     Begin
-      assignfile(textFileIMG, NfileIMG);
+      assignfile(textFileIMG, header.datafile);
       reset (textfileIMG);
       For i:= 1 To nrow Do
         For j:= 1 To ncol Do
-          read(textfileIMG, Z[i,j]);
+          if header.toptobottom then irow:=i else irow:=nrow-i+1;
+          read(textfileIMG, Z[irow,j]);
       Closefile(textfileimg);
     End
   Else
     Begin
-      If DataType = 'byte' Then
+      If header.DataType = 'byte' Then
         Begin
-          assignfile(byteFileIMG, NfileIMG);
+          assignfile(byteFileIMG, header.datafile);
           reset (bytefileIMG);
           For i:= 1 To nrow Do
             For j:= 1 To ncol Do
               Begin
                 read(bytefileIMG, bytedata);
-                Z[i,j] := bytedata;
+                if header.toptobottom then irow:=i else irow:=nrow-i+1;
+                Z[irow,j] := bytedata;
               End;
           Closefile(byteFileimg);
         End
       Else
         Begin
-          assignfile(FileIMG, NfileIMG);
+          assignfile(FileIMG, header.datafile);
           reset (fileIMG);
           For i:= 1 To nrow Do
             For j:= 1 To ncol Do
               Begin
-                read(fileIMG,Z[i,j]);
+                if header.toptobottom then irow:=i else irow:=nrow-i+1;
+                read(fileIMG,Z[irow,j]);
               End;
           Closefile(fileimg);
         End;
@@ -153,83 +163,6 @@ Begin
 
 End;
 
-Procedure ReadHeadersIdrisi(docNfileIMG: string; Var Datatype: string);
-Var
-    docfileIMG : textfile;
-    dumstr: string;
-    i: integer;
-Begin
-// INLEZEN NCOLS
-Assignfile(docfileIMG, docNfileIMG);
-
-if not FileExists(docNfileIMG) then
-  Raise ERasterException.Create('Error: raster does not exist:' + docNfileIMG);
-//Een 'filehandle' wordt toegewezen aan de bestanden
-reset(docfileIMG);
-//Het .rdc bestand wordt geopend om te lezen
-If ExtractFileExt(docNfileIMG)= '.rdc' Then
-  For i := 1 To 3 Do
-    readln(docfileIMG, dumstr);
-delete (dumstr,1,14);
-//Na 14 tekens staat het data type
-
-case dumstr of
- 'real', 'byte': Datatype:= dumstr;
-end;
-
-if Datatype='real' then
- Begin
-   closefile(docfileIMG);
-   Raise ERasterException.Create('Error in reading one of the rasters: data type must be integer, please re-enter data');
-   exit;
- End;
-
-readln(docfileIMG, dumstr);
-delete (dumstr,1,14);
-
-If dumstr<>'binary' Then
-  Datatype:= 'ascii';
-
-readln(docfileIMG, dumstr);
-delete (dumstr,1,14);
-ncol := strtoint(dumstr);
-// Number of columns is saved
-
-// INLEZEN NROWS
-readln(docfileIMG, dumstr);
-delete (dumstr,1,14);
-nrow := strtoint(dumstr);
-// Number of rows is saved
-
-readln(docfileIMG, dumstr);
-delete(dumstr,1,14);
-
-If (dumstr='plane') Or (dumstr='') Then Raster_Projection := plane
-Else Raster_Projection := LATLONG;
-
-For i := 1 To 2 Do
-  // Er worden 2 lijnen gelezen
-  readln(docfileIMG);
-  readln(docfileIMG,dumstr);
-  delete(dumstr,1,14);
-  MINX := strtofloat(dumstr);
-  readln(docfileIMG,dumstr);
-  delete(dumstr,1,14);
-  MAXX := strtofloat(dumstr);
-  readln(docfileIMG,dumstr);
-  delete(dumstr,1,14);
-  MINY := strtofloat(dumstr);
-  readln(docfileIMG,dumstr);
-  delete(dumstr,1,14);
-  MAXY :=  strtofloat(dumstr);
-  readln(docfileIMG);
-  readln(docfileIMG, dumstr);
-  delete(dumstr,1,14);
-  res := strtofloat(dumstr);
-
-    Closefile(DocfileImg);
-
-end;
 
 //*****************************************************************
 //Deze procedure geeft een nulwaarde aan elk element in een Graster

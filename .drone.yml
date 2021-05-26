@@ -161,3 +161,4 @@ steps:
     image: registry.fluves.net/lazarus-windows
     commands:
       - .\testfiles\test.bat
+
