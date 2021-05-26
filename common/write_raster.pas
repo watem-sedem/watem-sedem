@@ -180,8 +180,6 @@ Var
 Begin
 
   header:= global_header;
-  header.minz:=minz;
-  header.maxz:=maxz;
   header.datafile:=filename;
   header.datatype:='integer';
 
@@ -208,6 +206,9 @@ Begin
         write(outputf, Z[irow,j]);
       End;
   Closefile(outputf);
+
+  header.minz:=minz;
+  header.maxz:=maxz;
 
   If matchstr(ExtractFileExt(filename), saga_extensions) Then
     begin
