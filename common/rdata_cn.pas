@@ -131,6 +131,8 @@ Type
         End;
     End;
 
+
+
     //********************************************************************
     //In onderstaande regels wordt er geheugen vrij gemaakt voor de verschillende
     //arrays die de kaarten voorstellen
@@ -154,7 +156,7 @@ Type
     //**************************************************************************
     Function ReadSGRD(Filename: String): THeader;
     var
-      header_filename, line, key, value: string;
+      header_filename, line, key, value, dataformat: string;
       line_split: array of string;
       header_file: textfile;
     begin
@@ -172,7 +174,7 @@ Type
          continue;
        value := line_split[1].trim();
        case (key) of
-         'DATAFORMAT': readsgrd.datatype:=value;
+         'DATAFORMAT': dataformat:=value;
          'POSITION_XMIN': readsgrd.minx:=StrToFloat(value);
          'POSITION_YMIN': readsgrd.miny:=StrToFloat(value);
          'CELLSIZE': readsgrd.res:=StrToFloat(Value);
@@ -183,8 +185,13 @@ Type
        end;
 
      end;
-       // idrisi and cnws reports middle of the cell, while saga uses
-       // outer of the cell
+      case (dataformat) of
+          'SHORTINT': readsgrd.datatype := 'smallint';
+          'INTEGER': readsgrd.datatype := 'integer';
+          'FLOAT':  readsgrd.datatype := 'single';
+      end;
+       // idrisi and cnws reports outer of the cell, while saga uses
+       // middle of the cell
        readsgrd.minx += -readsgrd.res/2;
        readsgrd.miny += -readsgrd.res/2;
 
@@ -201,7 +208,7 @@ Type
 
     Function ReadRDC(Filename: String): THeader;
     var
-      filename_noext, docNfileIMG, dumstr: string;
+      filename_noext, docNfileIMG, dumstr, orig_datatype: string;
       idrisi32 : boolean;
       docfileIMG : textfile;
       i: integer;
@@ -235,7 +242,13 @@ Type
       delete (dumstr,1,14);
       //Na 14 tekens staat het data type
 
-      ReadRDC.datatype := dumstr;
+      orig_datatype := dumstr;
+      case (orig_datatype) of
+         'byte':      readrdc.datatype:= 'byte';
+         'integer':   readrdc.datatype:= 'smallint';
+         'real':     readrdc.datatype:= 'single';
+      else  raise Exception.Create('invalid datatype '+ orig_datatype + ' in ' + filename);
+      end;
 
       readln(docfileIMG, dumstr);
       delete (dumstr,1,14);

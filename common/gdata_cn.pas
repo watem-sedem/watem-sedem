@@ -39,6 +39,41 @@ Begin
 End;
 
 
+generic procedure readbinaryfile<T>(var Z:graster; header: Theader);
+var
+    byteFileimg: file of T;
+    bytedata: T;
+    i, j, irow: integer;
+begin
+   assignfile(byteFileIMG, header.datafile);
+    reset (bytefileIMG);
+    For i:= 1 To nrow Do
+      begin
+        if header.toptobottom then irow:=i else irow:=nrow-i+1;
+        For j:= 1 To ncol Do
+          Begin
+            read(bytefileIMG, bytedata);
+            Z[irow,j] := bytedata;
+          End
+        end;
+    Closefile(byteFileimg);
+end;
+
+
+procedure readasciifile(var Z:graster; header: Theader);
+var
+    textfileIMG : textfile;
+    i, j, irow: integer;
+Begin
+  assignfile(textFileIMG, header.datafile);
+  reset (textfileIMG);
+  For i:= 1 To nrow Do
+    For j:= 1 To ncol Do
+      if header.toptobottom then irow:=i else irow:=nrow-i+1;
+      read(textfileIMG, Z.r[irow,j]);
+  Closefile(textfileimg);
+End;
+
 //********************************************************************
 //In onderstaande regels wordt het RDC bestand van elke .rst kaart gescand
 //en wordt de nodige informatie hieruit gehaald.
@@ -49,7 +84,6 @@ Procedure GetGFile(Var Z:GRaster; Filename:String);
 Var 
   i,j, irow: integer;
   fileIMG : file Of smallint;
-  textfileIMG : textfile ;
   bytefileIMG : file Of byte;
   bytedata : byte;
   header: THeader;
@@ -78,48 +112,16 @@ Begin
     miny := header.miny;
     maxy := header.maxy;
 
-
   SetDynamicGData(Z);
   //Er wordt geheugen vrijgemaakt voor de matrix Z
-  If header.Datatype = 'ascii' Then
-    Begin
-      assignfile(textFileIMG, header.datafile);
-      reset (textfileIMG);
-      For i:= 1 To nrow Do
-        For j:= 1 To ncol Do
-          if header.toptobottom then irow:=i else irow:=nrow-i+1;
-          read(textfileIMG, Z.r[irow,j]);
-      Closefile(textfileimg);
-    End
-  Else
-    Begin
-      If header.DataType = 'byte' Then
-        Begin
-          assignfile(byteFileIMG, header.datafile);
-          reset (bytefileIMG);
-          For i:= 1 To nrow Do
-            For j:= 1 To ncol Do
-              Begin
-                read(bytefileIMG, bytedata);
-                if header.toptobottom then irow:=i else irow:=nrow-i+1;
-                Z[irow,j] := bytedata;
-              End;
-          Closefile(byteFileimg);
-        End
-      Else
-        Begin
-          assignfile(FileIMG, header.datafile);
-          reset (fileIMG);
-          For i:= 1 To nrow Do
-            For j:= 1 To ncol Do
-              Begin
-                if header.toptobottom then irow:=i else irow:=nrow-i+1;
-                read(fileIMG,Z.r[irow,j]);
-              End;
-          Closefile(fileimg);
-        End;
-    End;
 
+  case (header.Datatype) of
+      'ascii': readasciifile(z, header);
+      'byte': specialize readbinaryfile<byte>(z, header);
+      'smallint': specialize readbinaryfile<smallint>(z, header);
+      'integer': specialize readbinaryfile<integer>(z, header);
+      else  raise Exception.Create('invalid integer datatype '+ header.Datatype + ' in ' + filename);
+  end;
   z.SetRasterBorders;
 
   //ncol, nrow en res worden opgeslagen in array zodat achteraf kan worden nagegaan
@@ -145,6 +147,8 @@ Begin
   For i:=Low(Z.r) To High(Z.r) Do
     Fillword(z.r[i][0], ncol+2, 0);
 End;
+
+
 
 
 End.
