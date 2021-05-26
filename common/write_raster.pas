@@ -80,7 +80,12 @@ begin
   writeln(outputdoc,'DESCRIPTION'#9'= ');
   writeln(outputdoc,'UNIT'#9'= ');
   writeln(outputdoc, 'DATAFILE_OFFSET'#9'= 0');
-  if header.datatype='real' then  dataformat := 'FLOAT' else dataformat := 'SHORTINT';
+
+  case (header.datatype) of
+  'single': dataformat:='FLOAT';
+  'smallint': dataformat:='SHORTINT';
+  else raise Exception('invalid datatype when saving headers for ' + header.datafile);
+  end;
   writeln(outputdoc, 'DATAFORMAT'#9'= ' + dataformat);
   writeln(outputdoc, 'BYTEORDER_BIG'#9'= FALSE');
   writeln(outputdoc,'POSITION_XMIN'#9'= '+ floattostr(header.minx + header.res/2));
