@@ -114,22 +114,22 @@ Type
 
    // Set raster borders (outside actual grid domain) to zero
 
-Procedure TRaster.SetRasterBorders;
+    Procedure TRaster.SetRasterBorders;
 
-Var
-  i,j       : integer;
-Begin
-  For j := 0 To ncol+1 Do
+    Var
+      i,j       : integer;
     Begin
-      r[0,j] := 0;
-      r[(nrow+1),j] := 0;
+      For j := 0 To ncol+1 Do
+        Begin
+          r[0,j] := 0;
+          r[(nrow+1),j] := 0;
+        End;
+      For  i := 1 To nrow Do
+        Begin
+          r[i,0] := 0;
+          r[i,ncol+1] := 0;
+        End;
     End;
-  For  i := 1 To nrow Do
-    Begin
-      r[i,0] := 0;
-      r[i,ncol+1] := 0;
-    End;
-End;
 
     //********************************************************************
     //In onderstaande regels wordt er geheugen vrij gemaakt voor de verschillende
