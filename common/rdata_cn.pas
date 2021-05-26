@@ -126,6 +126,7 @@ Type
     begin
      header_filename := ExtractFileNameWithoutExt(Filename) + '.sgrd';
      ReadSGRD.datafile:=ExtractFileNameWithoutExt(Filename) + '.sdat';
+     ReadSGRD.asciidatatype:=false;
      Assignfile(header_file, header_filename);
      reset(header_file);
      while not eof(header_file) do
