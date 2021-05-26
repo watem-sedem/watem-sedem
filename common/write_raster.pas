@@ -165,7 +165,7 @@ Begin
   header.minz:=minz;
   header.maxz:=maxz;
   header.datafile:=filename;
-  header.datatype:='real';
+  header.datatype:='single';
 
   If matchstr(ExtractFileExt(filename), saga_extensions) Then
     writeSGRDheader(header)
@@ -187,7 +187,7 @@ Begin
 
   header:= global_header;
   header.datafile:=filename;
-  header.datatype:='integer';
+  header.datatype:='smallint';
 
   If matchstr(ExtractFileExt(filename), saga_extensions) Then
     begin
