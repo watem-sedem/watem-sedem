@@ -19,11 +19,12 @@ Type
 
   THeader = record
     ncol, nrow: integer;
-    res, minx, maxx, miny, maxy, nodata_value: double;
+    res, minx, maxx, miny, maxy, nodata_value, minz, maxz: double;
     datafile: string;
     datatype: string; // byte, integer in RDC
     raster_projection: TRaster_Projection;
     asciidatatype: boolean;
+    toptobottom: boolean;
     end;
 
     Procedure GetRfile(Var Z:RRaster; Filename:String);
@@ -46,6 +47,10 @@ Type
       // res van elke ingelezen kaart wordt opgeslagen
       lengthAR: integer;
 
+    const
+      saga_extensions: array[0..1] of UnicodeString = ('.sdat', '.sgrd');
+      idrisi_extensions: array[0..1] of UnicodeString = ('.rst', '.rdc');
+      // note that in theory also .doc/.img exists for idrisi, but we don't use them
     Implementation
 
     //********************************************************************
@@ -121,6 +126,7 @@ Type
     begin
      header_filename := ExtractFileNameWithoutExt(Filename) + '.sgrd';
      ReadSGRD.datafile:=ExtractFileNameWithoutExt(Filename) + '.sdat';
+     ReadSGRD.asciidatatype:=false;
      Assignfile(header_file, header_filename);
      reset(header_file);
      while not eof(header_file) do
@@ -139,6 +145,7 @@ Type
          'CELLCOUNT_X': readsgrd.ncol:=StrToInt(Value);
          'CELLCOUNT_Y': readsgrd.nrow:=StrToInt(Value);
          'NODATA_VALUE': readsgrd.nodata_value:=StrToFloat(Value);
+         'TOPTOBOTTOM': readsgrd.toptobottom:=StrToBool(Value);
        end;
 
      end;
@@ -236,6 +243,7 @@ Type
           Raise ERasterException.Create('Error in reading one of the rasters: Resolution is invalid'
           );
         End;
+      READRDC.toptobottom:=True;
 
     end;
 
@@ -247,16 +255,14 @@ Type
     Procedure GetRFile(Var Z:RRaster; Filename:String);
 
     Var 
-      i,j: integer;
+      i,j, irow: integer;
       fileIMG : file Of single ;
       textfileIMG : textfile ;
       header: THeader;
 
-    const
-      saga_extensions: array[0..1] of UnicodeString = ('.sdat', '.sgrd');
     Begin
 
-     if  matchstr(filename, saga_extensions) then
+     if  matchstr(ExtractFileExt(filename), saga_extensions) then
        header:= ReadSGRD(filename)
      else
       header := readrdc(filename);
@@ -292,7 +298,8 @@ Type
           reset (textfileIMG);
           For i:= 1 To nrow Do
             For j:= 1 To ncol Do
-              read(textfileIMG, Z[i,j]);
+              if header.toptobottom then irow:=i else irow:=nrow-i+1;
+              read(textfileIMG, Z[irow,j]);
           Closefile(textfileimg);
         End
       Else
@@ -301,7 +308,10 @@ Type
           reset (fileIMG);
           For i:= 1 To nrow Do
             For j:= 1 To ncol Do
-              read(fileIMG, Z[i,j]);
+              begin
+                if header.toptobottom then irow:=i else irow:=nrow-i+1;
+               read(fileIMG, Z[irow,j]);
+              end;
           Closefile(Fileimg);
         End;
 

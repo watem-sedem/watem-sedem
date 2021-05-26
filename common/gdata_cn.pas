@@ -7,7 +7,7 @@ Unit GData_CN;
 Interface
 
 Uses 
-Classes, SysUtils, RData_CN;
+Classes, SysUtils, RData_CN, strutils;
 
 Type 
   Graster = specialize Traster<smallint>;
@@ -76,25 +76,18 @@ End;
 Procedure GetGFile(Var Z:GRaster; Filename:String);
 
 Var 
-  i,j: integer;
+  i,j, irow: integer;
   fileIMG : file Of smallint;
   textfileIMG : textfile ;
   bytefileIMG : file Of byte;
   bytedata : byte;
   header: THeader;
 Begin
-  //dumstr := extractfilename(filename);
-  //case ExtractFileExt(filename) of
-  //'.img', '.doc' :
-  //  begin
-  //    docNfileIMG := ChangeFileExt(dumstr, '.doc');
-  //    NfileIMG := ChangeFileExt(dumstr, '.img');
-  //  end;
-  //'.rst', '.rdc' : begin docNfileIMG := changefileext(dumstr, '.rdc') ; NfileIMG :=  changefileext(dumstr, '.rst'); end;
-  //'.sdat', 'sgrd': begin docNfileIMG := changefileext(dumstr, '.sgrd') ; NfileIMG :=  changefileext(dumstr, '.sdat'); end;
-  //end;
 
-  header := readrdc(filename);
+  if  matchstr(ExtractFileExt(filename),saga_extensions) then
+    header:= ReadSGRD(filename)
+  else
+   header := readrdc(filename);
 
     If (header.datatype ='real') Then
       Begin
@@ -123,7 +116,8 @@ Begin
       reset (textfileIMG);
       For i:= 1 To nrow Do
         For j:= 1 To ncol Do
-          read(textfileIMG, Z[i,j]);
+          if header.toptobottom then irow:=i else irow:=nrow-i+1;
+          read(textfileIMG, Z[irow,j]);
       Closefile(textfileimg);
     End
   Else
@@ -136,7 +130,8 @@ Begin
             For j:= 1 To ncol Do
               Begin
                 read(bytefileIMG, bytedata);
-                Z[i,j] := bytedata;
+                if header.toptobottom then irow:=i else irow:=nrow-i+1;
+                Z[irow,j] := bytedata;
               End;
           Closefile(byteFileimg);
         End
@@ -147,7 +142,8 @@ Begin
           For i:= 1 To nrow Do
             For j:= 1 To ncol Do
               Begin
-                read(fileIMG,Z[i,j]);
+                if header.toptobottom then irow:=i else irow:=nrow-i+1;
+                read(fileIMG,Z[irow,j]);
               End;
           Closefile(fileimg);
         End;

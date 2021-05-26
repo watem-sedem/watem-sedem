@@ -6,7 +6,14 @@ cn_ws:
 	$(MAKE) -C cn_ws
 
 tests:
+	$(MAKE) -C cn_ws
 	$(MAKE) -C tests
+
+integration_test:
+	$(MAKE) -C cn_ws
+	$(MAKE) -C tests
+	testfiles/test.sh
+	pytest testfiles
 
 clean:
 	$(MAKE) -C cn_ws clean
