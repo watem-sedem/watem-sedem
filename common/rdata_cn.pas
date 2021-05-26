@@ -180,7 +180,7 @@ Type
          'CELLSIZE': readsgrd.res:=StrToFloat(Value);
          'CELLCOUNT_X': readsgrd.ncol:=StrToInt(Value);
          'CELLCOUNT_Y': readsgrd.nrow:=StrToInt(Value);
-         'NODATA_VALUE': readsgrd.nodata_value:=StrToFloat(Value);
+         'NODATA_VALUE': readsgrd.nodata_value:=StrToFloat(Value.split(';')[0]); // if a range of nodata values is present we take the lowest one
          'TOPTOBOTTOM': readsgrd.toptobottom:=StrToBool(Value);
        end;
 
@@ -189,6 +189,7 @@ Type
           'SHORTINT': readsgrd.datatype := 'smallint';
           'INTEGER': readsgrd.datatype := 'integer';
           'FLOAT':  readsgrd.datatype := 'single';
+      else raise Exception.Create('invalid datatype '+ dataformat + ' in ' + filename);
       end;
        // idrisi and cnws reports outer of the cell, while saga uses
        // middle of the cell

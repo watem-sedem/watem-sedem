@@ -12,11 +12,10 @@ Classes, SysUtils, RData_CN, GData_CN, Inifiles, write_raster, Typinfo;
 
 Type
   EInputException = Class(Exception);
-  Gvector = array Of smallint;
-  Rvector = array Of single;
+
+  rvector = array of single;
 
   TSingleMatrix = array Of array Of single;
-  TDoubleMatrix = array Of array Of double;
   TIntMatrix = array Of array Of integer;
 
   TIntArray = array of integer;
@@ -251,7 +250,7 @@ Var
   PRC, TilDir, Ro, BufferMap, Outlet, RivSeg, Ditch_map, Dam_map, PTEFmap, river_routing_map: GRaster;
   i, j, lowOutletX, lowOutletY: integer;
 
-  ROW, COLUMN : Gvector;
+  ROW, COLUMN : TIntarray;
 
   Slope,Aspect,Uparea,LS: Rraster;
   totsurface: double;

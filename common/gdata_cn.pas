@@ -10,7 +10,7 @@ Uses
 Classes, SysUtils, RData_CN, strutils;
 
 Type 
-  Graster = specialize Traster<smallint>;
+  Graster = specialize Traster<integer>;
   ERasterException = Class(Exception);
 
 Procedure GetGFile(Var Z:GRaster; Filename:String);

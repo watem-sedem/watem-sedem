@@ -832,7 +832,7 @@ Begin
   setlength(min_row, numRivSeg+1);
   for i:=0 to numRivSeg do
      begin
-      min_segment[i] := maxSmallint;
+      min_segment[i] := MaxInt;
      end;
 
 
