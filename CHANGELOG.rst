@@ -35,10 +35,11 @@ latest
 - Bugfix: do not overwrite determined routing for buffer pixels with standard routing
 - Bugfix: reduce uparea from buffer outlet pixel when Buffer reduce area is enabled
 - Add file rfactor.txt to modeloutput when the rfactor is calculated from a rainfall timeseries
-- Synchronize routing buffers and sewers.
+- adjusting sewer routing CN to current sewer routing WS.
 - Enable option to input precomputed R-factor for a single event in CN-WS.
 - Make CN-WS compatible with SAGA-grids (new option).
-- Make integer rasters int32-compatible (requires Freepascal 3.2).
+- Make integer rasters int32-compatible (requires Freepascal 3.2): this opens the option to run 
+  larger catchments (with int16, the number of parcels are limited to 32768).
 
 version 4.1.0
 -------------
