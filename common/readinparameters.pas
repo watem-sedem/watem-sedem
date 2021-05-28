@@ -6,7 +6,7 @@ Unit ReadInParameters;
 Interface
 
 Uses 
-Classes, SysUtils, RData_CN, GData_CN, Inifiles, Idrisi, Typinfo;
+Classes, SysUtils, RData_CN, GData_CN, Inifiles, write_raster, Typinfo;
 
 //Record for model variables
 
@@ -190,6 +190,7 @@ Var
   river_routing        : boolean;
   river_topology       : boolean;
   {Output maps}
+  Saga_Grids           : boolean;
   Write_ASPECT         : boolean;
   Write_LS             : boolean;
   Write_RE             : boolean;
@@ -228,6 +229,7 @@ Var
   max_kernel_river     : integer;
   calibrate            : Boolean;
   LScor                : double;
+  ext                  : string;
   cal     : TCalibration;
   forced_routing : array Of TForcedRouting;
 
@@ -428,7 +430,7 @@ Begin
         End;
       End;
 
-  writeGidrisi32file(ncol,nrow,datadir+'PTEFmap'+'.rst', PTEFmap);
+  writeSmallintFile(ncol,nrow,datadir+'PTEFmap'+ext, PTEFmap);
 
   //Check whether number of rows, number of columns and resolution are equal for all input maps
 If Not intArrayIsEqual(nrowAR) Then
@@ -724,6 +726,8 @@ Begin
   Convert_output := Inifile.ReadBool('User Choices','Convert output',false);
 
   {Output maps}
+  Saga_Grids := Inifile.ReadBool('Output maps', 'Export .sgrd grids', false);
+  if saga_grids then ext:='.sdat' else ext:='.rst';
   Write_ASPECT := Inifile.ReadBool('Output maps','Write aspect',false);
   Write_LS := Inifile.ReadBool('Output maps','Write LS factor',false);
   Write_UPAREA := Inifile.ReadBool('Output maps','Write upstream area',false);
@@ -1068,7 +1072,7 @@ Begin
       End;
 
   //The CN map is stored as an Idrisi map
-  writeidrisi32file(ncolPRC,nrowPRC,datadir+'\CNmap'+'.rst',CNmap);
+  writefloatfile(ncolPRC,nrowPRC,datadir+'\CNmap' + ext,CNmap);
   DisposeDynamicGData(M);
 End;
 
@@ -1096,7 +1100,7 @@ Begin
           ktil[i,j] := ktil_Default;
       End;
 
-  writeGidrisi32file(ncol,nrow,datadir+'ktilmap'+'.rst',ktil);
+  writeSmallintFile(ncol,nrow,datadir+'ktilmap'+ext,ktil);
 End;
 
 Procedure Create_ktc_map(Var ktc: RRaster);
@@ -1120,7 +1124,7 @@ Begin
           ktc[i,j] := 9999;
       End;
 
-  writeidrisi32file(ncol,nrow,datadir+'ktcmap'+'.rst',ktc);
+  writefloatfile(ncol,nrow,datadir+'ktcmap'+ext,ktc);
 End;
 
 // ***************************************************************************

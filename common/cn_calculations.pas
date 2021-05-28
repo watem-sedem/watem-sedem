@@ -1378,7 +1378,7 @@ for i:= 1 to nrow do
   UpArea[i,j]:=PitDat[vlag].input;
   end;
 
-writeidrisi32file(ncol,nrow,'UpAreamap_20060821',UpArea);
+writefloatfile(ncol,nrow,'UpAreamap_20060821',UpArea);
 
 //totexport := UpArea[97,353] + massbalance;
 //showmessage('De totale hoeveelheid water dat het bekken verlaat is ' + floattostr(UpArea[36,105]));

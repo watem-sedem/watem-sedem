@@ -7,7 +7,7 @@ Unit Write_output;
 Interface
 
 Uses 
-Classes, SysUtils, RData_CN, ReadInParameters, CN_calculations, Idrisi;
+Classes, SysUtils, RData_CN, ReadInParameters, CN_calculations, write_raster;
 
 Procedure Write_maps;
 Procedure Write_Routing_Table;
@@ -21,68 +21,68 @@ Begin
 
      if not outlet_select then
        begin
-        writeGIdrisi32file(ncol,nrow, Datadir+'Outlet'+'.rst',Outlet);
+        writeSmallintFile(ncol,nrow, Datadir+'Outlet'+ext,Outlet);
        end;
 
 
   If Write_Sediexport Then
     Begin
-      //  writeIdrisi32file(ncol,nrow,File_output_dir+'SediExport_m3'+'.rst', SEDI_EXPORT);
-      writeIdrisi32file(ncol,nrow,File_output_dir+'SediExport_kg'+'.rst', SEDI_EXPORT);
-      writeIdrisi32file(ncol,nrow,File_output_dir+'SediIn_kg'+'.rst', SEDI_IN);
-      writeIdrisi32file(ncol,nrow,File_output_dir+'SediOut_kg'+'.rst', SEDI_OUT);
-      writeIdrisi32file(ncol,nrow,File_output_dir+'Capacity'+'.rst', CAPAC);
-      //writeIdrisi32file(ncol,nrow,File_output_dir+'Dep_prod_kg'+'.rst', depprod2);
+      //  writefloatfile(ncol,nrow,File_output_dir+'SediExport_m3'+ext, SEDI_EXPORT);
+      writefloatfile(ncol,nrow,File_output_dir+'SediExport_kg'+ext, SEDI_EXPORT);
+      writefloatfile(ncol,nrow,File_output_dir+'SediIn_kg'+ext, SEDI_IN);
+      writefloatfile(ncol,nrow,File_output_dir+'SediOut_kg'+ext, SEDI_OUT);
+      writefloatfile(ncol,nrow,File_output_dir+'Capacity'+ext, CAPAC);
+      //writefloatfile(ncol,nrow,File_output_dir+'Dep_prod_kg'+ext, depprod2);
 
-{writeGIdrisi32file(ncol,nrow,File_output_dir+'row'+'.rst', row2);
-     writeGIdrisi32file(ncol,nrow,File_output_dir+'col'+'.rst', col2);   }
+{writeSmallintFile(ncol,nrow,File_output_dir+'row'+ext, row2);
+     writeSmallintFile(ncol,nrow,File_output_dir+'col'+ext, col2);   }
     End;
   If Calc_tileros Then
     Begin
-    writeIdrisi32file(ncol,nrow,File_output_dir+'TILEROS (mm per gridcel)'+'.rst', TILEROS);
-    writeIdrisi32file(ncol,nrow,File_output_dir+'TILEROS (kg per gridcel)'+'.rst', TILEROS_kg);
-    writeIdrisi32file(ncol,nrow,File_output_dir+'SEDTIL_IN'+'.rst', SEDTIL_IN);
-    writeIdrisi32file(ncol,nrow,File_output_dir+'SEDTIL_OUT'+'.rst', SEDTIL_OUT);
+    writefloatfile(ncol,nrow,File_output_dir+'TILEROS (mm per gridcel)'+ext, TILEROS);
+    writefloatfile(ncol,nrow,File_output_dir+'TILEROS (kg per gridcel)'+ext, TILEROS_kg);
+    writefloatfile(ncol,nrow,File_output_dir+'SEDTIL_IN'+ext, SEDTIL_IN);
+    writefloatfile(ncol,nrow,File_output_dir+'SEDTIL_OUT'+ext, SEDTIL_OUT);
     end;
 
   If Write_WATEREROS Then
     Begin
-      writeIdrisi32file(ncol,nrow,File_output_dir+'WATEREROS (mm per gridcel)'+'.rst', WATEREROS);
+      writefloatfile(ncol,nrow,File_output_dir+'WATEREROS (mm per gridcel)'+ext, WATEREROS);
       // WATEREROS [mm]
 
-// writeIdrisi32file(ncol, nrow, File_output_dir + 'WATEREROS (m3 per gridcel)' + '.rst', watereros_cubmeter);
-      writeIdrisi32file(ncol, nrow, File_output_dir + 'WATEREROS (kg per gridcel)' + '.rst',
+// writefloatfile(ncol, nrow, File_output_dir + 'WATEREROS (m3 per gridcel)' + ext, watereros_cubmeter);
+      writefloatfile(ncol, nrow, File_output_dir + 'WATEREROS (kg per gridcel)' + ext,
                         WATEREROS_kg);
     End;
-  If Write_UPAREA Then writeIdrisi32file(ncol,nrow,File_output_dir+'UPAREA'+'.rst', UPAREA);
-  If Write_LS Then writeIdrisi32file(ncol,nrow,File_output_dir+'LS'+'.rst', LS);
+  If Write_UPAREA Then writefloatfile(ncol,nrow,File_output_dir+'UPAREA'+ext, UPAREA);
+  If Write_LS Then writefloatfile(ncol,nrow,File_output_dir+'LS'+ext, LS);
   If Write_SLOPE Then
-    writeIdrisi32file(ncol,nrow,File_output_dir+'SLOPE'+'.rst', SLOPE);
+    writefloatfile(ncol,nrow,File_output_dir+'SLOPE'+ext, SLOPE);
   If Write_RUSLE Then
-    writeidrisi32file(ncol,nrow,File_output_dir+'RUSLE'+'.rst',RUSLE);
+    writefloatfile(ncol,nrow,File_output_dir+'RUSLE'+ext,RUSLE);
   // potential soil erosion
   If Write_ASPECT Then
-    writeidrisi32file(ncol,nrow,File_output_dir+'AspectMap'+'.rst',Aspect);
+    writefloatfile(ncol,nrow,File_output_dir+'AspectMap'+ext,Aspect);
   //Aspectmap (.RST) is created
 
   If Not simplified Then
     Begin
       If Write_TOTRUN Then
-        writeidrisi32file(ncol,nrow,File_output_dir+'Total runoff'+'.rst',RunoffTotMap);
+        writefloatfile(ncol,nrow,File_output_dir+'Total runoff'+ext,RunoffTotMap);
       //Cumulative runoff for the entire event
       If write_RE Then
-        writeidrisi32file(ncol,nrow,File_output_dir+'Remap'+'.rst',Remap);
+        writefloatfile(ncol,nrow,File_output_dir+'Remap'+ext,Remap);
       // rainfall excess map
     End;
 
   If river_routing Then
     Begin
-    writeidrisi32file(ncol,nrow,File_output_dir+'cumulative'+'.rst',cumulative);
+    writefloatfile(ncol,nrow,File_output_dir+'cumulative'+ext,cumulative);
     End;
 
   If (include_sewer) Then
     Begin
-    writeidrisi32file(ncol,nrow,File_output_dir+'sewer_in'+'.rst',SEWER_IN);
+    writefloatfile(ncol,nrow,File_output_dir+'sewer_in'+ext,SEWER_IN);
     end;
 
 End;
@@ -155,10 +155,8 @@ Procedure Write_RFactor;
 // Writes the calculated R-Factor to a file
 Var
    rfactorfile: textfile;
-   sep: char;
 Begin
   setcurrentDir(File_output_dir);
-  sep := #9;
   assignfile(rfactorfile, 'rfactor.txt');
   rewrite(rfactorfile);
   Writeln(rfactorfile, 'r-factor');

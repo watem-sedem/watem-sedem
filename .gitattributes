@@ -1,3 +1,4 @@
 testfiles/molenbeek/**/*.rst filter=lfs diff=lfs merge=lfs -text
 testfiles/molenbeek/**/*.rdc filter=lfs diff=lfs merge=lfs -text
 testfiles/molenbeek/**/*.txt filter=lfs diff=lfs merge=lfs -text
+testfiles/molenbeek/**/*.sdat filter=lfs diff=lfs merge=lfs -text

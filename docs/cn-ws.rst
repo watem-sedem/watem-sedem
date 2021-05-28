@@ -5,7 +5,8 @@
 CN-WS
 #####
 
-CN-WS was developed in 2016 by KU Leuven (in a consortium with Antea group Belgium).
+CN-WS was developed in 2016 by KU Leuven (in a consortium with Antea group Belgium,
+see Antea, 2016).
 This model was made to simulate the sediment transport to watercourses and to
 evaluate the effects of erosion control measures, both in space and time, based
 on time series of rainfall events. The model combines two existing models:
@@ -159,6 +160,12 @@ see :ref:`here <inlcudesewers>` for more info
 
 References
 ==========
+
+Antea, 2016. Modellering van de sedimentaanvoer naar de waterlopen, het
+effect van erosiebestrijdingsmaatregelen en het transport van sediment in de
+onbevaarbare waterlopen. Departement Omgeving. Afdeling Gebiedsontwikkeling,
+Omgevingsplannen en -projecten. Land en Bodembescherming, Brussel.
+https://www.vlaanderen.be/publicaties/modellering-van-de-sedimentaanvoer-naar-de-waterlopen-het-effect-van-erosiebestrijdingsmaatregelen-en-het-transport-van-sediment-in-de-onbevaarbare-waterlopen
 
 Van Oost, K., Govers, G. & Desmet, P.J.J., 2000, Evaluating the effects of
 changes in the landscape structure on soil erosion by water and tillage.
