@@ -35,6 +35,7 @@ latest
 - Bugfix: do not overwrite determined routing for buffer pixels with standard routing
 - Bugfix: reduce uparea from buffer outlet pixel when Buffer reduce area is enabled
 - Add file rfactor.txt to modeloutput when the rfactor is calculated from a rainfall timeseries
+- Correct calculation S-factor Desmet (use tan in stead of arctan)
 
 version 4.1.0
 -------------
