@@ -10,44 +10,15 @@ Uses
 Classes, SysUtils, RData_CN, strutils;
 
 Type 
-  Graster = specialize Traster<smallint>;
+  Graster = specialize Traster<integer>;
   ERasterException = Class(Exception);
 
 Procedure GetGFile(Var Z:GRaster; Filename:String);
 Procedure SetDynamicGData(Var Z:GRaster);
 Procedure SetzeroG(Var z:Graster);
 Procedure DisposeDynamicGdata(Var Z:GRaster);
-Procedure SetGRasterBorders(Var Z:GRaster);
 
 Implementation
-
-
-//**************************************************************************
-//De waarden van de buitenste cellen worden vervangen door de nullen
-//WANT de buitenste cellen zijn steeds 0 wanneer het bestand wordt aangemaakt:
-//in Lazarus is de eerste cel (0,0) terwijl deze in Idrisi (1,1) is!!!
-//**************************************************************************
-
-Procedure SetGRasterBorders(Var Z:GRaster);
-
-Var 
-  i,j       : integer;
-Begin
-  Z[0,0] := 0;
-  Z[0,(ncol+1)] := 0;
-  Z[nrow+1,0] := 0;
-  Z[nrow+1,ncol+1] := 0;
-  For j := 1 To ncol Do
-    Begin
-      Z[0,j] := 0;
-      Z[(nrow+1),j] := 0;
-    End;
-  For  i := 1 To nrow Do
-    Begin
-      Z[i,0] := 0;
-      Z[i,ncol+1] := 0;
-    End;
-End;
 
 //**********************************************
 //Er wordt geheugen vrijgemaakt voor de matrix Z
@@ -55,7 +26,7 @@ End;
 
 Procedure SetDynamicGData(Var Z:GRaster);
 Begin
-  SetLength(Z,nrow+2, ncol+2);
+  Z:= GRaster.create(nrow, ncol);
 End;
 
 
@@ -68,6 +39,41 @@ Begin
 End;
 
 
+generic procedure readbinaryfile<T>(var Z:graster; header: Theader);
+var
+    byteFileimg: file of T;
+    bytedata: T;
+    i, j, irow: integer;
+begin
+   assignfile(byteFileIMG, header.datafile);
+    reset (bytefileIMG);
+    For i:= 1 To nrow Do
+      begin
+        if header.toptobottom then irow:=i else irow:=nrow-i+1;
+        For j:= 1 To ncol Do
+          Begin
+            read(bytefileIMG, bytedata);
+            Z[irow,j] := bytedata;
+          End
+        end;
+    Closefile(byteFileimg);
+end;
+
+
+procedure readasciifile(var Z:graster; header: Theader);
+var
+    textfileIMG : textfile;
+    i, j, irow: integer;
+Begin
+  assignfile(textFileIMG, header.datafile);
+  reset (textfileIMG);
+  For i:= 1 To nrow Do
+    For j:= 1 To ncol Do
+      if header.toptobottom then irow:=i else irow:=nrow-i+1;
+      read(textfileIMG, Z.r[irow,j]);
+  Closefile(textfileimg);
+End;
+
 //********************************************************************
 //In onderstaande regels wordt het RDC bestand van elke .rst kaart gescand
 //en wordt de nodige informatie hieruit gehaald.
@@ -78,7 +84,6 @@ Procedure GetGFile(Var Z:GRaster; Filename:String);
 Var 
   i,j, irow: integer;
   fileIMG : file Of smallint;
-  textfileIMG : textfile ;
   bytefileIMG : file Of byte;
   bytedata : byte;
   header: THeader;
@@ -107,49 +112,17 @@ Begin
     miny := header.miny;
     maxy := header.maxy;
 
-
   SetDynamicGData(Z);
   //Er wordt geheugen vrijgemaakt voor de matrix Z
-  If header.Datatype = 'ascii' Then
-    Begin
-      assignfile(textFileIMG, header.datafile);
-      reset (textfileIMG);
-      For i:= 1 To nrow Do
-        For j:= 1 To ncol Do
-          if header.toptobottom then irow:=i else irow:=nrow-i+1;
-          read(textfileIMG, Z[irow,j]);
-      Closefile(textfileimg);
-    End
-  Else
-    Begin
-      If header.DataType = 'byte' Then
-        Begin
-          assignfile(byteFileIMG, header.datafile);
-          reset (bytefileIMG);
-          For i:= 1 To nrow Do
-            For j:= 1 To ncol Do
-              Begin
-                read(bytefileIMG, bytedata);
-                if header.toptobottom then irow:=i else irow:=nrow-i+1;
-                Z[irow,j] := bytedata;
-              End;
-          Closefile(byteFileimg);
-        End
-      Else
-        Begin
-          assignfile(FileIMG, header.datafile);
-          reset (fileIMG);
-          For i:= 1 To nrow Do
-            For j:= 1 To ncol Do
-              Begin
-                if header.toptobottom then irow:=i else irow:=nrow-i+1;
-                read(fileIMG,Z[irow,j]);
-              End;
-          Closefile(fileimg);
-        End;
-    End;
 
-  SetGRasterBorders(Z);
+  case (header.Datatype) of
+      'ascii': readasciifile(z, header);
+      'byte': specialize readbinaryfile<byte>(z, header);
+      'smallint': specialize readbinaryfile<smallint>(z, header);
+      'integer': specialize readbinaryfile<integer>(z, header);
+      else  raise Exception.Create('invalid integer datatype '+ header.Datatype + ' in ' + filename);
+  end;
+  z.SetRasterBorders;
 
   //ncol, nrow en res worden opgeslagen in array zodat achteraf kan worden nagegaan
   //of deze voor alle kaarten gelijk zijn
@@ -171,9 +144,11 @@ Procedure SetzeroG(Var z:Graster);
 Var
     i: integer;
 Begin
-  For i:=Low(Z) To High(Z) Do
-    Fillword(z[i][0], ncol+2, 0);
+  For i:=Low(Z.r) To High(Z.r) Do
+    Fillword(z.r[i][0], ncol+2, 0);
 End;
+
+
 
 
 End.
