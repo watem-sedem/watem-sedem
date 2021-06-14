@@ -53,7 +53,7 @@ the upstream area :math:`A`. If the upstream area is smaller than
 .. math::
     m = 0.3 + (\frac{A}{A_{ref}})^c
 
-otherwise :math:`m` is set to 0.72.
+otherwise :math:`m` is set to 0.72. The value for :math:`c` is typically set to 0.8.
 
 The calculation method of Van Oost et al. (2003) can be chosen by setting
 the model choice *L model* to 'Desmet1996_Vanoost2003' in the .ini-file (mind the quotes):
