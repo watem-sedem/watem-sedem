@@ -125,7 +125,7 @@ McCool et al. (1987) distinguish two cases:
 is valid when:
 
 .. math::
-    100.arctan(\theta) < 9.0
+    100.tan(\theta) < 9.0
 
 otherwise, S is calculated as:
 

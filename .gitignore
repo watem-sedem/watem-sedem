@@ -11,8 +11,9 @@
 # Python sphinx excludes
 _build/
 
-# Compiled CN_WSConsole
+# Compiled CN_WSConsole / testrunner
 cn_ws/cn_ws
+tests/unit_tests_cnws
 
 # debian package temporary files
 debian/.debhelper
