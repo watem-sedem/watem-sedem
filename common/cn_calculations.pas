@@ -11,8 +11,7 @@ Interface
 Uses 
 Classes, SysUtils, GData_CN, RData_CN, Math, ReadInParameters;
 
-Type 
-  IntegerArray = array Of integer;
+Type
   FloatArray = array Of Double;
   FloatArray2 = array Of array Of Double;
 
@@ -21,8 +20,8 @@ Procedure CalculateRe(Var Remap:Rraster; Perceelskaart:Graster ; CNmap:Rraster; 
 {Procedure CalculateRunoffAcc(var UpArea: RRaster; Remap: RRaster; PRC: GRaster);}
 Procedure ReadRainfallFile (Var Raindata: TRainRecordArray; Rainfallfilename: String);
 Procedure ReadText(filename:String; Var Z: FloatArray2; rowRain, colRain:integer);
-Function interp(xOriginal:IntegerArray; xNew:IntegerArray; yOriginal:FloatArray): FloatArray;
-Function extrap(xOriginal:IntegerArray; xNew:IntegerArray; yOriginal:FloatArray): FloatArray;
+Function interp(xOriginal:TIntArray; xNew:TIntArray; yOriginal:FloatArray): FloatArray;
+Function extrap(xOriginal:TIntArray; xNew:TIntArray; yOriginal:FloatArray): FloatArray;
 Procedure CalculateTimeDependentRunoff(Remap: Rraster; RainData: TRainRecordArray; Routing:
                                        TRoutingArray; PRC: Graster);
 Procedure CalculateRFactor;
@@ -36,7 +35,7 @@ Var
   NumberOfTimesteps, NTimesteps2, StartTime_rain, EndTime_rain, EndTime, EndTime_modelSec,
   numOutlet, numRivSeg: integer;
   Rainfall, Duration, I10: double;
-  TimeSeries, Timeseries_tmp_fin : integerArray;
+  TimeSeries, Timeseries_tmp_fin : TIntArray;
   RainfallSeries, Sum_discharge, Sum_discharge_segm: FloatArray;
   Result_Discharge, Result_Discharge_segm : FloatArray2;
 
@@ -52,7 +51,7 @@ Implementation
 Procedure ReadRainfallFile (Var Raindata: TRainRecordArray; Rainfallfilename: String);
 
 Var 
-  TimeSeries_output, I10TimeSeries: IntegerArray;
+  TimeSeries_output, I10TimeSeries: TIntArray;
   Cumul_Rain, Cumul_Interp, RainfallSeries_output,I10RainfallSeries, I10Series: FloatArray;
   counter, i, j, nr, Timestep_rain, Fill_num: integer;
   x: double;
@@ -279,7 +278,7 @@ End;
 // This function is used for the interpolation of the rainfall data (see above)
 //*****************************************************************************
 
-Function interp(xOriginal:IntegerArray; xNew:IntegerArray; yOriginal:FloatArray): FloatArray;
+Function interp(xOriginal:TIntArray; xNew:TIntArray; yOriginal:FloatArray): FloatArray;
 
 Var 
   i,j,k,l,t1,t2,step,x0,x1 : integer;
@@ -319,7 +318,7 @@ End;
 // This function is used for the extrapolation of the rainfall data (see above)
 //*****************************************************************************
 
-Function extrap(xOriginal:IntegerArray; xNew:IntegerArray; yOriginal:FloatArray): FloatArray;
+Function extrap(xOriginal:TIntArray; xNew:TIntArray; yOriginal:FloatArray): FloatArray;
 
 Var 
   t1,t2,step,i,j: integer;
@@ -370,7 +369,7 @@ Procedure CalculateRFactor;
 Var 
   Timestep, i, j, nr, index, Tini, Tfin : integer;
   eventEnergy, maxI30, eventRFactor, x: double;
-  newTimeSeries, minTimeSeries : integerArray;
+  newTimeSeries, minTimeSeries : TIntArray;
   newRainfallSeries, minRainfallSeries, rainVolume, rainEnergy, I30: FloatArray;
 Begin
   Timestep := Timeseries[1]-TimeSeries[0];
@@ -524,13 +523,9 @@ Var
   Discharge, Discharge_tot, Discharge_segm_txt, spillover_txt, sewer_out_txt: textfile;
   spillover, Discharge_result_tmp, Discharge_tmp_fin: FloatArray;
   Result, Discharge_segm: FloatArray2;
-  Timeseries_tmp: integerArray;
+  Timeseries_tmp: TIntArray;
 
   Label SKIP;
-
-Const 
-  speed_sewer = 1;
-  // assume 1 m/s
 
 Begin
   //Runoff map is created (=Remap in which negative values are replaced by 0, and
