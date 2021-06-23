@@ -17,16 +17,22 @@ Implementation
 
 Procedure writeIdrisi32header(header: THeader);
 Var
-  dumstr: string;
+  dumstr, datatype_idrisi: string;
   outputdoc: textfile;
 
 Begin
+  case (header.datatype) of
+  'single': datatype_idrisi:='real';
+  'smallint': datatype_idrisi:='integer';
+  else raise Exception('invalid datatype when saving headers for ' + header.datafile);
+  end;
+
   assignfile(outputdoc, ExtractFileNameWithoutExt(header.datafile)+'.rdc');
   // De .rdc naam wordt aangemaakt
   rewrite(outputdoc);
   writeln(outputdoc,'file format : IDRISI Raster A.1');
   writeln(outputdoc,'file title :');
-  writeln(outputdoc,'data type   : ' + header.datatype);
+  writeln(outputdoc,'data type   : ' + datatype_idrisi);
   writeln(outputdoc,'filetype    : binary');
   dumstr := 'columns     : ' + inttostr(header.ncol);
   writeln(outputdoc, dumstr);
@@ -74,7 +80,12 @@ begin
   writeln(outputdoc,'DESCRIPTION'#9'= ');
   writeln(outputdoc,'UNIT'#9'= ');
   writeln(outputdoc, 'DATAFILE_OFFSET'#9'= 0');
-  if header.datatype='real' then  dataformat := 'FLOAT' else dataformat := 'SHORTINT';
+
+  case (header.datatype) of
+  'single': dataformat:='FLOAT';
+  'smallint': dataformat:='SHORTINT';
+  else raise Exception('invalid datatype when saving headers for ' + header.datafile);
+  end;
   writeln(outputdoc, 'DATAFORMAT'#9'= ' + dataformat);
   writeln(outputdoc, 'BYTEORDER_BIG'#9'= FALSE');
   writeln(outputdoc,'POSITION_XMIN'#9'= '+ floattostr(header.minx + header.res/2));
@@ -159,7 +170,7 @@ Begin
   header.minz:=minz;
   header.maxz:=maxz;
   header.datafile:=filename;
-  header.datatype:='real';
+  header.datatype:='single';
 
   If matchstr(ExtractFileExt(filename), saga_extensions) Then
     writeSGRDheader(header)
@@ -181,7 +192,7 @@ Begin
 
   header:= global_header;
   header.datafile:=filename;
-  header.datatype:='integer';
+  header.datatype:='smallint';
 
   If matchstr(ExtractFileExt(filename), saga_extensions) Then
     begin

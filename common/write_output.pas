@@ -11,7 +11,7 @@ Classes, SysUtils, RData_CN, ReadInParameters, CN_calculations, write_raster;
 
 Procedure Write_maps;
 Procedure Write_Routing_Table;
-Procedure Write_Routing_Table_RC(routing_cols, routing_rows: Gvector);
+Procedure Write_Routing_Table_RC(routing_cols, routing_rows: TIntarray);
 Procedure Write_RFactor;
 
 Implementation
@@ -121,7 +121,7 @@ Begin
 
 End;
 
-Procedure Write_Routing_Table_RC(routing_cols, routing_rows: Gvector);
+Procedure Write_Routing_Table_RC(routing_cols, routing_rows: TIntarray);
 // writes the routing table to a textfile
 
 Var

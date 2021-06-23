@@ -12,11 +12,10 @@ Classes, SysUtils, RData_CN, GData_CN, Inifiles, write_raster, Typinfo;
 
 Type
   EInputException = Class(Exception);
-  Gvector = array Of smallint;
-  Rvector = array Of single;
+
+  rvector = array of single;
 
   TSingleMatrix = array Of array Of single;
-  TDoubleMatrix = array Of array Of double;
   TIntMatrix = array Of array Of integer;
 
   TIntArray = array of integer;
@@ -251,7 +250,7 @@ Var
   PRC, TilDir, Ro, BufferMap, Outlet, RivSeg, Ditch_map, Dam_map, PTEFmap, river_routing_map: GRaster;
   i, j, lowOutletX, lowOutletY: integer;
 
-  ROW, COLUMN : Gvector;
+  ROW, COLUMN : TIntarray;
 
   Slope,Aspect,Uparea,LS: Rraster;
   totsurface: double;
@@ -321,7 +320,7 @@ Begin
   GetRFile(DTM, DTM_Filename);
   GetGFile(PRC, PARCEL_filename);
 
-  SetGRasterBorders(PRC);
+  PRC.SetRasterBorders;
 
   GetRFile(P_factor, Pf_Data_filename);
 
@@ -1056,7 +1055,7 @@ Begin
 
   //Based on the .txt table and the land use map (which is being read in the main unit
   //the CN map is created
-  Setlength(CNmap,NrowPRC+1, NColPRC+1);
+  Setlength(CNmap.r,NrowPRC+1, NColPRC+1);
   //+1 because [0] is being used by Lazarus
   For i := 1 To nrowPRC Do
     For j := 1 To ncolPRC Do
