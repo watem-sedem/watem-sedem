@@ -162,49 +162,9 @@ R-factor
 ########
 The erosive power of rainfall is quantified in the rainfall erosivity factor
 :math:`R`. This is a measure for the total erosivity of a number of rainfall
-events within a defined timeframe (year, month, number of days). The factor
-is computed by calculating the yearly sum of -for every rainfall event- the
-sum of the depth of rainfall (mm) and the kinetic energy, and taking the
-mean over all years:
-
-.. math::
-
-    R = \frac{1}{n}\sum_{j=1}^{n}[\sum_{k=1}^{m_j}E_k.(I_{30})_k]_j
-
-with
- - :math:`R`: rainfall erosivity factor(:math:`\frac{\text{J
-   .mm}}{\text{m}^2.\text{h.year}}`)
- - :math:`n`, increment :math:`j`: number of years
- - :math:`m_j`, increment :math:`k`: number of rain events in year :math:`j`
- - :math:`E`: the total kinetic energy of one single rain event
-   (:math:`\frac{J}{m^2}`).
- - :math:`I_{30}` (:math:`mm.h^{-1}`): the maximum rain intensity
-   recorded within 30 consecutive minutes.
-
-The total kinetic energy for one single rain event can be defined as:
-
-
-.. math::
-
-    E = \sum_{r=1}^0 e_r \Delta V_r
-
-with
- - :math:`e_r`: the rain energy per unit depth
-   (:math:`\frac{\text{J}}{\text{m}^{2}.\text{mm}}`). There are a number of
-   ways to compute, see Verstraeten et al. (2006) and Panagos et al. (2015).
- - :math:`\Delta V_r`: the rain depth :math:`(mm)`.
-
-For applications of the rainfall erosivity factor in the context of Flanders
-a value of 870 :math:`\frac{\text{MJ.mm}}{\text{ha.h.year}}` is used since
-2006 (Verstraeten et al., 2006). Recently, this value has been updated to
-1250 :math:`\frac{\text{MJ.mm}}{\text{ha.h.year}}` (Deproost et al., 2018).
-
-.. note::
-    The R-factor can also be defined with other temporal resolutions.
-    For computing WaTEM/SEDEM on a monthly resolution, the value :math:`R` can
-    be defined by the mean of each value for each month over a number of years
-    (mean fo all january values over 10 years). In this case the unit is
-    :math:`\frac{\text{J.mm}}{\text{m}^2.\text{h.month}}`
+events within a defined timeframe (year, month, number of days). For a
+detailed description, we refer to the
+`documentation in the rainfall erosivity repository <https://cn-ws.github.io/rfactor/index.html>`_.
 
 .. _kfactor:
 
