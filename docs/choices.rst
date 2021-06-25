@@ -535,7 +535,11 @@ This R-factor represents the erosivity of the rainfall event that is simulated
 by the model. To use this option, the user has to set `Use R factor = 0` and
 must define the :ref:`rainfall file <rainfallfile>`.
 
-(TO DO: add information about how R-factor is calculated?)
+.. note::
+
+In the newest version, users can input a precalculated value for the R-factor
+(i.e. `Use R factor = 1`) in CN-WS. In this case, no R-factor from a
+timeseries is calculated.
 
 .. _outputchoices:
 
@@ -544,6 +548,12 @@ Output
 
 The user has the option to generate extra output by defining following keys in
 the [Output maps]-section of the .ini-file.
+
+Saga_Grids
+**********
+
+(bool, default false): write output rasters as Saga Grids. If false, Idrisi
+rasters are written.
 
 .. _writeaspect:
 

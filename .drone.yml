@@ -21,7 +21,7 @@ steps:
       - git clone https://git.fluves.net/fluves/CNWS-processing-scripts/
 
   - name: run python tests
-    image: registry.fluves.net/cnws_test
+    image: registry.fluves.net/drone/cn_ws/cnws_test
     commands:
       - virtualenv env -p /usr/bin/python3
       - . env/bin/activate
@@ -149,16 +149,16 @@ clone:
   disable: true
 steps:
   - name: clone
-    image: registry.fluves.net/drone-git-lfs-windows
+    image: registry.fluves.net/prod/infrastructure/drone-git-lfs-windows
 
   - name: build compiled version
-    image: registry.fluves.net/lazarus-windows
+    image: registry.fluves.net/drone/cn_ws/lazarus-windows
     commands:
       - c:\lazarus\lazbuild.exe cn_ws\cn_ws.lpr
       # strip debug symbols
       - c:\lazarus\fpc\3.2.0\bin\x86_64-win64\strip.exe cn_ws\cn_ws.exe
   - name: windows - run tests
-    image: registry.fluves.net/lazarus-windows
+    image: registry.fluves.net/drone/cn_ws/lazarus-windows
     commands:
       - .\testfiles\test.bat
 
