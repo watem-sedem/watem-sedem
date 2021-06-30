@@ -162,3 +162,9 @@ steps:
     commands:
       - .\testfiles\test.bat
 
+---
+kind: pipeline
+name: check branch size difference
+steps:
+- name: check size
+  image: registry.fluves.net/drone/infrastructure/git-file-size-diff
