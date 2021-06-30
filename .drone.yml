@@ -8,6 +8,7 @@ steps:
     image: registry.fluves.net/drone/cn_ws/debian11-build
     environment:
     commands:
+      - git fetch --tags
       - make
 
   - name: test cnws runs without error
