@@ -2,7 +2,7 @@
 Changelog
 =========
 
-latest
+4.2.0
 ------
 
 - Extending documentation
