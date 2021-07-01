@@ -25,6 +25,8 @@ Type
       override;
   End;
 
+Const
+  version={$i version.inc};
 
 Function StopClock(hr, mins, se, s1: word): string;
 
@@ -45,15 +47,24 @@ Var
   i : integer;
   hr,mins,se,s1: word;
 
+
 Begin
   {$push}{$warn 5057 off}
   GetTime(hr,mins,se,s1);
   {$pop}
-  writeln;
-  writeln;
-  writeln('CN_WS model');
+
+  writeln('CN_WS model version: '+ version);
   writeln;
   filename := '';
+  If ParamCount = 0 Then
+  Begin
+    TextColor(red);
+    writeln('An inifile must be given as input argument');
+    NormVideo();
+    Halt(1);
+    Exit
+  end;
+
   For i := 1 To ParamCount Do
     filename := filename+ParamStr(i);
   WriteLn('Inifile : ', filename);
@@ -81,9 +92,9 @@ End;
 
 Var 
   Application: TCN_WSApplication;
+
 Begin
   Application := TCN_WSApplication.Create(Nil);
-  Application.Title := 'cn_ws';
   Application.Run;
   Application.Free;
 End.
