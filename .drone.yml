@@ -128,8 +128,8 @@ steps:
           from_secret: ssh-key
       source: ./docs/_build/
       recursive:
-      args: "--rsync-path='mkdir -p /appdata/static/docs/cnws-pascal && rsync'"
-      target: /appdata/static/docs/cnws-pascal
+      args: "--rsync-path='mkdir -p /appdata/static/docs/cn_ws && rsync'"
+      target: /appdata/static/docs/cn_ws
     when:
       branch:
         - master
