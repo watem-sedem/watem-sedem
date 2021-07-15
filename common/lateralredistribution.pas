@@ -140,7 +140,7 @@ Procedure Water;
 Var 
   counter, i, j, k, l, m, n, t_c, t_r: integer;
   area, sewer_out_sed, TEMP_river_sed_input, TEMP_outside_sed_input, TEMP_buffer_sed_input: double;
-  TEMP_sewer_in: double;
+
   skip: boolean;
   sed_output_file, sediment_segm, cal_output_file: textfile;
 
@@ -181,7 +181,6 @@ Begin
     End;
 
   TEMP_river_sed_input := 0;
-  TEMP_sewer_in := 0
   TEMP_outside_sed_input := 0;
   TEMP_buffer_sed_input := 0;
 
@@ -252,7 +251,6 @@ Begin
             Begin
             // AND SEDI_IN is corrected because procedure Distribute_Flux doesn't take this into account
               SEWER_IN[i,j] := (SEDI_IN[i, j] * SewerMap[i, j]);
-              TEMP_sewer_in := TEMP_sewer_in + SEWER_IN[i, j]
               sewer_out_sed := sewer_out_sed + SEWER_IN[i,j];
               SEDI_OUT[i,j] := SEDI_IN[i,j] - SEWER_IN[i,j]; // wat nog uit de pixel na vermindering komt en verdeeld moet worden over de target pixels
 
@@ -401,7 +399,7 @@ Begin
       Write(cal_output_file, Formatfloat('0.00', TEMP_river_sed_input * BD) + ';');
       Write(cal_output_file, Formatfloat('0.00', TEMP_outside_sed_input * BD) + ';');
       Write(cal_output_file, Formatfloat('0.00', TEMP_buffer_sed_input * BD) + ';');
-      Write(cal_output_file, Formatfloat('0.00', TEMP_sewer_in * BD) + ';');
+      Write(cal_output_file, Formatfloat('0.00', sewer_out_sed * BD) + ';');
 
       // also write to every outlet
       For i := 1 To numOutlet Do
