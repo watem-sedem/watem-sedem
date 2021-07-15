@@ -85,7 +85,7 @@ if not OnlyRouting Then
       setcurrentDir(File_output_dir);
       assignfile(cal_output_file, 'calibration.txt');
       rewrite(cal_output_file);
-      write(cal_output_file, 'ktc_low;ktc_high;tot_erosion;tot_sedimentation;sed_river;sed_noriver;sed_buffer;sed_openwater');
+      write(cal_output_file, 'ktc_low;ktc_high;tot_erosion;tot_sedimentation;sed_river;sed_noriver;sed_buffer;sed_sewerin;sed_openwater');
 
       For i := 1 To numOutlet Do
       Begin
