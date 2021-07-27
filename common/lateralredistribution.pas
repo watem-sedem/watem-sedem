@@ -140,6 +140,7 @@ Procedure Water;
 Var 
   counter, i, j, k, l, m, n, t_c, t_r: integer;
   area, sewer_out_sed, TEMP_river_sed_input, TEMP_outside_sed_input, TEMP_buffer_sed_input: double;
+
   skip: boolean;
   sed_output_file, sediment_segm, cal_output_file: textfile;
 
@@ -398,6 +399,7 @@ Begin
       Write(cal_output_file, Formatfloat('0.00', TEMP_river_sed_input * BD) + ';');
       Write(cal_output_file, Formatfloat('0.00', TEMP_outside_sed_input * BD) + ';');
       Write(cal_output_file, Formatfloat('0.00', TEMP_buffer_sed_input * BD) + ';');
+      Write(cal_output_file, Formatfloat('0.00', sewer_out_sed * BD) + ';');
 
       // also write to every outlet
       For i := 1 To numOutlet Do
