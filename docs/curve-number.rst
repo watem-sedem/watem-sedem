@@ -152,6 +152,9 @@ In grid cells at which the rainfall depth P is lower than the initial abstractio
 .. math::
     I=(I_a-P) \frac{D}{1440}  \quad\text{if } P<I_a
 
+.. math:
+    I=I_a \quad\text{if } P \leq I_a
+
 with:
 
 - :math:`I`: infiltration (:math:`m`)
