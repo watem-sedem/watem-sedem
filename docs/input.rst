@@ -575,16 +575,28 @@ ktil threshold is only mandatory when :ref:`Create ktil map = 1 <createktil>`.
 Parcel connectivity cropland
 ****************************
 
-The parcel connectivity cropland expresses the fraction of sediment trapped at a
-parcel boundary. It is an integer value between 0 and 100. 
+The parcel connectivity cropland expresses the reduction of the upstream are
+at a parcel boundary. It is an integer value between 0 and 100. The reduction
+on the upstream area is applied when the target pixel is of the land cover
+'cropland'.
+
+      A_{pixel} =  A_{pixel} * (connectivity_{cropland}/100)
+
 
 .. _parcelconnforest:
 
 Parcel connectivity forest
 **************************
 
-The parcel connectivity forest expresses the fraction of sediment trapped at a
-boundary of a forest. It is an integer value between 0 and 100.
+The parcel connectivity cropland expresses the reduction of the upstream are
+at a boundary of a forest. It is an integer value between 0 and 100. The
+reduction on the upstream area is applied when the target pixel is of the
+land cover 'forest':
+
+      A_{pixel} =  A_{pixel} * (connectivity_{forest}/100)
+
+
+_parceltrapppingcrop
 
 .. _parceltrapppingcrop:
 
@@ -594,9 +606,13 @@ Parcel trapping efficiency cropland
 The parcel trapping efficiency (PTEF) is used to compute the upstream area for
 every raster pixel :math:`A` (see also :ref:`L-model <lmodel>`). The PTEF 
 takes into account the land-use defined in :ref:`the CN-WS parcels raster <prcmap>`:
-as a function of the land-use, a pixel will contribute to the upstream area with a
+as a function of the land-use. This will contribute to the upstream area with a
 given percentage (100-PTEF). The parcel trapping efficiency for cropland is 
 defined by the Parcel trapping efficiency cropland (% as int e.g. 87).
+
+.. math::
+
+      A_{pixel} =  resolution^2 * (1-\frac{PTEF_{cropland}}{100});
 
 .. _parceltrappingpasture:
 
