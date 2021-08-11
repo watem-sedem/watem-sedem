@@ -580,7 +580,9 @@ at a parcel boundary. It is an integer value between 0 and 100. The reduction
 on the upstream area is applied when the target pixel is of the land cover
 'cropland'.
 
-      A_{pixel} =  A_{pixel} * (connectivity_{cropland}/100)
+.. math::
+
+      A_{pixel} =  A_{pixel}\frac{connectivity_{cropland}}{100}
 
 
 .. _parcelconnforest:
@@ -593,7 +595,9 @@ at a boundary of a forest. It is an integer value between 0 and 100. The
 reduction on the upstream area is applied when the target pixel is of the
 land cover 'forest':
 
-      A_{pixel} =  A_{pixel} * (connectivity_{forest}/100)
+.. math::
+
+      A_{pixel} =  A_{pixel}\frac{connectivity_{forest}}{100}
 
 
 _parceltrapppingcrop
@@ -612,7 +616,7 @@ defined by the Parcel trapping efficiency cropland (% as int e.g. 87).
 
 .. math::
 
-      A_{pixel} =  resolution^2 * (1-\frac{PTEF_{cropland}}{100});
+      A_{pixel} =  res^2(1-\frac{PTEF_{cropland}}{100})
 
 .. _parceltrappingpasture:
 
