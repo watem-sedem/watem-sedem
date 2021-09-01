@@ -615,7 +615,7 @@ Begin
   {User choices}
   OnlyRouting := Inifile.ReadBool('User Choices', 'Only Routing', false);
 
-  Simplified := OnlyRouting or Inifile.ReadBool('User Choices','Simplified model version',false);
+  Simplified := OnlyRouting or Inifile.ReadBool('User Choices','Only WS',false);
 
   Include_sewer:= Inifile.ReadBool('User Choices','Include sewers',false);
 
