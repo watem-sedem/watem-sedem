@@ -218,6 +218,7 @@ Var
   ktil_threshold       : double;
   TFSED_crop           : integer;
   TFSED_forest         : integer;
+  TFSED_grasstrip      : integer;
   Timestep_model       : integer;
   EndTime_model        : integer;
   Timestep_output      : integer;
@@ -837,6 +838,12 @@ Begin
        TFSED_crop) Then
       Begin
         raise EInputException.Create('Error in data input: Parcel connectivity cropland value missing or wrong data format')
+        ;
+      End;
+    If Not TryStrToInt(Inifile.Readstring('Variables', 'Parcel connectivity grasstrips', '100'),
+       TFSED_grasstrip) Then
+      Begin
+        raise EInputException.Create('Error in data input: Parcel connectivity grasstrips value missing or wrong data format')
         ;
       End;
    end;

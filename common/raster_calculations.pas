@@ -1382,9 +1382,13 @@ Begin
         End;
       If (PRC[Routing[i,j].Target1Row,Routing[i,j].Target1Col] = -3) // Als de targetcel bos,
          Or (PRC[Routing[i,j].Target1Row,Routing[i,j].Target1Col] = -4) // weide
-         Or (PRC[Routing[i,j].Target1Row,Routing[i,j].Target1Col] = -6) Then // grasbufferstrook
         Begin
           flux := fluxout*(TFSED_forest/100);
+        End;
+
+      If (PRC[Routing[i,j].Target1Row,Routing[i,j].Target1Col] = -6) Then // grasbufferstrook
+        Begin
+          flux := fluxout*(TFSED_grasstrip/100);
         End;
 
       If (PRC[Routing[i,j].Target1Row,Routing[i,j].Target1Col] = -2) Then
@@ -1414,7 +1418,7 @@ Begin
 
 // The parcel connectivity should only be applied when you go from a non-grassbuffer strip to a bufferstrip
             Begin
-              flux := fluxout*(TFSED_forest/100);
+              flux := fluxout*(TFSED_grasstrip/100);
               UpArea.r[Routing[i,j].Target1Row,Routing[i,j].Target1Col] += flux;
             End
 
@@ -1435,7 +1439,7 @@ Begin
 
 // The parcel connectivity should only be applied when you go from a non-grassbuffer strip to a bufferstrip
             Begin
-              flux := fluxout*(TFSED_forest/100);
+              flux := fluxout*(TFSED_grasstrip/100);
               UpArea.r[Routing[i,j].Target2Row,Routing[i,j].Target2Col] += flux;
             End
 
