@@ -1381,7 +1381,7 @@ Begin
           flux := fluxout*(TFSED_crop/100);
         End;
       If (PRC[Routing[i,j].Target1Row,Routing[i,j].Target1Col] = -3) // Als de targetcel bos,
-         Or (PRC[Routing[i,j].Target1Row,Routing[i,j].Target1Col] = -4) // weide
+         Or (PRC[Routing[i,j].Target1Row,Routing[i,j].Target1Col] = -4) Then // weide
         Begin
           flux := fluxout*(TFSED_forest/100);
         End;
