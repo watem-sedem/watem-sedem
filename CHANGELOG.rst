@@ -2,6 +2,11 @@
 Changelog
 =========
 
+Latest
+------
+
+- Add parcel connectivity grasstrips as a variable
+
 4.2.0
 ------
 
