@@ -11,6 +11,15 @@ steps:
       - git fetch --tags
       - make
 
+  - name: build conda package
+    image: registry.fluves.net/drone/cn_ws/conda
+    environment:
+      GIT_LFS_SKIP_SMUDGE: 1
+    commands:
+    - perl -pe 's/\$([_A-Z]+)/$ENV{$1}/g' <conda/meta.yaml.in >conda/meta.yaml
+    - conda build .
+      # builds /opt/conda/conda-bld/linux-64/cn_ws-master-0.tar.bz2
+
   - name: test cnws runs without error
     image: debian:buster-slim
     commands:
