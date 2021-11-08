@@ -11,8 +11,7 @@ Interface
 Uses 
 Classes, SysUtils, GData_CN, RData_CN, Math, ReadInParameters;
 
-Type 
-  IntegerArray = array Of integer;
+Type
   FloatArray = array Of Double;
   FloatArray2 = array Of array Of Double;
 
@@ -21,8 +20,8 @@ Procedure CalculateRe(Var Remap:Rraster; Perceelskaart:Graster ; CNmap:Rraster; 
 {Procedure CalculateRunoffAcc(var UpArea: RRaster; Remap: RRaster; PRC: GRaster);}
 Procedure ReadRainfallFile (Var Raindata: TRainRecordArray; Rainfallfilename: String);
 Procedure ReadText(filename:String; Var Z: FloatArray2; rowRain, colRain:integer);
-Function interp(xOriginal:IntegerArray; xNew:IntegerArray; yOriginal:FloatArray): FloatArray;
-Function extrap(xOriginal:IntegerArray; xNew:IntegerArray; yOriginal:FloatArray): FloatArray;
+Function interp(xOriginal:TIntArray; xNew:TIntArray; yOriginal:FloatArray): FloatArray;
+Function extrap(xOriginal:TIntArray; xNew:TIntArray; yOriginal:FloatArray): FloatArray;
 Procedure CalculateTimeDependentRunoff(Remap: Rraster; RainData: TRainRecordArray; Routing:
                                        TRoutingArray; PRC: Graster);
 Procedure CalculateRFactor;
@@ -36,7 +35,7 @@ Var
   NumberOfTimesteps, NTimesteps2, StartTime_rain, EndTime_rain, EndTime, EndTime_modelSec,
   numOutlet, numRivSeg: integer;
   Rainfall, Duration, I10: double;
-  TimeSeries, Timeseries_tmp_fin : integerArray;
+  TimeSeries, Timeseries_tmp_fin : TIntArray;
   RainfallSeries, Sum_discharge, Sum_discharge_segm: FloatArray;
   Result_Discharge, Result_Discharge_segm : FloatArray2;
 
@@ -52,7 +51,7 @@ Implementation
 Procedure ReadRainfallFile (Var Raindata: TRainRecordArray; Rainfallfilename: String);
 
 Var 
-  TimeSeries_output, I10TimeSeries: IntegerArray;
+  TimeSeries_output, I10TimeSeries: TIntArray;
   Cumul_Rain, Cumul_Interp, RainfallSeries_output,I10RainfallSeries, I10Series: FloatArray;
   counter, i, j, nr, Timestep_rain, Fill_num: integer;
   x: double;
@@ -279,7 +278,7 @@ End;
 // This function is used for the interpolation of the rainfall data (see above)
 //*****************************************************************************
 
-Function interp(xOriginal:IntegerArray; xNew:IntegerArray; yOriginal:FloatArray): FloatArray;
+Function interp(xOriginal:TIntArray; xNew:TIntArray; yOriginal:FloatArray): FloatArray;
 
 Var 
   i,j,k,l,t1,t2,step,x0,x1 : integer;
@@ -319,7 +318,7 @@ End;
 // This function is used for the extrapolation of the rainfall data (see above)
 //*****************************************************************************
 
-Function extrap(xOriginal:IntegerArray; xNew:IntegerArray; yOriginal:FloatArray): FloatArray;
+Function extrap(xOriginal:TIntArray; xNew:TIntArray; yOriginal:FloatArray): FloatArray;
 
 Var 
   t1,t2,step,i,j: integer;
@@ -370,7 +369,7 @@ Procedure CalculateRFactor;
 Var 
   Timestep, i, j, nr, index, Tini, Tfin : integer;
   eventEnergy, maxI30, eventRFactor, x: double;
-  newTimeSeries, minTimeSeries : integerArray;
+  newTimeSeries, minTimeSeries : TIntArray;
   newRainfallSeries, minRainfallSeries, rainVolume, rainEnergy, I30: FloatArray;
 Begin
   Timestep := Timeseries[1]-TimeSeries[0];
@@ -524,13 +523,9 @@ Var
   Discharge, Discharge_tot, Discharge_segm_txt, spillover_txt, sewer_out_txt: textfile;
   spillover, Discharge_result_tmp, Discharge_tmp_fin: FloatArray;
   Result, Discharge_segm: FloatArray2;
-  Timeseries_tmp: integerArray;
+  Timeseries_tmp: TIntArray;
 
   Label SKIP;
-
-Const 
-  speed_sewer = 1;
-  // assume 1 m/s
 
 Begin
   //Runoff map is created (=Remap in which negative values are replaced by 0, and
@@ -631,7 +626,7 @@ Begin
             //The runoff for that timestep is determined by scaling the total runoff
             //for that grid cell with the fraction of rainfall that falls during this time step
             RunoffInputmap_Temp[k,l] := RunoffInput;
-            RunoffMap[k,l] += RunoffInput;
+            RunoffMap.r[k,l] += RunoffInput;
             //The amount of runoff for this time step is added to the amount of runoff
             //that was already present at the beginning of the time step
 
@@ -680,7 +675,7 @@ Begin
                   Part1_Water := (BufferData[Buffermap[k,l]].Qmax * Timestep_model) + spill;
                   //Part1_water is composed of (1) the volume of water inside the buffer that flows through the opening and (2) the additional water (>volume of the buffer) that flows over the dam
 
-                  RoutedMap_temp[Routing[k,l].Target1row, Routing[k,l].Target1col] += Part1_water;
+                  RoutedMap_temp.r[Routing[k,l].Target1row, Routing[k,l].Target1col] += Part1_water;
                   RunoffMap[k,l] := RunoffMap[k,l] - Part1_water; //RunoffMap is updated
                   OutflowMap_temp[k,l] := Part1_water;
                   spillover[Buffermap[k,l]] += spill;
@@ -694,8 +689,8 @@ Begin
                                    BufferData[Buffermap[k,l]].Volume - BufferData[Buffermap[k,l]].
                                    Volume_dead))) * Timestep_model;
                     // Amount of discharge = [Qmax * sqrt(vol(t)/vol(max))] * timestep
-                    RoutedMap_temp[Routing[k,l].Target1row,Routing[k,l].Target1col] += Part1_water;
-                    RunoffMap[k,l] += -Part1_water;
+                    RoutedMap_temp.r[Routing[k,l].Target1row,Routing[k,l].Target1col] += Part1_water;
+                    RunoffMap.r[k,l] += -Part1_water;
                     //RunoffMap is updated
                     OutflowMap_temp[k,l] := Part1_water;
                   End
@@ -704,8 +699,8 @@ Begin
           //The volume of water in the buffer is smaller than the dead volume: nothing will flow out
                 Begin
                   Part1_water := 0;
-                  RoutedMap_temp[Routing[k,l].Target1row,Routing[k,l].Target1col] += Part1_water;
-                  RunoffMap[k,l] += -Part1_water;
+                  RoutedMap_temp.r[Routing[k,l].Target1row,Routing[k,l].Target1col] += Part1_water;
+                  RunoffMap.r[k,l] += -Part1_water;
                   //RunoffMap is updated
                   OutflowMap_temp[k,l] := Part1_water;
                 End;
@@ -734,29 +729,23 @@ Begin
             Begin
               If Routing[k,l].Part2 > 0 Then //If the water is routed towards 2 lower cells
                 Begin
-                  If (Include_sewer) And (SewerMap[k,l] <> 0) Then
-                    // if cell contains entrance to sewer...
-                    Part2_water := (RunoffMap[k,l]*Routing[k,l].Part2)*((Speed_sewer*TimeStep_model)
-                                   /Distance2(Routing, k, l))
-                                   //Amount of water that is transfered through sewers
-                  Else
-                    Part2_water := (RunoffMap[k,l]*Routing[k,l].Part2)*((Speed*TimeStep_model)/
-                                   Distance2(Routing, k, l));
-                  //Amount of water that is transfered to neighbor 2
-
                   Part1_water := (RunoffMap[k,l]*Routing[k,l].Part1)*((Speed*TimeStep_model)/Distance1(Routing,k,l));
                   //Amount of water that is transfered to neighbor 1
-                  RoutedMap_temp[Routing[k,l].Target1row,Routing[k,l].Target1col] += Part1_water;
+                  Part2_water := (RunoffMap[k,l]*Routing[k,l].Part2)*((Speed*TimeStep_model)/Distance2(Routing,k,l));
+                  //Amount of water that is transfered to neighbor 2                  
+                  
                   If (Include_sewer) And (SewerMap[k,l] <> 0) Then
                     Begin
-                      RoutedMap_temp[Routing[k,l].Target2row, Routing[k,l].Target2col] += (Part2_water * (1-(sewer_exit/100)));
+                      RoutedMap_temp.r[Routing[k,l].Target1row, Routing[k,l].Target1col] += (Part1_water * (1-(sewer_exit/100)));
+                      RoutedMap_temp.r[Routing[k,l].Target2row, Routing[k,l].Target2col] += (Part2_water * (1-(sewer_exit/100)));
+                      sewer_out_water := sewer_out_water + (Part1_water * (sewer_exit/100));
                       sewer_out_water := sewer_out_water + (Part2_water * (sewer_exit/100));
                     End
                   Else
-                    RoutedMap_temp[Routing[k,l].Target2row, Routing[k,l].Target2col] += Part2_water;
-                  RunoffMap[k,l] += -(Part1_water + Part2_water);
-
-//The total amount of runoff that leaves the grid cell during this time step is subtracted from the RunoffMap
+                    RoutedMap_temp.r[Routing[k,l].Target1row,Routing[k,l].Target1col] += Part1_water;
+                    RoutedMap_temp.r[Routing[k,l].Target2row,Routing[k,l].Target2col] += Part2_water;
+                  RunoffMap.r[k,l] += -(Part1_water + Part2_water);
+                  //The total amount of runoff that leaves the grid cell during this time step is subtracted from the RunoffMap
                   OutflowMap_temp[k,l] := Part1_water + Part2_water;
                   //Amount of water leaving the grid cell during this time step
                   If RunoffMap[k,l] < 0 Then RunoffMap[k,l] := 0;
@@ -769,15 +758,31 @@ Begin
                     // if target cell 1 is outlet or river, the result is updated
                     Begin
                       If outlet_Select Then
-                        Result[i, Outlet[targetX,targetY]] += Part1_water
+                        Begin
+                          If (Include_sewer) And (SewerMap[k,l] <> 0) Then
+                            Result[i,Outlet[targetX,targetY]] += (Part1_water*(1-(sewer_exit/100)))
+                          Else
+                            Result[i,Outlet[targetX,targetY]] += Part1_water;
+                        End
                       Else
-                        Result[i,1] += Part1_water;
+                        Begin
+                          If (Include_sewer) And (SewerMap[k,l] <> 0) Then
+                            Result[i,1] += (Part1_water*(1-(sewer_exit/100)))
+                          Else
+                            Result[i,1] += Part1_water;
+                        End;
                     End;
                   If segments Then
                     Begin
                       If RivSeg[targetX,targetY]<>0 Then
-                        Discharge_segm[i,RivSeg[targetX,targetY]] += Part1_water;
+                        Begin
+                          If (Include_sewer) And (SewerMap[k,l] <> 0) Then
+                            Discharge_segm[i,RivSeg[targetX,targetY]] += (Part1_water*(1-(sewer_exit/100)))
+                          Else
+                            Discharge_segm[i,RivSeg[targetX,targetY]] += Part1_water;
+                        End;
                     End;
+
 
                   targetX := Routing[k,l].Target2row;
                   targetY := Routing[k,l].Target2col;
@@ -809,15 +814,27 @@ Begin
                             Discharge_segm[i,RivSeg[targetX,targetY]] += Part2_water;
                         End;
                     End;
+
+
                 End
+
               Else
+
                 Begin
                   //If the runoff is transfered to only 1 neighbor (part 1 = 1)
                   Part1_water := (RunoffMap[k,l]*Routing[k,l].Part1)
                                  *((Speed*TimeStep_model)
                                  /Distance1(Routing, k, l));
-                  RoutedMap_temp[Routing[k,l].Target1row,Routing[k,l].Target1col] += Part1_water;
-                  RunoffMap[k,l] += -Part1_water;
+
+                  If (Include_sewer) And (SewerMap[k,l] <> 0) Then
+                    Begin
+                      RoutedMap_temp.r[Routing[k,l].Target1row, Routing[k,l].Target1col] += (Part1_water * (1-(sewer_exit/100)));
+                      sewer_out_water := sewer_out_water + (Part1_water * (sewer_exit/100));
+                    End
+                  Else
+                    RoutedMap_temp.r[Routing[k,l].Target1row,Routing[k,l].Target1col] += Part1_water;
+
+                  RunoffMap.r[k,l] += -Part1_water;
                   //RunoffMap is updated
                   OutflowMap_temp[k,l] := Part1_water;
                   If RunoffMap[k,l] < 0 Then RunoffMap[k,l] := 0;
@@ -828,16 +845,32 @@ Begin
                     // if target cell 1 is outlet or river, the result is updated
                     Begin
                       If outlet_Select Then
-                        Result[i,Outlet[targetX,targetY]] += Part1_water
+                        Begin
+                          If (Include_sewer) And (SewerMap[k,l] <> 0) Then
+                            Result[i,Outlet[targetX,targetY]] += (Part1_water*(1-(sewer_exit/100)))
+                          Else
+                            Result[i,Outlet[targetX,targetY]] += Part1_water;
+                        End
                       Else
-                        Result[i,1] += Part1_water;
+                        Begin
+                          If (Include_sewer) And (SewerMap[k,l] <> 0) Then
+                            Result[i,1] += (Part1_water*(1-(sewer_exit/100)))
+                          Else
+                            Result[i,1] += Part1_water;
+                        End;
                     End;
                   If segments Then
                     Begin
-                      If (RivSeg[targetX,targetY]<>0) And (RivSeg[k,l] = 0) Then
-        // only if target cell is river AND source cell is no river, discharge_segm should be updated
-                        Discharge_segm[i,RivSeg[targetX,targetY]] += Part1_water;
+                      If (RivSeg[targetX,targetY]<>0) And (RivSeg[k,l] <> 0) Then
+                      // only if target cell is river AND source cell is no river, discharge_segm should be updated
+                        Begin
+                          If (Include_sewer) And (SewerMap[k,l] <> 0) Then
+                            Discharge_segm[i,RivSeg[targetX,targetY]] += (Part1_water*(1-(sewer_exit/100)))
+                          Else
+                            Discharge_segm[i,RivSeg[targetX,targetY]] += Part1_water;
+                        End;
                     End;
+
                 End;
 
             End
@@ -847,26 +880,51 @@ Begin
                 //If the runoff is transfered to only 1 neighbor (part 2 = 1)
                 Part2_water := (RunoffMap[k,l]*Routing[k,l].Part2)
                                *((Speed*TimeStep_model)/Distance2(Routing, k, l));
-                RoutedMap_temp[Routing[k,l].Target2row,Routing[k,l].Target2col] += Part2_water;
-                RunoffMap[k,l] += -Part2_water;
+
+                If (Include_sewer) And (SewerMap[k,l] <> 0) Then
+                  Begin
+                    RoutedMap_temp.r[Routing[k,l].Target2row, Routing[k,l].Target2col] += (Part2_water * (1-(sewer_exit/100)));
+                    sewer_out_water := sewer_out_water + (Part2_water * (sewer_exit/100));
+                  End
+                Else
+                  RoutedMap_temp.r[Routing[k,l].Target2row,Routing[k,l].Target2col] += Part2_water;
+
+                RunoffMap.r[k,l] += -Part2_water;
                 OutflowMap_temp[k,l] := Part2_water;
                 If RunoffMap[k,l] < 0 Then RunoffMap[k,l] := 0;
 
                 targetX := Routing[k,l].Target2row;
                 targetY := Routing[k,l].Target2col;
-                // if target cell 1 is outlet or river, the result is updated
                 If is_outlet(targetX,targetY) Then
+                  // if target cell 2 is outlet or river, the result is updated
                   Begin
                     If outlet_Select Then
-                      Result[i,Outlet[targetX,targetY]] += Part2_water
+                      Begin
+                        If (Include_sewer) And (SewerMap[k,l] <> 0) Then
+                          Result[i,Outlet[targetX,targetY]] += (Part2_water*(1-(sewer_exit/100)))
+                        Else
+                          Result[i,Outlet[targetX,targetY]] += Part2_water;
+                      End
                     Else
-                      Result[i,1] += Part2_water;
+                      Begin
+                        If (Include_sewer) And (SewerMap[k,l] <> 0) Then
+                          Result[i,1] += (Part2_water*(1-(sewer_exit/100)))
+                        Else
+                          Result[i,1] += Part2_water;
+                      End;
                   End;
-                If segments Then
+                if segments Then
                   Begin
-                    If RivSeg[targetX,targetY]<>0 Then
-                      Discharge_segm[i,RivSeg[targetX,targetY]] += Part2_water;
+                    If (RivSeg[targetX,targetY]<>0) And (RivSeg[k,l] <> 0) Then
+                      // only if target cell is river AND source cell is no river, discharge_segm should be updated
+                      Begin
+                        If (Include_sewer) And (SewerMap[k,l] <> 0) Then
+                          Discharge_segm[i,RivSeg[targetX,targetY]] += (Part2_water*(1-(sewer_exit/100)))
+                        Else
+                          Discharge_segm[i,RivSeg[targetX,targetY]] += Part2_water;
+                      End;
                   End;
+
               End;
           SKIP:
         End;
@@ -879,12 +937,12 @@ Begin
           // runoff cumul map = amount of water entering each cell
           Begin
             If PRC[k,l] = 0 Then continue;
-            RunoffMap[k,l] += RoutedMap_temp[k,l];
+            RunoffMap.r[k,l] += RoutedMap_temp[k,l];
             //RunoffCummulMap[k,l] := RunoffCummulMap[k,l] + RoutedMap_temp[k,l];
             If RunoffMap[k,l] >= 0 Then
 
 //RunoffCummulMap[k,l] := RunoffCummulMap[k,l] + ((RunoffMap[k,l]*Speed*Timestep)/res) //Geeft totale hoeveelheid water (rekening houdend met snelheid en tijdstap)
-              RunoffCummulMap[k,l] += RoutedMap_temp[k,l] + RunoffInputmap_Temp[k,l];
+              RunoffCummulMap.r[k,l] += RoutedMap_temp[k,l] + RunoffInputmap_Temp[k,l];
             //else RunoffCummulMap[k,l] := 0;
           End;
     End;
@@ -1177,7 +1235,7 @@ Var
 Begin
   nrowPRC := nrow;
   ncolPRC := ncol;
-  SetLength(Remap,nrowPRC+1, ncolPRC+1);
+  Remap:= RRaster.create(nrow, ncol);
 
   For i:= 1 To nrowPRC Do
     For j := 1 To ncolPRC Do
@@ -1264,18 +1322,42 @@ Begin
   numOutlet := 1;
   // calculation of x and y coordinates of outlet... (= lowest river pixel)
   setlength(OutletArray, k+1, 2);
+
   height := 9999;
-  For i := 1 To nrow Do
-    For j := 1 To ncol Do
-      Begin
-        If (PRC[i,j] = -1) And (DTM[i,j]<height) Then
+  if river_routing Then
+    // if no explicit river routing is applied, select the lowest river pixel
+    // as outlet
+    Begin
+      For i := 1 To nrow Do
+        For j := 1 To ncol Do
           Begin
-            OutletArray[k,0] := i;
-            OutletArray[k,1] := j;
-            height := DTM[i,j];
+            If (PRC[i,j] = -1) And (DTM[i,j]<height) Then
+              Begin
+                OutletArray[k,0] := i;
+                OutletArray[k,1] := j;
+                height := DTM[i,j];
+              End;
           End;
-      End;
-  If height = 9999 Then
+    End;
+
+  max_uparea := 0;
+  if river_routing Then
+  // if explicit river routing is applied, select the river pixel with the 
+  // largest uparea as outlet
+    Begin
+      For i := 1 To nrow Do
+        For j := 1 To ncol Do
+          Begin
+            If (PRC[i,j] = -1) And (UPAREA[i,j] > max_uparea) Then
+              Begin
+                OutletArray[k,0] := i;
+                OutletArray[k,1] := j;
+                max_uparea := UPAREA[i,j];
+              End;
+          End;
+    End;
+
+  If (height = 9999) and (max_uparea = 0) Then
     // if no riverpixels present => select pixel with largest UPAREA as outlet
     Begin
       max_uparea := 0;
@@ -1290,6 +1372,7 @@ Begin
               End;
           End;
     End;
+
   lowOutletX := OutletArray[k,0];
   // lowest outlet = only outlet
   lowOutletY := OutletArray[k,1];
@@ -1353,7 +1436,7 @@ for i:= 1 to nrow do
   UpArea[i,j]:=PitDat[vlag].input;
   end;
 
-writeidrisi32file(ncol,nrow,'UpAreamap_20060821',UpArea);
+writefloatfile(ncol,nrow,'UpAreamap_20060821',UpArea);
 
 //totexport := UpArea[97,353] + massbalance;
 //showmessage('De totale hoeveelheid water dat het bekken verlaat is ' + floattostr(UpArea[36,105]));

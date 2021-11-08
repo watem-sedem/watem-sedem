@@ -140,6 +140,7 @@ Procedure Water;
 Var 
   counter, i, j, k, l, m, n, t_c, t_r: integer;
   area, sewer_out_sed, TEMP_river_sed_input, TEMP_outside_sed_input, TEMP_buffer_sed_input: double;
+
   skip: boolean;
   sed_output_file, sediment_segm, cal_output_file: textfile;
 
@@ -257,13 +258,13 @@ Begin
                 begin
                    t_c :=  Routing[i, j].Target2Col;
                    t_r := Routing[i, j].Target2Row ;
-                   SEDI_IN[t_r, t_c] += - SEDI_OUT[i,j] * Routing[i,j].Part2;
+                   SEDI_IN.r[t_r, t_c] += - SEDI_OUT[i,j] * Routing[i,j].Part2;
                 end;
               if Routing[i, j].Target1Row > 0 then
                 begin
                    t_c :=  Routing[i, j].Target1Col;
                    t_r := Routing[i, j].Target1Row;
-                   SEDI_IN[t_r, t_c] += - SEDI_OUT[i,j] * Routing[i,j].Part1;
+                   SEDI_IN.r[t_r, t_c] += - SEDI_OUT[i,j] * Routing[i,j].Part1;
                 end;
             End;
 
@@ -398,6 +399,7 @@ Begin
       Write(cal_output_file, Formatfloat('0.00', TEMP_river_sed_input * BD) + ';');
       Write(cal_output_file, Formatfloat('0.00', TEMP_outside_sed_input * BD) + ';');
       Write(cal_output_file, Formatfloat('0.00', TEMP_buffer_sed_input * BD) + ';');
+      Write(cal_output_file, Formatfloat('0.00', sewer_out_sed * BD) + ';');
 
       // also write to every outlet
       For i := 1 To numOutlet Do
@@ -832,7 +834,7 @@ Begin
   setlength(min_row, numRivSeg+1);
   for i:=0 to numRivSeg do
      begin
-      min_segment[i] := maxSmallint;
+      min_segment[i] := MaxInt;
      end;
 
 

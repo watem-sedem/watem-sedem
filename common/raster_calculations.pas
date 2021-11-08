@@ -1309,7 +1309,7 @@ Begin
 
           if SModel = TSModel.McCool1987 then
              begin
-               If (ArcTan(slope[i,j])*100.0 < 9.0) Then
+               If (tan(slope[i,j])*100.0 < 9.0) Then
                      Sfactor := (10.8*sin(slope[i,j]))+0.03
                Else Sfactor := (16.8*sin(slope[i,j]))-0.5;
              end;
@@ -1329,25 +1329,23 @@ Var
   BufferId: integer;
 Begin
   fluxout:=UpArea[i,j];
-  If Include_buffer and (Buffermap[i,j] > 16384) Then
-    Begin
-      flux := fluxout;
 
-      if (Routing[i,j].Part1 > 0) and (Buffermap[Routing[i,j].Target1Row,Routing[i,j].Target1Col] >0) then
+  If Include_buffer and (Buffermap[i,j] > 0) Then
+     Begin;
+      if (Buffermap[i,j] < 16384) and buffer_reduce_upstream_area Then //buffer outlet pixel
         begin
-         BufferId := Buffermap[i,j] - 16384;
+         BufferId := Buffermap[i,j];
          ptef :=1-BufferData[BufferId].PTEF/100;
          flux := fluxout * ptef;
-        end;
+        end
+      else
+          flux := fluxout;
 
       if (Routing[i,j].Part1 > 0) then
-        begin
-        UpArea[Routing[i,j].Target1Row,Routing[i,j].Target1Col] += Routing[i,j].Part1 * flux;
-
-        end;
+        UpArea.r[Routing[i,j].Target1Row, Routing[i,j].Target1Col] += Routing[i,j].Part1 * flux;
 
       if (Routing[i,j].Part2 > 0) then
-        UpArea[Routing[i,j].Target2Row,Routing[i,j].Target2Col] += Routing[i,j].Part2 * flux;
+        UpArea.r[Routing[i,j].Target2Row, Routing[i,j].Target2Col] += Routing[i,j].Part2 * flux;
 
       exit;
     End;
@@ -1357,11 +1355,11 @@ Begin
      flux := fluxout;
       if (Routing[i,j].Part1 > 0) then
         begin
-        UpArea[Routing[i,j].Target1Row,Routing[i,j].Target1Col] += Routing[i,j].Part1 * flux * (1-SewerMap[i,j]);
+        UpArea.r[Routing[i,j].Target1Row,Routing[i,j].Target1Col] += Routing[i,j].Part1 * flux * (1-SewerMap[i,j]);
          end;
 
       if (Routing[i,j].Part2 > 0) then
-        UpArea[Routing[i,j].Target2Row,Routing[i,j].Target2Col] += Routing[i,j].Part2 * flux * (1-SewerMap[i,j]);
+        UpArea.r[Routing[i,j].Target2Row,Routing[i,j].Target2Col] += Routing[i,j].Part2 * flux * (1-SewerMap[i,j]);
       exit;
 
     end;
@@ -1383,10 +1381,14 @@ Begin
           flux := fluxout*(TFSED_crop/100);
         End;
       If (PRC[Routing[i,j].Target1Row,Routing[i,j].Target1Col] = -3) // Als de targetcel bos,
-         Or (PRC[Routing[i,j].Target1Row,Routing[i,j].Target1Col] = -4) // weide
-         Or (PRC[Routing[i,j].Target1Row,Routing[i,j].Target1Col] = -6) Then // grasbufferstrook
+         Or (PRC[Routing[i,j].Target1Row,Routing[i,j].Target1Col] = -4) Then // weide
         Begin
           flux := fluxout*(TFSED_forest/100);
+        End;
+
+      If (PRC[Routing[i,j].Target1Row,Routing[i,j].Target1Col] = -6) Then // grasbufferstrook
+        Begin
+          flux := fluxout*(TFSED_grasstrip/100);
         End;
 
       If (PRC[Routing[i,j].Target1Row,Routing[i,j].Target1Col] = -2) Then
@@ -1398,7 +1400,7 @@ Begin
 
 
 
-      UpArea[Routing[i,j].Target1Row,Routing[i,j].Target1Col] += flux;
+      UpArea.r[Routing[i,j].Target1Row,Routing[i,j].Target1Col] += flux;
 
 
     End
@@ -1416,8 +1418,8 @@ Begin
 
 // The parcel connectivity should only be applied when you go from a non-grassbuffer strip to a bufferstrip
             Begin
-              flux := fluxout*(TFSED_forest/100);
-              UpArea[Routing[i,j].Target1Row,Routing[i,j].Target1Col] += flux;
+              flux := fluxout*(TFSED_grasstrip/100);
+              UpArea.r[Routing[i,j].Target1Row,Routing[i,j].Target1Col] += flux;
             End
 
           Else
@@ -1425,7 +1427,7 @@ Begin
 
             Begin
               flux := fluxout*Routing[i,j].Part1;
-              UpArea[Routing[i,j].Target1Row,Routing[i,j].Target1Col] += flux;
+              UpArea.r[Routing[i,j].Target1Row,Routing[i,j].Target1Col] += flux;
             End;
         End;
 
@@ -1437,8 +1439,8 @@ Begin
 
 // The parcel connectivity should only be applied when you go from a non-grassbuffer strip to a bufferstrip
             Begin
-              flux := fluxout*(TFSED_forest/100);
-              UpArea[Routing[i,j].Target2Row,Routing[i,j].Target2Col] += flux;
+              flux := fluxout*(TFSED_grasstrip/100);
+              UpArea.r[Routing[i,j].Target2Row,Routing[i,j].Target2Col] += flux;
             End
 
           Else
@@ -1446,7 +1448,7 @@ Begin
 
             Begin
               flux := fluxout*Routing[i,j].Part2;
-              UpArea[Routing[i,j].Target2Row,Routing[i,j].Target2Col] +=flux;
+              UpArea.r[Routing[i,j].Target2Row,Routing[i,j].Target2Col] +=flux;
             End;
         End;
 
@@ -1468,12 +1470,12 @@ Begin
     Begin
       flux := FLUX_OUT*Routing[i,j].Part1;
       // m³
-      Flux_IN[Routing[i,j].Target1Row, Routing[i,j].Target1Col] += flux;
+      Flux_IN.r[Routing[i,j].Target1Row, Routing[i,j].Target1Col] += flux;
     End;
   If Routing[i,j].Part2 > 0.0 Then
     Begin
       flux := FLUX_OUT*Routing[i,j].Part2;
-      Flux_IN[Routing[i,j].Target2Row,Routing[i,j].Target2Col] += flux;
+      Flux_IN.r[Routing[i,j].Target2Row,Routing[i,j].Target2Col] += flux;
 
     End;
 End;

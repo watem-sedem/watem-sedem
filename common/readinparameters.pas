@@ -6,17 +6,16 @@ Unit ReadInParameters;
 Interface
 
 Uses 
-Classes, SysUtils, RData_CN, GData_CN, Inifiles, Idrisi, Typinfo;
+Classes, SysUtils, RData_CN, GData_CN, Inifiles, write_raster, Typinfo;
 
 //Record for model variables
 
 Type
   EInputException = Class(Exception);
-  Gvector = array Of smallint;
-  Rvector = array Of single;
+
+  rvector = array of single;
 
   TSingleMatrix = array Of array Of single;
-  TDoubleMatrix = array Of array Of double;
   TIntMatrix = array Of array Of integer;
 
   TIntArray = array of integer;
@@ -190,6 +189,7 @@ Var
   river_routing        : boolean;
   river_topology       : boolean;
   {Output maps}
+  Saga_Grids           : boolean;
   Write_ASPECT         : boolean;
   Write_LS             : boolean;
   Write_RE             : boolean;
@@ -218,6 +218,7 @@ Var
   ktil_threshold       : double;
   TFSED_crop           : integer;
   TFSED_forest         : integer;
+  TFSED_grasstrip      : integer;
   Timestep_model       : integer;
   EndTime_model        : integer;
   Timestep_output      : integer;
@@ -228,6 +229,7 @@ Var
   max_kernel_river     : integer;
   calibrate            : Boolean;
   LScor                : double;
+  ext                  : string;
   cal     : TCalibration;
   forced_routing : array Of TForcedRouting;
 
@@ -249,7 +251,7 @@ Var
   PRC, TilDir, Ro, BufferMap, Outlet, RivSeg, Ditch_map, Dam_map, PTEFmap, river_routing_map: GRaster;
   i, j, lowOutletX, lowOutletY: integer;
 
-  ROW, COLUMN : Gvector;
+  ROW, COLUMN : TIntarray;
 
   Slope,Aspect,Uparea,LS: Rraster;
   totsurface: double;
@@ -291,26 +293,57 @@ begin
     Distance2 := 0;
 end;
 
+Function CheckExtrema_RRaster(inrst: RRaster; minval,maxval: integer):boolean;
+begin
+   CheckExtrema_RRaster := True;
+   For i := 1 To nrow Do
+       For j := 1 To ncol Do
+          Begin
+            If (PRC[i,j] <> 0) And ((inrst[i,j] > maxval) Or (inrst[i,j] < minval)) Then
+               CheckExtrema_RRaster:=False
+          End;
+end;
+
+Function CheckExtrema_GRaster(inrst: GRaster; minval,maxval: integer):boolean;
+begin
+   CheckExtrema_GRaster := True;
+   For i := 1 To nrow Do
+       For j := 1 To ncol Do
+          Begin
+            If (PRC[i,j] <> 0) And ((inrst[i,j] > maxval) Or (inrst[i,j] < minval)) Then
+               CheckExtrema_GRaster:=False
+          End;
+end;
+
 Procedure ReadInRasters;
 Begin
   setCurrentDir(datadir);
-  GetRFile(DTM,DTM_Filename);
-  GetGFile(PRC,PARCEL_filename);
+  GetRFile(DTM, DTM_Filename);
+  GetGFile(PRC, PARCEL_filename);
 
-  SetGRasterBorders(PRC);
+  PRC.SetRasterBorders;
 
   GetRFile(P_factor, Pf_Data_filename);
 
   If Include_sewer Then
-    GetRFile(SewerMap,Sewerfilename);
+    Begin
+    GetRFile(SewerMap, Sewerfilename);
+    if not CheckExtrema_RRaster(SewerMap, 0, 1) Then
+       raise EInputException.Create('Error in data input: SewerMap contains values out of range (0-1)');
+    end;
 
   If Not Simplified Then
     Begin
       GetRfile(CNmap, CNmapfilename);
+      if not CheckExtrema_RRaster(CNmap, 0, 100) Then
+         raise EInputException.Create('Error in data input: CN contains values out of range (0-100)');
     End;
+
   If not topo Then // als topo = false wordt de ploegrichting in rekening gebracht
     Begin
       GetGFile(TilDir, TilDirFilename);
+      if not CheckExtrema_GRaster(TilDir, 0, 360) Then
+         raise EInputException.Create('Error in data input: Tilage Direction contains values out of range (0-360)');
       GetGfile(Ro, RoFilename);
     End;
 
@@ -318,6 +351,9 @@ Begin
     Begin
          GetGFile(K_factor, K_Factor_filename);
          GetRFile(C_factor, Cf_Data_filename);
+         if not CheckExtrema_RRaster(C_factor, 0, 1) Then
+           raise EInputException.Create('Error in data input: C-factor contains values out of range (0-1)');
+
          If not calibrate Then
           If Create_ktc Then
             Create_ktc_map(ktc)
@@ -334,12 +370,10 @@ Begin
 
     end;
 
-
-
   //If buffers are taken into account the buffermap is loaded
   If Include_buffer Then
     Begin
-      GetGfile(BufferMap,Bufferfilename);
+      GetGfile(BufferMap, Bufferfilename);
       For i := 1 To nrow Do
         //The row and column of every buffer are stored in the record
         For j := 1 To ncol Do
@@ -396,7 +430,7 @@ Begin
         End;
       End;
 
-  writeGidrisi32file(ncol,nrow,datadir+'PTEFmap'+'.rst', PTEFmap);
+  writeSmallintFile(ncol,nrow,datadir+'PTEFmap'+ext, PTEFmap);
 
   //Check whether number of rows, number of columns and resolution are equal for all input maps
 If Not intArrayIsEqual(nrowAR) Then
@@ -622,7 +656,10 @@ Begin
   max_kernel_river := Inifile.ReadInteger('User Choices', 'Max kernel river', 100);
 
   adjusted_slope := inifile.ReadBool('User Choices', 'Adjusted Slope', false);
-  buffer_reduce_upstream_area := inifile.ReadBool('User Choices', 'Buffer reduce Area', false);
+
+  if include_buffer then
+     buffer_reduce_upstream_area := inifile.ReadBool('User Choices', 'Buffer reduce Area', false);
+
   force_routing := inifile.ReadBool('User Choices', 'Force Routing', false);
 
   river_routing := inifile.ReadBool('User Choices', 'River Routing', false);
@@ -666,7 +703,7 @@ Begin
   if not OnlyRouting then
     Begin
     ktil_Data_Filename := SetFileFromIni(Inifile, 'ktil map filename', datadir, (not Create_ktil and Calc_tileros));
-    Rainfallfilename := SetFileFromIni(Inifile, 'Rainfall filename', datadir, not use_rfactor);
+    Rainfallfilename := SetFileFromIni(Inifile, 'Rainfall filename', datadir, (not use_rfactor or not simplified));
     K_Factor_filename := SetFileFromIni(Inifile, 'K factor filename', datadir, True);
     Cf_data_filename := SetFileFromIni(Inifile, 'C factor map filename', datadir, True);
 
@@ -689,6 +726,8 @@ Begin
   Convert_output := Inifile.ReadBool('User Choices','Convert output',false);
 
   {Output maps}
+  Saga_Grids := Inifile.ReadBool('Output maps', 'Export .sgrd grids', false);
+  if saga_grids then ext:='.sdat' else ext:='.rst';
   Write_ASPECT := Inifile.ReadBool('Output maps','Write aspect',false);
   Write_LS := Inifile.ReadBool('Output maps','Write LS factor',false);
   Write_UPAREA := Inifile.ReadBool('Output maps','Write upstream area',false);
@@ -722,6 +761,14 @@ Begin
       End;
 
   {Variables}
+  if Use_Rfactor Then
+  Begin
+  If Not TryStrToFloat(Inifile.Readstring('Variables', 'R factor', Default),Rfactor) Then
+          raise EInputException.Create('Error in data input: R factor value missing or wrong data format');
+      Rfactor := Rfactor / 10000;
+  // in MJ.mm/m².h.year
+  end;
+
   If Not Simplified Then
     Begin
       If Not Use_RFactor Then
@@ -746,9 +793,6 @@ Begin
   Else
    If not OnlyRouting Then
     Begin
-      If Not TryStrToFloat(Inifile.Readstring('Variables', 'R factor', Default),Rfactor) Then
-          raise EInputException.Create('Error in data input: R factor value missing or wrong data format');
-
       If Not TryStrToInt(Inifile.Readstring('Variables', 'Bulk density', Default), BD) Then
           raise EInputException.Create('Error in data input: BD value missing or wrong data format');
     End;
@@ -794,6 +838,12 @@ Begin
        TFSED_crop) Then
       Begin
         raise EInputException.Create('Error in data input: Parcel connectivity cropland value missing or wrong data format')
+        ;
+      End;
+    If Not TryStrToInt(Inifile.Readstring('Variables', 'Parcel connectivity grasstrips', '100'),
+       TFSED_grasstrip) Then
+      Begin
+        raise EInputException.Create('Error in data input: Parcel connectivity grasstrips value missing or wrong data format')
         ;
       End;
    end;
@@ -928,9 +978,6 @@ Begin
       cal.steps:=Inifile.ReadInteger('Calibration', 'steps', 12);
     end;
 
-    If Use_Rfactor Then
-    Rfactor := Rfactor / 10000;
-  // in MJ.mm/m².h.year
 
   Inifile.Destroy;
 End;
@@ -1015,7 +1062,7 @@ Begin
 
   //Based on the .txt table and the land use map (which is being read in the main unit
   //the CN map is created
-  Setlength(CNmap,NrowPRC+1, NColPRC+1);
+  Setlength(CNmap.r,NrowPRC+1, NColPRC+1);
   //+1 because [0] is being used by Lazarus
   For i := 1 To nrowPRC Do
     For j := 1 To ncolPRC Do
@@ -1031,7 +1078,7 @@ Begin
       End;
 
   //The CN map is stored as an Idrisi map
-  writeidrisi32file(ncolPRC,nrowPRC,datadir+'\CNmap'+'.rst',CNmap);
+  writefloatfile(ncolPRC,nrowPRC,datadir+'\CNmap' + ext,CNmap);
   DisposeDynamicGData(M);
 End;
 
@@ -1059,7 +1106,7 @@ Begin
           ktil[i,j] := ktil_Default;
       End;
 
-  writeGidrisi32file(ncol,nrow,datadir+'ktilmap'+'.rst',ktil);
+  writeSmallintFile(ncol,nrow,datadir+'ktilmap'+ext,ktil);
 End;
 
 Procedure Create_ktc_map(Var ktc: RRaster);
@@ -1083,7 +1130,7 @@ Begin
           ktc[i,j] := 9999;
       End;
 
-  writeidrisi32file(ncol,nrow,datadir+'ktcmap'+'.rst',ktc);
+  writefloatfile(ncol,nrow,datadir+'ktcmap'+ext,ktc);
 End;
 
 // ***************************************************************************

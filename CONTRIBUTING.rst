@@ -44,6 +44,9 @@ articles, and such. Note that on every documentation page there is a small
 "edit on Github" link in the top right - if you catch small errors, please
 suggest improvements.
 
+Please note that all formulas and mathematical expressions must be written
+in the correct LaTeX-syntax in order to render correctly.
+
 Submit Feedback
 ~~~~~~~~~~~~~~~
 
@@ -54,8 +57,6 @@ If you are proposing a feature:
 
 * Explain in detail how it would work.
 * Keep the scope as narrow as possible, to make it easier to implement.
-* Remember that this is a volunteer-driven project, and that contributions
-  are welcome :)
 
 Get Started!
 ------------

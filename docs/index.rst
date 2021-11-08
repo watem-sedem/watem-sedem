@@ -13,11 +13,11 @@
    usage
    installation
    tutorial
-   inifile
    faq
    contributing
    changelog
    authors
+   contact
 
 Indices and tables
 ==================

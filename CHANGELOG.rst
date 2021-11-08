@@ -2,7 +2,12 @@
 Changelog
 =========
 
-latest
+Latest
+------
+
+- Add parcel connectivity grasstrips as a variable
+
+4.2.0
 ------
 
 - Extending documentation
@@ -12,9 +17,9 @@ latest
 
     - console version: CN_WSModel > cn_ws
     - gui version: CN_WS > cn_ws_gui
-    - LT verison: CN_WS_LongTerm > cn_ws_gui_LT
+    - LT version: CN_WS_LongTerm > cn_ws_gui_LT
 
-- Moved logic of lpr file to a seperate .pas file
+- Moved logic of lpr file to a separate .pas file
 - Remove spurious warnings when building the binary
 - remove VHA tag in files:
 
@@ -32,7 +37,15 @@ latest
     - sin --> tan in formula Van Oost et al., (2000)
     - use the same routing for tillage erosion as in the water erosion 
 - Add SEDTIL_IN and SEDTIL_OUT-files to output
-- Bugfix: do not overwrite determined routing for bufferpixels with standard routing
+- Bugfix: do not overwrite determined routing for buffer pixels with standard routing
+- Bugfix: reduce uparea from buffer outlet pixel when Buffer reduce area is enabled
+- Add file rfactor.txt to modeloutput when the rfactor is calculated from a rainfall timeseries
+- adjusting sewer routing CN to current sewer routing WS.
+- Enable option to input precomputed R-factor for a single event in CN-WS.
+- Make CN-WS compatible with SAGA-grids (new option).
+- Make integer rasters int32-compatible (requires Freepascal 3.2): this opens the option to run
+  larger catchments (with int16, the number of parcels are limited to 32768).
+- Correct calculation S-factor Desmet (use tan in stead of arctan)
 
 version 4.1.0
 -------------
@@ -59,7 +72,7 @@ https://www.vmm.be/water/kwaliteit-waterlopen/waterkwaliteitsmodellen/nemo_tw.pd
 )
 
 - Change type of parcel raster to integer
-- Overwrite the system decimal seperator to '.' cn_ws can now be used for both a
+- Overwrite the system decimal separator to '.' cn_ws can now be used for both a
   float comma and point decimal system
 - Add documentation with sphinx
 - Don't write Total Sediment.txt when calibrating
@@ -120,7 +133,7 @@ Version used for calibration with an updated version of the digital elevation
 model of Flanders (DHMVII).
 
 - Add calculation of cumulative river sediment
-- Don't write empty routing lines in routing.txt, use tab seperation
+- Don't write empty routing lines in routing.txt, use tab separation
 - Use proportion for upstream edges
 
 version 1.4.0
@@ -175,7 +188,7 @@ project'.
   a certain amount of steps and write output to calibration.txt)
 - add functionality to use different L (Desmet1996_Vanoost2003 and
   Desmet1996_McCool) and S models (Desmet1996, Nearing1997)
-- return non-zero on unsuccesful exit
+- return non-zero on unsuccessful exit
 - refactoring and cleaning code
 - amount of sediment at outlet is now calculated as sum of incoming sediment
   in the segment that contains the outlet

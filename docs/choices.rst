@@ -7,7 +7,7 @@ Model choices
 
 Most model choices are boolean options and are enabled in the .ini-file with
 '1' and disabled with '0'. Some options expect a string value. The possible
-strings are described together with the modeloption.
+strings are described together with the model option.
 
 Input
 *****
@@ -29,7 +29,7 @@ The L-model is calculated according to the work of Desmet and Govers (1996):
 
 with
  - :math:`A`: upstream area for every raster pixel (:math:`\text{m}^2`).
- - :math:`D`: grid resolution (m).
+ - :math:`D`: grid resolution :math:`(m)`.
  - :math:`m`: length exponent (-).
  - :math:`x`: factor incorporating the flow direction (-).
 
@@ -46,14 +46,14 @@ For the computation of :math:`m` two options exist:
 
 **Van Oost et al. 2003:**
 
-Van Oost et al. (2003) uses a different :math:`m` depending on the surface of
+Van Oost et al. (2003) uses an :math:`m` depending on the surface of
 the upstream area :math:`A`. If the upstream area is smaller than
 :math:`A_{ref}` = 10.000 ha, :math:`m` is calculated as
 
 .. math::
     m = 0.3 + (\frac{A}{A_{ref}})^c
 
-otherwise :math:`m` is set to 0.72.
+otherwise :math:`m` is set to 0.72. The value for c is hard coded as 0.8.
 
 The calculation method of Van Oost et al. (2003) can be chosen by setting
 the model choice *L model* to 'Desmet1996_Vanoost2003' in the .ini-file (mind the quotes):
@@ -66,7 +66,7 @@ This is the default value for this model option.
 
 **McCool et al. (1989):**
 
-McCool et al. (1989) calculate :math:`m` as:
+McCool et al. (1989) calculates :math:`m` as:
 
 .. math::
     m = \frac{\beta}{\beta + 1}
@@ -96,7 +96,7 @@ and is used in the calculation of :ref:`RUSLE <rusle>` and
 :ref:`transport capacity (TC) <TC>`.
 
 Both models are a function of :math:`\theta`: the inclination angle or slope
-(%). The computation of the inclincation angle is based on the four cardinal
+(%). The computation of the inclination angle is based on the four cardinal
 neighbouring pixels (Zevenbergen and Thorne, 1987).
 
 The two S-models are:
@@ -106,7 +106,7 @@ The two S-models are:
 .. math::
     S = -1,5+\frac{17}{1+e^{2,3-6.1.\sin{\theta}}}
 
-The method of Nearing (1997) can be activated in CNWS by setting
+The method of Nearing (1997) can be activated in CN-WS by setting
 *S model* to 'Nearing1997' in the ini-file (mind the quotes):
 
 .. code-block:: ini
@@ -125,14 +125,14 @@ McCool et al. (1987) distinguish two cases:
 is valid when:
 
 .. math::
-    100.arctan(\theta) < 9.0
+    100.tan(\theta) < 9.0
 
 otherwise, S is calculated as:
 
 .. math::
     S = (16.8.sin(\theta)) - 0.5
 
-The method of McCool et al. (1987) can be activated in CNWS by setting
+The method of McCool et al. (1987) can be activated in CN-WS by setting
 *S model* to 'McCool1987' in the ini-file (mind the quotes):
 
 .. code-block:: ini
@@ -152,14 +152,14 @@ method is the method proposed by Van Oost et al. (2000):
 
 with
 
-- :math:`kTC`: transport capacity coeffient (m)
+- :math:`kTC`: transport capacity coeffient :math:`(m)`
 - :math:`R`: :ref:`rain fall erosivity <rfactor>`
 - :math:`K`: :ref:`soil erobility factor <kfactor>`
 - :math:`LS`: :ref:`slope length and slope steepness factor <lsfactor>`
 - :math:`S_g`: local slope (:math:`\frac{\text{m}}{\text{m}}`)
 
-Most studies using WaTEM-SEDEM use the method of Van Oost et al. (2000). The
-method of Van Oost et al. (2000) can be activated in CNWS by setting
+Most studies using WaTEM/SEDEM use the method of Van Oost et al. (2000). The
+method of Van Oost et al. (2000) can be activated in CN-WS by setting
 *TC model* to 'VanOost2000' in the ini-file (mind the quotes):
 
 .. code-block:: ini
@@ -175,12 +175,12 @@ However, a second method, proposed by Verstraeten et al. (2007), also exists:
 
 with
 
-- :math:`A`: the upstream area (m²) of the pixel
+- :math:`A`: the upstream area :math:`(m^2)` of the pixel
 
 A detailed description and comparison of both TC models can be found in
 Verstraeten et al. (2007).
 
-The method of Verstraeten et al. (2007) can be activated in CNWS by setting
+The method of Verstraeten et al. (2007) can be activated in CN-WS by setting
 *TC model* to 'Verstraeten2007' in the ini-file (mind the quotes):
 
 .. code-block:: ini
@@ -192,7 +192,7 @@ Only Routing
 
 By enabling the Only Routing (`Only Routing = 1`) option, only the routing will
 be determined by CN-WS. No sediment calculations or discharge calculations are
-done: the WaTEM-SEDEM and CN modules are disabled. When using this option only
+done: the WaTEM/SEDEM and CN modules are disabled. When using this option only
 :ref:`a limited model output <onlyroutingoutput>` is possible.
 
 This option is usefull in large catchments to evaluate the routing without
@@ -203,18 +203,30 @@ calculating the sediment transport or discharges.
 Simple
 ######
 
-When the option 'Simple' is enabled, only WaTEM-SEDEM is used and the CN-model
-is disabled. By disabling Simple, you will use the full the CN-WS model.
+When the option 'Simple' is enabled, only WaTEM/SEDEM is used and the CN-model
+is disabled. By disabling Simple, you will use the complete CN-WS model.
 
-The user has to provide following input if this option is enabled:
+The user has to provide following minimal input if this option is enabled:
 
-- :ref:`digital elevation model <demmap>`
+- :ref:`digital elevation model <dtmmap>`
 - :ref:`P factor map <pmap>`
+- :ref:`K factor map <kmap>`
+- :ref:`C factor map <cmap>`
+- :ref:`R factor <rfactor_var>`
+- :ref:`ktc low <ktclow>`
+- :ref:`ktc high <ktchigh>`
+- :ref:`ktc limit <ktclimit>`
+- :ref:`parcel connectivity cropland <parcelconncrop>`
+- :ref:`parcel connectivity forest <parcelconnforest>`
+- :ref:`parcel trapping efficiency cropland <parceltrapppingcrop>`
+- :ref:`parcel trapping efficiency forest <parceltrappingforest>`
+- :ref:`parcel trapping efficiency pasture <parceltrappingpasture>`
 
-TO DO: extend this list!
+Additional or alternative inputs are possible based on the chosen
+model options.
 
-When you disable this option, you use the CN-module the following extra input is
-mandatory:
+When you disable this option, you use the CN-module and the following extra
+input is mandatory:
 
 - :ref:`alpha <alpha>`
 - :ref:`beta <beta>`
@@ -230,7 +242,9 @@ mandatory:
 Calculate tillage erosion
 #########################
 
-TO DO
+This option enables the tillage erosion model of Van Oost et al. (2000). We
+refer to :ref:`the dedicated section <tillageerosionmodel>` for more information
+about this model.
 
 .. _createktil:
 
@@ -238,13 +252,14 @@ Create ktil map
 ###############
 
 CN-WS is able to create a raster with ktil-factors. The ktil value is the
-transport capacity coeficient for tillage erosion. When `Creat ktil map = 1`,
+transport capacity coefficient for tillage erosion. When `Create ktil map = 1`,
 the model expects two input variables: :ref:`ktil default <ktildefault>` and
 :ref:`ktil threshold <ktilthres>`. The C-factor map will be reclassed by these
 values: C-factors higher than ktil threshold will get the value of ktil default,
 other pixels are set to zero. When `Create ktil map = 0` the user will have to
 make a ktil map himself. The model will expect the filename of this ktil map
-in :ref:`ktil map filename <ktilmap>`.
+in :ref:`ktil map filename <ktilmap>`. This option is only mandatory if
+:ref:`Calculate tillage erosion = 1 <calctileros>`
 
 .. _createktc:
 
@@ -275,7 +290,7 @@ The value of the pixel in the sewer map is checked when the amount of outgoing
 sediment in a pixel is calculated. This value is the fraction of water and
 sediment that is trapped in the sewer system via this pixel. The outgoing
 sediment of the pixel is reduced with this fraction. The amount of trapped
-sediment is written to output raster sewer_in.rst.
+sediment is written to the output raster :ref:`sewer_in.rst <sewerinrst>`.
 
 .. note::
     This option is fully tested for :ref:`simple=1 <simple>`, but it is not yet
@@ -291,16 +306,16 @@ called a buffer. These measures can be simulated in the model by enabling
 the Include buffers option. By enabling this option (`Include buffers = 1`)
 the :ref:`buffer map filename <buffermap>` becomes mandatory in the ini-file.
 In addition, the ini-file must contain the variable
-:ref:`number of buffers <nrbuffers>` and a seperate section for every buffer
+:ref:`number of buffers <nrbuffers>` and a separate section for every buffer
 in the buffer map. In every buffer section in the ini-file some variables must
 be given.
 
 The `Include buffers` option adjusts the routing in the pixels. Routing
-within in a buffer is defined from the pixels with a buffer extension id to
-one outlet pixel with a coupled buffer id (to the buffer extension id). The
+within a buffer is defined from the pixels with a buffer extension id to
+one outlet pixel with a buffer id coupled to the buffer extension id. The
 amount of sediment that flows out of the outlet pixel to downstream pixels is
 reduced with the trapping efficiency of the buffer. The definitions of buffer
-extension id, buffer id and trapping efficiency are explained at the
+extension id, buffer id and trapping efficiency are explained in the
 :ref:`buffer data section <bufferdata>`.
 
 .. _bufferreduce:
@@ -308,10 +323,8 @@ extension id, buffer id and trapping efficiency are explained at the
 Buffer reduce area
 ##################
 
-This options (boolean) allows to reduce the upstream area for the buffer with the efficiency of the buffer (see :ref:`buffer data section <bufferdata>`)
-
-.. note::
-    This option is not fully operational.
+This option (boolean) allows to reduce the upstream area downstream of a buffer
+with the efficiency of the buffer (see :ref:`buffer data section <bufferdata>`)
 
 .. _includeditches:
 
@@ -319,13 +332,14 @@ Include ditches
 ###############
 
 Ditches alter the routing. The sediment and water will follow the course of a
-ditch in stead of along the steepest slope. When this option is enabled
+ditch instead of the steepest slope. When this option is enabled
 (`Include ditches = 1`), :ref:`a raster with information about the direction
 <ditchmap>` is mandatory.
 
-The model sets the :ref:`C-factor <cfactor>` at every ditch pixel tot 0.01.
+The model sets the :ref:`C-factor <cfactor>` at every ditch pixel tot 0.01,
+assuming that the ditch is covered with grass.
 Thus, it overwrites the value of the pixel in the :ref:`C-factor raster <cmap>`.
-The ktc value of the pixel is set to :ref:`ktc low <ktclow>`.
+The ktc value of the pixel is set to 9999.
 
 .. _includedams:
 
@@ -333,13 +347,13 @@ Include dams
 ############
 
 Dams alter the routing in the same way as ditches. The sediment and water will
-follow the course of a dam in stead of along the steepest slope. When this
+follow the course of a dam instead of the steepest slope. When this
 option is enabled (`Include dams = 1`), :ref:`a raster with information about
 the direction <dammap>` is mandatory.
 
 The model sets the C-factor at every dam pixel to 0. Thus, it overwrites
 the value of the pixel in the :ref:`C-factor raster <cmap>`.
-The ktc value of the pixel is set to -9999.
+The ktc value of the pixel is set to :ref:`ktc low <ktclow>`.
 
 .. _forcerouting:
 
@@ -347,13 +361,13 @@ Force Routing
 #############
 
 When the routing based on the built-in rules of the model is not correct (e.g.
-in the neighbourhood of infrastructure) the user has the possibility to impose
+in the neighbourhood of infrastructure), the user has the possibility to impose
 the routing. This is done by enabling the Force Routing option. With force
 routing the routing algorithm will use the routing imposed by the user instead
 of the digital elevation model.
 
 When `Force Routing = 1` the user will have to provide additional input: the
-variable `number of force routing` and a seperate section for every routing
+variable `number of force routing` and a separate section for every routing
 vector the user wants to add. `Number of force routing` contains an integer
 value with the amount of routing vectors that are imposed by the user.
 
@@ -415,9 +429,9 @@ Following input-files are required when `Include tillage direction = 1`:
 Adjusted Slope
 ##############
 
-Normally, the slope of a pixel is determined by the algoritm of Zevenbergen and
+Normally, the slope of a pixel is determined by the algorithm of Zevenbergen and
 Thorne (1987) on the four neighbouring, cardinal cells.
-This procedure works good in areas where the routing is solely based on on the
+This procedure works good in areas where the routing is solely based on the
 digital elevation model. In areas where the routing is imposed by other rules
 (e.g. at parcel boundaries, in buffers,...) the slope of the direction in the
 routing can be different than the calculated slope by Zevenbergen and
@@ -435,7 +449,7 @@ When using the full CN-WS model (i.e. :ref:`simple=0 <simple>`), it is possible
 to estimate the clay content at every outlet and in every river
 segment (the latter only when :ref:`output per river segment <outputsegment>`
 is enabled). To do this (`Estimate clay content = 1` in the ini-file), the
-user additionaly needs to define the
+user additionally needs to define the
 :ref:`clay content of the parent material <claycontent>`
 (:math:`CC_{text{parent}}`).
 
@@ -444,9 +458,9 @@ First, the enrichment factor :math:`EF` for clay is calculated:
 .. math::
     EF = 1 + 0.7732.\exp^{-0.0508.SC}
 
-where :math:`SC` is the sediment concentration (g/l).
+where :math:`SC` is the sediment concentration :math:`(g/l)`.
 
-The estimated clay content :math:`CC` (%) for an outlet or segment is calculated
+The estimated clay content :math:`CC` :math:`(%)` for an outlet or segment is calculated
 as a function of :math:`EF` and :math:`CC_{text{parent}}`:
 
 .. math::
@@ -471,7 +485,7 @@ Both the ktc_high-factor as the ktc_low-factor are varied in an amount of steps
 between a lower and upper value. For every combination of ktc-factors where
 ktc_high > ktc_low, the model will make a calculation and write the results to a
 :ref:`Calibration file <calibrationtxt>`.
-A more detailed explaination about how and why to calibrate can ben found
+A more detailed explanation about how and why to calibrate can be found
 :ref:`here <calibration>`
 
 .. _outputsegment:
@@ -496,13 +510,6 @@ When this option is enabled, following output is written:
 - :ref:`Sediment concentration segments.txt <sedconcensegment>`
 - :ref:`Sediment_segments.txt <sedsegmenttxt>`
 
-.. note::
-
-The CN-WS model was further optimized from 2016 to define river
-segments in the context of of Flanders water management. Therefore, the
-segments in CN-WS for Flanders are defined by the `Vlaams Hydrologische Atlas`
-(VHA).
-
 .. _manualoutlet:
 
 Manual outlet selection
@@ -519,7 +526,7 @@ file.
 use r factor
 ############
 
-WaTEM-SEDEM requires an :ref:`R-factor <rfactor>` for the RUSLE calculation.
+WaTEM/SEDEM requires an :ref:`R-factor <rfactor>` for the RUSLE calculation.
 When `Use R factor = 1`, the user will have to define the
 :ref:`R factor <rfactor_var>` himself.
 
@@ -528,13 +535,25 @@ This R-factor represents the erosivity of the rainfall event that is simulated
 by the model. To use this option, the user has to set `Use R factor = 0` and
 must define the :ref:`rainfall file <rainfallfile>`.
 
-(TO DO: add information about how R-factor is calculated?)
+.. note::
+
+In the newest version, users can input a precalculated value for the R-factor
+(i.e. `Use R factor = 1`) in CN-WS. In this case, no R-factor from a
+timeseries is calculated.
+
+.. _outputchoices:
 
 Output
 ******
 
 The user has the option to generate extra output by defining following keys in
 the [Output maps]-section of the .ini-file.
+
+Saga_Grids
+**********
+
+(bool, default false): write output rasters as Saga Grids. If false, Idrisi
+rasters are written.
 
 .. _writeaspect:
 
@@ -609,6 +628,7 @@ write rainfall exces
 (bool, default false): writes :ref:`Remap.rst <remaprst>`
 
 .. _writetotalrunoff:
+
 write total runoff
 ##################
 

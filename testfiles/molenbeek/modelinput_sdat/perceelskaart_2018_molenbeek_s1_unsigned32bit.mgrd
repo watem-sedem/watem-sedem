@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SAGA_METADATA>
+  <DATABASE></DATABASE>
+  <SOURCE></SOURCE>
+  <HISTORY saga-version="7.4.0">
+    <TOOL library="grid_tools" id="11" name="Change Data Storage">
+      <OPTION type="grid_system" id="PARAMETERS_GRID_SYSTEM" name="Grid system">
+        <CELLSIZE>20</CELLSIZE>
+        <XMIN>201630</XMIN>
+        <XMAX>207490</XMAX>
+        <YMIN>153890</YMIN>
+        <YMAX>164050</YMAX>
+      </OPTION>
+      <OPTION type="choice" id="TYPE" name="Data storage type" index="5">unsigned 4 byte integer</OPTION>
+      <OPTION type="double" id="OFFSET" name="Offset">0.000000</OPTION>
+      <OPTION type="double" id="SCALE" name="Scale">1.000000</OPTION>
+      <INPUT type="grid" id="INPUT" name="Grid" system="PARAMETERS_GRID_SYSTEM">
+        <FILE>/home/johan/git/cn_ws/testfiles/molenbeek/modelinput_sdat/perceelskaart_2018_molenbeek_s1_signed32bit.sgrd</FILE>
+      </INPUT>
+      <OUTPUT type="grid" id="OUTPUT" name="Converted Grid">Converted Grid</OUTPUT>
+    </TOOL>
+  </HISTORY>
+  <FILE>/home/johan/git/cn_ws/testfiles/molenbeek/modelinput_sdat/perceelskaart_2018_molenbeek_s1_signed32bit.sgrd</FILE>
+  <DESCRIPTION></DESCRIPTION>
+</SAGA_METADATA>
