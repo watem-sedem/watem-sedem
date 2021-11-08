@@ -5,7 +5,7 @@ name: cn_ws linux build + tests
 
 steps:
   - name: build linux
-    image: registry.fluves.net/drone/cn_ws/debian11-build
+    image: registry.fluves.net/drone/cn_ws/conda
     environment:
     commands:
       - git fetch --tags

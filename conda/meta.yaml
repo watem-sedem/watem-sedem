@@ -1,6 +1,6 @@
 package:
   name: cn_ws
-  version: "20200924"
+  version: "master"
 
 source:
   git_rev: master
