@@ -16,6 +16,7 @@ steps:
     commands:
       - testfiles/test.sh
 
+
   - name: get CNWS-processing repo for tests
     image: docker:git
     commands:
@@ -30,7 +31,12 @@ steps:
       - pytest testfiles
     environment:
       PYTHONPATH: CNWS-processing-scripts/pycnws/src
+---
+kind: pipeline
+type: docker
+name: Build conda package (linux)
 
+steps:
   - name: build conda package
     image: registry.fluves.net/drone/cn_ws/conda
     environment:
@@ -38,7 +44,8 @@ steps:
     commands:
     - perl -pe 's/\$([_A-Z]+)/$ENV{$1}/g' <conda/meta.yaml.in >conda/meta.yaml
     - conda build .
-    - ls /opt/conda/conda-bld/linux-64/cn_ws*
+    - conda index /opt/conda/conda-bld
+    - ls -R /opt/conda/conda-bld/
       # builds /opt/conda/conda-bld/linux-64/cn_ws-<version>-<buildnr>.tar.bz2
   
   - name: upload conda package to S3
@@ -48,14 +55,17 @@ steps:
       secret_key:
         from_secret: conda_secret_key
       bucket: conda
-      source: /opt/conda/conda-bld/linux-64/*.bz2
+      source: /opt/conda/conda-bld/**/*
       target: /linux-64/
       path_style: true
       endpoint: https://minio.fluves.net
-    when:
-      event:
-      - tag
-
+      exclude:
+        - git_cache
+    cmd:
+      - return 100
+        #  when:
+        #    event:
+        #    - tag
 ---
 kind: pipeline
 type: docker
