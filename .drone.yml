@@ -47,8 +47,8 @@ steps:
       secret_key:
         from_secret: conda_secret_key
       bucket: conda
-      source: /opt/conda/conda-bld/*
-      target: /
+      source: /opt/conda/conda-bld/linux-64/*.bz2
+      target: /linux-64/
       path_style: true
       endpoint: https://minio.fluves.net
     when:
