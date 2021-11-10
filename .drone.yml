@@ -43,24 +43,23 @@ steps:
       GIT_LFS_SKIP_SMUDGE: 1 # due to a bug in conda: https://github.com/conda/conda-build/issues/1462
     commands:
     - perl -pe 's/\$([_A-Z]+)/$ENV{$1}/g' <conda/meta.yaml.in >conda/meta.yaml
-    - conda build .
-    - conda index /opt/conda/conda-bld
-    - ls -R /opt/conda/conda-bld/
+    - mkdir conda_build
+    - conda build . --output-folder conda_build
+    - conda index conda_build
+    - ls -R conda_build
       # builds /opt/conda/conda-bld/linux-64/cn_ws-<version>-<buildnr>.tar.bz2
   
   - name: upload conda package to S3
-    image: plugins/s3
+    image: plugins/s3-sync
     settings:
       access_key: conda
       secret_key:
         from_secret: conda_secret_key
       bucket: conda
-      source: /opt/conda/conda-bld/linux-64/*
-      target: /linux-64/
+      source: conda_build/
+      target: /
       path_style: true
       endpoint: https://minio.fluves.net
-      exclude:
-        - git_cache
         #  when:
         #    event:
         #    - tag
@@ -76,8 +75,6 @@ steps:
       GPG_KEY:
          from_secret: gpg-key
       DEBFULLNAME: "Fluves Drone CI"
-      DEBEMAIL: donotreply@fluves.net
-    commands:
       - gbp dch --snapshot --ignore-branch --snapshot-number=$DRONE_BUILD_NUMBER
       - debuild -b
       - mkdir package
