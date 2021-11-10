@@ -47,16 +47,15 @@ steps:
     - conda build . --output-folder conda_build
     - conda index conda_build
     - ls -R conda_build
-      # builds /opt/conda/conda-bld/linux-64/cn_ws-<version>-<buildnr>.tar.bz2
   
   - name: upload conda package to S3
-    image: plugins/s3-sync
+    image: plugins/s3
     settings:
       access_key: conda
       secret_key:
         from_secret: conda_secret_key
       bucket: conda
-      source: conda_build/
+      source: conda_build/**/*
       target: /
       path_style: true
       endpoint: https://minio.fluves.net
@@ -75,6 +74,8 @@ steps:
       GPG_KEY:
          from_secret: gpg-key
       DEBFULLNAME: "Fluves Drone CI"
+      DEBEMAIL: donotreply@fluves.net
+    commands:
       - gbp dch --snapshot --ignore-branch --snapshot-number=$DRONE_BUILD_NUMBER
       - debuild -b
       - mkdir package
