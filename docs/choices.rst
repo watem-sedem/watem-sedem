@@ -283,13 +283,14 @@ Include sewers
 ##############
 
 When the include sewers-option is enabled (`Include sewers = 1`), the user
-will have to provide two
-additional inputs: `sewer map filename` and `sewer exit`.
+will have to provide two additional inputs:
+`sewer map filename <sewermapfile>` and `sewer exit <sewerexit>`.
 
 The value of the pixel in the sewer map is checked when the amount of outgoing
 sediment in a pixel is calculated. This value is the fraction of water and
 sediment that is trapped in the sewer system via this pixel. The outgoing
-sediment of the pixel is reduced with this fraction. The amount of trapped
+sediment of the pixel and the uparea of the target pixels is reduced with this
+fraction. The amount of trapped
 sediment is written to the output raster :ref:`sewer_in.rst <sewerinrst>`.
 
 .. note::
