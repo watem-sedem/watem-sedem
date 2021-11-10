@@ -55,14 +55,12 @@ steps:
       secret_key:
         from_secret: conda_secret_key
       bucket: conda
-      source: /opt/conda/conda-bld/**/*
+      source: /opt/conda/conda-bld/linux-64/*
       target: /linux-64/
       path_style: true
       endpoint: https://minio.fluves.net
       exclude:
         - git_cache
-    cmd:
-      - return 100
         #  when:
         #    event:
         #    - tag
