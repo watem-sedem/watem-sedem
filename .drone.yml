@@ -38,6 +38,7 @@ steps:
     commands:
     - perl -pe 's/\$([_A-Z]+)/$ENV{$1}/g' <conda/meta.yaml.in >conda/meta.yaml
     - conda build .
+    - ls /opt/conda/conda-bld/linux-64/cn_ws*
       # builds /opt/conda/conda-bld/linux-64/cn_ws-<version>-<buildnr>.tar.bz2
   
   - name: upload conda package to S3
