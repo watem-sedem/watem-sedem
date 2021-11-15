@@ -11,6 +11,10 @@ These parts are described in the following chapters. The part CN-WS describes th
 combination of the three parts and is followed by an overview of the formulas
 and units.
 
+.. note::
+    CN-WS is an extended version of WaTEM/SEDEM. The Curve Number model within
+    CN-WS can be used as an extension on calculations with WaTEM/SEDEM. 
+
 .. toctree::
   
   watem-sedem
