@@ -575,7 +575,7 @@ ktil threshold is only mandatory when :ref:`Create ktil map = 1 <createktil>`.
 Parcel connectivity cropland
 ****************************
 
-The parcel connectivity cropland expresses the reduction of the upstream are
+The parcel connectivity cropland expresses the reduction of the upstream area
 at a parcel boundary. It is an integer value between 0 and 100. The reduction
 on the upstream area is applied when the target pixel is of the land cover
 'cropland'.
@@ -585,12 +585,27 @@ on the upstream area is applied when the target pixel is of the land cover
       A_{pixel} =  A_{pixel}\frac{connectivity_{cropland}}{100}
 
 
+.. _parcelconngras:
+
+Parcel connectivity grasstrips
+******************************
+
+The parcel connectivity grasstrips expresses the reduction of the upstream area
+at boundary between a parcel and a grasstrip. It is an integer value between 0 
+and 100. The reduction on the upstream area is applied when the target pixel is 
+of the land cover 'grasstrip' (-6). The default value for this parameter is 100.
+
+.. math::
+
+      A_{pixel} =  A_{pixel}\frac{connectivity_{grasstrip}}{100}
+
+
 .. _parcelconnforest:
 
 Parcel connectivity forest
 **************************
 
-The parcel connectivity cropland expresses the reduction of the upstream are
+The parcel connectivity cropland expresses the reduction of the upstream area
 at a boundary of a forest. It is an integer value between 0 and 100. The
 reduction on the upstream area is applied when the target pixel is of the
 land cover 'forest':
