@@ -956,7 +956,7 @@ Begin
                   If (PRC[i+k2,j+l2] = -6) Then
                     // If the target cell is a grass buffer strip it receives everything
                     Begin
-                      part2 := 1.0
+                      part2 := 1.0;
 
                    // In the distributionflux_LS procedure this is corrected for parcel connectivity
                       part1 := 0;
