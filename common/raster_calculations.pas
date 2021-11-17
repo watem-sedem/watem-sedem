@@ -776,11 +776,6 @@ Begin
 
       End;
 
-  If closeriver or closeditchdam Then
-
-  begin
-  //Voor pixels die aan een rivierpixel grenzen: neem de laagste riviercel
-
    If closeriver then
     Begin
       extremum := 99999.9;
@@ -835,8 +830,6 @@ Begin
           exit;
          end;
      end;
-
-  end;
 
 
       PART1 := 0.0;
