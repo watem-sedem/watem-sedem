@@ -200,11 +200,11 @@ calculating the sediment transport or discharges.
 
 .. _simple:
 
-Simple
-######
+Only WS
+#######
 
-When the option 'Simple' is enabled, only WaTEM/SEDEM is used and the CN-model
-is disabled. By disabling Simple, you will use the complete CN-WS model.
+When the option 'Only WS' is enabled, only WaTEM/SEDEM is used and the CN-model
+is disabled. By disabling 'Only WS', you will use the complete CN-WS model.
 
 The user has to provide following minimal input if this option is enabled:
 
