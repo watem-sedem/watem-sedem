@@ -96,8 +96,6 @@ source pixel. This amount can be used to weight the sediment load per
 pixel (WS), the direct run-off depth (CN) and upstream area (CN/WS) for each
 target pixel.
 
-TO DO: flow chart directions
-
 In the next step, the flow directions and weights (cardinal space)
 are adjusted according to elevation and land cover, as shown in the scheme
 below:
@@ -105,7 +103,8 @@ below:
 .. figure:: _static/png/sketch_flow_algorithm.png
     :align: center
 
-    Flow-chart of the routing algorithm in CN-WS
+    Flow-chart of the routing algorithm in CN-WS - adjusting routing according
+    to elevation and land cover.
 
 In this figure, the `Flow(target1)` or `Flow(target2)` tag indicate that
 routing will follow strictly the path of the first or second cardinal flow
@@ -117,7 +116,8 @@ to a single target further than its vicinity. Jumps are defined
 within a window :math:`W`. This occurs when a source is located in a local
 elevation minimum. An important note is that the routing will always jump to
 the closest river in :math:`W` if a river pixel is present in the window
-:math:`W`.
+:math:`W`. This window :math:`W` can be defined in the ini-file with the
+:ref:`kernel - variable <maxkernel>`.
 
 In the sketch, three features of the source pixel and two target pixels are accounted
 for to define a rule-bank for the routing direction: the height, the land cover
