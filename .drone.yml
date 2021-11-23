@@ -42,7 +42,6 @@ steps:
     environment:
       GIT_LFS_SKIP_SMUDGE: 1 # due to a bug in conda: https://github.com/conda/conda-build/issues/1462
     commands:
-    - perl -pe 's/\$([_A-Z]+)/$ENV{$1}/g' <conda/meta.yaml.in >conda/meta.yaml
     - mkdir conda_build
     - conda build . --output-folder conda_build
     - conda index conda_build
@@ -193,6 +192,24 @@ steps:
     image: registry.fluves.net/drone/cn_ws/lazarus-windows
     commands:
       - .\testfiles\test.bat
+  - name: build conda package
+    image: registry.fluves.net/drone/cn_ws/windows-conda
+    commands:
+      - conda build
+
+  - name: upload conda package
+    image: plugins/s3-sync:windows-amd64
+    settings:
+      access_key: conda
+      secret_key:
+        from_secret: conda_secret_key
+      bucket: conda
+      source: conda_build/**/*
+      target: /
+      path_style: true
+      endpoint: https://minio.fluves.net
+
+
 
 ---
 kind: pipeline

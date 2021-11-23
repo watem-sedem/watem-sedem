@@ -1,0 +1,89 @@
+FROM mcr.microsoft.com/windows/servercore:ltsc2019
+# builds registry.fluves.net/drone/cn_ws/windows-conda
+LABEL maintainer=johan@fluves.com
+
+WORKDIR C:/Users/Administrator
+# Specifying the user like this could, theoretically,
+# fix some of the installation/menu problems
+# USER Administrator
+
+# Some installers return an exit code after launching sucessfully,
+# not after completing sucessfully.
+# The `| more` idiom makes cmd wait for the command to finish.
+# The `| Write-Output` idiom in powershell does the same thing in powershell.
+
+# This shows how miniconda can be downloaded and installed
+# once the normal installer works properly in a container.
+# Get and install the latest miniconda3 installer.
+# Run clean after install to eliminate unneeded tarballs.
+RUN powershell -Command " \
+    $url = \"https://repo.continuum.io/miniconda/Miniconda3-latest-Windows-x86_64.exe\"; \
+    $client = new-object System.Net.WebClient; \
+    $client.DownloadFile( $url, \"miniconda3.exe\"); \
+    ./miniconda3.exe /S /D=C:\Users\Administrator\miniconda3 | Write-Output; \
+    del miniconda3.exe; \
+    ./miniconda3/Scripts/conda clean --all -y; \
+    "
+
+# Download and install MSVC Build tools 2015
+# Sleep for a little bit after the command finishes running
+# in case the antivirus is still holding a file handle to the
+# installer. Otherwise intermittent failures to delete the
+# executable occur.
+RUN powershell -Command " \
+    $url = \"http://go.microsoft.com/fwlink/?LinkId=691126\"; \
+    $client = new-object System.Net.WebClient; \
+    $client.DownloadFile( $url, \"msvc_build_tools.exe\"); \
+    ./msvc_build_tools.exe /full /q | Write-Output; \
+    Start-Sleep -s 20; \
+    del msvc_build_tools.exe; \
+    "
+
+# What the install command for MSVC build tools would look like with logging enabled:
+# RUN msvc_build_tools.exe /full /q /l msvc_build_tools_log.txt | more
+
+# Download and install 7zip.
+# This is generally useful, though it probably
+# could be made into a conda package at some point.
+RUN powershell -Command " \
+    $url = \"http://www.7-zip.org/a/7z1514-x64.exe\"; \
+    $client = new-object System.Net.WebClient; \
+    $client.DownloadFile( $url, \"7zip_15_14.exe\"); \
+    ./7zip_15_14.exe /S | Write-Output; \
+    del 7zip_15_14.exe; \
+    "
+
+# Download and install Dependency Walker.
+# Use 7-zip to unzip the dependency walker folder.
+# This is useful for debugging any issues that come up.
+RUN powershell -Command " \
+    $url = \"http://www.dependencywalker.com/depends22_x64.zip\"; \
+    $client = new-object System.Net.WebClient; \
+    $client.DownloadFile( $url, \"dependency_walker.zip\"); \
+    & \"C:/Program Files/7-zip/7z.exe\" x dependency_walker.zip \"*.*\" -odependency_walker -y -r | Write-Output; \
+    del dependency_walker.zip; \
+    "
+
+# Install Chocolatey
+# Some packages fail to install inside a docker container,
+# but it seems worthwhile to have it there anyway.
+RUN powershell -NoProfile -ExecutionPolicy Bypass -Command "iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))"
+
+# Appending to the existing path wasn't working in the Dockerfile,
+# So set the full system path here. The first part is the default.
+# The last bit is the part added in this Dockerfile.
+ENV PATH=C:\\Windows\\system32;C:\\Windows;C:\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0;C:\\Users\\Administrator\\miniconda3;C:\\Users\\Administrator\\miniconda3\\Scripts;C:\\Users\\Administrator\\miniconda3\\Library\\bin;C:\\ProgramData\\chocolatey\\bin;C:\\Program\ Files\\7-zip;C:\\Users\\Administrator\\dependency_walker
+
+# Configure conda so that the -y flag isn't needed everywhere.
+RUN conda config --set always_yes true && conda config --set anaconda_upload false
+
+# Configure chocolatey so that the -y flag isn't needed everywhere.
+RUN chocolatey feature enable -n allowGlobalConfirmation
+
+# Likely due to the same issue as the installer fail, the menus don't
+# install properly, so we need to guard against the command stopping
+# docker from finishing building the Dockerfile.
+RUN powershell -Command " \
+    conda install conda-build git; \
+    conda clean --all; \
+    "

@@ -1,13 +1,15 @@
 package:
   name: cn_ws
-  version: "master"
+  version: {{ GIT_DESCRIBE_TAG }}
 
 source:
   git_rev: master
   git_url: https://git.fluves.net/fluves/cn_ws.git
 
 build:
- number: 0
+ number: {{ DRONE_BUILD_NUMBER }}
+ script_env:
+   - DRONE_BUILD_NUMBER
 
 requirements:
   build:
