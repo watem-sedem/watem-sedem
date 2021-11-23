@@ -198,7 +198,7 @@ steps:
     image: registry.fluves.net/drone/cn_ws/windows-conda
     commands:
       - dir
-      - echo %DRONE_NETRC_FILE% > _netrc
+      - git config --system --unset credential.helper
       - conda build conda --output-folder conda_build
 
   - name: upload conda package
