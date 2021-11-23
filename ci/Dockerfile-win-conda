@@ -84,6 +84,6 @@ RUN chocolatey feature enable -n allowGlobalConfirmation
 # install properly, so we need to guard against the command stopping
 # docker from finishing building the Dockerfile.
 RUN powershell -Command " \
-    conda install conda-build git; \
+    conda install conda-build git conda==4.10.3; \
     conda clean --all; \
     "
