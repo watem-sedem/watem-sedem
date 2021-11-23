@@ -87,3 +87,6 @@ RUN powershell -Command " \
     conda install conda-build git conda==4.10.3; \
     conda clean --all; \
     "
+
+# lazarus is required for building
+COPY --from=registry.fluves.net/drone/cn_ws/lazarus-windows ["/lazarus", "/lazarus"]
