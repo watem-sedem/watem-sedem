@@ -193,9 +193,11 @@ steps:
     commands:
       - .\testfiles\test.bat
   - name: build conda package
+    environment:
+      GIT_LFS_SKIP_SMUDGE: 1 # due to a bug in conda: https://github.com/conda/conda-build/issues/1462
     image: registry.fluves.net/drone/cn_ws/windows-conda
     commands:
-      - conda build
+      - conda build conda --output-folder conda_build
 
   - name: upload conda package
     image: plugins/s3-sync:windows-amd64
