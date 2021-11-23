@@ -197,6 +197,8 @@ steps:
       GIT_LFS_SKIP_SMUDGE: 1 # due to a bug in conda: https://github.com/conda/conda-build/issues/1462
     image: registry.fluves.net/drone/cn_ws/windows-conda
     commands:
+      - dir
+      - echo %DRONE_NETRC_FILE% > _netrc
       - conda build conda --output-folder conda_build
 
   - name: upload conda package
