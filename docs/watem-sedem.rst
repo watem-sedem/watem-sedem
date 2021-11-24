@@ -19,7 +19,7 @@ and :ref:`transport capacity <TC>` :math:`TC`
 are calculated for every pixel in the model domain. Next, the model iterates
 over all pixels according to the order determined by the routing algorithm.
 During the iteration, the outgoing sediment for every pixel is calculated by
-comparing the the total available sediment in the cell :math:`S_A` (incoming
+comparing the total available sediment in the cell :math:`S_A` (incoming
 sediment, :math:`S_i` + :math:`E`) with the transport capacity.
 
 Two cases exist:
