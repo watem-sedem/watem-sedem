@@ -46,37 +46,41 @@ flow charts as an illustration.
 The first step of the routing algorithm is to sort all pixels in the raster from
 high to low, based on the :ref:`digital elevation model <dtmmap>`. Next, the
 algorithm loops over all pixels, starting from the highest pixel.
-If the landcover of a pixel has value 0, it is skipped and no routing
+If the landcover of a pixel has a value of 0, it is skipped and no routing
 is calculated for this pixel.
 If the pixel is a river pixel and the river routing option is enabled
-(see :ref:`here <riverrouting>`), the algorithm will use the user defined
-routing in the rivers. For all other pixels the default routing algorithm is
-used. After the calculation of the routing by the default routing algorithm,
-the routing can still be altered by the user if the
-:ref:`Forced Routing <forcerouting>`-option was enabled in the ini-file.
+(see :ref:`here <riverrouting>`), the algorithm will use the user-defined
+routing in the rivers. If the pixel is a river pixel and the river routing is
+not enabled, than no river routing is calculated. If the pixel is not a river
+pixel (land pixel), the default routing algorithm is used.
+If the user enables the :ref:`Forced Routing <forcerouting>-option` in the
+ini-file, the calculation of the routing by the default routing algorithm is
+altered by the user-defined routing. Thus, this user-defined routing will
+overrule the rulebank of the routing algorithm.
 
 Default routing algorithm
 *************************
 
 The default routing algorithm is used for every pixel in the model except for
-river pixels if the :ref:`river routing option <riverrouting>` is enabled and
-pixels outside the model domain (i.e. where the landuse has value 0).
+river pixels (if the :ref:`river routing option <riverrouting>` is enabled) and
+for pixels outside the model domain (i.e. where the landuse has value 0).
 
-The first part of the routing algorithm is a check if the routing of a
+In the first part of the routing algorithm it is checked if the routing of a
 considered pixel is determined by a buffer, ditch or dam or if the pixel is
-adjactant to a river, ditch or dam. This part of the algorithm is illustrated in
+adjacent to a river, ditch or dam. This part of the algorithm is illustrated in
 the figure below. It can be seen in this diagram that if the pixel is a ditch,
-dam or adjactant to a ditch, dam or river there is only one target pixel.
+dam or adjacent to a ditch, dam or river than there is only one target pixel.
 
 .. figure:: _static/png/flow_algorithm_part1.png
     :align: center
 
-    Flow-chart of the routing algorithm in CN-WS - first steps in the algorithm
+    Flow-chart of the routing algorithm in CN-WS describing first steps in the
+    algorithm
 
 We refer to the :ref:`section on routing maps <routingmap>` for a complete
 description on target selection for ditches and dams.
 
-If a buffer pixel is considered two cases exist:
+If the source pixel is a buffer pixel than two cases are defined::
 - the considered pixel has a buffer_id. This is the outlet pixel of the buffer.
   the default routing algorithm is used on this pixel
 - the considered pixel has a buffer extenstion id. In this case there is only
