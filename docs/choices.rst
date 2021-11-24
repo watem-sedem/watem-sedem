@@ -436,7 +436,7 @@ This procedure works good in areas where the routing is solely based on the
 digital elevation model. In areas where the routing is imposed by other rules
 (e.g. at parcel boundaries, in buffers,...) the slope of the direction in the
 routing can be different than the calculated slope by Zevenbergen and
-Thorne (1987). The Adjusted Slope-option gives the user the ability to correct
+Thorne (1987). The *Adjusted Slope*-option gives the user the ability to correct
 the slope if the imposed routing targets a single cell instead of two cells.
 In this case the slope can be calculated by dividing the
 absolute value of the height difference between the source and target pixel,
