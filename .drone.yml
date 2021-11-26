@@ -198,11 +198,9 @@ steps:
       GIT_LFS_SKIP_SMUDGE: 1 # due to a bug in conda: https://github.com/conda/conda-build/issues/1462
     image: registry.fluves.net/drone/cn_ws/windows-conda
     commands:
-      # - cat c:/users/ContainerAdministrator/_netrc
       - get-content c:/users/ContainerAdministrator/_netrc | out-file -encoding ASCII c:/users/ContainerAdministrator/_netrc_ascii
       - del c:/users/ContainerAdministrator/_netrc
       - mv c:/users/ContainerAdministrator/_netrc_ascii c:/users/ContainerAdministrator/_netrc
-      - cat c:/users/ContainerAdministrator/_netrc
       - conda build conda --output-folder conda_build
 
   - name: upload conda package
