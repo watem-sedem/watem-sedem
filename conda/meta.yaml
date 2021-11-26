@@ -4,11 +4,13 @@ package:
 
 source:
   git_url: https://git.fluves.net/fluves/cn_ws.git
+  git_rev: {{ DRONE_COMMIT_SHA }}
 
 build:
  number: {{ DRONE_BUILD_NUMBER }}
  script_env:
-   - DRONE_BUILD_NUMBER=0
+   - DRONE_BUILD_NUMBER
+   - DRONE_COMMIT_SHA
 
 requirements:
   build:
