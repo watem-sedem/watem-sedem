@@ -54,10 +54,11 @@ steps:
       secret_key:
         from_secret: conda_secret_key
       bucket: conda
-      source: conda_build/**/*
+      source: conda_build/**/*.bz2
       target: /
       path_style: true
       endpoint: https://minio.fluves.net
+      strip_prefix: conda_build/
         #  when:
         #    event:
         #    - tag
@@ -197,23 +198,48 @@ steps:
       GIT_LFS_SKIP_SMUDGE: 1 # due to a bug in conda: https://github.com/conda/conda-build/issues/1462
     image: registry.fluves.net/drone/cn_ws/windows-conda
     commands:
-      - dir
-      - git config --system --unset credential.helper
+      # - cat c:/users/ContainerAdministrator/_netrc
+      - get-content c:/users/ContainerAdministrator/_netrc | out-file -encoding ASCII c:/users/ContainerAdministrator/_netrc_ascii
+      - del c:/users/ContainerAdministrator/_netrc
+      - mv c:/users/ContainerAdministrator/_netrc_ascii c:/users/ContainerAdministrator/_netrc
+      - cat c:/users/ContainerAdministrator/_netrc
       - conda build conda --output-folder conda_build
 
   - name: upload conda package
-    image: plugins/s3-sync:windows-amd64
+    image: registry.fluves.net/drone/infrastructure/s3 
     settings:
       access_key: conda
       secret_key:
         from_secret: conda_secret_key
       bucket: conda
-      source: conda_build/**/*
+      source: conda_build/win-64/*.tar.bz2
       target: /
       path_style: true
       endpoint: https://minio.fluves.net
+      strip_prefix: conda_build
+        #  when:
+        #    event:
+        #    - tag
 
-
+---
+kind: pipeline
+type: docker
+name: conda reindex
+depends_on:
+  - windows build
+  - Build conda package (linux)
+steps:
+- name: reindex conda repo
+  image: registry.fluves.net/drone/infrastructure/conda-s3-index
+  settings:
+    access_key: conda
+    secret_key:
+      from_secret: conda_secret_key
+    bucket: conda
+    endpoint: https://minio.fluves.net
+        #  when:
+        #    event:
+        #    - tag
 
 ---
 kind: pipeline
