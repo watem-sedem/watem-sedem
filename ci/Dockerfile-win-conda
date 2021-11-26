@@ -1,4 +1,5 @@
 FROM mcr.microsoft.com/windows/servercore:ltsc2019
+# based on https://github.com/anaconda-graveyard/anaconda-build/pull/287
 # builds registry.fluves.net/drone/cn_ws/windows-conda
 LABEL maintainer=johan@fluves.com
 
