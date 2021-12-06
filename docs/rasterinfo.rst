@@ -24,7 +24,7 @@ raise an exception and will stop the execution.
 Idrisi-rasters and saga-rasters are the native file format of respectivily
 Idrisi gis and `saga gis <http://www.saga-gis.org/>`_, but can be opened,
 edited and saved with almost every GIS-package like QGIS or SAGA-GIS,
-thanks to the `GDAL library <https://gdal.org>`.
+thanks to the `GDAL library <https://gdal.org>`_.
 
 Both file formats contain a binary dump of the rasterdata (.rst and .sdat) and
 an ascii metadata file (.rdc and .sgrid). Saga-rasters can also have a .prj-file
