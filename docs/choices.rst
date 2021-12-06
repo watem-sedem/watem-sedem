@@ -385,8 +385,7 @@ An example of a valid forced routing section looks like
 
 The keys in every force routing section are `from col`, `from row`, `target col`
 and `target row`. These are integer values representing the location of source
-and target pixel
-in the raster.
+and target pixel in the raster.
 
 .. _riverrouting:
 

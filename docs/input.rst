@@ -31,17 +31,11 @@ does not exist, it is created by the model.
 Files
 =====
 
-All input rasters must be
-`Idrisi-rasters <https://gdal.org/drivers/raster/Idrisi.html>`_  or
-`Saga-rasters <https://gdal.org/drivers/raster/sdat.html>`_ and must have
+All input rasters must have
 the same amount of columns, rows and cell size.
 If one of the  input rasters has a different spatial extent, the model will
-raise an exception and will stop the execution.
-
-Idrisi-rasters and saga-rasters are the native file format of respectivily
-Idrisi gis and `saga gis <http://www.saga-gis.org/>`_, but can be opened,
-edited and saved with almost every GIS-package like QGIS or SAGA-GIS,
-thanks to the `GDAL library <https://gdal.org>`. 
+raise an exception and will stop the execution. See
+:ref:`the section on the format <rasterformat>` for more information.
 
 .. _dtmmap:
 

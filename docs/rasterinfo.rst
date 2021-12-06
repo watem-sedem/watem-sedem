@@ -1,0 +1,37 @@
+.. _rasterinfo:
+
+#######
+Rasters
+#######
+
+The input and outputfiles of CN-WS are based on geospatial rasters. Every raster
+is defined with a cell size (e.g. 20x20m or 20x50m) and a number of rows and
+columns. Geospatial rasters are placed within a reference system (e.g. WGS84 or
+EPSG:31370) to situate these rasters in the right location.
+
+.. _rasterformat:
+
+Format
+======
+
+All input and output rasters are
+`Idrisi-rasters <https://gdal.org/drivers/raster/Idrisi.html>`_  or
+`Saga-rasters <https://gdal.org/drivers/raster/sdat.html>`_ and have
+the same amount of columns, rows and cell size.
+If one of the  input rasters has a different spatial extent, the model will
+raise an exception and will stop the execution.
+
+Idrisi-rasters and saga-rasters are the native file format of respectivily
+Idrisi gis and `saga gis <http://www.saga-gis.org/>`_, but can be opened,
+edited and saved with almost every GIS-package like QGIS or SAGA-GIS,
+thanks to the `GDAL library <https://gdal.org>`.
+
+Both file formats contain a binary dump of the rasterdata (.rst and .sdat) and
+an ascii metadata file (.rdc and .sgrid). Saga-rasters can also have a .prj-file
+containing information on the projection of the raster.
+
+Raster Coordinates
+==================
+
+
+
