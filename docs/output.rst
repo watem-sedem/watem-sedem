@@ -64,7 +64,12 @@ file is empty.
 routing_colrow.txt
 ******************
 
-to do
+Tab-delimited table. Every row represents a pixel-coordinate (column + row).
+The pixels are sorted according to the sequence they are treated in the modelrun:
+i.e. the first record int the table is the pixel treated first in the modelrun,
+the last record of the table is the last treated pixel of the modelrun.
+Together with :ref:`routing.txt <routingtxt>` the applied routing of the model
+run can can be fully reconstructed.
 
 .. _lsmap:
 
