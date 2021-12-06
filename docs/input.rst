@@ -664,7 +664,8 @@ Runoff calculations are done with this timestep. The chosen timestep must comply
 with the Courant Criterium. This criterium limits the timestep as a function of
 the spatial resolution (m) and the stream velocity of water over land (m/s).
 
-dt <= spatial resolution/stream velocity. 
+.. math::
+    dt \leq \frac{spatial resolution}{stream velocity}
 
 The parameter is an integer value expressed in minutes and is only mandatory
 when :ref:`Use R factor = 1 <useR>`.
