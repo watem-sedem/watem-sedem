@@ -284,7 +284,7 @@ Include sewers
 
 When the include sewers-option is enabled (`Include sewers = 1`), the user
 will have to provide two additional inputs:
-`sewer map filename <sewermapfile>` and `sewer exit <sewerexit>`.
+:ref:`sewer map filename <sewermapfile>` and :ref:`sewer exit <sewerexit>`.
 
 The value of the pixel in the sewer map is checked when the amount of outgoing
 sediment in a pixel is calculated. This value is the fraction of water and
