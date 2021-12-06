@@ -6,7 +6,9 @@ Model output
 
 In this section we will describe all possible outputs of the CN-WS model. Tables
 are written as tab-delimited txt-files, rasters are written as
-`Idrisi-rasters <https://gdal.org/drivers/raster/Idrisi.html>`_.
+`Idrisi-rasters <https://gdal.org/drivers/raster/Idrisi.html>`_ or
+`Saga-rasters <https://gdal.org/drivers/raster/sdat.html>`_. To switch between
+these two raster formats, use the :ref:`saga grids <sagagrids>`-option.
 
 The created model output depends on the user choices in the ini-file.
 
