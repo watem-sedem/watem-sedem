@@ -46,7 +46,8 @@ table):
 The routing table is only generated when
 :ref:`write routing table = 1 <writerouting>`.
 
-TO DO: col/row orientation.
+See :ref:`the section on grid coordinates <gridcoordinates>` for more
+information on the orientation of the rows and columns in this file.
 
 .. _missingroutingtxt:
 
@@ -59,6 +60,9 @@ included if they were not treated in te model after the routing is calculated.
 This output is intended as debugging information for the model. Ideally, this
 file is empty.
 
+See :ref:`the section on grid coordinates <gridcoordinates>` for more
+information on the orientation of the rows and columns in this file.
+
 .. _routingcolrow:
 
 routing_colrow.txt
@@ -70,6 +74,9 @@ i.e. the first record int the table is the pixel treated first in the modelrun,
 the last record of the table is the last treated pixel of the modelrun.
 Together with :ref:`routing.txt <routingtxt>` the applied routing of the model
 run can can be fully reconstructed.
+
+See :ref:`the section on grid coordinates <gridcoordinates>` for more
+information on the orientation of the rows and columns in this file.
 
 .. _lsmap:
 

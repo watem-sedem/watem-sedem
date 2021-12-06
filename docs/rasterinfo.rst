@@ -30,8 +30,14 @@ Both file formats contain a binary dump of the rasterdata (.rst and .sdat) and
 an ascii metadata file (.rdc and .sgrid). Saga-rasters can also have a .prj-file
 containing information on the projection of the raster.
 
+To switch between
+these two raster formats, use the :ref:`saga grids <sagagrids>`-option.
+
+.. _gridcoordinates:
+
 Raster Coordinates
 ==================
 
-
+The origin of the raster coordinatesytem in CN-WS lies in the lower left
+rastercell. This cell has the raster coordinates (0,0).
 
