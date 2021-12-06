@@ -552,8 +552,10 @@ Output
 The user has the option to generate extra output by defining following keys in
 the [Output maps]-section of the .ini-file.
 
+.. _sagagrids:
+
 Saga_Grids
-**********
+##########
 
 (bool, default false): write output rasters as Saga Grids. If false, Idrisi
 rasters are written.
