@@ -43,5 +43,5 @@ What now?
 If not, double check the steps in the :ref:`installation section <buildwindows>`. 
 Also note that you have to be in the cn_ws/cn_ws subfolder to run the executable.
 Alternatively you can add the subfolder to the paths in your environment (on 
-windows see `here`<https://docs.alfresco.com/4.2/tasks/fot-addpath.html>). 
+windows see `here <https://docs.alfresco.com/4.2/tasks/fot-addpath.html>`).
 This way you should be able to run cn_ws from any directory.
