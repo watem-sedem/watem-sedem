@@ -54,13 +54,10 @@ routing_missing.txt
 *******************
 
 Tab-delimited table with the same headers as :ref:`routing.txt <routingtxt>`.
-The entries in the table are a subset of those in routing.txt and are only
-included if...
-
-TO DO: extend documentation of routing_missing.txt
-
-The routing table is only generated when
-:ref:`write routing table = 1 <writerouting>`.
+The records in this table are a subset of those in routing.txt and are only
+included if they were not treated in te model after the routing is calculated.
+This output is intended as debugging information for the model. Ideally, this
+file is empty.
 
 .. _routingcolrow:
 
