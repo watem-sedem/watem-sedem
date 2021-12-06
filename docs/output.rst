@@ -183,7 +183,7 @@ table is only generated when :ref:`estimate clay content = 1 <estimclay>` and
 cumulative.rst
 **************
 
-TO DO
+This raster is only written when :ref:`River routing = 1 <riverrouting>`.
 
 .. _sewerinrst:
 
