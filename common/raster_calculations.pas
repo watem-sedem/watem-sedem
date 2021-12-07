@@ -776,11 +776,6 @@ Begin
 
       End;
 
-  If closeriver or closeditchdam Then
-
-  begin
-  //Voor pixels die aan een rivierpixel grenzen: neem de laagste riviercel
-
    If closeriver then
     Begin
       extremum := 99999.9;
@@ -835,8 +830,6 @@ Begin
           exit;
          end;
      end;
-
-  end;
 
 
       PART1 := 0.0;
@@ -956,7 +949,7 @@ Begin
                   If (PRC[i+k2,j+l2] = -6) Then
                     // If the target cell is a grass buffer strip it receives everything
                     Begin
-                      part2 := 1.0
+                      part2 := 1.0;
 
                    // In the distributionflux_LS procedure this is corrected for parcel connectivity
                       part1 := 0;
@@ -1098,14 +1091,12 @@ Begin
         Begin
           Routing[i,j].Target1Row := -99;
           Routing[i,j].Target1Col := -99;
-          Routing[i,j].One_target := True;
         End;
 
       If Routing[i,j].Part2 = 0 Then
         Begin
           Routing[i,j].Target2Row := -99;
           Routing[i,j].Target2Col := -99;
-          Routing[i,j].One_target := True;
         End;
 End;
 // end procedure DistributeTilDirEvent_Routing
