@@ -220,22 +220,24 @@ pixels. This raster is only written if
 WATEREROS (kg per gridcel).rst
 ******************************
 
-Raster with the total amount of erosion or sedimentation in every pixel in :math:`(kg)`.
-Negative values indicate erosion (i.e. Incoming Sediment + RUSLE < Transport Capacity),
-positive values indicate sedimentation (i.e. Incoming Sediment + RUSLE >
-Transport Capacity). This raster is only written if
-:ref:`write water erosion = 1 <writerwatereros>`.
+Raster with the total amount of net erosion or sedimentation in every pixel in
+:math:`(kg)`. Negative values indicate erosion, positive values indicate
+sedimentation. This raster is only written if
+:ref:`write water erosion = 1 <writerwatereros>`. See the
+`concept of WaTEM-SEDEM <Concept>` for more information on the calculation of
+this value.
 
 .. _watererosmmrst:
 
 WATEREROS (mm per gridcel).rst
 ******************************
 
-Raster with the total amount of erosion or sedimentation in every pixel in :math:`(mm)`.
-Negative values indicate erosion (i.e. Incoming Sediment + RUSLE < Capacity),
-positive values indicate sedimentation (i.e. Incoming Sediment + RUSLE >
-Capacity). This raster is only written if
-:ref:`write water erosion = 1 <writerwatereros>`.
+Raster with the total amount of net erosion or sedimentation in every pixel in
+:math:`(mm)`. Negative values indicate erosion, positive values indicate
+sedimentation. This raster is only written if
+:ref:`write water erosion = 1 <writerwatereros>`. See the
+`concept of WaTEM-SEDEM <Concept>` for more information on the calculation of
+this value.
 
 .. _capacityrst:
 

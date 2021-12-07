@@ -35,26 +35,60 @@ this manual the non-river pixels are sometimes referred to as `land pixels`.
     this routing should be user-defined. We refer to separate sections for the
     defintion of routing in :ref:`rivers <riverrouting>`, :ref:`ditches <ditchmap>`
     and :ref:`dams <dammap>`.
-    
 
-Situation 1: Target(s) is/are equal to `river`
-==============================================
-In this situation, two cases can be defined:
 
- - The source pixel is a land pixel: routing follows the direction of the
-   river pixel (one target).
+Flow scheme of the routing algorithm
+====================================
 
- - The source pixel is a river pixel: the direction of routing is defined by
-   the river routing raster (see :ref:`here <routingmap>`), if the river
-   routing option is set to one (see :ref:`here <riverrouting>`). The routing
-   is defined as a uni-directional routing. If the river routing option is set
-   to zero, then river routing is defined by the height profile in the river
-   (routing stays within rivers).
+In this section we will describe the routing algorithm in depth, with several
+flow charts as an illustration.
 
-Situation 2: No target pixel is equal to `river`
-================================================
+The first step of the routing algorithm is to sort all pixels in the raster from
+high to low, based on the :ref:`digital elevation model <dtmmap>`. Next, the
+algorithm loops over all pixels, starting from the highest pixel.
+If the landcover of a pixel has a value of 0, it is skipped and no routing
+is calculated for this pixel.
+If the pixel is a river pixel and the river routing option is enabled
+(see :ref:`here <riverrouting>`), the algorithm will use the user-defined
+routing in the rivers. If the pixel is a river pixel and the river routing is
+not enabled, than no river routing is calculated. If the pixel is not a river
+pixel (land pixel), the default routing algorithm is used.
+If the user enables the :ref:`Forced Routing <forcerouting>-option` in the
+ini-file, the calculation of the routing by the default routing algorithm is
+altered by the user-defined routing. Thus, this user-defined routing will
+overrule the rulebank of the routing algorithm.
 
-In a first step, the routing algorithm checks whether the flow direction is
+Default routing algorithm
+*************************
+
+The default routing algorithm is used for every pixel in the model except for
+river pixels (if the :ref:`river routing option <riverrouting>` is enabled) and
+for pixels outside the model domain (i.e. where the landuse has value 0).
+
+In the first part of the routing algorithm it is checked if the routing of a
+considered pixel is determined by a buffer, ditch or dam or if the pixel is
+adjacent to a river, ditch or dam. This part of the algorithm is illustrated in
+the figure below. It can be seen in this diagram that if the pixel is a ditch,
+dam or adjacent to a ditch, dam or river than there is only one target pixel.
+
+.. figure:: _static/png/flow_algorithm_part1.png
+    :align: center
+
+    Flow-chart of the routing algorithm in CN-WS describing first steps in the
+    algorithm
+
+We refer to the :ref:`section on routing maps <routingmap>` for a complete
+description on target selection for ditches and dams.
+
+If the source pixel is a buffer pixel than two cases are defined::
+- the considered pixel has a buffer_id. This is the outlet pixel of the buffer.
+  the default routing algorithm is used on this pixel
+- the considered pixel has a buffer extenstion id. In this case there is only
+  one target: the pixel within the buffer with the buffer_id (the outlet
+  of the buffer).
+
+If the routing is not determined by a buffer, ditch, dam or a river, the
+routing algorithm checks whether the flow direction is
 steered by the steepest descent direction or the **tillage direction** (for the
 format of the input of the tillage direction, see :ref:`here <tildirmap>`).
 In this check, the angle of the **steepest descend** is compared with the
@@ -64,14 +98,17 @@ These cardinal directions define the `target1` and `target2` pixels, and the
 weight (:math:`\in[0,1], \sum \text{weight} = 1`) they receive from the
 source pixel. This amount can be used to weight the sediment load per
 pixel (WS), the direct run-off depth (CN) and upstream area (CN/WS) for each
-target pixel. In next step, the flow directions and weights (cardinal space)
+target pixel.
+
+In the next step, the flow directions and weights (cardinal space)
 are adjusted according to elevation and land cover, as shown in the scheme
 below:
 
 .. figure:: _static/png/sketch_flow_algorithm.png
     :align: center
 
-    Flow-chart of the routing algorithm in CN-WS
+    Flow-chart of the routing algorithm in CN-WS - adjusting routing according
+    to elevation and land cover.
 
 In this figure, the `Flow(target1)` or `Flow(target2)` tag indicate that
 routing will follow strictly the path of the first or second cardinal flow
@@ -83,7 +120,8 @@ to a single target further than its vicinity. Jumps are defined
 within a window :math:`W`. This occurs when a source is located in a local
 elevation minimum. An important note is that the routing will always jump to
 the closest river in :math:`W` if a river pixel is present in the window
-:math:`W`.
+:math:`W`. This window :math:`W` can be defined in the ini-file with the
+:ref:`kernel - variable <maxkernel>`.
 
 In the sketch, three features of the source pixel and two target pixels are accounted
 for to define a rule-bank for the routing direction: the height, the land cover
@@ -113,19 +151,7 @@ The implementation of this rule-bank aims to satisfy following conditions:
    grass strip being higher than the other target: here the routing follows the
    direction of to the lowest pixel.
 
-Buffers, ditches and routing dams
-=================================
 
-For buffers and ditches, exceptions for the routing are defined. In case one
-of the targets is a buffer, the routing will flow to that one target. Within
-the buffer, all routing is defined to a single target pixel: the pixel
-defined with a non-zero buffer_id (see also :ref:`here<buffermap>`). This
-pixel is considered as the buffer outlet. From this pixel, routing occurs
-as described above.
-
-For ditches and conductive dams, the routing is defined by the user by
-using a routing map (see :ref:`here<routingmap>`). The routing within ditches
-and the routing along dams is uni-directional.
 
 References
 ==========
