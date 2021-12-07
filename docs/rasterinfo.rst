@@ -38,6 +38,6 @@ these two raster formats, use the :ref:`saga grids <sagagrids>`-option.
 Raster Coordinates
 ==================
 
-The origin of the raster coordinatesytem in CN-WS lies in the lower left
-rastercell. This cell has the raster coordinates (0,0).
+The origin of the raster coordinatesytem in CN-WS lies in the upper left
+rastercell. This cell has the raster coordinates (1,1).
 
