@@ -7,8 +7,8 @@ Latest
 
 - Add parcel connectivity grasstrips as a variable
 
-4.2.0
-------
+version 4.2.0
+-------------
 
 - Extending documentation
 - Bugfix routing: if both targets have a different land cover than the source

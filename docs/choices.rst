@@ -284,7 +284,7 @@ Include sewers
 
 When the include sewers-option is enabled (`Include sewers = 1`), the user
 will have to provide two additional inputs:
-`sewer map filename <sewermapfile>` and `sewer exit <sewerexit>`.
+:ref:`sewer map filename <sewermapfile>` and :ref:`sewer exit <sewerexit>`.
 
 The value of the pixel in the sewer map is checked when the amount of outgoing
 sediment in a pixel is calculated. This value is the fraction of water and
@@ -385,8 +385,10 @@ An example of a valid forced routing section looks like
 
 The keys in every force routing section are `from col`, `from row`, `target col`
 and `target row`. These are integer values representing the location of source
-and target pixel
-in the raster.
+and target pixel in the raster.
+
+See :ref:`the section on grid coordinates <gridcoordinates>` for more
+information on the orientation of the rows and columns.
 
 .. _riverrouting:
 
@@ -552,8 +554,10 @@ Output
 The user has the option to generate extra output by defining following keys in
 the [Output maps]-section of the .ini-file.
 
+.. _sagagrids:
+
 Saga_Grids
-**********
+##########
 
 (bool, default false): write output rasters as Saga Grids. If false, Idrisi
 rasters are written.

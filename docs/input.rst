@@ -31,17 +31,11 @@ does not exist, it is created by the model.
 Files
 =====
 
-All input rasters must be
-`Idrisi-rasters <https://gdal.org/drivers/raster/Idrisi.html>`_  or
-`Saga-rasters <https://gdal.org/drivers/raster/sdat.html>`_ and must have
+All input rasters must have
 the same amount of columns, rows and cell size.
 If one of the  input rasters has a different spatial extent, the model will
-raise an exception and will stop the execution.
-
-Idrisi-rasters and saga-rasters are the native file format of respectivily
-Idrisi gis and `saga gis <http://www.saga-gis.org/>`_, but can be opened,
-edited and saved with almost every GIS-package like QGIS or SAGA-GIS,
-thanks to the `GDAL library <https://gdal.org>`. 
+raise an exception and will stop the execution. See
+:ref:`the section on the format <rasterformat>` for more information.
 
 .. _dtmmap:
 
@@ -664,7 +658,8 @@ Runoff calculations are done with this timestep. The chosen timestep must comply
 with the Courant Criterium. This criterium limits the timestep as a function of
 the spatial resolution (m) and the stream velocity of water over land (m/s).
 
-dt <= spatial resolution/stream velocity. 
+.. math::
+    dt \leq \frac{spatial resolution}{stream velocity}
 
 The parameter is an integer value expressed in minutes and is only mandatory
 when :ref:`Use R factor = 1 <useR>`.

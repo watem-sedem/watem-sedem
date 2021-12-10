@@ -80,12 +80,14 @@ dam or adjacent to a ditch, dam or river than there is only one target pixel.
 We refer to the :ref:`section on routing maps <routingmap>` for a complete
 description on target selection for ditches and dams.
 
-If the source pixel is a buffer pixel than two cases are defined::
-- the considered pixel has a buffer_id. This is the outlet pixel of the buffer.
-  the default routing algorithm is used on this pixel
-- the considered pixel has a buffer extenstion id. In this case there is only
-  one target: the pixel within the buffer with the buffer_id (the outlet
-  of the buffer).
+If the source pixel is a buffer pixel than two cases are defined:
+
+    1. The considered pixel has a buffer_id. This is the outlet pixel of the
+       buffer. The default routing algorithm is used on this pixel
+
+    2. The considered pixel has a buffer extenstion-id. In this case there is
+       only one target: the pixel within the buffer with the buffer_id (the
+       outlet of the buffer).
 
 If the routing is not determined by a buffer, ditch, dam or a river, the
 routing algorithm checks whether the flow direction is
