@@ -170,12 +170,12 @@ Mathematically this can be expressed as:
         A = {\sum_1^n{influx_i}} + a.(1-PTEF)
 
 with:
- - :math:`A`: the upstream area of the considered pixel (:math:`\text{m}^2`)
+ - :math:`A`: the upstream area of the considered pixel (:math:`\text{m}^2`).
  - :math:`influx`: the upstream area of the source pixels that is distributed to
-   the considered pixel (:math:`\text{m}^2`)
- - :math:`a`: the pixel size (:math:`\text{m}^2`)
- - :math:`PTEF`: the trapping efficiency of a pixel
- - :math:`n`: the number of source pixels
+   the considered pixel (:math:`\text{m}^2`).
+ - :math:`a`: the pixel size (:math:`\text{m}^2`).
+ - :math:`PTEF`: the trapping efficiency of a pixel.
+ - :math:`n`: the number of source pixels.
 
 The first pixel that is treated has no source pixels, hence the influx is zero
 and the upstream area is equal to :math:`a.(1-PTEF)`. The PTEF is defined by
@@ -205,13 +205,13 @@ upstream area of the target pixels by
 
 with:
 
- - :math:`A_{target1}`: the upstream area of the first target pixel
- - :math:`A_{target2}`: the upstream area of the second target pixel
- - :math:`flux`: the outgoing flux of the source pixel
+ - :math:`A_{target1}`: the upstream area of the first target pixel.
+ - :math:`A_{target2}`: the upstream area of the second target pixel.
+ - :math:`flux`: the outgoing flux of the source pixel.
  - :math:`part1`: the fraction of the routing from the source pixel to the first
-   target pixel
+   target pixel.
  - :math:`part2`: the fraction of the routing from the source pixel to the second
-   target pixel
+   target pixel.
 
 References
 ==========
