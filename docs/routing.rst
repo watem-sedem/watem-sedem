@@ -182,13 +182,13 @@ and the upstream area is equal to :math:`a.(1-PTEF)`. The PTEF is defined by
 the user for :ref:`cropland <parceltrapppingcrop>`,
 :ref:`pasture <parceltrappingpasture>` and :ref:`forest <parceltrappingforest>`.
 
-Once the upstream area of a pixel is known, the flux, or distribution of the
+Once the upstream area of a pixel is known, the outgoing flux, or distribution of the
 upstream area to its target pixels, is calculated. By default this outgoing flux
 is equal to the upstream area of the source pixel itself. However, in some
 special cases the outgoing flux is reduced (for example in buffer outlets, sewers
 or when the landcover of a target pixel is different from the source pixel).
-The flow-chart below clarifies when these reductions of the outgoing flux are
-applied.
+The flow-chart below clarifies in which cases the reductions on the incoming flux
+are applied in the calculation of the outgoing flux.
 
 .. figure:: _static/png/sketch_distribute_uparea.png
     :align: center
