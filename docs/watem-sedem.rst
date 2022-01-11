@@ -11,7 +11,7 @@ Concept
 
 WaTEM/SEDEM is a spatially distributed model that was created at the
 Laboratry for Experimental Geomorphology (KU Leuven, Belgium). WaTEM stands
-for Water and Tillage erosion model (Van Oost et al., 2000) and SEDEM is
+for Water and Tillage Erosion Model (Van Oost et al., 2000) and SEDEM is
 the abbreviation of Sediment Delivery Model (Van Rompaey et al., 2001).
 
 In WaTEM/SEDEM, :ref:`the mean annual soil erosion rate <rusle>` :math:`E`
