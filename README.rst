@@ -4,7 +4,7 @@
 CN-WS
 #####
 
-The CN-WS is a model that can be used to
+CN-WS is a model that can be used to
 simulate soil erosion, sediment transport, water and sediment routing and
 flow run-off in time and space. The package combines three existing submodels:
 
