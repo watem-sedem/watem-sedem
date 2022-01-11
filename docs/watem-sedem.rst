@@ -208,7 +208,7 @@ LS-factor
 
 The effect of topography on erosion is quantified in the LS-factor. Erosion
 increases as the slope length increases - quantified in the slope length
-factor (L), and as the slope steepness factor (S) increases. In general the
+factor (L), and as the slope steepness factor (S) increases. In general, the
 L-factor is defined as the horizontal distance from the origin of overland flow to the
 point where either (1) the slope gradient decreases to the degree that
 deposition occurs or (2) runoff becomes concentrated in a defined channel.
