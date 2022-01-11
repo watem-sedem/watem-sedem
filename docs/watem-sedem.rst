@@ -25,7 +25,7 @@ sediment, :math:`S_i` + :math:`E`) with the transport capacity.
 Two cases exist:
  - :math:`S_A \leq TC`: the pixel can transport the total
    available sediment :math:`S_A`, so erosion will occur at the mean annual soil
-   erosion rate. The outgoing sediment :math:`S_o` is set equal to the available
+   erosion rate. The outgoing sediment :math:`S_o` is equals the total available
    sediment :math:`S_A`.
  - :math:`S_A` > :math:`TC`: the total available sediment :math:`S_A` is higher
    than the amount of sediment that can be transported. The outgoing sediment
