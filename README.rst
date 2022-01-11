@@ -68,7 +68,7 @@ measures, elevation and rainfall are needed to be able to use the models.
 In addition, information on sewers and ditches can be used to refine the
 models.
 
-Both the :ref:`WS <WS>` and :ref:`CN <CN>` models make use of a routing table
+Both the :ref:`WS <WS>` and :ref:`CN <CN>` submodels make use of a routing table
 simulated by the :ref:`routing model <routing>`. The use of this routing table
 varies for both the CN and WS model. In WS, the routing table is used to
 compute slopes, upstream areas and the sediment mass balance, whereas in the
