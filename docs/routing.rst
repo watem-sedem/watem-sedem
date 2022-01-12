@@ -10,9 +10,9 @@ makes use of the height profile and definition of land cover to define flow
 from a source pixel to one or two target pixels. It is important to note
 that the multi-flow routing algorithm developed for CN-WS is an algorithm
 adjusted to the context of erosion and agriculture. This implies that the
-routing should represent the average pattern of routing. This way, off-site
-impacts (e.g. effect of erosion on an agricultural field on nearby urban
-area) can be adequately be represented
+routing should represent the average pattern of routing. In this way, off-site
+impacts (e.g. effect of sediment flows to a nearby urban
+area) can adequately be represented.
 
 The flow routing varies a function of the difference in height between
 source and potential target pixels, and the land cover in the source and
@@ -31,7 +31,7 @@ this manual the non-river pixels are sometimes referred to as `land pixels`.
     1. Routing flows from land to land pixels, land to river pixels, from river
     to river pixels, but not from river to land pixels!
 
-    2. Routing can be defined in rivers, dams and ditches. Yet,
+    2. Routing can be defined in rivers, along dams and in ditches. Yet,
     this routing should be user-defined. We refer to separate sections for the
     defintion of routing in :ref:`rivers <riverrouting>`, :ref:`ditches <ditchmap>`
     and :ref:`dams <dammap>`.

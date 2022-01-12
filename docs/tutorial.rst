@@ -198,7 +198,7 @@ one for every buffer, with these data (see also tutorials/tutorial_3b.ini):
 .. literalinclude:: tutorials/tutorial_3b.ini
     :language: ini
 
-Buffers trap sediment. So, after a successfull run with the above ini-file, we
+Buffers trap sediment. So, after a successful run with the above ini-file, we
 have a look at the Total sediment file in the output folder:
 
 .. literalinclude:: tutorials/Total sediment 3b.txt
