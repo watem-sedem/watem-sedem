@@ -94,14 +94,6 @@ Begin
     //transport capacity formulation of Verstraeten et al., (2007)
   Capacity := ktc[i,j] * RFactor * K_Factor[i, j] * power(UPAREA[i, j], 1.4) * power(slope[i, j], 1.4);
 
-  // if the routing goes uphill (only possible if routing is altered in a local minimum due to a jump to a river or by forced routing)
-  // the model must not produce more sediment and only transport the amount of sediment present
-  if uphill_transport(i,j) then
-  Begin
-    RUSLE[i,j] := 0;
-    CAPAC[i,j] := SEDI_IN[i,j];
-    WATEREROS[i, j] := 0;
-  end;
   // Verwijderd want niet aanwezig in WatemSedem2015
 
 {
@@ -120,6 +112,15 @@ Begin
   capacity := capacity / BD;
   // in m³ (ok)
 
+  // if the routing goes uphill (only possible if routing is altered in a local minimum due to a jump to a river or by forced routing)
+  // the model must not produce more sediment and only transport the amount of sediment present
+  if uphill_transport(i,j) then
+  Begin
+    RUSLE[i,j] := 0;
+    Ero_Potential := 0;
+    Capacity[i,j] := SEDI_IN[i,j];
+    WATEREROS[i, j] := 0;
+  end;
 
 
   If (SEDI_IN[i, j] + Ero_Potential) > capacity Then
