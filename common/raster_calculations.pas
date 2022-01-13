@@ -40,6 +40,7 @@ Procedure Apply_Buffer(i, j: integer);
 Procedure add_queue(var inv: TRoutingInvArray; var q_index, last_index: integer) ;
 Function FindLower(i,j, max_kernel: integer): boolean;
 procedure addInverse(var inv:TroutingInvArray; i,j,t_c, t_r: integer);
+Function uphill_transport(i, j: integer): boolean;
 
 Implementation
 
@@ -88,7 +89,7 @@ End;
 Procedure Calculate_routing(Var Routing: TRoutingArray);
 
 Var
-  //A cell receives a value of 1 after it had been treated
+  //A cell receives a value of 1 after it had been treated                              ²
   k: integer;
 Begin
 
@@ -503,6 +504,7 @@ Begin
     IsRiver := true
   Else IsRiver := false;
 End;
+
 
 Procedure Follow_Direction(var routing: TRoutingArray; map: Graster; i, j:integer);
 // Follows the direction set in map used in river_routing, ditches, dam
@@ -1518,6 +1520,26 @@ Begin
       end;
 
 End;
+
+Function uphill_transport(i, j: Integer): boolean;
+Var
+ t_r_1, t_c_1, t_r_2, t_c_2: integer;
+Begin
+   if ((Routing[i,j].Part1 > 0.0000001) and (Routing[i,j].Part2 > 0.0000001)) then
+          uphill_transport := false
+   else
+        Begin
+
+        t_r_1 := Routing[i,j].Target1Row;
+        t_c_1 := Routing[i,j].Target1Col;
+        t_r_2 := Routing[i,j].Target2Row;
+        t_c_2 := Routing[i,j].Target2Col;
+        if ((DTM[i,j] < DTM[t_r_1, t_c_1]) and (Routing[i,j].Part1 > 0.0000001)) Then
+           uphill_transport := true;
+        if ((DTM[i,j] < DTM[t_r_2, t_c_2]) and (Routing[i,j].Part2 > 0.0000001)) Then
+           uphill_transport := true;
+        end;
+end;
 
 Procedure Apply_Buffer(i, j:integer);
 var
