@@ -177,9 +177,10 @@ with:
  - :math:`PTEF`: the trapping efficiency of a pixel.
  - :math:`n`: the number of source pixels.
 
-The first pixel that is treated has no source pixels, hence the influx is zero
-and the upstream area is equal to :math:`a.(1-PTEF)`. The PTEF is defined by
-the user for :ref:`cropland <parceltrapppingcrop>`,
+The influx is defined as zero for all pixels that do not recieve any flux from
+upstream pixels. These pixels are the first pixels treated in the CN-WS routing
+scheme. Their upstream area is equal to :math:`a.(1-PTEF)`. The PTEF is defined
+by the user for :ref:`cropland <parceltrapppingcrop>`,
 :ref:`pasture <parceltrappingpasture>` and :ref:`forest <parceltrappingforest>`.
 
 Once the upstream area of a pixel is known, the outgoing flux, or distribution of the
