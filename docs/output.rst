@@ -58,7 +58,8 @@ Tab-delimited table with the same headers as :ref:`routing.txt <routingtxt>`.
 The records in this table are a subset of those in routing.txt and are only
 included if they were not treated in te model after the routing is calculated.
 This output is intended as debugging information for the model. Ideally, this
-file is empty.
+file is empty. This table is only generated when
+:ref:`write routing table = 1 <writerouting>`.
 
 See :ref:`the section on grid coordinates <gridcoordinates>` for more
 information on the orientation of the rows and columns in this file.
