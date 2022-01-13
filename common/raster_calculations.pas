@@ -1534,9 +1534,9 @@ Begin
         t_c_1 := Routing[i,j].Target1Col;
         t_r_2 := Routing[i,j].Target2Row;
         t_c_2 := Routing[i,j].Target2Col;
-        if ((DTM[i,j] < DTM[t_r_1, t_c_1]) and (Routing[i,j].Part1 > 0.0000001)) Then
+        if ((Routing[i,j].Part1 > 0.0000001) and (DTM[i,j] < DTM[t_r_1, t_c_1])) Then
            uphill_transport := true;
-        if ((DTM[i,j] < DTM[t_r_2, t_c_2]) and (Routing[i,j].Part2 > 0.0000001)) Then
+        if ((Routing[i,j].Part2 > 0.0000001) and (DTM[i,j] < DTM[t_r_2, t_c_2])) Then
            uphill_transport := true;
         end;
 end;
