@@ -118,8 +118,7 @@ Begin
   Begin
     RUSLE[i,j] := 0;
     Ero_Potential := 0;
-    Capacity[i,j] := SEDI_IN[i,j];
-    WATEREROS[i, j] := 0;
+    capacity := SEDI_IN[i,j];
   end;
 
 
