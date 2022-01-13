@@ -89,7 +89,7 @@ End;
 Procedure Calculate_routing(Var Routing: TRoutingArray);
 
 Var
-  //A cell receives a value of 1 after it had been treated                              ²
+  //A cell receives a value of 1 after it had been treated
   k: integer;
 Begin
 
@@ -504,7 +504,6 @@ Begin
     IsRiver := true
   Else IsRiver := false;
 End;
-
 
 Procedure Follow_Direction(var routing: TRoutingArray; map: Graster; i, j:integer);
 // Follows the direction set in map used in river_routing, ditches, dam

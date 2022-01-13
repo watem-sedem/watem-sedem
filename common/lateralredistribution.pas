@@ -16,7 +16,6 @@ procedure Cumulative_sections;
 procedure Cumulative_raster;
 Function followriver(var i,j: integer): boolean;
 
-
 Implementation
 
 Var
@@ -93,6 +92,7 @@ Begin
   if TCModel = TTCModel.Verstraeten2007 then
     //transport capacity formulation of Verstraeten et al., (2007)
   Capacity := ktc[i,j] * RFactor * K_Factor[i, j] * power(UPAREA[i, j], 1.4) * power(slope[i, j], 1.4);
+
 
   // Verwijderd want niet aanwezig in WatemSedem2015
 
