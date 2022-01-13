@@ -367,7 +367,10 @@ Begin
     add_queue(inv, q_index, last_index);
   end;
 
-  missing_routes(inv);
+  if Write_routing then
+    Begin
+         missing_routes(inv);
+    end;
 end;
 
 procedure add_queue(var inv: TRoutingInvArray; var q_index, last_index: integer) ;
