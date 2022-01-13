@@ -6,6 +6,8 @@ Latest
 ------
 
 - Add parcel connectivity grasstrips as a variable
+- Write 'routing_missing.txt' only when 'write routing table' is enabled in the
+  ini-file.
 
 version 4.2.0
 -------------
