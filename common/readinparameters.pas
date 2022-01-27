@@ -628,7 +628,7 @@ Begin
 
   If Not OnlyRouting Then
     Begin
-     Use_Rfactor:= Inifile.ReadBool('User Choices','Use R factor',false);
+     Use_Rfactor:= true;
      Create_ktc := Inifile.ReadBool('User Choices','Create ktc map',true);
      Calc_tileros := Inifile.ReadBool('User Choices', 'Calculate Tillage Erosion', false);
      if Calc_tileros then
