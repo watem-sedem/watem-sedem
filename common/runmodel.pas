@@ -69,12 +69,13 @@ if not OnlyRouting Then
      ReadRainfallFile(Raindata, RainfallFilename); //The .txt file with rainfall per timestep is read and written to a variable
      End;
 
-    If Not Use_Rfactor Then
-    Begin
-      CalculateRFactor;
+    // DEPRETACTED: Run CN per R-factor event.
+    //If Not Use_Rfactor Then
+    //Begin
+    //  CalculateRFactor;
       // R factor is calculated from given rainfall record
-      Write_RFactor;
-    End;
+    //  Write_RFactor;
+    //End;
 
     if not calibrate then Water;
     // Water erosion calculations
