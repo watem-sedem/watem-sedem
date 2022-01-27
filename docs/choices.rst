@@ -526,26 +526,6 @@ the model expects an :ref:`outlet raster <outletmap>`: an integer raster where
 the outletpixels are numbered from 1 to n. The user has to provide this input
 file.
 
-.. _useR:
-
-use r factor
-############
-
-WaTEM/SEDEM requires an :ref:`R-factor <rfactor>` for the RUSLE calculation.
-When `Use R factor = 1`, the user will have to define the
-:ref:`R factor <rfactor_var>` himself.
-
-CN-WS is able to calculate an R-factor from a timeseries of rainfall data.
-This R-factor represents the erosivity of the rainfall event that is simulated
-by the model. To use this option, the user has to set `Use R factor = 0` and
-must define the :ref:`rainfall file <rainfallfile>`.
-
-.. note::
-
-In the newest version, users can input a precalculated value for the R-factor
-(i.e. `Use R factor = 1`) in CN-WS. In this case, no R-factor from a
-timeseries is calculated.
-
 .. _outputchoices:
 
 Output
