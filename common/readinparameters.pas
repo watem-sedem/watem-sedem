@@ -5,7 +5,7 @@ Unit ReadInParameters;
 {$R+}
 Interface
 
-Uses 
+Uses
 Classes, SysUtils, RData_CN, GData_CN, Inifiles, write_raster, Typinfo;
 
 //Record for model variables
@@ -420,7 +420,7 @@ Begin
     //The row and column of every buffer are stored in the record
     For j := 1 To ncol Do
       Begin
-        Case round(PRC[i,j]) Of 
+        Case round(PRC[i,j]) Of
           //PRC = GRaster, dus integers.
           -6: PTEFmap[i,j] := PTEFValuePasture;
           -4: PTEFmap[i,j] := PTEFValuePasture;
@@ -703,7 +703,7 @@ Begin
   if not OnlyRouting then
     Begin
     ktil_Data_Filename := SetFileFromIni(Inifile, 'ktil map filename', datadir, (not Create_ktil and Calc_tileros));
-    Rainfallfilename := SetFileFromIni(Inifile, 'Rainfall filename', datadir, (not use_rfactor or not simplified));
+    Rainfallfilename := SetFileFromIni(Inifile, 'Rainfall filename', datadir, (not simplified));
     K_Factor_filename := SetFileFromIni(Inifile, 'K factor filename', datadir, True);
     Cf_data_filename := SetFileFromIni(Inifile, 'C factor map filename', datadir, True);
 
@@ -990,7 +990,7 @@ End;
 //**************************************************************************
 Procedure Create_CN_map(Var CNmap: RRaster;Perceelskaart:RRaster; Filename:String);
 
-Var 
+Var
   Count, i, j, k, getal, NumberOfLU, nrowPRC, ncolPRC: integer;
   Table: textfile;
   TempName: String;
@@ -1093,7 +1093,7 @@ End;
 
 Procedure Create_ktil_map(Var ktil: GRaster);
 
-Var 
+Var
   i,j: integer;
 Begin
   SetDynamicGData(ktil);
@@ -1111,7 +1111,7 @@ End;
 
 Procedure Create_ktc_map(Var ktc: RRaster);
 
-Var 
+Var
   i,j: integer;
 Begin
   SetDynamicRData(ktc);
