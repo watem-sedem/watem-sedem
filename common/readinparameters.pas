@@ -771,10 +771,9 @@ Begin
 
   If Not Simplified Then
     Begin
-      If Not Use_RFactor Then
-          If Not TryStrToFloat(Inifile.Readstring('Variables', '5-day antecedent rainfall',
-             Default), AR5) Then
-              raise EInputException.Create('Error in data input: AR5 value missing or wrong data format');
+      If Not TryStrToFloat(Inifile.Readstring('Variables', '5-day antecedent rainfall',
+         Default), AR5) Then
+          raise EInputException.Create('Error in data input: AR5 value missing or wrong data format');
 
       If Not TryStrToFloat(Inifile.Readstring('Variables', 'Stream velocity', Default), riv_vel)
         Then
