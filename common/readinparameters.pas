@@ -170,7 +170,7 @@ Var
   {User Choices}
   OnlyRouting          : boolean;
   Simplified           : boolean;
-  Use_Rfactor          : boolean;
+  // Use_Rfactor          : boolean;
   Include_sewer        : boolean;
   Topo, Inc_tillage    : boolean;
   est_clay             : boolean;
@@ -628,7 +628,7 @@ Begin
 
   If Not OnlyRouting Then
     Begin
-     Use_Rfactor:= true;
+     // Use_Rfactor:= true;
      Create_ktc := Inifile.ReadBool('User Choices','Create ktc map',true);
      Calc_tileros := Inifile.ReadBool('User Choices', 'Calculate Tillage Erosion', false);
      if Calc_tileros then
@@ -638,7 +638,7 @@ Begin
     end
   Else
     Begin
-      Use_Rfactor := false;
+      // Use_Rfactor := false;
       Create_ktc := false;
       Create_ktil := false;
       calibrate := false;
@@ -761,7 +761,7 @@ Begin
       End;
 
   {Variables}
-  if Use_Rfactor Then
+  //if Use_Rfactor Then
   Begin
   If Not TryStrToFloat(Inifile.Readstring('Variables', 'R factor', Default),Rfactor) Then
           raise EInputException.Create('Error in data input: R factor value missing or wrong data format');

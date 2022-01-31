@@ -64,7 +64,7 @@ if not OnlyRouting Then
      else
       calcOutlet;
 
-     if (not simplified) or (not use_rfactor) Then
+     if (not simplified) Then //or (not use_rfactor) Then
       Begin
      ReadRainfallFile(Raindata, RainfallFilename); //The .txt file with rainfall per timestep is read and written to a variable
      End;
