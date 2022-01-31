@@ -464,13 +464,15 @@ R factor
 ********
 
 The :ref:`R-factor <rfactor>` or rainfall erosivity factor in the RUSLE
-equation (float, in MJ.mm/ha.h.year). This input is mandatory.
+equation (float, in MJ.mm/ha.h.year). This input is mandatory, except when
+:ref:`Only routing <onlyrouting>` is used.
+
 
 .. note::
 	1. the user must make sure that the R and C-factor are calculated for the same
 	time span (year, month, week,...).
-    2. R-factor values can be computed with a dedicated Python package
-    (see `here <https://cn-ws.github.io/rfactor/>`_).
+    2. R-factor values can be computed wit the
+       `R-factor Python package <https://cn-ws.github.io/rfactor/>`_).
 
 .. _lscorrection:
 

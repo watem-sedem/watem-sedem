@@ -187,6 +187,8 @@ The method of Verstraeten et al. (2007) can be activated in CN-WS by setting
 
     TC model='Verstraeten2007'
 
+.. _onlyrouting:
+
 Only Routing
 ############
 
