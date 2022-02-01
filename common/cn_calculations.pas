@@ -24,7 +24,7 @@ Function interp(xOriginal:TIntArray; xNew:TIntArray; yOriginal:FloatArray): Floa
 Function extrap(xOriginal:TIntArray; xNew:TIntArray; yOriginal:FloatArray): FloatArray;
 Procedure CalculateTimeDependentRunoff(Remap: Rraster; RainData: TRainRecordArray; Routing:
                                        TRoutingArray; PRC: Graster);
-Procedure CalculateRFactor;
+// Procedure CalculateRFactor;
 Function  calcRivSeg(RivSeg:GRaster): integer;
 Function is_outlet(i,j:integer): boolean;
 Function sumPartArray (inputArray: FloatArray; start, number:integer): double;
@@ -364,6 +364,8 @@ End;
 //In this procedure the R factor of the RUSLE equation is calculated based on
 //the rainfall input.
 //******************************************************************************
+// THIS PROCEDURE IS DEPRECATED, users are advised to calculate their R-factor
+// and CN (per event) and use it as an input for the CN-WS model.
 Procedure CalculateRFactor;
 
 Var 

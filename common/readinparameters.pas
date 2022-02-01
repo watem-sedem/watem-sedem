@@ -5,7 +5,7 @@ Unit ReadInParameters;
 {$R+}
 Interface
 
-Uses 
+Uses
 Classes, SysUtils, RData_CN, GData_CN, Inifiles, write_raster, Typinfo;
 
 //Record for model variables
@@ -170,7 +170,7 @@ Var
   {User Choices}
   OnlyRouting          : boolean;
   Simplified           : boolean;
-  Use_Rfactor          : boolean;
+  // Use_Rfactor          : boolean;
   Include_sewer        : boolean;
   Topo, Inc_tillage    : boolean;
   est_clay             : boolean;
@@ -420,7 +420,7 @@ Begin
     //The row and column of every buffer are stored in the record
     For j := 1 To ncol Do
       Begin
-        Case round(PRC[i,j]) Of 
+        Case round(PRC[i,j]) Of
           //PRC = GRaster, dus integers.
           -6: PTEFmap[i,j] := PTEFValuePasture;
           -4: PTEFmap[i,j] := PTEFValuePasture;
@@ -628,7 +628,7 @@ Begin
 
   If Not OnlyRouting Then
     Begin
-     Use_Rfactor:= Inifile.ReadBool('User Choices','Use R factor',false);
+     // Use_Rfactor:= true;
      Create_ktc := Inifile.ReadBool('User Choices','Create ktc map',true);
      Calc_tileros := Inifile.ReadBool('User Choices', 'Calculate Tillage Erosion', false);
      if Calc_tileros then
@@ -638,7 +638,7 @@ Begin
     end
   Else
     Begin
-      Use_Rfactor := false;
+      // Use_Rfactor := false;
       Create_ktc := false;
       Create_ktil := false;
       calibrate := false;
@@ -703,7 +703,7 @@ Begin
   if not OnlyRouting then
     Begin
     ktil_Data_Filename := SetFileFromIni(Inifile, 'ktil map filename', datadir, (not Create_ktil and Calc_tileros));
-    Rainfallfilename := SetFileFromIni(Inifile, 'Rainfall filename', datadir, (not use_rfactor or not simplified));
+    Rainfallfilename := SetFileFromIni(Inifile, 'Rainfall filename', datadir, (not simplified));
     K_Factor_filename := SetFileFromIni(Inifile, 'K factor filename', datadir, True);
     Cf_data_filename := SetFileFromIni(Inifile, 'C factor map filename', datadir, True);
 
@@ -761,7 +761,7 @@ Begin
       End;
 
   {Variables}
-  if Use_Rfactor Then
+  //if Use_Rfactor Then
   Begin
   If Not TryStrToFloat(Inifile.Readstring('Variables', 'R factor', Default),Rfactor) Then
           raise EInputException.Create('Error in data input: R factor value missing or wrong data format');
@@ -771,10 +771,9 @@ Begin
 
   If Not Simplified Then
     Begin
-      If Not Use_RFactor Then
-          If Not TryStrToFloat(Inifile.Readstring('Variables', '5-day antecedent rainfall',
-             Default), AR5) Then
-              raise EInputException.Create('Error in data input: AR5 value missing or wrong data format');
+      If Not TryStrToFloat(Inifile.Readstring('Variables', '5-day antecedent rainfall',
+         Default), AR5) Then
+          raise EInputException.Create('Error in data input: AR5 value missing or wrong data format');
 
       If Not TryStrToFloat(Inifile.Readstring('Variables', 'Stream velocity', Default), riv_vel)
         Then
@@ -990,7 +989,7 @@ End;
 //**************************************************************************
 Procedure Create_CN_map(Var CNmap: RRaster;Perceelskaart:RRaster; Filename:String);
 
-Var 
+Var
   Count, i, j, k, getal, NumberOfLU, nrowPRC, ncolPRC: integer;
   Table: textfile;
   TempName: String;
@@ -1093,7 +1092,7 @@ End;
 
 Procedure Create_ktil_map(Var ktil: GRaster);
 
-Var 
+Var
   i,j: integer;
 Begin
   SetDynamicGData(ktil);
@@ -1111,7 +1110,7 @@ End;
 
 Procedure Create_ktc_map(Var ktc: RRaster);
 
-Var 
+Var
   i,j: integer;
 Begin
   SetDynamicRData(ktc);
