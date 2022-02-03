@@ -36,6 +36,9 @@ this manual the non-river pixels are sometimes referred to as `land pixels`.
     defintion of routing in :ref:`rivers <riverrouting>`, :ref:`ditches <ditchmap>`
     and :ref:`dams <dammap>`.
 
+    3. Note that **eight neighbours** are defined as **adjacent pixels** (and not
+    only cardinal four).
+
 
 Flow scheme of the routing algorithm
 ====================================
@@ -75,7 +78,7 @@ dam or adjacent to a ditch, dam or river than there is only one target pixel.
     :align: center
 
     Flow-chart of the routing algorithm in CN-WS describing first steps in the
-    algorithm
+    algorithm. Note that eight adjacent are taken into account.
 
 We refer to the :ref:`section on routing maps <routingmap>` for a complete
 description on target selection for ditches and dams.
@@ -83,7 +86,7 @@ description on target selection for ditches and dams.
 If the source pixel is a buffer pixel than two cases are defined:
 
     1. The considered pixel has a buffer_id. This is the outlet pixel of the
-       buffer. The default routing algorithm is used on this pixel
+       buffer. The default routing algorithm is used on this pixel.
 
     2. The considered pixel has a buffer extenstion-id. In this case there is
        only one target: the pixel within the buffer with the buffer_id (the
@@ -110,7 +113,8 @@ below:
     :align: center
 
     Flow-chart of the routing algorithm in CN-WS - adjusting routing according
-    to elevation and land cover.
+    to elevation and land cover. Note that eight adjacent are taken into
+    account.
 
 In this figure, the `Flow(target1)` or `Flow(target2)` tag indicate that
 routing will follow strictly the path of the first or second cardinal flow
