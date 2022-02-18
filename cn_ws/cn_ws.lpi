@@ -25,13 +25,15 @@
     </PublishOptions>
     <RunParams>
       <local>
-        <CommandLineParams Value="&quot;C:\test\bug_routing\modelinput\ini_Molenbeek_Ninove_scenario_1.ini&quot;"/>
+        <CommandLineParams Value="&quot;C:\Users\SachaGobeyn\GitHub\cn_ws\modelinput\ini_test_case_horizon_scenario_1.ini&quot;"/>
+        <LaunchingApplication PathPlusParams="C:\Windows\system32\cmd.exe /C ${TargetCmdLine}"/>
       </local>
       <FormatVersion Value="2"/>
       <Modes Count="1">
         <Mode0 Name="default">
           <local>
-            <CommandLineParams Value="&quot;C:\test\bug_routing\modelinput\ini_Molenbeek_Ninove_scenario_1.ini&quot;"/>
+            <CommandLineParams Value="&quot;C:\Users\SachaGobeyn\GitHub\cn_ws\modelinput\ini_test_case_horizon_scenario_1.ini&quot;"/>
+            <LaunchingApplication PathPlusParams="C:\Windows\system32\cmd.exe /C ${TargetCmdLine}"/>
           </local>
         </Mode0>
       </Modes>

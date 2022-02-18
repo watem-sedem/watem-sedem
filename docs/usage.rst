@@ -20,7 +20,8 @@ user choices. In the following chapters all possible keywords of the ini-file ar
 discussed.
 
 .. toctree::
-  
+
+  rasterinfo
   choices
   input
   output

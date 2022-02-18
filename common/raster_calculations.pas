@@ -367,7 +367,10 @@ Begin
     add_queue(inv, q_index, last_index);
   end;
 
-  missing_routes(inv);
+  if Write_routing then
+    Begin
+         missing_routes(inv);
+    end;
 end;
 
 procedure add_queue(var inv: TRoutingInvArray; var q_index, last_index: integer) ;
@@ -776,11 +779,6 @@ Begin
 
       End;
 
-  If closeriver or closeditchdam Then
-
-  begin
-  //Voor pixels die aan een rivierpixel grenzen: neem de laagste riviercel
-
    If closeriver then
     Begin
       extremum := 99999.9;
@@ -835,8 +833,6 @@ Begin
           exit;
          end;
      end;
-
-  end;
 
 
       PART1 := 0.0;
@@ -956,7 +952,7 @@ Begin
                   If (PRC[i+k2,j+l2] = -6) Then
                     // If the target cell is a grass buffer strip it receives everything
                     Begin
-                      part2 := part1+part2;
+                      part2 := 1.0;
 
                    // In the distributionflux_LS procedure this is corrected for parcel connectivity
                       part1 := 0;
@@ -971,7 +967,7 @@ Begin
                 End
               Else //If the parcel of the target cell is the same as the source cell...
                 Begin
-                      PART2 := PART2+PART1;
+                      PART2 := 1.0;
                       //...it receives everything
                       PART1 := 0.0;
                 End;
@@ -986,7 +982,7 @@ Begin
                   If (PRC[i+k1,j+l1] = -6) Then
                     // If the target cell is a grass buffer strip it receives everything
                     Begin
-                      part1 := part1+part2;
+                      part1 := 1.0;
                       //(part1+part2)*(TFSED_forest/100);
                       part2 := 0;
                     End
@@ -1000,7 +996,7 @@ Begin
                 End
               Else                          // als tot zelfde perceel behoort../
                 Begin
-                      part1 := part1+part2;
+                      part1 := 1.0;
                       // ... ontvangt ze alles
                       part2 := 0.0;
                 End;
@@ -1023,7 +1019,7 @@ Begin
                             // if only the first target cell is a grass buffer strip
                             Begin
 
-                                  PART1 := part1+part2;
+                                  PART1 := 1.0;
                                   PART2 := 0.0;
                             End;
                         End
@@ -1032,7 +1028,7 @@ Begin
                           If (PRC[i+k2,j+l2] = -6) Then
                             // if only the 2nd target cell is a grass buffer strip
                             Begin
-                              PART2 := part1+part2;
+                              PART2 := 1.0;
                               PART1 := 0.0;
                             End
                           Else
@@ -1052,7 +1048,7 @@ Begin
                         End
                       Else            // Target cell 1 is not a grass buffer strip
                         Begin
-                              PART2 := PART2+PART1;
+                              PART2 := 1.0;
                               PART1 := 0.0;
                         End;
                     End;
@@ -1071,7 +1067,7 @@ Begin
                         End
                       Else                 // targetcel 2 is geen grasbufferstrook of grasgang
                         Begin
-                              PART1 := PART1+PART2;
+                              PART1 := 1.0;
                               PART2 := 0.0;
                         End;
                     End;

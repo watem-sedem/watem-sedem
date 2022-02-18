@@ -31,15 +31,11 @@ does not exist, it is created by the model.
 Files
 =====
 
-All input rasters must be
-`Idrisi-rasters <https://gdal.org/drivers/raster/Idrisi.html>`_ and must have
+All input rasters must have
 the same amount of columns, rows and cell size.
 If one of the  input rasters has a different spatial extent, the model will
-raise an exception and will stop the execution.
-
-Idrisi-rasters are the native file format of Idrisi gis, but can be opened,
-edited and saved with almost every GIS-package like QGIS or SAGA-GIS,
-thanks to the `GDAL library <https://gdal.org>`. 
+raise an exception and will stop the execution. See
+:ref:`the section on the format <rasterformat>` for more information.
 
 .. _dtmmap:
 
@@ -467,13 +463,16 @@ default value for Belgium is 1350 kg/m³.
 R factor
 ********
 
-The :ref:`R-factor <rfactor>` or rainfall erosivity factor in the RUSLE equation
-(float, in MJ.mm/ha.h.year). This value is only mandatory when
-:ref:`Use R = 0 <useR>`.
+The :ref:`R-factor <rfactor>` or rainfall erosivity factor in the RUSLE
+equation (float, in MJ.mm/ha.h.year). This input is mandatory, except when
+:ref:`Only routing <onlyrouting>` is used.
+
 
 .. note::
-	the user must make sure that the R and C-factor are calculated for the same
+	1. the user must make sure that the R and C-factor are calculated for the same
 	time span (year, month, week,...).
+    2. R-factor values can be computed wit the
+       `R-factor Python package <https://cn-ws.github.io/rfactor/>`_).
 
 .. _lscorrection:
 
@@ -662,7 +661,8 @@ Runoff calculations are done with this timestep. The chosen timestep must comply
 with the Courant Criterium. This criterium limits the timestep as a function of
 the spatial resolution (m) and the stream velocity of water over land (m/s).
 
-dt <= spatial resolution/stream velocity. 
+.. math::
+    dt \leq \frac{spatial resolution}{stream velocity}
 
 The parameter is an integer value expressed in minutes and is only mandatory
 when :ref:`Use R factor = 1 <useR>`.

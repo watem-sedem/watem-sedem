@@ -6,7 +6,9 @@ Model output
 
 In this section we will describe all possible outputs of the CN-WS model. Tables
 are written as tab-delimited txt-files, rasters are written as
-`Idrisi-rasters <https://gdal.org/drivers/raster/Idrisi.html>`_.
+`Idrisi-rasters <https://gdal.org/drivers/raster/Idrisi.html>`_ or
+`Saga-rasters <https://gdal.org/drivers/raster/sdat.html>`_. To switch between
+these two raster formats, use the :ref:`saga grids <sagagrids>`-option.
 
 The created model output depends on the user choices in the ini-file.
 
@@ -44,7 +46,8 @@ table):
 The routing table is only generated when
 :ref:`write routing table = 1 <writerouting>`.
 
-TO DO: col/row orientation.
+See :ref:`the section on grid coordinates <gridcoordinates>` for more
+information on the orientation of the rows and columns in this file.
 
 .. _missingroutingtxt:
 
@@ -52,20 +55,29 @@ routing_missing.txt
 *******************
 
 Tab-delimited table with the same headers as :ref:`routing.txt <routingtxt>`.
-The entries in the table are a subset of those in routing.txt and are only
-included if...
-
-TO DO: extend documentation of routing_missing.txt
-
-The routing table is only generated when
+The records in this table are a subset of those in routing.txt and are only
+included if they were not treated in te model after the routing is calculated.
+This output is intended as debugging information for the model. Ideally, this
+file is empty. This table is only generated when
 :ref:`write routing table = 1 <writerouting>`.
+
+See :ref:`the section on grid coordinates <gridcoordinates>` for more
+information on the orientation of the rows and columns in this file.
 
 .. _routingcolrow:
 
 routing_colrow.txt
 ******************
 
-to do
+Tab-delimited table. Every row represents a pixel-coordinate (column + row).
+The pixels are sorted according to the sequence they are treated in the modelrun:
+i.e. the first record int the table is the pixel treated first in the modelrun,
+the last record of the table is the last treated pixel of the modelrun.
+Together with :ref:`routing.txt <routingtxt>` the applied routing of the model
+run can can be fully reconstructed.
+
+See :ref:`the section on grid coordinates <gridcoordinates>` for more
+information on the orientation of the rows and columns in this file.
 
 .. _lsmap:
 
@@ -179,7 +191,7 @@ table is only generated when :ref:`estimate clay content = 1 <estimclay>` and
 cumulative.rst
 **************
 
-TO DO
+This raster is only written when :ref:`River routing = 1 <riverrouting>`.
 
 .. _sewerinrst:
 
@@ -220,22 +232,24 @@ pixels. This raster is only written if
 WATEREROS (kg per gridcel).rst
 ******************************
 
-Raster with the total amount of erosion or sedimentation in every pixel in :math:`(kg)`.
-Negative values indicate erosion (i.e. Incoming Sediment + RUSLE < Transport Capacity),
-positive values indicate sedimentation (i.e. Incoming Sediment + RUSLE >
-Transport Capacity). This raster is only written if
-:ref:`write water erosion = 1 <writerwatereros>`.
+Raster with the total amount of net erosion or sedimentation in every pixel in
+:math:`(kg)`. Negative values indicate erosion, positive values indicate
+sedimentation. This raster is only written if
+:ref:`write water erosion = 1 <writerwatereros>`. See the
+`concept of WaTEM-SEDEM <Concept>` for more information on the calculation of
+this value.
 
 .. _watererosmmrst:
 
 WATEREROS (mm per gridcel).rst
 ******************************
 
-Raster with the total amount of erosion or sedimentation in every pixel in :math:`(mm)`.
-Negative values indicate erosion (i.e. Incoming Sediment + RUSLE < Capacity),
-positive values indicate sedimentation (i.e. Incoming Sediment + RUSLE >
-Capacity). This raster is only written if
-:ref:`write water erosion = 1 <writerwatereros>`.
+Raster with the total amount of net erosion or sedimentation in every pixel in
+:math:`(mm)`. Negative values indicate erosion, positive values indicate
+sedimentation. This raster is only written if
+:ref:`write water erosion = 1 <writerwatereros>`. See the
+`concept of WaTEM-SEDEM <Concept>` for more information on the calculation of
+this value.
 
 .. _capacityrst:
 

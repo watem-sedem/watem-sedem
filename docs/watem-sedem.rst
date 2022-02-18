@@ -11,7 +11,7 @@ Concept
 
 WaTEM/SEDEM is a spatially distributed model that was created at the
 Laboratry for Experimental Geomorphology (KU Leuven, Belgium). WaTEM stands
-for Water and Tillage erosion model (Van Oost et al., 2000) and SEDEM is
+for Water and Tillage Erosion Model (Van Oost et al., 2000) and SEDEM is
 the abbreviation of Sediment Delivery Model (Van Rompaey et al., 2001).
 
 In WaTEM/SEDEM, :ref:`the mean annual soil erosion rate <rusle>` :math:`E`
@@ -19,13 +19,13 @@ and :ref:`transport capacity <TC>` :math:`TC`
 are calculated for every pixel in the model domain. Next, the model iterates
 over all pixels according to the order determined by the routing algorithm.
 During the iteration, the outgoing sediment for every pixel is calculated by
-comparing the the total available sediment in the cell :math:`S_A` (incoming
+comparing the total available sediment in the cell :math:`S_A` (incoming
 sediment, :math:`S_i` + :math:`E`) with the transport capacity.
 
 Two cases exist:
  - :math:`S_A \leq TC`: the pixel can transport the total
    available sediment :math:`S_A`, so erosion will occur at the mean annual soil
-   erosion rate. The outgoing sediment :math:`S_o` is set equal to the available
+   erosion rate. The outgoing sediment :math:`S_o` is equals the total available
    sediment :math:`S_A`.
  - :math:`S_A` > :math:`TC`: the total available sediment :math:`S_A` is higher
    than the amount of sediment that can be transported. The outgoing sediment
@@ -208,7 +208,7 @@ LS-factor
 
 The effect of topography on erosion is quantified in the LS-factor. Erosion
 increases as the slope length increases - quantified in the slope length
-factor (L), and as the slope steepness factor (S) increases. In general the
+factor (L), and as the slope steepness factor (S) increases. In general, the
 L-factor is defined as the horizontal distance from the origin of overland flow to the
 point where either (1) the slope gradient decreases to the degree that
 deposition occurs or (2) runoff becomes concentrated in a defined channel.
