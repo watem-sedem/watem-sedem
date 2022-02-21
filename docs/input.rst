@@ -149,7 +149,7 @@ The datatype of the buffermap is integer16.
 Ditch map filename
 ******************
 
-Filename of the ditch map. This raster is only mandatory when
+Filename of the conductive ditch map. This raster is only mandatory when
 :ref:`Include ditches = 1 <includeditches>`. See :ref:`here <routingmap>` for
 more information on how to create this map.
 
@@ -158,7 +158,7 @@ more information on how to create this map.
 Dam map filename
 ****************
 
-Filename of the dam map. This raster is only mandatory when
+Filename of the conductive dam map. This raster is only mandatory when
 :ref:`Include dams = 1 <includedams>` See :ref:`here <routingmap>` for more
 information on how to create this map.
 
@@ -307,7 +307,7 @@ directions are set in the same way, according to the numbers in the figure.
 .. figure:: _static/png/direction_routingmap.png
     :align: center
 
-    TO DO: Caption
+    Definition of flow routing.
 
 An example of a routing map with two imposed routings is given here:
 
