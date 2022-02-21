@@ -364,8 +364,6 @@ Filename of a textfile with rainfall values. The text file contains a table
 (tab-delimited) with two columns without header. The first column contains the
 time in minutes (starting from 0), the second column contains the rainfall in mm.
 
-The rainfall file is only mandatory when :ref:`Use R = 0 <useR>`.
-
 .. _kmap:
 
 K factor filename
@@ -421,8 +419,7 @@ percentages (float, between 0 and 1).
 5 day antecedent rainfall
 *************************
 
-The total rainfall (in mm) during 5 days before the start of the rainfall event. 
-The antecedent rainfall (float) is only mandatory when :ref:`Use R = 0 <useR>`
+The total rainfall (in mm) during 5 days before the start of the rainfall event.
 
 .. _streamvelocity:
 
@@ -471,8 +468,8 @@ equation (float, in MJ.mm/ha.h.year). This input is mandatory, except when
 .. note::
 	1. the user must make sure that the R and C-factor are calculated for the same
 	time span (year, month, week,...).
-    2. R-factor values can be computed wit the
-       `R-factor Python package <https://cn-ws.github.io/rfactor/>`_).
+    2. R-factor values can be computed with the
+       `R-factor Python package <https://cn-ws.github.io/rfactor/>`_.
 
 .. _lscorrection:
 
@@ -664,9 +661,7 @@ the spatial resolution (m) and the stream velocity of water over land (m/s).
 .. math::
     dt \leq \frac{spatial resolution}{stream velocity}
 
-The parameter is an integer value expressed in minutes and is only mandatory
-when :ref:`Use R factor = 1 <useR>`.
-
+The parameter is an integer value expressed in minutes.
 
 Final timestep output
 *********************
@@ -674,7 +669,7 @@ Final timestep output
 The user has the option to resample the time-dependent output (runoff, sediment
 concentration, sediment load) to a different timestep than the
 :ref:`timestep <timestep>` of the model. The parameter is an integer value
-expressed in minutes and is only mandatory when :ref:`Use R factor = 1 <useR>`.
+expressed in minutes.
 
 .. _endtime:
 
@@ -684,8 +679,6 @@ Endtime model
 Total timespan (in minutes) the model has to simulate. This parameter is an
 integer value and must be a multiple of the :ref:`timestep <timestep>` of the
 model.
-
-This parameter is only mandatory when :ref:`Use R factor = 0 <useR>`.
 
 .. note::
 	In a first model run for a catchment with a given rainfall event, the user
