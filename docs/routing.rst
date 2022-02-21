@@ -71,19 +71,19 @@ pixel:
 Default routing algorithm
 *************************
 
-In the first part of the routing algorithm it is checked if the routing of a
-considered pixel is determined by a **buffer**, **conductive ditch** or
-**conductive buffer dam** or if the pixel is adjacent to a river, conductive
-ditch or conductive buffer dam. This part of the algorithm is illustrated in
-the figure below. There is only one target pixel in case that a pixel is a
-conductive ditch, conductive buffer dam or adjacent to a conductive ditch,
-conductive buffer dam or river.
+In the first part of the default routing algorithm, it is checked if the
+routing of a considered pixel is determined by a **buffer**,
+**conductive ditch** or **conductive buffer dam** or if the pixel is adjacent
+to a river, conductive ditch or conductive buffer dam. This part of the
+algorithm is illustrated in the figure below. There is only one target pixel
+in case that a pixel is a conductive ditch, conductive buffer dam or adjacent
+to a conductive ditch, conductive buffer dam or river.
 
 .. figure:: _static/png/flow_algorithm_part1.png
     :align: center
 
     Flow-chart of the routing algorithm in CN-WS describing the first steps in
-    the algorithm. Note that eight adjacent pixels are taken into account.
+    the algorithm.
 
 If the source pixel is a buffer pixel than two cases are defined:
 
@@ -99,8 +99,8 @@ description of how buffers are defined. For description on the definition of
 conductive buffer dams and conductive ditches, we refer to the section on
 :ref:`river routing <riverrouting_exp>`.
 
-Tillage direction
-^^^^^^^^^^^^^^^^^
+One- and two-target routing
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 If the routing is not determined by a buffer, conductive ditch, conductive
 buffer dam or a river, the routing algorithm checks whether the flow direction
@@ -115,9 +115,6 @@ source pixel. This amount can be used to weigh the sediment load per
 pixel (WS), the direct run-off depth (CN) and upstream area (CN/WS) for each
 target pixel.
 
-One- and two-target routing: introduction
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
 Routing over land pixels can be defined two (cardinal directions)
 or one targets (ordinal and cardinal directions).
 
@@ -131,7 +128,7 @@ or one targets (ordinal and cardinal directions).
  - One target: routing is defined by one routing vector, and can be in the
    **cardinal** and **ordinal direction**, thus **eight adjacent pixels**.
    One-target routing is based on a
-   decision tree (see figure :ref:`section Two-target routing <twotarget>`)
+   decision tree (see figure :ref:`section one-target routing <onetarget>`)
    using land cover and the digital elevation
    model. The starting point for one-target routing is the two-target routing.
 
@@ -170,6 +167,7 @@ between the cardinal direction of the targets.
     :align: center
 
 
+.. _onetarget:
 One-target routing
 ^^^^^^^^^^^^^^^^^^
 
