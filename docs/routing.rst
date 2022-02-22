@@ -7,9 +7,7 @@ Routing
 The flow and sediment routing is based on a multiple flow direction
 algorithm implemented on a fixed grid. Specifically, the algorithm
 makes use of the height profile and definition of land cover to define flow
-from a source pixel to one or two target pixels. It is important to note
-that the multi-flow routing algorithm developed for CN-WS is an algorithm
-adjusted to the context of erosion and agriculture.
+from a source pixel to one or two target pixel(s).
 
 The flow routing varies a function of the difference in height between
 source and **potential** target pixels, and the **land cover** in the source
@@ -32,17 +30,19 @@ Definitions
   to river pixels, but not from river to land pixels!
 - **River routing** can be defined in rivers, conductive buffer dams and
   conductive ditches, see in the section :ref:`below <riverrouting_exp>`.
-- **Adjacent pixels** are defined by the eight neighbouring pixels of the
-  target pixel, see also
-  :ref:`the definition of the flow routing <routingmap>`.
-- **One-target** routing is defined in the cardinal and
-  ordinal directions, and **two-target** routing is defined by the cardinal
-  and ordinal direction.
+- **Adjacent pixels** are defined by the **eight** neighbouring pixels of the
+  source pixel.
+- **One-target** routing is defined in the **cardinal** and
+  **ordinal** directions while **two-target** routing is defined only by the
+  **cardinal** direction.
 - A **buffer** is not the same as a **conductive buffer dam** as
-  **buffers** are defined as a measure with an trapping efficiency, whereas
-  **conductive buffer dams** are defined by routing paths. As such, it is
-  up to the user to define a buffer measure as a **buffer** (with a trapping
-  efficiency) (1) or a **conductive buffer dam** (with a routing).
+  **buffers** are defined as a
+  :ref:`buffers with a buffer properties <bufferdata>`, whereas
+  **conductive buffer dams** are defined as one-target
+  :ref:`routing paths <routingmap>`. As such, it is
+  up to the user to define a buffer measure as a **buffer** (with properties
+  such as a trapping efficiency) (1) or a
+  **conductive buffer dam** (with a routing raster) (2).
 
 Flow scheme of the routing algorithm
 ====================================
@@ -102,21 +102,8 @@ conductive buffer dams and conductive ditches, we refer to the section on
 One- and two-target routing
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-If the routing is not determined by a buffer, conductive ditch, conductive
-buffer dam or a river, the routing algorithm checks whether the flow direction
-is steered by the steepest descent direction or the **tillage direction** (for
-the format of the input of the tillage direction, see :ref:`here <tildirmap>`).
-In this check, the angle of the **steepest descend** is compared with the
-tillage direction to define the routing (see Takken et al. (2001)). At the end
-of this step, the direction is mapped to the cardinal directions.
-These cardinal directions define the `target1` and `target2` pixels, and the
-weight (:math:`\in[0,1], \sum \text{weight} = 1`) they receive from the
-source pixel. This amount can be used to weigh the sediment load per
-pixel (WS), the direct run-off depth (CN) and upstream area (CN/WS) for each
-target pixel.
-
-Routing over land pixels can be defined two (cardinal directions)
-or one targets (ordinal and cardinal directions).
+Routing over land pixels can be defined as two- (cardinal directions)
+or one-target (ordinal and cardinal directions) routing.
 
  - Two targets: routing is defined by one or two targets as a function of the
    direction only in the **cardinal direction**, thus
@@ -138,19 +125,37 @@ computed in the one-target routing based on the land cover of the targets.
 Note that the digital elevation information is still used in step the
 one-target routing scheme (in case of jumps).
 
+Thus, if the routing is not determined by a buffer, conductive ditch, conductive
+buffer dam or a river, the routing algorithm checks whether the flow direction
+vector **D** is steered by the steepest descent direction or the
+**tillage direction** (for the format of the input of the tillage direction,
+see :ref:`here <tildirmap>`). In this check, the angle of the
+**steepest descend** is compared with the tillage direction to define the
+routing (see Takken et al. (2001)). At the end of this step, the direction is
+mapped to the cardinal directions. These cardinal directions define the
+`target1` and `target2` pixels, and the weight
+(:math:`\in[0,1], \sum \text{weight} = 1`) they receive from the source
+pixel. This amount can be used to weigh the sediment load per pixel (WS), the
+direct run-off depth (CN) and upstream area (CN/WS) for each target pixel (see
+:ref:`next section <twotarget>)`
+
+
 .. _twotarget:
 
 Two-target routing
 ^^^^^^^^^^^^^^^^^^
 
 In the figure below it is shown how the two targets are determined by the
-routing direction. The routing direction is first split in two cardinal
-directions. Depending on the quadrant the direction points to, index shifts
-with one pixel in the x-direction (columns in rasters) and y-direction
-(rows in rasters) are defined (see table below). The index shifts are used
-to define the two target pixels. The amount of flow and sediment load that
-is routed to each of the two targets is calculated by computing the angle
-between the cardinal direction of the targets.
+routing direction vector **D**. The routing direction (determined by the height
+profile and - if included - the tillage direction) is first split in two
+cardinal directions (**T1** and **T2**). Depending on the quadrant the
+direction points to, index shifts are defined for the raster, with one pixel
+in the x-direction (columns in rasters) and y-direction (rows in rasters)
+(see also table below). The index shifts are used to define the two target
+pixels. The amount of flow and sediment load that is routed to each of the two
+targets is calculated by computing the angle between the cardinal direction of
+the targets with the direction vector **D** (determined by height profile
+and -if included- the tillage direction).
 
 .. figure:: _static/png/cardinalflow.png
     :align: center
@@ -168,6 +173,7 @@ between the cardinal direction of the targets.
 
 
 .. _onetarget:
+
 One-target routing
 ^^^^^^^^^^^^^^^^^^
 
@@ -175,22 +181,24 @@ One-target routing is determined by the digital elevation model and the land
 cover of the two targets determined in the section above. The flow directions
 and weights (cardinal space) are adjusted according to elevation and land
 cover, as shown in the scheme below. Do note that in this procedure two-target
-routing is adjusted to one-target routing:
+routing is adjusted to one-target routing. This implies not only cardinal
+directions are considered, but also ordinal directions.
 
 .. figure:: _static/png/sketch_flow_algorithm.png
     :align: center
 
     Flow-chart of the routing algorithm in CN-WS - adjusting routing according
-    to elevation and land cover. Note that eight adjacent are taken into
-    account.
+    to elevation and land cover. Note that eight
+    adjacent are taken into account (cardinal and ordinal direction). In
+    addition, it is important to note that in case of jumps a wider range of
+    pixels are considered.
 
 In this figure, the `Flow(target1)` or `Flow(target2)` tag indicate that
 routing will follow strictly the path of the first or second flow
-direction. In these cases, the flow is uni-directional, instead of
-two-directional. The `find_lower` tag indicates that the algorithm will
+direction. The `find_lower` tag indicates that the algorithm will
 search for the lowest neighbouring pixel: this is functionality is used to
 indicate a single target (cardinal and ordinal directions) is used instead of
-two targets (cardinal direction). A`jump` indicates
+two targets (cardinal direction). A `jump` indicates
 the target is not a adjacent pixel of the source: the routing jumps
 to a single target further than its eights adjacent pixels.  Jumps are
 defined within a window :math:`W`. This occurs when a source is located in a
@@ -238,7 +246,7 @@ Forced routing
 **Forced routing** is typically used to force a routing vector from a specific
 source to a target pixel, in case of a local suboptimal routing pattern.
 Forced routing is user-defined. The instructions for defining forced routing
-are found `here <forcerouting>`.
+are found :ref:`here <forcerouting>`.
 
 .. _riverrouting_exp:
 
