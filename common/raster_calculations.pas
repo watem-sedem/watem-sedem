@@ -768,9 +768,10 @@ Begin
       Begin
         If ((K=0)And(L=0)) Then CONTINUE;
         //The pixel itself (i,j) is not evaluated
-        If (PRC[i+k,j+l]=-1)Then
+        If (PRC[i+k,j+l]=-1) Then
+           If (DTM[i+k,j+l]<DTM[i,j]) Then
             closeriver := true;
-
+           End
         If  include_ditch and (Ditch_map[i+k,j+l]<>0) Then
             closeditchdam := true;
 
