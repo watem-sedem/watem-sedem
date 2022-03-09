@@ -59,9 +59,13 @@ steps:
       path_style: true
       endpoint: https://minio.fluves.net
       strip_prefix: conda_build/
-        #  when:
-        #    event:
-        #    - tag
+    when:
+      branch:
+        - master
+        - conda
+      event:
+        exclude:
+          - pull_request
 ---
 kind: pipeline
 type: docker
@@ -218,9 +222,13 @@ steps:
       path_style: true
       endpoint: https://minio.fluves.net
       strip_prefix: conda_build
-        #  when:
-        #    event:
-        #    - tag
+    when:
+      branch:
+        - master
+        - conda
+      event:
+        exclude:
+          - pull_request
 
 ---
 kind: pipeline
@@ -238,9 +246,13 @@ steps:
       from_secret: conda_secret_key
     bucket: conda
     endpoint: https://minio.fluves.net
-        #  when:
-        #    event:
-        #    - tag
+  when:
+    branch:
+      - master
+      - conda
+    event:
+      exclude:
+        - pull_request
 
 ---
 kind: pipeline
