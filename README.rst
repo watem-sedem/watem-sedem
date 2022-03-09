@@ -58,6 +58,13 @@ submitted to versioning via git (https://git.fluves.net/fluves/cn_ws
 ). These optimization were executed by `Fluves
 <https://fluves.com/>`_.
 
+Current roles are:
+
+- Fluves: code developer and package maintenance.
+- KU Leuven: code developer, advisor.
+- VPO and VMM: supervisor.
+
+
 Model
 =====
 
