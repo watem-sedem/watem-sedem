@@ -220,7 +220,7 @@ begin
         end;
 
       // check if routing has no target: find a lower cell in the neighborhood and route there
-      if (Routing[i,j].target1col<1) and (Routing[i,j].target2col <1) and ((not outlet_select) or (outlet[i,j]=0)) and (PRC[i,j]<>-1) then
+      if (Routing[i,j].target1col<1) and (Routing[i,j].target2col <1) and ((not outlet_select) or (outlet[i,j]=0)) and (PRC[i,j]<>RIVER) then
         begin
           if FindLower(i,j,max_kernel) then
             begin
@@ -502,9 +502,7 @@ End;
 //******************************************************************************
 Function IsRiver(i,j: Integer): boolean;
 Begin
-  If PRC[i,j] = -1 Then
-    IsRiver := true
-  Else IsRiver := false;
+  IsRiver:= PRC[i,j] = RIVER;
 End;
 
 Procedure Follow_Direction(var routing: TRoutingArray; map: Graster; i, j:integer);
@@ -949,7 +947,7 @@ Begin
               If PRC[i+k2,j+l2]<>PRC[i,j] Then
                 //indien deze ene cel tot een ander perceel behoort dan..
                 Begin
-                  If (PRC[i+k2,j+l2] = -6) Then
+                  If (PRC[i+k2,j+l2] = GRASS_STRIP) Then
                     // If the target cell is a grass buffer strip it receives everything
                     Begin
                       part2 := 1.0;
@@ -979,7 +977,7 @@ Begin
             Begin
               If PRC[i+k1,j+l1] <> PRC[i,j] Then
                 Begin
-                  If (PRC[i+k1,j+l1] = -6) Then
+                  If (PRC[i+k1,j+l1] = GRASS_STRIP) Then
                     // If the target cell is a grass buffer strip it receives everything
                     Begin
                       part1 := 1.0;
@@ -1007,9 +1005,9 @@ Begin
                 Begin
                   If PRC[i+k2,j+l2]<>PRC[i,j] Then // If both target cell have a different parcel ID
                     Begin
-                      If PRC[i+k1,j+l1] = -6 Then // If the first one is a grass buffer strip
+                      If PRC[i+k1,j+l1] = GRASS_STRIP Then // If the first one is a grass buffer strip
                         Begin
-                          If PRC[i+k2,j+l2] = -6 Then
+                          If PRC[i+k2,j+l2] = GRASS_STRIP Then
                             // If both target cells are grass buffer strips
                             Begin
                               PART1 := PART1;
@@ -1025,7 +1023,7 @@ Begin
                         End
                       Else
                         Begin
-                          If (PRC[i+k2,j+l2] = -6) Then
+                          If (PRC[i+k2,j+l2] = GRASS_STRIP) Then
                             // if only the 2nd target cell is a grass buffer strip
                             Begin
                               PART2 := 1.0;
@@ -1041,7 +1039,7 @@ Begin
                     End
                   Else // als targetcel 1 tot ander perceel behoort, maar targetcel 2 niet...
                     Begin
-                      If PRC[i+k1,j+l1] = -6 Then   // Target cell 1 is a grass buffer strip
+                      If PRC[i+k1,j+l1] = GRASS_STRIP Then   // Target cell 1 is a grass buffer strip
                         Begin
                           PART1 := PART1;
                           PART2 := PART2;
@@ -1059,7 +1057,7 @@ Begin
                   If PRC[i+k2,j+l2]<>PRC[i,j] Then
                     // als enkel targetcel 2 tot ander perceel behoort...
                     Begin
-                      If PRC[i+k2,j+l2] = -6 Then
+                      If PRC[i+k2,j+l2] = GRASS_STRIP Then
                         // als targetcel 2 een grasbufferstrook of grasgang is...
                         Begin
                           PART1 := PART1;
@@ -1150,7 +1148,7 @@ check_differentparcel, check_river, check_sameparcel: boolean;
 
             // als er een rivier in de zoekstraal is springen we naar
             // de laagste riviercel die in de buurt ligt
-            If ((DTM[I+K,J+L]<MINIMUM2) AND (PRC[I+K,J+L]=-1) )Then
+            If ((DTM[I+K,J+L]<MINIMUM2) AND (PRC[I+K,J+L]=RIVER) )Then
               Begin;
                 check_river := true;
                 MINIMUM2 := DTM[I+K,J+L];
@@ -1272,7 +1270,7 @@ Begin
       For j:=1 To ncol Do
         Begin
           // begin matrix loop
-          If (PRC[i,j] = 0) Or (PRC[i,j] = -1) or (uparea[i,j] = -9999) Then
+          If (PRC[i,j] = 0) Or (PRC[i,j] = RIVER) or (uparea[i,j] = -9999) Then
             begin
               LS[i,j] := -9999;
               continue;
@@ -1408,7 +1406,7 @@ Begin
       flux := 0;
       If Routing[i,j].Part1 > 0.0 Then
         Begin
-          If (PRC[Routing[i,j].Target1Row,Routing[i,j].Target1Col] = -6) And (PRC[i,j] <> -6) And (
+          If (PRC[Routing[i,j].Target1Row,Routing[i,j].Target1Col] = GRASS_STRIP) And (PRC[i,j] <> GRASS_STRIP) And (
              Buffermap[Routing[i,j].Target1Row,Routing[i,j].Target1Col] = 0) Then
             // If this target cell is a grass buffer strip
 
@@ -1429,7 +1427,7 @@ Begin
 
       If Routing[i,j].Part2 > 0.0 Then
         Begin
-          If (PRC[Routing[i,j].Target2Row,Routing[i,j].Target2Col] = -6) And (PRC[i,j] <> -6) And (
+          If (PRC[Routing[i,j].Target2Row,Routing[i,j].Target2Col] = GRASS_STRIP) And (PRC[i,j] <> GRASS_STRIP) And (
              Buffermap[Routing[i,j].Target2Row,Routing[i,j].Target2Col] = 0) Then
             // If this target cell is a grass buffer strip
 

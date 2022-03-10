@@ -191,13 +191,13 @@ Begin
       j := column[counter];
 
      skip:=false;
-      If (PRC[i, j] = 0) Or (PRC[i, j] = -1) Then
+      If (PRC[i, j] = 0) Or (PRC[i, j] = RIVER) Then
         // if cell is outside area or a river cell or a water body => = all export cells
         // This means that also cells outside the study area and ponds are included in the calculation of sed_output_file leaving the catchment?
         Begin
-          If (PRC[i, j] = -1) Then
+          If (PRC[i, j] = RIVER) Then
             TEMP_river_sed_input := TEMP_river_sed_input + SEDI_IN[i, j];
-          If (PRC[i, j] = 0) Then
+          If (PRC[i, j] = OUTSIDE_STUDY_AREA) Then
             TEMP_outside_sed_input := TEMP_outside_sed_input + SEDI_IN[i, j];
 
           SEDI_EXPORT[i, j] := SEDI_IN[i, j];
@@ -236,7 +236,7 @@ Begin
           WATEREROS_cubmeter[i,j] := WATEREROS[i, j] * Area / 1000;
           WATEREROS_kg[i,j] := WATEREROS_cubmeter[i,j] * BD;
 
-          If (PRC[i, j] <> 0) And (PRC[i, j] <> -1) Then
+          If (PRC[i, j] <> 0) And (PRC[i, j] <> RIVER) Then
             Begin
               If SEDI_IN[i, j] - SEDI_OUT[i, j] < 0 Then
                 sedprod := sedprod + ((SEDI_IN[i, j] - SEDI_OUT[i, j]) * BD) //BD [kg/m³]
@@ -320,12 +320,12 @@ Begin
       //row of the outlet
       l := OutletArray[i, 1];
       // column of the outlet
-      If PRC[k, l] = -1 Then // If the outlet is a river
+      If PRC[k, l] = RIVER Then // If the outlet is a river
         Begin
           For m := 1 To nrow Do
             For n := 1 To ncol Do
               Begin
-                If (PRC[m, n] = -1) And (DTM[m, n] >= DTM[k, l]) Then
+                If (PRC[m, n] = RIVER) And (DTM[m, n] >= DTM[k, l]) Then
                   sedload[i] := sedload[i] + SEDI_EXPORT[m, n];
                 // Here SEDI_EXPORT [m³]
                 //      sedload [m³]
