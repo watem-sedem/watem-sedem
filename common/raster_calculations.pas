@@ -1139,7 +1139,7 @@ check_differentparcel, check_river, check_sameparcel: boolean;
             //The cells at the border of the map are not looked at
             If ((DTM[I+K,J+L]<MINIMUM)And(DTM[I+K,J+L]<DTM[I,J])
                //Als de bestemmingscel lager gelegen is dan broncel
-               And(PRC[I+K,J+L]=PRC[I,J]))Then
+               And(PRC[I+K,J+L]=PRC[I,J]) AND (PRC[I+K,J+L]<>0))Then
               //En de bestemminscel nog niet behandeld is EN binnen hetzelfde perceel ligt
               Begin
                 check_sameparcel:= true;
@@ -1159,7 +1159,7 @@ check_differentparcel, check_river, check_sameparcel: boolean;
               end;
             // controleert voor de laagtste pixel en stuurt flow die richting
             // Als er geen lagere pixel was binnen het perceel, en geen rivierpixel in window W, controleer dan of er een lagere pixel is in de pixels met een andere land-use code
-            If ((DTM[I+K,J+L]<MINIMUM2)And(DTM[I+K,J+L]<DTM[I,J]) and not (check_river or check_sameparcel)) Then
+            If ((DTM[I+K,J+L]<MINIMUM2)And(DTM[I+K,J+L]<DTM[I,J]) and not (check_river or check_sameparcel) and (PRC[I+K,J+L]<>0)) Then
               Begin
                 check_differentparcel := true;
                 MINIMUM2 := DTM[I+K,J+L];
