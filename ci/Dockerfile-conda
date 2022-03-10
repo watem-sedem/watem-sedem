@@ -5,5 +5,6 @@ RUN apt-get update -q && \
         git-lfs \
         lcl-utils-2.0 \
         lcl-2.0 \
+        make \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
