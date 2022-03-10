@@ -260,6 +260,13 @@ Var
   OutletArray : TIntMatrix;
   RainData: TRainRecordArray;
 
+const
+  RIVER = -1;
+  INFRASTRUCTURE = -2;
+  FOREST = -3;
+  PASTURE = -4;
+  OPEN_WATER = -5;
+  GRASS_STRIP = -6;
 
 Implementation
 

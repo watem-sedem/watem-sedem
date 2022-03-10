@@ -1376,22 +1376,22 @@ Begin
         Begin
           flux := fluxout*(TFSED_crop/100);
         End;
-      If (PRC[Routing[i,j].Target1Row,Routing[i,j].Target1Col] = -3) // Als de targetcel bos,
-         Or (PRC[Routing[i,j].Target1Row,Routing[i,j].Target1Col] = -4) Then // weide
+      If (PRC[Routing[i,j].Target1Row,Routing[i,j].Target1Col] = FOREST)
+         Or (PRC[Routing[i,j].Target1Row,Routing[i,j].Target1Col] = PASTURE) Then
         Begin
           flux := fluxout*(TFSED_forest/100);
         End;
 
-      If (PRC[Routing[i,j].Target1Row,Routing[i,j].Target1Col] = -6) Then // grasbufferstrook
+      If (PRC[Routing[i,j].Target1Row,Routing[i,j].Target1Col] = GRASS_STRIP) Then
         Begin
           flux := fluxout*(TFSED_grasstrip/100);
         End;
 
-      If (PRC[Routing[i,j].Target1Row,Routing[i,j].Target1Col] = -2) Then
+      If (PRC[Routing[i,j].Target1Row,Routing[i,j].Target1Col] = INFRASTRUCTURE) Then
         // Target is verhard oppervlak
         flux := fluxout;
 
-      If (PRC[Routing[i,j].Target1Row,Routing[i,j].Target1Col] = -1) Then // Target is a river pixel
+      If (PRC[Routing[i,j].Target1Row,Routing[i,j].Target1Col] = RIVER) Then
         flux := fluxout;
 
 
