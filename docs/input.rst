@@ -611,8 +611,6 @@ land cover 'forest':
       A_{pixel} =  A_{pixel}\frac{connectivity_{forest}}{100}
 
 
-_parceltrapppingcrop
-
 .. _parceltrapppingcrop:
 
 Parcel trapping efficiency cropland
