@@ -6,6 +6,10 @@ Latest
 ------
 
 - Add parcel connectivity grasstrips as a variable
+- Write 'routing_missing.txt' only when 'write routing table' is enabled in the
+  ini-file.
+- Disable option to calculate R-factor in CN-WS, referring to the R-factor python 
+  package: https://cn-ws.github.io/rfactor/index.html.
 
 version 4.2.0
 -------------

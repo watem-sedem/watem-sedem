@@ -23,16 +23,15 @@ For every outlet or (optionally) river segment a hydrogram (stream velocity as a
 function of time) is generated.
 
 WaTEM/SEDEM is used to model the total sediment load leaving the model domain
-via rivers or an outlet. This model is not time dependent, but the sediment is
-distributed spatially. CN-WS calculates the R-factor for WaTEM/SEDEM from the
-time series of rainfall data used in the CN model. The calculation of the
-R-factor is done with the methodology of Verstraeten et al.
-(2006).
+via rivers or an outlet. The use of WaTEM/SEDEM in CN requires to precompute
+and R-factor and provide it as model input. In order to compute an R-factor
+value, the `R-factor python packge <https://cn-ws.github.io/rfactor/>`_) can
+be used.
 
 The output of both models is combined: the total sediment load is distributed
-over the hydrogram to obtain a sedigram (sediment concentration and sedimentload
-as a function of time). The sediment concentration :math:`SC` is calculated for every
-timestep as:
+over the hydrogram to obtain a sedigram (sediment concentration and sediment
+load as a function of time). The sediment concentration :math:`SC` is
+calculated for every timestep as:
 
 .. math::
     SC = \frac{(SV_{event}*1000)}{RO_{event}*1000}
