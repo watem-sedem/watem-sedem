@@ -23,6 +23,7 @@ sometimes referred to as `land pixels`.
     :header-rows: 1
     :align: center
 
+=======
 Definitions
 ===========
 
@@ -230,16 +231,74 @@ The implementation of this rule-bank aims to satisfy following conditions:
  - Routing within one agricultural parcel will remain in the parcel until
    the lowest point of the parcel is reached. Thus, the routing will follow the
    height profile in the direction of parcel boundaries rather than the
-   steepest descent (in cardinal and ordinal direction).
+   steepest descent.
 
- - Routing should target rivers as a priority target (in cardinal and ordinal
-   direction).
+ - Routing should target grass strips as a priority target. An exception
+   is defined if the two target pixels and the source pixel all have different
+   land cover codes (with one target pixel being a grass strip), and the target
+   grass strip being higher than the other target: here the routing follows the
+   direction of to the lowest pixel.
 
- - Routing should target grass strips as a second priority target (in
-   cardinal and ordinal). An exception is defined if the two target pixels and
-   the source pixel all have different land cover codes (with one target pixel
-   being a grass strip), and the target grass strip being higher than the
-   other target: here the routing follows the direction of to the lowest pixel.
+Upstream area calculation
+*************************
+
+Once the routing is known, the upstream area of all pixels is calculated.
+
+The upstream area of a pixel is dependent on the amount of upstream (source)
+pixels and the fluxes of these source pixels that are routed to the considered
+pixel. Next to the incoming fluxes, the trapping efficiency of the pixel and the
+pixel size are incorporated in the calculation of the upstream area of a pixel
+too.
+
+Mathematically this can be expressed as:
+
+.. math::
+        A = {\sum_1^n{influx_i}} + a.(1-PTEF)
+
+with:
+ - :math:`A`: the upstream area of the considered pixel (:math:`\text{m}^2`).
+ - :math:`influx`: the upstream area of the source pixels that is distributed to
+   the considered pixel (:math:`\text{m}^2`).
+ - :math:`a`: the pixel size (:math:`\text{m}^2`).
+ - :math:`PTEF`: the trapping efficiency of a pixel.
+ - :math:`n`: the number of source pixels.
+
+The influx is defined as zero for all pixels that do not recieve any flux from
+upstream pixels. These pixels are the first pixels treated in the CN-WS routing
+scheme. Their upstream area is equal to :math:`a.(1-PTEF)`. The PTEF is defined
+by the user for :ref:`cropland <parceltrapppingcrop>`,
+:ref:`pasture <parceltrappingpasture>` and :ref:`forest <parceltrappingforest>`.
+
+Once the upstream area of a pixel is known, the outgoing flux, or distribution of the
+upstream area to its target pixels, is calculated. By default this outgoing flux
+is equal to the upstream area of the source pixel itself. However, in some
+special cases the outgoing flux is reduced (for example in buffer outlets, sewers
+or when the landcover of a target pixel is different from the source pixel).
+The flow-chart below clarifies in which cases the reductions on the incoming flux
+are applied in the calculation of the outgoing flux.
+
+.. figure:: _static/png/sketch_distribute_uparea.png
+    :align: center
+
+    Flow-chart of the distribution of the outgoing flux of a pixel in CN-WS
+
+When the outgoing flux is known for a source pixel, this flux is added to the
+upstream area of the target pixels by
+
+.. math::
+        A_{target1} = A_{target1} + flux*part_1
+
+        A_{target2} = A_{target2} + flux*part_2
+
+with:
+
+ - :math:`A_{target1}`: the upstream area of the first target pixel.
+ - :math:`A_{target2}`: the upstream area of the second target pixel.
+ - :math:`flux`: the outgoing flux of the source pixel.
+ - :math:`part1`: the fraction of the routing from the source pixel to the first
+   target pixel.
+ - :math:`part2`: the fraction of the routing from the source pixel to the second
+   target pixel.
 
 Forced routing
 **************
@@ -259,6 +318,7 @@ separate sections for the definition of routing in
 :ref:`rivers <riverrouting>`, :ref:`ditches <ditchmap>` and
 :ref:`dams <dammap>`. The workflow on how to create these rasters is described
 in the section on :ref:`routing maps <routingmap>`.
+>>>>>>> master
 
 References
 ==========

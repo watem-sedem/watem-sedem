@@ -5,7 +5,7 @@ name: cn_ws linux build + tests
 
 steps:
   - name: build linux
-    image: registry.fluves.net/drone/cn_ws/debian11-build
+    image: registry.fluves.net/drone/cn_ws/conda
     environment:
     commands:
       - git fetch --tags
@@ -15,6 +15,7 @@ steps:
     image: debian:buster-slim
     commands:
       - testfiles/test.sh
+
 
   - name: get CNWS-processing repo for tests
     image: docker:git
@@ -30,7 +31,41 @@ steps:
       - pytest testfiles
     environment:
       PYTHONPATH: CNWS-processing-scripts/pycnws/src
+---
+kind: pipeline
+type: docker
+name: Build conda package (linux)
 
+steps:
+  - name: build conda package
+    image: registry.fluves.net/drone/cn_ws/conda
+    environment:
+      GIT_LFS_SKIP_SMUDGE: 1 # due to a bug in conda: https://github.com/conda/conda-build/issues/1462
+    commands:
+    - mkdir conda_build
+    - conda build . --output-folder conda_build
+    - conda index conda_build
+    - ls -R conda_build
+  
+  - name: upload conda package to S3
+    image: plugins/s3
+    settings:
+      access_key: conda
+      secret_key:
+        from_secret: conda_secret_key
+      bucket: conda
+      source: conda_build/**/*.bz2
+      target: /
+      path_style: true
+      endpoint: https://minio.fluves.net
+      strip_prefix: conda_build/
+    when:
+      branch:
+        - master
+        - conda
+      event:
+        exclude:
+          - pull_request
 ---
 kind: pipeline
 type: docker
@@ -162,6 +197,62 @@ steps:
     image: registry.fluves.net/drone/cn_ws/lazarus-windows
     commands:
       - .\testfiles\test.bat
+  - name: build conda package
+    environment:
+      GIT_LFS_SKIP_SMUDGE: 1 # due to a bug in conda: https://github.com/conda/conda-build/issues/1462
+    image: registry.fluves.net/drone/cn_ws/windows-conda
+    commands:
+      # somehow the _netrc file has the wrong encoding
+      # which makes it unparseable by curl/git
+      # fixing that with my poor powershell skills
+      - get-content c:/users/ContainerAdministrator/_netrc | out-file -encoding ASCII c:/users/ContainerAdministrator/_netrc_ascii
+      - del c:/users/ContainerAdministrator/_netrc
+      - mv c:/users/ContainerAdministrator/_netrc_ascii c:/users/ContainerAdministrator/_netrc
+      - conda build conda --output-folder conda_build
+
+  - name: upload conda package
+    image: registry.fluves.net/drone/infrastructure/s3 
+    settings:
+      access_key: conda
+      secret_key:
+        from_secret: conda_secret_key
+      bucket: conda
+      source: conda_build/win-64/*.tar.bz2
+      target: /
+      path_style: true
+      endpoint: https://minio.fluves.net
+      strip_prefix: conda_build
+    when:
+      branch:
+        - master
+        - conda
+      event:
+        exclude:
+          - pull_request
+
+---
+kind: pipeline
+type: docker
+name: conda reindex
+depends_on:
+  - windows build
+  - Build conda package (linux)
+steps:
+- name: reindex conda repo
+  image: registry.fluves.net/drone/infrastructure/conda-s3-index
+  settings:
+    access_key: conda
+    secret_key:
+      from_secret: conda_secret_key
+    bucket: conda
+    endpoint: https://minio.fluves.net
+  when:
+    branch:
+      - master
+      - conda
+    event:
+      exclude:
+        - pull_request
 
 ---
 kind: pipeline
