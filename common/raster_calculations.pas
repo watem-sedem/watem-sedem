@@ -113,7 +113,7 @@ Begin
     For j:= 1 To ncol Do
       Begin
         //Same for columns
-        If PRC[i,j]=0 Then continue;
+        If PRC[i,j]=OUTSIDE_STUDY_AREA Then continue;
         If IsRiver(i,j) Then
           //Routing procedure for rivers (once water has entered a river it has to stay in the river)
           begin
@@ -166,7 +166,7 @@ begin
     For j := 1 To ncol Do
      begin;
 
-      if PRC[i,j]=0 then
+      if PRC[i,j]=OUTSIDE_STUDY_AREA then
         continue; // jump out of the loop if we look at cell outside the study area
 
       if (Routing[i,j].Part1 > 0) and (Routing[i,j].Target1Col > 0) then
@@ -1228,7 +1228,7 @@ Begin
     if (i=0) and (j=0) then
       continue;
 
-    If PRC[i,j]=0 Then
+    If PRC[i,j]=OUTSIDE_STUDY_AREA Then
         continue;
 
     uparea[i,j] := 0;
@@ -1241,7 +1241,7 @@ Begin
       if (i=0) and (j=0) then
         break;
 
-      If PRC[i,j]=0 Then
+      If PRC[i,j]=OUTSIDE_STUDY_AREA Then
           continue;
 
       OPPCOR := (X_resolution()*Y_resolution()) * (1 - (PTEFmap[i,j] / 100));
@@ -1270,7 +1270,7 @@ Begin
       For j:=1 To ncol Do
         Begin
           // begin matrix loop
-          If (PRC[i,j] = 0) Or (PRC[i,j] = RIVER) or (uparea[i,j] = -9999) Then
+          If (PRC[i,j] = OUTSIDE_STUDY_AREA) Or (PRC[i,j] = RIVER) or (uparea[i,j] = -9999) Then
             begin
               LS[i,j] := -9999;
               continue;

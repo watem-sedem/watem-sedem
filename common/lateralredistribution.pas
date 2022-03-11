@@ -191,7 +191,7 @@ Begin
       j := column[counter];
 
      skip:=false;
-      If (PRC[i, j] = 0) Or (PRC[i, j] = RIVER) Then
+      If (PRC[i, j] = OUTSIDE_STUDY_AREA) Or (PRC[i, j] = RIVER) Then
         // if cell is outside area or a river cell or a water body => = all export cells
         // This means that also cells outside the study area and ponds are included in the calculation of sed_output_file leaving the catchment?
         Begin
@@ -236,7 +236,7 @@ Begin
           WATEREROS_cubmeter[i,j] := WATEREROS[i, j] * Area / 1000;
           WATEREROS_kg[i,j] := WATEREROS_cubmeter[i,j] * BD;
 
-          If (PRC[i, j] <> 0) And (PRC[i, j] <> RIVER) Then
+          If (PRC[i, j] <> OUTSIDE_STUDY_AREA) And (PRC[i, j] <> RIVER) Then
             Begin
               If SEDI_IN[i, j] - SEDI_OUT[i, j] < 0 Then
                 sedprod := sedprod + ((SEDI_IN[i, j] - SEDI_OUT[i, j]) * BD) //BD [kg/m³]
@@ -291,7 +291,7 @@ Begin
       For i := 1 To nrow Do
     //The DTM is read row per row (from l to r), for each next cell that is
          For j := 1 To ncol Do
-            if (PRC[i,j] = 0) then
+            if (PRC[i,j] = OUTSIDE_STUDY_AREA) then
             begin;
               RUSLE[i, j] := -9999;
               SEDI_OUT[i, j] := -9999;
@@ -462,7 +462,7 @@ Begin
   For m := 1 To nrow Do
     For n := 1 To ncol Do
       Begin
-        if PRC[m,n]=0 then
+        if PRC[m,n]=OUTSIDE_STUDY_AREA then
           begin
             SEDI_IN[m,n] := -9999;
             SEDI_OUT[m,n] := -9999;

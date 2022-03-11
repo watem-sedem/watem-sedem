@@ -570,7 +570,7 @@ Begin
   For i := 1 To nrow Do
     For j := 1 To ncol Do
       Begin
-        If PRC[i,j] = 0 Then continue;
+        If PRC[i,j] = OUTSIDE_STUDY_AREA Then continue;
         // all cells outside catchment are skipped
         If Remap[i,j] < 0.0 Then
           Begin
@@ -622,7 +622,7 @@ Begin
         For l := 1 To ncol Do
           //The input for every cell is determined
           Begin
-            If PRC[k,l] = 0 Then continue;
+            If PRC[k,l] = OUTSIDE_STUDY_AREA Then continue;
             // all cells outside catchment are skipped
             RunoffInput := RunoffInputmap[k,l] * RainData[i].Rain_fraction;
             //The runoff for that timestep is determined by scaling the total runoff
@@ -650,9 +650,9 @@ Begin
           //row and col are vectors containing the row and column ID's from low to high
           l := column[counter];
           if (k=0) and (l=0) then break;
-          If PRC[k,l] = 0 Then continue;
+          If PRC[k,l] = OUTSIDE_STUDY_AREA Then continue;
           If RunoffMap[k,l] <= 0.0 Then continue;
-          If PRC[k,l] = -1 Then
+          If PRC[k,l] = RIVER Then
             speed := riv_vel
           Else
             Speed := 0.3;
@@ -938,7 +938,7 @@ Begin
         For l := 1 To ncol Do
           // runoff cumul map = amount of water entering each cell
           Begin
-            If PRC[k,l] = 0 Then continue;
+            If PRC[k,l] = OUTSIDE_STUDY_AREA Then continue;
             RunoffMap.r[k,l] += RoutedMap_temp[k,l];
             //RunoffCummulMap[k,l] := RunoffCummulMap[k,l] + RoutedMap_temp[k,l];
             If RunoffMap[k,l] >= 0 Then
@@ -1125,7 +1125,7 @@ Begin
   For k := 1 To nrow Do
     For l := 1 To ncol Do
       Begin
-        If PRC[k,l] = 0 Then RunoffTotMap[k,l] := 0.0
+        If PRC[k,l] = OUTSIDE_STUDY_AREA Then RunoffTotMap[k,l] := 0.0
         Else
           RunoffTotMap[k,l] := RunoffCummulMap[k,l];
       End;
@@ -1333,7 +1333,7 @@ Begin
       For i := 1 To nrow Do
         For j := 1 To ncol Do
           Begin
-            If (PRC[i,j] = -1) And (DTM[i,j]<height) Then
+            If (PRC[i,j] = RIVER) And (DTM[i,j]<height) Then
               Begin
                 OutletArray[k,0] := i;
                 OutletArray[k,1] := j;
@@ -1350,7 +1350,7 @@ Begin
       For i := 1 To nrow Do
         For j := 1 To ncol Do
           Begin
-            If (PRC[i,j] = -1) And (UPAREA[i,j] > max_uparea) Then
+            If (PRC[i,j] = RIVER) And (UPAREA[i,j] > max_uparea) Then
               Begin
                 OutletArray[k,0] := i;
                 OutletArray[k,1] := j;
