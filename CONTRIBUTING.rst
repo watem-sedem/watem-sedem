@@ -120,8 +120,12 @@ which are based on sphinx_.
 
   $ pip install -r docs/requirements.txt
 
-After which you should be able to generate HTML output by typing
-``make html`` from the `docs` directory.
+After which you should be able to generate HTML output by:
+
+.. code-block:: bash
+
+  $ sphinx-build ./docs ./docs/_build/
+
 
 Publishing on the documentation website (https://docs.fluves.net/cnws-pascal)
 will happen when changes to master build correctly. Note that this may mean that
