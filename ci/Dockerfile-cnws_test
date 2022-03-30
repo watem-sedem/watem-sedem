@@ -1,2 +1,2 @@
-FROM debian:buster-slim
+FROM debian:bullseye-slim
 RUN apt update && apt -y install git python3-setuptools python3-rasterio python3-fiona python3-geopandas python3-pytest python3-pip python3-pytest virtualenv && apt clean
