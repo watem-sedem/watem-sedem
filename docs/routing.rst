@@ -11,7 +11,9 @@ from a source pixel to one or two target pixel(s).
 
 The flow routing varies as a function of the difference in height between
 the source and **potential** target pixels, and the **land cover** class of
-the source and targets. The land cover is defined in the following table
+the source and targets. In addition, it varies as a function of presence of
+conductive dams, conductive ditches and buffers (and forced routing, see
+further). The land cover is defined in the following table
 (see also :ref:`here <prcmap>`). The codes (pixel id) listed in this table are
 used to define the routing in CN-WS. A important distinction is made between
 the land cover of (a) target(s) being equal to the class `river` (-1) and not
