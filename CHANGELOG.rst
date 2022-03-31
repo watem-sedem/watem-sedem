@@ -2,7 +2,7 @@
 Changelog
 =========
 
-Version 4.3.0
+Version 4.2.1
 -------------
 
 - Add parcel connectivity grasstrips as a parameter.
