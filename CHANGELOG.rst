@@ -12,6 +12,7 @@ Version 4.2.1
   python package: https://cn-ws.github.io/rfactor/index.html.
 - Enable install with cn_ws with conda.
 - Several documentation updates, additions and clarifications.
+- Refactoring code
 
 version 4.2.0
 -------------
