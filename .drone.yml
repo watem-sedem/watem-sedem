@@ -80,6 +80,7 @@ steps:
       DEBFULLNAME: "Fluves Drone CI"
       DEBEMAIL: donotreply@fluves.net
     commands:
+      - git fetch --tags
       - gbp dch --snapshot --ignore-branch --snapshot-number=$DRONE_BUILD_NUMBER
       - debuild -b
       - mkdir package
