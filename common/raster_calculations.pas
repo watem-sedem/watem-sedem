@@ -769,10 +769,8 @@ Begin
         If (PRC[i+k,j+l]=-1) Then
            If (DTM[i+k,j+l]<DTM[i,j]) Then
             closeriver := true;
-           End
         If  include_ditch and (Ditch_map[i+k,j+l]<>0) Then
             closeditchdam := true;
-
         If (Include_dam) And (Dam_map[i+k,j+l]<> 0) Then
             closeditchdam := true;
 
