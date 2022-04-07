@@ -1,0 +1,20 @@
+package:
+  name: cn_ws
+  version: "{{ GIT_DESCRIBE_TAG }}_{{ GIT_BUILD_STR }}"
+
+source:
+  git_url: https://git.fluves.net/fluves/cn_ws.git
+  git_rev: {{ DRONE_COMMIT_SHA }}
+
+build:
+ number: {{ DRONE_BUILD_NUMBER }}
+ script_env:
+   - DRONE_BUILD_NUMBER
+   - DRONE_COMMIT_SHA
+
+requirements:
+  build:
+  run:
+
+about:
+  home: https://docs.fluves.net/cn_ws/

@@ -147,7 +147,6 @@ Var
   DTM_filename         : string;       {unit m}
   PARCEL_filename      : string;
 
-{unit id, 1 to 3200 for parcels, -1 for river, 0 for outside area, -2 for roads, -3 for forest, -4 for pasture, -5 for ponds}
   Rainfallfilename     : string;
   Sewerfilename        : string;
   {indicates location of sewers. Value = efficiency for capturing water/sediment (type: double)}
@@ -260,6 +259,15 @@ Var
   OutletArray : TIntMatrix;
   RainData: TRainRecordArray;
 
+const
+  { These values are used in the landuse grid. Parcels get a value >0 }
+  OUTSIDE_STUDY_AREA = 0;
+  RIVER = -1;
+  INFRASTRUCTURE = -2;
+  FOREST = -3;
+  PASTURE = -4;
+  OPEN_WATER = -5;
+  GRASS_STRIP = -6;
 
 Implementation
 

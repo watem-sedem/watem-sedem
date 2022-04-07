@@ -4,6 +4,15 @@
 Installation
 ############
 
+Conda (windows/linux)
+*********************
+Conda packages are currently build for every commit to master. These can be installed in your environment by running:
+
+.. code-block:: shell
+
+	conda config --add channels https://conda.static.fluves.net
+	conda install cn_ws
+
 Linux (debian/linux)
 ********************
 
@@ -74,7 +83,8 @@ Building on Windows
 ===================
 
 To build CN-WS on windows, you need to install the Lazarus IDE first.
-You can download it on https://www.lazarus-ide.org/
+You can download it on https://www.lazarus-ide.org/. Install it under `c:\lazarus` . 
+You can use the provided `make.bat` script to build. 
 
 Open the project in Lazarus (open the .lpi file, see subfolder cn_ws/cn_ws/cn_ws.lpi)
 and build the executable (Shift + F9). The executable is stored in the same folder as
