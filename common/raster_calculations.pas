@@ -768,7 +768,7 @@ Begin
         //The pixel itself (i,j) is not evaluated
         If (PRC[i+k,j+l]=-1) Then
           // only cardinal
-          If (abs(i)+abs(j)=1) Then
+          If (abs(k)+abs(l)=1) Then
              closeriver := true;
         If  include_ditch and (Ditch_map[i+k,j+l]<>0) Then
             closeditchdam := true;
@@ -784,13 +784,14 @@ Begin
         For L := -1 To 1 Do
           Begin
             If ((K=0)And(L=0)) Then CONTINUE;
-            //The pixel itself (i,j) is not evaluated
-            If (PRC[i+k,j+l]=-1)And(DTM[i+k,j+l]<extremum) Then
-              Begin
-                ROWMIN := K;
-                COLMIN := L;
-                extremum := DTM[i+k,j+l];
-              End;
+            //Only cardinal
+            //The pixel itself (i,j) is not evaluate
+                If (PRC[i+k,j+l]=-1)And(DTM[i+k,j+l]<extremum)And(abs(k)+abs(l)=1) Then
+                  Begin
+                    ROWMIN := K;
+                    COLMIN := L;
+                    extremum := DTM[i+k,j+l];
+                End;
           End;
       Routing[i,j].One_Target := True;
       //All water and sediment flows into the river
