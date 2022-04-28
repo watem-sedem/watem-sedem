@@ -706,7 +706,6 @@ Begin
     end
 End;
 
-
 // Only cardinal routing: return true if sum of k (row) and l (col) lead to
 // a one (a cardinal direction in the grid).
 Function OnlyCardinalRouting(k,l:integer;cardinal_routing:boolean):boolean;
@@ -718,6 +717,7 @@ Begin
            OnlyCardinalRouting := True;
 
 end;
+
 
 //Onderstaande procedure zoekt de targetcellen van alle pixels die geen rivier zijn
 //en slaat ze op in de record array "Routing"
@@ -780,10 +780,12 @@ Begin
         If ((K=0)And(L=0)) Then CONTINUE;
         //The pixel itself (i,j) is not evaluated
         If (PRC[i+k,j+l]=-1) Then
+
           // Only allow cardinal routing for closeriver, to avoid to surpass
           // gras strips via the ordinal direction
           If OnlyCardinalRouting(k,l,true) Then
              closeriver := true;
+
         If  include_ditch and (Ditch_map[i+k,j+l]<>0) Then
             closeditchdam := true;
         If (Include_dam) And (Dam_map[i+k,j+l]<> 0) Then
@@ -803,6 +805,7 @@ Begin
             //The pixel itself (i,j) is not evaluate
 
                 If (PRC[i+k,j+l]=-1)And(DTM[i+k,j+l]<extremum)And(OnlyCardinalRouting(k,l,true)) Then
+
                   Begin
                     ROWMIN := K;
                     COLMIN := L;
