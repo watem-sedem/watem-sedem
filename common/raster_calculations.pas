@@ -706,6 +706,19 @@ Begin
     end
 End;
 
+Procedure OnlyCardinalRoutingToRive(i,j:integer,cardinal_routing_to_river:boolean):
+
+Var
+  route_to_river: boolean
+
+Begin
+    If cardinal_routing_to_river Then
+
+      If (abs(k)+abs(l)=1) Then
+        route_to_river := true
+      Else
+        route_to_river := false
+End
 //Onderstaande procedure zoekt de targetcellen van alle pixels die geen rivier zijn
 //en slaat ze op in de record array "Routing"
 //******************************************************************************
@@ -768,7 +781,7 @@ Begin
         //The pixel itself (i,j) is not evaluated
         If (PRC[i+k,j+l]=-1) Then
           // only cardinal
-          If (abs(k)+abs(l)=1) Then
+          If OnlyCardinalRoutingToRive(i,j,true):
              closeriver := true;
         If  include_ditch and (Ditch_map[i+k,j+l]<>0) Then
             closeditchdam := true;
@@ -786,7 +799,8 @@ Begin
             If ((K=0)And(L=0)) Then CONTINUE;
             //Only cardinal
             //The pixel itself (i,j) is not evaluate
-                If (PRC[i+k,j+l]=-1)And(DTM[i+k,j+l]<extremum)And(abs(k)+abs(l)=1) Then
+                If (PRC[i+k,j+l]=-1)And(DTM[i+k,j+l]<extremum) Then
+                 If OnlyCardinalRoutingToRive(i,j,true):
                   Begin
                     ROWMIN := K;
                     COLMIN := L;
