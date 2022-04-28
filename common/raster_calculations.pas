@@ -706,15 +706,20 @@ Begin
     end
 End;
 
-// Only cardinal routing: return true if sum of k (row) and l (col) lead to
-// a one (a cardinal direction in the grid).
-Function OnlyCardinalRouting(k,l:integer;cardinal_routing:boolean):boolean;
+// OrdinalRouting: return false if sum of k (row) and l (col) lead to
+// a non one-value (the ordinal direction in the raster) and cardinal routing is on .
+Function OrdinalRouting(k,l:integer;only_cardinal_routing:boolean):boolean;
 
 Begin
-     OnlyCardinalRouting := false;
-     If cardinal_routing Then
-        If (abs(k)+abs(l)=1) Then
-           OnlyCardinalRouting := True;
+
+     OrdinalRouting := true;
+     // OrdinalAndCardinalRouting
+     // = true if caridnal and ordinal routing are allowed
+     // = true if direction is cardinal and cardinal_routing is on
+     // = false  if direction is ordinal and cardinal_routing is on
+     If only_cardinal_routing Then
+        If (abs(k)+abs(l)<>1) Then
+           OrdinalRouting := false;
 
 end;
 
@@ -783,7 +788,7 @@ Begin
 
           // Only allow cardinal routing for closeriver, to avoid to surpass
           // gras strips via the ordinal direction
-          If OnlyCardinalRouting(k,l,true) Then
+          If OrdinalRouting(k,l,cardinal_routing_to_river) Then
              closeriver := true;
 
         If  include_ditch and (Ditch_map[i+k,j+l]<>0) Then
@@ -804,7 +809,7 @@ Begin
             // gras strips via the ordinal direction
             //The pixel itself (i,j) is not evaluate
 
-                If (PRC[i+k,j+l]=-1)And(DTM[i+k,j+l]<extremum)And(OnlyCardinalRouting(k,l,true)) Then
+                If (PRC[i+k,j+l]=-1)And(DTM[i+k,j+l]<extremum)And(OrdinalRouting(k,l,cardinal_routing_to_river)) Then
 
                   Begin
                     ROWMIN := K;
