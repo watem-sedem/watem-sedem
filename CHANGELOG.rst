@@ -2,6 +2,13 @@
 Changelog
 =========
 
+Latest
+------
+- Implements option that allows only cardinal routing to the river. This
+  option is usefull to avoid ordinal routing between two grass strip pixels.
+  As a consequency, the cardinal routing is a way to maximize impact of grass
+  strip pixels in the simulation.
+
 Version 4.2.1
 -------------
 

@@ -187,6 +187,7 @@ Var
   force_routing        : boolean;
   river_routing        : boolean;
   river_topology       : boolean;
+  cardinal_routing_to_river: boolean;
   {Output maps}
   Saga_Grids           : boolean;
   Write_ASPECT         : boolean;
@@ -673,6 +674,9 @@ Begin
   river_routing := inifile.ReadBool('User Choices', 'River Routing', false);
   if river_routing then
    segments := true;
+
+  cardinal_routing_to_river := inifile.ReadBool('User Choices', 'Cardinal Routing River', true);
+
 
   inistring:= Inifile.ReadString('User Choices', 'L model', 'Desmet1996_Vanoost2003');
   Lmodel := TLModel(GetEnumValue(Typeinfo(TLModel), inistring));

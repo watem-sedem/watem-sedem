@@ -413,6 +413,12 @@ Following input-files are required when `River Routing = 1`:
 When this option is disabled, the model will use the digital elevation model to
 determine the routing between all river pixels.
 
+
+Cardinal Routing River
+######################
+This option enables only cardinal routing from source pixels to the river
+pixels. Default equal to True.
+
 .. _includetillagedirection:
 
 Include tillage direction
