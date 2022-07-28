@@ -706,6 +706,24 @@ Begin
     end
 End;
 
+// OrdinalRouting: return false if sum of k (row) and l (col) lead to
+// a non one-value (the ordinal direction in the raster) and cardinal routing is on .
+Function OrdinalRouting(k,l:integer;only_cardinal_routing:boolean):boolean;
+
+Begin
+
+     OrdinalRouting := true;
+     // OrdinalAndCardinalRouting
+     // = true if caridnal and ordinal routing are allowed
+     // = true if direction is cardinal and cardinal_routing is on
+     // = false  if direction is ordinal and cardinal_routing is on
+     If only_cardinal_routing Then
+        If (abs(k)+abs(l)<>1) Then
+           OrdinalRouting := false;
+
+end;
+
+
 //Onderstaande procedure zoekt de targetcellen van alle pixels die geen rivier zijn
 //en slaat ze op in de record array "Routing"
 //******************************************************************************
@@ -766,12 +784,15 @@ Begin
       Begin
         If ((K=0)And(L=0)) Then CONTINUE;
         //The pixel itself (i,j) is not evaluated
-        If (PRC[i+k,j+l]=-1)Then
-            closeriver := true;
+        If (PRC[i+k,j+l]=-1) Then
+
+          // Only allow cardinal routing for closeriver, to avoid to surpass
+          // gras strips via the ordinal direction
+          If OrdinalRouting(k,l,cardinal_routing_to_river) Then
+             closeriver := true;
 
         If  include_ditch and (Ditch_map[i+k,j+l]<>0) Then
             closeditchdam := true;
-
         If (Include_dam) And (Dam_map[i+k,j+l]<> 0) Then
             closeditchdam := true;
 
@@ -784,13 +805,17 @@ Begin
         For L := -1 To 1 Do
           Begin
             If ((K=0)And(L=0)) Then CONTINUE;
-            //The pixel itself (i,j) is not evaluated
-            If (PRC[i+k,j+l]=-1)And(DTM[i+k,j+l]<extremum) Then
-              Begin
-                ROWMIN := K;
-                COLMIN := L;
-                extremum := DTM[i+k,j+l];
-              End;
+            // Only allow cardinal routing for closeriver, to avoid to surpass
+            // gras strips via the ordinal direction
+            //The pixel itself (i,j) is not evaluate
+
+                If (PRC[i+k,j+l]=-1)And(DTM[i+k,j+l]<extremum)And(OrdinalRouting(k,l,cardinal_routing_to_river)) Then
+
+                  Begin
+                    ROWMIN := K;
+                    COLMIN := L;
+                    extremum := DTM[i+k,j+l];
+                End;
           End;
       Routing[i,j].One_Target := True;
       //All water and sediment flows into the river

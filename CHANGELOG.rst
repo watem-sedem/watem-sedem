@@ -2,14 +2,24 @@
 Changelog
 =========
 
-Latest
-------
+Version 4.2.2
+-------------
+- Implements option that allows only cardinal routing to the river. This
+  option is usefull to avoid ordinal routing between two grass strip pixels.
+  As a consequency, the cardinal routing is a way to maximize impact of grass
+  strip pixels in the simulation.
 
-- Add parcel connectivity grasstrips as a variable
-- Write 'routing_missing.txt' only when 'write routing table' is enabled in the
-  ini-file.
-- Disable option to calculate R-factor in CN-WS, referring to the R-factor python 
-  package: https://cn-ws.github.io/rfactor/index.html.
+Version 4.2.1
+-------------
+
+- Add parcel connectivity grasstrips as a parameter.
+- Write 'routing_missing.txt' only when 'write routing table' is enabled in
+  the ini-file.
+- Disable option to calculate R-factor in CN-WS, referring to the R-factor
+  python package: https://cn-ws.github.io/rfactor/index.html.
+- Enable install with cn_ws with conda.
+- Several documentation updates, additions and clarifications.
+- Refactoring code
 
 version 4.2.0
 -------------
