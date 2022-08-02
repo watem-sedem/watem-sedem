@@ -1,0 +1,9 @@
+name: cn_ws
+channels:
+  - conda-forge
+dependencies:
+  - python=3.9
+  - numpy
+  - pandas
+  - rasterio=1.2.10
+  - pytest-env
