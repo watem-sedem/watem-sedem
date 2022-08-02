@@ -156,7 +156,7 @@ buffer dam or a river, the routing algorithm checks whether the flow direction
 vector **D** is steered by the steepest descent direction or the
 **tillage direction** (for the format of the input of the tillage direction,
 see :ref:`here <tildirmap>`). In this check, the angle of the
-**steepest descend** is compared with the tillage direction to define the
+**steepest descent** is compared with the tillage direction to define the
 routing (see Takken et al. (2001)). At the end of this step, the direction is
 mapped to the cardinal directions. These cardinal directions define the
 `target1` and `target2` pixels, and the weight
@@ -285,7 +285,8 @@ with:
    to the considered pixel (:math:`\text{m}^2`).
  - :math:`a`: the pixel size (:math:`\text{m}^2`).
  - :math:`PTEF`: the parcel trapping efficiency of a pixel.
- - :math:`n`: the number of source pixels.
+ - :math:`n`: the number of source pixels. Note that only pixels are
+   considered as source pixel in case they directly route to the target pixel.
 
 The influx is defined as zero for all pixels that do not receive any flux from
 upstream pixels. These pixels are the first pixels treated in the CN-WS routing

@@ -42,8 +42,10 @@ With:
 - :math:`SV_{event}`, the total sedimentload for one event (:math:`kg`).
 - :math:`RO_{event}`, the total run-off volume for one event (:math:`m^{3}`).
 
-Do note that the sedigram is a constant over time, as sediment load and flow
-is integrated over time for one event.
+Do note that the sedigram is a constant over an event, but not over a
+timeseries. The sediment load and flow is integrated over time for one event,
+leading to two constants. A timeseries is generated from considering different
+events (see also `R-factor python packge <https://cn-ws.github.io/rfactor/>`_).
 
 Additional model features
 =========================
