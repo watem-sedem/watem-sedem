@@ -256,7 +256,7 @@ this value.
 Capacity.rst
 ************
 
-Raster with the calculated transport capacity :math:`(kg.m^{-2})` for every
+Raster with the calculated transport capacity :math:`(kg/[pixel.year]})` for every
 pixel. The values in this raster are calculated according the chosen formula for
 the :ref:`transport capacity <tcmodel>`
 
@@ -266,7 +266,7 @@ RUSLE.rst
 *********
 
 Raster with the calculated RUSLE-values, the potential soil loss, for every
-pixel in :math:`(kg.m^2)`. This raster is only written if
+pixel in :math:`(kg/[m^2.year])`. This raster is only written if
 :ref:`write rusle = 1 <writerusle>`
 
 TILEROS (mm per gridcel).rst
