@@ -2,6 +2,9 @@ name: run-pipeline
 
 on:
   pull_request:
+  create:
+    tags:
+
 env:
   DEBIAN_RSYNC_TARGET: /appdata/static/apt/amd64
   DRONE_BUILD_NUMBER: ${{ github.run_number }}
@@ -38,12 +41,20 @@ jobs:
     env:
       DRONE_COMMIT_SHA: ${{ github.event.pull_request.head.sha }}
       CONDA_BUILD: /.build/conda_build
-      GIT_DESCRIBE_TAG: ${{ github.run_number }} # should be git describe
+      GIT_DESCRIBE_TAG: ${{ github.run_number }}
       GIT_BUILD_STR: ${{ github.run_number }}
     steps:
+      - name: set build string
+        shell: bash
+        run: |
+          if [[  ${{ contains(github.ref , 'refs/tags/') }} ]]; then
+            GIT_DESCRIBE_TAG=${{  github.ref_name }}
+          fi
+          echo $GIT_DESCRIBE_TAG
+          exit 0
       - uses: actions/checkout@v3
       - name: build conda package
-
+        shell: bash
         run: |
           git fetch --tags 
           git lfs pull
@@ -58,7 +69,7 @@ jobs:
           path: /.build/conda_build
 
   publish-conda:
-#    if: ${{github.event_name != 'pull_request' && (github.ref != 'refs/heads/master')}}
+    if: contains(github.ref , 'refs/tags/')
     needs: build-conda
     runs-on: [self-hosted, linux]
     container: registry.fluves.net/drone/cnws/s3
@@ -108,7 +119,7 @@ jobs:
 
   publish-debian:
     needs: build-debian
-#    if: ${{github.event_name != 'pull_request' && (github.ref != 'refs/heads/master')}}
+    if: contains(github.ref , 'refs/tags/')
     runs-on: [self-hosted, linux]
     container: registry.fluves.net/drone/cn_ws/debian11-build
     env:
@@ -190,7 +201,7 @@ jobs:
           path: ./docs
 
   publish-documentation:
-    # if: ${{github.event_name != 'pull_request' && (github.ref != 'refs/heads/master')}}
+    if: contains(github.ref , 'refs/tags/')
     needs: [build-documentation]
     runs-on: [self-hosted, linux] 
     container: registry.fluves.net/drone/cn_ws/debian11-build
