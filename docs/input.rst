@@ -794,16 +794,16 @@ row of both the source and target pixel as follows:
 .. code-block:: ini
 
         [Forced Routing 1]
-        from col 10
-        from row 10
-        target col 11
-        target row 11
+        from col = 10
+        from row = 10
+        target col = 11
+        target row = 11
 
         [Forced Routing 2]
-        from col 15
-        from row 16
-        target col 20
-        target row 19
+        from col = 15
+        from row = 16
+        target col = 20
+        target row = 19
 
 These lines are added to the ini-file. Note that the amount of sections with
 forced routing vectors is defined by the variable
