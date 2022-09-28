@@ -373,7 +373,7 @@ Filename of the :ref:`K-factor <kfactor>` map. The soil erodibility factor or
 K-factor of the RUSLE-equation for every pixel in the modeldomain is stored in
 the K-factor map (kg.h/MJ.mm).
 
-The datatype of the sewer map is int16.
+The datatype of the K-factor raster map is int16.
 
 .. _cmap:
 
