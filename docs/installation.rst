@@ -19,7 +19,7 @@ Linux (debian/linux)
 Installing on linux (debian/linux)
 ==================================
 
-Pre-built binary packages of cn-ws exist on apt.fluves.net or https://git.fluves.net/fluves/cn_ws 
+Pre-built binary packages of cn-ws exist on apt.fluves.net or https://github.com/cn-ws/cn-ws/releases
 
 To install a specific version, go to https://apt.fluves.net/amd64/ and pick a
 file. This file can be installed using:
