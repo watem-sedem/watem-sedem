@@ -100,6 +100,16 @@ run-off to scale the yearly sediment load. This is explained :ref:`here
     The CN-WS package is still being optimized to make sure the CN, WS and
     routing model can be run separately.
 
+Download / Clone
+================
+The executables of all releases can be found on 
+`the release page <https://github.com/cn-ws/cn-ws/releases>`_. The source code 
+can be clone or downloaded via the main page. **Note that you need to clone
+the directory via HTTPS or SSH to access the testfiles of the molenbeek 
+(subdirectory ``testfiles``)**. The testfiles are not pulled correctly when 
+downloading the package via ZIP due to using `Git Large File Storage 
+<https://git-lfs.github.com/>`_. 
+
 Package
 =======
 
