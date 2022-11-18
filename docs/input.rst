@@ -363,6 +363,7 @@ Rainfall filename
 Filename of a textfile with rainfall values. The text file contains a table
 (tab-delimited) with two columns without header. The first column contains the
 time in minutes (starting from 0), the second column contains the rainfall in mm.
+The rainfall of the first timestamp must be zero. 
 
 .. _kmap:
 
