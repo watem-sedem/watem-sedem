@@ -156,8 +156,11 @@ in the user choices sections about :ref:`dams <includedams>` and
 Sewers/endpoints
 ****************
 
-TO DO
-see :ref:`here <inlcudesewers>` for more info
+Sewers, or more generally, endpoints, are sinks of sediment in the modeldomain. 
+When sediment is routed to an endpoint, only a fraction of it is transported 
+further downstream. This feature can be used to incorporate known sediment sinks
+in the model. A detailed explanation about this functionality is given in the 
+user choices section about :ref:`sewers <inlcudesewers>`.
 
 References
 ==========
