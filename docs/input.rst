@@ -849,7 +849,7 @@ KTcLow_upper
 *************
 
 The upper range of ktc-low values in the calibration mode. The value is a float
-and by default 1.
+and by default 20.
 
 steps
 *****
