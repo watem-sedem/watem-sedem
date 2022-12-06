@@ -110,6 +110,8 @@ Tillage direction filename
 **************************
 
 Filename of a raster with the tillage direction in degrees to the North.
+This raster is only mandatory when 
+:ref:`Include tillage direction = 1 <includetillagedirection>`.
 
 The datatype of the tillage direction raster is float32.
 
@@ -119,7 +121,8 @@ Oriented roughness filename
 ***************************
 
 Filename of a raster with the oriented roughness. The oriented roughness is the
-height of the microrelief (in cm) due to ploughing.
+height of the microrelief (in cm) due to ploughing. This raster is only mandatory 
+when :ref:`Include tillage direction = 1 <includetillagedirection>`.
 
 The datatype of the oriented roughness raster is float32.
 
