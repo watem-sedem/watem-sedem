@@ -20,7 +20,7 @@ mitigation measures is incorporated, the model can also be used to evaluate soil
 erosion management measures and compare mitigation strategies.
 
 This documentation page explains how CN-WS works and how the model can be used.
-The official code for CN-WS can be found at https://git.fluves.net/fluves/cn_ws.
+The official code for CN-WS can be found at https://github.com/cn-ws/cn-ws .
 
 
 A short history of CN-WS
@@ -54,7 +54,7 @@ of optimisations to the code were implemented to increase the model performance 
 allow a roll-out on the scale of Flanders. In addition, the model was
 recalibrated (Deproost et al., 2018) and a framework was developed for
 processing CN-WS input, outputs and user choices. At that point, CN-WS is
-submitted to versioning via git (https://git.fluves.net/fluves/cn_ws
+submitted to versioning via git (https://github.com/cn-ws/cn-ws
 ). These optimization were executed by `Fluves
 <https://fluves.com/>`_.
 
@@ -171,7 +171,7 @@ License
 =======
 
 This project is licensed under the GNU General Public License v3.0, see
-`LICENSE <https://git.fluves.net/cn_ws/LICENSE>`_ for more information.
+`LICENSE <https://github.com/cn-ws/cn-ws/blob/master/LICENSE>`_ for more information.
 
 Documentation
 =============
