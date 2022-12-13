@@ -78,6 +78,9 @@ The model outputs `incoming sediment` :math:`S_i` (:ref:`SediIn
 :math:`\rho`). The model output RUSLE :math:`E` value (:ref:`RUSLE
 <ruslerst>`) is expressed in :math:`\frac{\text{kg}}{\text{m}^2}`!
 
+Note that :math:`S_e` is equal to :math:`S_o`, yet masked respectively for
+river and land pixels.
+
 In the table below the units of import input and output values/rasters are
 listed.
 

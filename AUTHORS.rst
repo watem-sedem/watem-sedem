@@ -50,6 +50,7 @@ Contributors
 * Niels De Vleeschouwer
 * Dries Luts
 * Stijn Van Hoey
+* Jarne Amerlinck
 
 Why not join?
 

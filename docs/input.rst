@@ -110,6 +110,8 @@ Tillage direction filename
 **************************
 
 Filename of a raster with the tillage direction in degrees to the North.
+This raster is only mandatory when 
+:ref:`Include tillage direction = 1 <includetillagedirection>`.
 
 The datatype of the tillage direction raster is float32.
 
@@ -119,7 +121,8 @@ Oriented roughness filename
 ***************************
 
 Filename of a raster with the oriented roughness. The oriented roughness is the
-height of the microrelief (in cm) due to ploughing.
+height of the microrelief (in cm) due to ploughing. This raster is only mandatory 
+when :ref:`Include tillage direction = 1 <includetillagedirection>`.
 
 The datatype of the oriented roughness raster is float32.
 
@@ -255,25 +258,25 @@ table with adjectant upstream segments is displayed below:
     +-----+--------------+-----------+
     |edge |upstream edge |proportion |
     +=====+==============+===========+
+    |2    |6             |1.0        |
+    +-----+--------------+-----------+
     |3    |1             |1.0        |
     +-----+--------------+-----------+
     |3    |2             |1.0        |
     +-----+--------------+-----------+
-    |5    |4             |1.0        |
+    |3    |6             |1.0        |
     +-----+--------------+-----------+
-    |5    |3             |1.0        |
+    |5    |1             |1.0        |
     +-----+--------------+-----------+
     |5    |2             |1.0        |
     +-----+--------------+-----------+
-    |5    |1             |1.0        |
+    |5    |3             |1.0        |
+    +-----+--------------+-----------+
+    |5    |4             |1.0        |
     +-----+--------------+-----------+
     |5    |6             |1.0        |
     +-----+--------------+-----------+
     |5    |7             |1.0        |
-    +-----+--------------+-----------+
-    |6    |2             |1.0        |
-    +-----+--------------+-----------+
-    |5    |1             |1.0        |
     +-----+--------------+-----------+
 
 .. _riverroutingmap:
@@ -363,6 +366,7 @@ Rainfall filename
 Filename of a textfile with rainfall values. The text file contains a table
 (tab-delimited) with two columns without header. The first column contains the
 time in minutes (starting from 0), the second column contains the rainfall in mm.
+The rainfall of the first timestamp must be zero. 
 
 .. _kmap:
 
@@ -372,6 +376,8 @@ K factor filename
 Filename of the :ref:`K-factor <kfactor>` map. The soil erodibility factor or
 K-factor of the RUSLE-equation for every pixel in the modeldomain is stored in
 the K-factor map (kg.h/MJ.mm).
+
+The datatype of the K-factor raster map is int16.
 
 .. _cmap:
 
@@ -792,16 +798,16 @@ row of both the source and target pixel as follows:
 .. code-block:: ini
 
         [Forced Routing 1]
-        from col 10
-        from row 10
-        target col 11
-        target row 11
+        from col = 10
+        from row = 10
+        target col = 11
+        target row = 11
 
         [Forced Routing 2]
-        from col 15
-        from row 16
-        target col 20
-        target row 19
+        from col = 15
+        from row = 16
+        target col = 20
+        target row = 19
 
 These lines are added to the ini-file. Note that the amount of sections with
 forced routing vectors is defined by the variable
@@ -847,7 +853,7 @@ KTcLow_upper
 *************
 
 The upper range of ktc-low values in the calibration mode. The value is a float
-and by default 1.
+and by default 20.
 
 steps
 *****

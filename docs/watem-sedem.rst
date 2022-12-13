@@ -20,7 +20,9 @@ are calculated for every pixel in the model domain. Next, the model iterates
 over all pixels according to the order determined by the routing algorithm.
 During the iteration, the outgoing sediment for every pixel is calculated by
 comparing the total available sediment in the cell :math:`S_A` (incoming
-sediment, :math:`S_i` + :math:`E`) with the transport capacity.
+sediment, :math:`S_i` + :math:`E`) with the transport capacity. Note that the
+units in the equation of :math:`E` and :math:`TC` (see next sections) are
+different, yet this is handled in section on :ref:`transport capacity <TC>`.
 
 Two cases exist:
  - :math:`S_A \leq TC`: the pixel can transport the total
@@ -48,7 +50,22 @@ The target cells are determined by the routing algorithm. The outgoing
 sediment of pixel X to pixel Y is added to the incoming sediment of pixel Y.
 Pixel Y can receive sediment of multiple pixels.
 
-This process is illustrated in figure (TO DO: create figure with pixel).
+Gross versus net erosion
+========================
+
+By using WaTEM/SEDEM, a distinction between gross and net erosion can be made
+(Verstraeten et al., 2007). By making use of the RUSLE equation, gross erosion
+will increase when the slope increases. As such gross erosion will be large at
+the steep slope, but low at end of the slope. By making using of the transport
+capacity, net erosion will be limited in the steep sections at the end of the
+slope, because upstream influx from upper parts from the hill are received.
+The more upstream sediment is received, the lower the net erosion at the end
+of these slopes. As such, the sections at the end of the slope can have a
+relatively high gross erosion, but a very low net erosion, since most of the
+sediment is received from upstream. Net erosion is defined at pixels where the
+gross erosion is larger than the sedimentation (amount above TC). Net
+deposition is defined in pixels where the sedimentation (amount above TC) is
+larger than the gross erosion. In the last case, no net erosion is defined.
 
 .. _rusle:
 
@@ -330,6 +347,11 @@ Verstraeten, G., Poesen, J., Demarée, G., Salles, C., 2006, Long-term
 (105 years) variability in rain erosivity as derived from 10-min rainfall
 depth data for Ukkel (Brussels, Belgium): Implications for assessing soil
 erosion rates. J. Geophys. Res. 111, D22109. https://doi.org/10.1029/2006JD007169
+
+Verstraeten, G., Prosser, I.P., Fogarty, P., 2007. Predicting the spatial
+patterns of hillslope sediment delivery to river channels in the
+Murrumbidgee catchment, Australia. Journal of Hydrology 334, 440–454.
+https://doi.org/10.1016/j.jhydrol.2006.10.025
 
 Verstraeten, G., Van Rompaey, A., Poesen, J., Van Oost, K., Govers, G.,
 2003, Evaluating the impact of watershed management scenarios on changes in
