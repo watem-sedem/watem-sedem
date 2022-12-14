@@ -122,3 +122,8 @@ latex_elements = {
 # If false, no module index is generated.
 #
 # latex_domain_indices = True
+
+html_context = {
+    "source_url_prefix": "https://github.com/cn-ws/cn-ws/blob/master/docs/",
+    "display_vcs_links": 1,
+}
