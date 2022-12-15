@@ -100,16 +100,8 @@ Before you submit a pull request, check that it meets these guidelines:
     Note that this are guidelines. If you are stuck while adding functionality
     - consider doing a pull request anyway, others may be able to help.
 
-Tips
-----
-
-Version numbering scheme
-~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-
 Building the documentation
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+--------------------------
 The documentation for the project can be found under the ``docs/`` folder, and
 is written using `reStructuredText`_.
 
@@ -131,3 +123,27 @@ the documentation is actually a bit more recent than the last released version.
 .. _sphinx: http://www.sphinx-doc.org/en/master/
 .. _semver: https://semver.org/
 
+Code structure
+--------------
+
+CN-WS was originally written to work in three different modi operandi:
+
+1. as a command line tool (without GUI)
+2. via a GUI
+3. a long-term version with a GUI
+
+The long-term version was made to calculate multiple rain events and runs the
+command line version several times behind each other. Both GUI versions of CN-WS
+are not maintained since 2016 and are not available as a download.
+
+CN-WS is written in Free Pascal. In the main directory of the repository four
+folders with pascal code can be found:
+
+- cn_ws: all code that is unique for the command line tool without GUI
+- cn_ws_gui: all code that is unique for GUI model (not maintained)
+- cn_ws_gui_LT: all code that is unique for Long term GUI model (not maintained)
+- common: the code base that is used by all three models.
+
+We refer to the documentation of `Pascal <https://www.freepascal.org/docs.html>`_
+and the `Lazarus IDE <https://www.lazarus-ide.org/>`_ to get started with
+developping.
