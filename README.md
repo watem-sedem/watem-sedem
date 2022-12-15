@@ -48,6 +48,19 @@ We encourage users to submit questions, suggestions and bug reports via
 the issues platform on GitHub. In case of other questions, one can mail
 to <cn-ws@omgeving.vlaanderen.be>
 
+## References
+
+Antea, 2016. Modellering van de sedimentaanvoer naar de waterlopen, het
+effect van erosiebestrijdingsmaatregelen en het transport van sediment in de
+onbevaarbare waterlopen. Departement Omgeving. Afdeling Gebiedsontwikkeling,
+Omgevingsplannen en -projecten. Land en Bodembescherming, Brussel.
+https://www.vlaanderen.be/publicaties/modellering-van-de-sedimentaanvoer-naar-de-waterlopen-het-effect-van-erosiebestrijdingsmaatregelen-en-het-transport-van-sediment-in-de-onbevaarbare-waterlopen
+
+Deproost, P., Renders, D., Van de Wauw, J., Van Ransbeeck, N.,
+Verstraeten, G., 2018, Herkalibratie van WaTEM/SEDEM met het DHMV-II als
+hoogtemodel: eindrapport. Brussel.
+https://archief.onderzoek.omgeving.vlaanderen.be/Onderzoek-1812384
+
 ## Powered by
 
 ![image](docs/_static/png/DepartementOmgeving_logo.png)
