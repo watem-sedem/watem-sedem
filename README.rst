@@ -22,44 +22,9 @@ erosion management measures and compare mitigation strategies.
 This documentation page explains how CN-WS works and how the model can be used.
 The official code for CN-WS can be found at https://github.com/cn-ws/cn-ws .
 
-
-Model
-=====
-
-The CN-WS model consists of three submodels. In the
-following figure, the main input, models and outputs are shown. In general,
-information on the land cover, agricultural parcels, crops, soil, erosion control
-measures, elevation and rainfall are needed to be able to use the models.
-In addition, information on sewers and ditches can be used to refine the
-models.
-
-Both the :ref:`WS <WS>` and :ref:`CN <CN>` submodels make use of a routing table
-simulated by the :ref:`routing model <routing>`. The use of this routing table
-varies for both the CN and WS model. In WS, the routing table is used to
-compute slopes, upstream areas and the sediment mass balance, whereas in the
-CN model, the routing is used to spatially distribute the runoff. It is
-important to note that the distribution of the runoff in the CN model is
-computed sequentially for every time step :math:`dt`. This makes CN an
-event-based model, whereas WS is a year-based model. Note that it is
-technically possible to use WS as an event-based model, yet a year-based
-assessment is found to be more robust.
-
-.. figure:: _static/png/diagram_cn_ws_package.png
-    :width: 771px
-    :align: center
-
-    Schematic diagram of the CN-WS package
-
-The CN and WS model can also be used together, by using the
-run-off to scale the yearly sediment load. This is explained :ref:`here
-<CNWS>`.
-
-.. note::
-    The CN-WS package is still being optimized to make sure the CN, WS and
-    routing model can be run separately.
-
 Download / Clone
 ================
+
 The executables of all releases can be found on 
 `the release page <https://github.com/cn-ws/cn-ws/releases>`_. The source code 
 can be cloned or downloaded via the main page. **Note that you need to clone
