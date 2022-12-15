@@ -26,13 +26,13 @@ If you are reporting a bug, please include:
 Fix Bugs
 ~~~~~~~~
 
-Look through the Gitea issues for bugs. Anything tagged with "bug"
+Look through the github issues for bugs. Anything tagged with "bug"
 and "help wanted" is open to whoever wants to implement it.
 
 Implement Features
 ~~~~~~~~~~~~~~~~~~
 
-Look through the Gitea issues for features. Anything tagged with "enhancement"
+Look through the github issues for features. Anything tagged with "enhancement"
 and "help wanted" is open to whoever wants to implement it.
 
 Write Documentation
