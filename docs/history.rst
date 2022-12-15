@@ -1,3 +1,5 @@
+.. _history:
+
 A short history of CN-WS
 ========================
 
