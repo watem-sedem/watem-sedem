@@ -27,7 +27,7 @@ The extensive documentation can be found on the
 [cn-ws documentation page](https://docs.fluves.net/cn_ws/index.html). 
 In this documentation, a theoretical background of the model and an overview
 of the model usage are given, as well as an installation guide followed by a
-tutorial.
+[tutorial](https://docs.fluves.net/cn_ws/tutorial.html).
 
 ## Get started
 
