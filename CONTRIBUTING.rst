@@ -26,13 +26,13 @@ If you are reporting a bug, please include:
 Fix Bugs
 ~~~~~~~~
 
-Look through the github issues for bugs. Anything tagged with "bug"
+Look through the GitHub issues for bugs. Anything tagged with "bug"
 and "help wanted" is open to whoever wants to implement it.
 
 Implement Features
 ~~~~~~~~~~~~~~~~~~
 
-Look through the github issues for features. Anything tagged with "enhancement"
+Look through the GitHub issues for features. Anything tagged with "enhancement"
 and "help wanted" is open to whoever wants to implement it.
 
 Write Documentation
@@ -41,7 +41,7 @@ Write Documentation
 CN-WS could always use more documentation, whether as part of the
 official CN-WS docs, in docstrings, or even on the web in blog posts,
 articles, and such. Note that on every documentation page there is a small
-"edit on Github" link in the top right - if you catch small errors, please
+"edit on GitHub" link in the top right - if you catch small errors, please
 suggest improvements.
 
 Please note that all formulas and mathematical expressions must be written
