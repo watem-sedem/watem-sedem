@@ -4,7 +4,7 @@ A short history of CN-WS
 ========================
 
 The sediment export model CN-WS was developed starting from the year 2013
-until 2016 by KULeuven in partnership with `Antea Belgium
+until 2016 by KU Leuven in partnership with `Antea Belgium
 <https://anteagroup.be/>`_, commissioned by
 the Flemish government (Antea, 2016). The aim of the development was to
 create a tool that can quantify erosion, sediment transport and water run-off,
@@ -12,7 +12,7 @@ and the effect of erosion mitigation measures on erosion, sediment transport and
 sediment delivery to the river.
 CN-WS was developed on top of the original code of WaTEM/SEDEM.
 
-The developments of WaTEM/SEDEM was initialised by the KULeuven
+The developments of WaTEM/SEDEM was initialised by the KU Leuven
 (`Department of Earth and Environmental Sciences <https://ees.kuleuven.be//>`_),
 in 2000. A key component in the computation of sediment transport to the river was
 the coupling of:
