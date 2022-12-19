@@ -10,7 +10,8 @@ see Antea, 2016).
 This model was made to simulate the sediment transport to watercourses and to
 evaluate the effects of erosion control measures, both in space and time, based
 on time series of rainfall events. The model combines two existing models:
-WaTEM/SEDEM and the Curve Number model.
+WaTEM/SEDEM and the Curve Number model. See the section on the
+:ref:`history <history>` for more information about the development history.
 
 Description of the CN-WS model
 ==============================
