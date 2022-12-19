@@ -31,7 +31,8 @@ of the model usage are given, as well as an installation guide followed by a
 
 ## Get started
 
-The fastest way to start modelling is to download the binary of the 
+The fastest way to start modelling is to 
+[download](https://github.com/cn-ws/cn-ws/releases) the binary of the 
 most recent release and follow the 
 [installation instructions](https://docs.fluves.net/cn_ws/installation.html) in 
 the documentation. A [tutorial](https://docs.fluves.net/cn_ws/tutorial.html) is 
