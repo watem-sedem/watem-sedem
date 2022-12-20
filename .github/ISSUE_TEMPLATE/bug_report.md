@@ -21,7 +21,7 @@ If applicable, add screenshots to help explain your problem.
 
 **Desktop (please complete the following information):**
  - OS: [e.g. Windows 10, Debian]
- - Version [e.g. 4.4.2]
+ - CN-WS Version [e.g. 4.4.2]
 
 **Additional context**
 Add any other context about the problem here.
