@@ -178,7 +178,7 @@ jobs:
           rsync -av -e "ssh -p 22 -o StrictHostKeyChecking=no -i /.ssh/private.key" . $RSYNC_USER@$RSYNC_HOST:/appdata/static/apt/
 
   build-documentation:
-    needs: [build-debian,build-linux, build-conda]
+    # needs: [build-debian,build-linux, build-conda]
     runs-on: [self-hosted, linux]  
     container: registry.fluves.net/drone/cn_ws/conda
     steps:
