@@ -10,7 +10,8 @@ see Antea, 2016).
 This model was made to simulate the sediment transport to watercourses and to
 evaluate the effects of erosion control measures, both in space and time, based
 on time series of rainfall events. The model combines two existing models:
-WaTEM/SEDEM and the Curve Number model.
+WaTEM/SEDEM and the Curve Number model. See the section on the
+:ref:`history <history>` for more information about the development history.
 
 Description of the CN-WS model
 ==============================
@@ -156,8 +157,11 @@ in the user choices sections about :ref:`dams <includedams>` and
 Sewers/endpoints
 ****************
 
-TO DO
-see :ref:`here <inlcudesewers>` for more info
+Sewers, or more generally, endpoints, are sinks of sediment in the modeldomain. 
+When sediment is routed to an endpoint, only a fraction of it is transported 
+further downstream. A detailed explanation about this functionality is given in the 
+user choices section about :ref:`sewers <inlcudesewers>`.This feature can be 
+used to incorporate known sediment sinks in the model. 
 
 References
 ==========

@@ -100,7 +100,8 @@ Filename of the sewer map. This raster is only mandatory when
 
 All pixels in the sewer map contain values between 0 and 1. The value represents
 the fraction of the outgoing sediment in this pixel that is entering the sewer
-system.
+system. A pixel with value 0 can be interpreted as a pixel where no sewer is
+present. 
 
 The datatype of the sewer map is float32.
 
@@ -410,7 +411,20 @@ Variables
 Sewer exit
 **********
 
-CN, integer
+An integer value between 0 and 100 that represents the fration of the discharge
+that enters the sewer system. It is only applied on pixels where the 
+:ref:`sewer map <sewermapfile>` is not zero. 
+
+This variable is only mandatory when :ref:`simple = 0 <simple>`.
+
+.. note::
+   1. The values stored in the :ref:`sewer map <sewermapfile>` are not used in the
+   discharge calculations of the CN module. The sewer map is only used to check
+   if a pixel is a sewer or not. 
+   
+   2. In the sediment calculations a different trapping efficiency for every sewer
+   pixel in the model can be defined, but this is not the case in the discharge
+   calculations.
 
 .. _claycontent:
 
@@ -418,7 +432,8 @@ Clay content parent material
 ****************************
 
 The average fraction of clay in the soil in the modelled catchment in
-percentages (float, between 0 and 1).
+percentages (float, between 0 and 1). This variable is only mandatory when
+:ref:`estimate clay content <estimclay>` is enabled.
 
 .. _5dayrainfall:
 
@@ -426,6 +441,7 @@ percentages (float, between 0 and 1).
 *************************
 
 The total rainfall (in mm) during 5 days before the start of the rainfall event.
+This variable is only mandatory when :ref:`simple = 0 <simple>`.
 
 .. _streamvelocity:
 
