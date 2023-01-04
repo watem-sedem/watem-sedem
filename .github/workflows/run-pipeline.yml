@@ -202,7 +202,7 @@ jobs:
 
   publish-documentation:
     if: contains(github.ref , 'refs/tags/')
-    needs: [build-documentation]
+    needs: [build-documentation, build-debian, build-linux, build-conda]
     runs-on: [self-hosted, linux] 
     container: registry.fluves.net/drone/cn_ws/debian11-build
     env:
