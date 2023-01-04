@@ -4,6 +4,7 @@ on:
   pull_request:
   create:
     tags:
+  workflow_dispatch:
 
 env:
   DEBIAN_RSYNC_TARGET: /appdata/static/apt/amd64
