@@ -5,9 +5,80 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+import rasterio
 
-from pycnws.geo.utils import load_raster
-from pycnws.core.cnwsoutput import load_total_sediment_file
+def load_total_sediment_file(txt_total_sediment_file):
+    """Load the total sediment file of CNWS written in CNWS dict_output map
+    Parameters
+    ----------
+    txt_total_sediment_file: str or pathlib.Path
+        File Path of the sediment file
+    Returns
+    -------
+    dict_output: dict
+        The dict_output sediment data dictionary contains the following data:
+        - *erosion* (float): total amount of erosion (kg)
+        - *deposition* (float): total amount of deposition (kg)
+        - *river* (float): total amount of sediment run-off to the river (kg)
+        - *outside_domain* (float): total amount of sediment run-off out of the \
+        catchment (kg)
+        - *buffers* (float): total amount of sediment trapped in buffers (kg)
+        - *endpoints* (float): total sewer of sediment trapped in sewers and \
+        ditches (kg)
+    """
+    file = open(txt_total_sediment_file, "r")
+    Lines = file.readlines()
+    dict_output = {}
+    for line in Lines:
+        line = line.split(" ")
+        # hardcode
+        tag = " ".join(line[:-2])
+        if tag == "Total erosion:":
+            dict_output["erosion"] = float(line[-2])
+        elif tag == "Total deposition:":
+            dict_output["deposition"] = float(line[-2])
+        elif tag == "Sediment leaving the catchment, via the river:":
+            dict_output["river"] = float(line[-2])
+        elif tag == "Sediment leaving the catchment, not via the river:":
+            dict_output["outside_domain"] = float(line[-2])
+        elif tag == "Sediment trapped in buffers:":
+            dict_output["buffers"] = float(line[-2])
+        elif tag == "Sediment entering sewer system:":
+            dict_output["endpoints"] = float(line[-2])
+    return dict_output
+
+def load_raster(rst, return_bounds=False):
+    """load raster with rasterio
+    Parameters
+    ----------
+    rst: str or pathlib.Path
+        File path of the file, .rst arr.
+    return_bounds: bool, default False
+        Flag to indicate whether a bounds of the arr should be returned.
+    Returns
+    -------
+    arr: numpy.ndarray
+        Array format of raster file.
+    bounds: list
+        List of bounds (xmin,ymin,xmax,ymax).
+    profile: rasterio.profiles
+        See :class:`rasterio.profiles`
+    """
+    # load
+    try:
+        with rasterio.open(rst) as src:
+            arr = src.read()[0]
+            profile = src.profile
+            if return_bounds:
+                bounds = src.bounds
+    except rasterio.errors.RasterioIOError as e:
+        logger.error(e)
+        msg = f"could not open {rst}"
+        raise Exception(msg)
+    if return_bounds:
+        return arr, profile, bounds
+    else:
+        return arr, profile
 
 
 def _get_filenames(path):

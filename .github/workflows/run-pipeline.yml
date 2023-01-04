@@ -1,0 +1,253 @@
+name: run-pipeline
+
+on:
+  pull_request:
+  create:
+    tags:
+
+env:
+  DEBIAN_RSYNC_TARGET: /appdata/static/apt/amd64
+  DRONE_BUILD_NUMBER: ${{ github.run_number }}
+  RSYNC_USER: docs
+  RSYNC_HOST: ijzer
+jobs:
+  build-linux:
+    runs-on: [self-hosted, linux]
+    container: registry.fluves.net/drone/cn_ws/conda-cn_ws:0.1
+    env:
+      PYTHONPATH: ../CNWS-processing-scripts/pycnws/src
+    steps:
+      - uses: actions/checkout@v3
+      - name: build linux
+        run: |
+          git fetch --tags
+          git lfs pull
+          make
+
+      - name: test cnws runs without error
+        run: |
+          testfiles/test.sh
+
+      - name: CNWS-processing repo for python tests
+        shell: bash
+        run: |
+          source /etc/profile.d/conda.sh
+          conda activate cn_ws
+          pytest testfiles
+
+  build-conda:
+    runs-on: [self-hosted, linux]
+    container: registry.fluves.net/drone/cn_ws/conda
+    env:
+      DRONE_COMMIT_SHA: ${{ github.event.pull_request.head.sha }}
+      CONDA_BUILD: /.build/conda_build
+      GIT_DESCRIBE_TAG: ${{ github.run_number }}
+      GIT_BUILD_STR: ${{ github.run_number }}
+    steps:
+      - name: set build string
+        shell: bash
+        run: |
+          if [[  ${{ contains(github.ref , 'refs/tags/') }} ]]; then
+            GIT_DESCRIBE_TAG=${{  github.ref_name }}
+          fi
+          echo $GIT_DESCRIBE_TAG
+          exit 0
+      - uses: actions/checkout@v3
+      - name: build conda package
+        shell: bash
+        run: |
+          git fetch --tags 
+          git lfs pull
+          mkdir -p $CONDA_BUILD
+          conda build . --output-folder $CONDA_BUILD
+          conda index $CONDA_BUILD
+          ls -R $CONDA_BUILD
+
+      - uses: actions/upload-artifact@master
+        with:
+          name: conda-output
+          path: /.build/conda_build
+
+  publish-conda:
+    if: contains(github.ref , 'refs/tags/')
+    needs: build-conda
+    runs-on: [self-hosted, linux]
+    container: registry.fluves.net/drone/cnws/s3
+    env:
+      AWS_ACCESS_KEY_ID: conda
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.conda_secret_key }}
+      PLUGIN_BUCKET: conda
+      PLUGIN_SOURCE: .build/conda_build/linux-64/*.bz2
+      PLUGIN_TARGET: /
+      PLUGIN_PATH_STYLE: true
+      PLUGIN_ENDPOINT: https://minio.fluves.net
+      PLUGIN_STRIP_PREFIX: .build/conda_build
+      DOCKER_CONTAINER_NAME: github-actions-runner
+
+    steps:
+      - uses: actions/download-artifact@master
+        with:
+          name: conda-output
+          path: .build/conda_build
+
+      - name: upload conda package to S3
+        run: |
+          ls -R .build/conda_build
+          /bin/drone-s3
+
+  build-debian:
+    runs-on: [self-hosted, linux]
+    container: registry.fluves.net/drone/cn_ws/debian11-build
+    env:
+      DEBFULLNAME: "Fluves Drone CI"
+      DEBEMAIL: donotreply@fluves.net
+    steps:
+      - uses: actions/checkout@v3
+      - name: build debian package
+        run : |
+          git fetch --tags
+          git lfs pull
+          gbp dch --snapshot --ignore-branch --snapshot-number=$DRONE_BUILD_NUMBER
+          debuild -b
+          mkdir /package
+          mv ../cn-ws*amd64* /package
+
+      - uses: actions/upload-artifact@master
+        with:
+          name: debian-output
+          path: /package
+
+  publish-debian:
+    needs: build-debian
+    if: contains(github.ref , 'refs/tags/')
+    runs-on: [self-hosted, linux]
+    container: registry.fluves.net/drone/cn_ws/debian11-build
+    env:
+      SSH_KEY: ${{secrets.SSH_KEY}}
+      PLUGIN_SOURCE: /package/*.deb
+    steps: 
+      - uses: actions/download-artifact@master
+        with:
+          name: debian-output
+          path: /package
+
+      - name: rsync-apt
+        shell: bash
+        run: |
+          mkdir -p /.ssh && echo "$SSH_KEY" > /.ssh/private.key && chmod og-rwx /.ssh/private.key
+          rsync -av -e "ssh -p 22 -o StrictHostKeyChecking=no -i /.ssh/private.key" $PLUGIN_SOURCE $RSYNC_USER@$RSYNC_HOST:$DEBIAN_RSYNC_TARGET 
+
+  publish-all:
+    needs: [publish-debian,build-linux, publish-conda]
+    runs-on: [self-hosted, linux]
+    container: registry.fluves.net/drone/cn_ws/debian11-build
+    env:
+      SSH_KEY: ${{secrets.SSH_KEY}}
+      GPG_KEY: ${{secrets.GPG_KEY}}
+      DEBFULLNAME: "Fluves Drone CI"
+      DEBEMAIL: donotreply@fluves.net
+    steps:
+      - uses: actions/download-artifact@master
+        with:
+          name: debian-output
+          path: /package
+
+      - uses: actions/download-artifact@master
+        with:
+          name: conda-output
+          path: .build/conda_build
+
+      - name: rsync
+        shell: bash
+        run: |
+          mkdir -p /.ssh && echo "$SSH_KEY" > /.ssh/private.key && chmod og-rwx /.ssh/private.key
+          cat <(echo -e "$GPG_KEY") | gpg --batch --import
+          gpg --list-secret-keys --keyid-format LONG
+          mkdir -p apt-repo && cd apt-repo
+          rsync -az -e "ssh -p 22 -o StrictHostKeyChecking=no -i /.ssh/private.key" $RSYNC_USER@$RSYNC_HOST:$DEBIAN_RSYNC_TARGET .
+
+      - name: Make archive
+        shell: bash
+        run: |
+          cd apt-repo
+          apt-ftparchive packages amd64 > Packages
+          gzip -c Packages > Packages.gz
+          apt-ftparchive release . > Release
+          gpg --clearsign -o InRelease Release
+          gpg -abs -o Release.gpg Release
+          rsync -av -e "ssh -p 22 -o StrictHostKeyChecking=no -i /.ssh/private.key" . $RSYNC_USER@$RSYNC_HOST:/appdata/static/apt/
+
+  build-documentation:
+    needs: [build-debian,build-linux, build-conda]
+    runs-on: [self-hosted, linux]  
+    container: registry.fluves.net/drone/cn_ws/conda
+    steps:
+      - uses: actions/checkout@v3
+      - name: fetch tags
+        shell: bash
+        run: |
+          git fetch --tags
+          git lfs pull
+
+      - name: build website
+        shell: bash
+        run: |
+          pip install -r ./docs/requirements.txt
+          sphinx-build ./docs ./docs/_build/
+
+      - uses: actions/upload-artifact@master
+        with:
+          name: documentation-output
+          path: ./docs
+
+  publish-documentation:
+    if: contains(github.ref , 'refs/tags/')
+    needs: [build-documentation]
+    runs-on: [self-hosted, linux] 
+    container: registry.fluves.net/drone/cn_ws/debian11-build
+    env:
+      SSH_KEY: ${{secrets.SSH_KEY}}
+      TARGET_DIR: /appdata/static/docs/cn_ws
+    steps:
+      - uses: actions/download-artifact@master
+        with:
+          name: documentation-output
+          path: ./docs
+
+      - name: rsync-docs
+        shell: bash
+        run: |
+          mkdir -p /.ssh && echo "$SSH_KEY" > /.ssh/private.key && chmod og-rwx /.ssh/private.key
+          rsync -av --rsync-path="mkdir -p $TARGET_DIR && rsync" -e "ssh -p 22 -o StrictHostKeyChecking=no -i /.ssh/private.key" ./docs/_build/ $RSYNC_USER@$RSYNC_HOST:$TARGET_DIR
+
+      - name: Deploy documentation
+        uses: peaceiris/actions-gh-pages@v3 # github actions need to be restricted
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs/_build/html
+
+  # build-windows:
+  #   runs-on: [self-hosted, windows] 
+  #   container: registry.fluves.net/drone/cn_ws/lazarus-windows
+  #   steps: 
+  #     - uses: actions/checkout@v3
+  #     - name: fetch tags
+  #       run: |
+  #         git fetch --tags 
+  #         git lfs pull
+
+  #     - name: build compiled version
+  #       run: |
+  #         c:\lazarus\lazbuild.exe cn_ws\cn_ws.lpr
+  #         c:\lazarus\fpc\3.2.0\bin\x86_64-win64\strip.exe cn_ws\cn_ws.exe
+
+  #     - name: run tests
+  #       run: |
+  #         .\testfiles\test.bat
+
+  #     - name: build conda package
+  #       run: |
+  #         get-content c:/users/ContainerAdministrator/_netrc | out-file -encoding ASCII c:/users/ContainerAdministrator/_netrc_ascii
+  #         del c:/users/ContainerAdministrator/_netrc
+  #         mv c:/users/ContainerAdministrator/_netrc_ascii c:/users/ContainerAdministrator/_netrc
+  #         conda build conda --output-folder conda_build

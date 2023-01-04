@@ -1,0 +1,4 @@
+# builds registry.fluves.net/drone/cnws/s3
+FROM alpine:3.16 as alpine
+RUN apk add -U --no-cache ca-certificates
+COPY --from=plugins/s3 /bin/drone-s3 /bin/drone-s3
