@@ -12,7 +12,7 @@ env:
   RSYNC_USER: docs
   RSYNC_HOST: ijzer
 jobs:
-..build-all:
+  build-all:
     uses: ./.github/workflows/build_packages.yml
 
   build-documentation:
