@@ -12,6 +12,8 @@ env:
   RSYNC_USER: docs
   RSYNC_HOST: ijzer
 jobs:
+..build-all:
+    - uses: ./.github/workflows/build_packages.yml
   publish-conda:
     if: contains(github.ref , 'refs/tags/')
     needs: build-conda
@@ -29,7 +31,6 @@ jobs:
       DOCKER_CONTAINER_NAME: github-actions-runner
 
     steps:
-      - uses: ./.github/workflows/build_packages.yml
       - uses: actions/download-artifact@master
         with:
           name: conda-output
@@ -49,7 +50,6 @@ jobs:
       SSH_KEY: ${{secrets.SSH_KEY}}
       PLUGIN_SOURCE: /package/*.deb
     steps: 
-      - uses: ./.github/workflows/build_packages.yml
       - uses: actions/download-artifact@master
         with:
           name: debian-output
