@@ -13,8 +13,8 @@ env:
   RSYNC_USER: docs
   RSYNC_HOST: ijzer
 jobs:
-  build-packages:
-    uses: ./.github/workflows/build_packages.yml
+#  build-packages:
+#    uses: ./.github/workflows/build_packages.yml
 
   build-documentation:
     # needs: [build-debian,build-linux, build-conda]
