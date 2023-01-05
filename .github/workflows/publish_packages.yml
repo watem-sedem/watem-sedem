@@ -13,7 +13,6 @@ env:
   RSYNC_HOST: ijzer
 jobs:
   publish-conda:
-    uses: ./.github/workflows/build_packages.yml
     if: contains(github.ref , 'refs/tags/')
     needs: build-conda
     runs-on: [self-hosted, linux]
@@ -30,6 +29,7 @@ jobs:
       DOCKER_CONTAINER_NAME: github-actions-runner
 
     steps:
+      - uses: ./.github/workflows/build_packages.yml
       - uses: actions/download-artifact@master
         with:
           name: conda-output
@@ -41,7 +41,6 @@ jobs:
           /bin/drone-s3
 
   publish-debian:
-    uses: ./.github/workflows/build_packages.yml
     needs: build-debian
     if: contains(github.ref , 'refs/tags/')
     runs-on: [self-hosted, linux]
@@ -50,6 +49,7 @@ jobs:
       SSH_KEY: ${{secrets.SSH_KEY}}
       PLUGIN_SOURCE: /package/*.deb
     steps: 
+      - uses: ./.github/workflows/build_packages.yml
       - uses: actions/download-artifact@master
         with:
           name: debian-output
@@ -71,6 +71,7 @@ jobs:
       DEBFULLNAME: "Fluves Drone CI"
       DEBEMAIL: donotreply@fluves.net
     steps:
+      - uses: ./.github/workflows/build_packages.yml
       - uses: actions/download-artifact@master
         with:
           name: debian-output
@@ -101,6 +102,3 @@ jobs:
           gpg -abs -o Release.gpg Release
           rsync -av -e "ssh -p 22 -o StrictHostKeyChecking=no -i /.ssh/private.key" . $RSYNC_USER@$RSYNC_HOST:/appdata/static/apt/
     
-
-
-
