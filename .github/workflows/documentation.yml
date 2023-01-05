@@ -12,6 +12,9 @@ env:
   RSYNC_USER: docs
   RSYNC_HOST: ijzer
 jobs:
+..build-all:
+    - uses: ./.github/workflows/build_packages.yml
+    
   build-documentation:
     # needs: [build-debian,build-linux, build-conda]
     runs-on: [self-hosted, linux]  
@@ -36,7 +39,6 @@ jobs:
           path: ./docs
 
   publish-documentation:
-    uses: ./.github/workflows/build_packages.yml
     if: contains(github.ref , 'refs/tags/')
     needs: [build-documentation, build-debian, build-linux, build-conda]
     runs-on: [self-hosted, linux] 
