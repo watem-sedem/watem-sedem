@@ -14,6 +14,9 @@ env:
 jobs:
   build-packages:
     uses: ./.github/workflows/build_packages.yml
+  
+  build-docs:
+    uses: ./.github/workflows/documentation.yml
 
   publish-conda:
     if: contains(github.ref , 'refs/tags/')
@@ -72,7 +75,6 @@ jobs:
       DEBFULLNAME: "Fluves Drone CI"
       DEBEMAIL: donotreply@fluves.net
     steps:
-      - uses: ./.github/workflows/build_packages.yml
       - uses: actions/download-artifact@master
         with:
           name: debian-output
