@@ -13,7 +13,8 @@ env:
   RSYNC_HOST: ijzer
 jobs:
 ..build-all:
-    - uses: ./.github/workflows/build_packages.yml
+    uses: ./.github/workflows/build_packages.yml
+
   publish-conda:
     if: contains(github.ref , 'refs/tags/')
     needs: build-conda

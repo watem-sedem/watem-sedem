@@ -13,8 +13,8 @@ env:
   RSYNC_HOST: ijzer
 jobs:
 ..build-all:
-    - uses: ./.github/workflows/build_packages.yml
-    
+    uses: ./.github/workflows/build_packages.yml
+
   build-documentation:
     # needs: [build-debian,build-linux, build-conda]
     runs-on: [self-hosted, linux]  
