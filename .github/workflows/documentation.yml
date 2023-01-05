@@ -1,0 +1,63 @@
+name: documentation
+
+on:
+  workflow_dispatch:
+  pull_request:
+  create:
+    tags:
+
+env:
+  DEBIAN_RSYNC_TARGET: /appdata/static/apt/amd64
+  DRONE_BUILD_NUMBER: ${{ github.run_number }}
+  RSYNC_USER: docs
+  RSYNC_HOST: ijzer
+jobs:
+  build-documentation:
+    # needs: [build-debian,build-linux, build-conda]
+    runs-on: [self-hosted, linux]  
+    container: registry.fluves.net/drone/cn_ws/conda
+    steps:
+      - uses: actions/checkout@v3
+      - name: fetch tags
+        shell: bash
+        run: |
+          git fetch --tags
+          git lfs pull
+
+      - name: build website
+        shell: bash
+        run: |
+          pip install -r ./docs/requirements.txt
+          sphinx-build ./docs ./docs/_build/
+
+      - uses: actions/upload-artifact@master
+        with:
+          name: documentation-output
+          path: ./docs
+
+  publish-documentation:
+    uses: cn-ws/cn-ws/.github/workflows/build_packages.yml
+    if: contains(github.ref , 'refs/tags/')
+    needs: [build-documentation, build-debian, build-linux, build-conda]
+    runs-on: [self-hosted, linux] 
+    container: registry.fluves.net/drone/cn_ws/debian11-build
+    env:
+      SSH_KEY: ${{secrets.SSH_KEY}}
+      TARGET_DIR: /appdata/static/docs/cn_ws
+    steps:
+      - uses: actions/download-artifact@master
+        with:
+          name: documentation-output
+          path: ./docs
+
+      - name: rsync-docs
+        shell: bash
+        run: |
+          mkdir -p /.ssh && echo "$SSH_KEY" > /.ssh/private.key && chmod og-rwx /.ssh/private.key
+          rsync -av --rsync-path="mkdir -p $TARGET_DIR && rsync" -e "ssh -p 22 -o StrictHostKeyChecking=no -i /.ssh/private.key" ./docs/_build/ $RSYNC_USER@$RSYNC_HOST:$TARGET_DIR
+
+      - name: Deploy documentation
+        uses: peaceiris/actions-gh-pages@v3 # github actions need to be restricted
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs/_build/html
