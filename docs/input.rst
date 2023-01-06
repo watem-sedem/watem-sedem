@@ -488,10 +488,11 @@ equation (float, in MJ.mm/ha.h.year). This input is mandatory, except when
 
 
 .. note::
-	1. the user must make sure that the R and C-factor are calculated for the same
-	time span (year, month, week,...).
+    1. the user must make sure that the R and C-factor are calculated for the same
+    time span (year, month, week,...).
+
     2. R-factor values can be computed with the
-       `R-factor Python package <https://cn-ws.github.io/rfactor/>`_.
+    `R-factor Python package <https://cn-ws.github.io/rfactor/>`_.
 
 .. _lscorrection:
 
