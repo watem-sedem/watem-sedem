@@ -311,13 +311,6 @@ The txt-file contains a table, all columns seperated by ';'. The columns in the
 table are: ktc_low, ktc_high, tot_erosion, tot_sedimentation, sed_river,
 sed_noriver, sed_buffer, sed_openwater, outlet_1, outlet_2.
 
-rfactor.txt
-***********
-
-This file is only written when :ref:`use r factor = 0 <useR>`: in this case,
-cn_ws calculates the R-factor based on a timeseries of rainfall data. The file
-contains the calculated R-factor that is used in the sediment calculations.
-
 .. _CNoutput:
 
 CN-output
