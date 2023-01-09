@@ -44,9 +44,8 @@ jobs:
     needs: [build-documentation] #, build-packages] # build-debian, build-linux, build-conda]
     runs-on: [self-hosted, linux] 
     container: registry.fluves.net/drone/cn_ws/debian11-build
-    secrets:
-      SSH_KEY: ${{secrets.SSH_KEY}}
     env:
+      SSH_KEY: ${{secrets.SSH_KEY}}
       TARGET_DIR: /appdata/static/docs/cn_ws
     steps:
       - uses: actions/download-artifact@master
