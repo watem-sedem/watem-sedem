@@ -40,7 +40,7 @@ jobs:
           path: ./docs
 
   publish-documentation:
-    if: contains(github.ref , 'refs/tags/')
+    if: contains(github.ref , 'refs/tags/', ${{ github.event.label.name == 'documentation' }})
     needs: [build-documentation] #, build-packages] # build-debian, build-linux, build-conda]
     runs-on: [self-hosted, linux] 
     container: registry.fluves.net/drone/cn_ws/debian11-build
