@@ -15,9 +15,9 @@ jobs:
   build-packages:
     uses: ./.github/workflows/build_packages.yml
   
-  build-docs:
-    uses: ./.github/workflows/documentation.yml
-    needs: build-packages
+#  build-docs:
+#    uses: ./.github/workflows/documentation.yml
+#    needs: build-packages
 
   publish-conda:
     if: contains(github.ref , 'refs/tags/')

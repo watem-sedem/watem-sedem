@@ -2,10 +2,11 @@ name: documentation
 
 on:
   workflow_dispatch:
-  workflow_call:
-#  pull_request:
-#  create:
-#    tags:
+ # workflow_call:
+  pull_request:
+    types: [ labeled ]
+  create:
+    tags:
 
 env:
   DEBIAN_RSYNC_TARGET: /appdata/static/apt/amd64
