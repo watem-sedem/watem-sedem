@@ -57,7 +57,6 @@ jobs:
         shell: bash
         run: |
           mkdir -p /.ssh && echo "$SSH_KEY" > /.ssh/private.key && chmod og-rwx /.ssh/private.key
-          wc /.ssh/private.key
           rsync -av --rsync-path="mkdir -p $TARGET_DIR && rsync" -e "ssh -p 22 -o StrictHostKeyChecking=no -i /.ssh/private.key" ./docs/_build/ $RSYNC_USER@$RSYNC_HOST:$TARGET_DIR
 
       - name: Deploy documentation
