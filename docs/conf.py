@@ -21,9 +21,9 @@ import os
 
 # -- Project information -----------------------------------------------------
 
-project = 'cnws'
+project = 'cn-ws'
 copyright = '2020, Van de Wauw Johan, Renders Daan'
-author = 'Van de Wauw Johan, Renders Daan'
+author = 'Van de Wauw Johan, Renders Daan & contributors'
 
 
 # -- General configuration ---------------------------------------------------
@@ -62,6 +62,9 @@ html_static_path = ['_static']
 release = re.sub('^v', '', os.popen('git describe').read().strip())
 # The short X.Y version.
 version = release
+
+html_theme_options = {'display_version': True,
+                      'prev_next_buttons_location': 'both'}
 
 # -- Options for LaTeX output ---------------------------------------------
 
@@ -124,6 +127,10 @@ latex_elements = {
 # latex_domain_indices = True
 
 html_context = {
-    "source_url_prefix": "https://github.com/cn-ws/cn-ws/blob/master/docs/",
-    "display_vcs_links": 1,
+    # "source_url_prefix": "https://github.com/cn-ws/cn-ws/blob/master/docs/",
+    # "display_vcs_links": 1,
+    "display_github": True,
+    "github_user": "cn-ws",
+    "github_repo": "cn-ws",
+    "github_version": "master/docs/"
 }
