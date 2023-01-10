@@ -782,7 +782,7 @@ with:
 
  - discharge coefficient: the discharge coefficient :math:`C_d` (-) of the
    buffer basin. This parameter is only mandatory when using the CN-module
-   (i.e.:ref:`Only WS = 0 <simple>`).
+   (i.e. :ref:`Only WS = 0 <simple>`).
 
  - width dam: the width of the overflow on the bufferbasin dam
    :math:`W_{dam}` (m). This parameter is only mandatory when using the
