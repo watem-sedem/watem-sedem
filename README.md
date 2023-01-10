@@ -40,7 +40,7 @@ also available.
 
 ## License
 
-This project is licensed under the GNU General Public License v3.0, see
+This project is licensed under the GNU Lesser General Public License v3.0, see
 [LICENSE](https://github.com/cn-ws/cn-ws/blob/master/LICENSE) for more information.
 
 ## Contact
