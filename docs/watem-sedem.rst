@@ -63,9 +63,10 @@ The more upstream sediment is received, the lower the net erosion at the end
 of these slopes. As such, the sections at the end of the slope can have a
 relatively high gross erosion, but a very low net erosion, since most of the
 sediment is received from upstream. Net erosion is defined at pixels where the
-gross erosion is larger than the sedimentation (amount above TC). Net
-deposition is defined in pixels where the sedimentation (amount above TC) is
-larger than the gross erosion. In the last case, no net erosion is defined.
+gross erosion is larger than the sedimentation (amount above :math:`TC`). Net
+deposition is defined in pixels where the sedimentation (amount above
+:math:`TC`) is larger than the gross erosion. In the last case, no net erosion
+is defined.
 
 .. _rusle:
 

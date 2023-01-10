@@ -376,7 +376,7 @@ K factor filename
 
 Filename of the :ref:`K-factor <kfactor>` map. The soil erodibility factor or
 K-factor of the RUSLE-equation for every pixel in the modeldomain is stored in
-the K-factor map (kg.h/MJ.mm).
+the K-factor map :math:`(kg.h.MJ^{-1}.mm^{-1})`.
 
 The datatype of the K-factor raster map is int16.
 
@@ -473,9 +473,9 @@ when :ref:`Only WS = 0 <simple>`
 bulk density
 ************
 
-The average bulk density (in kg/m³) of the soil in the catchment (integer). This
-value is used to convert the mass of transported sediment to volumes. A good
-default value for Belgium is 1350 kg/m³.
+The average bulk density (in :math:`kg.m{-3}`) of the soil in the catchment
+(integer). This value is used to convert the mass of transported sediment to
+volumes. A good default value for Belgium is 1350 kg/m³.
 
 .. _rfactor_var:
 
@@ -483,8 +483,8 @@ R factor
 ********
 
 The :ref:`R-factor <rfactor>` or rainfall erosivity factor in the RUSLE
-equation (float, in MJ.mm/ha.h.year). This input is mandatory, except when
-:ref:`Only routing <onlyrouting>` is used.
+equation (float, in :math:`MJ.mm.ha{-1}.h{-1}.year{-1}`).
+This input is mandatory, except when :ref:`Only routing <onlyrouting>` is used.
 
 
 .. note::
@@ -572,8 +572,8 @@ ktil default
 ************
 
 The transport capacity coefficient for tillage erosion on agricultural fields. 
-The integer value is expressed in kg/m/year. A recommended default value is
-600 kg/m/year.
+The integer value is expressed in :math:`kg.m{-1}.year{-1}`.
+A recommended default value is :math:`600 kg.m{-1}.year{-1}`.
 
 This parameter is only mandatory when :ref:`Create ktil map = 1 <createktil>`
 
@@ -769,23 +769,23 @@ with:
    mandatory when using the CN-module (i.e. :ref:`Only WS = 0 <simple>`).
 
  - height dam: the height of the dam of the buffer basin, :math:`H_{dam}`
-   (m). This parameter is only mandatory when using the CN-module (i.e.
+   (:math:`m`). This parameter is only mandatory when using the CN-module (i.e.
    :ref:`Only WS = 0 <simple>`).
 
  - height opening: the height of the opening of the discharge pipe of the
-   basin, :math:`H_{opening}` (m). This parameter is only mandatory when using
-   the CN-module (i.e. :ref:`Only WS = 0 <simple>`).
+   basin, :math:`H_{opening}` (:math:`m`). This parameter is only mandatory
+   when using the CN-module (i.e. :ref:`Only WS = 0 <simple>`).
 
  - opening area: the area of the discharge opening :math:`A_0` (:math:`m^{2}`).
    This parameter is only mandatory when using the CN-module (i.e.
    :ref:`Only WS = 0 <simple>`).
 
- - discharge coefficient: the discharge coefficient :math:`C_d` (-) of the
+ - discharge coefficient: the discharge coefficient :math:`C_d` (:math:`-`) of the
    buffer basin. This parameter is only mandatory when using the CN-module
    (i.e. :ref:`Only WS = 0 <simple>`).
 
  - width dam: the width of the overflow on the bufferbasin dam
-   :math:`W_{dam}` (m). This parameter is only mandatory when using the
+   :math:`W_{dam}` (:math:`m`). This parameter is only mandatory when using the
    CN-module (i.e. :ref:`Only WS = 0 <simple>`).
 
  - trapping efficiency: the trapping efficiency is the fraction of the incoming
