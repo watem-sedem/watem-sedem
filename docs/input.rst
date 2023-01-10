@@ -328,7 +328,7 @@ CN map filename
 ***************
 
 Filename of the CN map. This raster is only mandatory when
-:ref:`simple = 0 <simple>`.
+:ref:`Only WS = 0 <simple>`.
 
 This raster contains a CN-value (between 0 and 100) for every pixel in the model
 domain.
@@ -415,7 +415,7 @@ An integer value between 0 and 100 that represents the fration of the discharge
 that enters the sewer system. It is only applied on pixels where the 
 :ref:`sewer map <sewermapfile>` is not zero. 
 
-This variable is only mandatory when :ref:`simple = 0 <simple>`.
+This variable is only mandatory when :ref:`Only WS = 0 <simple>`.
 
 .. note::
    1. The values stored in the :ref:`sewer map <sewermapfile>` are not used in the
@@ -441,14 +441,14 @@ percentages (float, between 0 and 1). This variable is only mandatory when
 *************************
 
 The total rainfall (in mm) during 5 days before the start of the rainfall event.
-This variable is only mandatory when :ref:`simple = 0 <simple>`.
+This variable is only mandatory when :ref:`Only WS = 0 <simple>`.
 
 .. _streamvelocity:
 
 stream velocity
 ***************
 
-Float, mandatory when :ref:`simple = 0 <simple>`
+Float, mandatory when :ref:`Only WS = 0 <simple>`
 
 .. _alpha:
 
@@ -457,7 +457,7 @@ alpha
 
 Alpha (float) is a calibration parameter of the CN-model. It determines the relation
 between runoff and rainfall intensity. The parameter is only mandatory when
-:ref:`simple = 0 <simple>`
+:ref:`Only WS = 0 <simple>`
 
 .. _beta:
 
@@ -466,7 +466,7 @@ beta
 
 Beta (float) is a calibration parameter of the CN-model. It determines the
 relation between runoff and antecedent rainfall. The parameter is only mandatory
-when :ref:`simple = 0 <simple>`
+when :ref:`Only WS = 0 <simple>`
 
 .. _bulkdensity:
 
@@ -766,27 +766,27 @@ with:
 
  - volume: the maximum volume of water that can be trapped in the
    bufferbasin, :math:`V_{basin}` (:math:`m^{3}`). This parameter is only
-   mandatory when using the CN-module (i.e. :ref:`simple = 0 <simple>`).
+   mandatory when using the CN-module (i.e. :ref:`Only WS = 0 <simple>`).
 
  - height dam: the height of the dam of the buffer basin, :math:`H_{dam}`
    (m). This parameter is only mandatory when using the CN-module (i.e.
-   :ref:`simple = 0 <simple>`).
+   :ref:`Only WS = 0 <simple>`).
 
  - height opening: the height of the opening of the discharge pipe of the
    basin, :math:`H_{opening}` (m). This parameter is only mandatory when using
-   the CN-module (i.e. :ref:`simple = 0 <simple>`).
+   the CN-module (i.e. :ref:`Only WS = 0 <simple>`).
 
  - opening area: the area of the discharge opening :math:`A_0` (:math:`m^{2}`).
    This parameter is only mandatory when using the CN-module (i.e.
-   :ref:`simple = 0 <simple>`).
+   :ref:`Only WS = 0 <simple>`).
 
  - discharge coefficient: the discharge coefficient :math:`C_d` (-) of the
    buffer basin. This parameter is only mandatory when using the CN-module
-   (i.e.:ref:`simple = 0 <simple>`).
+   (i.e.:ref:`Only WS = 0 <simple>`).
 
  - width dam: the width of the overflow on the bufferbasin dam
    :math:`W_{dam}` (m). This parameter is only mandatory when using the
-   CN-module (i.e. :ref:`simple = 0 <simple>`).
+   CN-module (i.e. :ref:`Only WS = 0 <simple>`).
 
  - trapping efficiency: the trapping efficiency is the fraction of the incoming
    sediment that is trapped.

@@ -296,7 +296,7 @@ fraction. The amount of trapped
 sediment is written to the output raster :ref:`sewer_in.rst <sewerinrst>`.
 
 .. note::
-    This option is fully tested for :ref:`simple=1 <simple>`, but it is not yet
+    This option is fully tested for :ref:`Only WS=1 <simple>`, but it is not yet
     tested for the full CN-WS model.
 
 .. _includebuffers:
@@ -458,7 +458,7 @@ setting `Adjusted Slope = 1` in the ini-file.
 Estimate Clay content
 #####################
 
-When using the full CN-WS model (i.e. :ref:`simple=0 <simple>`), it is possible
+When using the full CN-WS model (i.e. :ref:`Only WS=0 <simple>`), it is possible
 to estimate the clay content at every outlet and in every river
 segment (the latter only when :ref:`output per river segment <outputsegment>`
 is enabled). To do this (`Estimate clay content = 1` in the ini-file), the

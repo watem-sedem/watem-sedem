@@ -217,7 +217,7 @@ in the rivers.
 ********************
 
 To use the complete CN-WS model, we need to disable the
-:ref:`simplified model version <simple>` we used in the previous tutorials.
+:ref:`Only WS option <simple>` we used in the previous tutorials.
 
 .. code-block:: ini
 

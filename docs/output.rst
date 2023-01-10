@@ -316,7 +316,7 @@ sed_noriver, sed_buffer, sed_openwater, outlet_1, outlet_2.
 CN-output
 #########
 
-When the CN-module is enabled (:ref:`simple=0 <simple>`) it is possible to
+When the CN-module is enabled (:ref:`Only WS = 0 <simple>`) it is possible to
 generate some additional output.
 
 Discharge.txt

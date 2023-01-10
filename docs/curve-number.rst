@@ -18,6 +18,7 @@ is common. Therefore, in order to incorporate the curve number approach, a trans
 output is necessary. 
 
 In the documentation below the following 2 parts are discussed:
+
 - A description of the original CN method
 - The translation of the original model to the CN-based module which is in use in the CN-WS modelling framework
 
@@ -94,7 +95,7 @@ this method spatio-temporarily lumpes output at the event-scale. Finally, it is
 important to note that abstraction is made of certain processes like e.g. rainfall
 intensity, surface crust formation, crop cover, antecedent conditions, etc.
 
-The run-off module used in CNWS does not represent the original CN method. To
+The run-off module used in CN-WS does not represent the original CN method. To
 overcome these shortcomings mentioned above, some adjustments to the
 original CN method have been made. On the one hand some processes are incorporated
 into the equations, on the other hand a spatio-temporal translation of the
