@@ -773,20 +773,15 @@ with:
    :ref:`Only WS = 0 <simple>`).
 
  - height opening: the height of the opening of the discharge pipe of the
-   basin, :math:`H_{opening}` (m). This parameter is only mandatory when using
-   the CN-module (i.e. :ref:`Only WS = 0 <simple>`).
+   basin, :math:`H_{opening}` (m).
 
  - opening area: the area of the discharge opening :math:`A_0` (:math:`m^{2}`).
-   This parameter is only mandatory when using the CN-module (i.e.
-   :ref:`Only WS = 0 <simple>`).
 
  - discharge coefficient: the discharge coefficient :math:`C_d` (-) of the
-   buffer basin. This parameter is only mandatory when using the CN-module
-   (i.e. :ref:`Only WS = 0 <simple>`).
+   buffer basin.
 
  - width dam: the width of the overflow on the bufferbasin dam
-   :math:`W_{dam}` (m). This parameter is only mandatory when using the
-   CN-module (i.e. :ref:`Only WS = 0 <simple>`).
+   :math:`W_{dam}` (m).
 
  - trapping efficiency: the trapping efficiency is the fraction of the incoming
    sediment that is trapped.
@@ -794,6 +789,10 @@ with:
  - extension id of a buffer is calculated as the buffer id + 16384. It is an
    integer value. All pixels of the buffer in the :ref:`buffer map <buffermap>`
    are given the value of the extension id, except the outlet pixel.
+
+The extension id and trapping efficiency are mandatory for every buffer.
+The other buffer parameters are only mandatory when using the CN-module
+(i.e. :ref:`Only WS = 0 <simple>`).
 
 A full description about the CN calculation in buffers can be found
 :ref:`here <bufferbasins>`.
