@@ -765,12 +765,10 @@ ini-file when :ref:`include buffers = 1 <includebuffers>`.
 with:
 
  - volume: the maximum volume of water that can be trapped in the
-   bufferbasin, :math:`V_{basin}` (:math:`m^{3}`). This parameter is only
-   mandatory when using the CN-module (i.e. :ref:`Only WS = 0 <simple>`).
+   bufferbasin, :math:`V_{basin}` (:math:`m^{3}`).
 
  - height dam: the height of the dam of the buffer basin, :math:`H_{dam}`
-   (:math:`m`). This parameter is only mandatory when using the CN-module (i.e.
-   :ref:`Only WS = 0 <simple>`).
+   (:math:`m`).
 
  - height opening: the height of the opening of the discharge pipe of the
    basin, :math:`H_{opening}` (m).
