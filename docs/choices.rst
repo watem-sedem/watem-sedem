@@ -192,7 +192,7 @@ The method of Verstraeten et al. (2007) can be activated in CN-WS by setting
 Only Routing
 ############
 
-By enabling the Only Routing (`Only Routing = 1`) option, only the routing will
+By enabling the Only Routing (``Only Routing = 1``) option, only the routing will
 be determined by CN-WS. No sediment calculations or discharge calculations are
 done: the WaTEM/SEDEM and CN modules are disabled. When using this option only
 :ref:`a limited model output <onlyroutingoutput>` is possible.
@@ -205,8 +205,9 @@ calculating the sediment transport or discharges.
 Only WS
 #######
 
-When the option 'Only WS' is enabled, only WaTEM/SEDEM is used and the CN-model
-is disabled. By disabling 'Only WS', you will use the complete CN-WS model.
+When the option Only WS is enabled (``Only WS = 1``),
+only WaTEM/SEDEM is used and the CN-model is disabled.
+By disabling this option (``Only WS = 0``), you will use the complete CN-WS model.
 
 The user has to provide following minimal input if this option is enabled:
 
@@ -254,11 +255,11 @@ Create ktil map
 ###############
 
 CN-WS is able to create a raster with ktil-factors. The ktil value is the
-transport capacity coefficient for tillage erosion. When `Create ktil map = 1`,
+transport capacity coefficient for tillage erosion. When ``Create ktil map = 1``,
 the model expects two input variables: :ref:`ktil default <ktildefault>` and
 :ref:`ktil threshold <ktilthres>`. The C-factor map will be reclassed by these
 values: C-factors higher than ktil threshold will get the value of ktil default,
-other pixels are set to zero. When `Create ktil map = 0` the user will have to
+other pixels are set to zero. When ``Create ktil map = 0`` the user will have to
 make a ktil map himself. The model will expect the filename of this ktil map
 in :ref:`ktil map filename <ktilmap>`. This option is only mandatory if
 :ref:`Calculate tillage erosion = 1 <calctileros>`
@@ -269,13 +270,13 @@ Create ktc map
 ##############
 
 CN-WS is able to create a raster with ktc-factors for high erodible and
-non-erodible land-use. When `Create ktc map = 1` the model expects three
+non-erodible land-use. When ``Create ktc map = 1`` the model expects three
 variables: :ref:`ktc low <ktclow>`, :ref:`ktc high <ktchigh>`,
 :ref:`ktc limit <ktclimit>`. The C-factor map will be reclassed by these values:
 C-factors higher than ktc limit will get the value of ktc high, otherwise ktc
 low is chosen.
 
-When `Create ktc map = 0` the user will have to make a ktc map himself. The
+When ``Create ktc map = 0`` the user will have to make a ktc map himself. The
 model will expect the filename of this ktc map in
 :ref:`ktc map filename <ktcmap>`.
 
@@ -284,7 +285,7 @@ model will expect the filename of this ktc map in
 Include sewers
 ##############
 
-When the include sewers-option is enabled (`Include sewers = 1`), the user
+When the include sewers-option is enabled (``Include sewers = 1``), the user
 will have to provide two additional inputs:
 :ref:`sewer map filename <sewermapfile>` and :ref:`sewer exit <sewerexit>`.
 
@@ -306,7 +307,7 @@ Include buffers
 
 An infrastructural measure that traps an amount of transported sediment is
 called a buffer. These measures can be simulated in the model by enabling
-the Include buffers option. By enabling this option (`Include buffers = 1`)
+the Include buffers option. By enabling this option (``Include buffers = 1``)
 the :ref:`buffer map filename <buffermap>` becomes mandatory in the ini-file.
 In addition, the ini-file must contain the variable
 :ref:`number of buffers <nrbuffers>` and a separate section for every buffer
@@ -336,7 +337,7 @@ Include ditches
 
 Ditches alter the routing. The sediment and water will follow the course of a
 ditch instead of the steepest slope. When this option is enabled
-(`Include ditches = 1`), :ref:`a raster with information about the direction
+(``Include ditches = 1``), :ref:`a raster with information about the direction
 <ditchmap>` is mandatory.
 
 The model sets the :ref:`C-factor <cfactor>` at every ditch pixel tot 0.01,
@@ -351,7 +352,7 @@ Include dams
 
 Dams alter the routing in the same way as ditches. The sediment and water will
 follow the course of a dam instead of the steepest slope. When this
-option is enabled (`Include dams = 1`), :ref:`a raster with information about
+option is enabled (``Include dams = 1``), :ref:`a raster with information about
 the direction <dammap>` is mandatory.
 
 The model sets the C-factor at every dam pixel to 0. Thus, it overwrites
@@ -369,10 +370,9 @@ the routing. This is done by enabling the Force Routing option. With force
 routing the routing algorithm will use the routing imposed by the user instead
 of the digital elevation model.
 
-When `Force Routing = 1` the user will have to provide additional input: the
-variable `number of force routing` and a separate section for every routing
-vector the user wants to add. `Number of force routing` contains an integer
-value with the amount of routing vectors that are imposed by the user.
+When ``Force Routing = 1`` the user will have to provide additional input: the
+variable :ref:`Number of forced routing <nrforcedrouting>` and a separate
+section for every routing vector the user wants to add.
 
 An example of a valid forced routing section looks like
 
@@ -387,7 +387,8 @@ An example of a valid forced routing section looks like
 
 The keys in every force routing section are `from col`, `from row`, `target col`
 and `target row`. These are integer values representing the location of source
-and target pixel in the raster.
+and target pixel in the raster. See :ref:`the section <forcedroutingdata>` about
+input variables for more information about forced routing.
 
 See :ref:`the section on grid coordinates <gridcoordinates>` for more
 information on the orientation of the rows and columns.
@@ -397,13 +398,13 @@ information on the orientation of the rows and columns.
 River Routing
 #############
 
-By enabling the river routing option (`River Routing = 1`), the routing
+By enabling the river routing option (``River Routing = 1``), the routing
 between
 river pixels is imposed by an input raster and two input tables.
 This option is usefull because the calculated routing in a river, based on the
 digital elevation model, is not always correct.
 
-Following input-files are required when `River Routing = 1`:
+Following input-files are required when River Routing is enabled:
 
 * :ref:`river segment file <riversegmentfile>`
 * :ref:`river routing file <riverroutingmap>`
@@ -416,6 +417,7 @@ determine the routing between all river pixels.
 
 Cardinal Routing River
 ######################
+
 This option enables only cardinal routing from source pixels to the river
 pixels. Default equal to True.
 
@@ -427,7 +429,7 @@ Include tillage direction
 This option alters the routing on agricultural fields. When this option is
 enabled, the routing will follow the tillage direction on these fields.
 
-Following input-files are required when `Include tillage direction = 1`:
+Following input-files are required when ``Include tillage direction = 1``:
 
 * :ref:`tillage direction map <tildirmap>`
 * :ref:`oriented roughness map <orientedroughnessmap>`
@@ -451,7 +453,7 @@ the slope if the imposed routing targets a single cell instead of two cells.
 In this case the slope can be calculated by dividing the
 absolute value of the height difference between the source and target pixel,
 with the distance between these two pixels. This calculation is enabled by
-setting `Adjusted Slope = 1` in the ini-file.
+setting ``Adjusted Slope = 1`` in the ini-file.
 
 .. _estimclay:
 
@@ -461,7 +463,7 @@ Estimate Clay content
 When using the full CN-WS model (i.e. :ref:`Only WS=0 <simple>`), it is possible
 to estimate the clay content at every outlet and in every river
 segment (the latter only when :ref:`output per river segment <outputsegment>`
-is enabled). To do this (`Estimate clay content = 1` in the ini-file), the
+is enabled). To do this (``Estimate clay content = 1`` in the ini-file), the
 user additionally needs to define the
 :ref:`clay content of the parent material <claycontent>`
 (:math:`CC_{text{parent}}`).
@@ -515,7 +517,8 @@ sediment concentration is calculated.
 River segments are defined in a :ref:`separate raster <riversegmentfile>`. This
 raster is mandatory when this option is enabled.
 
-When this option is enabled, following output is written:
+When this option is enabled (``Output per river segment=1``),
+following output is written:
 
 - :ref:`Total Sediment segments.txt <totalsedimentsegmenttxt>`
 - :ref:`Cumulative sediment segments.txt <cumsedsegmenttxt>`
@@ -529,7 +532,7 @@ Manual outlet selection
 #######################
 
 By default, the model will determine the outlet pixel as the lowest (river)
-pixel within the model domain. However, by setting `Manual outlet selection = 1`,
+pixel within the model domain. However, by setting ``Manual outlet selection = 1``,
 the model expects an :ref:`outlet raster <outletmap>`: an integer raster where
 the outletpixels are numbered from 1 to n. The user has to provide this input
 file.
