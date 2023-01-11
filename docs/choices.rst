@@ -30,8 +30,8 @@ The L-model is calculated according to the work of Desmet and Govers (1996):
 with
  - :math:`A`: upstream area for every raster pixel (:math:`\text{m}^2`).
  - :math:`D`: grid resolution :math:`(m)`.
- - :math:`m`: length exponent (-).
- - :math:`x`: factor incorporating the flow direction (-).
+ - :math:`m`: length exponent :math:`(-)`.
+ - :math:`x`: factor incorporating the flow direction :math:`(-)`.
 
 :math:`x` is calculated as a function of the aspect :math:`\alpha` of the pixel:
 
