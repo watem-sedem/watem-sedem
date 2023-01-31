@@ -17,7 +17,7 @@ the abbreviation of Sediment Delivery Model (Van Rompaey et al., 2001).
 In WaTEM/SEDEM, :ref:`the mean annual soil erosion rate <rusle>` :math:`E`
 and :ref:`transport capacity <TC>` :math:`TC`
 are calculated for every pixel in the model domain. Next, the model iterates
-over all pixels according to the order determined by the routing algorithm.
+over all pixels according to the order determined by the :ref:`routing algorithm`.
 During the iteration, the outgoing sediment for every pixel is calculated by
 comparing the total available sediment in the cell :math:`S_A` (incoming
 sediment, :math:`S_i` + :math:`E`) with the transport capacity. Note that the
@@ -31,7 +31,7 @@ Two cases exist:
    sediment :math:`S_A`.
  - :math:`S_A` > :math:`TC`: the total available sediment :math:`S_A` is higher
    than the amount of sediment that can be transported. The outgoing sediment
-   (:math:`S_o`) equals the transport capacity :math:`TC`.
+   /8254=~== :math:`S_o` equals the transport capacity :math:`TC`.
    The net erosion rate is lower than the mean annual erosion rate :math:`E`
    and equals :math:`TC - S_i`. If the incoming sediment :math:`S_i` is higher
    than the transport capacity :math:`TC`, net sediment deposition will occur
@@ -53,8 +53,8 @@ Pixel Y can receive sediment of multiple pixels.
 Gross versus net erosion
 ========================
 
-By using WaTEM/SEDEM, a distinction between gross and net erosion can be made
-(Verstraeten et al., 2007). By making use of the RUSLE equation, gross erosion
+When using WaTEM/SEDEM, a distinction between gross and net erosion is made
+(Verstraeten et al., 2007). Due to the RUSLE equation, gross erosion
 will increase when the slope increases. As such gross erosion will be large at
 the steep slope, but low at end of the slope. By making using of the transport
 capacity, net erosion will be limited in the steep sections at the end of the
@@ -237,7 +237,7 @@ computed by considering the two-dimensional stream flow algorithm of CN-WS
 flow, such as rill and gully erosion. 
 
 It is important to note that the computation of the LS-factor is defined
-by the definition of the flow routing algorithm, and not by the neighbouring
+through the flow routing algorithm, and not by the neighbouring
 pixels. This is important in cases where the flow routing is not defined by
 digital elevation model, but by other factors (see :ref:`routing <routing>`).  
 Finally, note that there exist  different ways to compute the 
@@ -271,7 +271,7 @@ with land-use `agriculture` as a function of the crop.
 
 3. Use the default values as defined in 1., but vary the C-factor in
 function of a crop growth model and crop rotation scheme, eventualy combined
-with crop management (this for pixels with land-use `agriculture`:
+with crop management (this for pixels with land-use `agriculture`):
 
 .. math::
     C = \frac{\sum_i^t{R_i}.SLR_i}{\sum_i^t{R_i}}
