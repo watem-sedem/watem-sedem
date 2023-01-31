@@ -83,15 +83,15 @@ Routing in buffers, conductive ditches and conductive buffer dams
 
 In the first part of the default routing algorithm, it is checked if the
 routing of a considered pixel is determined by a **buffer**,
-**conductive ditch** or **conductive buffer dam** or if the pixel is adjacent
-to a river, buffer, conductive ditch or conductive buffer dam. This part of the
+**conductive ditch** or **conductive buffer dam** or if the pixel is **adjacent
+to** a **river**, **buffer**, **conductive ditch** or **conductive buffer dam**. This part of the
 algorithm is illustrated in the figure below. There is only one target pixel
-in case that a pixel is a conductive ditch, conductive buffer dam or adjacent
-to a conductive ditch, conductive buffer dam or river. Note that in routing
+if a pixel is a conductive ditch, conductive buffer dam or adjacent
+to a conductive ditch, conductive buffer dam or river. Note that the routing
 in conductive ditches and conductive buffer dams always
 routes to the lowest conductive ditch and conductive buffer dam pixel.
-Routing from the lowest conductive ditches and conductive buffer dam pixel can
-be only be accepted from conductive ditches and conductive buffer dam pixels
+Routing to the lowest conductive ditches and conductive buffer dam pixel can
+only be accepted from conductive ditches and conductive buffer dam pixels
 to avoid looped routing.
 
 .. figure:: _static/png/flow_algorithm_part1.png
@@ -129,7 +129,7 @@ or one-target (ordinal and cardinal directions) routing.
    direction, this only in the **cardinal direction**, thus only considering
    **four cardinal pixels**. Flows and sediment loads are distributed
    according to the angle between the direction (float number between 0 and
-   360 degrees) and the cardinal axes (see section two-target routing). This
+   360 degrees) and the cardinal axes (see :ref:`section two target routing <twotarget>`). This
    direction is determined by the digital elevation model (and if relevant the
    tillage direction).
  - One target: routing is defined by one routing vector, and can be in the
@@ -213,15 +213,15 @@ is not solely defined by the cardinal and ordinal direction for jumps.
     to elevation and land cover. This scheme adjust two-target routing to
     one-target routing. Note that the transformation of two-target to
     one-target routing will follow the cardinal directions, expect for the
-    jumps. By considering jumps, a wider range of pixels are considered. A
+    jumps. By considering jumps, a wider range of pixels are considered.
     As a consequence, the direction is not solely defined by the cardinal and
     ordinal direction for jumps.
 
 In this figure, the `Flow(target1)` or `Flow(target2)` tag indicate that
 routing will follow strictly the path of the first or second flow
 direction. The `find_lower` tag indicates that the algorithm will
-search for the lowest neighbouring pixel: this is functionality is used to
-indicate a single target (cardinal and ordinal directions) is used instead of
+search for the lowest neighbouring pixel: this functionality is used to
+indicate if a single target (cardinal and ordinal directions) is used instead of
 two targets (cardinal direction). A `jump` indicates
 the target is not a adjacent pixel of the source: the routing jumps
 to a single target further than its eights adjacent pixels.  Jumps are
@@ -234,17 +234,17 @@ jump to the closest river in :math:`W` if a river pixel is present in the
 window :math:`W`. This window :math:`W` can be defined in the ini-file with the
 :ref:`kernel - variable <maxkernel>`.
 
-In the flow chart, three features of the source pixel and two target pixels
-are accounted for to define a rule-bank for the routing direction: the height,
-the land cover code and the presence of grass strips. First, it is checked whether
-the targets are higher or lower than the source pixel. In case one of the
-target pixels is higher, than the flow will be defined by the other target
+In the flow chart, three features of the source pixel and the two target pixels
+are accounted for to define a rule-bank for the routing direction: the elevation,
+the land cover code and the presence of grass strips. First, the elevation of the target pixels
+is examined in relation to the source pixel's elevation. In case one of the
+target pixels is located at a higher elevation, the flow will be defined towards the other target
 based on the land cover code and presence of grass strips.
 
-If both target pixels are lower, the land cover code of both targets is
-checked. If both are different to the land cover code of the source, the
-`find_lower`-function is called. If one or both have a different land cover
-code, it is checked whether the pixels is (are) (a) grass strip(s): in
+If the elevation of both target pixels is lower, the land cover code of the targets is
+checked. If they both have a different land cover code than that of the source, the
+`find_lower`-function is called. Additionally, if one or both have a different land cover
+code, it is checked whether the pixel(s) is/are (a) grass strip(s): in
 this case the flow direction will always be defined by the grass strips.
 
 The implementation of this rule-bank aims to satisfy following conditions:
@@ -277,7 +277,7 @@ are incorporated in the calculation of the upstream area of a pixel.
 Mathematically this can be expressed as:
 
 .. math::
-        A = {\sum_1^n{influx_i}} + a.(1-PTEF)
+        A = {\sum_1^n{influx_i}} + a*(1-PTEF)
 
 with:
  - :math:`A`: the final upstream area of the considered pixel (:math:`\text{m}^2`).
@@ -290,7 +290,7 @@ with:
 
 The influx is defined as zero for all pixels that do not receive any flux from
 upstream pixels. These pixels are the first pixels treated in the CN-WS routing
-scheme. Their upstream area is equal to :math:`a.(1-PTEF)`. The PTEF is defined
+scheme. Their upstream area is equal to :math:`a*(1-PTEF)`. The PTEF is defined
 by the user for :ref:`cropland <parceltrapppingcrop>`,
 :ref:`pasture <parceltrappingpasture>` and :ref:`forest <parceltrappingforest>`.
 
