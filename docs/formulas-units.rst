@@ -18,12 +18,12 @@ outputs<modeloutput>`. This overview can help interpret the outputs of CN-WS.
 WaTEM/SEDEM
 ===========
 
-As explained in :ref:`the concept <WS>`, the amount of erosion and deposition in
+As explained in :ref:`the model description <WS>` of WaTEM/SEDEM, the amount of erosion and deposition in
 each pixel is determined by comparing the mean annual soil erosion :math:`E`
 and incoming sediment :math:`S_i` with the transport capacity :math:`TC`.
 In the CN-WS code this is done by
-comparing **volumes** (:math:`m^3`) or (see :ref:`concept <Concept>`, with
-:math:`S_A =S_i+E`):
+comparing **volumes** (:math:`m^3`) or with
+:math:`S_A =S_i+E` (see :ref:`concept <Concept>`):
 
 .. math::
     S_o = TC \quad\text{ if } S_i+E > TC
@@ -38,7 +38,7 @@ with the units for :math:`E` and :math:`TC`:
 
 These units are converted to :math:`\frac{m^3}{year}` (:math:`E_v` and
 :math:`TC_v`) by making use of the pixel area (:math:`A_c, unit: m^2`), the soil
-bulk density (:math:`\rho, unit: \frac{kg}{m^3}`) and the correction factor for
+bulk density (:math:`\rho, unit: \frac{kg}{m^3}`) and the slope correction factor for
 the grid cell dimension (:math:`x`, resolution multiplied by :math:`|sin
 (\alpha)|+|cos (\alpha)|`).
 
@@ -56,7 +56,7 @@ the procedure `Water` in the file `lateralredistribution.pas`.
 
 WS application
 ================
-The model inputs for the CN-WS model in the .inifile used to computes
+The model inputs for the CN-WS model in the .inifile that are used to compute
 :math:`E` and :math:`TC` are the :math:`R`-value, the :math:`C`-raster, the
 :math:`K`-raster, the :math:`P`-raster and the digital height model raster
 (:math:`LS`, slope). :math:`LS` and :math:`\tan(\text{slope})^{0.8}` are
