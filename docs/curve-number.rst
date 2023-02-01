@@ -207,7 +207,8 @@ variables are constantly updated for output at the end of the procedure:
 - The total amount of spillover for each buffer
 - The total amount of water leaving the system through the sewers
 
-##### Run-off in special cases
+Run-off in special cases
+^^^^^^^^^^^^^^^^^^^^^^^^
 
 For buffer grid cells, the run-off outflow is calculated in a alternative way.
 More information about the calculations in buffer can be found
