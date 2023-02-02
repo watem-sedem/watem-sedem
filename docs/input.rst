@@ -4,10 +4,10 @@
 Model input
 ###########
 
-This page describes all possible model input.
+This page describes all the possible model inputs.
 
-CN-WS accepts input files and **a lot** of parameters. All these inputs are
-described below.
+CN-WS accepts input files and **a lot of** parameters. Below, all possible input layers are
+described.
 
 .. _folders:
 
@@ -17,13 +17,13 @@ Folders
 input directory
 ***************
 
-Path to the directory where all input files can be found. If the path does not
+Path to the directory where all the input files, used by the model, can be found. If the path does not
 exist, an exception is raised and the model run will stop.
 
 output directory
 ****************
 
-Path to the directory where all model output will be written. If the directory
+Path to the directory where all the model output files will be written. If the directory
 does not exist, it is created by the model.
 
 .. _files:
@@ -34,7 +34,7 @@ Files
 All input rasters must have
 the same amount of columns, rows and cell size.
 If one of the  input rasters has a different spatial extent, the model will
-raise an exception and will stop the execution. See
+raise an exception and stop the execution. See
 :ref:`the section on the format <rasterformat>` for more information.
 
 .. _dtmmap:
@@ -42,15 +42,15 @@ raise an exception and will stop the execution. See
 DTM filename
 ************
 
-Filename of the raster with a digital terrain model (DTM). This raster contains
-at least for every pixel inside the model domain or catchment an elevation value
-in meters.
-The idirisi raster must be formatted as float32.
+The filename of the raster with a digital terrain model (DTM). This raster must
+contain an elevation value (in meters)for every pixel inside the model domain or 
+catchment.
+The Idirisi raster must be formatted as float32.
 
 .. note::
 	CN-WS does not take nodata values (e.g. -9999) into account. When a nodata
-	value in the DTM raster is encountered, it is considered as an elevation.
-	Consequently, slopes are calculated wrong. Thus, the user must ensure all
+	value in the DTM raster is encountered, it is considered as an elevation value.
+	Consequently, slopes will be calculated wrongly. Thus, the user must ensure that all
 	pixels in the model domain have an elevation value, and that at least two
 	pixels outside the model domain have a valid elevation value.
 
@@ -59,16 +59,14 @@ The idirisi raster must be formatted as float32.
 Parcel filename
 ***************
 
-Filename of the Parcel or Land cover map. CN-WS requires information about
+The filename of the Parcel or Land cover map. CN-WS requires information about
 land cover
-and parcel boundaries in the routing algorithm, but also when distributing the
-sediment through the model domain. Every pixel in the model domain must contain
-a land cover value. Every value > 0 indicates a unique agricultural field. So,
-all
-pixels of an agricultural field have the same value and pixels belonging to a
-different parcel have different value.
-The definition of these unique parcel values are important to define the routing
-within a parcel. Note that the data type of this raster is integer 16.
+and parcel boundaries for the routing algorithm and for the distribution of the
+sediment through the model domain. Every pixel in the model domain must therefore contain
+a land cover value. Every agricultural parcel is indicated by an unique value > 0. Meaning that
+all the pixels within one agricultural field should have the same, unique value, while pixels belonging to another parcel should
+have different (unique) value. These unique parcel values are important to define the routing
+within a parcel. Note that the data type of this raster is integer16.
 
 .. csv-table::
     :file: _static/csv/landcover_pixelid.csv
@@ -80,13 +78,13 @@ within a parcel. Note that the data type of this raster is integer 16.
     1. The Parcel raster can contain only values between -32757 and 32757.
     Therefore, only 32757 unique agricultural field id's can be used in the
     parcel map. When more parcel id's are necessary (e.g. in very large
-    catchments), you can give two or more agricultural fields the same id.
+    catchments), two or more agricultural fields can be assigned the same id.
     Theoretically, the model will consider these two parcels as a single
     parcel. In practice, these two parcels will never be treated as one
     because chance that these parcels are adjacent parcels is negligibly small.
 
     2. The concept of land use (agriculture, grass strips) and land cover
-    (river, infrastructure, forest, pasture) are used interchangeably in the
+    (river, infrastructure, forest, pasture) are used interchangeably in this
     definition of the parcel raster. In this manual, we aim to define this as
     land cover rather than land use.
 
@@ -95,10 +93,10 @@ within a parcel. Note that the data type of this raster is integer 16.
 Sewer map filename
 ******************
 
-Filename of the sewer map. This raster is only mandatory when
-:ref:`Include sewers = 1 <inlcudesewers>`.
+The filename of the sewer map. This raster is only mandatory if the :ref:`Model Choice<choices>`:
+:ref:`Include sewers <inlcudesewers>` is set to 1.
 
-All pixels in the sewer map contain values between 0 and 1. The value represents
+All pixels in the sewer map should contain values between 0 and 1. These values represent
 the fraction of the outgoing sediment in this pixel that is entering the sewer
 system. A pixel with value 0 can be interpreted as a pixel where no sewer is
 present. 
@@ -110,9 +108,9 @@ The datatype of the sewer map is float32.
 Tillage direction filename
 **************************
 
-Filename of a raster with the tillage direction in degrees to the North.
-This raster is only mandatory when 
-:ref:`Include tillage direction = 1 <includetillagedirection>`.
+The filename of a raster with the tillage direction in degrees to the North.
+This raster is only mandatory if the :ref:`Model Choice<choices>`: 
+:ref:`Include tillage direction <includetillagedirection>` is set to 1.
 
 The datatype of the tillage direction raster is float32.
 
@@ -121,9 +119,9 @@ The datatype of the tillage direction raster is float32.
 Oriented roughness filename
 ***************************
 
-Filename of a raster with the oriented roughness. The oriented roughness is the
+The filename of a raster with the oriented roughness. The oriented roughness is the
 height of the microrelief (in cm) due to ploughing. This raster is only mandatory 
-when :ref:`Include tillage direction = 1 <includetillagedirection>`.
+if the :ref:`Model Choice<choices>`: :ref:`Include tillage direction <includetillagedirection>` is set to 1.
 
 The datatype of the oriented roughness raster is float32.
 
@@ -132,11 +130,11 @@ The datatype of the oriented roughness raster is float32.
 Buffer map filename
 *******************
 
-Filename of the buffer map. This raster is only mandatory when
-:ref:`Include buffers = 1 <includebuffers>`.
+The filename of the buffer map. This raster is only mandatory if the :ref:`Model Choice<choices>`: 
+:ref:`Include buffers <includebuffers>` is set to 1.
 
-The figure shows an example of a buffermap with three buffer basins. The outlet
-of every buffer is marked with the buffer id (1, 2 and 3 in this example). The
+The figure below shows an example of a buffermap with three buffer basins. The outlet
+of every buffer is marked with a buffer id (1, 2 and 3 in this example). The
 other pixels belonging to the buffer get the
 :ref:`extension id <bufferdata>`. All other pixels in the raster are set to
 zero.
@@ -153,25 +151,26 @@ The datatype of the buffermap is integer16.
 Ditch map filename
 ******************
 
-Filename of the conductive ditch map. This raster is only mandatory when
-:ref:`Include ditches = 1 <includeditches>`. See :ref:`here <routingmap>` for
-more information on how to create this map.
+The filename of the conductive ditch map. This raster is only mandatory if the :ref:`Model Choice<choices>`: 
+:ref:`Include ditches <includeditches>` is set to 1.
+See :ref:`further <routingmap>` for
+more information on how to create these routing maps.
 
 .. _dammap:
 
 Dam map filename
 ****************
 
-Filename of the conductive dam map. This raster is only mandatory when
-:ref:`Include dams = 1 <includedams>` See :ref:`here <routingmap>` for more
-information on how to create this map.
+The filename of the conductive dam map. This raster is only mandatory if the :ref:`Model Choice<choices>`: 
+:ref:`Include dams <includedams>` is set to 1. See :ref:`further <routingmap>` for more
+information on how to create these routing map.
 
 .. _pmap:
 
 P factor map filename
 *********************
 
-Filename of the :ref:`P-factor <pfactor>` map. 
+The filename of the :ref:`P-factor <pfactor>` map. 
 
 The datatype of the raster is float32.
 
@@ -180,14 +179,14 @@ The datatype of the raster is float32.
 River segment filename
 **********************
 
-Filename of the river segment map. This raster is only mandatory when
-:ref:`Output per river segment = 1 <outputsegment>`.
+The filename of the river segment map. This raster is only mandatory if the :ref:`Model Choice<choices>`: 
+:ref:`Output per river segment <outputsegment>` is set to 1.
 
-A river segment is a part of the river (usually a part between two confluences
-with other rivers). To give detailed information about the sediment
-entering every river segment, a river segment map must be created. 
+A river segment is a part of the river (usually a part between two confluences of the river
+with its tributaries). If detailed information about the sediment
+entering every river segment is requested, the user can make use of the river segment map option. 
 
-The river segment map is a raster where every river pixel (every pixel with value
+The river segment map is a raster where every river pixel (i.e. every pixel with value
 -1 in the :ref:`parcel map <prcmap>`) gets the id of the segment where it
 belongs to. Every segment has a unique (integer) id.
 
@@ -208,9 +207,9 @@ context of Flanders are defined by the VHA (see also note
 adjectant segments
 ******************
 
-Table with adjectant  river segments. This table is only mandatory when
-:ref:`River routing = 1 <riverrouting>`. The table consists out of two columns:
-from and to. Every row indicates a connection between two segments:
+The filename of the Table with adjectant  river segments. This table is only mandatory if the :ref:`Model Choice<choices>`: 
+:ref:`River routing <riverrouting>` is set to 1. The table consists of two columns:
+'from' and 'to'. Every row indicates a connection between two segments:
 segment *from* flows into segment *to*. The values in the table represent the
 segment-ids of the :ref:`river segment map <riversegmentfile>`.
 
@@ -241,14 +240,14 @@ table with adjectant river segments is displayed below:
 upstream segments
 *****************
 
-Table with upstream segments. This table is only mandatory when
-:ref:`River routing = 1 <riverrouting>`. In the table three columns are present:
+The filename of the table with upstream segments. This table is only mandatory if the :ref:`Model Choice<choices>`: 
+:ref:`River routing <riverrouting>` is set to 1. In the table three columns are present, namely:
 
-- edge (integer): segment id
+- edge (integer): segment id of the receiving segment
 - upstream edge (integer): segment id of one of the upstream segments of *edge*
 - proportion (float, between 0 and 1): the fraction of the upstream segment that
   flows into the considered downstream segment. If the fraction is < 1, the
-  upstream segment flows into two downstream segments.
+  upstream segment should flow into two downstream segments adding up to 1.
 
 Based on the example :ref:`river segment map <riversegmentfile>`, an example
 table with adjectant upstream segments is displayed below:
@@ -285,9 +284,9 @@ table with adjectant upstream segments is displayed below:
 river routing filename
 **********************
 
-Filename of the river routing map. This raster is only mandatory when
-:ref:`River routing = 1 <riverrouting>`. See :ref:`here <routingmap>` for more
-information on how to create this map.
+The filename of the river routing map. This raster is only mandatory if the :ref:`Model Choice<choices>`: 
+:ref:`River routing = 1 <riverrouting>` is set to 1.
+See :ref:`further <routingmap>` for more information on how to create these routing maps.
 
 .. _routingmap:
 
@@ -298,10 +297,10 @@ The routing algorithm of CN-WS can take into account rasters that impose a
 single-flow routing along a line element in the
 landscape as defined by the user. The
 :ref:`river routing map <riverroutingmap>`, :ref:`ditchmap <ditchmap>` and
-:ref:`dam map <dammap>` are made according to the principles described here.
+:ref:`dam map <dammap>` are made according to the principles described below.
 
 A routing map contains integer values between 0 and 8. Every value indicates the
-direction the routing will follow. A pixel set to zero has no imposed routing.
+direction which the routing should follow. A pixel set to zero has no imposed routing.
 
 Consider pixel X in the figure below. If the routing must flow from X to the
 upper cardinal cell, pixel X will get value 1 in the routing map. If the routing
@@ -327,8 +326,8 @@ The datatype of a routing raster is integer16.
 CN map filename
 ***************
 
-Filename of the CN map. This raster is only mandatory when
-:ref:`Only WS = 0 <simple>`.
+The filename of the CN map. This raster is only mandatory if the :ref:`Model Choice<choices>`: 
+:ref:`Only WS <simple>` is set to 0.
 
 This raster contains a CN-value (between 0 and 100) for every pixel in the model
 domain.
@@ -340,11 +339,11 @@ The datatype of the CN raster is float32.
 Outlet map filename
 *******************
 
-Filename of the outlet map. This raster is only mandatory when
-:ref:`Manual outlet selection = 1 <manualoutlet>`.
+The filename of the outlet map. This raster is only mandatory if the :ref:`Model Choice<choices>`: 
+:ref:`Manual outlet selection <manualoutlet>` is set to 1.
 
-Every outlet pixel needs a unique id. These integer id's are stored in the outlet
-map. All other pixels are zero.
+Every user defined river outlet needs a unique id (integers). The outlet pixels are given the value 
+of their respective id's in the outlet map. All other pixels have a value equal to zero.
 
 The datatype of the outlet map is integer16.
 
@@ -353,7 +352,7 @@ The datatype of the outlet map is integer16.
 ktil map filename
 *****************
 
-Filename of the ktil map. The ktil map contains values for ktil, the transport
+The filename of the ktil map. The ktil map contains values for ktil, the transport
 capacity coefficient for tillage erosion.
 This raster is only mandatory when :ref:`Create ktil map = 0 <createktil>`.
 
