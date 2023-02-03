@@ -266,49 +266,78 @@ Create ktil map
 ###############
 
 CN-WS is able to create a raster with ktil-factors. The ktil value is the
-transport capacity coefficient for tillage erosion. When the Create ktil map option is enabled,
+transport capacity coefficient for tillage erosion. When the 'Create ktil map' option is enabled,
 the model expects two input variables, namely: :ref:`ktil default <ktildefault>` and
-:ref:`ktil threshold <ktilthres>`. With this option, the C-factor map will be reclassified by these
-values: C-factors higher than ktil threshold will get the value of ktil default,
-other pixels are set to zero. When ``Create ktil map = 0`` the user will have to
-make a ktil map himself. The model will expect the filename of this ktil map
-in :ref:`ktil map filename <ktilmap>`. This option is only mandatory if
-:ref:`Calculate tillage erosion = 1 <calctileros>`
+:ref:`ktil threshold <ktilthres>`. With this option enabled, the C-factor map will be reclassified based on the
+values given as input for :ref:`ktil default <ktildefault>` and
+:ref:`ktil threshold <ktilthres>`. The C-factor values higher than *ktil threshold* will be set to the value of *ktil default*, while
+the other pixels will be set to zero. 
+
+If the 'Create ktil map' is disabled, the user must
+create a ktil map himself, and this map should be given as input for the model by entering its filename 
+next to :ref:`ktil map filename <ktilmap>` in the ini-file. This option is only mandatory if
+:ref:`Calculate tillage erosion = 1 <calctileros>`. 
+
+To enable this option, the following line must be written in the ini-file:
+
+.. code-block:: ini
+
+    Create ktil map = 1
+
+The default is: ``Create ktil map = 0``
+
 
 .. _createktc:
 
 Create ktc map
 ##############
 
-CN-WS is able to create a raster with ktc-factors for high erodible and
-non-erodible land-use. When ``Create ktc map = 1`` the model expects three
+CN-WS is able to create a raster with ktc-factor values for high erodible and
+non-erodible land-uses. When the 'Create ktc map' option is enabled, the model expects three
 variables: :ref:`ktc low <ktclow>`, :ref:`ktc high <ktchigh>`,
-:ref:`ktc limit <ktclimit>`. The C-factor map will be reclassed by these values:
-C-factors higher than ktc limit will get the value of ktc high, otherwise ktc
-low is chosen.
+:ref:`ktc limit <ktclimit>`. The C-factor map will be reclassified based these values.
+The C-factor values higher than *ktc limit* will be set to the value of *ktc high*, while 
+the other pixels will be set to *ktc low*.
 
-When ``Create ktc map = 0`` the user will have to make a ktc map himself. The
-model will expect the filename of this ktc map in
-:ref:`ktc map filename <ktcmap>`.
+When the 'Create ktc map' option is disabled, the user must create a ktc map himself, and this map should be fiven as input for the
+model by entering its filename next to
+:ref:`ktc map filename <ktcmap>` in the ini-file.
+
+To disable this option, the following line must be written in the ini-file:
+
+.. code-block:: ini
+
+    Create ktc map = 0
+
+The default is: ``Create ktc map = 1``
 
 .. _inlcudesewers:
 
 Include sewers
 ##############
 
-When the include sewers-option is enabled (``Include sewers = 1``), the user
-will have to provide two additional inputs:
+When the 'include sewers' option is enabled, the user
+must provide two additional inputs, namely:
 :ref:`sewer map filename <sewermapfile>` and :ref:`sewer exit <sewerexit>`.
 
-The value of the pixel in the sewer map is checked when the amount of outgoing
-sediment in a pixel is calculated. This value is the fraction of water and
-sediment that is trapped in the sewer system via this pixel. The outgoing
-sediment of the pixel and the uparea of the target pixels is reduced with this
-fraction. The amount of trapped
-sediment is written to the output raster :ref:`sewer_in.rst <sewerinrst>`.
+The value of the pixel in the sewer map is used when the amount of outgoing
+sediment in a pixel is calculated. This value should give the fraction of water and
+sediment that is trapped in the sewer system via this pixel. The practical implication of this value is that the outgoing
+sediment of the pixel and the uparea of the target pixels are reduced by this fraction. 
+
+The amount of trapped sediment per pixel is written to the output raster :ref:`sewer_in.rst <sewerinrst>`.
+
+To enable this option, the following line must be written in the ini-file:
+
+.. code-block:: ini
+
+    Create ktc map = 1
+
+The default is: ``Create ktc map = 0``
+
 
 .. note::
-    This option is fully tested for :ref:`Only WS=1 <simple>`, but it is not yet
+    This option is fully tested for the model option: ':ref:`Only WS=1 <simple>`', but it is not yet
     tested for the full CN-WS model.
 
 .. _includebuffers:
@@ -318,28 +347,45 @@ Include buffers
 
 An infrastructural measure that traps an amount of transported sediment is
 called a buffer. These measures can be simulated in the model by enabling
-the Include buffers option. By enabling this option (``Include buffers = 1``)
-the :ref:`buffer map filename <buffermap>` becomes mandatory in the ini-file.
+the Include buffers option. When enabling this option the :ref:`buffer map filename <buffermap>` 
+becomes mandatory in the ini-file.
 In addition, the ini-file must contain the variable
 :ref:`number of buffers <nrbuffers>` and a separate section for every buffer
 in the buffer map. In every buffer section in the ini-file some variables must
-be given.
+be given (see :ref:`here<bufferdata>`).
 
-The `Include buffers` option adjusts the routing in the pixels. Routing
-within a buffer is defined from the pixels with a buffer extension id to
-one outlet pixel with a buffer id coupled to the buffer extension id. The
+The 'Include buffers' option adjusts the routing calculated by the model. Routing
+within a buffer is defined from the pixels with a buffer extension id towards
+one outlet pixel with a buffer id, coupled to the buffer extension id. The
 amount of sediment that flows out of the outlet pixel to downstream pixels is
 reduced with the trapping efficiency of the buffer. The definitions of buffer
 extension id, buffer id and trapping efficiency are explained in the
 :ref:`buffer data section <bufferdata>`.
+
+To enable this option, the following line must be written in the ini-file:
+
+.. code-block:: ini
+
+    Include buffers = 1
+
+The default is: ``Include buffers = 0``
 
 .. _bufferreduce:
 
 Buffer reduce area
 ##################
 
-This option (boolean) allows to reduce the upstream area downstream of a buffer
-with the efficiency of the buffer (see :ref:`buffer data section <bufferdata>`)
+This option allows the model to reduce the :ref:`upstream area<upstreamarea>` (:math:`A`) downstream of a buffer
+with the efficiency of the buffer (see :ref:`buffer data section <bufferdata>`).
+
+To enable this option, the following line must be written in the ini-file:
+
+.. code-block:: ini
+
+    Buffer reduce Area = 1
+
+The default is: ``Buffer reduce Area = 0``
+
 
 .. _includeditches:
 
