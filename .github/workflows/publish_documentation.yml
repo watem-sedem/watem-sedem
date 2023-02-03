@@ -13,31 +13,9 @@ env:
   RSYNC_USER: docs
   RSYNC_HOST: ijzer
 jobs:
-#  build-packages:
-#    uses: ./.github/workflows/build_packages.yml
+    build-packages:
+    uses: ./.github/workflows/build.yml
 
-  build-documentation:
-    # needs: [build-debian,build-linux, build-conda]
-    runs-on: [self-hosted, linux]  
-    container: registry.fluves.net/drone/cn_ws/conda
-    steps:
-      - uses: actions/checkout@v3
-      - name: fetch tags
-        shell: bash
-        run: |
-          git fetch --tags
-          git lfs pull
-
-      - name: build website
-        shell: bash
-        run: |
-          pip install -r ./docs/requirements.txt
-          sphinx-build ./docs ./docs/_build/
-
-      - uses: actions/upload-artifact@master
-        with:
-          name: documentation-output
-          path: ./docs
 
   publish-documentation:
     if: contains(github.ref , 'refs/tags/', ${{ github.event.label.name == 'documentation' }})
