@@ -373,20 +373,20 @@ The rainfall of the first timestamp must be zero.
 K factor filename
 *****************
 
-Filename of the :ref:`K-factor <kfactor>` map. The soil erodibility factor or
-K-factor of the RUSLE-equation for every pixel in the modeldomain is stored in
-the K-factor map :math:`(kg.h.MJ^{-1}.mm^{-1})`.
+The filename of the :ref:`K-factor <kfactor>` map. The soil erodibility factor or
+K-factor of the RUSLE-equation for every pixel in the model domain is stored in
+the K-factor map (in :math:`kg.h.MJ^{-1}.mm^{-1}`).
 
-The datatype of the K-factor raster map is int16.
+The datatype of the K-factor raster map is integer16.
 
 .. _cmap:
 
 C factor map filename
 *********************
 
-Filename of the :ref:`C-factor <cfactor>` map. This raster contains values
+The filename  of the :ref:`C-factor <cfactor>` map. This raster contains values
 between 0 and 1 and represent the dimensionless C-factor in the RUSLE equation.
-Pixels outside the modeldomain are set to zero.
+Pixels outside the model domain are set to zero.
 
 The datatype of the outlet map is float32.
 
@@ -395,8 +395,8 @@ The datatype of the outlet map is float32.
 ktc map filename
 ****************
 
-Filename of the ktc map, a raster with transport capacity coefficients. This
-raster is only mandatory when :ref:`Create ktc map = 0 <createktc>`.
+The filename of the ktc map, a raster with transport capacity coefficients. This
+raster is only mandatory if the :ref:`Model Choice<choices>`: :ref:`Create ktc map <createktc>` is set to 1.
 
 The dataype of the ktc map is float32.
 
@@ -414,14 +414,14 @@ An integer value between 0 and 100 that represents the fration of the discharge
 that enters the sewer system. It is only applied on pixels where the 
 :ref:`sewer map <sewermapfile>` is not zero. 
 
-This variable is only mandatory when :ref:`Only WS = 0 <simple>`.
+This variable is only mandatory if the :ref:`Model Choice<choices>`: :ref:`Only WS = 0 <simple>` is set to 0.
 
 .. note::
    1. The values stored in the :ref:`sewer map <sewermapfile>` are not used in the
    discharge calculations of the CN module. The sewer map is only used to check
    if a pixel is a sewer or not. 
    
-   2. In the sediment calculations a different trapping efficiency for every sewer
+   2. In the sediment calculations, a different trapping efficiency for every sewer
    pixel in the model can be defined, but this is not the case in the discharge
    calculations.
 
@@ -430,42 +430,44 @@ This variable is only mandatory when :ref:`Only WS = 0 <simple>`.
 Clay content parent material
 ****************************
 
-The average fraction of clay in the soil in the modelled catchment in
-percentages (float, between 0 and 1). This variable is only mandatory when
-:ref:`estimate clay content <estimclay>` is enabled.
+The average fraction of clay in the soil of the modelled catchment (in
+decimals; float32, between 0 and 1). This variable is only mandatory if the :ref:`Model Choice<choices>`: 
+:ref:`estimate clay content <estimclay>` is set to 1.
+
 
 .. _5dayrainfall:
 
-5 day antecedent rainfall
+5-day antecedent rainfall
 *************************
 
 The total rainfall (in mm) during 5 days before the start of the rainfall event.
-This variable is only mandatory when :ref:`Only WS = 0 <simple>`.
+This variable is only mandatory if the :ref:`Model Choice<choices>`: :ref:`Only WS = 0 <simple>` is set to 0.
 
 .. _streamvelocity:
 
 stream velocity
 ***************
 
-Float, mandatory when :ref:`Only WS = 0 <simple>`
+As float32, only mandatory if the :ref:`Model Choice<choices>`: :ref:`Only WS = 0 <simple>` is set to 0.
 
 .. _alpha:
 
 alpha
 *****
 
-Alpha (float) is a calibration parameter of the CN-model. It determines the relation
-between runoff and rainfall intensity. The parameter is only mandatory when
-:ref:`Only WS = 0 <simple>`
+Alpha (as float32) is a calibration parameter of the CN-model. It determines the relation
+between the runoff and the rainfall intensity. This parameter is only mandatory if the 
+:ref:`Model Choice<choices>`: :ref:`Only WS <simple>` is set to 0.
 
 .. _beta:
 
 beta
 ****
 
-Beta (float) is a calibration parameter of the CN-model. It determines the
-relation between runoff and antecedent rainfall. The parameter is only mandatory
-when :ref:`Only WS = 0 <simple>`
+Beta (as float32) is a calibration parameter of the CN-model. It determines the
+relation between the runoff and the antecedent rainfall. This parameter is 
+only mandatory if the :ref:`Model Choice<choices>`: :ref:`Only WS <simple>` is set to 0.
+
 
 .. _bulkdensity:
 
@@ -473,8 +475,8 @@ bulk density
 ************
 
 The average bulk density (in :math:`kg.m{-3}`) of the soil in the catchment
-(integer). This value is used to convert the mass of transported sediment to
-volumes. A good default value for Belgium is 1350 kg/m³.
+(as integer16). This value is used to convert the mass of the transported sediment to
+volumes. A good default value for Flanders is 1350 kg/m³.
 
 .. _rfactor_var:
 
@@ -482,8 +484,8 @@ R factor
 ********
 
 The :ref:`R-factor <rfactor>` or rainfall erosivity factor in the RUSLE
-equation (float, in :math:`MJ.mm.ha{-1}.h{-1}.year{-1}`).
-This input is mandatory, except when :ref:`Only routing <onlyrouting>` is used.
+equation (float32, in :math:`MJ.mm.ha{-1}.h{-1}.year{-1}`).
+This input is mandatory, except *except* if the :ref:`Model Choice<choices>`: :ref:`Only routing <onlyrouting>` is set to 1.
 
 
 .. note::
@@ -505,7 +507,7 @@ The LS-factor will
 decrease on a higher resolution (smaller pixels, more height information) and
 extreme LS values will occur more. To be able to compare the calculated RUSLE
 values on different spatial resolutions, a correction factor can be calculated.
-This correction factor :math:`LS_{cor}` is calculated as
+This correction factor :math:`LS_{cor}` is calculated as:
 
 .. math::
     LS_{cor} = \frac{LS_{avg,x}}{LS_{avg,y}}
@@ -515,7 +517,7 @@ with
 - :math:`LS_{avg,x}`: the average LS factor in a catchment on resolution x
 - :math:`LS_{avg,y}`: the average LS factor in a catchment on resolution y
 
-The input variable is a float (default value 1, i.e. no correction).
+The input variable is a float32 (default value 1, i.e. no correction).
 The LS-factor in the model is divided by this variable.
 
 .. _nrbuffers:
@@ -524,8 +526,8 @@ Number of buffers
 *****************
 
 The amount of buffers present in the :ref:`buffer map <buffermap>` is given in
-this parameter (integer). The parameter is only mandatory when
-:ref:`Include buffers = 1 <includebuffers>`.
+this parameter (as integer16). The parameter is only mandatory if the :ref:`Model Choice<choices>`: 
+:ref:`Include buffers <includebuffers>` is set to 1.
 
 .. _nrforcedrouting:
 
@@ -533,17 +535,17 @@ Number of forced routing
 ************************
 
 The amount of locations where the user wants to force the routing is given by this
-parameter (integer).
-This is only mandatory when :ref:`Force Routing = 1 <forcerouting>`
+parameter (as integer16).
+This is only mandatory if the :ref:`Model Choice<choices>`: :ref:`Force Routing <forcerouting>` is set to 1. 
 
 .. _ktclow:
 
 ktc low
 *******
 
-ktc low is the transport capacity coefficient (float) for pixels with a low
-erosion potential. The parameter is only mandatory when
-:ref:`Create ktc map = 1 <createktc>`.
+ktc low is the transport capacity coefficient (as float32) for pixels with a low
+erosion potential (see :ref:`ktc limit<ktclimit>`). The parameter is only mandatory if the :ref:`Model Choice<choices>`: :ref:`Create ktc map <createktc>` 
+is set to 1.
 
 .. _ktchigh:
 
@@ -551,19 +553,20 @@ ktc high
 ********
 
 ktc high is the transport capacity coefficient (float) for pixels with a high
-erosion potential. The parameter is only mandatory when
-:ref:`Create ktc map = 1 <createktc>`.
+erosion potential (see :ref:`ktc limit<ktclimit>`). The parameter is only mandatory if 
+the :ref:`Model Choice<choices>`: :ref:`Create ktc map <createktc>` is set to 1.
 
 .. _ktclimit:
 
 ktc limit
 *********
 
-ktc limit is a threshold value (float). Pixels with a C-factor higher than
-ktc limit will get :ref:`ktc high <ktchigh>` in the ktc map,
-pixels with a C-factor below ktc limit, will get :ref:`ktc low <ktclow>` in the
-ktc map. This parameter is only mandatory when
-:ref:`Create ktc map = 0 <createktc>` or :ref:`Calibrate = 1 <Calibrate>`
+ktc limit is a threshold value (as float32). Pixels with a C-factor value higher than
+ktc limit will get the value of :ref:`ktc high <ktchigh>` in the ktc map,
+pixels with a C-factor below ktc limit, will get the value of :ref:`ktc low <ktclow>` in the
+ktc map. This parameter is only mandatory if 
+the :ref:`Model Choice<choices>`: :ref:`Create ktc map <createktc>` is set to 0 or :ref:`Calibrate <Calibrate>` is set to 1.
+
 
 .. _ktildefault:
 
@@ -571,32 +574,32 @@ ktil default
 ************
 
 The transport capacity coefficient for tillage erosion on agricultural fields. 
-The integer value is expressed in :math:`kg.m{-1}.year{-1}`.
+This value (as integer16) should be expressed in :math:`kg.m{-1}.year{-1}`.
 A recommended default value is :math:`600 kg.m{-1}.year{-1}`.
 
-This parameter is only mandatory when :ref:`Create ktil map = 1 <createktil>`
+This parameter is only mandatory if the :ref:`Model Choice<choices>`: :ref:`Create ktil map <createktil>` is set to 1.
 
 .. _ktilthres:
 
 ktil threshold
 ***************
 
-ktil threshold is a float between 0 and 1. Pixels with a C-factor higher as
-ktil threshold will get :ref:`ktil default <ktildefault>` in the ktil map,
+ktil threshold is a float32 between 0 and 1. Pixels with a C-factor higher than
+ktil threshold will get the value of :ref:`ktil default <ktildefault>` in the ktil map,
 pixels with a C-factor below ktil threshold, are set to 0. A typical value for
 ktil threshold is 0.01.
 
-ktil threshold is only mandatory when :ref:`Create ktil map = 1 <createktil>`.
+This parameter is only mandatory if the :ref:`Model Choice<choices>`: :ref:`Create ktil map <createktil>` is set to 1.
 
 .. _parcelconncrop:
 
 Parcel connectivity cropland
 ****************************
 
-The parcel connectivity cropland expresses the reduction of the upstream area
-at a parcel boundary. It is an integer value between 0 and 100. The reduction
+The 'parcel connectivity cropland' expresses the reduction of the upstream area (:math:`A_{pixel}`)
+at a parcel boundary. It is an integer16 value between 0 and 100. The reduction
 on the upstream area is applied when the target pixel is of the land cover
-'cropland'.
+'cropland' (:ref:`Parcel map value<prcmap>`: >0).
 
 .. math::
 
@@ -608,10 +611,10 @@ on the upstream area is applied when the target pixel is of the land cover
 Parcel connectivity grasstrips
 ******************************
 
-The parcel connectivity grasstrips expresses the reduction of the upstream area
-at boundary between a parcel and a grasstrip. It is an integer value between 0 
+The 'parcel connectivity grasstrips' expresses the reduction of the upstream area (:math:`A_{pixel}`)
+at the boundary between a parcel and a grasstrip. It is an integer16 value between 0 
 and 100. The reduction on the upstream area is applied when the target pixel is 
-of the land cover 'grasstrip' (-6). The default value for this parameter is 100.
+of the land cover 'grasstrip' (:ref:`Parcel map value<prcmap>`: -6). The default value for this parameter is 100.
 
 .. math::
 
@@ -623,10 +626,10 @@ of the land cover 'grasstrip' (-6). The default value for this parameter is 100.
 Parcel connectivity forest
 **************************
 
-The parcel connectivity cropland expresses the reduction of the upstream area
-at a boundary of a forest. It is an integer value between 0 and 100. The
+The 'parcel connectivity forest' expresses the reduction of the upstream area (:math:`A_{pixel}`)
+at a boundary of a forest. It is an integer16 value between 0 and 100. The
 reduction on the upstream area is applied when the target pixel is of the
-land cover 'forest':
+land cover 'forest' (:ref:`Parcel map value<prcmap>`: -3).
 
 .. math::
 
@@ -639,11 +642,13 @@ Parcel trapping efficiency cropland
 ***********************************
 
 The parcel trapping efficiency (PTEF) is used to compute the upstream area for
-every raster pixel :math:`A` (see also :ref:`L-model <lmodel>`). The PTEF 
-takes into account the land-use defined in :ref:`the CN-WS parcels raster <prcmap>`:
-as a function of the land-use. This will contribute to the upstream area with a
-given percentage (100-PTEF). The parcel trapping efficiency for cropland is 
-defined by the Parcel trapping efficiency cropland (% as int e.g. 87).
+every raster pixel (:math:`A_{pixel}`) (see also :ref:`L-model <lmodel>`). The PTEF also
+takes the land-use, defined by :ref:`the CN-WS parcels raster <prcmap>`, into account. 
+This then, contributes to the upstream area by a
+given percentage (100-PTEF). 
+
+The parcel trapping efficiency for cropland is 
+defined by the 'Parcel trapping efficiency cropland' (in % as integer16; e.g. PTEF = 87).
 
 .. math::
 
@@ -654,8 +659,8 @@ defined by the Parcel trapping efficiency cropland (% as int e.g. 87).
 Parcel trapping efficiency pasture
 **********************************
 
-The parcel trapping efficiency for pasture is defined by the Parcel trapping 
-efficiency pasture (% as int e.g. 25). For a definition of the Parcel trapping
+The parcel trapping efficiency for pasture is defined by the 'Parcel trapping 
+efficiency pasture' (in % as integer16 e.g. PTEF = 25). For a definition of the Parcel trapping
 efficiency, see
 :ref:`Parcel trapping efficiency cropland <parceltrapppingcrop>`
 
@@ -664,8 +669,8 @@ efficiency, see
 Parcel trapping efficiency forest
 **********************************
 
-The parcel trapping efficiency for forest is defined by the Parcel trapping 
-efficiency forest (% as int e.g. 25). For a definition of the Parcel trapping
+The parcel trapping efficiency for forest is defined by the 'Parcel trapping 
+efficiency forest' (in % as integer16 e.g. PTEF = 25). For a definition of the Parcel trapping
 efficiency, see
 :ref:`Parcel trapping efficiency cropland <parceltrapppingcrop>`
 
@@ -674,21 +679,21 @@ efficiency, see
 Desired timestep for model
 **************************
 
-Runoff calculations are done with this timestep. The chosen timestep must comply
+Runoff calculations are done using this timestep. The given timestep must comply
 with the Courant Criterium. This criterium limits the timestep as a function of
 the spatial resolution (m) and the stream velocity of water over land (m/s).
 
 .. math::
-    dt \leq \frac{spatial resolution}{stream velocity}
+    dt \leq \frac{spatial   resolution}{stream   velocity}
 
-The parameter is an integer value expressed in minutes.
+The parameter is an integer16 value expressed in minutes.
 
 Final timestep output
 *********************
 
 The user has the option to resample the time-dependent output (runoff, sediment
 concentration, sediment load) to a different timestep than the
-:ref:`timestep <timestep>` of the model. The parameter is an integer value
+:ref:`Desired timestep <timestep>` of the model. The parameter is an integer16 value
 expressed in minutes.
 
 .. _endtime:
@@ -697,14 +702,14 @@ Endtime model
 *************
 
 Total timespan (in minutes) the model has to simulate. This parameter is an
-integer value and must be a multiple of the :ref:`timestep <timestep>` of the
+integer16 value and must be a multiple of the :ref:`timestep <timestep>` of the
 model.
 
 .. note::
-	In a first model run for a catchment with a given rainfall event, the user
-	must choose the endtime large enough. By doing this, he makes sure the the
-	whole runoff peak is modelled. After this first simulation, the model user
-	can deminish the endtime to optimise the calculation time of the model.
+	In a first model run for a catchment with a given rainfall event, a large enough endtime should be given.
+	This, in order to ensure that the
+	whole runoff peak is modelled. After the first simulation, the model user
+	can shorten the endtime to optimise the calculation time of the model.
 
 .. _maxkernel:
 
@@ -713,8 +718,8 @@ max kernel
 
 If the routing algorithm of CN-WS encounters a local minimum in the
 :ref:`digital elevation model, <dtmmap>` it will not find a lower, neighbouring
-pixel. Therefore, the algorithm will search for a lower pixel within a search
-radius around the local minimum. The variable 'max kernel' defines the search
+pixel. Therefore, the algorithm is set to search for a lower pixel within a search
+radius around the local minimum (see :ref:`routing algorithm<onetarget>`. The variable 'max kernel' defines this search
 radius expressed in pixels.
 
 .. _maxkernelriver:
@@ -735,9 +740,9 @@ Bufferdata
 ==========	
 
 The inclusion of erosion control buffers is based on input rasters and
-buffer parameters. The generation of the input rasters is described
-:ref:`here <buffermap>`. The buffer parameters must be defined in the
-ini-file when :ref:`include buffers = 1 <includebuffers>`.
+buffer parameters. How these input rasters should be created, is described
+:ref:`here <buffermap>`. If the :ref:`Model Choice<choices>`: :ref:`include buffers <includebuffers>` is set to 1,
+the buffer parameters must be defined in the ini-file in the following manner:
 
 .. code-block:: ini
 
@@ -789,10 +794,10 @@ with:
    are given the value of the extension id, except the outlet pixel.
 
 The extension id and trapping efficiency are mandatory for every buffer.
-The other buffer parameters are only mandatory when using the CN-module
-(i.e. :ref:`Only WS = 0 <simple>`).
+The other buffer parameters are only mandatory when the the CN-module seperately
+(i.e. the :ref:`Model Choice<choices>`: :ref:`Only WS <simple>` is set to 0).
 
-A full description about the CN calculation in buffers can be found
+A full description of the CN calculation in buffers can be found
 :ref:`here <bufferbasins>`.
 
 .. note::
@@ -804,10 +809,10 @@ A full description about the CN calculation in buffers can be found
 Forced routing data
 ===================
 
-A forced routing from a specified source to target pixel can be defined by
-the user, if the analysis of the routing and field validation shows that the
-routing is defined incorrectly. Forced routing is defined by the column and
-row of both the source and target pixel as follows:
+In the case that the analysis of the routing and field validation shows that the
+routing is defined incorrectly by the model, a forced routing from a specified source to target pixel can be defined by
+the user. Forced routing is defined by stating the column and
+row of both the source and target pixel in the ini-file, as shown here:
 
 .. code-block:: ini
 
@@ -823,8 +828,8 @@ row of both the source and target pixel as follows:
         target col = 20
         target row = 19
 
-These lines are added to the ini-file. Note that the amount of sections with
-forced routing vectors is defined by the variable
+Note that the amount of sections with
+forced routing vectors has to be defined with the variable
 :ref:`Number of forced routing <nrforcedrouting>`
 
 .. _calibrationparamters:
@@ -832,9 +837,9 @@ forced routing vectors is defined by the variable
 Calibration data
 ================
 
-The following parameters are only mandatory when :ref:`Calibrate=1 <calibrate>`.
+The following parameters are only mandatory if the :ref:`Model Choice<choices>`: :ref:`Calibrate <Calibrate>` is set to 1 .
 These parameters must be grouped in a seperate section in the ini-file with the
-header 'Calibration':
+header 'Calibration', as shown here:
 
 .. code-block:: ini
 
@@ -848,25 +853,25 @@ header 'Calibration':
 KTcHigh_lower
 *************
 
-The lower range of ktc-high values in the calibration mode. The value is a float
+The lower range of ktc-high values in the calibration mode. The value is a float32
 and by default 5.
 
 KTcHigh_upper
 *************
 
-The upper range of ktc-high values in the calibration mode. The value is a float
+The upper range of ktc-high values in the calibration mode. The value is a float32
 and by default 40.
 
 KTcLow_lower
 *************
 
-The lower range of ktc-low values in the calibration mode. The value is a float
+The lower range of ktc-low values in the calibration mode. The value is a float32
 and by default 1.
 
 KTcLow_upper
 *************
 
-The upper range of ktc-low values in the calibration mode. The value is a float
+The upper range of ktc-low values in the calibration mode. The value is a float32
 and by default 20.
 
 steps
