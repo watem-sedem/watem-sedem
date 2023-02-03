@@ -262,6 +262,8 @@ The implementation of this rule-bank aims to satisfy following conditions:
    grass strip being higher than the other target: here the routing follows the
    direction of to the lowest pixel.
 
+.. _upstreamarea:
+
 Upstream area calculation
 *************************
 
