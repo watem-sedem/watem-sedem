@@ -5,8 +5,8 @@
 Model choices
 #############
 
-Most model choices are boolean options and are enabled in the .ini-file with
-'1' and disabled with '0'. Some options expect a string value. The possible
+Most model choices are boolean options and can be enabled in the .ini-file with
+'1' and disabled with '0'. However, some options expect a string value. The possible
 strings are described together with the model option.
 
 Input
@@ -39,48 +39,45 @@ with
     x = |sin(\alpha)| + |cos(\alpha)|
 
 The upstream area :math:`A` in a pixel is determined by the stream flow
-algorithm, by considering a parcel trapping efficiency and the parcel
-connectivity.
+algorithm, and considers the parcel trapping efficiencies and the parcel
+connectivities.
 
-For the computation of :math:`m` two options exist:
+For the computation of :math:`m`, however, two options exist:
 
-**Van Oost et al. 2003:**
+**1. Van Oost et al. 2003:**
 
 Van Oost et al. (2003) uses an :math:`m` depending on the surface of
 the upstream area :math:`A`. If the upstream area is smaller than
-:math:`A_{ref}` = 10.000 ha, :math:`m` is calculated as
+:math:`A_{ref}` = 10.000 ha, :math:`m` is calculated as:
 
 .. math::
     m = 0.3 + (\frac{A}{A_{ref}})^c
 
-otherwise :math:`m` is set to 0.72. The value for c is hard coded as 0.8.
+otherwise :math:`m` is set to 0.72. in the model :math:`c` is fixed at 0.8.
 
-The calculation method of Van Oost et al. (2003) can be chosen by setting
-the model choice *L model* to 'Desmet1996_Vanoost2003' in the .ini-file (mind the quotes):
-
-.. code-block:: ini
-
-    L model='Desmet1996_Vanoost2003'
-
-This is the default value for this model option.
-
-**McCool et al. (1989):**
+**2. McCool et al. (1989):**
 
 McCool et al. (1989) calculates :math:`m` as:
 
 .. math::
     m = \frac{\beta}{\beta + 1}
 
-with :math:`\beta` calculated as
+with :math:`\beta`:
 
 .. math::
     \beta = \frac{\frac{sin(\theta)}{0.0896}}{3.sin^{0.8}(\theta) + 0.56}
 
-with :math:`\theta` the slope of the pixel in percentages.
+where :math:`\theta` stands for the slope of the pixel in percentages.
 
-The calculation method of McCool et al. (1989, 1987) can be chosen by setting
-the model choice *L model* to 'Desmet1996_McCool' in the ini-file (mind the quotes):
+The preferred method (i.e. Van Oost et al. (2003) or McCool et al. (1989, 1987)) can be selected by setting
+the model choice *L model* to 'Desmet1996_Vanoost2003' or 'Desmet1996_McCool', respectively, in the ini-file. 
+This should be done in the following manner (mind the quotes):
 
+.. code-block:: ini
+
+    L model='Desmet1996_Vanoost2003'
+
+This is the default value for this model option. or:
 .. code-block:: ini
 
     L model='Desmet1996_McCool'
@@ -101,39 +98,36 @@ neighbouring pixels (Zevenbergen and Thorne, 1987).
 
 The two S-models are:
 
-**Nearing (1997)**:
+**1. Nearing (1997)**:
 
 .. math::
     S = -1,5+\frac{17}{1+e^{2,3-6.1.\sin{\theta}}}
 
-The method of Nearing (1997) can be activated in CN-WS by setting
-*S model* to 'Nearing1997' in the ini-file (mind the quotes):
+
+**2. McCool et al. (1987)**
+
+McCool et al. (1987) distinguishes between two cases, namely:
+.. math::
+    100.tan(\theta) < 9.0; and: 100.tan(\theta) \geq 9.0
+    
+In the first case, S is calculated as: 
+.. math::
+    S = (10.8.sin(\theta)) + 0.03
+
+In the other case, S is calculated as:
+
+.. math::
+    S = (16.8.sin(\theta)) - 0.5
+
+The preferred method (i.e. Nearing (1997) or McCool et al. (1987)) can be selected by setting
+the model choice *S model* to 'Nearing1997' or 'McCool1987', respectively, in the ini-file. 
+This should be done in the following manner (mind the quotes):
 
 .. code-block:: ini
 
     S model='Nearing1997'
 
-This is the default method to calculate the S-factor.
-
-**McCool et al. (1987)**
-
-McCool et al. (1987) distinguish two cases:
-
-.. math::
-    S = (10.8.sin(\theta)) + 0.03
-
-is valid when:
-
-.. math::
-    100.tan(\theta) < 9.0
-
-otherwise, S is calculated as:
-
-.. math::
-    S = (16.8.sin(\theta)) - 0.5
-
-The method of McCool et al. (1987) can be activated in CN-WS by setting
-*S model* to 'McCool1987' in the ini-file (mind the quotes):
+This is the default method to calculate the S-factor. or:
 
 .. code-block:: ini
 
@@ -144,7 +138,7 @@ The method of McCool et al. (1987) can be activated in CN-WS by setting
 TC Model
 ########
 
-The Transport Capacity (TC) can be calculated in two ways in CN-WS. The default
+The Transport Capacity (TC) can be calculated in two ways by the CN-WS model. The default
 method is the method proposed by Van Oost et al. (2000):
 
 .. math::
@@ -158,17 +152,15 @@ with
 - :math:`LS`: :ref:`slope length and slope steepness factor <lsfactor>`
 - :math:`S_g`: local slope (:math:`\frac{\text{m}}{\text{m}}`)
 
-Most studies using WaTEM/SEDEM use the method of Van Oost et al. (2000). The
-method of Van Oost et al. (2000) can be activated in CN-WS by setting
+Most studies using WaTEM/SEDEM use this method by Van Oost et al. (2000). It can be activated in CN-WS by setting
 *TC model* to 'VanOost2000' in the ini-file (mind the quotes):
 
 .. code-block:: ini
 
     TC model='VanOost2000'
 
-This is the default value.
 
-However, a second method, proposed by Verstraeten et al. (2007), also exists:
+However, a second method, proposed by Verstraeten et al. (2007), can be used as well, namely:
 
 .. math::
     TC = kTC.R.K.A^{1.4}.S_g^{1.4}
@@ -192,24 +184,37 @@ The method of Verstraeten et al. (2007) can be activated in CN-WS by setting
 Only Routing
 ############
 
-By enabling the Only Routing (``Only Routing = 1``) option, only the routing will
-be determined by CN-WS. No sediment calculations or discharge calculations are
-done: the WaTEM/SEDEM and CN modules are disabled. When using this option only
-:ref:`a limited model output <onlyroutingoutput>` is possible.
+By enabling the Only Routing option, only the routing algorithm will
+be run. This means that the WaTEM/SEDEM and CN modules of the model are disabled, and
+no sediment calculations or discharge calculations are done. When using this option only
+:ref:`a limited model output <onlyroutingoutput>` will be returned by the model.
 
 This option is usefull in large catchments to evaluate the routing without
-calculating the sediment transport or discharges.
+calculating the sediment transport or discharges. It is enabled in the ini-file as follows:
+
+.. code-block:: ini
+
+    Only Routing = 1
+
+The default is: ``Only Routing = 0``
 
 .. _simple:
 
 Only WS
 #######
 
-When the option Only WS is enabled (``Only WS = 1``),
-only WaTEM/SEDEM is used and the CN-model is disabled.
-By disabling this option (``Only WS = 0``), you will use the complete CN-WS model.
+When the option Only WS is enabled,
+only WaTEM/SEDEM (in combination with the routing algorithm) is used, and the CN-model is disabled.
+In order to run the complete CN-WS model, this option must be disabled. To enable this option, following code should be 
+written in the ini-file:
 
-The user has to provide following minimal input if this option is enabled:
+.. code-block:: ini
+
+    Only WS = 1
+
+The default is: ``Only WS = 0``
+
+If this option is enabled, the user must minimum provide following input:
 
 - :ref:`digital elevation model <dtmmap>`
 - :ref:`P factor map <pmap>`
@@ -225,10 +230,10 @@ The user has to provide following minimal input if this option is enabled:
 - :ref:`parcel trapping efficiency forest <parceltrappingforest>`
 - :ref:`parcel trapping efficiency pasture <parceltrappingpasture>`
 
-Additional or alternative inputs are possible based on the chosen
+Additional and/or alternative inputs are possible based on the chosen
 model options.
 
-When you disable this option, you use the CN-module and the following extra
+When this option is disabled, the CN-module will be used as well, and the following extra
 input is mandatory:
 
 - :ref:`alpha <alpha>`
@@ -247,7 +252,13 @@ Calculate tillage erosion
 
 This option enables the tillage erosion model of Van Oost et al. (2000). We
 refer to :ref:`the dedicated section <tillageerosionmodel>` for more information
-about this model.
+about this model. This option can be enabled by writing the following in the ini-file:
+
+.. code-block:: ini
+
+    Calculate Tillage Erosion = 1
+
+The default is: ``Calculate Tillage Erosion = 0``
 
 .. _createktil:
 
@@ -255,9 +266,9 @@ Create ktil map
 ###############
 
 CN-WS is able to create a raster with ktil-factors. The ktil value is the
-transport capacity coefficient for tillage erosion. When ``Create ktil map = 1``,
-the model expects two input variables: :ref:`ktil default <ktildefault>` and
-:ref:`ktil threshold <ktilthres>`. The C-factor map will be reclassed by these
+transport capacity coefficient for tillage erosion. When the Create ktil map option is enabled,
+the model expects two input variables, namely: :ref:`ktil default <ktildefault>` and
+:ref:`ktil threshold <ktilthres>`. With this option, the C-factor map will be reclassified by these
 values: C-factors higher than ktil threshold will get the value of ktil default,
 other pixels are set to zero. When ``Create ktil map = 0`` the user will have to
 make a ktil map himself. The model will expect the filename of this ktil map
