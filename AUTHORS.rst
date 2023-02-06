@@ -51,6 +51,7 @@ Contributors
 * Dries Luts
 * Stijn Van Hoey
 * Jarne Amerlinck
+* Seth Callewaert
 
 Why not join?
 
