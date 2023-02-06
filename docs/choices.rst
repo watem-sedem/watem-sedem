@@ -9,8 +9,8 @@ Most model choices are boolean options and can be enabled in the .ini-file with
 '1' and disabled with '0'. However, some options expect a string value. The possible
 strings are described together with the model option.
 
-Input
-*****
+User Choices
+************
 
 .. _lmodel:
 
@@ -392,29 +392,45 @@ The default is: ``Buffer reduce Area = 0``
 Include ditches
 ###############
 
-Ditches alter the routing. The sediment and water will follow the course of a
-ditch instead of the steepest slope. When this option is enabled
-(``Include ditches = 1``), :ref:`a raster with information about the direction
-<ditchmap>` is mandatory.
+The use of ditches will alter the routing simulated by the model. When included, sediment and water will follow the course of the
+ditches instead of the steepest slope in the ditch locations. When this option is enabled, a :ref:`Ditch map<ditchmap>` 
+(a raster with information about the direction) should be given as model input.
 
 The model sets the :ref:`C-factor <cfactor>` at every ditch pixel tot 0.01,
 assuming that the ditch is covered with grass.
-Thus, it overwrites the value of the pixel in the :ref:`C-factor raster <cmap>`.
+It therefor overwrites the value of the pixel in the :ref:`C-factor raster <cmap>`.
 The ktc value of the pixel is set to 9999.
+
+To enable this option, the following line must be written in the ini-file:
+
+.. code-block:: ini
+
+    Include ditches = 1
+
+The default is: ``Include ditches = 0``
+
 
 .. _includedams:
 
 Include dams
 ############
 
-Dams alter the routing in the same way as ditches. The sediment and water will
-follow the course of a dam instead of the steepest slope. When this
-option is enabled (``Include dams = 1``), :ref:`a raster with information about
-the direction <dammap>` is mandatory.
+The use of Dams alter the routing in a similar way as ditches. The sediment and water will
+follow the course of a dam instead of the steepest slope on dam locations. When this
+option is enabled, :ref:`dam map <dammap>` (a raster with information about
+the direction) should be given as model input.
 
-The model sets the C-factor at every dam pixel to 0. Thus, it overwrites
+The model sets the C-factor at every dam pixel to 0, assuming that no erosion takes place inside the dams. It therefor overwrites
 the value of the pixel in the :ref:`C-factor raster <cmap>`.
 The ktc value of the pixel is set to :ref:`ktc low <ktclow>`.
+
+To enable this option, the following line must be written in the ini-file:
+
+.. code-block:: ini
+
+    Include dams = 1
+
+The default is: ``Include dams = 0``
 
 .. _forcerouting:
 
@@ -427,7 +443,15 @@ the routing. This is done by enabling the Force Routing option. With force
 routing the routing algorithm will use the routing imposed by the user instead
 of the digital elevation model.
 
-When ``Force Routing = 1`` the user will have to provide additional input: the
+To enable this option, the following line must be written in the ini-file:
+
+.. code-block:: ini
+
+    Force Routing = 1
+
+The default is: ``Force Routing = 0``
+
+When this option is enabled, the user will have to provide additional input: the
 variable :ref:`Number of forced routing <nrforcedrouting>` and a separate
 section for every routing vector the user wants to add.
 
@@ -444,22 +468,26 @@ An example of a valid forced routing section looks like
 
 The keys in every force routing section are `from col`, `from row`, `target col`
 and `target row`. These are integer values representing the location of source
-and target pixel in the raster. See :ref:`the section <forcedroutingdata>` about
-input variables for more information about forced routing.
-
-See :ref:`the section on grid coordinates <gridcoordinates>` for more
-information on the orientation of the rows and columns.
+and target pixel in the raster. See :ref:`here <forcedroutingdata>` for more information on the
+input variables for forced routing. More information about the raster coordinates and the orientation of rows and columns can be found:ref:`here <gridcoordinates>`. 
 
 .. _riverrouting:
 
 River Routing
 #############
 
-By enabling the river routing option (``River Routing = 1``), the routing
-between
+By enabling the river routing option, the routing between
 river pixels is imposed by an input raster and two input tables.
-This option is usefull because the calculated routing in a river, based on the
+This option can be usefull since the calculated routing in a river, based on the
 digital elevation model, is not always correct.
+
+To enable this option, the following line must be written in the ini-file:
+
+.. code-block:: ini
+
+    River Routing = 1
+
+The default is: ``River Routing = 0``
 
 Following input-files are required when River Routing is enabled:
 
@@ -476,7 +504,13 @@ Cardinal Routing River
 ######################
 
 This option enables only cardinal routing from source pixels to the river
-pixels. Default equal to True.
+pixels. To disable this option, the following line must be written in the ini-file:
+
+.. code-block:: ini
+
+    Cardinal Routing River = 0 
+
+The default is: ``Cardinal Routing River= 1``
 
 .. _includetillagedirection:
 
@@ -484,46 +518,63 @@ Include tillage direction
 #########################
 
 This option alters the routing on agricultural fields. When this option is
-enabled, the routing will follow the tillage direction on these fields.
+enabled, the routing will follow the given tillage direction on these fields.
 
-Following input-files are required when ``Include tillage direction = 1``:
+To enable this option, the following line must be written in the ini-file:
+
+.. code-block:: ini
+
+    Include tillage direction = 1
+
+The default is: ``Include tillage direction = 0``
+
+Following input-files are required if this option is enabled:
 
 * :ref:`tillage direction map <tildirmap>`
 * :ref:`oriented roughness map <orientedroughnessmap>`
 
 .. note::
-    This option is not yet tested.
+    This option has not been yet tested.
 
 .. _adjustslope:
 
 Adjusted Slope
 ##############
 
-Normally, the slope of a pixel is determined by the algorithm of Zevenbergen and
-Thorne (1987) on the four neighbouring, cardinal cells.
-This procedure works good in areas where the routing is solely based on the
-digital elevation model. In areas where the routing is imposed by other rules
-(e.g. at parcel boundaries, in buffers,...) the slope of the direction in the
-routing can be different than the calculated slope by Zevenbergen and
-Thorne (1987). The *Adjusted Slope*-option gives the user the ability to correct
-the slope if the imposed routing targets a single cell instead of two cells.
+The slope of a pixel in a standard model run is determined by the algorithm of Zevenbergen and
+Thorne (1987), using the four neighbouring, cardinal cells of the pixel.
+This procedure works well in areas where the routing is solely based on the
+digital elevation model. However, when the routing is imposed by other rules 
+(e.g. at parcel boundaries, in buffers,...), as well, the slope direction in the
+routing can be different from the calculated slope by Zevenbergen and
+Thorne (1987). The Adjusted Slope option gives the user the ability to correct
+the slope if the imposed routing targets a single cell instead of two.
 In this case the slope can be calculated by dividing the
 absolute value of the height difference between the source and target pixel,
-with the distance between these two pixels. This calculation is enabled by
-setting ``Adjusted Slope = 1`` in the ini-file.
+with the distance between these two pixels. 
+
+To enable this option, the following line must be written in the ini-file:
+
+.. code-block:: ini
+
+    Adjusted Slope = 1
+
+The default is: ``Adjusted Slope = 0``
 
 .. _estimclay:
 
 Estimate Clay content
 #####################
 
-When using the full CN-WS model (i.e. :ref:`Only WS=0 <simple>`), it is possible
-to estimate the clay content at every outlet and in every river
-segment (the latter only when :ref:`output per river segment <outputsegment>`
-is enabled). To do this (``Estimate clay content = 1`` in the ini-file), the
-user additionally needs to define the
+When using the full CN-WS model (i.e. :ref:`Only WS = 0 <simple>`), it is possible
+to estimate the clay content at every outlet (and in every river
+segment if :ref:`output per river segment <outputsegment>` is enabled).
+In order to estimate the clay content, the
+user needs to enable this option and, additionally, needs to define the
 :ref:`clay content of the parent material <claycontent>`
 (:math:`CC_{text{parent}}`).
+
+The estimation of the clay content is handled in two steps:
 
 First, the enrichment factor :math:`EF` for clay is calculated:
 
@@ -532,16 +583,24 @@ First, the enrichment factor :math:`EF` for clay is calculated:
 
 where :math:`SC` is the sediment concentration :math:`(g/l)`.
 
-The estimated clay content :math:`CC` :math:`(%)` for an outlet or segment is calculated
-as a function of :math:`EF` and :math:`CC_{text{parent}}`:
+Then, the estimated clay content :math:`CC` :math:`(in \%)` for an outlet or segment is calculated
+as a function of :math:`EF` and :math:`CC_{parent}`:
 
 .. math::
     CC = CC_{parent}.EF
 
-After the calculation, following files are written:
+After these calculations, following files are written:
 
 * :ref:`Clay content sediment.txt <claycontentesedtxt>`
 * :ref:`Clay content sediment segments.txt <claycontentesedsegmenttxt>`
+
+To enable this option, the following line must be written in the ini-file:
+
+.. code-block:: ini
+
+    Estimate clay content = 1
+
+The default is: ``Estimate cly content = 0``
 
 .. note::
     This option is not yet tested.
@@ -551,8 +610,9 @@ After the calculation, following files are written:
 Calibrate
 #########
 
-The Calibrate-option allows the model user to run the model with a given set of
-options, variables and inputfiles for a number of combinations of ktc-factors.
+The Calibrate option allows the user to calibrate the ktc-factors for the model. 
+With this option enabled, the model will use a given set of
+options, variables and inputfiles, and return output values for a number of combinations of ktc-factors.
 Both the ktc_high-factor as the ktc_low-factor are varied in an amount of steps
 between a lower and upper value. For every combination of ktc-factors where
 ktc_high > ktc_low, the model will make a calculation and write the results to a
@@ -560,22 +620,33 @@ ktc_high > ktc_low, the model will make a calculation and write the results to a
 A more detailed explanation about how and why to calibrate can be found
 :ref:`here <calibration>`
 
+To enable this option, the following line must be written in the ini-file:
+
+.. code-block:: ini
+
+    Calibrate = 1
+
+The default is: ``Calibrate = 0``
+
+When this option is enabled, the user will have to provide additional input, namely: the separate
+section ``[Calibration]`` (see :ref:`here <calibrationparamters>`) needs to be added to the ini-file in the :ref:`according manner<inicalib>`.
+
 .. _outputsegment:
 
 Output per river segment
 ########################
 
 A river segment is defined as a series of consequent river pixels. Mostly, a
-segment starts at a confluence of different rivers and it stops at the next
-confluence. CN-WS has the option to make a summary of the results per river
+segment starts at a confluence of tributaries and it stops at the next
+confluence. CN-WS has the option to make a summary of the results based on the available river
 segment. For every segment the total sedimentinput, total discharge or the
 sediment concentration is calculated.
 
 River segments are defined in a :ref:`separate raster <riversegmentfile>`. This
 raster is mandatory when this option is enabled.
 
-When this option is enabled (``Output per river segment=1``),
-following output is written:
+When this option is enabled,
+the following output is written:
 
 - :ref:`Total Sediment segments.txt <totalsedimentsegmenttxt>`
 - :ref:`Cumulative sediment segments.txt <cumsedsegmenttxt>`
@@ -583,24 +654,40 @@ following output is written:
 - :ref:`Sediment concentration segments.txt <sedconcensegment>`
 - :ref:`Sediment_segments.txt <sedsegmenttxt>`
 
+To enable this option, the following line must be written in the ini-file:
+
+.. code-block:: ini
+
+    Output per river segment = 1
+
+The default is: ``Output per river segment = 0``
+
+
 .. _manualoutlet:
 
 Manual outlet selection
 #######################
 
-By default, the model will determine the outlet pixel as the lowest (river)
-pixel within the model domain. However, by setting ``Manual outlet selection = 1``,
-the model expects an :ref:`outlet raster <outletmap>`: an integer raster where
-the outletpixels are numbered from 1 to n. The user has to provide this input
-file.
+By default, the model will determine the outlet pixel at the lowest (river)
+pixel within the model domain. However, by enabling this option, the user can define the outlets manually.
+This is done by creating an :ref:`outlet raster <outletmap>` (integer raster where
+the outlet pixels are numbered from 1 to n). The user has to provide the filename of this input
+raster in the ini-file.
 
+To enable this option, the following line must be written in the ini-file:
+
+.. code-block:: ini
+
+    Manual outlet selection = 1
+
+The default is: ``Manual outlet selection = 0``
 .. _outputchoices:
 
 Output
 ******
 
-The user has the option to generate extra output by defining following keys in
-the [Output maps]-section of the .ini-file.
+The user has the option to generate extra (or change characteristics of the) output by defining following keys in
+the [:ref:`Output maps<inioutput>`]-section of the .ini-file.
 
 .. _sagagrids:
 
@@ -663,8 +750,8 @@ write RUSLE
 write sediment export
 #####################
 
-(bool, default false): writes :ref:`SediExport_kg.rst <sediexportrst>`,
-:ref:`SediIn_kg.rst <sediinrst>`, :ref:`SediOut_kg.rst <sedioutrst>`
+(bool, default false): writes :ref:`SediExport_kg.rst <sediexportrst>`, :ref:`SediOut_kg.rst <sedioutrst>`, and
+:ref:`SediIn_kg.rst <sediinrst>`
 
 .. _writerwatereros:
 
@@ -688,12 +775,12 @@ write total runoff
 ##################
 
 (bool, default false): writes :ref:`Total runoff.rst <totalrunofrst>`
+.. note:: 
+    In the section `[User Choices]` two keys impose some output too:
 
-In the section `[User Choices]` two keys impose some output too:
-
-- `Include sewer` (bool, default false): writes sewer_in.rst
-- `Output per river segment` (bool, default false): writes
-  Total Sediment segments.txt, Total discharge.txt, Sediment_segments.txt,
-  Sediment concentration segments.txt, Cumulative sediment segments.txt
+    - `Include sewer` (bool, default false): writes sewer_in.rst
+    - `Output per river segment` (bool, default false): writes
+      Total Sediment segments.txt, Total discharge.txt, Sediment_segments.txt,
+      Sediment concentration segments.txt, Cumulative sediment segments.txt
 
 
