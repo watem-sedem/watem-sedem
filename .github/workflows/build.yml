@@ -1,8 +1,10 @@
 name: build_packages
 
 on:
+  pull_request:
+  create:
+    tags:
   workflow_call:
-  workflow_dispatch:
 
 env:
   DEBIAN_RSYNC_TARGET: /appdata/static/apt/amd64
