@@ -1,8 +1,7 @@
-name: documentation
+name: publish_documentation
 
 on:
   workflow_dispatch:
- # workflow_call:
   pull_request:
   create:
     tags:
@@ -13,35 +12,13 @@ env:
   RSYNC_USER: docs
   RSYNC_HOST: ijzer
 jobs:
-#  build-packages:
-#    uses: ./.github/workflows/build_packages.yml
-
-  build-documentation:
-    # needs: [build-debian,build-linux, build-conda]
-    runs-on: [self-hosted, linux]  
-    container: registry.fluves.net/drone/cn_ws/conda
-    steps:
-      - uses: actions/checkout@v3
-      - name: fetch tags
-        shell: bash
-        run: |
-          git fetch --tags
-          git lfs pull
-
-      - name: build website
-        shell: bash
-        run: |
-          pip install -r ./docs/requirements.txt
-          sphinx-build ./docs ./docs/_build/
-
-      - uses: actions/upload-artifact@master
-        with:
-          name: documentation-output
-          path: ./docs
+  build-packages:
+    if: contains(github.event.pull_request.labels.*.name, 'documentation') || contains(github.ref , 'refs/tags/')
+    uses: ./.github/workflows/build.yml
 
   publish-documentation:
-    if: contains(github.ref , 'refs/tags/', ${{ github.event.label.name == 'documentation' }})
-    needs: [build-documentation] #, build-packages] # build-debian, build-linux, build-conda]
+    if: contains(github.event.pull_request.labels.*.name, 'documentation') || contains(github.ref , 'refs/tags/')
+    needs: [build-packages] 
     runs-on: [self-hosted, linux] 
     container: registry.fluves.net/drone/cn_ws/debian11-build
     env:

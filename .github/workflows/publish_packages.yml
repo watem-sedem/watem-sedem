@@ -13,7 +13,7 @@ env:
   RSYNC_HOST: ijzer
 jobs:
   build-packages:
-    uses: ./.github/workflows/build_packages.yml
+    uses: ./.github/workflows/build.yml
   
 #  build-docs:
 #    uses: ./.github/workflows/documentation.yml
