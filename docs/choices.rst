@@ -600,7 +600,7 @@ To enable this option, the following line must be written in the ini-file:
 
     Estimate clay content = 1
 
-The default is: ``Estimate cly content = 0``
+The default is: ``Estimate clay content = 0``
 
 .. note::
     This option is not yet tested.
@@ -775,7 +775,8 @@ write total runoff
 ##################
 
 (bool, default false): writes :ref:`Total runoff.rst <totalrunofrst>`
-.. note:: 
+
+.. note::
     In the section `[User Choices]` two keys impose some output too:
 
     - `Include sewer` (bool, default false): writes sewer_in.rst
