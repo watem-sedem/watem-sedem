@@ -14,11 +14,11 @@ env:
   RSYNC_HOST: ijzer
 jobs:
   build-packages:
-    if: contains(github.ref , 'refs/tags/', ${{ github.event.label.name == 'documentation' }})
+    if: ${{ github.event.label.name == 'documentation' }}
     uses: ./.github/workflows/build.yml
 
   publish-documentation:
-    if: contains(github.ref , 'refs/tags/', ${{ github.event.label.name == 'documentation' }})
+    if: ${{ github.event.label.name == 'documentation' }}
     needs: [build-packages] 
     runs-on: [self-hosted, linux] 
     container: registry.fluves.net/drone/cn_ws/debian11-build
