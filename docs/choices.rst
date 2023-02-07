@@ -511,17 +511,23 @@ Output per river segment
 A river segment is defined as a series of consequent river pixels. Mostly, a
 segment starts at a confluence of different rivers and it stops at the next
 confluence. CN-WS has the option to make a summary of the results per river
-segment. For every segment the total sedimentinput, total discharge or the
-sediment concentration is calculated.
+segment. For every segment some statistics like the total sediment input,
+total discharge or the sediment concentration is calculated. A full list of the
+generated output per segment is given below.
 
 River segments are defined in a :ref:`separate raster <riversegmentfile>`. This
 raster is mandatory when this option is enabled.
 
 When this option is enabled (``Output per river segment=1``),
-following output is written:
+following output is written when only WaTem-SEDEM (:ref:`Only WS=1 <simple>`) is
+used:
 
 - :ref:`Total Sediment segments.txt <totalsedimentsegmenttxt>`
 - :ref:`Cumulative sediment segments.txt <cumsedsegmenttxt>`
+
+When the CN module is activated (:ref:`Only WS=0 <simple>`) additional output per
+segment is generated:
+
 - :ref:`Discharge_segments.txt <dischargesegment>`
 - :ref:`Sediment concentration segments.txt <sedconcensegment>`
 - :ref:`Sediment_segments.txt <sedsegmenttxt>`
