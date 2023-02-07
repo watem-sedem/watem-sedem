@@ -64,16 +64,18 @@ land cover
 and parcel boundaries in the routing algorithm, but also when distributing the
 sediment through the model domain. Every pixel in the model domain must contain
 a land cover value. Every value > 0 indicates a unique agricultural field. So,
-all
-pixels of an agricultural field have the same value and pixels belonging to a
-different parcel have different value.
-The definition of these unique parcel values are important to define the routing
-within a parcel. Note that the data type of this raster is integer 16.
+all pixels of an agricultural field have the same value and pixels belonging to
+a different parcel have different value. Pixels with a value < 0 indicate
+land cover that is not an agricultural field. In the table below the
+different land cover classes are shown.
 
 .. csv-table::
     :file: _static/csv/landcover_pixelid.csv
     :header-rows: 1
     :align: center
+
+The definition of these unique parcel values are important to define the routing
+within a parcel. Note that the data type of this raster is integer 16.
 
 .. note::
 
