@@ -564,7 +564,7 @@ ktc limit is a threshold value (float). Pixels with a C-factor higher than
 ktc limit will get :ref:`ktc high <ktchigh>` in the ktc map,
 pixels with a C-factor below ktc limit, will get :ref:`ktc low <ktclow>` in the
 ktc map. This parameter is only mandatory when
-:ref:`Create ktc map = 0 <createktc>` or :ref:`Calibrate = 1 <Calibrate>`
+:ref:`Create ktc map = 1 <createktc>` or :ref:`Calibrate = 1 <Calibrate>`
 
 .. _ktildefault:
 
