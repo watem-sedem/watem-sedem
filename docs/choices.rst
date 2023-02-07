@@ -261,8 +261,12 @@ the model expects two input variables: :ref:`ktil default <ktildefault>` and
 values: C-factors higher than ktil threshold will get the value of ktil default,
 other pixels are set to zero. When ``Create ktil map = 0`` the user will have to
 make a ktil map himself. The model will expect the filename of this ktil map
-in :ref:`ktil map filename <ktilmap>`. This option is only mandatory if
-:ref:`Calculate tillage erosion = 1 <calctileros>`
+in :ref:`ktil map filename <ktilmap>`.
+
+The Create ktil map - option is only mandatory when
+:ref:`Calculate tillage erosion <calctileros>` is enabled. When no tillage
+erosion is calculated (:ref:`Calculate tillage erosion = 0 <calctileros>`), the
+Create ktil map option will be ignored by the model. 
 
 .. _createktc:
 
