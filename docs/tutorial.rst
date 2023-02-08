@@ -4,45 +4,44 @@
 Tutorial
 ########
 
-To use CN-WS a .ini configuration file is needed. In this tutorial we will
-explain how this configuration file is made and how model options are enabled or
+In this tutorial we will give a short overview on how the CN-WS model can be configured for practical use. 
+On the one hand, we will explain how the configuration file (``.ini``-file) should be made, and on the other hand, how the prefered model options are enabled or
 disabled.
 
 0. Getting started
 ******************
 
-Install a simple text editor like `notepad++ <https://notepad-plus-plus.org/>`_.
-This editor is needed to edit the configuration file. A GIS program is also
-needed to create the input rasters and to view the output rasters. We recommend
-`QGIS <https://www.qgis.org>`_ or `Saga <http://www.saga-gis.org/>`_. In this
-tutorial we will not explain how to use GIS, not how to make the
+First of all, an installation of a simple text editor like `notepad++ <https://notepad-plus-plus.org/>`_ is needed
+in order to edit the configuration file (``.ini``-file). A GIS program is needed as well to create the necessary input rasters and to view the output rasters. We recommend
+`QGIS <https://www.qgis.org>`_ or `Saga GIS <http://www.saga-gis.org/>`_. In this
+tutorial we will not explain how to use GIS, nor how to make the
 input rasters, these are basic GIS-tasks and these are explained in several
-tutorials on the net. We encourage readers to start the tutorial by using
-the tutorial_1.ini file, and adapt this file according to the exercise. The
-other tutorial ini files in the tutorials folder can be used to check your
-adaptation.
+tutorials online. We encourage readers to start the tutorial by using
+the tutorial_1.ini file, and adapt this file according to the exercise. This file can be found on the github page of CN-WS, under the folder: `docs/tutorials <https://github.com/cn-ws/cn-ws/tree/master/docs/tutorials>`_. The
+other tutorial ini-files in the tutorials folder can be used to check your
+adaptations.
 
-First, you need to download the latest release of the model. Pre-build binaries
+Then, you need to download the latest release of the model. Pre-build binaries
 exist for windows and linux. It is also possible to build the model from source.
 See :ref:`the installation page <install>` for more information.
 
 All example model runs described below make use of the test dataset which is
-available in the repository under testfiles/molenbeek/modelinput. The ini-files
-used in these tutorials can be found in the docs folder of the repository.
+available in the repository under `testfiles/molenbeek/modelinput <https://github.com/cn-ws/cn-ws/tree/master/testfiles/molenbeek>`_.
 
+.. _tutsection1:
 1. A basic model run with WaTEM/SEDEM
 *************************************
 
 As a first exercise in the tutorial we will make a basic model run with the
-WaTEM/SEDEM module of CN-WS. The basic model run includes only mandatory files
-and input. This run does not use advanced :ref:`model options <usage>`. All
+WaTEM/SEDEM module of CN-WS. The basic model run includes only mandatory input files. 
+This run does not use advanced :ref:`model options <usage>`. All
 keywords used in an ini-file are explained in the :ref:`reference <usage>`.
 
 .. literalinclude:: tutorials/tutorial_1.ini
     :language: ini
 
-In the folder where you have build the model, or installed the binary, you can
-run in your terminal
+After navigating to the folder where you have build the model, or installed the binary, you can
+use your terminal to run the model, as follows: 
 
 .. code-block:: bash
 
@@ -54,12 +53,12 @@ When the model run starts you will see::
 
     Inifile : <path to cn-ws repository>/cn_ws/docs/tutorials/tutorial_1.ini
 
-After completion of the calculations the model reports the execution time::
+After the completion of the calculations, the model reports the execution time::
 
     Calculations completed. Program Execution Time: 5.96 sec
 
 Now, you can have a look in the model output folder defined in the ini-file. A
-txt file with a summary of the results is written:
+txt-file with a summary of the results is written:
 :ref:`Total sediment.txt<totalsedimenttxt>`.
 
 .. literalinclude:: tutorials/Total sediment 1.txt
@@ -67,9 +66,9 @@ txt file with a summary of the results is written:
 
 This table contains the sum of all pixels with a negative mass balance (Total
 erosion) and a positive mass balance (total deposition). A negative mass balance
-means that the available sediment (RUSLE + SEDIIN) in a pixel is smaller than the
-transport capacity. A positive mass balance means that the available sediment in
-the pixel is larger than the transport capacity. We refer to the
+means that the available sediment (RUSLE + SediIn) in a pixel is smaller than the
+transport capacity, and thus leads to a net erosion in this pixel. A positive mass balance means that the available sediment in
+the pixel is larger than the transport capacity, and thus leads to a net sedimentation in this pixel. We refer to the
 :ref:`WaTEM/SEDEM section <Concept>` where these concepts are explained more in
 depth.
 
@@ -93,7 +92,7 @@ Congratulations! You just finished your first model calculation with CN-WS!
 The first tutorial described a very basic model run: only
 :ref:`a txt file <totalsedimenttxt>` with a summary of the results is written as
 output. If we want spatial information about where erosion and sedimentation
-occurs, we can enable :ref:`some output options <modeloutput>`. Therefore,
+occurs, we can enable :ref:`various output options <modeloutput>`. Therefore,
 we need to add a section in the ini-file with the desired output:
 :ref:`write sediment export <writesedexport>` and
 :ref:`write water erosion <writerwatereros>`.
@@ -103,22 +102,22 @@ we need to add a section in the ini-file with the desired output:
     :lines: 28-30
 
 To do so, you can make a copy of the `tutorial_1.ini`-file in a directory
-of your choice, and adapt the ini-file with the lines stated above.
-
+of your choice, adapt the ini-file with the lines stated above, and rename the file to 'tutorial_2.ini'.
+Then the adapted model can be ran using
 .. code-block::
 
     cn_ws $your_favorite_folder/tutorial_2.ini
 
-If this is not working out as it should, please check if the reference
-`your_favorite_folder` is the folder where you saved the `tutorial_2.ini`-
+If this is not working as it should, please check if the reference
+'`your_favorite_folder`' is the folder where you saved the `tutorial_2.ini`-
 file. If unsure, you can always check and run the reference `tutorial_2
-.ini`-file present in the repository:
+.ini`-file present in the repository with:
 
 .. code-block::
 
     cn_ws <path to cn-ws repository>/cn_ws/docs/tutorials/tutorial_2.ini
 
-We see the following output rasters emerge in the output folder:
+The following output rasters will emerge in the output folder:
 
 - :ref:`SediExport_kg.rst <sediexportrst>`,
 - :ref:`SediOut_kg.rst <sedioutrst>`,
@@ -129,7 +128,7 @@ We see the following output rasters emerge in the output folder:
 These rasters can help us to identify the spatial patterns of the soil erosion
 and sediment deposition in the model area. The
 :ref:`SediExport_kg.rst <sediexportrst>` is a very useful raster when examining
-the points in the river with large sediment inputs. We can see in this raster
+the river locations with large sediment inputs. This raster shows
 how much sediment enters every river pixel. Remember, the total amount of
 sediment entering the rivers can be found in
 :ref:`Total sediment.txt <totalsedimenttxt>` (Sediment leaving the catchment,
@@ -137,17 +136,17 @@ via the river). This amount is in fact the sum of all river pixels in
 SediExport_kg.rst.
 
 If you want to see the paths of the sediment transport through the landscape,
-you might have a look at :ref:`SediOut_kg.rst <sedioutrst>` or
+you can look at :ref:`SediOut_kg.rst <sedioutrst>` or
 :ref:`SediIn_kg.rst <sediinrst>`. These rasters display how much sediment
-(in kg) is transported towards and outwards of a cell.
+(in kg) is transported into and out of a cell.
 
-Making a spatial analysis of areas where a lot of erosion occurs, or where a lot
-of deposition is possible, can be done with the WATEREROS rasters. These rasters
+The WATEREROS rasters can help with making a spatial analysis of areas where a lot of erosion occurs, or where a lot
+of deposition is possible. These rasters
 represent the result of the comparison between the total available sediment and
 the trasport capacity of a pixel (for more information about this concept,
 see :ref:`here <Concept>`). Positive values in these rasters indicate deposition,
 negative values indicate erosion. The
-:ref:`Total sediment file <totalsedimenttxt>`, discussed in tutorial 1,
+:ref:`Total sediment file <totalsedimenttxt>`, discussed in the tutorial '1. A basic model run with WaTEM/SEDEM',
 contained the values 'total erosion' and 'total deposition'. These values are
 calculated as the sum of all pixels in the WATEREROS raster where the pixel
 value is larger (deposition) or smaller (erosion) than zero.
@@ -186,31 +185,30 @@ If we run the model with this configuration (tutorial_3a.ini) we get::
     Error in data input: Buffer 1 trapping efficiency value missing or wrong
     data format
 
-Oh no. We encountered an error. What does this mean? This error indicates that
+Oh no, an error has occured. What does this mean? This error indicates that
 the input data in the configuration file is not correct. We read that the
 trapping efficiency value of Buffer 1 is missing or is given in a wrong data
-format. This can be fixed by reading :ref:`the reference  <includebuffers>`
-better. We can read that for every buffer we need to define the trapping
-efficiency, the extension id and buffer id in the configuration file (see
-:ref:`here <bufferdata>`). This was not done here. So, we need to add 31 sections,
+format. On the :ref:`Model choices  <includebuffers>` page, more information can be found. 
+There, you find that we need to define the trapping
+efficiency, the extension id and buffer id for every buffer in the configuration file (see
+:ref:`here <bufferdata>`). This has not yet been done here. So, we need to add 31 sections,
 one for every buffer, with these data (see also tutorials/tutorial_3b.ini):
 
 .. literalinclude:: tutorials/tutorial_3b.ini
     :language: ini
 
-Buffers trap sediment. So, after a successful run with the above ini-file, we
-have a look at the Total sediment file in the output folder:
+A buffer should trap sediment. So, after a successful model run with the above given ini-file, we
+can look at the Total sediment file in the output folder, to see that the '*sediment trapped in buffers*' line is added.
 
 .. literalinclude:: tutorials/Total sediment 3b.txt
     :language: vim
     :emphasize-lines: 5
 
-Compared with the results of the first tutorial, we see that there appeared an
-extra line in Total sediment.txt with the amount of sediment trapped in the 31
-buffer basins we added to the model. We also see that the amount of sediment
+This line gives us the total amount of sediment trapped in the 31
+buffer basins added to the model. We also see that the amount of sediment
 that reached the river (Sediment leaving the catchment, via the river) is less
-in the model run with the added buffer basins. We can conclude that the addition
-of buffer basins in this model run is a good measure to reduce the sediment input
+in this model run than in the previous model run (see :ref:`section 1 <tutsection1>`). We can conclude that the addition
+of buffers in this model run is a good measure to reduce the sediment input
 in the rivers.
 
 4. Use the CN module
@@ -222,10 +220,10 @@ To use the complete CN-WS model, we need to disable the
 .. code-block:: ini
 
     [User Choices]
-    simplified model version = 0
+    Only WS = 0
 
-Using the CN-part implies we need to define addition input in the ini-file too.
-In the :ref:`reference <simple>`, the mandatory input is described. We extend
+Using the CN-part implies we need to define additional input in the ini-file.
+At the bottom of the :ref:`Only WS <simple>`, the mandatory input is for running the full CN-WS model is described. We extend
 the ini-file with this input:
 
 .. code-block:: ini
@@ -245,9 +243,9 @@ the ini-file with this input:
     endtime model = 2940
     ...
 
-The CN module creates some additional :ref:`output <CNoutput>`. Most output is
-automatically generated by enabling the CN module, however, we are able to write
-an extra raster as output:
+The CN module will create some additional :ref:`output <CNoutput>`. Most output is
+automatically generated by enabling the CN module, however, it is posible to write
+an extra output raster, namely, the 'rainfall excess' raster (Remap.rst). This can be done by adding following line to the ini-file:
 
 .. code-block:: ini
 
@@ -270,6 +268,6 @@ in the repository contain an example project where following options are used:
 - create ktc map = 0
 - ...
 
-Have a look at them, and using the principles explained above you can get these
+Have a look at them, and using the principles explained above you should be able to get these
 working!
 
