@@ -17,7 +17,7 @@ the abbreviation of Sediment Delivery Model (Van Rompaey et al., 2001).
 In WaTEM/SEDEM, :ref:`the mean annual soil erosion rate <rusle>` :math:`E`
 and :ref:`transport capacity <TC>` :math:`TC`
 are calculated for every pixel in the model domain. Next, the model iterates
-over all pixels according to the order determined by the :ref:`routing algorithm`.
+over all pixels according to the order determined by the :ref:`routing algorithm <routing>`.
 During the iteration, the outgoing sediment for every pixel is calculated by
 comparing the total available sediment in the cell :math:`S_A` (incoming
 sediment, :math:`S_i` + :math:`E`) with the transport capacity. Note that the
@@ -31,7 +31,7 @@ Two cases exist:
    sediment :math:`S_A`.
  - :math:`S_A` > :math:`TC`: the total available sediment :math:`S_A` is higher
    than the amount of sediment that can be transported. The outgoing sediment
-   /8254=~== :math:`S_o` equals the transport capacity :math:`TC`.
+   (:math:`S_o`) equals the transport capacity (:math:`TC`).
    The net erosion rate is lower than the mean annual erosion rate :math:`E`
    and equals :math:`TC - S_i`. If the incoming sediment :math:`S_i` is higher
    than the transport capacity :math:`TC`, net sediment deposition will occur

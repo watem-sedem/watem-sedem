@@ -53,7 +53,7 @@ the upstream area :math:`A`. If the upstream area is smaller than
 .. math::
     m = 0.3 + (\frac{A}{A_{ref}})^c
 
-otherwise :math:`m` is set to 0.72. in the model :math:`c` is fixed at 0.8.
+otherwise :math:`m` is set to 0.72. in the model :math:`c` is 'hard coded' as 0.8, meaning that this value is fixed for this model and cannot be changed by the user.
 
 **2. McCool et al. (1989):**
 
@@ -107,10 +107,12 @@ The two S-models are:
 **2. McCool et al. (1987)**
 
 McCool et al. (1987) distinguishes between two cases, namely:
+
 .. math::
     100.tan(\theta) < 9.0; and: 100.tan(\theta) \geq 9.0
     
 In the first case, S is calculated as: 
+
 .. math::
     S = (10.8.sin(\theta)) + 0.03
 
@@ -138,7 +140,7 @@ This is the default method to calculate the S-factor. or:
 TC Model
 ########
 
-The Transport Capacity (TC) can be calculated in two ways by the CN-WS model. The default
+The Transport Capacity (TC) can be calculated in two ways in CN-WS. The default
 method is the method proposed by Van Oost et al. (2000):
 
 .. math::
@@ -152,7 +154,8 @@ with
 - :math:`LS`: :ref:`slope length and slope steepness factor <lsfactor>`
 - :math:`S_g`: local slope (:math:`\frac{\text{m}}{\text{m}}`)
 
-Most studies using WaTEM/SEDEM use this method by Van Oost et al. (2000). It can be activated in CN-WS by setting
+Most studies using WaTEM/SEDEM use this method by Van Oost et al. (2000). 
+It can be activated in CN-WS by setting
 *TC model* to 'VanOost2000' in the ini-file (mind the quotes):
 
 .. code-block:: ini
@@ -270,7 +273,8 @@ transport capacity coefficient for tillage erosion. When the 'Create ktil map' o
 the model expects two input variables, namely: :ref:`ktil default <ktildefault>` and
 :ref:`ktil threshold <ktilthres>`. With this option enabled, the C-factor map will be reclassified based on the
 values given as input for :ref:`ktil default <ktildefault>` and
-:ref:`ktil threshold <ktilthres>`. The C-factor values higher than *ktil threshold* will be set to the value of *ktil default*, while
+:ref:`ktil threshold <ktilthres>`. The C-factor values higher than *ktil threshold* 
+will be set to the value of *ktil default*, while
 the other pixels will be set to zero. 
 
 If the 'Create ktil map' is disabled, the user must
@@ -299,7 +303,8 @@ variables: :ref:`ktc low <ktclow>`, :ref:`ktc high <ktchigh>`,
 The C-factor values higher than *ktc limit* will be set to the value of *ktc high*, while 
 the other pixels will be set to *ktc low*.
 
-When the 'Create ktc map' option is disabled, the user must create a ktc map himself, and this map should be fiven as input for the
+When the 'Create ktc map' option is disabled, the user must create a ktc map himself, 
+and this map should be given as input for the
 model by entering its filename next to
 :ref:`ktc map filename <ktcmap>` in the ini-file.
 
@@ -316,7 +321,7 @@ The default is: ``Create ktc map = 1``
 Include sewers
 ##############
 
-When the 'include sewers' option is enabled, the user
+When the 'Include sewers' option is enabled, the user
 must provide two additional inputs, namely:
 :ref:`sewer map filename <sewermapfile>` and :ref:`sewer exit <sewerexit>`.
 
@@ -347,12 +352,12 @@ Include buffers
 
 An infrastructural measure that traps an amount of transported sediment is
 called a buffer. These measures can be simulated in the model by enabling
-the Include buffers option. When enabling this option the :ref:`buffer map filename <buffermap>` 
-becomes mandatory in the ini-file.
+the 'Include buffers' option. When this option is enabled, the :ref:`buffer map filename <buffermap>` 
+becomes a mandatory line in the ini-file.
 In addition, the ini-file must contain the variable
 :ref:`number of buffers <nrbuffers>` and a separate section for every buffer
 in the buffer map. In every buffer section in the ini-file some variables must
-be given (see :ref:`here<bufferdata>`).
+be given (see :ref:`here <bufferdata>`).
 
 The 'Include buffers' option adjusts the routing calculated by the model. Routing
 within a buffer is defined from the pixels with a buffer extension id towards
@@ -393,7 +398,7 @@ Include ditches
 ###############
 
 The use of ditches will alter the routing simulated by the model. When included, sediment and water will follow the course of the
-ditches instead of the steepest slope in the ditch locations. When this option is enabled, a :ref:`Ditch map<ditchmap>` 
+ditches instead of the steepest slope in the ditch locations. When this option is enabled, a :ref:`Ditch map <ditchmap>` 
 (a raster with information about the direction) should be given as model input.
 
 The model sets the :ref:`C-factor <cfactor>` at every ditch pixel tot 0.01,
@@ -469,7 +474,8 @@ An example of a valid forced routing section looks like
 The keys in every force routing section are `from col`, `from row`, `target col`
 and `target row`. These are integer values representing the location of source
 and target pixel in the raster. See :ref:`here <forcedroutingdata>` for more information on the
-input variables for forced routing. More information about the raster coordinates and the orientation of rows and columns can be found:ref:`here <gridcoordinates>`. 
+input variables for forced routing. More information about the raster coordinates and the orientation 
+of rows and columns can be found in :ref:`the section on grid coordinates <gridcoordinates>`. 
 
 .. _riverrouting:
 
@@ -629,7 +635,7 @@ To enable this option, the following line must be written in the ini-file:
 The default is: ``Calibrate = 0``
 
 When this option is enabled, the user will have to provide additional input, namely: the separate
-section ``[Calibration]`` (see :ref:`here <calibrationparamters>`) needs to be added to the ini-file in the :ref:`according manner<inicalib>`.
+section ``[Calibration]`` (see :ref:`here <calibrationparamters>`) needs to be added to the ini-file in the :ref:`according manner <inicalib>`.
 
 .. _outputsegment:
 
@@ -687,7 +693,7 @@ Output
 ******
 
 The user has the option to generate extra (or change characteristics of the) output by defining following keys in
-the [:ref:`Output maps<inioutput>`]-section of the .ini-file.
+the [:ref:`Output maps <inioutput>`]-section of the .ini-file.
 
 .. _sagagrids:
 

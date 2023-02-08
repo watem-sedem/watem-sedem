@@ -279,7 +279,7 @@ are incorporated in the calculation of the upstream area of a pixel.
 Mathematically this can be expressed as:
 
 .. math::
-        A = {\sum_1^n{influx_i}} + a*(1-PTEF)
+        A = {\sum_1^n{influx_i}} + a \cdot (1-PTEF)
 
 with:
  - :math:`A`: the final upstream area of the considered pixel (:math:`\text{m}^2`).
@@ -292,7 +292,7 @@ with:
 
 The influx is defined as zero for all pixels that do not receive any flux from
 upstream pixels. These pixels are the first pixels treated in the CN-WS routing
-scheme. Their upstream area is equal to :math:`a*(1-PTEF)`. The PTEF is defined
+scheme. Their upstream area is equal to :math:`a \cdot (1-PTEF)`. The PTEF is defined
 by the user for :ref:`cropland <parceltrapppingcrop>`,
 :ref:`pasture <parceltrappingpasture>` and :ref:`forest <parceltrappingforest>`.
 
