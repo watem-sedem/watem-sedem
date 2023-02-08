@@ -764,8 +764,8 @@ write water erosion
 
 .. _writerainfallexcess:
 
-write rainfall exces
-####################
+write rainfall excess
+#####################
 
 (bool, default false): writes :ref:`Remap.rst <remaprst>`
 
