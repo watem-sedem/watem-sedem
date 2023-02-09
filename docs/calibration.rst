@@ -13,22 +13,26 @@ Calibration
 Theoretical background
 ======================
 
-WaTEM/SEDEM can be calibrated for a specific study area by comparing the calculated sediment fluxes to the
-rivers with the observed sediment fluxes in :math:`n` catchments. In the model, only the kTC parameters can be choosen freely, 
+WaTEM/SEDEM can be calibrated for a specific study area by comparing the
+calculated sediment fluxes to the rivers with the observed sediment fluxes in
+:math:`n` catchments. In the model, only the kTC parameters can be choosen freely,
 and thus be used as calibration parameter. 
-The kTC values only affect the :ref:`transport capacity <tcmodel>` (TC) calculated by the WaTEM/SEDEM model. 
+The kTC values only affect the :ref:`transport capacity <tcmodel>` (TC)
+calculated by the WaTEM/SEDEM model.
 Therefor, this parameter can be adapted in order to calibrate the model.
 
-In the model runs, two kTC values are used, namely: kTC-low and kTC-high. The first value, kTC-low,
-is used for land covers with low erosion potential (i.e. forest, pasture and grass strips), the
-latter, kTC-high, is used for land covers with high erosion potential (i.e. agricultural fields). Land covers with no erosion potential
-(i.e. infrastructure, rivers and open water) are automatically appointed with a very high kTC value (i.e. 9999).
+In the model runs, two kTC values are used, namely: kTC-low and kTC-high.
+The first value, kTC-low, is used for land covers with low erosion potential
+(i.e. forest, pasture and grass strips), the latter, kTC-high, is used for land
+covers with high erosion potential (i.e. agricultural fields). Land covers with
+no erosion potential (i.e. infrastructure, rivers and open water) are
+automatically appointed with a very high kTC value (i.e. 9999).
 
 In order to select the correct kTC values for a specific study area,
 WaTEM/SEDEM must be ran for a range of kTC values for all measurement areas in
 the dataset. The optimal combination of both kTC values is obtained by three criteria.
 
-The first criteria in the selection process is the calculation of the
+The first criterium in the selection process is the calculation of the
 model efficiency :math:`ME`, defined by Nash and Sutcliffe (1970) as:
 
 .. math::
