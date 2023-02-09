@@ -14,7 +14,9 @@ Theoretical background
 ======================
 
 WaTEM/SEDEM can be calibrated by comparing the calculated sediment fluxes to the
-rivers with the observed sedimentfluxes in :math:`n` catchments.
+rivers with the observed sedimentfluxes in a number of catchments. For every
+catchment in the calibration dataset an observed/measured sedimentflux must be
+present.
 The :ref:`transport capacity <tcmodel>` used in WaTEM/SEDEM contains the ktc-value.
 This parameter can be adapted to calibrate the model.
 
