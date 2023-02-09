@@ -7,16 +7,19 @@ Model output
 In this section we will describe all possible outputs of the CN-WS model. Tables
 are written as tab-delimited txt-files, rasters are written as
 `Idrisi-rasters <https://gdal.org/drivers/raster/Idrisi.html>`_ (or as
-`Saga-rasters <https://gdal.org/drivers/raster/sdat.html>`_ if the ':ref:`saga grids <sagagrids>`' option is enabled).
+`Saga-rasters <https://gdal.org/drivers/raster/sdat.html>`_ if the
+':ref:`saga grids <sagagrids>`' option is enabled).
 
-The output returned by the model depends on some of the :ref:`user choices<choices>` that can be defined in the ini-file.
+The output returned by the model depends on some of the
+:ref:`user choices <choicespage>` that can be defined in the ini-file.
 
 .. _onlyroutingoutput:
 
 Only Routing output
 ###################
 
-Following output is generated if the model choice ‘:ref:`only routing<onlyrouting>`’ is enabled:
+Following output is generated if the model choice
+‘:ref:`only routing <onlyrouting>`’ is enabled:
 
 .. _routingtxt:
 

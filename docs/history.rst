@@ -27,8 +27,9 @@ Flanders Environment Agency (VMM) commissioned further developments of
 CN-WS to make the model operational for management and policy purposes.
 A number of optimisations to the code were implemented to increase the model performance and
 allow a roll-out on the scale of Flanders. In addition, the model was
-recalibrated (Deproost et al., 2018) and a framework was developed for
-processing CN-WS input, outputs and user choices. At this point, CN-WS has been
+calibrated for the context of Flanders (Deproost et al., 2018) and a framework
+was developed for processing CN-WS input, outputs and user choices.
+At this point, CN-WS has been
 submitted to versioning via git (https://github.com/cn-ws/cn-ws). 
 These optimization tasks were executed by `Fluves <https://fluves.com/>`_.
 

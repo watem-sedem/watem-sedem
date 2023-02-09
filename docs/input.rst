@@ -6,8 +6,8 @@ Model input
 
 This page describes all the possible model inputs.
 
-CN-WS accepts input files and **a lot of** parameters. Below, all possible input layers and parameters
-are described.
+CN-WS accepts input files and **a lot of** parameters. Below, all possible input
+layers and parameters are described.
 
 .. _folders:
 

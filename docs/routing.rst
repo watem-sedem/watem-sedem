@@ -129,7 +129,8 @@ or one-target (ordinal and cardinal directions) routing.
    direction, this only in the **cardinal direction**, thus only considering
    **four cardinal pixels**. Flows and sediment loads are distributed
    according to the angle between the direction (float number between 0 and
-   360 degrees) and the cardinal axes (see :ref:`section two target routing <twotarget>`). This
+   360 degrees) and the cardinal axes
+   (see :ref:`section two target routing <twotarget>`). This
    direction is determined by the digital elevation model (and if relevant the
    tillage direction).
  - One target: routing is defined by one routing vector, and can be in the
