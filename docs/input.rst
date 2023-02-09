@@ -61,17 +61,24 @@ Parcel filename
 
 The filename of the Parcel or Land cover map. CN-WS requires information about
 land cover
-and parcel boundaries for the routing algorithm and for the distribution of the
+and parcel boundaries in the routing algorithm, but also when distributing the
 sediment through the model domain. Every pixel in the model domain must therefore contain
-a land cover value. Every agricultural parcel is indicated by an unique value > 0. Meaning that
-all the pixels within one agricultural field should have the same, unique value, while pixels belonging to another parcel should
-have different (unique) value. These unique parcel values are important to define the routing
-within a parcel. Note that the data type of this raster is integer16.
+a land cover value. Every value > 0 indicates a unique agricultural field. Meaning that
+all pixels withing one agricultural field should have the same, unique value, while pixels belonging to 
+another parcel should have a different value. These unique parcel values are important to 
+define the routing within a parcel.
+
+Pixels with a value < 0 indicate land cover that is not an agricultural field. In the table below the
+different land cover classes are shown.
+
 
 .. csv-table::
     :file: _static/csv/landcover_pixelid.csv
     :header-rows: 1
     :align: center
+
+The definition of these unique parcel values are important to define the routing
+within a parcel. Note that the data type of this raster is integer 16.
 
 .. note::
 
@@ -562,11 +569,11 @@ the :ref:`Model Choice <choicespage>`: :ref:`Create ktc map <createktc>` is set 
 ktc limit
 *********
 
-ktc limit is a threshold value (as float32). Pixels with a C-factor value higher than
+ktc limit is a threshold value (float). Pixels with a C-factor higher than
 ktc limit will get the value of :ref:`ktc high <ktchigh>` in the ktc map,
-pixels with a C-factor below ktc limit, will get the value of :ref:`ktc low <ktclow>` in the
-ktc map. This parameter is only mandatory if 
-the :ref:`Model Choice <choicespage>`: :ref:`Create ktc map <createktc>` is set to 0 or :ref:`Calibrate <Calibrate>` is set to 1.
+pixels with a C-factor below ktc limit, will get :ref:`ktc low <ktclow>` in the
+ktc map. This parameter is only mandatory if the :ref:`Model Choice <choicespage>`
+:ref:`Create ktc map <createktc>` is set to 1 or :ref:`Calibrate = 1 <Calibrate>`
 
 
 .. _ktildefault:

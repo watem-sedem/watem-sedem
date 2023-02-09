@@ -651,11 +651,16 @@ sediment concentration is calculated.
 River segments are defined in a :ref:`separate raster <riversegmentfile>`. This
 raster is mandatory when this option is enabled.
 
-When this option is enabled,
-the following output is written:
+When this option is enabled (``Output per river segment=1``),
+following output is written when only WaTem-SEDEM (:ref:`Only WS=1 <simple>`) is
+used:
 
 - :ref:`Total Sediment segments.txt <totalsedimentsegmenttxt>`
 - :ref:`Cumulative sediment segments.txt <cumsedsegmenttxt>`
+
+When the CN module is activated (:ref:`Only WS=0 <simple>`) additional output per
+segment is generated:
+
 - :ref:`Discharge_segments.txt <dischargesegment>`
 - :ref:`Sediment concentration segments.txt <sedconcensegment>`
 - :ref:`Sediment_segments.txt <sedsegmenttxt>`
