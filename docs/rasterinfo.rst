@@ -16,22 +16,22 @@ Format
 
 All input and output rasters are
 `Idrisi-rasters <https://gdal.org/drivers/raster/Idrisi.html>`_  or
-`Saga-rasters <https://gdal.org/drivers/raster/sdat.html>`_ and have
+`Saga-rasters <https://gdal.org/drivers/raster/sdat.html>`_ and should have
 the same amount of columns, rows and cell size.
 If one of the  input rasters has a different spatial extent, the model will
 raise an exception and will stop the execution.
 
-Idrisi-rasters and saga-rasters are the native file format of respectivily
-Idrisi gis and `saga gis <http://www.saga-gis.org/>`_, but can be opened,
+Idrisi- and Saga-rasters are the native file format of respectivily
+Idrisi GIS and `SAGA GIS <http://www.saga-gis.org/>`_, but can be opened,
 edited and saved with almost every GIS-package like QGIS or SAGA-GIS,
-thanks to the `GDAL library <https://gdal.org>`_.
+with the aid of the `GDAL library <https://gdal.org>`_.
 
 Both file formats contain a binary dump of the rasterdata (.rst and .sdat) and
 an ascii metadata file (.rdc and .sgrid). Saga-rasters can also have a .prj-file
 containing information on the projection of the raster.
 
 To switch between
-these two raster formats, use the :ref:`saga grids <sagagrids>`-option.
+these two raster formats, use the :ref:`Saga grids <sagagrids>`-option.
 
 .. _gridcoordinates:
 
