@@ -512,7 +512,7 @@ A river segment is defined as a series of consequent river pixels. Mostly, a
 segment starts at a confluence of different rivers and it stops at the next
 confluence. CN-WS has the option to make a summary of the results per river
 segment. For every segment some statistics like the total sediment input,
-total discharge or the sediment concentration is calculated. A full list of the
+total discharge or the sediment concentration are calculated. A full list of the
 generated output per segment is given below.
 
 River segments are defined in a :ref:`separate raster <riversegmentfile>`. This
