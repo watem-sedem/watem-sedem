@@ -53,7 +53,9 @@ the upstream area :math:`A`. If the upstream area is smaller than
 .. math::
     m = 0.3 + (\frac{A}{A_{ref}})^c
 
-otherwise :math:`m` is set to 0.72. in the model :math:`c` is 'hard coded' as 0.8, meaning that this value is fixed for this model and cannot be changed by the user.
+otherwise :math:`m` is set to 0.72. in the model :math:`c` is 'hard coded' as
+0.8, meaning that this value is fixed for this model and cannot be changed by
+the user.
 
 **2. McCool et al. (1989):**
 
@@ -69,8 +71,9 @@ with :math:`\beta`:
 
 where :math:`\theta` stands for the slope of the pixel in percentages.
 
-The preferred method (i.e. Van Oost et al. (2003) or McCool et al. (1989, 1987)) can be selected by setting
-the model choice *L model* to 'Desmet1996_Vanoost2003' or 'Desmet1996_McCool', respectively, in the ini-file. 
+The preferred method (i.e. Van Oost et al. (2003) or McCool et al. (1989, 1987))
+can be selected by setting the model choice *L model* to 'Desmet1996_Vanoost2003'
+or 'Desmet1996_McCool', respectively, in the ini-file.
 This should be done in the following manner (mind the quotes):
 
 .. code-block:: ini
@@ -78,6 +81,7 @@ This should be done in the following manner (mind the quotes):
     L model='Desmet1996_Vanoost2003'
 
 This is the default value for this model option. or:
+
 .. code-block:: ini
 
     L model='Desmet1996_McCool'
@@ -163,7 +167,8 @@ It can be activated in CN-WS by setting
     TC model='VanOost2000'
 
 
-However, a second method, proposed by Verstraeten et al. (2007), can be used as well, namely:
+However, a second method, proposed by Verstraeten et al. (2007), can be used as
+well, namely:
 
 .. math::
     TC = kTC.R.K.A^{1.4}.S_g^{1.4}
@@ -181,6 +186,7 @@ The method of Verstraeten et al. (2007) can be activated in CN-WS by setting
 .. code-block:: ini
 
     TC model='Verstraeten2007'
+
 
 .. _onlyrouting:
 
@@ -207,8 +213,10 @@ Only WS
 #######
 
 When the option Only WS is enabled,
-only WaTEM/SEDEM (in combination with the routing algorithm) is used, and the CN-model is disabled.
-In order to run the complete CN-WS model, this option must be disabled. To enable this option, following code should be 
+only WaTEM/SEDEM (in combination with the routing algorithm) is used, and the
+CN-model is disabled.
+In order to run the complete CN-WS model, this option must be disabled.
+To enable this option, following code should be
 written in the ini-file:
 
 .. code-block:: ini
@@ -269,17 +277,20 @@ Create ktil map
 ###############
 
 CN-WS is able to create a raster with ktil-factors. The ktil value is the
-transport capacity coefficient for tillage erosion. When the 'Create ktil map' option is enabled,
-the model expects two input variables, namely: :ref:`ktil default <ktildefault>` and
-:ref:`ktil threshold <ktilthres>`. With this option enabled, the C-factor map will be reclassified based on the
+transport capacity coefficient for tillage erosion.
+When the 'Create ktil map' option is enabled,
+the model expects two input variables, namely: :ref:`ktil default <ktildefault>`
+and :ref:`ktil threshold <ktilthres>`. With this option enabled, the C-factor map
+will be reclassified based on the
 values given as input for :ref:`ktil default <ktildefault>` and
 :ref:`ktil threshold <ktilthres>`. The C-factor values higher than *ktil threshold* 
 will be set to the value of *ktil default*, while
 the other pixels will be set to zero. 
 
 If the 'Create ktil map' is disabled, the user must
-create a ktil map himself, and this map should be given as input for the model by entering its filename 
-next to :ref:`ktil map filename <ktilmap>` in the ini-file. This option is only mandatory if
+create a ktil map himself, and this map should be given as input for the model
+by entering its filename next to :ref:`ktil map filename <ktilmap>` in the
+ini-file. This option is only mandatory if
 :ref:`Calculate tillage erosion = 1 <calctileros>`. 
 
 To enable this option, the following line must be written in the ini-file:
@@ -297,8 +308,8 @@ Create ktc map
 ##############
 
 CN-WS is able to create a raster with ktc-factor values for high erodible and
-non-erodible land-uses. When the 'Create ktc map' option is enabled, the model expects three
-variables: :ref:`ktc low <ktclow>`, :ref:`ktc high <ktchigh>`,
+non-erodible land-uses. When the 'Create ktc map' option is enabled, the model
+expects three variables: :ref:`ktc low <ktclow>`, :ref:`ktc high <ktchigh>`,
 :ref:`ktc limit <ktclimit>`. The C-factor map will be reclassified based these values.
 The C-factor values higher than *ktc limit* will be set to the value of *ktc high*, while 
 the other pixels will be set to *ktc low*.
@@ -327,10 +338,12 @@ must provide two additional inputs, namely:
 
 The value of the pixel in the sewer map is used when the amount of outgoing
 sediment in a pixel is calculated. This value should give the fraction of water and
-sediment that is trapped in the sewer system via this pixel. The practical implication of this value is that the outgoing
+sediment that is trapped in the sewer system via this pixel.
+The practical implication of this value is that the outgoing
 sediment of the pixel and the uparea of the target pixels are reduced by this fraction. 
 
-The amount of trapped sediment per pixel is written to the output raster :ref:`sewer_in.rst <sewerinrst>`.
+The amount of trapped sediment per pixel is written to the output raster
+:ref:`sewer_in.rst <sewerinrst>`.
 
 To enable this option, the following line must be written in the ini-file:
 
@@ -342,8 +355,8 @@ The default is: ``Create ktc map = 0``
 
 
 .. note::
-    This option is fully tested for the model option: ':ref:`Only WS=1 <simple>`', but it is not yet
-    tested for the full CN-WS model.
+    This option is fully tested for the model option: ':ref:`Only WS=1 <simple>`',
+    but it is not yet tested for the full CN-WS model.
 
 .. _includebuffers:
 
@@ -352,8 +365,8 @@ Include buffers
 
 An infrastructural measure that traps an amount of transported sediment is
 called a buffer. These measures can be simulated in the model by enabling
-the 'Include buffers' option. When this option is enabled, the :ref:`buffer map filename <buffermap>` 
-becomes a mandatory line in the ini-file.
+the 'Include buffers' option. When this option is enabled, the
+:ref:`buffer map filename <buffermap>` becomes a mandatory line in the ini-file.
 In addition, the ini-file must contain the variable
 :ref:`number of buffers <nrbuffers>` and a separate section for every buffer
 in the buffer map. In every buffer section in the ini-file some variables must
@@ -380,7 +393,8 @@ The default is: ``Include buffers = 0``
 Buffer reduce area
 ##################
 
-This option allows the model to reduce the :ref:`upstream area<upstreamarea>` (:math:`A`) downstream of a buffer
+This option allows the model to reduce the
+:ref:`upstream area <upstreamarea>` (:math:`A`) downstream of a buffer
 with the efficiency of the buffer (see :ref:`buffer data section <bufferdata>`).
 
 To enable this option, the following line must be written in the ini-file:
@@ -397,8 +411,10 @@ The default is: ``Buffer reduce Area = 0``
 Include ditches
 ###############
 
-The use of ditches will alter the routing simulated by the model. When included, sediment and water will follow the course of the
-ditches instead of the steepest slope in the ditch locations. When this option is enabled, a :ref:`Ditch map <ditchmap>` 
+The use of ditches will alter the routing simulated by the model.
+When included, sediment and water will follow the course of the
+ditches instead of the steepest slope in the ditch locations.
+When this option is enabled, a :ref:`Ditch map <ditchmap>`
 (a raster with information about the direction) should be given as model input.
 
 The model sets the :ref:`C-factor <cfactor>` at every ditch pixel tot 0.01,
@@ -425,7 +441,8 @@ follow the course of a dam instead of the steepest slope on dam locations. When 
 option is enabled, :ref:`dam map <dammap>` (a raster with information about
 the direction) should be given as model input.
 
-The model sets the C-factor at every dam pixel to 0, assuming that no erosion takes place inside the dams. It therefor overwrites
+The model sets the C-factor at every dam pixel to 0, assuming that no erosion
+takes place inside the dams. It therefor overwrites
 the value of the pixel in the :ref:`C-factor raster <cmap>`.
 The ktc value of the pixel is set to :ref:`ktc low <ktclow>`.
 
@@ -547,8 +564,9 @@ Following input-files are required if this option is enabled:
 Adjusted Slope
 ##############
 
-The slope of a pixel in a standard model run is determined by the algorithm of Zevenbergen and
-Thorne (1987), using the four neighbouring, cardinal cells of the pixel.
+The slope of a pixel in a standard model run is determined by the algorithm of
+Zevenbergen and Thorne (1987), using the four neighbouring, cardinal cells of
+the pixel.
 This procedure works well in areas where the routing is solely based on the
 digital elevation model. However, when the routing is imposed by other rules 
 (e.g. at parcel boundaries, in buffers,...), as well, the slope direction in the
@@ -589,8 +607,8 @@ First, the enrichment factor :math:`EF` for clay is calculated:
 
 where :math:`SC` is the sediment concentration :math:`(g/l)`.
 
-Then, the estimated clay content :math:`CC` :math:`(in \%)` for an outlet or segment is calculated
-as a function of :math:`EF` and :math:`CC_{parent}`:
+Then, the estimated clay content :math:`CC` :math:`(in \%)` for an outlet or
+segment is calculated as a function of :math:`EF` and :math:`CC_{parent}`:
 
 .. math::
     CC = CC_{parent}.EF
@@ -618,7 +636,8 @@ Calibrate
 
 The Calibrate option allows the user to calibrate the ktc-factors for the model. 
 With this option enabled, the model will use a given set of
-options, variables and inputfiles, and return output values for a number of combinations of ktc-factors.
+options, variables and inputfiles, and return output values for a number of
+combinations of ktc-factors.
 Both the ktc_high-factor as the ktc_low-factor are varied in an amount of steps
 between a lower and upper value. For every combination of ktc-factors where
 ktc_high > ktc_low, the model will make a calculation and write the results to a
@@ -634,8 +653,9 @@ To enable this option, the following line must be written in the ini-file:
 
 The default is: ``Calibrate = 0``
 
-When this option is enabled, the user will have to provide additional input, namely: the separate
-section ``[Calibration]`` (see :ref:`here <calibrationparamters>`) needs to be added to the ini-file in the :ref:`according manner <inicalib>`.
+When this option is enabled, the user will have to provide additional input,
+namely: the separate section ``[Calibration]`` (see :ref:`here <calibrationparamters>`)
+needs to be added to the ini-file in the :ref:`according manner <inicalib>`.
 
 .. _outputsegment:
 
@@ -692,12 +712,14 @@ To enable this option, the following line must be written in the ini-file:
     Manual outlet selection = 1
 
 The default is: ``Manual outlet selection = 0``
+
 .. _outputchoices:
 
 Output
 ******
 
-The user has the option to generate extra (or change characteristics of the) output by defining following keys in
+The user has the option to generate extra (or change characteristics of the)
+output by defining following keys in
 the [:ref:`Output maps <inioutput>`]-section of the .ini-file.
 
 .. _sagagrids:
@@ -761,8 +783,8 @@ write RUSLE
 write sediment export
 #####################
 
-(bool, default false): writes :ref:`SediExport_kg.rst <sediexportrst>`, :ref:`SediOut_kg.rst <sedioutrst>`, and
-:ref:`SediIn_kg.rst <sediinrst>`
+(bool, default false): writes :ref:`SediExport_kg.rst <sediexportrst>`,
+:ref:`SediOut_kg.rst <sedioutrst>`, and :ref:`SediIn_kg.rst <sediinrst>`
 
 .. _writerwatereros:
 
