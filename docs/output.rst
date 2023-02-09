@@ -384,7 +384,7 @@ after a rainfall event.
 Remap.rst
 *********
 
-Raster with the total amount of discharge (in :math:`m^3 s^{-1}`) per pixel
+Rainfall Excess Raster, a raster with the total amount of discharge (in :math:`m^3 s^{-1}`) per pixel
 for a rainfall event. Here the discharce is defined by the amount of rainfall minus the ammount of infiltration.
 
 .. _totalrunofrst:
