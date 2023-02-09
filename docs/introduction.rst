@@ -23,16 +23,16 @@ The official code for CN-WS can be found at https://github.com/cn-ws/cn-ws .
 As stated above, the CN-WS model consists of three submodels. In the
 following figure, the main input, models and outputs are shown. In general,
 information on the land cover, agricultural parcels, crops, soil, erosion control
-measures, elevation and rainfall are needed to be able to use the models.
+measures, elevation and rainfall are needed in order to use the model.
 In addition, information on sewers and ditches can be used to refine the
-models.
+model.
 
-Both the :ref:`WS <WS>` and :ref:`CN <CN>` submodels make use of a routing table
-simulated by the :ref:`routing model <routing>`. The use of this routing table
+First, a routing table is created by the :ref:`routing model <routing>` and is then used in 
+both the :ref:`WS <WS>` and :ref:`CN <CN>` submodels. However, the use of this routing table
 varies for both the CN and WS model. In WS, the routing table is used to
 compute slopes, upstream areas and the sediment mass balance, whereas in the
-CN model, the routing is used to spatially distribute the runoff. It is
-important to note that the distribution of the runoff in the CN model is
+CN submodel, the routing is used to spatially distribute the runoff. It is
+important to note that the distribution of the runoff in the CN submodel is
 computed sequentially for every time step :math:`dt`. This makes CN an
 event-based model, whereas WS is a year-based model. Note that it is
 technically possible to use WS as an event-based model, yet a year-based
