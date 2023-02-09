@@ -80,7 +80,7 @@ erosion rate :math:`E` (:math:`\frac{\text{kg}}{\text{m}^{2}.\text{year}}`) is
 calculated by
 
 .. math::
-    E = R.K.LS.C.P
+    E = R \cdot K \cdot LS \cdot C \cdot P
 
 with
 
@@ -101,7 +101,7 @@ For every grid cell the transport capacity :math:`TC`
 (:math:`\frac{\text{kg}}{\text{m.year}}`) is calculated according to
 
 .. math::
-    TC = kTC.R.K.T
+    TC = kTC \cdot R \cdot K \cdot T
 
 with
 
@@ -130,7 +130,7 @@ the method of Van Oost et al. (2000). For every pixel the outgoing flux
 :math:`Q_{s,t}` :math:`(kg.m^{-1})`  due to tillage translocation is calculated as
 
 .. math::
-    Q_{s,t} = k_{til}.S
+    Q_{s,t} = k_{til} \cdot S
 
 with
 
@@ -274,7 +274,7 @@ function of a crop growth model and crop rotation scheme, eventualy combined
 with crop management (this for pixels with land-use `agriculture`):
 
 .. math::
-    C = \frac{\sum_i^t{R_i}.SLR_i}{\sum_i^t{R_i}}
+    C = \frac{\sum_i^t{R_i} \cdot SLR_i}{\sum_i^t{R_i}}
 
 
 with

@@ -35,7 +35,7 @@ load as a function of time). The sediment concentration :math:`SC` is
 calculated for every timestep as:
 
 .. math::
-    SC = \frac{(SV_{event}*1000)}{RO_{event}*1000}
+    SC = \frac{(SV_{event} \cdot 1000)}{RO_{event} \cdot 1000}
 
 With:
 
@@ -97,7 +97,7 @@ buffer basin is larger than :math:`V_{dead}`, but smaller than :math:`V_{basin}`
 the water will flow through the discharge pipe according to
 
 .. math::
-    R(t) = (Q_{max}.\sqrt{\frac{V(t)}{V_{basin} - V_{dead}}}).dt
+    R(t) = (Q_{max}\cdot\sqrt{\frac{V(t)}{V_{basin} - V_{dead}}})\cdot dt
 
 where:
 
@@ -110,7 +110,7 @@ where:
 :math:`Q_{max}` is calculated for every buffer basin according to
 
 .. math::
-    Q_{max} = C_d.A_0.\sqrt{2.g.(H_{dam} - H_{opening})}
+    Q_{max} = C_d\cdot A_0\cdot \sqrt{2 \cdot g \cdot (H_{dam} - H_{opening})}
 
 Where :
 
@@ -125,9 +125,9 @@ A second case arises when the water volume in the buffer basin is larger than
 .. math::
     R = R_{opening} + R_{overflow}
 
-    R_{opening} = Q_{max}.dt
+    R_{opening} = Q_{max}\cdot dt
 
-    R_{overflow} = C_d.W_{dam}.\sqrt{g}.h(t)^{3/2}.dt
+    R_{overflow} = C_d \cdot W_{dam}\cdot \sqrt{g} \cdot h(t)^{3/2} \cdot dt
 
 Where:
 

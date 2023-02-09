@@ -315,9 +315,9 @@ When the outgoing flux is known for a source pixel, this flux is added to the
 upstream area of the target pixels by (note that part1+part2 = 1)
 
 .. math::
-        A_{target1} = A_{target1} + flux*part1
+        A_{target1} = A_{target1} + flux \cdot part1
 
-        A_{target2} = A_{target2} + flux*part2
+        A_{target2} = A_{target2} + flux \cdot part2
 
 with:
 

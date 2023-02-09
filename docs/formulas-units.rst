@@ -43,10 +43,10 @@ the grid cell dimension (:math:`x`, resolution multiplied by :math:`|sin
 (\alpha)|+|cos (\alpha)|`).
 
 .. math::
-    E_v = \frac{E * A_c}{\rho} (\frac{m^3}{year})
+    E_v = \frac{E \cdot A_c}{\rho} (\frac{m^3}{year})
 
 .. math::
-    TC_v = \frac{TC * x}{\rho} (\frac{m^3}{year})
+    TC_v = \frac{TC \cdot x}{\rho} (\frac{m^3}{year})
 
 The values for the outgoing sediment per pixel are in the code thus defined
 as state variables in :math:`\frac{m^3}{year}`. Consequently, the
