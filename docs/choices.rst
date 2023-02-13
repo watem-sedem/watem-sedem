@@ -277,15 +277,14 @@ Create ktil map
 ###############
 
 CN-WS is able to create a raster with ktil-factors. The ktil value is the
-transport capacity coefficient for tillage erosion.
-When the 'Create ktil map' option is enabled,
-the model expects two input variables, namely: :ref:`ktil default <ktildefault>`
-and :ref:`ktil threshold <ktilthres>`. With this option enabled, the C-factor map
+transport capacity coefficient for tillage erosion. When ``Create ktil map = 1``,
+the model expects two input variables, namely: :ref:`ktil default <ktildefault>` and
+:ref:`ktil threshold <ktilthres>`. With this option enabled, the C-factor map
 will be reclassified based on the
 values given as input for :ref:`ktil default <ktildefault>` and
 :ref:`ktil threshold <ktilthres>`. The C-factor values higher than *ktil threshold* 
 will be set to the value of *ktil default*, while
-the other pixels will be set to zero. 
+the other pixels will be set to zero.  
 
 If the 'Create ktil map' is disabled, the user must
 create a ktil map himself, and this map should be given as input for the model
@@ -301,6 +300,10 @@ To enable this option, the following line must be written in the ini-file:
 
 The default is: ``Create ktil map = 0``
 
+The Create ktil map - option is only mandatory when
+:ref:`Calculate tillage erosion <calctileros>` is enabled. When no tillage
+erosion is calculated (:ref:`Calculate tillage erosion = 0 <calctileros>`), the
+Create ktil map option will be ignored by the model. 
 
 .. _createktc:
 
