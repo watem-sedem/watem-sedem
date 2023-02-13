@@ -15,7 +15,9 @@ Theoretical background
 
 WaTEM/SEDEM can be calibrated for a specific study area by comparing the
 calculated sediment fluxes to the rivers with the observed sediment fluxes in
-:math:`n` catchments. In the model, only the kTC parameters can be choosen freely,
+a number of catchments. For every catchment in the calibration dataset an 
+observed/measured sedimentflux must be present.
+In the model, only the kTC parameters can be choosen freely,
 and thus be used as calibration parameter. 
 The kTC values only affect the :ref:`transport capacity <tcmodel>` (TC)
 calculated by the WaTEM/SEDEM model.
