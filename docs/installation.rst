@@ -19,10 +19,9 @@ Linux (debian/linux)
 Installing on linux (debian/linux)
 ==================================
 
-Pre-built binary packages of cn-ws exist on apt.fluves.net or https://github.com/cn-ws/cn-ws/releases
-
+Pre-built binary packages of cn-ws exist on apt.fluves.net or https://github.com/cn-ws/cn-ws/releases .
 To install a specific version, go to https://apt.fluves.net/amd64/ and pick a
-file. This file can be installed using:
+file of your choosing. This file can then be installed using:
 
 .. code-block:: shell
 
@@ -32,7 +31,7 @@ file. This file can be installed using:
 Building on linux
 =================
 
-First dependencies should be installed. This includes Lazarus
+First build dependencies should be installed. The Lazarus dependency can be installed using:
 
 .. code-block:: shell
 
@@ -83,8 +82,7 @@ Building on Windows
 ===================
 
 To build CN-WS on windows, you need to install the Lazarus IDE first.
-You can download it on https://www.lazarus-ide.org/. Install it under `c:\lazarus` . 
-You can use the provided `make.bat` script to build. 
+This can be downloaded it from https://www.lazarus-ide.org/. Install it under `c:\lazarus` use the provided `make.bat` script to build. 
 
 Open the project in Lazarus (open the .lpi file, see subfolder cn_ws/cn_ws/cn_ws.lpi)
 and build the executable (Shift + F9). The executable is stored in the same folder as
@@ -98,7 +96,7 @@ Running CN-WS
 *************
 
 When you want to use CN-WS from the command line you need a valid ini-file with
-all references to inputfiles and modelchoices. The model can be run with
+all references to input files and model choices. The model can be run with:
 
 .. code-block:: shell
 
@@ -107,7 +105,7 @@ all references to inputfiles and modelchoices. The model can be run with
 It is possible to run the executable of CN-WS in every directory by adding its
 location to the system variable PATH. The model was tested on Dutch
 ("," as a decimal separator) and English ("." as a decimal separator) language
-system computers. Both work, other language systems are not tested yet.
+system computers. The model runs for these language systems, however other language systems yet to be tested.
 
-The :ref:`tutorial <tutorial>` gives a practical example how to use the model
+The :ref:`tutorial <tutorial>` gives a practical example on how to use the model
 and is the best place to continue from here.
