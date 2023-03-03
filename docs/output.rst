@@ -161,7 +161,7 @@ the amount of incoming sediment is reported.
 An example output is given here:
 
 .. literalinclude:: ../testfiles/molenbeek/modeloutput_ref/Total sediment.txt
-    :language: vim
+    :language: text
 
 .. _totalsedimentsegmenttxt:
 
@@ -173,11 +173,18 @@ amount of sediment :math:`(kg)` entering the segment.
 This table is only generated when
 :ref:`Output per river segment = 1 <outputsegment>`.
 
+An example output is given here:
+
+.. literalinclude:: ../testfiles/molenbeek/modeloutput_ref/Total sediment segments.txt
+    :language: text
+
 .. _cumsedsegmenttxt:
 
 Cumulative sediment segments.txt
 ********************************
 
+Tab-delimited table. Every row contains the id of a river segment and the cumulative
+amount of sediment transported from all upstream segments towards this segment.
 This table is only generated when
 :ref:`Output per river segment = 1 <outputsegment>`.
 
