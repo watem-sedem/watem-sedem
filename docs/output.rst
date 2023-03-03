@@ -72,7 +72,7 @@ information on the orientation of the rows and columns in this file.
 
 .. _routingcolrow:
 
-routing_colrow.txt
+routing_rowcol.txt
 ******************
 
 Tab-delimited table. Every row represents a pixel-coordinate (column + row).
@@ -81,6 +81,12 @@ i.e. the first record int the table is the pixel treated first in the modelrun,
 the last record of the table is the last treated pixel of the modelrun.
 Together with :ref:`routing.txt <routingtxt>` the applied routing of the model
 run can can be fully reconstructed.
+
+An example of (a part) of a routing_rowcol.txt is given below
+
+.. literalinclude:: ../testfiles/molenbeek/modeloutput_ref/routing_rowcol.txt
+    :language: text
+    :lines: 1-15
 
 See :ref:`the section on grid coordinates <gridcoordinates>` for more
 information on the orientation of the rows and columns in this file.
