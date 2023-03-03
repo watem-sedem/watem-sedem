@@ -529,8 +529,12 @@ determine the routing between all river pixels.
 Cardinal Routing River
 ######################
 
-This option enables only cardinal routing from source pixels to the river
-pixels. To disable this option, the following line must be written in the ini-file:
+It is possible to change the routing towards river pixels. When 'Cardinal Routing River'
+is enabled (it is enabled by default), only the cardinal neighbouring pixels of a
+river pixels are routed to the river pixel. If the user wants pixels that touch 
+a river pixel diagonally to route to the river, this option must be disabled.
+
+To disable this option, the following line must be written in the ini-file:
 
 .. code-block:: ini
 
