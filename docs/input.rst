@@ -178,6 +178,13 @@ P factor map filename
 *********************
 
 The filename of the :ref:`P-factor <pfactor>` map. 
+All pixels in the P factor map should contain values between 0 and 1. 
+
+As CN-WS takes erosion control measures into account in several ways
+(e.g. ditches, dams, buffers, grasstrips), it is not needed to get information
+about the P-factors. Therefore, a good practice is to set the P-factor  
+for all pixels within the catchment to 1 and all pixels
+outside the catchment get value 0. 
 
 The datatype of the raster is float32.
 
