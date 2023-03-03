@@ -11,7 +11,7 @@ For each input in the ``ini``-file, this overview defines:
 - NAME: the name (key) of the variable
 - DTYPE: the data type of the variable
 - DEFAULT: the default value (if available)
-- MODEL PART: the model part for which this is relevant (R = Routing model, WS = WaTEM/SEDEM, CN = Curved Number)
+- MODEL PART: the model part for which this is relevant (R = Routing algorithm, WS = WaTEM/SEDEM, CN = Curved Number)
 - REQUIREMENT: The requirement of the variable (M = mandatory, C = conditionally mandatory, O = optional)
 
 Overview
