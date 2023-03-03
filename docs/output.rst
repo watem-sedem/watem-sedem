@@ -46,6 +46,12 @@ table):
 The routing table is only generated when
 :ref:`write routing table = 1 <writerouting>`.
 
+An example of (a part) of a routing.txt is given below
+
+.. literalinclude:: ../testfiles/molenbeek/modeloutput_ref/routing.txt
+    :language: text
+    :lines: 1-15
+
 See :ref:`the section on grid coordinates <gridcoordinates>` for more
 information on the orientation of the rows and columns in this file.
 
