@@ -32,7 +32,8 @@ automatically appointed with a very high kTC value (i.e. 9999).
 
 In order to select the correct kTC values for a specific study area,
 WaTEM/SEDEM must be ran for a range of kTC values for all measurement areas in
-the dataset. The optimal combination of both kTC values is obtained by three criteria.
+the dataset. The optimal combination of both kTC values is obtained by evaluating three 
+criteria. This evaluation is done by the modeler in an external analysis. 
 
 The first criterium in the selection process is the calculation of the
 model efficiency :math:`ME`, defined by Nash and Sutcliffe (1970) as:
