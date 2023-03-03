@@ -205,9 +205,7 @@ given. All pixels which are no river pixels get the value 0.
 
     Example of a river segment map with seven segments.
 
-The datatype of the river segment map is integer16. The segments id's in the
-context of Flanders are defined by the VHA (see also note
-:ref:`here <outputsegment>`).
+The datatype of the river segment map is integer16.
 
 .. _adjsegments:
 
