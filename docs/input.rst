@@ -210,7 +210,7 @@ context of Flanders are defined by the VHA (see also note
 adjectant segments
 ******************
 
-Table with adjectant  river segments. This table is only mandatory when
+Tab seperated table with adjectant  river segments. This table is only mandatory when
 :ref:`River routing = 1 <riverrouting>`. The table consists out of two columns:
 from and to. Every row indicates a connection between two segments:
 segment *from* flows into segment *to*. The values in the table represent the
@@ -243,7 +243,7 @@ table with adjectant river segments is displayed below:
 upstream segments
 *****************
 
-Table with upstream segments. This table is only mandatory when
+Tab seperated table with upstream segments. This table is only mandatory when
 :ref:`River routing = 1 <riverrouting>`. In the table three columns are present:
 
 - edge (integer): segment id
