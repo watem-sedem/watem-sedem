@@ -13,22 +13,29 @@ Calibration
 Theoretical background
 ======================
 
-WaTEM/SEDEM can be calibrated by comparing the calculated sediment fluxes to the
-rivers with the observed sedimentfluxes in :math:`n` catchments.
-The :ref:`transport capacity <tcmodel>` used in WaTEM/SEDEM contains the ktc-value.
-This parameter can be adapted to calibrate the model.
+WaTEM/SEDEM can be calibrated for a specific study area by comparing the
+calculated sediment fluxes to the rivers with the observed sediment fluxes in
+a number of catchments. For every catchment in the calibration dataset an 
+observed/measured sedimentflux must be present.
+In the model, only the kTC parameters can be choosen freely,
+and thus be used as calibration parameter. 
+The kTC values only affect the :ref:`transport capacity <tcmodel>` (TC)
+calculated by the WaTEM/SEDEM model.
+Therefor, this parameter can be adapted in order to calibrate the model.
 
-Two kTC-values are used in the model runs: kTC-low and kTC-high. The first value
-is used for land covers with low erosion potential (i.e. forest, grassland), the
-latter, kTC-high, is used for arable land. Land covers with no erosion potential
-(i.e. roads and water) are automatically appointed with a very high kTC value (i.e. 9999).
+In the model runs, two kTC values are used, namely: kTC-low and kTC-high.
+The first value, kTC-low, is used for land covers with low erosion potential
+(i.e. forest, pasture and grass strips), the latter, kTC-high, is used for land
+covers with high erosion potential (i.e. agricultural fields). Land covers with
+no erosion potential (i.e. infrastructure, rivers and open water) are
+automatically appointed with a very high kTC value (i.e. 9999).
 
-To select the correct kTC-values,
+In order to select the correct kTC values for a specific study area,
 WaTEM/SEDEM must be ran for a range of kTC values for all measurement areas in
-the dataset. The optimal combination of both kTC-values is obtained by three criteria.
+the dataset. The optimal combination of both kTC values is obtained by three criteria.
 
-The first step in the selection process is the calculation of the
-model efficiency :math:`ME` defined by Nash and Sutcliffe (1970):
+The first criterium in the selection process is the calculation of the
+model efficiency :math:`ME`, defined by Nash and Sutcliffe (1970) as:
 
 .. math::
     ME = 1 - \frac{\sum_{i}^{n}(SE_{obs,i}-SE_{sim,i})^2}{\sum_{i}^{n}(SE_{obs,i}-SE_{avg})^2}
@@ -39,12 +46,12 @@ with
 - :math:`SE_{sim,i}`: the simulated sediment export for measurement point :math:`i`
 - :math:`SE_{avg}`: the average observed sediment export of all :math:`n` measurement points
 
-Model efficiencies vary between :math:`-\infty`  and 1. An :math:`ME` smaller than
-zero means that the model is not efficient, i.e., the model delivers a result
-that is less accurate than the mean value of the observed values. A :math:`ME`
+Model efficiencies can vary between :math:`-\infty`  and 1. An :math:`ME` value smaller than
+zero means that the model is not efficient, i.e. the model delivers a result
+that is less accurate than the mean value of the observed values. An :math:`ME` value
 of 1 can be interpreted as a very performant model.
 
-All calculated :math:`ME` for the different kTC-combinations can be visualised
+All calculated :math:`ME` values for the different kTC-combinations can be visualised
 in a plot as shown by Deproost et al. (2018).
 
 .. figure:: _static/png/plot_ME_calibration.png
@@ -53,38 +60,37 @@ in a plot as shown by Deproost et al. (2018).
 
     Model efficiencies for different combinations of kTC-low and kTC-high (Deproost et al., 2018)
 
-Model simulations with a combination of kTC-values with a high :math:`ME` are
-further analysed. Two criteria are used to select the best performing kTC-factors.
-The first criterium is the slope of the linear regression (with intercept 0)
-between the observed and simulated values. The simulated sediment export is
-good if the calculated slope lies between 0.95 and 1.05. Ohterwise, the
-bias between modelresult and observation will be to high (systematically more
-than 5 % too high or too low).
+Model simulations with a combination of kTC values with a high :math:`ME` value are then
+further analysed. In the second criterium, the slope of the linear regression (with intercept 0)
+between the observed and simulated values is being analyzed. The simulated sediment export is considered
+'good' if the calculated slope lies between 0.95 and 1.05. If not, the
+bias between model result and observation is considered too high (i.e. systematically more
+than 5% too high or too low).
 
-The last criterium is the ratio between kTC-low and kTC-high. Verstraeten et al.
-(2006) showed that this ratio must lie between 0.25 and 0.35. When a ratio in
-this range is used, the simulated effect of gras buffer strips equals the measured
-effectivity of this type of erosion control measure.
+The last criterium examines the ratio between kTC-low and kTC-high. Verstraeten et al.
+(2006) showed that this ratio should lie between 0.25 and 0.35. When a ratio in
+this range is used, the simulated effect of grass buffer strips is regarded to be equal to the measured
+effectiveness of this type of erosion control measure.
 
 Practical execution
 ===================
 
-CN-WS has a built-in calibration tool for WaTEM/SEDEM. First, the user has to
-make a set of input rasters for every catchment in the calibration dataset and
-has to define all the :ref:`options <choicespage>` that need to be used in the
-calibration and future model runs. In the ini-file for every catchment the user
+CN-WS has a built-in calibration tool for the WaTEM/SEDEM model. First, the user has to
+create a set of input rasters for every catchment in the calibration dataset and
+has to define all the :ref:`options <choicespage>` that are needed for the
+calibration and the future model runs. In the ini-file for every catchment that should be calibrated, the user
 has to enable the :ref:`calibration option <calibrate>` and define the
 :ref:`range of ktc values <calibrationparamters>`.
 
-The model will loop over all combinations of ktc values in the defined range.
-A :ref:`ktc map <ktcmap>` is created by the programm for every combination.
-Afterwards, the model is run for every combination.
-:ref:`A calibration file <calibrationtxt>` with the amount of
+The model will then loop over all combinations of kTC values in the defined range.
+First, a :ref:`ktc map <ktcmap>` is created by the model for every kTC combination.
+Next, the full WaTEM/SEDEM model is run for all these combinations, for all the given catchments. Finally,
+a :ref:`calibration file <calibrationtxt>` with the amount of
 sediment at each
-outlet of the model, for each combination of ktc-values in the defined range is
-available after running the model in calibration mode for every catchment. These
-files can be processed with e.g. a python script to calculate the :math:`ME` and
-the other criteria needed to select the best set of ktc-values.
+outlet of the model, for each combination of kTC values in the defined range is
+available for every catchment. These
+files can be processed by the user, through e.g. a python script, to calculate the :math:`ME` and
+the other criteria, mentioned above, in order to select the best set of ktc-values for the study area.
 
 References
 ==========

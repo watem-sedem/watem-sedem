@@ -4,18 +4,17 @@
 Run-off model: Curve Number
 ###########################
 
-The curve number (CN) method is an empirical run-off modeling approach which knows widespread use in the
+The curve number (CN) method is an empirical run-off modelling approach which knows widespread use in the
 hydrologic community. The low model complexity and limited input requirements explain the popularity of
 this model, especially in data-scarce areas. The original CN method has been developed in the mid-50’s 
-by the former American Soil Conservation Service (SCS) and has since then been revised more
-than once (NRCS, 2010). Based on field experiments with standardised
-rectangular run-off plots, local coefficients, so-called 'curve numbers' were originally determined and tabulated.
-These take into account local conditions (soil type and land cover, ...) in order to accurately estimate 
-run-off from recorded rainfall input. Important to note is that the output of the original model formulation
-is event-based, and is thus not temporally nor spatially distributed. However, in larger modeling frameworks 
-in which run-off is only one of the simulated phenomena, a spatio-temporal representation of the model output
-is common. Therefore, in order to incorporate the curve number approach, a translation of this event-based
-output is necessary. 
+by the former American Soil Conservation Service (SCS) and has been revised several times since then (NRCS, 2010). 
+Based on field experiments with standardised rectangular run-off plots, local coefficients, so-called 
+'curve numbers' were originally determined and tabulated.These take into account local conditions 
+(soil type and land cover, ...) in order to accurately estimate run-off from recorded rainfall input. 
+Important to note is that the output of the original model formulation is event-based, and is thus not temporally 
+nor spatially distributed. However, in larger modeling frameworks in which run-off is only one of the simulated 
+phenomena, a spatio-temporal representation of the model output is common. Therefore, in order to incorporate the 
+curve number approach, a translation of this event-based output is necessary. 
 
 In the documentation below the following 2 parts are discussed:
 
@@ -36,8 +35,8 @@ with:
 - :math:`P`: rainfall depth (:math:`m`)
 - :math:`I_a`: initial abstractions (e.g. infiltration depth before run-off starts,
   evaporation, interception)(:math:`m`)
-- :math:`S`: potential loss (maximum water storage after run-off starts) (:math:`m`)
 - :math:`F`: actual loss (effective water storage) (:math:`m`)
+- :math:`S`: potential loss (maximum water storage after run-off starts) (:math:`m`)
 
 Important to note is that the variables described above, do not represent time series
 variables. The CN method is an event-based model. All the variables are
@@ -56,9 +55,9 @@ Furthermore :math:`I_a` is expressed as a fraction of the potential loss :math:`
 
 A higher value for the dimensionless constant :math:`c` essentially implies 
 that more water is initially 'lost' by mainly infiltration and 
-evapotranspiration before the run-off phenomena starts to take place. It was originally set to 0.2,
+evapotranspiration before the run-off phenomena starts. It was originally set to 0.2,
 however, the quality of choice has been often questioned. Nowadays it is often put at lower values
-(Ponce  V.M.  &  Hawkins, 1996), certainly in an urbanized context.
+(Ponce  V.M.  &  Hawkins, 1996), especially in an urbanized context.
 Combining equations 1, 2 and 3 results in the following expression for :math:`Q`:
 
 .. math::
@@ -166,7 +165,7 @@ rainfall distribution during the event. This results in a generated run-off valu
 for every grid cell at every time step.
 
 Subsequently run-off redistribution through the landscape is modelled stepwise
-through time. In the general, the following 2 steps are considered:
+through time. In general, the following 2 steps are considered:
 
 1) Calculating present run-off in a grid cell at certain timestep t:
 
@@ -196,13 +195,6 @@ with:
 - :math:`\Delta t`: time step duration (:math:`s`)
 - :math:`d`: flow distance to the downstream grid cell (:math:`m`)
 
-For buffer grid cells, the run-off outflow is calculated in a alternative way.
-More information about the calculations in buffer can be found
-:ref:`here <bufferbasins>`. If in the considered grid cell, a sewer inlet is
-modelled, a fraction of the run-off will be transported through the sewers. More
-information about the sewer functionality in the model can be found
-:ref:`here <sewers>`.
-
 During the stepwise calculation of the run-off in the catchment the following
 variables are constantly updated for output at the end of the procedure:
 
@@ -214,6 +206,16 @@ variables are constantly updated for output at the end of the procedure:
 - A map with the total amount of run-off for every grid cell for the entire event
 - The total amount of spillover for each buffer
 - The total amount of water leaving the system through the sewers
+
+Run-off in special cases
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+For buffer grid cells, the run-off outflow is calculated in a alternative way.
+More information about the calculations in buffer can be found
+:ref:`here <bufferbasins>`. If in the considered grid cell, a sewer inlet is
+modelled, a fraction of the run-off will be transported through the sewers. More
+information about the sewer functionality in the model can be found
+:ref:`here <sewers>`.
 
 References
 ==========
