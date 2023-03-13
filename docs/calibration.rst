@@ -38,13 +38,20 @@ The first criterium in the selection process is the calculation of the
 model efficiency :math:`ME`, defined by Nash and Sutcliffe (1970) as:
 
 .. math::
-    ME = 1 - \frac{\sum_{i}^{n}(SE_{obs,i}-SE_{sim,i})^2}{\sum_{i}^{n}(SE_{obs,i}-SE_{avg})^2}
+    ME = 1 - \frac{\sum_{i}^{n}(E_{obs,i}-E_{sim,i})^2}{\sum_{i}^{n}(E_{obs,i}-E_{avg})^2}
 
 with
 
-- :math:`SE_{obs,i}`: the observed sediment export for measurement point :math:`i`
-- :math:`SE_{sim,i}`: the simulated sediment export for measurement point :math:`i`
-- :math:`SE_{avg}`: the average observed sediment export of all :math:`n` measurement points
+- :math:`E_{obs,i}`: the observed sediment export for measurement point :math:`i`
+- :math:`E_{sim,i}`: the simulated sediment export for measurement point :math:`i`
+- :math:`E_{avg}`: the average observed sediment export of all :math:`n` measurement points
+
+The observed sediment export is typically determined by field measurements. 
+In these field measurements, the total sediment load for an event and/or a total year is
+determined. It is important to note that the observations from the field measurements 
+should be processed (by the user) in a way they are representative for the by CN-WS
+simulated sediment load. The simulated sediment load is the simulated load at a pixel
+(cfr. SediExport-raster) overlapping with the location of field measurements.
 
 Model efficiencies can vary between :math:`-\infty`  and 1. An :math:`ME` value smaller than
 zero means that the model is not efficient, i.e. the model delivers a result
