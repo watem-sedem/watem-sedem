@@ -52,6 +52,12 @@ table):
 The routing table will only be generated if the model choice
 ':ref:`write routing table <writerouting>`' is enabled.
 
+An example of (a part) of a routing.txt is given below
+
+.. literalinclude:: ../testfiles/molenbeek/modeloutput_ref/routing.txt
+    :language: text
+    :lines: 1-15
+
 See :ref:`the section on grid coordinates <gridcoordinates>` for more
 information on the orientation of the rows and columns in this file.
 
@@ -74,7 +80,7 @@ information on the orientation of the rows and columns in this file.
 
 .. _routingcolrow:
 
-routing_colrow.txt
+routing_rowcol.txt
 ******************
 
 Tab-delimited table. Every row represents a pixel coordinate (column + row).
@@ -86,6 +92,12 @@ can be fully reconstructed.
 
 This table will only be generated if the model choice
 ':ref:`write routing table <writerouting>`' is enabled.
+
+An example of (a part) of a routing_rowcol.txt is given below
+
+.. literalinclude:: ../testfiles/molenbeek/modeloutput_ref/routing_rowcol.txt
+    :language: text
+    :lines: 1-15
 
 See :ref:`the section on grid coordinates <gridcoordinates>` for more
 information on the orientation of the rows and columns in this file.
@@ -160,7 +172,7 @@ the amount of incoming sediment is reported.
 An example output is given here:
 
 .. literalinclude:: ../testfiles/molenbeek/modeloutput_ref/Total sediment.txt
-    :language: vim
+    :language: text
 
 .. _totalsedimentsegmenttxt:
 
@@ -172,11 +184,19 @@ amount of sediment :math:`(kg)` entering the segment.
 This table is only generated if the model choice
 ':ref:`Output per river segment <outputsegment>`' is enabled.
 
+An example output is given here:
+
+.. literalinclude:: ../testfiles/molenbeek/modeloutput_ref/Total sediment segments.txt
+    :language: text
+
 .. _cumsedsegmenttxt:
 
 Cumulative sediment segments.txt
 ********************************
 
+
+Tab-delimited table. Every row contains the id of a river segment and the cumulative
+amount of sediment transported from all upstream segments towards this segment.
 This table is only generated if the model choice
 ':ref:`Output per river segment <outputsegment>`' is enabled.
 
@@ -320,6 +340,12 @@ in the :ref:`Calibration-option <calibration>`. This output is only written if t
 This txt-file contains a ;-seperated table. The columns in the
 table are: ktc_low, ktc_high, tot_erosion, tot_sedimentation, sed_river,
 sed_noriver, sed_buffer, sed_openwater, outlet_1, outlet_2.
+
+An example output where ktc_low and ktc_high were varied from 1 to 5 is given here:
+
+.. literalinclude:: ../testfiles/molenbeek/modeloutput_ref/calibration.txt
+    :language: text
+    :lines: 1,28-32,53-56,77-79,100-101,122
 
 .. _CNoutput:
 

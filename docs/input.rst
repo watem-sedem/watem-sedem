@@ -214,7 +214,8 @@ context of Flanders are defined by the VHA (see also note
 adjectant segments
 ******************
 
-The filename of the Table with adjectant  river segments. This table is only mandatory if the :ref:`Model Choice <choicespage>`: 
+The filename of the Tab separated table with adjectant  river segments. T
+his table is only mandatory if the :ref:`Model Choice <choicespage>`: 
 :ref:`River routing <riverrouting>` is set to 1. The table consists of two columns:
 'from' and 'to'. Every row indicates a connection between two segments:
 segment *from* flows into segment *to*. The values in the table represent the
@@ -247,7 +248,8 @@ table with adjectant river segments is displayed below:
 upstream segments
 *****************
 
-The filename of the table with upstream segments. This table is only mandatory if the :ref:`Model Choice <choicespage>`: 
+The filename of the tab separated table with upstream segments. 
+This table is only mandatory if the :ref:`Model Choice <choicespage>`: 
 :ref:`River routing <riverrouting>` is set to 1. In the table three columns are present, namely:
 
 - edge (integer): segment id of the receiving segment
