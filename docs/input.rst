@@ -543,8 +543,10 @@ Number of forced routing
 ************************
 
 The amount of locations where the user wants to force the routing is given by this
-parameter (as integer).
-This is only mandatory if the :ref:`Model Choice <choicespage>`:
+parameter (as integer). This variable defines the number of 
+:ref:`forced routing sections <forcedroutingdata>` in the
+ini-file. 
+This variable is only mandatory if the :ref:`Model Choice <choicespage>`:
 :ref:`Force Routing <forcerouting>` is set to 1.
 
 .. _ktclow:
