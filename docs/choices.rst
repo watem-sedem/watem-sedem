@@ -776,7 +776,7 @@ write routing table
 write routing column/row
 ########################
 
-(bool, default false):
+(bool, default false): writes :ref:`routing_colrow.txt <routingcolrow>`
 
 .. _writerusle:
 
