@@ -27,7 +27,7 @@ measures, elevation and rainfall are needed in order to use the model.
 In addition, information on sewers and ditches can be used to refine the
 model.
 
-First, a routing table is created by the :ref:`routing model <routing>` and is then used in 
+First, a routing table is created by the :ref:`routing algorithm <routing>` and is then used in
 both the :ref:`WS <WS>` and :ref:`CN <CN>` submodels. However, the use of this routing table
 varies for both the CN and WS model. In WS, the routing table is used to
 compute slopes, upstream areas and the sediment mass balance, whereas in the
@@ -50,7 +50,7 @@ run-off to scale the yearly sediment load. This is explained :ref:`here
 
 .. note::
     The CN-WS package is still being optimized to make sure the CN, WS and
-    routing model can be run separately.
+    routing algorithm can be run separately.
 
 For who is this documentation?
 ==============================
