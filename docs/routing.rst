@@ -268,24 +268,20 @@ The implementation of this rule-bank aims to satisfy following conditions:
 Upstream area calculation
 *************************
 
-Once the routing is known, the total upstream area of all pixels is calculated.
-
-The total upstream area of a pixel is dependent on the amount of upstream (source)
-pixels and the fluxes of these source pixels that are routed to the considered
-pixel. It is important to note that the flux is defined as the upstream area
-of the considered pixel, and not the final upstream area. Next to the incoming
-fluxes, the parcel trapping efficiency (PTEF) of the pixel and the pixel size
-are incorporated in the calculation of the upstream area of a pixel.
-
-Mathematically this can be expressed as:
+Once the routing is known, the upstream area for all pixels is calculated. A
+distinction is made between the *influx* and the *upstream area* for a pixel.
+The influx is defined as area of all pixels flowing into the considered
+pixel, not considering the contribution of the considered pixel itself to the
+area. The upstream area for a pixel is defined as the area of all pixels
+flowing into the considered pixel, including the area of considered pixel:
 
 .. math::
-        A = {\sum_1^n{influx_i}} + a \cdot (1-PTEF)
+        A = {\sum_1^n{\text{influx}_i}} + a \cdot (1-PTEF)
 
 with:
- - :math:`A`: the final upstream area of the considered pixel (:math:`\text{m}^2`).
- - :math:`influx`: the final upstream area of the source pixels that are distributed
-   to the considered pixel (:math:`\text{m}^2`).
+ - :math:`A`: the upstream area of the considered pixel (:math:`\text{m}^2`).
+ - :math:`\text{influx}_i`: the area of all pixels flowing into the considered
+   pixel :math:`i` (:math:`\text{m}^2`).
  - :math:`a`: the pixel size (:math:`\text{m}^2`).
  - :math:`PTEF`: the parcel trapping efficiency of a pixel.
  - :math:`n`: the number of source pixels. Note that only pixels are
@@ -293,42 +289,46 @@ with:
 
 The influx is defined as zero for all pixels that do not receive any flux from
 upstream pixels. These pixels are the first pixels treated in the CN-WS routing
-scheme. Their upstream area is equal to :math:`a \cdot (1-PTEF)`. The PTEF is defined
-by the user for :ref:`cropland <parceltrapppingcrop>`,
+scheme. Their upstream area is equal to :math:`a \cdot (1-PTEF)`. The PTEF is
+defined by the user for :ref:`cropland <parceltrapppingcrop>`,
 :ref:`pasture <parceltrappingpasture>` and :ref:`forest <parceltrappingforest>`.
 
-Once the upstream area of a pixel is known, the outgoing flux, or distribution of the
-upstream area to its target pixels, is calculated. By default this outgoing flux
-is equal to the upstream area of the source pixel itself. In some
-special cases the outgoing flux is reduced (for example in buffer outlets, sewers
-or when the landcover of a target pixel is different from the source pixel).
-The flow-chart below clarifies in which cases the reductions on the upstream area
-are applied in the calculation of the outgoing flux.
+Once the upstream area of a pixel is known, the *outflux*, or distribution
+of the upstream area to its target pixels, is calculated. By default this
+outflux is equal to the upstream area of the source pixel itself. In
+some special cases the outflux is reduced (for example in buffer outlets,
+sewers or when the landcover of a target pixel is different from the source
+pixel). The flow-chart below clarifies in which cases the reductions on the
+upstream area are applied in the calculation of the outflux.
 
 .. figure:: _static/png/sketch_distribute_uparea.png
     :align: center
 
-    Flow-chart of the distribution of the outgoing flux of a pixel in CN-WS.
-    Part is the fraction of the tabulated outgoing flux. Note that
+    Flow-chart of the distribution of the outflux of a pixel in CN-WS.
+    Part is the fraction of the tabulated outflux. Note that
     the sum of Part to target1 (part1) and target2 (part2) is equal to 1.
 
-When the outgoing flux is known for a source pixel, this flux is added to the
-upstream area of the target pixels by (note that part1+part2 = 1)
+When the outflux is known for a source pixel, this flux is added to the
+influx of the target pixels by (note that part1+part2 = 1)
 
 .. math::
-        A_{target1} = A_{target1} + flux \cdot part1
+        \text{influx}_{\text{target1},+} = \text{influx}_{\text{target1},-} +
+        \text{outflux} \cdot \text{part1}
 
-        A_{target2} = A_{target2} + flux \cdot part2
+        \text{influx}_{\text{target2},+} = \text{influx}_{\text{target2},-} +
+        \text{outflux} \cdot \text{part2}
 
 with:
 
- - :math:`A_{target1}`: the upstream area of the first target pixel.
- - :math:`A_{target2}`: the upstream area of the second target pixel.
- - :math:`flux`: the outgoing flux of the source pixel.
- - :math:`part1`: the fraction of the routing from the source pixel to the first
-   target pixel (-).
- - :math:`part2`: the fraction of the routing from the source pixel to the second
-   target pixel (-).
+ - :math:`\text{influx}_{\text{target1}}`: the influx of the first target
+   1 pixel. +: posterior, -: priori.
+ - :math:`\text{influx}_{\text{target2}}`: the influx of the first target
+   2 pixel. +: posterior, -: priori.
+ - :math:`\text{outflux}`: the outflux of the source pixel.
+ - :math:`\text{part1}`: the fraction of the routing from the source pixel to
+   the first target pixel (-).
+ - :math:`\text{part2}`: the fraction of the routing from the source pixel to
+   the second target pixel (-).
 
 Forced routing
 **************
