@@ -14,12 +14,12 @@ def test_modeloutput():
     refoutput = Path("testfiles/molenbeek/modeloutput_ref_sdat")
     output = Path("testfiles/molenbeek/modeloutput_sdat")
 
-    assert _get_filenames(refoutput) == _get_filenames(output)
+    assert _get_filenames(refoutput) == _get_filenames(output, ignore="calibration.txt")
     _compare_rst_folder(refoutput, output, ext='.sdat')
     refoutput = Path("testfiles/molenbeek/modeloutput_ref")
     output = Path("testfiles/molenbeek/modeloutput")
 
-    assert _get_filenames(refoutput) == _get_filenames(output)
+    assert _get_filenames(refoutput) == _get_filenames(output, ignore="calibration.txt")
     _compare_rst_folder(refoutput, output, ext='.rst')
 
 

@@ -81,12 +81,16 @@ def load_raster(rst, return_bounds=False):
         return arr, profile
 
 
-def _get_filenames(path):
+def _get_filenames(path, ignore=None):
     """"""
-    return set(
-        [item.name for item in path.iterdir() if ".aux.xml" not in item.name]
-    )
-
+    if ignore is None:
+        return set(
+            [item.name for item in path.iterdir() if ".aux.xml" not in item.name]
+        )
+    else:
+        return set(
+            [item.name for item in path.iterdir() if (".aux.xml" not in item.name) & (item.name not in ignore)]
+        )
 def equal_rst(rst_file_1, rst_file_2, rtol=1e-8, atol=1e-8):
     """Check if idrisi/sdat files are the same"""
     s1, s2 = load_raster(rst_file_1), load_raster(rst_file_2)
