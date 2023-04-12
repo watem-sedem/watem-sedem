@@ -2,6 +2,14 @@
 Changelog
 =========
 
+Version 4.2.3
+-------------
+- Multiple additions/corrections to the documentation.
+- Fix of routing to sewers-bug introduced in CN in version 4.2.0
+  (see 6735f759b5029c63a4531e96aa823484722e48b3). Discharge observed in
+  segments is now correct again.
+- Add GitHub actions.
+
 Version 4.2.2
 -------------
 - Implements option that allows only cardinal routing to the river. This
