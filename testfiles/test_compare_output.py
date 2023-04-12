@@ -64,8 +64,6 @@ def test_tables():
                     atol=1e-8,
                     skiplines=1,
                 )
-            elif file_name.name == "calibration.txt":
-                print("don't compare calibration file")
             else:
                 equal_table(
                     file_name,
