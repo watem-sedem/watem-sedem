@@ -343,7 +343,7 @@ sed_noriver, sed_buffer, sed_openwater, outlet_1, outlet_2.
 
 An example output where ktc_low and ktc_high were varied from 1 to 5 is given here:
 
-.. literalinclude:: ../testfiles/molenbeek/modeloutput_ref/calibration.txt
+.. literalinclude:: _static/csv/calibration.txt
     :language: text
     :lines: 1,28-32,53-56,77-79,100-101,122
 
