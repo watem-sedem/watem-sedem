@@ -17,7 +17,7 @@ jobs:
     if: contains(github.event.pull_request.labels.*.name, 'documentation') || contains(github.ref , 'refs/tags/')
     needs: [build-packages] 
     runs-on: [self-hosted, linux] 
-    env:
+    container: registry.fluves.net/drone/cn_ws/debian11-build
     steps:
       - uses: actions/download-artifact@master
         with:
