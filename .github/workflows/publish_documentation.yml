@@ -7,10 +7,7 @@ on:
     tags:
 
 env:
-  DEBIAN_RSYNC_TARGET: /appdata/static/apt/amd64
   DRONE_BUILD_NUMBER: ${{ github.run_number }}
-  RSYNC_USER: docs
-  RSYNC_HOST: ijzer
 jobs:
   build-packages:
     if: contains(github.event.pull_request.labels.*.name, 'documentation') || contains(github.ref , 'refs/tags/')
@@ -20,21 +17,12 @@ jobs:
     if: contains(github.event.pull_request.labels.*.name, 'documentation') || contains(github.ref , 'refs/tags/')
     needs: [build-packages] 
     runs-on: [self-hosted, linux] 
-    container: registry.fluves.net/drone/cn_ws/debian11-build
     env:
-      SSH_KEY: ${{secrets.SSH_KEY}}
-      TARGET_DIR: /appdata/static/docs/cn_ws
     steps:
       - uses: actions/download-artifact@master
         with:
           name: documentation-output
           path: ./docs
-
-      - name: rsync-docs
-        shell: bash
-        run: |
-          mkdir -p /.ssh && echo "$SSH_KEY" > /.ssh/private.key && chmod og-rwx /.ssh/private.key
-          rsync -av --rsync-path="mkdir -p $TARGET_DIR && rsync" -e "ssh -p 22 -o StrictHostKeyChecking=no -i /.ssh/private.key" ./docs/_build/ $RSYNC_USER@$RSYNC_HOST:$TARGET_DIR
 
       - name: Deploy documentation
         uses: peaceiris/actions-gh-pages@v3 # github actions need to be restricted
