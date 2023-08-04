@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Model choices &mdash; cn-ws  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Model input" href="input.html" />
+    <link rel="prev" title="Rasters" href="rasterinfo.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            cn-ws
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="model.html">Model Description</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="usage.html">Model Usage</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="rasterinfo.html">Rasters</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Model choices</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#user-choices">User Choices</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#l-model">L model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#s-model">S model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#tc-model">TC Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#only-routing">Only Routing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#only-ws">Only WS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#calculate-tillage-erosion">Calculate tillage erosion</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#create-ktil-map">Create ktil map</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#create-ktc-map">Create ktc map</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#include-sewers">Include sewers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#include-buffers">Include buffers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#buffer-reduce-area">Buffer reduce area</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#include-ditches">Include ditches</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#include-dams">Include dams</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#force-routing">Force Routing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#river-routing">River Routing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cardinal-routing-river">Cardinal Routing River</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#include-tillage-direction">Include tillage direction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#adjusted-slope">Adjusted Slope</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#estimate-clay-content">Estimate Clay content</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#calibrate">Calibrate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#output-per-river-segment">Output per river segment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#manual-outlet-selection">Manual outlet selection</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#output">Output</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#saga-grids">Saga_Grids</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#write-aspect">write aspect</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#write-ls-factor">write LS factor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#write-upstream-area">write upstream area</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#write-slope">write slope</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#write-routing-table">write routing table</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#write-routing-column-row">write routing column/row</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#write-rusle">write RUSLE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#write-sediment-export">write sediment export</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#write-water-erosion">write water erosion</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#write-rainfall-excess">write rainfall excess</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#write-total-runoff">write total runoff</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="input.html">Model input</a></li>
+<li class="toctree-l2"><a class="reference internal" href="output.html">Model output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="calibration.html">Calibration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inifile.html">Summary <code class="docutils literal notranslate"><span class="pre">ini</span></code>-file</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact.html">Contact</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">cn-ws</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="usage.html">Model Usage</a></li>
+      <li class="breadcrumb-item active">Model choices</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/cn-ws/cn-ws/blob/master/docs/choices.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul><div class="rst-breadcrumbs-buttons" role="navigation" aria-label="Sequential page navigation">
+        <a href="rasterinfo.html" class="btn btn-neutral float-left" title="Rasters" accesskey="p"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="input.html" class="btn btn-neutral float-right" title="Model input" accesskey="n">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+  </div>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="model-choices">
+<span id="choicespage"></span><h1>Model choices<a class="headerlink" href="#model-choices" title="Permalink to this heading"></a></h1>
+<p>Most model choices are boolean options and can be enabled in the .ini-file with
+‘1’ and disabled with ‘0’. However, some options expect a string value. The possible
+strings are described together with the model option.</p>
+<div class="section" id="user-choices">
+<h2>User Choices<a class="headerlink" href="#user-choices" title="Permalink to this heading"></a></h2>
+<div class="section" id="l-model">
+<span id="lmodel"></span><h3>L model<a class="headerlink" href="#l-model" title="Permalink to this heading"></a></h3>
+<p>CN-WS allows the user to choose between two models to calculate the
+<a class="reference internal" href="watem-sedem.html#lsfactor"><span class="std std-ref">L-factor</span></a>. The L-factor defines the impact of the slope length
+and is used in the calculation of <a class="reference internal" href="watem-sedem.html#rusle"><span class="std std-ref">RUSLE</span></a> and
+<a class="reference internal" href="watem-sedem.html#tc"><span class="std std-ref">transport capacity (TC)</span></a>.</p>
+<p>The L-model is calculated according to the work of Desmet and Govers (1996):</p>
+<div class="math notranslate nohighlight">
+\[L = \frac{(A+D^2)^{m+1}-A^{m+1}}{D^{m+2}.x^m.22,13^m}\]</div>
+<dl class="simple">
+<dt>with</dt><dd><ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(A\)</span>: upstream area for every raster pixel (<span class="math notranslate nohighlight">\(\text{m}^2\)</span>).</p></li>
+<li><p><span class="math notranslate nohighlight">\(D\)</span>: grid resolution <span class="math notranslate nohighlight">\((m)\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(m\)</span>: length exponent <span class="math notranslate nohighlight">\((-)\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(x\)</span>: factor incorporating the flow direction <span class="math notranslate nohighlight">\((-)\)</span>.</p></li>
+</ul>
+</dd>
+</dl>
+<p><span class="math notranslate nohighlight">\(x\)</span> is calculated as a function of the aspect <span class="math notranslate nohighlight">\(\alpha\)</span> of the pixel:</p>
+<div class="math notranslate nohighlight">
+\[x = |sin(\alpha)| + |cos(\alpha)|\]</div>
+<p>The upstream area <span class="math notranslate nohighlight">\(A\)</span> in a pixel is determined by the stream flow
+algorithm, and considers the parcel trapping efficiencies and the parcel
+connectivities.</p>
+<p>For the computation of <span class="math notranslate nohighlight">\(m\)</span>, however, two options exist:</p>
+<p><strong>1. Van Oost et al. 2003:</strong></p>
+<p>Van Oost et al. (2003) uses an <span class="math notranslate nohighlight">\(m\)</span> depending on the surface of
+the upstream area <span class="math notranslate nohighlight">\(A\)</span>. If the upstream area is smaller than
+<span class="math notranslate nohighlight">\(A_{ref}\)</span> = 10.000 ha, <span class="math notranslate nohighlight">\(m\)</span> is calculated as:</p>
+<div class="math notranslate nohighlight">
+\[m = 0.3 + (\frac{A}{A_{ref}})^c\]</div>
+<p>otherwise <span class="math notranslate nohighlight">\(m\)</span> is set to 0.72. in the model <span class="math notranslate nohighlight">\(c\)</span> is ‘hard coded’ as
+0.8, meaning that this value is fixed for this model and cannot be changed by
+the user.</p>
+<p><strong>2. McCool et al. (1989):</strong></p>
+<p>McCool et al. (1989) calculates <span class="math notranslate nohighlight">\(m\)</span> as:</p>
+<div class="math notranslate nohighlight">
+\[m = \frac{\beta}{\beta + 1}\]</div>
+<p>with <span class="math notranslate nohighlight">\(\beta\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\beta = \frac{\frac{sin(\theta)}{0.0896}}{3.sin^{0.8}(\theta) + 0.56}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\theta\)</span> stands for the slope of the pixel in percentages.</p>
+<p>The preferred method (i.e. Van Oost et al. (2003) or McCool et al. (1989, 1987))
+can be selected by setting the model choice <em>L model</em> to ‘Desmet1996_Vanoost2003’
+or ‘Desmet1996_McCool’, respectively, in the ini-file.
+This should be done in the following manner (mind the quotes):</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">L model</span><span class="o">=</span><span class="s">&#39;Desmet1996_Vanoost2003&#39;</span>
+</pre></div>
+</div>
+<p>This is the default value for this model option. or:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">L model</span><span class="o">=</span><span class="s">&#39;Desmet1996_McCool&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="s-model">
+<span id="smodel"></span><h3>S model<a class="headerlink" href="#s-model" title="Permalink to this heading"></a></h3>
+<p>CN-WS allows the user to choose between two models to calculate the
+<a class="reference internal" href="watem-sedem.html#lsfactor"><span class="std std-ref">S-factor</span></a>. The S-factor defines the effect of slope steepness
+and is used in the calculation of <a class="reference internal" href="watem-sedem.html#rusle"><span class="std std-ref">RUSLE</span></a> and
+<a class="reference internal" href="watem-sedem.html#tc"><span class="std std-ref">transport capacity (TC)</span></a>.</p>
+<p>Both models are a function of <span class="math notranslate nohighlight">\(\theta\)</span>: the inclination angle or slope
+(%). The computation of the inclination angle is based on the four cardinal
+neighbouring pixels (Zevenbergen and Thorne, 1987).</p>
+<p>The two S-models are:</p>
+<p><strong>1. Nearing (1997)</strong>:</p>
+<div class="math notranslate nohighlight">
+\[S = -1,5+\frac{17}{1+e^{2,3-6.1.\sin{\theta}}}\]</div>
+<p><strong>2. McCool et al. (1987)</strong></p>
+<p>McCool et al. (1987) distinguishes between two cases, namely:</p>
+<div class="math notranslate nohighlight">
+\[100.tan(\theta) &lt; 9.0; and: 100.tan(\theta) \geq 9.0\]</div>
+<p>In the first case, S is calculated as:</p>
+<div class="math notranslate nohighlight">
+\[S = (10.8.sin(\theta)) + 0.03\]</div>
+<p>In the other case, S is calculated as:</p>
+<div class="math notranslate nohighlight">
+\[S = (16.8.sin(\theta)) - 0.5\]</div>
+<p>The preferred method (i.e. Nearing (1997) or McCool et al. (1987)) can be selected by setting
+the model choice <em>S model</em> to ‘Nearing1997’ or ‘McCool1987’, respectively, in the ini-file.
+This should be done in the following manner (mind the quotes):</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">S model</span><span class="o">=</span><span class="s">&#39;Nearing1997&#39;</span>
+</pre></div>
+</div>
+<p>This is the default method to calculate the S-factor. or:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">S model</span><span class="o">=</span><span class="s">&#39;McCool1987&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="tc-model">
+<span id="tcmodel"></span><h3>TC Model<a class="headerlink" href="#tc-model" title="Permalink to this heading"></a></h3>
+<p>The Transport Capacity (TC) can be calculated in two ways in CN-WS. The default
+method is the method proposed by Van Oost et al. (2000):</p>
+<div class="math notranslate nohighlight">
+\[TC = kTC.R.K.(LS - 4.12.S_g^{0.8})\]</div>
+<p>with</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(kTC\)</span>: transport capacity coeffient <span class="math notranslate nohighlight">\((m)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(R\)</span>: <a class="reference internal" href="watem-sedem.html#rfactor"><span class="std std-ref">rain fall erosivity</span></a></p></li>
+<li><p><span class="math notranslate nohighlight">\(K\)</span>: <a class="reference internal" href="watem-sedem.html#kfactor"><span class="std std-ref">soil erobility factor</span></a></p></li>
+<li><p><span class="math notranslate nohighlight">\(LS\)</span>: <a class="reference internal" href="watem-sedem.html#lsfactor"><span class="std std-ref">slope length and slope steepness factor</span></a></p></li>
+<li><p><span class="math notranslate nohighlight">\(S_g\)</span>: local slope (<span class="math notranslate nohighlight">\(\frac{\text{m}}{\text{m}}\)</span>)</p></li>
+</ul>
+<p>Most studies using WaTEM/SEDEM use this method by Van Oost et al. (2000).
+It can be activated in CN-WS by setting
+<em>TC model</em> to ‘VanOost2000’ in the ini-file (mind the quotes):</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">TC model</span><span class="o">=</span><span class="s">&#39;VanOost2000&#39;</span>
+</pre></div>
+</div>
+<p>However, a second method, proposed by Verstraeten et al. (2007), can be used as
+well, namely:</p>
+<div class="math notranslate nohighlight">
+\[TC = kTC.R.K.A^{1.4}.S_g^{1.4}\]</div>
+<p>with</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(A\)</span>: the upstream area <span class="math notranslate nohighlight">\((m^2)\)</span> of the pixel</p></li>
+</ul>
+<p>A detailed description and comparison of both TC models can be found in
+Verstraeten et al. (2007).</p>
+<p>The method of Verstraeten et al. (2007) can be activated in CN-WS by setting
+<em>TC model</em> to ‘Verstraeten2007’ in the ini-file (mind the quotes):</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">TC model</span><span class="o">=</span><span class="s">&#39;Verstraeten2007&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="only-routing">
+<span id="onlyrouting"></span><h3>Only Routing<a class="headerlink" href="#only-routing" title="Permalink to this heading"></a></h3>
+<p>By enabling the Only Routing option, only the routing algorithm will
+be run. This means that the WaTEM/SEDEM and CN modules of the model are disabled, and
+no sediment calculations or discharge calculations are done. When using this option only
+<a class="reference internal" href="output.html#onlyroutingoutput"><span class="std std-ref">a limited model output</span></a> will be returned by the model.</p>
+<p>This option is usefull in large catchments to evaluate the routing without
+calculating the sediment transport or discharges. It is enabled in the ini-file as follows:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">Only Routing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1</span>
+</pre></div>
+</div>
+<p>The default is: <code class="docutils literal notranslate"><span class="pre">Only</span> <span class="pre">Routing</span> <span class="pre">=</span> <span class="pre">0</span></code></p>
+</div>
+<div class="section" id="only-ws">
+<span id="simple"></span><h3>Only WS<a class="headerlink" href="#only-ws" title="Permalink to this heading"></a></h3>
+<p>When the option Only WS is enabled,
+only WaTEM/SEDEM (in combination with the routing algorithm) is used, and the
+CN-model is disabled.
+In order to run the complete CN-WS model, this option must be disabled.
+To enable this option, following code should be
+written in the ini-file:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">Only WS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1</span>
+</pre></div>
+</div>
+<p>The default is: <code class="docutils literal notranslate"><span class="pre">Only</span> <span class="pre">WS</span> <span class="pre">=</span> <span class="pre">0</span></code></p>
+<p>If this option is enabled, the user must minimum provide following input:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="input.html#dtmmap"><span class="std std-ref">digital elevation model</span></a></p></li>
+<li><p><a class="reference internal" href="input.html#pmap"><span class="std std-ref">P factor map</span></a></p></li>
+<li><p><a class="reference internal" href="input.html#kmap"><span class="std std-ref">K factor map</span></a></p></li>
+<li><p><a class="reference internal" href="input.html#cmap"><span class="std std-ref">C factor map</span></a></p></li>
+<li><p><a class="reference internal" href="input.html#rfactor-var"><span class="std std-ref">R factor</span></a></p></li>
+<li><p><a class="reference internal" href="input.html#ktclow"><span class="std std-ref">ktc low</span></a></p></li>
+<li><p><a class="reference internal" href="input.html#ktchigh"><span class="std std-ref">ktc high</span></a></p></li>
+<li><p><a class="reference internal" href="input.html#ktclimit"><span class="std std-ref">ktc limit</span></a></p></li>
+<li><p><a class="reference internal" href="input.html#parcelconncrop"><span class="std std-ref">parcel connectivity cropland</span></a></p></li>
+<li><p><a class="reference internal" href="input.html#parcelconnforest"><span class="std std-ref">parcel connectivity forest</span></a></p></li>
+<li><p><a class="reference internal" href="input.html#parceltrapppingcrop"><span class="std std-ref">parcel trapping efficiency cropland</span></a></p></li>
+<li><p><a class="reference internal" href="input.html#parceltrappingforest"><span class="std std-ref">parcel trapping efficiency forest</span></a></p></li>
+<li><p><a class="reference internal" href="input.html#parceltrappingpasture"><span class="std std-ref">parcel trapping efficiency pasture</span></a></p></li>
+</ul>
+<p>Additional and/or alternative inputs are possible based on the chosen
+model options.</p>
+<p>When this option is disabled, the CN-module will be used as well, and the following extra
+input is mandatory:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="input.html#alpha"><span class="std std-ref">alpha</span></a></p></li>
+<li><p><a class="reference internal" href="input.html#beta"><span class="std std-ref">beta</span></a></p></li>
+<li><p><a class="reference internal" href="input.html#streamvelocity"><span class="std std-ref">stream velocity</span></a></p></li>
+<li><p><a class="reference internal" href="input.html#dayrainfall"><span class="std std-ref">5-day antecedent rainfall</span></a></p></li>
+<li><p><a class="reference internal" href="input.html#timestep"><span class="std std-ref">desired timestep for model</span></a></p></li>
+<li><p><a class="reference internal" href="input.html#endtime"><span class="std std-ref">endtime model</span></a></p></li>
+<li><p><a class="reference internal" href="input.html#cnmap"><span class="std std-ref">cn map</span></a></p></li>
+<li><p><a class="reference internal" href="input.html#rainfallfile"><span class="std std-ref">rainfall file</span></a></p></li>
+</ul>
+</div>
+<div class="section" id="calculate-tillage-erosion">
+<span id="calctileros"></span><h3>Calculate tillage erosion<a class="headerlink" href="#calculate-tillage-erosion" title="Permalink to this heading"></a></h3>
+<p>This option enables the tillage erosion model of Van Oost et al. (2000). We
+refer to <a class="reference internal" href="watem-sedem.html#tillageerosionmodel"><span class="std std-ref">the dedicated section</span></a> for more information
+about this model. This option can be enabled by writing the following in the ini-file:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">Calculate Tillage Erosion</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1</span>
+</pre></div>
+</div>
+<p>The default is: <code class="docutils literal notranslate"><span class="pre">Calculate</span> <span class="pre">Tillage</span> <span class="pre">Erosion</span> <span class="pre">=</span> <span class="pre">0</span></code></p>
+</div>
+<div class="section" id="create-ktil-map">
+<span id="createktil"></span><h3>Create ktil map<a class="headerlink" href="#create-ktil-map" title="Permalink to this heading"></a></h3>
+<p>CN-WS is able to create a raster with ktil-factors. The ktil value is the
+transport capacity coefficient for tillage erosion. When <code class="docutils literal notranslate"><span class="pre">Create</span> <span class="pre">ktil</span> <span class="pre">map</span> <span class="pre">=</span> <span class="pre">1</span></code>,
+the model expects two input variables, namely: <a class="reference internal" href="input.html#ktildefault"><span class="std std-ref">ktil default</span></a> and
+<a class="reference internal" href="input.html#ktilthres"><span class="std std-ref">ktil threshold</span></a>. With this option enabled, the C-factor map
+will be reclassified based on the
+values given as input for <a class="reference internal" href="input.html#ktildefault"><span class="std std-ref">ktil default</span></a> and
+<a class="reference internal" href="input.html#ktilthres"><span class="std std-ref">ktil threshold</span></a>. The C-factor values higher than <em>ktil threshold</em>
+will be set to the value of <em>ktil default</em>, while
+the other pixels will be set to zero.</p>
+<p>If the ‘Create ktil map’ is disabled, the user must
+create a ktil map himself, and this map should be given as input for the model
+by entering its filename next to <a class="reference internal" href="input.html#ktilmap"><span class="std std-ref">ktil map filename</span></a> in the
+ini-file. This option is only mandatory if
+<a class="reference internal" href="#calctileros"><span class="std std-ref">Calculate tillage erosion = 1</span></a>.</p>
+<p>To enable this option, the following line must be written in the ini-file:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">Create ktil map</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1</span>
+</pre></div>
+</div>
+<p>The default is: <code class="docutils literal notranslate"><span class="pre">Create</span> <span class="pre">ktil</span> <span class="pre">map</span> <span class="pre">=</span> <span class="pre">0</span></code></p>
+<p>The Create ktil map - option is only mandatory when
+<a class="reference internal" href="#calctileros"><span class="std std-ref">Calculate tillage erosion</span></a> is enabled. When no tillage
+erosion is calculated (<a class="reference internal" href="#calctileros"><span class="std std-ref">Calculate tillage erosion = 0</span></a>), the
+Create ktil map option will be ignored by the model.</p>
+</div>
+<div class="section" id="create-ktc-map">
+<span id="createktc"></span><h3>Create ktc map<a class="headerlink" href="#create-ktc-map" title="Permalink to this heading"></a></h3>
+<p>CN-WS is able to create a raster with ktc-factor values for high erodible and
+non-erodible land-uses. When the ‘Create ktc map’ option is enabled, the model
+expects three variables: <a class="reference internal" href="input.html#ktclow"><span class="std std-ref">ktc low</span></a>, <a class="reference internal" href="input.html#ktchigh"><span class="std std-ref">ktc high</span></a>,
+<a class="reference internal" href="input.html#ktclimit"><span class="std std-ref">ktc limit</span></a>. The C-factor map will be reclassified based these values.
+The C-factor values higher than <em>ktc limit</em> will be set to the value of <em>ktc high</em>, while
+the other pixels will be set to <em>ktc low</em>.</p>
+<p>When the ‘Create ktc map’ option is disabled, the user must create a ktc map himself,
+and this map should be given as input for the
+model by entering its filename next to
+<a class="reference internal" href="input.html#ktcmap"><span class="std std-ref">ktc map filename</span></a> in the ini-file.</p>
+<p>To disable this option, the following line must be written in the ini-file:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">Create ktc map</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">0</span>
+</pre></div>
+</div>
+<p>The default is: <code class="docutils literal notranslate"><span class="pre">Create</span> <span class="pre">ktc</span> <span class="pre">map</span> <span class="pre">=</span> <span class="pre">1</span></code></p>
+</div>
+<div class="section" id="include-sewers">
+<span id="inlcudesewers"></span><h3>Include sewers<a class="headerlink" href="#include-sewers" title="Permalink to this heading"></a></h3>
+<p>When the ‘Include sewers’ option is enabled, the user
+must provide two additional inputs, namely:
+<a class="reference internal" href="input.html#sewermapfile"><span class="std std-ref">sewer map filename</span></a> and <a class="reference internal" href="input.html#sewerexit"><span class="std std-ref">sewer exit</span></a>.</p>
+<p>The value of the pixel in the sewer map is used when the amount of outgoing
+sediment in a pixel is calculated. This value should give the fraction of water and
+sediment that is trapped in the sewer system via this pixel.
+The practical implication of this value is that the outgoing
+sediment of the pixel and the uparea of the target pixels are reduced by this fraction.</p>
+<p>The amount of trapped sediment per pixel is written to the output raster
+<a class="reference internal" href="output.html#sewerinrst"><span class="std std-ref">sewer_in.rst</span></a>.</p>
+<p>To enable this option, the following line must be written in the ini-file:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">Create ktc map</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1</span>
+</pre></div>
+</div>
+<p>The default is: <code class="docutils literal notranslate"><span class="pre">Create</span> <span class="pre">ktc</span> <span class="pre">map</span> <span class="pre">=</span> <span class="pre">0</span></code></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This option is fully tested for the model option: ‘<a class="reference internal" href="#simple"><span class="std std-ref">Only WS=1</span></a>’,
+but it is not yet tested for the full CN-WS model.</p>
+</div>
+</div>
+<div class="section" id="include-buffers">
+<span id="includebuffers"></span><h3>Include buffers<a class="headerlink" href="#include-buffers" title="Permalink to this heading"></a></h3>
+<p>An infrastructural measure that traps an amount of transported sediment is
+called a buffer. These measures can be simulated in the model by enabling
+the ‘Include buffers’ option. When this option is enabled, the
+<a class="reference internal" href="input.html#buffermap"><span class="std std-ref">buffer map filename</span></a> becomes a mandatory line in the ini-file.
+In addition, the ini-file must contain the variable
+<a class="reference internal" href="input.html#nrbuffers"><span class="std std-ref">number of buffers</span></a> and a separate section for every buffer
+in the buffer map. In every buffer section in the ini-file some variables must
+be given (see <a class="reference internal" href="input.html#bufferdata"><span class="std std-ref">here</span></a>).</p>
+<p>The ‘Include buffers’ option adjusts the routing calculated by the model. Routing
+within a buffer is defined from the pixels with a buffer extension id towards
+one outlet pixel with a buffer id, coupled to the buffer extension id. The
+amount of sediment that flows out of the outlet pixel to downstream pixels is
+reduced with the trapping efficiency of the buffer. The definitions of buffer
+extension id, buffer id and trapping efficiency are explained in the
+<a class="reference internal" href="input.html#bufferdata"><span class="std std-ref">buffer data section</span></a>.</p>
+<p>To enable this option, the following line must be written in the ini-file:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">Include buffers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1</span>
+</pre></div>
+</div>
+<p>The default is: <code class="docutils literal notranslate"><span class="pre">Include</span> <span class="pre">buffers</span> <span class="pre">=</span> <span class="pre">0</span></code></p>
+</div>
+<div class="section" id="buffer-reduce-area">
+<span id="bufferreduce"></span><h3>Buffer reduce area<a class="headerlink" href="#buffer-reduce-area" title="Permalink to this heading"></a></h3>
+<p>This option allows the model to reduce the
+<a class="reference internal" href="routing.html#upstreamarea"><span class="std std-ref">upstream area</span></a> (<span class="math notranslate nohighlight">\(A\)</span>) downstream of a buffer
+with the efficiency of the buffer (see <a class="reference internal" href="input.html#bufferdata"><span class="std std-ref">buffer data section</span></a>).</p>
+<p>To enable this option, the following line must be written in the ini-file:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">Buffer reduce Area</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1</span>
+</pre></div>
+</div>
+<p>The default is: <code class="docutils literal notranslate"><span class="pre">Buffer</span> <span class="pre">reduce</span> <span class="pre">Area</span> <span class="pre">=</span> <span class="pre">0</span></code></p>
+</div>
+<div class="section" id="include-ditches">
+<span id="includeditches"></span><h3>Include ditches<a class="headerlink" href="#include-ditches" title="Permalink to this heading"></a></h3>
+<p>The use of ditches will alter the routing simulated by the model.
+When included, sediment and water will follow the course of the
+ditches instead of the steepest slope in the ditch locations.
+When this option is enabled, a <a class="reference internal" href="input.html#ditchmap"><span class="std std-ref">Ditch map</span></a>
+(a raster with information about the direction) should be given as model input.</p>
+<p>The model sets the <a class="reference internal" href="watem-sedem.html#cfactor"><span class="std std-ref">C-factor</span></a> at every ditch pixel tot 0.01,
+assuming that the ditch is covered with grass.
+It therefor overwrites the value of the pixel in the <a class="reference internal" href="input.html#cmap"><span class="std std-ref">C-factor raster</span></a>.
+The ktc value of the pixel is set to 9999.</p>
+<p>To enable this option, the following line must be written in the ini-file:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">Include ditches</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1</span>
+</pre></div>
+</div>
+<p>The default is: <code class="docutils literal notranslate"><span class="pre">Include</span> <span class="pre">ditches</span> <span class="pre">=</span> <span class="pre">0</span></code></p>
+</div>
+<div class="section" id="include-dams">
+<span id="includedams"></span><h3>Include dams<a class="headerlink" href="#include-dams" title="Permalink to this heading"></a></h3>
+<p>The use of Dams alter the routing in a similar way as ditches. The sediment and water will
+follow the course of a dam instead of the steepest slope on dam locations. When this
+option is enabled, <a class="reference internal" href="input.html#dammap"><span class="std std-ref">dam map</span></a> (a raster with information about
+the direction) should be given as model input.</p>
+<p>The model sets the C-factor at every dam pixel to 0, assuming that no erosion
+takes place inside the dams. It therefor overwrites
+the value of the pixel in the <a class="reference internal" href="input.html#cmap"><span class="std std-ref">C-factor raster</span></a>.
+The ktc value of the pixel is set to <a class="reference internal" href="input.html#ktclow"><span class="std std-ref">ktc low</span></a>.</p>
+<p>To enable this option, the following line must be written in the ini-file:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">Include dams</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1</span>
+</pre></div>
+</div>
+<p>The default is: <code class="docutils literal notranslate"><span class="pre">Include</span> <span class="pre">dams</span> <span class="pre">=</span> <span class="pre">0</span></code></p>
+</div>
+<div class="section" id="force-routing">
+<span id="forcerouting"></span><h3>Force Routing<a class="headerlink" href="#force-routing" title="Permalink to this heading"></a></h3>
+<p>When the routing based on the built-in rules of the model is not correct (e.g.
+in the neighbourhood of infrastructure), the user has the possibility to impose
+the routing. This is done by enabling the Force Routing option. With force
+routing the routing algorithm will use the routing imposed by the user instead
+of the digital elevation model.</p>
+<p>To enable this option, the following line must be written in the ini-file:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">Force Routing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1</span>
+</pre></div>
+</div>
+<p>The default is: <code class="docutils literal notranslate"><span class="pre">Force</span> <span class="pre">Routing</span> <span class="pre">=</span> <span class="pre">0</span></code></p>
+<p>When this option is enabled, the user will have to provide additional input: the
+variable <a class="reference internal" href="input.html#nrforcedrouting"><span class="std std-ref">Number of forced routing</span></a> and a separate
+section for every routing vector the user wants to add.</p>
+<p>An example of a valid forced routing section looks like</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[Force routing 1]</span>
+<span class="na">from col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">25</span>
+<span class="na">from row</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">55</span>
+<span class="na">target col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">30</span>
+<span class="na">target row</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">55</span>
+</pre></div>
+</div>
+<p>The keys in every force routing section are <cite>from col</cite>, <cite>from row</cite>, <cite>target col</cite>
+and <cite>target row</cite>. These are integer values representing the location of source
+and target pixel in the raster. See <a class="reference internal" href="input.html#forcedroutingdata"><span class="std std-ref">here</span></a> for more information on the
+input variables for forced routing. More information about the raster coordinates and the orientation
+of rows and columns can be found in <a class="reference internal" href="rasterinfo.html#gridcoordinates"><span class="std std-ref">the section on grid coordinates</span></a>.</p>
+</div>
+<div class="section" id="river-routing">
+<span id="riverrouting"></span><h3>River Routing<a class="headerlink" href="#river-routing" title="Permalink to this heading"></a></h3>
+<p>By enabling the river routing option, the routing between
+river pixels is imposed by an input raster and two input tables.
+This option can be usefull since the calculated routing in a river, based on the
+digital elevation model, is not always correct.</p>
+<p>To enable this option, the following line must be written in the ini-file:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">River Routing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1</span>
+</pre></div>
+</div>
+<p>The default is: <code class="docutils literal notranslate"><span class="pre">River</span> <span class="pre">Routing</span> <span class="pre">=</span> <span class="pre">0</span></code></p>
+<p>Following input-files are required when River Routing is enabled:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="input.html#riversegmentfile"><span class="std std-ref">river segment file</span></a></p></li>
+<li><p><a class="reference internal" href="input.html#riverroutingmap"><span class="std std-ref">river routing file</span></a></p></li>
+<li><p><a class="reference internal" href="input.html#adjsegments"><span class="std std-ref">adjectant segments file</span></a></p></li>
+<li><p><a class="reference internal" href="input.html#upstrsegments"><span class="std std-ref">upstream segments file</span></a></p></li>
+</ul>
+<p>When this option is disabled, the model will use the digital elevation model to
+determine the routing between all river pixels.</p>
+</div>
+<div class="section" id="cardinal-routing-river">
+<h3>Cardinal Routing River<a class="headerlink" href="#cardinal-routing-river" title="Permalink to this heading"></a></h3>
+<p>It is possible to change the routing towards river pixels. When ‘Cardinal Routing River’
+is enabled (it is enabled by default), only the cardinal neighbouring pixels of a
+river pixels are routed to the river pixel. If the user wants pixels that touch
+a river pixel diagonally to route to the river, this option must be disabled.</p>
+<p>To disable this option, the following line must be written in the ini-file:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">Cardinal Routing River</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">0</span>
+</pre></div>
+</div>
+<p>The default is: <code class="docutils literal notranslate"><span class="pre">Cardinal</span> <span class="pre">Routing</span> <span class="pre">River=</span> <span class="pre">1</span></code></p>
+</div>
+<div class="section" id="include-tillage-direction">
+<span id="includetillagedirection"></span><h3>Include tillage direction<a class="headerlink" href="#include-tillage-direction" title="Permalink to this heading"></a></h3>
+<p>This option alters the routing on agricultural fields. When this option is
+enabled, the routing will follow the given tillage direction on these fields.</p>
+<p>To enable this option, the following line must be written in the ini-file:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">Include tillage direction</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1</span>
+</pre></div>
+</div>
+<p>The default is: <code class="docutils literal notranslate"><span class="pre">Include</span> <span class="pre">tillage</span> <span class="pre">direction</span> <span class="pre">=</span> <span class="pre">0</span></code></p>
+<p>Following input-files are required if this option is enabled:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="input.html#tildirmap"><span class="std std-ref">tillage direction map</span></a></p></li>
+<li><p><a class="reference internal" href="input.html#orientedroughnessmap"><span class="std std-ref">oriented roughness map</span></a></p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This option has not been yet tested.</p>
+</div>
+</div>
+<div class="section" id="adjusted-slope">
+<span id="adjustslope"></span><h3>Adjusted Slope<a class="headerlink" href="#adjusted-slope" title="Permalink to this heading"></a></h3>
+<p>The slope of a pixel in a standard model run is determined by the algorithm of
+Zevenbergen and Thorne (1987), using the four neighbouring, cardinal cells of
+the pixel.
+This procedure works well in areas where the routing is solely based on the
+digital elevation model. However, when the routing is imposed by other rules
+(e.g. at parcel boundaries, in buffers,…), as well, the slope direction in the
+routing can be different from the calculated slope by Zevenbergen and
+Thorne (1987). The Adjusted Slope option gives the user the ability to correct
+the slope if the imposed routing targets a single cell instead of two.
+In this case the slope can be calculated by dividing the
+absolute value of the height difference between the source and target pixel,
+with the distance between these two pixels.</p>
+<p>To enable this option, the following line must be written in the ini-file:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">Adjusted Slope</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1</span>
+</pre></div>
+</div>
+<p>The default is: <code class="docutils literal notranslate"><span class="pre">Adjusted</span> <span class="pre">Slope</span> <span class="pre">=</span> <span class="pre">0</span></code></p>
+</div>
+<div class="section" id="estimate-clay-content">
+<span id="estimclay"></span><h3>Estimate Clay content<a class="headerlink" href="#estimate-clay-content" title="Permalink to this heading"></a></h3>
+<p>When using the full CN-WS model (i.e. <a class="reference internal" href="#simple"><span class="std std-ref">Only WS = 0</span></a>), it is possible
+to estimate the clay content at every outlet (and in every river
+segment if <a class="reference internal" href="#outputsegment"><span class="std std-ref">output per river segment</span></a> is enabled).
+In order to estimate the clay content, the
+user needs to enable this option and, additionally, needs to define the
+<a class="reference internal" href="input.html#claycontent"><span class="std std-ref">clay content of the parent material</span></a>
+(<span class="math notranslate nohighlight">\(CC_{text{parent}}\)</span>).</p>
+<p>The estimation of the clay content is handled in two steps:</p>
+<p>First, the enrichment factor <span class="math notranslate nohighlight">\(EF\)</span> for clay is calculated:</p>
+<div class="math notranslate nohighlight">
+\[EF = 1 + 0.7732.\exp^{-0.0508.SC}\]</div>
+<p>where <span class="math notranslate nohighlight">\(SC\)</span> is the sediment concentration <span class="math notranslate nohighlight">\((g/l)\)</span>.</p>
+<p>Then, the estimated clay content <span class="math notranslate nohighlight">\(CC\)</span> <span class="math notranslate nohighlight">\((in \%)\)</span> for an outlet or
+segment is calculated as a function of <span class="math notranslate nohighlight">\(EF\)</span> and <span class="math notranslate nohighlight">\(CC_{parent}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[CC = CC_{parent}.EF\]</div>
+<p>After these calculations, following files are written:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="output.html#claycontentesedtxt"><span class="std std-ref">Clay content sediment.txt</span></a></p></li>
+<li><p><a class="reference internal" href="output.html#claycontentesedsegmenttxt"><span class="std std-ref">Clay content sediment segments.txt</span></a></p></li>
+</ul>
+<p>To enable this option, the following line must be written in the ini-file:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">Estimate clay content</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1</span>
+</pre></div>
+</div>
+<p>The default is: <code class="docutils literal notranslate"><span class="pre">Estimate</span> <span class="pre">clay</span> <span class="pre">content</span> <span class="pre">=</span> <span class="pre">0</span></code></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This option is not yet tested.</p>
+</div>
+</div>
+<div class="section" id="calibrate">
+<span id="id1"></span><h3>Calibrate<a class="headerlink" href="#calibrate" title="Permalink to this heading"></a></h3>
+<p>The Calibrate option allows the user to calibrate the ktc-factors for the model.
+With this option enabled, the model will use a given set of
+options, variables and inputfiles, and return output values for a number of
+combinations of ktc-factors.
+Both the ktc_high-factor as the ktc_low-factor are varied in an amount of steps
+between a lower and upper value. For every combination of ktc-factors where
+ktc_high &gt; ktc_low, the model will make a calculation and write the results to a
+<a class="reference internal" href="output.html#calibrationtxt"><span class="std std-ref">Calibration file</span></a>.
+A more detailed explanation about how and why to calibrate can be found
+<a class="reference internal" href="calibration.html#calibration"><span class="std std-ref">here</span></a></p>
+<p>To enable this option, the following line must be written in the ini-file:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">Calibrate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1</span>
+</pre></div>
+</div>
+<p>The default is: <code class="docutils literal notranslate"><span class="pre">Calibrate</span> <span class="pre">=</span> <span class="pre">0</span></code></p>
+<p>When this option is enabled, the user will have to provide additional input,
+namely: the separate section <code class="docutils literal notranslate"><span class="pre">[Calibration]</span></code> (see <a class="reference internal" href="input.html#calibrationparamters"><span class="std std-ref">here</span></a>)
+needs to be added to the ini-file in the <a class="reference internal" href="inifile.html#inicalib"><span class="std std-ref">according manner</span></a>.</p>
+</div>
+<div class="section" id="output-per-river-segment">
+<span id="outputsegment"></span><h3>Output per river segment<a class="headerlink" href="#output-per-river-segment" title="Permalink to this heading"></a></h3>
+<p>A river segment is defined as a series of consequent river pixels. Mostly, a
+segment starts at a confluence of tributaries and it stops at the next
+confluence. CN-WS has the option to make a summary of the results based on the available river
+segment. For every segment the total sedimentinput, total discharge or the
+sediment concentration is calculated.</p>
+<p>River segments are defined in a <a class="reference internal" href="input.html#riversegmentfile"><span class="std std-ref">separate raster</span></a>. This
+raster is mandatory when this option is enabled.</p>
+<p>When this option is enabled (<code class="docutils literal notranslate"><span class="pre">Output</span> <span class="pre">per</span> <span class="pre">river</span> <span class="pre">segment=1</span></code>),
+following output is written when only WaTem-SEDEM (<a class="reference internal" href="#simple"><span class="std std-ref">Only WS=1</span></a>) is
+used:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="output.html#totalsedimentsegmenttxt"><span class="std std-ref">Total Sediment segments.txt</span></a></p></li>
+<li><p><a class="reference internal" href="output.html#cumsedsegmenttxt"><span class="std std-ref">Cumulative sediment segments.txt</span></a></p></li>
+</ul>
+<p>When the CN module is activated (<a class="reference internal" href="#simple"><span class="std std-ref">Only WS=0</span></a>) additional output per
+segment is generated:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="output.html#dischargesegment"><span class="std std-ref">Discharge_segments.txt</span></a></p></li>
+<li><p><a class="reference internal" href="output.html#sedconcensegment"><span class="std std-ref">Sediment concentration segments.txt</span></a></p></li>
+<li><p><a class="reference internal" href="output.html#sedsegmenttxt"><span class="std std-ref">Sediment_segments.txt</span></a></p></li>
+</ul>
+<p>To enable this option, the following line must be written in the ini-file:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">Output per river segment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1</span>
+</pre></div>
+</div>
+<p>The default is: <code class="docutils literal notranslate"><span class="pre">Output</span> <span class="pre">per</span> <span class="pre">river</span> <span class="pre">segment</span> <span class="pre">=</span> <span class="pre">0</span></code></p>
+</div>
+<div class="section" id="manual-outlet-selection">
+<span id="manualoutlet"></span><h3>Manual outlet selection<a class="headerlink" href="#manual-outlet-selection" title="Permalink to this heading"></a></h3>
+<p>By default, the model will determine the outlet pixel at the lowest (river)
+pixel within the model domain. However, by enabling this option, the user can define the outlets manually.
+This is done by creating an <a class="reference internal" href="input.html#outletmap"><span class="std std-ref">outlet raster</span></a> (integer raster where
+the outlet pixels are numbered from 1 to n). The user has to provide the filename of this input
+raster in the ini-file.</p>
+<p>To enable this option, the following line must be written in the ini-file:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">Manual outlet selection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1</span>
+</pre></div>
+</div>
+<p>The default is: <code class="docutils literal notranslate"><span class="pre">Manual</span> <span class="pre">outlet</span> <span class="pre">selection</span> <span class="pre">=</span> <span class="pre">0</span></code></p>
+</div>
+</div>
+<div class="section" id="output">
+<span id="outputchoices"></span><h2>Output<a class="headerlink" href="#output" title="Permalink to this heading"></a></h2>
+<p>The user has the option to generate extra (or change characteristics of the)
+output by defining following keys in
+the [<a class="reference internal" href="inifile.html#inioutput"><span class="std std-ref">Output maps</span></a>]-section of the .ini-file.</p>
+<div class="section" id="saga-grids">
+<span id="sagagrids"></span><h3>Saga_Grids<a class="headerlink" href="#saga-grids" title="Permalink to this heading"></a></h3>
+<p>(bool, default false): write output rasters as Saga Grids. If false, Idrisi
+rasters are written.</p>
+</div>
+<div class="section" id="write-aspect">
+<span id="writeaspect"></span><h3>write aspect<a class="headerlink" href="#write-aspect" title="Permalink to this heading"></a></h3>
+<p>(bool, default false): write <a class="reference internal" href="output.html#aspectmap"><span class="std std-ref">AspectMap.rst</span></a></p>
+</div>
+<div class="section" id="write-ls-factor">
+<span id="writels"></span><h3>write LS factor<a class="headerlink" href="#write-ls-factor" title="Permalink to this heading"></a></h3>
+<p>(bool, default false): write <a class="reference internal" href="output.html#lsmap"><span class="std std-ref">LS.rst</span></a></p>
+</div>
+<div class="section" id="write-upstream-area">
+<span id="writeuparea"></span><h3>write upstream area<a class="headerlink" href="#write-upstream-area" title="Permalink to this heading"></a></h3>
+<p>(bool, default false): write <a class="reference internal" href="output.html#upareamap"><span class="std std-ref">UPAREA.rst</span></a></p>
+</div>
+<div class="section" id="write-slope">
+<span id="writeslope"></span><h3>write slope<a class="headerlink" href="#write-slope" title="Permalink to this heading"></a></h3>
+<p>(bool, default false): write <a class="reference internal" href="output.html#slopemap"><span class="std std-ref">SLOPE.rst</span></a></p>
+</div>
+<div class="section" id="write-routing-table">
+<span id="writerouting"></span><h3>write routing table<a class="headerlink" href="#write-routing-table" title="Permalink to this heading"></a></h3>
+<p>(bool, default false): writes <a class="reference internal" href="output.html#routingtxt"><span class="std std-ref">routing.txt</span></a> and
+<a class="reference internal" href="output.html#missingroutingtxt"><span class="std std-ref">routing_missing.txt</span></a></p>
+</div>
+<div class="section" id="write-routing-column-row">
+<h3>write routing column/row<a class="headerlink" href="#write-routing-column-row" title="Permalink to this heading"></a></h3>
+<p>(bool, default false): writes <a class="reference internal" href="output.html#routingcolrow"><span class="std std-ref">routing_colrow.txt</span></a></p>
+</div>
+<div class="section" id="write-rusle">
+<span id="writerusle"></span><h3>write RUSLE<a class="headerlink" href="#write-rusle" title="Permalink to this heading"></a></h3>
+<p>(bool, default false): writes <a class="reference internal" href="output.html#ruslerst"><span class="std std-ref">RUSLE.rst</span></a></p>
+</div>
+<div class="section" id="write-sediment-export">
+<span id="writesedexport"></span><h3>write sediment export<a class="headerlink" href="#write-sediment-export" title="Permalink to this heading"></a></h3>
+<p>(bool, default false): writes <a class="reference internal" href="output.html#sediexportrst"><span class="std std-ref">SediExport_kg.rst</span></a>,
+<a class="reference internal" href="output.html#sedioutrst"><span class="std std-ref">SediOut_kg.rst</span></a>, and <a class="reference internal" href="output.html#sediinrst"><span class="std std-ref">SediIn_kg.rst</span></a></p>
+</div>
+<div class="section" id="write-water-erosion">
+<span id="writerwatereros"></span><h3>write water erosion<a class="headerlink" href="#write-water-erosion" title="Permalink to this heading"></a></h3>
+<p>(bool, default false): writes
+<a class="reference internal" href="output.html#watereroskgrst"><span class="std std-ref">WATEREROS (kg per gridcel).rst</span></a> and
+<a class="reference internal" href="output.html#watererosmmrst"><span class="std std-ref">WATEREROS (mm per gridcel).rst</span></a></p>
+</div>
+<div class="section" id="write-rainfall-excess">
+<span id="writerainfallexcess"></span><h3>write rainfall excess<a class="headerlink" href="#write-rainfall-excess" title="Permalink to this heading"></a></h3>
+<p>(bool, default false): writes <a class="reference internal" href="output.html#remaprst"><span class="std std-ref">Remap.rst</span></a></p>
+</div>
+<div class="section" id="write-total-runoff">
+<span id="writetotalrunoff"></span><h3>write total runoff<a class="headerlink" href="#write-total-runoff" title="Permalink to this heading"></a></h3>
+<p>(bool, default false): writes <a class="reference internal" href="output.html#totalrunofrst"><span class="std std-ref">Total runoff.rst</span></a></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In the section <cite>[User Choices]</cite> two keys impose some output too:</p>
+<ul class="simple">
+<li><p><cite>Include sewer</cite> (bool, default false): writes sewer_in.rst</p></li>
+<li><p><cite>Output per river segment</cite> (bool, default false): writes
+Total Sediment segments.txt, Total discharge.txt, Sediment_segments.txt,
+Sediment concentration segments.txt, Cumulative sediment segments.txt</p></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="rasterinfo.html" class="btn btn-neutral float-left" title="Rasters" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="input.html" class="btn btn-neutral float-right" title="Model input" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020, Van de Wauw Johan, Renders Daan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

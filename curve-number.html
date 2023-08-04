@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Run-off model: Curve Number &mdash; cn-ws  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Routing" href="routing.html" />
+    <link rel="prev" title="Erosion/sediment model: WaTEM/SEDEM" href="watem-sedem.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            cn-ws
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="model.html">Model Description</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="watem-sedem.html">Erosion/sediment model: WaTEM/SEDEM</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Run-off model: Curve Number</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#the-original-cn-method">The original CN method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cn-based-module-in-cn-ws">CN-based module in CN-WS</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#run-off-in-special-cases">Run-off in special cases</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="routing.html">Routing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cn-ws.html">CN-WS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="formulas-units.html">Overview of formulas and units</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html">A short history of CN-WS</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Model Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact.html">Contact</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">cn-ws</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="model.html">Model Description</a></li>
+      <li class="breadcrumb-item active">Run-off model: Curve Number</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/cn-ws/cn-ws/blob/master/docs/curve-number.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul><div class="rst-breadcrumbs-buttons" role="navigation" aria-label="Sequential page navigation">
+        <a href="watem-sedem.html" class="btn btn-neutral float-left" title="Erosion/sediment model: WaTEM/SEDEM" accesskey="p"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="routing.html" class="btn btn-neutral float-right" title="Routing" accesskey="n">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+  </div>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="run-off-model-curve-number">
+<span id="cn"></span><h1>Run-off model: Curve Number<a class="headerlink" href="#run-off-model-curve-number" title="Permalink to this heading"></a></h1>
+<p>The curve number (CN) method is an empirical run-off modelling approach which knows widespread use in the
+hydrologic community. The low model complexity and limited input requirements explain the popularity of
+this model, especially in data-scarce areas. The original CN method has been developed in the mid-50’s
+by the former American Soil Conservation Service (SCS) and has been revised several times since then (NRCS, 2010).
+Based on field experiments with standardised rectangular run-off plots, local coefficients, so-called
+‘curve numbers’ were originally determined and tabulated.These take into account local conditions
+(soil type and land cover, …) in order to accurately estimate run-off from recorded rainfall input.
+Important to note is that the output of the original model formulation is event-based, and is thus not temporally
+nor spatially distributed. However, in larger modeling frameworks in which run-off is only one of the simulated
+phenomena, a spatio-temporal representation of the model output is common. Therefore, in order to incorporate the
+curve number approach, a translation of this event-based output is necessary.</p>
+<p>In the documentation below the following 2 parts are discussed:</p>
+<ul class="simple">
+<li><p>A description of the original CN method</p></li>
+<li><p>The translation of the original model to the CN-based module which is in use in the CN-WS modelling framework</p></li>
+</ul>
+<div class="section" id="the-original-cn-method">
+<h2>The original CN method<a class="headerlink" href="#the-original-cn-method" title="Permalink to this heading"></a></h2>
+<p>The main governing assumption of the CN method is the following:</p>
+<div class="math notranslate nohighlight">
+\[\frac{Q}{P-I_a} = \frac{F}{S}\]</div>
+<p>with:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(Q\)</span>: run-off depth (<span class="math notranslate nohighlight">\(m\)</span>)</p></li>
+<li><p><span class="math notranslate nohighlight">\(P\)</span>: rainfall depth (<span class="math notranslate nohighlight">\(m\)</span>)</p></li>
+<li><p><span class="math notranslate nohighlight">\(I_a\)</span>: initial abstractions (e.g. infiltration depth before run-off starts,
+evaporation, interception)(<span class="math notranslate nohighlight">\(m\)</span>)</p></li>
+<li><p><span class="math notranslate nohighlight">\(F\)</span>: actual loss (effective water storage) (<span class="math notranslate nohighlight">\(m\)</span>)</p></li>
+<li><p><span class="math notranslate nohighlight">\(S\)</span>: potential loss (maximum water storage after run-off starts) (<span class="math notranslate nohighlight">\(m\)</span>)</p></li>
+</ul>
+<p>Important to note is that the variables described above, do not represent time series
+variables. The CN method is an event-based model. All the variables are
+cumulative depths over an event. The term ‘depth’ indicates water volume per square meter,
+hence the unit <span class="math notranslate nohighlight">\(m\)</span>.</p>
+<p>The mass balance implies following equation:</p>
+<div class="math notranslate nohighlight">
+\[P = Q+F+I_a\]</div>
+<p>Furthermore <span class="math notranslate nohighlight">\(I_a\)</span> is expressed as a fraction of the potential loss <span class="math notranslate nohighlight">\(S\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[I_a=cS\]</div>
+<p>A higher value for the dimensionless constant <span class="math notranslate nohighlight">\(c\)</span> essentially implies
+that more water is initially ‘lost’ by mainly infiltration and
+evapotranspiration before the run-off phenomena starts. It was originally set to 0.2,
+however, the quality of choice has been often questioned. Nowadays it is often put at lower values
+(Ponce  V.M.  &amp;  Hawkins, 1996), especially in an urbanized context.
+Combining equations 1, 2 and 3 results in the following expression for <span class="math notranslate nohighlight">\(Q\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[Q(P,S) = \frac{(P-cS)^2}{P+(1-c)S}  \quad\text{if }  P&gt;I_a\]</div>
+<div class="math notranslate nohighlight">
+\[Q(P,S) = 0  \quad\text{if } P \leq I_a\]</div>
+<p><span class="math notranslate nohighlight">\(S\)</span>, finally, can be expressed as a function of the dimensionless
+curve number <span class="math notranslate nohighlight">\(CN\)</span>, an empirical parameter ranging between 0
+(everything infiltrates, e.g. a dry very porous soil) and 100 (nothing
+infiltrates, e.g. a parking lot):</p>
+<div class="math notranslate nohighlight">
+\[S = \frac{25400}{CN}-254\]</div>
+<p>The <span class="math notranslate nohighlight">\(CN\)</span> values can be extracted from tables (NRCS, 2010), based on soil
+type, land use, hydrologic condition, and initial moisture conditions.
+Combining last two equations, <span class="math notranslate nohighlight">\(Q\)</span> can thus be expressed solely as a
+function of <span class="math notranslate nohighlight">\(P\)</span> and <span class="math notranslate nohighlight">\(CN\)</span> like depicted in the graph below
+(source: USDA technical release 55, urban hydrology for small watersheds)</p>
+<div class="figure align-center" id="id1">
+<a class="reference internal image-reference" href="_images/cn_graph.png"><img alt="_images/cn_graph.png" src="_images/cn_graph.png" style="width: 600px;" /></a>
+<p class="caption"><span class="caption-text">Run-off as a function of rainfall for different CN-values
+(USDA technical release 55, urban hydrology for small watersheds)</span><a class="headerlink" href="#id1" title="Permalink to this image"></a></p>
+</div>
+<p>The simplistic nature of the original CN method explains its widespread use.
+It is important to note that original CN method is best suited for
+applications in an agricultural context. Furthermore, one has to keep in mind that
+this method spatio-temporarily lumpes output at the event-scale. Finally, it is
+important to note that abstraction is made of certain processes like e.g. rainfall
+intensity, surface crust formation, crop cover, antecedent conditions, etc.</p>
+<p>The run-off module used in CN-WS does not represent the original CN method. To
+overcome these shortcomings mentioned above, some adjustments to the
+original CN method have been made. On the one hand some processes are incorporated
+into the equations, on the other hand a spatio-temporal translation of the
+event-based output is implemented. In the following section the current
+implementation of the CN-based run-off module is presented.</p>
+</div>
+<div class="section" id="cn-based-module-in-cn-ws">
+<h2>CN-based module in CN-WS<a class="headerlink" href="#cn-based-module-in-cn-ws" title="Permalink to this heading"></a></h2>
+<p>For every grid cell the total event-based run-off is calculated based on the
+local <span class="math notranslate nohighlight">\(CN\)</span> value and the total rainfall depth <span class="math notranslate nohighlight">\(P\)</span> following the original CN-formulation.
+A first adaptation suggested by Van Oost 2003 is pre-processing the tabulated
+<span class="math notranslate nohighlight">\(CN\)</span> values so that effects of crop cover and soil crusting are also
+accounted for:</p>
+<div class="math notranslate nohighlight">
+\[CN = CN_{max}  – \frac{CC}{100} c_1 + \frac{Cr}{5} c_2\]</div>
+<p>with:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(CN_{max}\)</span>: the maximum CN derived from the USDA SCS handbook (<span class="math notranslate nohighlight">\(-\)</span>)</p></li>
+<li><p><span class="math notranslate nohighlight">\(CC\)</span>:  the percentage of crop cover (<span class="math notranslate nohighlight">\(\%\)</span>)</p></li>
+<li><p><span class="math notranslate nohighlight">\(c_1\)</span>: coefficient related to the crop cover (<span class="math notranslate nohighlight">\(-\)</span>)</p></li>
+<li><p><span class="math notranslate nohighlight">\(Cr\)</span>: the crusting stage (<span class="math notranslate nohighlight">\(-\)</span>)</p></li>
+<li><p><span class="math notranslate nohighlight">\(c_2\)</span>: coefficient related to the crusting stage (<span class="math notranslate nohighlight">\(-\)</span>)</p></li>
+</ul>
+<p>The <span class="math notranslate nohighlight">\(c_2\)</span> coefficient is a constant (3), the <span class="math notranslate nohighlight">\(c_2\)</span> coefficient is set in such a way that the calculated CN value
+is equal to the minimum value derived from the USDA SCS handbook in case of a crop cover of 100%. Soils prone to crust formation
+tend to be less permeable which results in more run-off generation. The crusting stage <span class="math notranslate nohighlight">\(Cr\)</span> brings this effect into account.
+More details about this coefficient can be found in Govers et al. (1986).</p>
+<p>Furthermore, Van Oost 2003 also suggested a correction factor for the total
+simulated run-off value using rainfall intensity and antecedent rainfall depth:</p>
+<div class="math notranslate nohighlight">
+\[Q = Q_{CNII} \left(\frac{IN_{max10}}{10}\right)^{\alpha}  + \frac{AR5}{10} \beta\]</div>
+<p>with:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(Q_{CNII}\)</span>: the estimated direct run-off using antecedent moisture
+condition II (<span class="math notranslate nohighlight">\(m\)</span>)</p></li>
+<li><p><span class="math notranslate nohighlight">\(IN_{max10}\)</span>: the maximum 10-minute rainfall intensity (<span class="math notranslate nohighlight">\(m\)</span>)</p></li>
+<li><p><span class="math notranslate nohighlight">\(AR5\)</span>: the 5 days antecedent rainfall depth (<span class="math notranslate nohighlight">\(m\)</span>)</p></li>
+<li><p><span class="math notranslate nohighlight">\(\alpha, \beta\)</span>: tuning parameters (<span class="math notranslate nohighlight">\(-\)</span>)</p></li>
+</ul>
+<p><span class="math notranslate nohighlight">\(CNII\)</span> indicates the standard tabulated curve number value. This value represents the curve number under
+average soil moisture conditions. A conversion table exists to translate <span class="math notranslate nohighlight">\(CNII\)</span> into <span class="math notranslate nohighlight">\(CNI\)</span> (dry soil) and <span class="math notranslate nohighlight">\(CNIII\)</span> (wet soil).
+However Van Oost, 2003 opted for the 5 days antecedent rainfall depth <span class="math notranslate nohighlight">\(AR5\)</span> to take into account antecedent
+wetness conditions.</p>
+<p>In grid cells at which the rainfall depth P is lower than the initial abstraction
+<span class="math notranslate nohighlight">\(I_a\)</span>, infiltration is simulated following the equation below (Van Oost,
+2003):</p>
+<div class="math notranslate nohighlight">
+\[I=(I_a-P) \frac{D}{1440}  \quad\text{if } P&lt;I_a\]</div>
+<p>with:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(I\)</span>: infiltration (<span class="math notranslate nohighlight">\(m\)</span>)</p></li>
+<li><p><span class="math notranslate nohighlight">\(D\)</span>: duration of the rainfall event. (<span class="math notranslate nohighlight">\(min\)</span>)</p></li>
+</ul>
+<p>The total generated run-off is distributed over all timesteps proportional to the
+rainfall distribution during the event. This results in a generated run-off value
+for every grid cell at every time step.</p>
+<p>Subsequently run-off redistribution through the landscape is modelled stepwise
+through time. In general, the following 2 steps are considered:</p>
+<ol class="arabic simple">
+<li><p>Calculating present run-off in a grid cell at certain timestep t:</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[RO_{tot,t}=RO_{r,t-1}+RO_{P,t}+RO_{in,t-1}\]</div>
+<p>with:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(RO_{tot,t}\)</span>: total present run-off volume at timestep <span class="math notranslate nohighlight">\(t\)</span> (<span class="math notranslate nohighlight">\(m^3\)</span>)</p></li>
+<li><p><span class="math notranslate nohighlight">\(RO_{r,t-1}\)</span>: run-off volume still present since previous timestep <span class="math notranslate nohighlight">\(t-1\)</span> (<span class="math notranslate nohighlight">\(m^3\)</span>)</p></li>
+<li><p><span class="math notranslate nohighlight">\(RO_{P,t}\)</span>: run-off volume generated by rainfall during timestep <span class="math notranslate nohighlight">\(t\)</span> (<span class="math notranslate nohighlight">\(m^3\)</span>)</p></li>
+<li><p><span class="math notranslate nohighlight">\(RO_{in,t-1}\)</span>: upstream run-off volume generated at timestep <span class="math notranslate nohighlight">\(t-1\)</span> (<span class="math notranslate nohighlight">\(m^3\)</span>)</p></li>
+</ul>
+<p>2) Calculating run-off leaving the grid cell to 1 or 2 neighbouring downstream grid
+cells based on the routing table:</p>
+<div class="math notranslate nohighlight">
+\[RO_{out,t}=R_{tot,t}  \alpha  \frac{v \Delta t}{d}\]</div>
+<p>with:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(RO_{out,t}\)</span>: run-off volume leaving the grid cell towards the neighbouring
+downstream grid cell at timestep t (<span class="math notranslate nohighlight">\(m^3\)</span>)</p></li>
+<li><p><span class="math notranslate nohighlight">\(RO_{tot,t}\)</span>: total present run-off volume at timestep t (<span class="math notranslate nohighlight">\(m^3\)</span>)</p></li>
+<li><p><span class="math notranslate nohighlight">\(\alpha\)</span>: routing fraction towards the downstream grid cell (<span class="math notranslate nohighlight">\(-\)</span>)</p></li>
+<li><p><span class="math notranslate nohighlight">\(v\)</span>: flow velocity (<span class="math notranslate nohighlight">\(m s^{-1}\)</span>)</p></li>
+<li><p><span class="math notranslate nohighlight">\(\Delta t\)</span>: time step duration (<span class="math notranslate nohighlight">\(s\)</span>)</p></li>
+<li><p><span class="math notranslate nohighlight">\(d\)</span>: flow distance to the downstream grid cell (<span class="math notranslate nohighlight">\(m\)</span>)</p></li>
+</ul>
+<p>During the stepwise calculation of the run-off in the catchment the following
+variables are constantly updated for output at the end of the procedure:</p>
+<ul class="simple">
+<li><p>The amount of run-off that leaves the catchment during every time step</p></li>
+<li><p>Total amount of run-off leaving the catchment</p></li>
+<li><p>Total amount of run-off passing through each outlet</p></li>
+<li><p>The amount of run-off that enters every river segment during every time step</p></li>
+<li><p>The total amount of run-off that enters every river segment</p></li>
+<li><p>A map with the total amount of run-off for every grid cell for the entire event</p></li>
+<li><p>The total amount of spillover for each buffer</p></li>
+<li><p>The total amount of water leaving the system through the sewers</p></li>
+</ul>
+<div class="section" id="run-off-in-special-cases">
+<h3>Run-off in special cases<a class="headerlink" href="#run-off-in-special-cases" title="Permalink to this heading"></a></h3>
+<p>For buffer grid cells, the run-off outflow is calculated in a alternative way.
+More information about the calculations in buffer can be found
+<a class="reference internal" href="cn-ws.html#bufferbasins"><span class="std std-ref">here</span></a>. If in the considered grid cell, a sewer inlet is
+modelled, a fraction of the run-off will be transported through the sewers. More
+information about the sewer functionality in the model can be found
+<a class="reference internal" href="cn-ws.html#sewers"><span class="std std-ref">here</span></a>.</p>
+</div>
+</div>
+<div class="section" id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this heading"></a></h2>
+<p>Govers G., 1986, Mechanismen van akkererosie op lemige bodems, unpublished PhD
+thesis, Faculteit Wetenschappen, KU Leuven.</p>
+<p>NRCS,  2010,  Chapter  9  Hydrologic  Soil-Cover  Complexes,  National
+Engineering  Handbook  Part  630 Hydrology, 20 pp.
+<a class="reference external" href="https://directives.sc.egov.usda.gov/OpenNonWebContent.aspx?content=17758.wba">https://directives.sc.egov.usda.gov/OpenNonWebContent.aspx?content=17758.wba</a></p>
+<p>Ponce  V.M. and Hawkins R.H.,  1996,  Run-off  Curve  Number:  has  it  reached
+maturity?,  Journal  of Hydrologic Engineering, 1: 11-19.
+<a class="reference external" href="https://doi.org/10.1061/(ASCE)1084-0699(1996)1:1(11">https://doi.org/10.1061/(ASCE)1084-0699(1996)1:1(11</a>)</p>
+<p>Van  Oost  K., 2003,  Spatial  modeling  of  soil  redistribution  processes
+in  agricultural  landscapes, unpublished PhD thesis, Faculty of Sciences,
+KU Leuven.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="watem-sedem.html" class="btn btn-neutral float-left" title="Erosion/sediment model: WaTEM/SEDEM" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="routing.html" class="btn btn-neutral float-right" title="Routing" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020, Van de Wauw Johan, Renders Daan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
