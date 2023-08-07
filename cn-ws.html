@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CN-WS &mdash; cn-ws  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Overview of formulas and units" href="formulas-units.html" />
+    <link rel="prev" title="Routing" href="routing.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            cn-ws
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="model.html">Model Description</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="watem-sedem.html">Erosion/sediment model: WaTEM/SEDEM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="curve-number.html">Run-off model: Curve Number</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routing.html">Routing</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">CN-WS</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#description-of-the-cn-ws-model">Description of the CN-WS model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#additional-model-features">Additional model features</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#buffer-basins">Buffer basins</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dams-and-ditches">Dams and ditches</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sewers-endpoints">Sewers/endpoints</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="formulas-units.html">Overview of formulas and units</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html">A short history of CN-WS</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Model Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact.html">Contact</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">cn-ws</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="model.html">Model Description</a></li>
+      <li class="breadcrumb-item active">CN-WS</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/cn-ws/cn-ws/blob/master/docs/cn-ws.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul><div class="rst-breadcrumbs-buttons" role="navigation" aria-label="Sequential page navigation">
+        <a href="routing.html" class="btn btn-neutral float-left" title="Routing" accesskey="p"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="formulas-units.html" class="btn btn-neutral float-right" title="Overview of formulas and units" accesskey="n">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+  </div>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="cn-ws">
+<span id="cnws"></span><h1>CN-WS<a class="headerlink" href="#cn-ws" title="Permalink to this heading"></a></h1>
+<p>CN-WS was developed in 2016 by KU Leuven (in a consortium with Antea group Belgium,
+see Antea, 2016).
+This model was made to simulate the sediment transport to watercourses and to
+evaluate the effects of erosion control measures, both in space and time, based
+on time series of rainfall events. The model combines two existing models:
+WaTEM/SEDEM and the Curve Number model. See the section on the
+<a class="reference internal" href="history.html#history"><span class="std std-ref">history</span></a> for more information about the development history.</p>
+<div class="section" id="description-of-the-cn-ws-model">
+<h2>Description of the CN-WS model<a class="headerlink" href="#description-of-the-cn-ws-model" title="Permalink to this heading"></a></h2>
+<p>As stated above, two models are combined to simulate sediment transport to a
+river during a rainfall event: the Curve Number model and WaTEM/SEDEM.</p>
+<p>The CN model is used to simulate the run-off as a function of time and space.
+For every outlet or (optionally) river segment a hydrogram (stream velocity as a
+function of time) is generated.</p>
+<p>WaTEM/SEDEM is used to model the total sediment load leaving the model domain
+via rivers or an outlet. The use of WaTEM/SEDEM in CN requires to precompute
+and R-factor and provide it as model input. In order to compute an R-factor
+value, the <a class="reference external" href="https://cn-ws.github.io/rfactor/">R-factor python packge</a>) can
+be used.</p>
+<p>The output of both models is combined: the total sediment load is distributed
+over the hydrogram to obtain a sedigram (sediment concentration and sediment
+load as a function of time). The sediment concentration <span class="math notranslate nohighlight">\(SC\)</span> is
+calculated for every timestep as:</p>
+<div class="math notranslate nohighlight">
+\[SC = \frac{(SV_{event} \cdot 1000)}{RO_{event} \cdot 1000}\]</div>
+<p>With:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(SC\)</span>, the sediment concentration for an event (<span class="math notranslate nohighlight">\(g.l^{-1}\)</span>).</p></li>
+<li><p><span class="math notranslate nohighlight">\(SV_{event}\)</span>, the total sedimentload for one event (<span class="math notranslate nohighlight">\(kg\)</span>).</p></li>
+<li><p><span class="math notranslate nohighlight">\(RO_{event}\)</span>, the total run-off volume for one event (<span class="math notranslate nohighlight">\(m^{3}\)</span>).</p></li>
+</ul>
+<p>Do note that the sedigram is constant over an event, but not over a
+timeseries. The sediment load and flow are integrated over time for a single event,
+leading to two constants per event. A timeseries is generated by considering different
+events (see also <a class="reference external" href="https://cn-ws.github.io/rfactor/">R-factor python packge</a>).</p>
+</div>
+<div class="section" id="additional-model-features">
+<h2>Additional model features<a class="headerlink" href="#additional-model-features" title="Permalink to this heading"></a></h2>
+<p>Some additional functionalities were added to CN-WS, next to the basic model
+features of WaTEM/SEDEM and the CN model. These additional functionalities have
+a large impact on water and sediment transport through the model domain. By
+default, these additional features are disabled, but can be enabled in the
+ini-file with the correct user choice. When the user enables an extra feature,
+the model will expect more user input (rasters and variables).</p>
+<div class="section" id="buffer-basins">
+<span id="bufferbasins"></span><h3>Buffer basins<a class="headerlink" href="#buffer-basins" title="Permalink to this heading"></a></h3>
+<p>Buffer basins have a large impact on the dynamics of water and sediment run-off
+in the landscape. These constructions are temporary storages of water and
+sediment traps. The delayed water run-off and sediment deposition
+is included in the model.</p>
+<p>In the WaTEM/SEDEM part of CN-WS, all sediment entering the pixels of a buffer
+is multiplied with the sediment trapping efficiency of the buffer. This trapping
+efficiency is the fraction of the incoming sediment that is trapped in the
+buffer basin.</p>
+<p>The delayed water run-off is based on the report of Meert and Willems (2013) and
+uses following principles in the CN-model in CN-WS:</p>
+<p>Water will only flow out of a buffer basin when the water height in the basin
+exceeds the height of discharge pipe of the buffer. Therefore, the dead
+volume, <span class="math notranslate nohighlight">\(V_{dead}\)</span>, is calculated by</p>
+<div class="math notranslate nohighlight">
+\[V_{dead} = (\frac{H_{opening}}{H_{dam}}){V_{basin}}\]</div>
+<p>Where:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(H_{opening}\)</span> is the height of the opening of the discharge pipe of the
+buffer basin <span class="math notranslate nohighlight">\((m)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(H_{dam}\)</span> is the height of the dam of the buffer basin <span class="math notranslate nohighlight">\((m)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(V_{basin}\)</span> is the maximum volume of water that can be trapped in the
+buffer basin (<span class="math notranslate nohighlight">\(m^{3}\)</span>).</p></li>
+</ul>
+<p>Two cases exist. A first case can be defined as when the water volume in the
+buffer basin is larger than <span class="math notranslate nohighlight">\(V_{dead}\)</span>, but smaller than <span class="math notranslate nohighlight">\(V_{basin}\)</span>,
+the water will flow through the discharge pipe according to</p>
+<div class="math notranslate nohighlight">
+\[R(t) = (Q_{max}\cdot\sqrt{\frac{V(t)}{V_{basin} - V_{dead}}})\cdot dt\]</div>
+<p>where:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(R(t)\)</span>: the amount of run-off during timestep t (<span class="math notranslate nohighlight">\(m^{3}\)</span>)</p></li>
+<li><p><span class="math notranslate nohighlight">\(Q_{max}\)</span>: the maximum discharge (<span class="math notranslate nohighlight">\(m^{3} s^{-1}\)</span>)</p></li>
+<li><p><span class="math notranslate nohighlight">\(V(t)\)</span>: the volume of water present in the buffer basin at timestep t
+(<span class="math notranslate nohighlight">\(m^{3}\)</span>)</p></li>
+<li><p><span class="math notranslate nohighlight">\(dt\)</span>: the timestep <span class="math notranslate nohighlight">\((s)\)</span></p></li>
+</ul>
+<p><span class="math notranslate nohighlight">\(Q_{max}\)</span> is calculated for every buffer basin according to</p>
+<div class="math notranslate nohighlight">
+\[Q_{max} = C_d\cdot A_0\cdot \sqrt{2 \cdot g \cdot (H_{dam} - H_{opening})}\]</div>
+<p>Where :</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(C_d\)</span> is the discharge coefficient <span class="math notranslate nohighlight">\((-)\)</span>,</p></li>
+<li><p><span class="math notranslate nohighlight">\(A_0\)</span> is the area of the discharge opening (<span class="math notranslate nohighlight">\(m^{2}\)</span>)</p></li>
+<li><p><span class="math notranslate nohighlight">\(g\)</span> is the gravitational acceleration (9.81 <span class="math notranslate nohighlight">\(m.s^{-2}\)</span>)</p></li>
+</ul>
+<p>A second case arises when the water volume in the buffer basin is larger than
+<span class="math notranslate nohighlight">\(V_{basin}\)</span>. In this case the water will flow from the basin through the discharge pipe
+<span class="math notranslate nohighlight">\(R_{opening}\)</span>, as well as, via the overflow of the dam <span class="math notranslate nohighlight">\(R_{overflow}\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}R = R_{opening} + R_{overflow}\\R_{opening} = Q_{max}\cdot dt\\R_{overflow} = C_d \cdot W_{dam}\cdot \sqrt{g} \cdot h(t)^{3/2} \cdot dt\end{aligned}\end{align} \]</div>
+<p>Where:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(W_{dam}\)</span> is the width of the overflow on the buffer basin dam <span class="math notranslate nohighlight">\((m)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(h\)</span> is the height of the water above the overflow <span class="math notranslate nohighlight">\((m)\)</span> and is calculated
+for every timestep by:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[h(t) = \frac{V(t) - V_{basin}}{A_{basin}}\]</div>
+<p>Where <span class="math notranslate nohighlight">\(A_{basin}\)</span> represents the area of the buffer basin in <span class="math notranslate nohighlight">\(m^{2}\)</span></p>
+<p>The practical use of buffer basins in the model is described
+<a class="reference internal" href="choices.html#includebuffers"><span class="std std-ref">in a separate section</span></a>.</p>
+</div>
+<div class="section" id="dams-and-ditches">
+<h3>Dams and ditches<a class="headerlink" href="#dams-and-ditches" title="Permalink to this heading"></a></h3>
+<p>Dams and ditches influence the direction of water and sediment transport and,
+thus, alter the routing. The routing along a dam or ditch is incorporated in the
+routing algorithm. A detailed explanation about these functionalities is given
+in the user choices sections about <a class="reference internal" href="choices.html#includeditches"><span class="std std-ref">ditches</span></a> and
+<a class="reference internal" href="choices.html#includedams"><span class="std std-ref">dams</span></a>.</p>
+</div>
+<div class="section" id="sewers-endpoints">
+<span id="sewers"></span><h3>Sewers/endpoints<a class="headerlink" href="#sewers-endpoints" title="Permalink to this heading"></a></h3>
+<p>Sewers, or more generally, endpoints, are sinks of sediment in the model domain.
+When sediment is routed to an endpoint, only a fraction of it is transported
+further downstream. A detailed explanation about this functionality is given in the
+user choices section about <a class="reference internal" href="choices.html#inlcudesewers"><span class="std std-ref">sewers</span></a>. This feature can be
+used to incorporate known sediment sinks in the model.</p>
+</div>
+</div>
+<div class="section" id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this heading"></a></h2>
+<p>Antea, 2016. Modellering van de sedimentaanvoer naar de waterlopen, het
+effect van erosiebestrijdingsmaatregelen en het transport van sediment in de
+onbevaarbare waterlopen. Departement Omgeving. Afdeling Gebiedsontwikkeling,
+Omgevingsplannen en -projecten. Land en Bodembescherming, Brussel.
+<a class="reference external" href="https://www.vlaanderen.be/publicaties/modellering-van-de-sedimentaanvoer-naar-de-waterlopen-het-effect-van-erosiebestrijdingsmaatregelen-en-het-transport-van-sediment-in-de-onbevaarbare-waterlopen">https://www.vlaanderen.be/publicaties/modellering-van-de-sedimentaanvoer-naar-de-waterlopen-het-effect-van-erosiebestrijdingsmaatregelen-en-het-transport-van-sediment-in-de-onbevaarbare-waterlopen</a></p>
+<p>Van Oost, K., Govers, G. &amp; Desmet, P.J.J., 2000, Evaluating the effects of
+changes in the landscape structure on soil erosion by water and tillage.
+Landscape Ecology 15, 577-589. <a class="reference external" href="https://doi.org/10.1023/A:1008198215674">https://doi.org/10.1023/A:1008198215674</a></p>
+<p>Van Rompaey, A., Verstraeten, G., Van Oost, K. Govers, G. &amp; Poesen, J., 2001,
+Modelling mean annual sediment yield using a distributed approach. Earth
+Surface Processes and Landforms 26(11), 1221-1236. <a class="reference external" href="https://doi.org/10.1002/esp.275">https://doi.org/10.1002/esp.275</a></p>
+<p>Verstraeten, G., Van Oost, K., Van Rompaey, A., Poesen, J. &amp; Govers, G., 2003,
+Evaluating an integrated approach to catchment management to reduce soil loss
+and sediment pollution through modelling. Soil Use and Management, 18, 386-394.
+<a class="reference external" href="https://doi.org/10.1111/j.1475-2743.2002.tb00257.x">https://doi.org/10.1111/j.1475-2743.2002.tb00257.x</a></p>
+<p>Verstraeten, G., Poesen, J., Demarée, G., Salles, C, 2006, Long-term (105
+years) variability in rain erosivity as derived from 10-min rainfall depth
+data for Ukkel (Brussels, Belgium): Implications for assessing soil erosion
+rates. Journal of geophysical research, 111. <a class="reference external" href="https://doi.org/10.1029/2006JD007169">https://doi.org/10.1029/2006JD007169</a></p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="routing.html" class="btn btn-neutral float-left" title="Routing" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="formulas-units.html" class="btn btn-neutral float-right" title="Overview of formulas and units" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020, Van de Wauw Johan, Renders Daan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
