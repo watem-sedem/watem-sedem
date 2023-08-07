@@ -119,7 +119,7 @@ After which you should be able to generate HTML output by:
   $ sphinx-build ./docs ./docs/_build/
 
 
-Publishing on the documentation website (https://docs.fluves.net/cnws-pascal)
+Publishing on the documentation website (https://cn-ws.github.io/cn-ws/)
 will happen when changes to master build correctly. Note that this may mean that
 the documentation is actually a bit more recent than the last released version.
 
