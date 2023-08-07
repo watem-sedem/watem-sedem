@@ -24,7 +24,7 @@ Binaries for windows or linux of the releases can be
 ## Documentation
 
 The extensive documentation can be found on the 
-[cn-ws documentation page](https://docs.fluves.net/cn_ws/index.html). 
+[cn-ws documentation page](https://cn-ws.github.io/cn-ws/). 
 In this documentation, a theoretical background of the model and an overview
 of the model usage are given, as well as an installation guide followed by a
 [tutorial](https://docs.fluves.net/cn_ws/tutorial.html).
@@ -34,8 +34,8 @@ of the model usage are given, as well as an installation guide followed by a
 The fastest way to start modelling is to 
 [download](https://github.com/cn-ws/cn-ws/releases) the binary of the 
 most recent release and follow the 
-[installation instructions](https://docs.fluves.net/cn_ws/installation.html) in 
-the documentation. A [tutorial](https://docs.fluves.net/cn_ws/tutorial.html) is 
+[installation instructions](https://cn-ws.github.io/cn-ws/installation.html) in 
+the documentation. A [tutorial](https://cn-ws.github.io/cn-ws/tutorial.html) is 
 also available.  
 
 ## License
