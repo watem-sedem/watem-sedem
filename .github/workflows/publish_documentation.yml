@@ -10,11 +10,11 @@ env:
   DRONE_BUILD_NUMBER: ${{ github.run_number }}
 jobs:
   build-packages:
-    if: contains(github.event.pull_request.labels.*.name, 'documentation') || contains(github.ref , 'refs/tags/')
+    if: github.ref == 'refs/heads/master'
     uses: ./.github/workflows/build.yml
 
   publish-documentation:
-    if: contains(github.event.pull_request.labels.*.name, 'documentation') || contains(github.ref , 'refs/tags/')
+    if: github.ref == 'refs/heads/master'
     needs: [build-packages] 
     runs-on: [self-hosted, linux] 
     container: registry.fluves.net/drone/cn_ws/debian11-build
