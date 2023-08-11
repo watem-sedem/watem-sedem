@@ -19,7 +19,8 @@ All user choices, input, outputs and options are defined in an ini-file. The
 model reads the ini-file and uses this info to model the catchment according the
 user choices. In the following chapters all possible keywords of the ini-file are
 discussed. As the needed inputs and the generated outputs are largely dependent on the
-defined model choices, we first explain all possible model choices.
+defined model choices, we first explain all possible model choices. The model choices
+also give an overview of all the possibilities of the model. 
 
 .. toctree::
 
