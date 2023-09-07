@@ -222,14 +222,20 @@ table is only generated if the model choices ':ref:`estimate clay content <estim
 cumulative.rst
 **************
 
+Raster with the cumulative amount of sediment in :math:`(kg)` in every river pixel.
+The most downstream pixel of the river network will have the highest value, because all
+upstream river pixels route to this pixel. 
+
 This raster is only written if the model choice ':ref:`River routing <riverrouting>`' is enabled.
+
+
 
 .. _sewerinrst:
 
 sewer_in.rst
 ************
 
-Raster with the amount of sediment :math:`(in kg)` trapped in every sewer pixel.
+Raster with the amount of sediment in :math:`(kg)` trapped in every sewer pixel.
 This raster is only generated if the model choice ':ref:`Include sewers <inlcudesewers>`' is enabled.
 
 .. _sediexportrst:
