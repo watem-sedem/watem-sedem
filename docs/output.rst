@@ -150,6 +150,7 @@ Total Sediment.txt
 Txt-file where the first rows give a summary of the results:
 
 * Total erosion :math:`(kg)`: the total amount of sediment eroded in the landscape.
+  Erosion is expressed as a negative value.
 * Total deposition :math:`(kg)`: the total amount of sediment deposited in the landscape
   (not entering sewers or rivers)
 * Sediment leaving the catchment, via the river :math:`(kg)`: the amount of sediment
