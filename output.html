@@ -272,7 +272,8 @@ tables are written as output.</p>
 <span id="totalsedimenttxt"></span><h3>Total Sediment.txt<a class="headerlink" href="#total-sediment-txt" title="Permalink to this heading"></a></h3>
 <p>Txt-file where the first rows give a summary of the results:</p>
 <ul class="simple">
-<li><p>Total erosion <span class="math notranslate nohighlight">\((kg)\)</span>: the total amount of sediment eroded in the landscape.</p></li>
+<li><p>Total erosion <span class="math notranslate nohighlight">\((kg)\)</span>: the total amount of sediment eroded in the landscape.
+Erosion is expressed as a negative value.</p></li>
 <li><p>Total deposition <span class="math notranslate nohighlight">\((kg)\)</span>: the total amount of sediment deposited in the landscape
 (not entering sewers or rivers)</p></li>
 <li><p>Sediment leaving the catchment, via the river <span class="math notranslate nohighlight">\((kg)\)</span>: the amount of sediment
@@ -360,11 +361,14 @@ table is only generated if the model choices ‘<a class="reference internal" hr
 </div>
 <div class="section" id="cumulative-rst">
 <span id="cumulativerst"></span><h3>cumulative.rst<a class="headerlink" href="#cumulative-rst" title="Permalink to this heading"></a></h3>
+<p>Raster with the cumulative amount of sediment in <span class="math notranslate nohighlight">\((kg)\)</span> in every river pixel.
+The most downstream pixel of the river network will have the highest value, because all
+upstream river pixels route to this pixel.</p>
 <p>This raster is only written if the model choice ‘<a class="reference internal" href="choices.html#riverrouting"><span class="std std-ref">River routing</span></a>’ is enabled.</p>
 </div>
 <div class="section" id="sewer-in-rst">
 <span id="sewerinrst"></span><h3>sewer_in.rst<a class="headerlink" href="#sewer-in-rst" title="Permalink to this heading"></a></h3>
-<p>Raster with the amount of sediment <span class="math notranslate nohighlight">\((in kg)\)</span> trapped in every sewer pixel.
+<p>Raster with the amount of sediment in <span class="math notranslate nohighlight">\((kg)\)</span> trapped in every sewer pixel.
 This raster is only generated if the model choice ‘<a class="reference internal" href="choices.html#inlcudesewers"><span class="std std-ref">Include sewers</span></a>’ is enabled.</p>
 </div>
 <div class="section" id="sediexport-kg-rst">

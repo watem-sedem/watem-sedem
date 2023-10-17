@@ -14,11 +14,15 @@ layers and parameters are described.
 Folders
 =======
 
+.. _inputdir:
+
 input directory
 ***************
 
 Path to the directory where all the input files, used by the model, can be found. If the path does not
 exist, an exception is raised and the model run will stop.
+
+.. _outputdir:
 
 output directory
 ****************
@@ -360,7 +364,8 @@ ktil map filename
 *****************
 
 The filename of the ktil map. The ktil map contains values for ktil, the transport
-capacity coefficient for tillage erosion.
+capacity coefficient for tillage erosion (see :ref:`here: <tillageerosionmodel>` for
+more information about ktil an the tillage erosion model).
 This raster is only mandatory when :ref:`Create ktil map = 0 <createktil>`.
 
 The datatype of the ktil map is integer16.
@@ -702,6 +707,8 @@ the spatial resolution (m) and the stream velocity of water over land (m/s).
 
 The parameter is an integer value expressed in minutes.
 
+.. _finaltimestep:
+
 Final timestep output
 *********************
 
@@ -867,11 +874,15 @@ header 'Calibration', as shown here:
     KTcLow_upper=20
     steps=20
 
+.. _ktchigh_lower:
+
 KTcHigh_lower
 *************
 
 The lower range of ktc-high values in the calibration mode. The value is a float
 and by default 5.
+
+.. _ktchigh_upper:
 
 KTcHigh_upper
 *************
@@ -879,17 +890,23 @@ KTcHigh_upper
 The upper range of ktc-high values in the calibration mode. The value is a float
 and by default 40.
 
+.. _ktclow_lower:
+
 KTcLow_lower
 *************
 
 The lower range of ktc-low values in the calibration mode. The value is a float
 and by default 1.
 
+.. _ktclow_upper:
+
 KTcLow_upper
 *************
 
 The upper range of ktc-low values in the calibration mode. The value is a float
 and by default 20.
+
+.. _steps:
 
 steps
 *****

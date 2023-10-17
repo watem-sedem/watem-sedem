@@ -50,6 +50,11 @@ The target cells are determined by the routing algorithm. The outgoing
 sediment of pixel X to pixel Y is added to the incoming sediment of pixel Y.
 Pixel Y can receive sediment of multiple pixels.
 
+.. note::
+
+  Erosion is expressed as a negative value in CN-WS code, whereas deposition 
+  (on land, in buffers, in sewers, in rivers) is expressed as positive value.
+
 Gross versus net erosion
 ========================
 
