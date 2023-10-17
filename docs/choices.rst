@@ -775,6 +775,8 @@ write routing table
 (bool, default false): writes :ref:`routing.txt <routingtxt>` and
 :ref:`routing_missing.txt <missingroutingtxt>`
 
+.. _writeroutingrc:
+
 write routing column/row
 ########################
 
