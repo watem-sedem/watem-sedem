@@ -4,7 +4,7 @@
 Model output
 ############
 
-In this section we will describe all possible outputs of the CN-WS model. Tables
+In this section we will describe all possible outputs of WaTEM/SEDEM. Tables
 are written as tab-delimited txt-files, rasters are written as
 `Idrisi-rasters <https://gdal.org/drivers/raster/Idrisi.html>`_ (or as
 `Saga-rasters <https://gdal.org/drivers/raster/sdat.html>`_ if the
@@ -139,7 +139,7 @@ written if the model choice ':ref:`write upstream area <writeuparea>`' is enable
 WaTEM/SEDEM output
 ##################
 
-When only the WaTEM/SEDEM module (see :ref:`Only WS <simple>`) or if the full CN-WS model is used, the following rasters and
+When only the WaTEM/SEDEM module (see :ref:`Only WS <simple>`) or when the CN extension is used, the following rasters and
 tables are written as output.
 
 .. _totalsedimenttxt:

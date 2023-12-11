@@ -15,7 +15,7 @@ the source and targets. In addition, it varies as a function of presence of
 conductive dams, conductive ditches and buffers (and forced routing, see
 further). The land cover is defined in the following table
 (see also :ref:`here <prcmap>`). The codes (pixel id) listed in this table are
-used to define the routing in CN-WS. An important distinction is made between
+used to define the routing in WaTEM/SEDEM. An important distinction is made between
 the land cover of (a) target(s) being equal to the class `river` (-1) and not
 being equal to the class `river` (non-river pixels). Do note that in this
 manual the non-river pixels are sometimes referred to as `land pixels`.
@@ -97,7 +97,7 @@ to avoid looped routing.
 .. figure:: _static/png/flow_algorithm_part1.png
     :align: center
 
-    Flow-chart of the routing algorithm in CN-WS describing the first steps in
+    Flow-chart of the routing algorithm in WaTEM/SEDEM describing the first steps in
     the algorithm.
 
 If the source pixel is a buffer pixel then two cases are defined:
@@ -210,7 +210,7 @@ is not solely defined by the cardinal and ordinal direction for jumps.
 .. figure:: _static/png/sketch_flow_algorithm.png
     :align: center
 
-    Flow-chart of the routing algorithm in CN-WS - adjusting routing according
+    Flow-chart of the routing algorithm in WaTEM/SEDEM - adjusting routing according
     to elevation and land cover. This scheme adjust two-target routing to
     one-target routing. Note that the transformation of two-target to
     one-target routing will follow the cardinal directions, expect for the
@@ -288,7 +288,7 @@ with:
    considered as source pixel in case they directly route to the target pixel.
 
 The influx is defined as zero for all pixels that do not receive any flux from
-upstream pixels. These pixels are the first pixels treated in the CN-WS routing
+upstream pixels. These pixels are the first pixels treated in the WaTEM/SEDEM routing
 scheme. Their upstream area is equal to :math:`a \cdot (1-PTEF)`. The PTEF is
 defined by the user for :ref:`cropland <parceltrapppingcrop>`,
 :ref:`pasture <parceltrappingpasture>` and :ref:`forest <parceltrappingforest>`.
@@ -304,7 +304,7 @@ upstream area are applied in the calculation of the outflux.
 .. figure:: _static/png/sketch_distribute_uparea.png
     :align: center
 
-    Flow-chart of the distribution of the outflux of a pixel in CN-WS.
+    Flow-chart of the distribution of the outflux of a pixel in WaTEM/SEDEM.
     Part is the fraction of the tabulated outflux. Note that
     the sum of Part to target1 (part1) and target2 (part2) is equal to 1.
 

@@ -3,7 +3,7 @@ Frequently Asked Questions
 ##########################
 
 This page lists a few known problems that may occur during the installation
-or usage of CN-WS, and workarounds for them.
+or usage of WaTEM/SEDEM, and workarounds for them.
 
 If your issue is not mentioned in this list, please search for the issues on
 our issuetracker_, and file a new issue if it is needed.

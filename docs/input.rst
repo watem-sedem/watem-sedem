@@ -6,8 +6,9 @@ Model input
 
 This page describes all the possible model inputs.
 
-CN-WS accepts input files and **a lot of** parameters. Below, all possible input
-layers and parameters are described.
+WaTEM/SEDEM accepts input files and parameters. Below, all possible input
+layers and parameters are described. Somer parameters and input files are dependent on
+the :ref:`choices <choicespage>` that were made by the user.
 
 .. _folders:
 
@@ -52,7 +53,7 @@ catchment.
 The Idirisi raster must be formatted as float32.
 
 .. note::
-	CN-WS does not take nodata values (e.g. -9999) into account. When a nodata
+	WaTEM/SEDEM does not take nodata values (e.g. -9999) into account. When a nodata
 	value in the DTM raster is encountered, it is considered as an elevation value.
 	Consequently, slopes will be calculated wrongly. Thus, the user must ensure that all
 	pixels in the model domain have an elevation value, and that at least two
@@ -63,7 +64,7 @@ The Idirisi raster must be formatted as float32.
 Parcel filename
 ***************
 
-The filename of the Parcel or Land cover map. CN-WS requires information about
+The filename of the Parcel or Land cover map. WaTEM/SEDEM requires information about
 land cover
 and parcel boundaries in the routing algorithm, but also when distributing the
 sediment through the model domain. Every pixel in the model domain must therefore contain
@@ -304,7 +305,7 @@ See :ref:`further <routingmap>` for more information on how to create these rout
 Routing maps
 ************
 
-The routing algorithm of CN-WS can take into account rasters that impose a
+The routing algorithm of WaTEM/SEDEM can take into account rasters that impose a
 single-flow routing along a line element in the
 landscape as defined by the user. The
 :ref:`river routing map <riverroutingmap>`, :ref:`ditchmap <ditchmap>` and
@@ -662,7 +663,7 @@ Parcel trapping efficiency cropland
 
 The parcel trapping efficiency (PTEF) is used to compute the upstream area for
 every raster pixel (:math:`A_{pixel}`) (see also :ref:`L-model <lmodel>`). The PTEF also
-takes the land-use, defined by :ref:`the CN-WS parcels raster <prcmap>`, into account. 
+takes the land-use, defined by :ref:`the parcels raster <prcmap>`, into account.
 This then, contributes to the upstream area by a
 given percentage (100-PTEF). 
 
@@ -737,7 +738,7 @@ model.
 max kernel
 **********
 
-If the routing algorithm of CN-WS encounters a local minimum in the
+If the routing algorithm of WaTEM/SEDEM encounters a local minimum in the
 :ref:`digital elevation model, <dtmmap>` it will not find a lower, neighbouring
 pixel. Therefore, the algorithm is set to search for a lower pixel within a search
 radius around the local minimum (see :ref:`routing algorithm <onetarget>`. 
@@ -749,7 +750,7 @@ radius expressed in pixels.
 max kernel river
 ****************
 
-If the routing algorithm of CN-WS encounters a local minimum in the
+If the routing algorithm of WaTEM/SEDEM encounters a local minimum in the
 :ref:`digital elevation model <dtmmap>` it will not find a lower, neighbouring
 pixel. If this pixel is a river pixel, the routing will remain in the river and
 the routing will look within a search radius around the local minimum with the

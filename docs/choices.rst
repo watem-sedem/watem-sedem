@@ -17,7 +17,7 @@ User Choices
 L model
 #######
 
-CN-WS allows the user to choose between two models to calculate the
+WaTEM/SEDEM allows the user to choose between two models to calculate the
 :ref:`L-factor <lsfactor>`. The L-factor defines the impact of the slope length
 and is used in the calculation of :ref:`RUSLE <rusle>` and
 :ref:`transport capacity (TC) <TC>`.
@@ -91,7 +91,7 @@ This is the default value for this model option. or:
 S model
 #######
 
-CN-WS allows the user to choose between two models to calculate the
+WaTEM/SEDEM allows the user to choose between two models to calculate the
 :ref:`S-factor <lsfactor>`. The S-factor defines the effect of slope steepness
 and is used in the calculation of :ref:`RUSLE <rusle>` and
 :ref:`transport capacity (TC) <TC>`.
@@ -144,7 +144,7 @@ This is the default method to calculate the S-factor. or:
 TC Model
 ########
 
-The Transport Capacity (TC) can be calculated in two ways in CN-WS. The default
+The Transport Capacity (TC) can be calculated in two ways in WaTEM/SEDEM. The default
 method is the method proposed by Van Oost et al. (2000):
 
 .. math::
@@ -159,7 +159,7 @@ with
 - :math:`S_g`: local slope (:math:`\frac{\text{m}}{\text{m}}`)
 
 Most studies using WaTEM/SEDEM use this method by Van Oost et al. (2000). 
-It can be activated in CN-WS by setting
+It can be activated in WaTEM/SEDEM by setting
 *TC model* to 'VanOost2000' in the ini-file (mind the quotes):
 
 .. code-block:: ini
@@ -180,7 +180,7 @@ with
 A detailed description and comparison of both TC models can be found in
 Verstraeten et al. (2007).
 
-The method of Verstraeten et al. (2007) can be activated in CN-WS by setting
+The method of Verstraeten et al. (2007) can be activated in WaTEM/SEDEM by setting
 *TC model* to 'Verstraeten2007' in the ini-file (mind the quotes):
 
 .. code-block:: ini
@@ -215,7 +215,7 @@ Only WS
 When the option Only WS is enabled,
 only WaTEM/SEDEM (in combination with the routing algorithm) is used, and the
 CN-model is disabled.
-In order to run the complete CN-WS model, this option must be disabled.
+In order to run the CN model extension, this option must be disabled.
 To enable this option, following code should be
 written in the ini-file:
 
@@ -276,7 +276,7 @@ The default is: ``Calculate Tillage Erosion = 0``
 Create ktil map
 ###############
 
-CN-WS is able to create a raster with ktil-factors. The ktil value is the
+WaTEM/SEDEM is able to create a raster with ktil-factors. The ktil value is the
 transport capacity coefficient for tillage erosion. We
 refer to :ref:`the dedicated section <tillageerosionmodel>` for more information
 about this coefficient. When ``Create ktil map = 1``,
@@ -312,7 +312,7 @@ Create ktil map option will be ignored by the model.
 Create ktc map
 ##############
 
-CN-WS is able to create a raster with ktc-factor values for high erodible and
+WaTEM/SEDEM is able to create a raster with ktc-factor values for high erodible and
 non-erodible land-uses. When the 'Create ktc map' option is enabled, the model
 expects three variables: :ref:`ktc low <ktclow>`, :ref:`ktc high <ktchigh>`,
 :ref:`ktc limit <ktclimit>`. The C-factor map will be reclassified based these values.
@@ -361,7 +361,7 @@ The default is: ``Create ktc map = 0``
 
 .. note::
     This option is fully tested for the model option: ':ref:`Only WS=1 <simple>`',
-    but it is not yet tested for the full CN-WS model.
+    but it is not yet tested when the CN model extension is .
 
 .. _includebuffers:
 
@@ -673,7 +673,7 @@ Output per river segment
 
 A river segment is defined as a series of consequent river pixels. Mostly, a
 segment starts at a confluence of tributaries and it stops at the next
-confluence. CN-WS has the option to make a summary of the results based on the available river
+confluence. WaTEM/SEDEM has the option to make a summary of the results based on the available river
 segment. For every segment the total sedimentinput, total discharge or the
 sediment concentration is calculated.
 

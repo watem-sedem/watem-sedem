@@ -1,7 +1,7 @@
 .. _history:
 
-A short history of CN-WS
-========================
+A short history of WaTEM/SEDEM
+==============================
 
 The developments of WaTEM/SEDEM was initialised by the KU Leuven
 (`Department of Earth and Environmental Sciences <https://ees.kuleuven.be//>`_),

@@ -101,8 +101,8 @@ into the equations, on the other hand a spatio-temporal translation of the
 event-based output is implemented. In the following section the current
 implementation of the CN-based run-off module is presented.
 
-CN-based module in CN-WS 
-========================
+CN-based module in WaTEM/SEDEM
+==============================
 
 For every grid cell the total event-based run-off is calculated based on the
 local :math:`CN` value and the total rainfall depth :math:`P` following the original CN-formulation.
