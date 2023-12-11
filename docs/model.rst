@@ -9,15 +9,11 @@ subsequent chapters. The purpose of this description is to give an introduction 
 operating equations within the model as well as the necessary parameter inputs and their
 units.
 
-.. note::
-    The Curve Number model within CN-WS can be used as an extension to
-    WaTEM/SEDEM.
-
 .. toctree::
   
   watem-sedem
-  curve-number
+  formulas-units
   routing
   cn-ws
-  formulas-units
+  curve-number
   history

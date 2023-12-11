@@ -1,23 +1,26 @@
 .. _CNWS:
 
-
 #####
 CN-WS
 #####
 
-CN-WS was developed in 2016 by KU Leuven (in a consortium with Antea group Belgium,
-see Antea, 2016).
-This model was made to simulate the sediment transport to watercourses and to
-evaluate the effects of erosion control measures, both in space and time, based
-on time series of rainfall events. The model combines two existing models:
-WaTEM/SEDEM and the Curve Number model. See the section on the
-:ref:`history <history>` for more information about the development history.
+.. note::
+    The Curve Numbe model can be used as an extension to WaTEM/SEDEM.
+    CN-WS was developed in 2016 by KU Leuven (in a consortium with Antea group Belgium,
+    see Antea, 2016). CN-WS is the addition of the Curve Number model to WaTEM/SEDEM.
+    This model extension was made to simulate the sediment transport to watercourses and to
+    evaluate the effects of erosion control measures, both in space and time, based
+    on time series of rainfall events. Both models (WaTEM/SEDEM) and the Curve Number model
+    have been used a lot, however there is no published literature on their coupling.
+    See the section on the :ref:`history <history>` for more information about the
+    development history.
 
-Description of the CN-WS model
-==============================
 
-As stated above, two models are combined to simulate sediment transport to a
-river during a rainfall event: the Curve Number model and WaTEM/SEDEM.
+Description of the CN extension
+================================
+
+As stated above, the Curve Number model is combined with WaTEM/SEDEM to simulate
+sediment transport to a river during a rainfall event.
 
 The CN model is used to simulate the run-off as a function of time and space. 
 For every outlet or (optionally) river segment a hydrogram (stream velocity as a
