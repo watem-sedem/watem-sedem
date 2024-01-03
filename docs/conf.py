@@ -21,7 +21,7 @@ import os
 
 # -- Project information -----------------------------------------------------
 
-project = 'cn-ws'
+project = 'WaTEM/SEDEM'
 copyright = '2020, Van de Wauw Johan, Renders Daan'
 author = 'Van de Wauw Johan, Renders Daan & contributors'
 
