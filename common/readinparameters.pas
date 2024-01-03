@@ -625,7 +625,7 @@ Begin
   {User choices}
   OnlyRouting := Inifile.ReadBool('User Choices', 'Only Routing', false);
 
-  curve_number := OnlyRouting or Inifile.ReadBool('User Choices','Enable CN',false);
+  curve_number := OnlyRouting or Inifile.ReadBool('User Choices','Curve Number',false);
 
   Include_sewer:= Inifile.ReadBool('User Choices','Include sewers',false);
 
