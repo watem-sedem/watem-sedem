@@ -210,7 +210,7 @@ The default is: ``Only Routing = 0``
 .. _simple:
 
 Curve Number
-###########
+############
 
 When this option is enabled, the CN-module will be used.
 
@@ -338,8 +338,8 @@ The default is: ``Create ktc map = 0``
 
 
 .. note::
-    This option is fully tested for the model option: ':ref:`Only WS=1 <simple>`',
-    but it is not yet tested when the CN model extension is .
+    This option is only fully tested for WaTEM/SEDEM,
+    but it is not yet tested when the CN model extension is enabled (':ref:`curve number=1 <simple>`').
 
 .. _includebuffers:
 
@@ -577,7 +577,7 @@ The default is: ``Adjusted Slope = 0``
 Estimate Clay content
 #####################
 
-When using the full CN-WS model (i.e. :ref:`Only WS = 0 <simple>`), it is possible
+When using the CN module (i.e. :ref:`curve number = 1 <simple>`), it is possible
 to estimate the clay content at every outlet (and in every river
 segment if :ref:`output per river segment <outputsegment>` is enabled).
 In order to estimate the clay content, the
@@ -659,13 +659,13 @@ River segments are defined in a :ref:`separate raster <riversegmentfile>`. This
 raster is mandatory when this option is enabled.
 
 When this option is enabled (``Output per river segment=1``),
-following output is written when only WaTem-SEDEM (:ref:`Only WS=1 <simple>`) is
+following output is written when only WaTem-SEDEM is
 used:
 
 - :ref:`Total Sediment segments.txt <totalsedimentsegmenttxt>`
 - :ref:`Cumulative sediment segments.txt <cumsedsegmenttxt>`
 
-When the CN module is activated (:ref:`Only WS=0 <simple>`) additional output per
+When the CN module is activated (:ref:`curve number=1 <simple>`) additional output per
 segment is generated:
 
 - :ref:`Discharge_segments.txt <dischargesegment>`

@@ -339,7 +339,7 @@ CN map filename
 ***************
 
 The filename of the CN map. This raster is only mandatory if the :ref:`Model Choice <choicespage>`: 
-:ref:`Only WS <simple>` is set to 0.
+:ref:`Curve number <simple>` is set to 1.
 
 This raster contains a CN-value (between 0 and 100) for every pixel in the model
 domain.
@@ -427,7 +427,7 @@ An integer value between 0 and 100 that represents the fration of the discharge
 that enters the sewer system. It is only applied on pixels where the 
 :ref:`sewer map <sewermapfile>` is not zero. 
 
-This variable is only mandatory if the :ref:`Model Choice <choicespage>`: :ref:`Only WS = 0 <simple>` is set to 0.
+This variable is only mandatory if the :ref:`Model Choice <choicespage>`: :ref:`Curve number <simple>` is set to 1.
 
 .. note::
    1. The values stored in the :ref:`sewer map <sewermapfile>` are not used in the
@@ -454,14 +454,14 @@ decimals; float32, between 0 and 1). This variable is only mandatory if the :ref
 *************************
 
 The total rainfall (in mm) during 5 days before the start of the rainfall event.
-This variable is only mandatory if the :ref:`Model Choice <choicespage>`: :ref:`Only WS = 0 <simple>` is set to 0.
+This variable is only mandatory if the :ref:`Model Choice <choicespage>`: :ref:`Curve number <simple>` is set to 1.
 
 .. _streamvelocity:
 
 stream velocity
 ***************
 
-As float, only mandatory if the :ref:`Model Choice <choicespage>`: :ref:`Only WS = 0 <simple>` is set to 0.
+As float, only mandatory if the :ref:`Model Choice <choicespage>`: :ref:`Curve number <simple>` is set to 1.
 
 .. _alpha:
 
@@ -470,7 +470,7 @@ alpha
 
 Alpha (as float) is a calibration parameter of the CN-model. It determines the relation
 between the runoff and the rainfall intensity. This parameter is only mandatory if the 
-:ref:`Model Choice <choicespage>`: :ref:`Only WS <simple>` is set to 0.
+:ref:`Model Choice <choicespage>`: :ref:`Curve number <simple>` is set to 1.
 
 .. _beta:
 
@@ -479,7 +479,7 @@ beta
 
 Beta (as float) is a calibration parameter of the CN-model. It determines the
 relation between the runoff and the antecedent rainfall. This parameter is 
-only mandatory if the :ref:`Model Choice <choicespage>`: :ref:`Only WS <simple>` is set to 0.
+only mandatory if the :ref:`Model Choice <choicespage>`: :ref:`Curve number <simple>` is set to 1.
 
 
 .. _bulkdensity:
@@ -819,7 +819,7 @@ with:
 
 The extension id and trapping efficiency are mandatory for every buffer.
 The other buffer parameters are only mandatory when the the CN-module seperately
-(i.e. the :ref:`Model Choice <choicespage>`: :ref:`Only WS <simple>` is set to 0).
+(i.e. the :ref:`Model Choice <choicespage>`: :ref:`Curve number <simple>` is set to 1).
 
 A full description of the CN calculation in buffers can be found
 :ref:`here <bufferbasins>`.

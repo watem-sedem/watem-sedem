@@ -139,8 +139,8 @@ written if the model choice ':ref:`write upstream area <writeuparea>`' is enable
 WaTEM/SEDEM output
 ##################
 
-When only the WaTEM/SEDEM module (see :ref:`Only WS <simple>`) or when the CN extension is used, the following rasters and
-tables are written as output.
+When WaTEM/SEDEM is used (i.e. the basic model version), the following rasters and
+tables can be written as output.
 
 .. _totalsedimenttxt:
 
@@ -228,8 +228,6 @@ The most downstream pixel of the river network will have the highest value, beca
 upstream river pixels route to this pixel. 
 
 This raster is only written if the model choice ':ref:`River routing <riverrouting>`' is enabled.
-
-
 
 .. _sewerinrst:
 
@@ -359,7 +357,8 @@ An example output where ktc_low and ktc_high were varied from 1 to 5 is given he
 CN-output
 #########
 
-When the CN-module is enabled (i.e. :ref:`Only WS <simple>` is disabled) some additional output is generated.
+When the CN-module is enabled (i.e. :ref:`curve number <simple>` is enabled) some additional
+output is, or, can be generated.
 
 Discharge.txt
 *************

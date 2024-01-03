@@ -215,16 +215,16 @@ in the rivers.
 4. Use the CN module
 ********************
 
-To use the CN-extension of WaTEM-SEDEM, we need to disable the
-:ref:`Only WS option <simple>` we used in the previous tutorials.
+To use the CN-extension of WaTEM-SEDEM, we need to enable it with the
+:ref:`curve number option <simple>`.
 
 .. code-block:: ini
 
     [User Choices]
-    Only WS = 0
+    Curve number = 1
 
 Using the CN-part implies we need to define additional input in the ini-file.
-At the bottom of the :ref:`Only WS <simple>`, the mandatory input is for running the
+At the bottom of the :ref:`curve number <simple>`-section, the mandatory input is for running the
 WaTEM-SEDEM with the CN model extension is described. We extend
 the ini-file with this input:
 
