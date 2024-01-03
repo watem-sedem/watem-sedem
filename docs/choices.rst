@@ -7,7 +7,10 @@ Model choices
 
 Most model choices are boolean options and can be enabled in the .ini-file with
 '1' and disabled with '0'. However, some options expect a string value. The possible
-strings are described together with the model option.
+strings are described together with the model option. Two large groups of model choices
+can be distinguished: 'User Choices' and 'Output choices'. The User choices describe
+how the model will run: which options and/or extensions of WaTEM/SEDEM are used? The
+output choices describe which output that must be generated. 
 
 User Choices
 ************
