@@ -209,43 +209,21 @@ The default is: ``Only Routing = 0``
 
 .. _simple:
 
-Only WS
-#######
+Curve Number
+###########
 
-When the option Only WS is enabled,
-only WaTEM/SEDEM (in combination with the routing algorithm) is used, and the
-CN-model is disabled.
-In order to run the CN model extension, this option must be disabled.
+When this option is enabled, the CN-module will be used.
+
 To enable this option, following code should be
 written in the ini-file:
 
 .. code-block:: ini
 
-    Only WS = 1
+    Curve Number = 1
 
-The default is: ``Only WS = 0``
+The default is: ``Curve Number = 0``
 
-If this option is enabled, the user must minimum provide following input:
-
-- :ref:`digital elevation model <dtmmap>`
-- :ref:`P factor map <pmap>`
-- :ref:`K factor map <kmap>`
-- :ref:`C factor map <cmap>`
-- :ref:`R factor <rfactor_var>`
-- :ref:`ktc low <ktclow>`
-- :ref:`ktc high <ktchigh>`
-- :ref:`ktc limit <ktclimit>`
-- :ref:`parcel connectivity cropland <parcelconncrop>`
-- :ref:`parcel connectivity forest <parcelconnforest>`
-- :ref:`parcel trapping efficiency cropland <parceltrapppingcrop>`
-- :ref:`parcel trapping efficiency forest <parceltrappingforest>`
-- :ref:`parcel trapping efficiency pasture <parceltrappingpasture>`
-
-Additional and/or alternative inputs are possible based on the chosen
-model options.
-
-When this option is disabled, the CN-module will be used as well, and the following extra
-input is mandatory:
+The following input is mandatory when using this option:
 
 - :ref:`alpha <alpha>`
 - :ref:`beta <beta>`

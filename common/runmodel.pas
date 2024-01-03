@@ -45,7 +45,7 @@ Except
 End;
 
 
-If (Not simplified) and (Timestep_model>=resAR[1]/0.3) Then
+If (curve_number) and (Timestep_model>=resAR[1]/0.3) Then
 Begin
     writeln(
         'Error: Courant criterium for model stability violated. Please select a smaller timestep.');
@@ -64,7 +64,7 @@ if not OnlyRouting Then
      else
       calcOutlet;
 
-     if (not simplified) Then //or (not use_rfactor) Then
+     if curve_number Then //or (not use_rfactor) Then
       Begin
      ReadRainfallFile(Raindata, RainfallFilename); //The .txt file with rainfall per timestep is read and written to a variable
      End;
@@ -113,7 +113,7 @@ if not OnlyRouting Then
         DisposeDynamicRdata(P_factor);
     End;
 
-    If Not Simplified Then
+    If curve_number Then
     Begin
     CalculateRe(ReMap, PRC, CNmap, alpha, beta);
     //Amount of rainfall excess or deficit is calculated

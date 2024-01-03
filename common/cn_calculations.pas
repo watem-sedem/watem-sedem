@@ -96,7 +96,7 @@ Begin
 
   Timestep_rain := Timeseries[1]-TimeSeries[0];
 
-  If (Simplified) Then   // if timestep rainfall is used as model timestep...
+  If (not curve_number) Then   // if timestep rainfall is used as model timestep...
     Begin
       Timestep_model := Timestep_rain;
       TimeSeries_output := TimeSeries;
@@ -159,7 +159,7 @@ Begin
   Rainfall := Sum(RainfallSeries_output);
   // calculate total amount of rainfall (mm)
 
-  If Not Simplified Then
+  If curve_number Then
     Begin
       For i:=0 To NumberOfTimesteps Do
         // calculate start time of rain

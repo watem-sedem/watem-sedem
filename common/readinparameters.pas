@@ -168,7 +168,7 @@ Var
   river_upstream_filename: string;
   {User Choices}
   OnlyRouting          : boolean;
-  Simplified           : boolean;
+  curve_number           : boolean;
   // Use_Rfactor          : boolean;
   Include_sewer        : boolean;
   Topo, Inc_tillage    : boolean;
@@ -341,7 +341,7 @@ Begin
        raise EInputException.Create('Error in data input: SewerMap contains values out of range (0-1)');
     end;
 
-  If Not Simplified Then
+  If curve_number Then
     Begin
       GetRfile(CNmap, CNmapfilename);
       if not CheckExtrema_RRaster(CNmap, 0, 100) Then
@@ -470,7 +470,7 @@ Begin
    end;
 
 
-  If Not Simplified Then
+  If curve_number Then
     Begin
       DisposedynamicRData(CNmap);
     End;
@@ -517,7 +517,7 @@ Begin
     DisposeDynamicGdata(ktil);
    end;
 
-  If Not Simplified Then
+  If curve_number Then
     Begin
       DisposedynamicRData(RunoffTotMap);
       DisposedynamicRData(Remap);
@@ -625,7 +625,7 @@ Begin
   {User choices}
   OnlyRouting := Inifile.ReadBool('User Choices', 'Only Routing', false);
 
-  Simplified := OnlyRouting or Inifile.ReadBool('User Choices','Only WS',false);
+  curve_number := OnlyRouting or Inifile.ReadBool('User Choices','Enable CN',false);
 
   Include_sewer:= Inifile.ReadBool('User Choices','Include sewers',false);
 
@@ -710,12 +710,12 @@ Begin
   river_adjectant_filename:=SetFileFromIni(Inifile, 'adjectant segments', datadir, river_routing);
   river_upstream_filename:=SetFileFromIni(Inifile, 'upstream segments', datadir, river_routing);
   river_routing_filename := SetFileFromIni(Inifile, 'river routing filename', datadir, river_routing);
-  CNmapfilename := SetFileFromIni(Inifile, 'CN map filename', datadir, not Simplified);
+  CNmapfilename := SetFileFromIni(Inifile, 'CN map filename', datadir, curve_number);
 
   if not OnlyRouting then
     Begin
     ktil_Data_Filename := SetFileFromIni(Inifile, 'ktil map filename', datadir, (not Create_ktil and Calc_tileros));
-    Rainfallfilename := SetFileFromIni(Inifile, 'Rainfall filename', datadir, (not simplified));
+    Rainfallfilename := SetFileFromIni(Inifile, 'Rainfall filename', datadir, curve_number);
     K_Factor_filename := SetFileFromIni(Inifile, 'K factor filename', datadir, True);
     Cf_data_filename := SetFileFromIni(Inifile, 'C factor map filename', datadir, True);
 
@@ -760,7 +760,7 @@ Begin
         Write_Sediexport := Inifile.ReadBool('Output maps','Write sediment export',false);
         Write_WATEREROS := Inifile.ReadBool('Output maps','Write water erosion',false);
 
-        If Simplified Then
+        If not curve_number Then
           Begin
             Write_RE := false;
             Write_TOTRUN := false;
@@ -781,7 +781,7 @@ Begin
   // in MJ.mm/m².h.year
   end;
 
-  If Not Simplified Then
+  If curve_number Then
     Begin
       If Not TryStrToFloat(Inifile.Readstring('Variables', '5-day antecedent rainfall',
          Default), AR5) Then
@@ -880,7 +880,7 @@ Begin
       raise EInputException.Create(
       'Error in data input: Parcel trapping efficiency (pasture) value missing or wrong data format')
       ;
-  If Not Simplified Then
+  If curve_number Then
     Begin
       If Not TryStrToInt(inifile.readstring('Variables', 'Desired timestep for model', Default),
          Timestep_model) Then
@@ -932,7 +932,7 @@ Begin
               raise EInputException.Create('Error in data input: Buffer '+intToStr(i)+
                             ' extension ID missing or wrong data format');
 
-          If Not simplified Then
+          If curve_number Then
             Begin
 
             If Not TryStrToFloat(inifile.readstring(Buffername, 'Volume', Default), Bufferdata[i].
