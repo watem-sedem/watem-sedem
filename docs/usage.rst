@@ -28,6 +28,7 @@ also give an overview of all the possibilities of the model.
 
   rasterinfo
   choices
+  model_extensions
   input
   output
   calibration

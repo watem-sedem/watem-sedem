@@ -139,7 +139,7 @@ written if the model choice ':ref:`write upstream area <writeuparea>`' is enable
 WaTEM/SEDEM output
 ##################
 
-When WaTEM/SEDEM is used (i.e. the basic model version), the following rasters and
+When WaTEM/SEDEM is used, the following rasters and
 tables can be written as output.
 
 .. _totalsedimenttxt:
