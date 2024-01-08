@@ -326,11 +326,11 @@ However, briefly, the SLR for each time-period is composed of 5 sub-factors:
         SLR = PLU * SR * CC * SC * SM
 
 with
-- :math:`PLU`: previous soil usage sub-factor that takes the effects of such usage into account
-- :math:`SR`: soil roughness sub-factor
-- :math:`CC`: foliage sub-factor
-- :math:`SC`: soil coverage sub-factor (i.e. crop residual value)
-- :math:`SM`: soil moistness sub-factor
+ - :math:`PLU`: previous soil usage sub-factor that takes the effects of such usage into account
+ - :math:`SR`: soil roughness sub-factor
+ - :math:`CC`: foliage sub-factor
+ - :math:`SC`: soil coverage sub-factor (i.e. crop residual value)
+ - :math:`SM`: soil moistness sub-factor
 
 Within WaTEM/SEDEM, the user can provide a C-factor map representing the spatial
 variability in land use, e.g. on a field parcel basis. Alternatively, mean C-factor
