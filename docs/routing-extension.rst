@@ -5,7 +5,6 @@ Routing in case of extensions
 In a number of case, the use of an extension will have an impact on the
 routing. In this page, these impacts will be discussed.
 
-
 Definitions
 ===========
 - **Routing maps** can be defined in rivers, conductive buffer dams and
@@ -25,7 +24,7 @@ Definitions
 Routing in buffers, conductive ditches and conductive buffer dams
 =================================================================
 
-The routing algorithm is adapted according to extension that can be used in
+The routing algorithm is adapted according to extensions that can be used in
 WS, such as **buffers**, **conductive ditches** or **conductive buffer dams**
 These exceptions are described in the figure below. There is only one target pixel
 if a pixel is a conductive ditch, conductive buffer dam or adjacent
@@ -99,6 +98,8 @@ with:
    the first target pixel (-).
  - :math:`\text{part2}`: the fraction of the routing from the source pixel to
    the second target pixel (-).
+
+.. _forcedrouting-extension:
 
 Forced routing
 ==============

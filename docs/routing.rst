@@ -13,7 +13,7 @@ The flow routing varies as a function of the difference in height between
 the source and **potential** target pixels, and the **land cover** class of
 the source and targets. In addition, it varies as a function of presence of
 conductive dams, conductive ditches and buffers (and forced routing, see
-further). The land cover is defined in the following table
+:ref:`here <routing-extensions>`). The land cover is defined in the following table
 (see also :ref:`here <prcmap>`). The codes (pixel id) listed in this table are
 used to define the routing in WaTEM/SEDEM. An important distinction is made between
 the land cover of (a) target(s) being equal to the class `river` (-1) and not
@@ -60,10 +60,12 @@ pixel:
    ini-file, the calculation of the routing by the default routing algorithm
    is altered on user-defined pixels. Thus, for these pixels, the
    user-defined routing will overrule the rulebank of the routing algorithm.
+   This is an extension (see :ref:`here <forcedrouting-extension>`)
  - If the pixel is a **river pixel** and the river routing option is enabled
    (see :ref:`here <riverrouting>`), the algorithm will use the user-defined
    routing in the rivers. If the pixel is a river pixel and the river routing
-   is not enabled, than no river routing is calculated.
+   is not enabled, than no river routing is calculated. This is an extension
+   (see :ref:`here <riverrouting>`)
  - If the landcover of a pixel has a value of 0, it is skipped and no routing
    is calculated for this pixel.
 
@@ -89,9 +91,9 @@ or one-target (ordinal and cardinal directions) routing.
    using land cover and the digital elevation
    model. The starting point for one-target routing is the two-target routing.
 
-Two-target routing is computed first based on the digital elevation model and
-the tillage direction. This two-target routing can still be changed to
-one-target routing based on the land cover of the targets (see
+Two-target routing is computed first based on the digital elevation model
+(and the tillage direction, extension). This two-target routing can still be
+changed to one-target routing based on the land cover of the targets (see
 :ref:`section one-target routing <onetarget>`). Note that the digital
 elevation information is still used in the one-target routing scheme
 (in case of jumps).
@@ -103,16 +105,13 @@ Two-target routing
 
 If the routing is not determined by a buffer, conductive ditch, conductive
 buffer dam or a river, the routing algorithm checks whether the flow direction
-vector **D** is steered by the steepest descent direction or the
-**tillage direction** (for the format of the input of the tillage direction,
-see :ref:`here <tildirmap>`). In this check, the angle of the
-**steepest descent** is compared with the tillage direction to define the
-routing (see Takken et al. (2001)). At the end of this step, the direction is
-mapped to the cardinal directions. These cardinal directions define the
-`target1` and `target2` pixels, and the weight
+vector **D** is steered by the steepest descent direction (or the
+**tillage direction**, see :ref:`here <tildirmap>`). The cardinal directions
+define the `target1` and `target2` pixels, and the weight
 (:math:`\in[0,1], \sum \text{weight} = 1`) they receive from the source
-pixel. This amount can be used to weigh the sediment load per pixel (WS), the
-direct run-off depth (CN) and upstream area (CN/WS) for each target pixel (see
+pixel. This amount can be used to weigh the sediment load per pixel
+(WaTEM/SEDEM), the direct run-off depth (Curve Number) and upstream area
+(WaTEM/SEDEM & Curve Number) for each target pixel (see
 :ref:`next section <twotarget>`).
 
 In the figure below it is shown how the two targets are determined by the
@@ -133,7 +132,6 @@ and -if included- the tillage direction).
     Illustration of how two-target flow routing is determined. D = direction,
     T1 = Target1 (first clockwise target), T2 = Target2 (second clockwise
     target). I, II, III, IV = quadrant.
-
 
 
 .. csv-table:: Index shifts (one unit) for the targets depending on the flow direction.
@@ -250,9 +248,3 @@ of the upstream area to its target pixels, is calculated. By default this
 outflux is equal to the upstream area of the source pixel itself.
 Adjustments to this outflux can be done in case of using extensions (see
 :ref:`here <upstreamarea-extentions>`)
-
-References
-==========
-Takken, I., Govers, G., Jetten, V., Nachtergaele, J., Steegen, A., Poesen, J
-., 2001, Effects of tillage on runoff and erosion patterns. Soil and Tillage
-Research 61, 55–60. https://doi.org/10.1016/S0167-1987(01)00178-7
