@@ -92,8 +92,8 @@ the .lpi file and can be run without further installation.
     This step only has to be done if no cn_ws.exe file is present in the subfolder
     `cn_ws/cn_ws`
 
-Running CN-WS
-*************
+Running WaTEM/SEDEM
+*******************
 
 When you want to use CN-WS from the command line you need a valid ini-file with
 all references to input files and model choices. The model can be run with:
