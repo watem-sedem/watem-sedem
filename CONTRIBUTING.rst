@@ -38,8 +38,8 @@ and "help wanted" is open to whoever wants to implement it.
 Write Documentation
 ~~~~~~~~~~~~~~~~~~~
 
-CN-WS could always use more documentation, whether as part of the
-official CN-WS docs, in docstrings, or even on the web in blog posts,
+WaTEM/SEDEM could always use more documentation, whether as part of the
+official WaTEM/SEDEM docs, in docstrings, or even on the web in blog posts,
 articles, and such. Note that on every documentation page there is a small
 "edit on GitHub" link in the top right - if you catch small errors, please
 suggest improvements.
@@ -61,7 +61,7 @@ If you are proposing a feature:
 Get Started!
 ------------
 
-Ready to contribute? Here's how to set up `CN-WS` for local development.
+Ready to contribute? Here's how to set up `WaTEM/SEDEM` for local development.
 
 1. Fork the `CN-WS` repo on GitHub.
 2. Clone your fork locally::
@@ -130,17 +130,17 @@ the documentation is actually a bit more recent than the last released version.
 Code structure
 --------------
 
-CN-WS was originally written to work in three different modi operandi:
+WaTEM/SEDEM was originally written to work in three different modi operandi:
 
 1. as a command line tool (without GUI)
 2. via a GUI
 3. a long-term version with a GUI
 
 The long-term version was made to calculate multiple rain events and runs the
-command line version several times behind each other. Both GUI versions of CN-WS
+command line version several times behind each other. Both GUI versions of WaTEM/SEDEM
 are not maintained since 2016 and are not available as a download.
 
-CN-WS is written in Free Pascal. In the main directory of the repository four
+WaTEM/SEDEM is written in Free Pascal. In the main directory of the repository four
 folders with pascal code can be found:
 
 - cn_ws: all code that is unique for the command line tool without GUI

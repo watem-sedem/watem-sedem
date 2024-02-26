@@ -4,7 +4,8 @@
 Model input
 ###########
 
-This page describes all the possible model inputs.
+This page describes all the possible model inputs. Both the model input for the basic
+version of WaTEM/SEDEM as the input for the model extensions is described.
 
 WaTEM/SEDEM accepts input files and parameters. Below, all possible input
 layers and parameters are described. Somer parameters and input files are dependent on
@@ -171,7 +172,7 @@ The datatype of the ktil map is integer16.
 Sewer map filename
 ******************
 
-The filename of the sewer map. This raster is only mandatory if the :ref:`Model Choice <choicespage>`:
+The filename of the sewer map. This raster is only mandatory if the :ref:`Model extension <extensionspage>`:
 :ref:`Include sewers <inlcudesewers>` is set to 1.
 
 All pixels in the sewer map should contain values between 0 and 1. These values represent
@@ -187,7 +188,7 @@ Tillage direction filename
 **************************
 
 The filename of a raster with the tillage direction in degrees to the North.
-This raster is only mandatory if the :ref:`Model Choice <choicespage>`:
+This raster is only mandatory if the :ref::ref:`Model extension <extensionspage>`:
 :ref:`Include tillage direction <includetillagedirection>` is set to 1.
 
 The datatype of the tillage direction raster is float32.
@@ -199,7 +200,7 @@ Oriented roughness filename
 
 The filename of a raster with the oriented roughness. The oriented roughness is the
 height of the microrelief (in cm) due to ploughing. This raster is only mandatory
-if the :ref:`Model Choice <choicespage>`: :ref:`Include tillage direction <includetillagedirection>` is set to 1.
+if the :ref:`Model extension <extensionspage>`: :ref:`Include tillage direction <includetillagedirection>` is set to 1.
 
 The datatype of the oriented roughness raster is float32.
 
@@ -208,7 +209,7 @@ The datatype of the oriented roughness raster is float32.
 Buffer map filename
 *******************
 
-The filename of the buffer map. This raster is only mandatory if the :ref:`Model Choice <choicespage>`:
+The filename of the buffer map. This raster is only mandatory if the :ref:`Model extension <extensionspage>`:
 :ref:`Include buffers <includebuffers>` is set to 1.
 
 The figure below shows an example of a buffermap with three buffer basins. The outlet
@@ -229,7 +230,8 @@ The datatype of the buffermap is integer16.
 Ditch map filename
 ******************
 
-The filename of the conductive ditch map. This raster is only mandatory if the :ref:`Model Choice <choicespage>`:
+The filename of the conductive ditch map.
+This raster is only mandatory if the :ref:`Model extension <extensionspage>`:
 :ref:`Include ditches <includeditches>` is set to 1.
 See :ref:`further <routingmap>` for
 more information on how to create these routing maps.
@@ -239,7 +241,8 @@ more information on how to create these routing maps.
 Dam map filename
 ****************
 
-The filename of the conductive dam map. This raster is only mandatory if the :ref:`Model Choice <choicespage>`:
+The filename of the conductive dam map.
+This raster is only mandatory if the :ref:`Model extension <extensionspage>`:
 :ref:`Include dams <includedams>` is set to 1. See :ref:`further <routingmap>` for more
 information on how to create these routing map.
 
@@ -248,7 +251,8 @@ information on how to create these routing map.
 River segment filename
 **********************
 
-The filename of the river segment map. This raster is only mandatory if the :ref:`Model Choice <choicespage>`: 
+The filename of the river segment map.
+This raster is only mandatory if the :ref:`Model extension <extensionspage>`:
 :ref:`Output per river segment <outputsegment>` is set to 1.
 
 A river segment is a part of the river (usually a part between two confluences of the river

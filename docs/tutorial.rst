@@ -212,8 +212,8 @@ in this model run than in the previous model run (see :ref:`section 1 <tutsectio
 of buffers in this model run is a good measure to reduce the sediment input
 in the rivers.
 
-4. Use the CN module
-********************
+4. Use the CN extension
+***********************
 
 To use the CN-extension of WaTEM-SEDEM, we need to enable it with the
 :ref:`curve number option <simple>`.
@@ -223,7 +223,7 @@ To use the CN-extension of WaTEM-SEDEM, we need to enable it with the
     [User Choices]
     Curve number = 1
 
-Using the CN-part implies we need to define additional input in the ini-file.
+Using the CN-extension implies we need to define additional input in the ini-file.
 At the bottom of the :ref:`curve number <simple>`-section, the mandatory input is for running the
 WaTEM-SEDEM with the CN model extension is described. We extend
 the ini-file with this input:

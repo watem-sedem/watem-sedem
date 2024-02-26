@@ -16,5 +16,4 @@ units.
   routing
   routing-extension
   cn-ws
-  curve-number
   history
