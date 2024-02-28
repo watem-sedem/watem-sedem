@@ -56,7 +56,7 @@ jobs:
           path: /package
           
   build-documentation:
-    needs: [build-debian,build-linux, build-conda]
+    needs: [build-debian,build-linux]
     runs-on: [self-hosted, linux]  
     container: registry.fluves.net/drone/cn_ws/conda
     steps:
