@@ -1,8 +1,8 @@
-cn_ws:
+watem_sedem:
 	echo \'$(shell git describe --abbrev=4 --always --tags)\' > version.inc
-	lazbuild cn_ws.lpr
+	lazbuild watem_sedem.lpr
 	echo 'DEVELOP' > version.inc
-all: cn_ws
+all: watem_sedem
 
 clean:
-	rm -f cn_ws
+	rm -f watem_sedem
