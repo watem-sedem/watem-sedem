@@ -138,7 +138,8 @@ ktc map filename
 ****************
 
 The filename of the ktc map, a raster with transport capacity coefficients. This
-raster is only mandatory if the :ref:`Model Choice <choicespage>`: :ref:`Create ktc map <createktc>` is set to 1.
+raster is only mandatory if the :ref:`Model extension <extensionspage>`:
+:ref:`Create ktc map <createktc>` is set to 0.
 
 The dataype of the ktc map is float32.
 
@@ -147,7 +148,7 @@ The dataype of the ktc map is float32.
 Outlet map filename
 *******************
 
-The filename of the outlet map. This raster is only mandatory if the :ref:`Model Choice <choicespage>`:
+The filename of the outlet map. This raster is only mandatory if the :ref:`Model extension <extensionspage>`:
 :ref:`Manual outlet selection <manualoutlet>` is set to 1.
 
 Every user defined river outlet needs a unique id (integers). The outlet pixels are given the value
@@ -200,7 +201,8 @@ Oriented roughness filename
 
 The filename of a raster with the oriented roughness. The oriented roughness is the
 height of the microrelief (in cm) due to ploughing. This raster is only mandatory
-if the :ref:`Model extension <extensionspage>`: :ref:`Include tillage direction <includetillagedirection>` is set to 1.
+if the :ref:`Model extension <extensionspage>`:
+:ref:`Include tillage direction <includetillagedirection>` is set to 1.
 
 The datatype of the oriented roughness raster is float32.
 
@@ -279,7 +281,7 @@ adjectant segments
 ******************
 
 The filename of the Tab separated table with adjectant  river segments. T
-his table is only mandatory if the :ref:`Model Choice <choicespage>`: 
+his table is only mandatory if the :ref:`Model extension <extensionspage>`:
 :ref:`River routing <riverrouting>` is set to 1. The table consists of two columns:
 'from' and 'to'. Every row indicates a connection between two segments:
 segment *from* flows into segment *to*. The values in the table represent the
@@ -313,7 +315,7 @@ upstream segments
 *****************
 
 The filename of the tab separated table with upstream segments. 
-This table is only mandatory if the :ref:`Model Choice <choicespage>`: 
+This table is only mandatory if the :ref:`Model extension <extensionspage>`:
 :ref:`River routing <riverrouting>` is set to 1. In the table three columns are present, namely:
 
 - edge (integer): segment id of the receiving segment
@@ -357,7 +359,8 @@ table with adjectant upstream segments is displayed below:
 river routing filename
 **********************
 
-The filename of the river routing map. This raster is only mandatory if the :ref:`Model Choice <choicespage>`: 
+The filename of the river routing map. This raster is only mandatory if the
+:ref:`Model extension <extensionspage>`:
 :ref:`River routing = 1 <riverrouting>` is set to 1.
 See :ref:`further <routingmap>` for more information on how to create these routing maps.
 
@@ -399,7 +402,8 @@ The datatype of a routing raster is integer16.
 CN map filename
 ***************
 
-The filename of the CN map. This raster is only mandatory if the :ref:`Model Choice <choicespage>`: 
+The filename of the CN map. This raster is only mandatory if the
+:ref:`Model extension <extensionspage>`:
 :ref:`Curve number <simple>` is set to 1.
 
 This raster contains a CN-value (between 0 and 100) for every pixel in the model
@@ -421,6 +425,9 @@ The rainfall of the first timestamp must be zero.
 
 Parameters
 ==========
+
+This section describes all parameters that can be used to make a basic WaTEM/SEDEM run,
+without the use of any extensions.
 
 .. _maxkernel:
 
@@ -559,6 +566,10 @@ efficiency, see
 Parameters extensions
 =====================
 
+This section contains all parameters that are used within model extensions. For every
+parameter in this section a description is given about the meaning of the parameter and
+when to use it (i.e. in combination with which extension).
+
 .. _ktclow:
 
 ktc low
@@ -566,7 +577,7 @@ ktc low
 
 ktc low is the transport capacity coefficient (as float) for pixels with a low
 erosion potential (see :ref:`ktc limit<ktclimit>`).
-The parameter is only mandatory if the :ref:`Model Choice <choicespage>`:
+The parameter is only mandatory if the :ref:`Model extension <extensionspage>`:
 :ref:`Create ktc map <createktc>` is set to 1.
 
 .. _ktchigh:
@@ -576,7 +587,7 @@ ktc high
 
 ktc high is the transport capacity coefficient (float) for pixels with a high
 erosion potential (see :ref:`ktc limit <ktclimit>`). The parameter is only mandatory if
-the :ref:`Model Choice <choicespage>`: :ref:`Create ktc map <createktc>` is set to 1.
+the :ref:`Model extension <extensionspage>`: :ref:`Create ktc map <createktc>` is set to 1.
 
 .. _ktclimit:
 
@@ -586,7 +597,7 @@ ktc limit
 ktc limit is a threshold value (float). Pixels with a C-factor higher than
 ktc limit will get the value of :ref:`ktc high <ktchigh>` in the ktc map,
 pixels with a C-factor below ktc limit, will get :ref:`ktc low <ktclow>` in the
-ktc map. This parameter is only mandatory if the :ref:`Model Choice <choicespage>`
+ktc map. This parameter is only mandatory if the :ref:`Model extension <extensionspage>`
 :ref:`Create ktc map <createktc>` is set to 1 or :ref:`Calibrate = 1 <Calibrate>`
 
 .. _ktildefault:
@@ -598,7 +609,7 @@ The transport capacity coefficient for tillage erosion on agricultural fields.
 This value (as integer) should be expressed in :math:`kg.m{-1}.year{-1}`.
 A recommended default value is :math:`600 kg.m{-1}.year{-1}`.
 
-This parameter is only mandatory if the :ref:`Model Choice <choicespage>`:
+This parameter is only mandatory if the :ref:`Model extension <extensionspage>`:
 :ref:`Create ktil map <createktil>` is set to 1.
 
 .. _ktilthres:
@@ -611,7 +622,7 @@ ktil threshold will get the value of :ref:`ktil default <ktildefault>` in the kt
 pixels with a C-factor below ktil threshold, are set to 0. A typical value for
 ktil threshold is 0.01.
 
-This parameter is only mandatory if the :ref:`Model Choice <choicespage>`:
+This parameter is only mandatory if the :ref:`Model extension <extensionspage>`:
 :ref:`Create ktil map <createktil>` is set to 1.
 
 .. _lscorrection:
@@ -648,7 +659,8 @@ An integer value between 0 and 100 that represents the fration of the discharge
 that enters the sewer system. It is only applied on pixels where the
 :ref:`sewer map <sewermapfile>` is not zero.
 
-This variable is only mandatory if the :ref:`Model Choice <choicespage>`: :ref:`Curve number <simple>` is set to 1.
+This variable is only mandatory if the :ref:`Model extensions <extensionspage>`:
+:ref:`Curve number <simple>` and :ref:`Include sewers <inlcudesewers>` are set to 1.
 
 .. note::
    1. The values stored in the :ref:`sewer map <sewermapfile>` are not used in the
@@ -665,8 +677,9 @@ Clay content parent material
 ****************************
 
 The average fraction of clay in the soil of the modelled catchment (in
-decimals; float32, between 0 and 1). This variable is only mandatory if the :ref:`Model Choice <choicespage>`:
-:ref:`estimate clay content <estimclay>` is set to 1.
+decimals; float32, between 0 and 1). This variable is only mandatory if the
+:ref:`Model extension <extensionspage>`: :ref:`estimate clay content <estimclay>` is set
+to 1.
 
 
 .. _5dayrainfall:
@@ -675,14 +688,16 @@ decimals; float32, between 0 and 1). This variable is only mandatory if the :ref
 *************************
 
 The total rainfall (in mm) during 5 days before the start of the rainfall event.
-This variable is only mandatory if the :ref:`Model Choice <choicespage>`: :ref:`Curve number <simple>` is set to 1.
+This variable is only mandatory if the :ref:`Model extension <extensionspage>`:
+:ref:`Curve number <simple>` is set to 1.
 
 .. _streamvelocity:
 
 stream velocity
 ***************
 
-As float, only mandatory if the :ref:`Model Choice <choicespage>`: :ref:`Curve number <simple>` is set to 1.
+As float, only mandatory if the :ref:`Model extension <extensionspage>`:
+:ref:`Curve number <simple>` is set to 1.
 
 .. _alpha:
 
@@ -691,7 +706,7 @@ alpha
 
 Alpha (as float) is a calibration parameter of the CN-model. It determines the relation
 between the runoff and the rainfall intensity. This parameter is only mandatory if the
-:ref:`Model Choice <choicespage>`: :ref:`Curve number <simple>` is set to 1.
+:ref:`Model extension <extensionspage>`: :ref:`Curve number <simple>` is set to 1.
 
 .. _beta:
 
@@ -700,7 +715,8 @@ beta
 
 Beta (as float) is a calibration parameter of the CN-model. It determines the
 relation between the runoff and the antecedent rainfall. This parameter is
-only mandatory if the :ref:`Model Choice <choicespage>`: :ref:`Curve number <simple>` is set to 1.
+only mandatory if the :ref:`Model extension <extensionspage>`:
+:ref:`Curve number <simple>` is set to 1.
 
 .. _timestep:
 
@@ -715,7 +731,8 @@ the spatial resolution (m) and the stream velocity of water over land (m/s).
     dt \leq \frac{spatial   resolution}{stream   velocity}
 
 The parameter is an integer value expressed in minutes and is
-only mandatory if the :ref:`Model Choice <choicespage>`: :ref:`Curve number <simple>` is set to 1.
+only mandatory if the :ref:`Model extension <extensionspage>`:
+:ref:`Curve number <simple>` is set to 1.
 
 .. _finaltimestep:
 
@@ -726,7 +743,8 @@ The user has the option to resample the time-dependent output (runoff, sediment
 concentration, sediment load) to a different timestep than the
 :ref:`Desired timestep <timestep>` of the model. The parameter is an integer value
 expressed in minutes and is
-only mandatory if the :ref:`Model Choice <choicespage>`: :ref:`Curve number <simple>` is set to 1.
+only mandatory if the :ref:`Model extension <extensionspage>`:
+:ref:`Curve number <simple>` is set to 1.
 
 .. _endtime:
 
@@ -744,7 +762,8 @@ model.
 	can shorten the endtime to optimise the calculation time of the model.
 
 This parameter is
-only mandatory if the :ref:`Model Choice <choicespage>`: :ref:`Curve number <simple>` is set to 1.
+only mandatory if the :ref:`Model extension <extensionspage>`:
+:ref:`Curve number <simple>` is set to 1.
 
 .. _nrbuffers:
 
@@ -753,7 +772,8 @@ Number of buffers
 
 The amount of buffers present in the :ref:`buffer map <buffermap>` is given in
 this parameter (as integer). The parameter is only mandatory if the
-:ref:`Model Choice <choicespage>`: :ref:`Include buffers <includebuffers>` is set to 1.
+:ref:`Model extension <extensionspage>`: :ref:`Include buffers <includebuffers>` is set
+to 1.
 
 .. _nrforcedrouting:
 
@@ -764,7 +784,7 @@ The amount of locations where the user wants to force the routing is given by th
 parameter (as integer). This variable defines the number of 
 :ref:`forced routing sections <forcedroutingdata>` in the
 ini-file. 
-This variable is only mandatory if the :ref:`Model Choice <choicespage>`:
+This variable is only mandatory if the :ref:`Model extension <extensionspage>`:
 :ref:`Force Routing <forcerouting>` is set to 1.
 
 .. _bufferdata:
@@ -774,7 +794,7 @@ Bufferdata
 
 The inclusion of erosion control buffers is based on input rasters and
 buffer parameters. How these input rasters should be created, is described
-:ref:`here <buffermap>`. If the :ref:`Model Choice <choicespage>`:
+:ref:`here <buffermap>`. If the :ref:`Model extension <extensionspage>`:
 :ref:`include buffers <includebuffers>` is set to 1,
 the buffer parameters must be defined in the ini-file in the following manner:
 
@@ -873,7 +893,7 @@ forced routing vectors has to be defined with the variable
 Calibration data
 ================
 
-The following parameters are only mandatory if the :ref:`Model Choice <choicespage>`:
+The following parameters are only mandatory if the :ref:`Model extension <extensionspage>`:
 :ref:`Calibrate <Calibrate>` is set to 1 .
 These parameters must be grouped in a seperate section in the ini-file with the
 header 'Calibration', as shown here:
