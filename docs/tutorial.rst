@@ -17,7 +17,7 @@ in order to edit the configuration file (``.ini``-file). A GIS program is needed
 tutorial we will not explain how to use GIS, nor how to make the
 input rasters, these are basic GIS-tasks and these are explained in several
 tutorials online. We encourage readers to start the tutorial by using
-the tutorial_1.ini file, and adapt this file according to the exercise. This file can be found on the github page of CN-WS, under the folder: `docs/tutorials <https://github.com/cn-ws/cn-ws/tree/master/docs/tutorials>`_. The
+the tutorial_1.ini file, and adapt this file according to the exercise. This file can be found on the github page of CN-WS, under the folder: `docs/tutorials <https://github.com/cn-ws/watem-sedem/tree/master/docs/tutorials>`_. The
 other tutorial ini-files in the tutorials folder can be used to check your
 adaptations.
 
@@ -26,7 +26,7 @@ exist for windows and linux. It is also possible to build the model from source.
 See :ref:`the installation page <install>` for more information.
 
 All example model runs described below make use of the test dataset which is
-available in the repository under `testfiles/molenbeek/modelinput <https://github.com/cn-ws/cn-ws/tree/master/testfiles/molenbeek>`_.
+available in the repository under `testfiles/molenbeek/modelinput <https://github.com/cn-ws/watem-sedem/tree/master/testfiles/molenbeek>`_.
 
 .. _tutsection1:
 

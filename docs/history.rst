@@ -34,7 +34,7 @@ allow a roll-out on the scale of Flanders. In addition, the model was
 calibrated for the context of Flanders (Deproost et al., 2018) and a framework
 was developed for processing CN-WS input, outputs and user choices.
 At this point, CN-WS has been
-submitted to versioning via git (https://github.com/cn-ws/cn-ws). 
+submitted to versioning via git (https://github.com/cn-ws/watem-sedem).
 These optimization tasks were executed by `Fluves <https://fluves.com/>`_.
 
 Current roles are:

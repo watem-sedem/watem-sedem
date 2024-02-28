@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 
-Documentation references (replace with your lines of code): https://github.com/cn-ws/cn-ws/blame/master/docs/cn-ws.rst#L15-L21
+Documentation references (replace with your lines of code): https://github.com/cn-ws/watem-sedem/blame/master/docs/cn-ws.rst#L15-L21
 
 Please use either use option A) or B) and fill in the selected options:
 

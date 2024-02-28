@@ -15,7 +15,7 @@ Types of Contributions
 Report Bugs
 ~~~~~~~~~~~
 
-Report bugs at https://github.com/cn-ws/cn-ws/issues
+Report bugs at https://github.com/cn-ws/watem-sedem/issues
 
 If you are reporting a bug, please include:
 
@@ -51,7 +51,7 @@ Submit Feedback
 ~~~~~~~~~~~~~~~
 
 The best way to send feedback is to file an issue at
-https://github.com/cn-ws/cn-ws/issues .
+https://github.com/cn-ws/watem-sedem/issues .
 
 If you are proposing a feature:
 
