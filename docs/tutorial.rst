@@ -35,7 +35,7 @@ available in the repository under `testfiles/molenbeek/modelinput <https://githu
 
 As a first exercise in the tutorial we will make a basic model run with
 WaTEM/SEDEM. The basic model run includes only mandatory input files.
-This run does not use advanced :ref:`model options <usage>`. All
+This run does not use advanced :ref:`model extensions <usage>`. All
 keywords used in an ini-file are explained in the :ref:`reference <usage>`.
 
 .. literalinclude:: tutorials/tutorial_1.ini
@@ -78,10 +78,10 @@ much sediment enters the river pixels (Sediment leaving the catchment, via the
 river). The sediment leaving the catchment, not via the river is (mostly) a small
 fraction of the sediment that leaves the catchment via the borders (to nodata pixels).
 
-In the ini-file of this tutorial we have not defined any outlets
-(:ref:`Manual outlet selection = 0 <manualoutlet>`). Therefore, the
-model made an outlet itself: the model looked for the lowest (river) pixel treated
-in the routing algorithm. If you have a look in the model input folder, you will see
+It is important to note that the model made a catchment outlet itself: the model looked
+for the lowest (river) pixel treated in the routing algorithm and assigned this pixel
+as the model domain outlet. All the sediment is routed through the landscape to this pixel
+If you have a look in the model input folder, you will see
 that :ref:`Outlet.rst <outletmap>` appeared. All pixels in this raster have
 value '0' except one pixel with value 1. This pixel is the outlet of the model.
 
@@ -100,11 +100,12 @@ we need to add a section in the ini-file with the desired output:
 
 .. literalinclude:: tutorials/tutorial_2.ini
     :language: ini
-    :lines: 28-30
+    :lines: 24-26
 
 To do so, you can make a copy of the `tutorial_1.ini`-file in a directory
 of your choice, adapt the ini-file with the lines stated above, and rename the file to 'tutorial_2.ini'.
 Then the adapted model can be ran using
+
 .. code-block::
 
     cn_ws $your_favorite_folder/tutorial_2.ini
@@ -160,9 +161,10 @@ about all the possibilities!
 
 In the previous tutorials we learned how to run WaTEM-SEDEM and how to
 enable or disable model output. In this tutorial we will explain how to enable
-one of the *advanced* features of the model. The example will make use of the
-:ref:`Include Buffers <includebuffers>` option, but the same principles can be
-used for all other options!
+one of the *advanced* features of the model, the so-called model extensions.
+The example will make use of the
+:ref:`Include Buffers <includebuffers>` extension, but the same principles can be
+used for all other extensions!
 
 Buffer basins are infrastructural features that trap sediment. As described in
 :ref:`the reference  <includebuffers>`. Two extra parameters are needed in the
@@ -175,7 +177,7 @@ the buffer map filename and the number of buffers the ini-file looks like this:
 
 .. literalinclude:: tutorials/tutorial_3a.ini
     :language: ini
-    :emphasize-lines: 11,15,28
+    :emphasize-lines: 11,29-33
 
 If we run the model with this configuration (tutorial_3a.ini) we get::
 
@@ -220,7 +222,7 @@ To use the CN-extension of WaTEM-SEDEM, we need to enable it with the
 
 .. code-block:: ini
 
-    [User Choices]
+    [Extensions]
     Curve number = 1
 
 Using the CN-extension implies we need to define additional input in the ini-file.
@@ -235,7 +237,7 @@ the ini-file with this input:
     cn map filename = CNmap.rst
     rainfall filename = LS09_15B_N_event_1_dummy.txt
     ...
-    [Variables]
+    [Parameters extensions]
     ...
     alpha = 0.4
     beta = 0.05
@@ -252,7 +254,7 @@ This can be done by adding following line to the ini-file:
 
 .. code-block:: ini
 
-    [Output maps]
+    [Output]
     ...
     write rainfall excess = 1
     ...
