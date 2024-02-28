@@ -419,8 +419,8 @@ The rainfall of the first timestamp must be zero.
 
 .. _variables:
 
-Variables
-=========
+Parameters
+==========
 
 .. _maxkernel:
 
@@ -472,61 +472,6 @@ This input is mandatory, except *except* if the :ref:`Model Choice <choicespage>
 
     2. R-factor values can be computed with the
     `R-factor Python package <https://cn-ws.github.io/rfactor/>`_.
-
-.. _ktclow:
-
-ktc low
-*******
-
-ktc low is the transport capacity coefficient (as float) for pixels with a low
-erosion potential (see :ref:`ktc limit<ktclimit>`).
-The parameter is only mandatory if the :ref:`Model Choice <choicespage>`:
-:ref:`Create ktc map <createktc>` is set to 1.
-
-.. _ktchigh:
-
-ktc high
-********
-
-ktc high is the transport capacity coefficient (float) for pixels with a high
-erosion potential (see :ref:`ktc limit <ktclimit>`). The parameter is only mandatory if
-the :ref:`Model Choice <choicespage>`: :ref:`Create ktc map <createktc>` is set to 1.
-
-.. _ktclimit:
-
-ktc limit
-*********
-
-ktc limit is a threshold value (float). Pixels with a C-factor higher than
-ktc limit will get the value of :ref:`ktc high <ktchigh>` in the ktc map,
-pixels with a C-factor below ktc limit, will get :ref:`ktc low <ktclow>` in the
-ktc map. This parameter is only mandatory if the :ref:`Model Choice <choicespage>`
-:ref:`Create ktc map <createktc>` is set to 1 or :ref:`Calibrate = 1 <Calibrate>`
-
-.. _ktildefault:
-
-ktil default
-************
-
-The transport capacity coefficient for tillage erosion on agricultural fields.
-This value (as integer) should be expressed in :math:`kg.m{-1}.year{-1}`.
-A recommended default value is :math:`600 kg.m{-1}.year{-1}`.
-
-This parameter is only mandatory if the :ref:`Model Choice <choicespage>`:
-:ref:`Create ktil map <createktil>` is set to 1.
-
-.. _ktilthres:
-
-ktil threshold
-***************
-
-ktil threshold is a float between 0 and 1. Pixels with a C-factor higher than
-ktil threshold will get the value of :ref:`ktil default <ktildefault>` in the ktil map,
-pixels with a C-factor below ktil threshold, are set to 0. A typical value for
-ktil threshold is 0.01.
-
-This parameter is only mandatory if the :ref:`Model Choice <choicespage>`:
-:ref:`Create ktil map <createktil>` is set to 1.
 
 .. _parcelconncrop:
 
@@ -610,6 +555,64 @@ The parcel trapping efficiency for forest is defined by the 'Parcel trapping
 efficiency forest' (in % as integer e.g. PTEF = 25). For a definition of the Parcel trapping
 efficiency, see
 :ref:`Parcel trapping efficiency cropland <parceltrapppingcrop>`
+
+Parameters extensions
+=====================
+
+.. _ktclow:
+
+ktc low
+*******
+
+ktc low is the transport capacity coefficient (as float) for pixels with a low
+erosion potential (see :ref:`ktc limit<ktclimit>`).
+The parameter is only mandatory if the :ref:`Model Choice <choicespage>`:
+:ref:`Create ktc map <createktc>` is set to 1.
+
+.. _ktchigh:
+
+ktc high
+********
+
+ktc high is the transport capacity coefficient (float) for pixels with a high
+erosion potential (see :ref:`ktc limit <ktclimit>`). The parameter is only mandatory if
+the :ref:`Model Choice <choicespage>`: :ref:`Create ktc map <createktc>` is set to 1.
+
+.. _ktclimit:
+
+ktc limit
+*********
+
+ktc limit is a threshold value (float). Pixels with a C-factor higher than
+ktc limit will get the value of :ref:`ktc high <ktchigh>` in the ktc map,
+pixels with a C-factor below ktc limit, will get :ref:`ktc low <ktclow>` in the
+ktc map. This parameter is only mandatory if the :ref:`Model Choice <choicespage>`
+:ref:`Create ktc map <createktc>` is set to 1 or :ref:`Calibrate = 1 <Calibrate>`
+
+.. _ktildefault:
+
+ktil default
+************
+
+The transport capacity coefficient for tillage erosion on agricultural fields.
+This value (as integer) should be expressed in :math:`kg.m{-1}.year{-1}`.
+A recommended default value is :math:`600 kg.m{-1}.year{-1}`.
+
+This parameter is only mandatory if the :ref:`Model Choice <choicespage>`:
+:ref:`Create ktil map <createktil>` is set to 1.
+
+.. _ktilthres:
+
+ktil threshold
+***************
+
+ktil threshold is a float between 0 and 1. Pixels with a C-factor higher than
+ktil threshold will get the value of :ref:`ktil default <ktildefault>` in the ktil map,
+pixels with a C-factor below ktil threshold, are set to 0. A typical value for
+ktil threshold is 0.01.
+
+This parameter is only mandatory if the :ref:`Model Choice <choicespage>`:
+:ref:`Create ktil map <createktil>` is set to 1.
 
 .. _lscorrection:
 

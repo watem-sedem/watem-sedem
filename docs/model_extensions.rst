@@ -9,6 +9,95 @@ WaTEM/SEDEM is used in different contexts and researches. In the past, several m
 were incorporated in the model to accomodate certain needs of the researchers. On this page
 we these model extensions and their use are explained.
 
+.. _createktil:
+
+Create ktil map
+###############
+
+WaTEM/SEDEM is able to create a raster with ktil-factors. The ktil value is the
+transport capacity coefficient for tillage erosion. We
+refer to :ref:`the dedicated section <tillageerosionmodel>` for more information
+about this coefficient. When ``Create ktil map = 1``,
+the model expects two input variables, namely: :ref:`ktil default <ktildefault>` and
+:ref:`ktil threshold <ktilthres>`. With this option enabled, the C-factor map
+will be reclassified based on the
+values given as input for :ref:`ktil default <ktildefault>` and
+:ref:`ktil threshold <ktilthres>`. The C-factor values higher than *ktil threshold*
+will be set to the value of *ktil default*, while
+the other pixels will be set to zero.
+
+If the 'Create ktil map' is disabled, the user must
+create a ktil map himself, and this map should be given as input for the model
+by entering its filename next to :ref:`ktil map filename <ktilmap>` in the
+ini-file. This option is only mandatory if
+:ref:`Calculate tillage erosion = 1 <calctileros>`.
+
+To enable this option, the following line must be written in the ini-file:
+
+.. code-block:: ini
+
+    Create ktil map = 1
+
+The default is: ``Create ktil map = 0``
+
+The Create ktil map - option is only mandatory when
+:ref:`Calculate tillage erosion <calctileros>` is enabled. When no tillage
+erosion is calculated (:ref:`Calculate tillage erosion = 0 <calctileros>`), the
+Create ktil map option will be ignored by the model.
+
+.. _createktc:
+
+Create ktc map
+##############
+
+WaTEM/SEDEM is able to create a raster with ktc-factor values for high erodible and
+non-erodible land-uses. When the 'Create ktc map' option is enabled, the model
+expects three variables: :ref:`ktc low <ktclow>`, :ref:`ktc high <ktchigh>`,
+:ref:`ktc limit <ktclimit>`. The C-factor map will be reclassified based these values.
+The C-factor values higher than *ktc limit* will be set to the value of *ktc high*, while
+the other pixels will be set to *ktc low*.
+
+When the 'Create ktc map' option is disabled, the user must create a ktc map himself,
+and this map should be given as input for the
+model by entering its filename next to
+:ref:`ktc map filename <ktcmap>` in the ini-file.
+
+To disable this option, the following line must be written in the ini-file:
+
+.. code-block:: ini
+
+    Create ktc map = 0
+
+The default is: ``Create ktc map = 1``
+
+.. _calibrate:
+
+Calibrate
+#########
+
+The Calibrate option allows the user to calibrate the ktc-factors for the model.
+With this option enabled, the model will use a given set of
+options, variables and inputfiles, and return output values for a number of
+combinations of ktc-factors.
+Both the ktc_high-factor as the ktc_low-factor are varied in an amount of steps
+between a lower and upper value. For every combination of ktc-factors where
+ktc_high > ktc_low, the model will make a calculation and write the results to a
+:ref:`Calibration file <calibrationtxt>`.
+A more detailed explanation about how and why to calibrate can be found
+:ref:`here <calibration>`
+
+To enable this option, the following line must be written in the ini-file:
+
+.. code-block:: ini
+
+    Calibrate = 1
+
+The default is: ``Calibrate = 0``
+
+When this option is enabled, the user will have to provide additional input,
+namely: the separate section ``[Calibration]`` (see :ref:`here <calibrationparamters>`)
+needs to be added to the ini-file in the :ref:`according manner <inicalib>`.
+
 .. _simple:
 
 Curve Number
