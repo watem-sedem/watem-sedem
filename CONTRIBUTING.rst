@@ -15,7 +15,7 @@ Types of Contributions
 Report Bugs
 ~~~~~~~~~~~
 
-Report bugs at https://github.com/cn-ws/watem-sedem/issues
+Report bugs at https://github.com/watem-sedem/watem-sedem/issues
 
 If you are reporting a bug, please include:
 
@@ -51,7 +51,7 @@ Submit Feedback
 ~~~~~~~~~~~~~~~
 
 The best way to send feedback is to file an issue at
-https://github.com/cn-ws/watem-sedem/issues .
+https://github.com/watem-sedem/watem-sedem/issues .
 
 If you are proposing a feature:
 
@@ -63,7 +63,7 @@ Get Started!
 
 Ready to contribute? Here's how to set up `WaTEM/SEDEM` for local development.
 
-1. Fork the `CN-WS` repo on GitHub.
+1. Fork the `watem-sedem` repo on GitHub.
 2. Clone your fork locally::
 
     $ git clone git@github.com:your_name_here/cn_ws.git
@@ -119,7 +119,7 @@ After which you should be able to generate HTML output by:
   $ sphinx-build ./docs ./docs/_build/
 
 
-Publishing on the documentation website (https://cn-ws.github.io/cn-ws/)
+Publishing on the documentation website (https://watem-sedem.github.io/watem-sedem/)
 will happen when changes to master build correctly. Note that this may mean that
 the documentation is actually a bit more recent than the last released version.
 

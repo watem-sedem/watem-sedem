@@ -24,7 +24,7 @@ Version 4.2.1
 - Write 'routing_missing.txt' only when 'write routing table' is enabled in
   the ini-file.
 - Disable option to calculate R-factor in CN-WS, referring to the R-factor
-  python package: https://cn-ws.github.io/rfactor/index.html.
+  python package: https://watem-sedem.github.io/rfactor/index.html.
 - Enable install with cn_ws with conda.
 - Several documentation updates, additions and clarifications.
 - Refactoring code

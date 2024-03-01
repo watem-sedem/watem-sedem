@@ -16,7 +16,7 @@ model to stop. The last line of the error message indicates what happened.
 The parser repeats the offending section and displays a little ‘arrow’ pointing
 at the earliest point in the line where the error was detected.
 
-.. _issuetracker: https://github.com/cn-ws/watem-sedem/issues
+.. _issuetracker: https://github.com/watem-sedem/watem-sedem/issues
 
 My system cannot find cn_ws
 ===========================

@@ -21,7 +21,7 @@ ditches.
 
 This documentation page explains how WaTEM/SEDEM works and how the model can
 be used. The official code for WaTEM/SEDEM can be found at
-https://github.com/cn-ws/watem-sedem.
+https://github.com/watem-sedem/watem-sedem.
 
 
 For who is this documentation?
@@ -52,7 +52,7 @@ Download / Clone
 ================
 
 The commandline interface of all releases can be found on
-`the release page <https://github.com/cn-ws/watem-sedem/releases>`_. The source code
+`the release page <https://github.com/watem-sedem/watem-sedem/releases>`_. The source code
 can be cloned or downloaded via the main page. Note that you need to clone
 the directory via HTTPS or SSH to access the testfiles of the molenbeek
 (subdirectory ``testfiles``). The testfiles are not downloaded correctly when

@@ -478,7 +478,7 @@ This input is mandatory, except *except* if the :ref:`Model Choice <choicespage>
     time span (year, month, week,...).
 
     2. R-factor values can be computed with the
-    `R-factor Python package <https://cn-ws.github.io/rfactor/>`_.
+    `R-factor Python package <https://watem-sedem.github.io/rfactor/>`_.
 
 .. _parcelconncrop:
 

@@ -17,7 +17,7 @@ in order to edit the configuration file (``.ini``-file). A GIS program is needed
 tutorial we will not explain how to use GIS, nor how to make the
 input rasters, these are basic GIS-tasks and these are explained in several
 tutorials online. We encourage readers to start the tutorial by using
-the tutorial_1.ini file, and adapt this file according to the exercise. This file can be found on the github page of CN-WS, under the folder: `docs/tutorials <https://github.com/cn-ws/watem-sedem/tree/master/docs/tutorials>`_. The
+the tutorial_1.ini file, and adapt this file according to the exercise. This file can be found on the github page of CN-WS, under the folder: `docs/tutorials <https://github.com/watem-sedem/watem-sedem/tree/master/docs/tutorials>`_. The
 other tutorial ini-files in the tutorials folder can be used to check your
 adaptations.
 
@@ -26,7 +26,7 @@ exist for windows and linux. It is also possible to build the model from source.
 See :ref:`the installation page <install>` for more information.
 
 All example model runs described below make use of the test dataset which is
-available in the repository under `testfiles/molenbeek/modelinput <https://github.com/cn-ws/watem-sedem/tree/master/testfiles/molenbeek>`_.
+available in the repository under `testfiles/molenbeek/modelinput <https://github.com/watem-sedem/watem-sedem/tree/master/testfiles/molenbeek>`_.
 
 .. _tutsection1:
 
@@ -46,13 +46,13 @@ use your terminal to run the model, as follows:
 
 .. code-block:: bash
 
-    $ cn_ws "<path to cn-ws repository>/cn_ws/docs/tutorials/tutorial_1.ini"
+    $ cn_ws "<path to watem-sedem repository>/watem_sedem/docs/tutorials/tutorial_1.ini"
 
 When the model run starts you will see::
 
     CN_WS model
 
-    Inifile : <path to cn-ws repository>/cn_ws/docs/tutorials/tutorial_1.ini
+    Inifile : <path to watem-sedem repository>/watem_sedem/docs/tutorials/tutorial_1.ini
 
 After the completion of the calculations, the model reports the execution time::
 
@@ -117,7 +117,7 @@ file. If unsure, you can always check and run the reference `tutorial_2
 
 .. code-block::
 
-    cn_ws <path to cn-ws repository>/cn_ws/docs/tutorials/tutorial_2.ini
+    cn_ws <path to cn-ws repository>/watem-sedem/docs/tutorials/tutorial_2.ini
 
 The following output rasters will emerge in the output folder:
 

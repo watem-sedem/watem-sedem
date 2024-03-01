@@ -19,31 +19,31 @@ ditches.
 
 ## Code
 
-The code can be found on [Github](https://github.com/cn-ws/watem-sedem/). 
+The code can be found on [Github](https://github.com/watem-sedem/watem-sedem/). 
 Binaries for windows or linux of the releases can be 
-[downloaded](https://github.com/cn-ws/watem-sedem/releases) too. 
+[downloaded](https://github.com/watem-sedem/watem-sedem/releases) too. 
 
 ## Documentation
 
 The extensive documentation can be found on the 
-[cn-ws documentation page](https://cn-ws.github.io/watem-sedem/). 
+[cn-ws documentation page](https://watem-sedem.github.io/watem-sedem/). 
 In this documentation, a theoretical background of the model and an overview
 of the model usage are given, as well as an installation guide followed by a
-[tutorial](https://cn-ws.github.io/watem-sedem/tutorial.html).
+[tutorial](https://watem-sedem.github.io/watem-sedem/tutorial.html).
 
 ## Get started
 
 The fastest way to start modelling is to 
-[download](https://github.com/cn-ws/watem-sedem/releases) the binary of the 
+[download](https://github.com/watem-sedem/watem-sedem/releases) the binary of the 
 most recent release and follow the 
-[installation instructions](https://cn-ws.github.io/watem-sedem/installation.html) in 
-the documentation. A [tutorial](https://cn-ws.github.io/watem-sedem/tutorial.html) is 
+[installation instructions](https://watem-sedem.github.io/watem-sedem/installation.html) in 
+the documentation. A [tutorial](https://watem-sedem.github.io/watem-sedem/tutorial.html) is 
 also available.  
 
 ## License
 
 This project is licensed under the GNU Lesser General Public License v3.0, see
-[LICENSE](https://github.com/cn-ws/watem-sedem/blob/master/LICENSE) for more information.
+[LICENSE](https://github.com/watem-sedem/watem-sedem/blob/master/LICENSE) for more information.
 
 ## Contact
 
