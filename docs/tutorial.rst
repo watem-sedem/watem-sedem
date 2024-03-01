@@ -117,7 +117,7 @@ file. If unsure, you can always check and run the reference `tutorial_2
 
 .. code-block::
 
-    cn_ws <path to cn-ws repository>/watem-sedem/docs/tutorials/tutorial_2.ini
+    watem_sedem <path to watem-sedem repository>/watem-sedem/docs/tutorials/tutorial_2.ini
 
 The following output rasters will emerge in the output folder:
 

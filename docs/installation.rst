@@ -81,7 +81,7 @@ Windows
 Building on Windows
 ===================
 
-To build CN-WS on windows, you need to install the Lazarus IDE first.
+To build WaTEM/SEDEM on windows, you need to install the Lazarus IDE first.
 This can be downloaded it from https://www.lazarus-ide.org/. Install it under `c:\lazarus` use the provided `make.bat` script to build. 
 
 Open the project in Lazarus (open the .lpi file, see subfolder cn_ws/cn_ws/cn_ws.lpi)
@@ -95,12 +95,12 @@ the .lpi file and can be run without further installation.
 Running WaTEM/SEDEM
 *******************
 
-When you want to use CN-WS from the command line you need a valid ini-file with
+When you want to use WaTEM/SEDEM from the command line you need a valid ini-file with
 all references to input files and model choices. The model can be run with:
 
 .. code-block:: shell
 
-	C:\cn_ws\cn_ws.exe C:\modelinput\catchment.ini-file
+	C:\watem-sedem\watem_sedem.exe C:\modelinput\catchment.ini-file
 	
 It is possible to run the executable of CN-WS in every directory by adding its
 location to the system variable PATH. The model was tested on Dutch

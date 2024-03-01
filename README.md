@@ -26,7 +26,7 @@ Binaries for windows or linux of the releases can be
 ## Documentation
 
 The extensive documentation can be found on the 
-[cn-ws documentation page](https://watem-sedem.github.io/watem-sedem/). 
+[watem-sedem documentation page](https://watem-sedem.github.io/watem-sedem/). 
 In this documentation, a theoretical background of the model and an overview
 of the model usage are given, as well as an installation guide followed by a
 [tutorial](https://watem-sedem.github.io/watem-sedem/tutorial.html).
