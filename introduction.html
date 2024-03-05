@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CN-WS &mdash; cn-ws  documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <title>WaTEM/SEDEM &mdash; WaTEM/SEDEM  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -16,7 +18,6 @@
         <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/sphinx_highlight.js"></script>
-        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" /> 
@@ -31,7 +32,7 @@
           
           
           <a href="index.html" class="icon icon-home">
-            cn-ws
+            WaTEM/SEDEM
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -60,7 +61,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">cn-ws</a>
+          <a href="index.html">WaTEM/SEDEM</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -68,7 +69,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">CN-WS</li>
+      <li class="breadcrumb-item active">WaTEM/SEDEM</li>
       <li class="wy-breadcrumbs-aside">
               <a href="https://github.com/cn-ws/cn-ws/blob/master/docs/introduction.rst" class="fa fa-github"> Edit on GitHub</a>
       </li>
@@ -78,71 +79,44 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="cn-ws">
-<h1>CN-WS<a class="headerlink" href="#cn-ws" title="Permalink to this heading"></a></h1>
-<p>CN-WS is a model that can be used to
-simulate soil erosion, sediment transport, water and sediment routing and
-flow run-off in time and space. The package combines three existing submodels:</p>
-<blockquote>
-<div><ul class="simple">
-<li><p>The Curve Number model (CN) for simulating flow run-off.</p></li>
-<li><p>The WaTEM/SEDEM model (WS) for simulating erosion and over-land sediment
-transport.</p></li>
-<li><p>The routing algorithm for simulating water and sediment routing over land.</p></li>
-</ul>
-</div></blockquote>
-<p>CN-WS is developed to assess soil erosion on
-agricultural fields, sediment transport through the landscape and sediment
-delivery to watercourses and sewage systems. As the impact of soil erosion
-mitigation measures is incorporated, the model can also be used to evaluate soil
-erosion management measures and compare mitigation strategies.</p>
-<p>This documentation page explains how CN-WS works and how the model can be used.
-The official code for CN-WS can be found at <a class="reference external" href="https://github.com/cn-ws/cn-ws">https://github.com/cn-ws/cn-ws</a> .</p>
-<p>As stated above, the CN-WS model consists of three submodels. In the
-following figure, the main input, models and outputs are shown. In general,
-information on the land cover, agricultural parcels, crops, soil, erosion control
-measures, elevation and rainfall are needed in order to use the model.
-In addition, information on sewers and ditches can be used to refine the
-model.</p>
-<p>First, a routing table is created by the <a class="reference internal" href="routing.html#routing"><span class="std std-ref">routing algorithm</span></a> and is then used in
-both the <a class="reference internal" href="watem-sedem.html#ws"><span class="std std-ref">WS</span></a> and <a class="reference internal" href="curve-number.html#cn"><span class="std std-ref">CN</span></a> submodels. However, the use of this routing table
-varies for both the CN and WS model. In WS, the routing table is used to
-compute slopes, upstream areas and the sediment mass balance, whereas in the
-CN submodel, the routing is used to spatially distribute the runoff. It is
-important to note that the distribution of the runoff in the CN submodel is
-computed sequentially for every time step <span class="math notranslate nohighlight">\(dt\)</span>. This makes CN an
-event-based model, whereas WS is a year-based model. Note that it is
-technically possible to use WS as an event-based model, yet a year-based
-assessment is found to be more robust.</p>
-<div class="figure align-center" id="id1">
-<a class="reference internal image-reference" href="_images/diagram_cn_ws_package.png"><img alt="_images/diagram_cn_ws_package.png" src="_images/diagram_cn_ws_package.png" style="width: 771px;" /></a>
-<p class="caption"><span class="caption-text">Schematic diagram of the CN-WS package</span><a class="headerlink" href="#id1" title="Permalink to this image"></a></p>
-</div>
-<p>The CN and WS model can also be used together, by using the
-run-off to scale the yearly sediment load. This is explained <a class="reference internal" href="cn-ws.html#cnws"><span class="std std-ref">here</span></a>.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The CN-WS package is still being optimized to make sure the CN, WS and
-routing algorithm can be run separately.</p>
-</div>
+  <div class="section" id="watem-sedem">
+<h1>WaTEM/SEDEM<a class="headerlink" href="#watem-sedem" title="Permalink to this heading"></a></h1>
+<p>WaTEM/SEDEM is a soil erosion and sediment delivery model used for catchment-scale
+simulations. The model incorporates a Revised Universal Soil Loss Equation (RUSLE)
+module to simulate gross erosion, extended with a spatially-explicit sediment routing
+module to simulate sediment transport based on a cellular transport capacity. The model
+therefore provides the user with predictions of gross and net soil erosion at the
+catchment scale.</p>
+<p>WaTEM/SEDEM has been applied for numerous applications considering both the on-site and
+off-site impacts of soil erosion. These applications include the predicted soil loss
+from fields, off-site deposition, predictions of catchment sediment yield. The model has
+also been extended for the simulation of transported heavy metals, nutrients and organic
+carbon. The default application of the model can be extended in several ways to simulate
+the impact of soil erosion mitigation measures in a spatially-explicit way. For example,
+additional options within the model allow for the consideration of other anthropogenic
+factors such as roads, sewage systems, water and sediment buffer basins, dams and
+ditches.</p>
+<p>This documentation page explains how WaTEM/SEDEM works and how the model can
+be used. The official code for WaTEM/SEDEM can be found at
+<a class="reference external" href="https://github.com/watem-sedem/watem-sedem">https://github.com/watem-sedem/watem-sedem</a>.</p>
 <div class="section" id="for-who-is-this-documentation">
 <h2>For who is this documentation?<a class="headerlink" href="#for-who-is-this-documentation" title="Permalink to this heading"></a></h2>
-<p>This page aims to explain how the CN-WS model can be run for a given case
+<p>This page aims to explain how the WaTEM/SEDEM can be run for a given case
 study, and which output can be analysed to study the specific case. In
 addition, it aims to explain how a specific run for a case study can be set-up
 (i.e. which input data are needed? in which format?). Finally, this page
 is the reference for background information on model concepts, options, inputs
 and outputs.</p>
-<p>In order to run the CN-WS model, this set of minimal skills is required:</p>
+<p>In order to run WaTEM/SEDEM, a set of minimal skills is required:</p>
 <ul class="simple">
 <li><p>Basic command line skills (know how to open your command line, and run an
 executable).</p></li>
 <li><p>Opening text files in a text editor.</p></li>
-<li><p>Opening raster data in QGIS, ArcGIS or your favorite GIS program.</p></li>
+<li><p>Opening raster data in QGIS, ArcGIS, Idrisi or an equivalent GIS program.</p></li>
 </ul>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The defined skills above allow you to run the CN-WS model with the input
+<p>The defined skills above allow you to run WaTEM/SEDEM with the input
 files listed in the package (for an example, see <a class="reference internal" href="tutorial.html#tutorial"><span class="std std-ref">here</span></a>).
 For generating your own input data for the model, for a self-defined
 case study, a good knowledge of GIS is required.</p>
@@ -151,7 +125,7 @@ case study, a good knowledge of GIS is required.</p>
 <div class="section" id="download-clone">
 <h2>Download / Clone<a class="headerlink" href="#download-clone" title="Permalink to this heading"></a></h2>
 <p>The commandline interface of all releases can be found on
-<a class="reference external" href="https://github.com/cn-ws/cn-ws/releases">the release page</a>. The source code
+<a class="reference external" href="https://github.com/watem-sedem/watem-sedem/releases">the release page</a>. The source code
 can be cloned or downloaded via the main page. Note that you need to clone
 the directory via HTTPS or SSH to access the testfiles of the molenbeek
 (subdirectory <code class="docutils literal notranslate"><span class="pre">testfiles</span></code>). The testfiles are not downloaded correctly when

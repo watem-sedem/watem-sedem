@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Summary ini-file &mdash; cn-ws  documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <title>Summary ini-file &mdash; WaTEM/SEDEM  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -32,7 +34,7 @@
           
           
           <a href="index.html" class="icon icon-home">
-            cn-ws
+            WaTEM/SEDEM
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -47,7 +49,8 @@
 <li class="toctree-l1"><a class="reference internal" href="model.html">Model Description</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="usage.html">Model Usage</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="rasterinfo.html">Rasters</a></li>
-<li class="toctree-l2"><a class="reference internal" href="choices.html">Model choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="choices.html">Model Choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="model_extensions.html">Model extensions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="input.html">Model input</a></li>
 <li class="toctree-l2"><a class="reference internal" href="output.html">Model output</a></li>
 <li class="toctree-l2"><a class="reference internal" href="calibration.html">Calibration</a></li>
@@ -55,7 +58,6 @@
 <li class="toctree-l3"><a class="reference internal" href="#overview">Overview</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#conditionally-mandatory-dependencies-c">Conditionally mandatory Dependencies (C)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#controlled-vocabularies">Controlled vocabularies</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#multi-year-long-term">Multi|year (long-term)</a></li>
 </ul>
 </li>
 </ul>
@@ -75,7 +77,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">cn-ws</a>
+          <a href="index.html">WaTEM/SEDEM</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -293,7 +295,7 @@ of the model.</p>
 </tbody>
 </table>
 <ul class="simple">
-<li><p>[<a class="reference internal" href="choices.html#choicespage"><span class="std std-ref">User Choices</span></a>]</p></li>
+<li><p>[<a class="reference internal" href="choices.html#choicespage"><span class="std std-ref">Options</span></a>]</p></li>
 </ul>
 <table class="docutils align-default">
 <colgroup>
@@ -318,106 +320,10 @@ of the model.</p>
 <td><p>R</p></td>
 <td><p>O</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="choices.html#simple"><span class="std std-ref">Only WS</span></a></p></td>
-<td><p>boolean</p></td>
-<td><p>false</p></td>
-<td><p>WS</p></td>
-<td><p>O</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="choices.html#inlcudesewers"><span class="std std-ref">Include sewers</span></a></p></td>
-<td><p>boolean</p></td>
-<td><p>false</p></td>
-<td><p>R, WS, CN</p></td>
-<td><p>O</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="choices.html#createktc"><span class="std std-ref">Create ktc map</span></a></p></td>
-<td><p>boolean</p></td>
-<td><p>true</p></td>
-<td><p>WS, CN</p></td>
-<td><p>O</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="choices.html#calctileros"><span class="std std-ref">Calculate Tillage Erosion</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="choices.html#calctileros"><span class="std std-ref">Calculate Tillage Erosion</span></a></p></td>
 <td><p>boolean</p></td>
 <td><p>false</p></td>
 <td><p>WS, CN</p></td>
-<td><p>O</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="choices.html#createktil"><span class="std std-ref">Create ktil map</span></a></p></td>
-<td><p>boolean</p></td>
-<td><p>false</p></td>
-<td><p>WS, CN</p></td>
-<td><p>O</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="choices.html#estimclay"><span class="std std-ref">Estimate clay content</span></a></p></td>
-<td><p>boolean</p></td>
-<td><p>false</p></td>
-<td><p>WS, CN</p></td>
-<td><p>C</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="choices.html#includetillagedirection"><span class="std std-ref">Include tillage direction</span></a></p></td>
-<td><p>boolean</p></td>
-<td><p>false</p></td>
-<td><p>R, WS, CN</p></td>
-<td><p>O</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="choices.html#includebuffers"><span class="std std-ref">Include buffers</span></a></p></td>
-<td><p>boolean</p></td>
-<td><p>false</p></td>
-<td><p>R, WS, CN</p></td>
-<td><p>O</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="choices.html#includeditches"><span class="std std-ref">Include ditches</span></a></p></td>
-<td><p>boolean</p></td>
-<td><p>false</p></td>
-<td><p>R, WS, CN</p></td>
-<td><p>O</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="choices.html#includedams"><span class="std std-ref">Include dams</span></a></p></td>
-<td><p>boolean</p></td>
-<td><p>false</p></td>
-<td><p>R, WS, CN</p></td>
-<td><p>O</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="choices.html#outputsegment"><span class="std std-ref">Output per river segment</span></a></p></td>
-<td><p>boolean</p></td>
-<td><p>false</p></td>
-<td><p>R, WS, CN</p></td>
-<td><p>O</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="input.html#maxkernel"><span class="std std-ref">Max kernel</span></a></p></td>
-<td><p>int</p></td>
-<td><p>50</p></td>
-<td><p>R, WS, CN</p></td>
-<td><p>O</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="input.html#maxkernelriver"><span class="std std-ref">Max kernel river</span></a></p></td>
-<td><p>int</p></td>
-<td><p>100</p></td>
-<td><p>R, WS, CN</p></td>
-<td><p>O</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="choices.html#adjustslope"><span class="std std-ref">Adjusted Slope</span></a></p></td>
-<td><p>boolean</p></td>
-<td><p>false</p></td>
-<td><p>R, WS, CN</p></td>
-<td><p>O</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="choices.html#bufferreduce"><span class="std std-ref">Buffer reduce Area</span></a></p></td>
-<td><p>boolean</p></td>
-<td><p>false</p></td>
-<td><p>R, WS, CN</p></td>
-<td><p>O</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="choices.html#forcerouting"><span class="std std-ref">Force Routing</span></a></p></td>
-<td><p>boolean</p></td>
-<td><p>false</p></td>
-<td><p>R, WS, CN</p></td>
-<td><p>O</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="choices.html#riverrouting"><span class="std std-ref">River Routing</span></a></p></td>
-<td><p>boolean</p></td>
-<td><p>false</p></td>
-<td><p>R, WS, CN</p></td>
 <td><p>O</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="choices.html#lmodel"><span class="std std-ref">L model</span></a></p></td>
@@ -438,22 +344,10 @@ of the model.</p>
 <td><p>R, WS, CN</p></td>
 <td><p>M</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="choices.html#manualoutlet"><span class="std std-ref">Manual outlet selection</span></a></p></td>
-<td><p>boolean</p></td>
-<td><p>false</p></td>
-<td><p>R, WS, CN</p></td>
-<td><p>O</p></td>
-</tr>
-<tr class="row-even"><td><p>Convert output</p></td>
-<td><p>boolean</p></td>
-<td><p>false</p></td>
-<td><p>R, WS, CN</p></td>
-<td><p>O</p></td>
-</tr>
 </tbody>
 </table>
 <ul class="simple" id="inioutput">
-<li><p>[<a class="reference internal" href="choices.html#outputchoices"><span class="std std-ref">Output maps</span></a>]</p></li>
+<li><p>[<a class="reference internal" href="choices.html#outputchoices"><span class="std std-ref">Output</span></a>]</p></li>
 </ul>
 <table class="docutils align-default">
 <colgroup>
@@ -526,13 +420,13 @@ of the model.</p>
 <td><p>WS, CN</p></td>
 <td><p>O</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="choices.html#writerainfallexcess"><span class="std std-ref">Write rainfall excess</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="model_extensions.html#writerainfallexcess"><span class="std std-ref">Write rainfall excess</span></a></p></td>
 <td><p>boolean</p></td>
 <td><p>false</p></td>
 <td><p>CN</p></td>
 <td><p>O</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="choices.html#writetotalrunoff"><span class="std std-ref">Write total runoff</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="model_extensions.html#writetotalrunoff"><span class="std std-ref">Write total runoff</span></a></p></td>
 <td><p>boolean</p></td>
 <td><p>false</p></td>
 <td><p>CN</p></td>
@@ -547,7 +441,207 @@ of the model.</p>
 </tbody>
 </table>
 <ul class="simple">
-<li><p>[<a class="reference internal" href="input.html#variables"><span class="std std-ref">Variables</span></a>]</p></li>
+<li><p>[<a class="reference internal" href="input.html#variables"><span class="std std-ref">Parameters</span></a>]</p></li>
+</ul>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 60%" />
+<col style="width: 8%" />
+<col style="width: 8%" />
+<col style="width: 13%" />
+<col style="width: 12%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>NAME</p></th>
+<th class="head"><p>DTYPE</p></th>
+<th class="head"><p>DEFAULT</p></th>
+<th class="head"><p>MODEL PART</p></th>
+<th class="head"><p>REQUIREMENT</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="input.html#rfactor-var"><span class="std std-ref">R factor</span></a></p></td>
+<td><p>float</p></td>
+<td><p>‘’</p></td>
+<td><p>WS</p></td>
+<td><p>M</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="input.html#parcelconncrop"><span class="std std-ref">Parcel connectivity cropland</span></a></p></td>
+<td><p>int</p></td>
+<td><p>‘’</p></td>
+<td><p>WS, CN</p></td>
+<td><p>M</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="input.html#parcelconnforest"><span class="std std-ref">Parcel connectivity forest</span></a></p></td>
+<td><p>int</p></td>
+<td><p>‘’</p></td>
+<td><p>R, WS, CN</p></td>
+<td><p>M</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="input.html#parcelconngras"><span class="std std-ref">Parcel connectivity grasstrips</span></a></p></td>
+<td><p>int</p></td>
+<td><p>‘100’</p></td>
+<td><p>R, WS, CN</p></td>
+<td><p>M</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="input.html#parceltrapppingcrop"><span class="std std-ref">Parcel trapping efficiency cropland</span></a></p></td>
+<td><p>int</p></td>
+<td><p>‘’</p></td>
+<td><p>R, WS, CN</p></td>
+<td><p>M</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="input.html#parceltrappingforest"><span class="std std-ref">Parcel trapping efficiency forest</span></a></p></td>
+<td><p>int</p></td>
+<td><p>‘’</p></td>
+<td><p>R, WS, CN</p></td>
+<td><p>M</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="input.html#parceltrappingpasture"><span class="std std-ref">Parcel trapping efficiency pasture</span></a></p></td>
+<td><p>int</p></td>
+<td><p>‘’</p></td>
+<td><p>R, WS, CN</p></td>
+<td><p>M</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="input.html#maxkernel"><span class="std std-ref">Max kernel</span></a></p></td>
+<td><p>int</p></td>
+<td><p>50</p></td>
+<td><p>R, WS, CN</p></td>
+<td><p>O</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="input.html#maxkernelriver"><span class="std std-ref">Max kernel river</span></a></p></td>
+<td><p>int</p></td>
+<td><p>100</p></td>
+<td><p>R, WS, CN</p></td>
+<td><p>O</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="input.html#bulkdensity"><span class="std std-ref">Bulk density</span></a></p></td>
+<td><p>int</p></td>
+<td><p>‘’</p></td>
+<td><p>WS, CN</p></td>
+<td><p>M</p></td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li><p>[<a class="reference internal" href="model_extensions.html#extensionspage"><span class="std std-ref">Extensions</span></a>]</p></li>
+</ul>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 56%" />
+<col style="width: 10%" />
+<col style="width: 8%" />
+<col style="width: 13%" />
+<col style="width: 12%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>NAME</p></th>
+<th class="head"><p>DTYPE</p></th>
+<th class="head"><p>DEFAULT</p></th>
+<th class="head"><p>MODEL PART</p></th>
+<th class="head"><p>REQUIREMENT</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="model_extensions.html#simple"><span class="std std-ref">Curve Number</span></a></p></td>
+<td><p>boolean</p></td>
+<td><p>false</p></td>
+<td><p>WS</p></td>
+<td><p>O</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="model_extensions.html#inlcudesewers"><span class="std std-ref">Include sewers</span></a></p></td>
+<td><p>boolean</p></td>
+<td><p>false</p></td>
+<td><p>R, WS, CN</p></td>
+<td><p>O</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="model_extensions.html#createktc"><span class="std std-ref">Create ktc map</span></a></p></td>
+<td><p>boolean</p></td>
+<td><p>true</p></td>
+<td><p>WS, CN</p></td>
+<td><p>O</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="model_extensions.html#createktil"><span class="std std-ref">Create ktil map</span></a></p></td>
+<td><p>boolean</p></td>
+<td><p>false</p></td>
+<td><p>WS, CN</p></td>
+<td><p>O</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="model_extensions.html#estimclay"><span class="std std-ref">Estimate clay content</span></a></p></td>
+<td><p>boolean</p></td>
+<td><p>false</p></td>
+<td><p>WS, CN</p></td>
+<td><p>C</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="model_extensions.html#includetillagedirection"><span class="std std-ref">Include tillage direction</span></a></p></td>
+<td><p>boolean</p></td>
+<td><p>false</p></td>
+<td><p>R, WS, CN</p></td>
+<td><p>O</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="model_extensions.html#includebuffers"><span class="std std-ref">Include buffers</span></a></p></td>
+<td><p>boolean</p></td>
+<td><p>false</p></td>
+<td><p>R, WS, CN</p></td>
+<td><p>O</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="model_extensions.html#includeditches"><span class="std std-ref">Include ditches</span></a></p></td>
+<td><p>boolean</p></td>
+<td><p>false</p></td>
+<td><p>R, WS, CN</p></td>
+<td><p>O</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="model_extensions.html#includedams"><span class="std std-ref">Include dams</span></a></p></td>
+<td><p>boolean</p></td>
+<td><p>false</p></td>
+<td><p>R, WS, CN</p></td>
+<td><p>O</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="model_extensions.html#outputsegment"><span class="std std-ref">Output per river segment</span></a></p></td>
+<td><p>boolean</p></td>
+<td><p>false</p></td>
+<td><p>R, WS, CN</p></td>
+<td><p>O</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="model_extensions.html#adjustslope"><span class="std std-ref">Adjusted Slope</span></a></p></td>
+<td><p>boolean</p></td>
+<td><p>false</p></td>
+<td><p>R, WS, CN</p></td>
+<td><p>O</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="model_extensions.html#bufferreduce"><span class="std std-ref">Buffer reduce Area</span></a></p></td>
+<td><p>boolean</p></td>
+<td><p>false</p></td>
+<td><p>R, WS, CN</p></td>
+<td><p>O</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="model_extensions.html#forcerouting"><span class="std std-ref">Force Routing</span></a></p></td>
+<td><p>boolean</p></td>
+<td><p>false</p></td>
+<td><p>R, WS, CN</p></td>
+<td><p>O</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="model_extensions.html#riverrouting"><span class="std std-ref">River Routing</span></a></p></td>
+<td><p>boolean</p></td>
+<td><p>false</p></td>
+<td><p>R, WS, CN</p></td>
+<td><p>O</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="model_extensions.html#manualoutlet"><span class="std std-ref">Manual outlet selection</span></a></p></td>
+<td><p>boolean</p></td>
+<td><p>false</p></td>
+<td><p>R, WS, CN</p></td>
+<td><p>O</p></td>
+</tr>
+<tr class="row-odd"><td><p>Convert output</p></td>
+<td><p>boolean</p></td>
+<td><p>false</p></td>
+<td><p>R, WS, CN</p></td>
+<td><p>O</p></td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li><p>[<a class="reference internal" href="input.html#variables"><span class="std std-ref">Parameters extensions</span></a>]</p></li>
 </ul>
 <table class="docutils align-default">
 <colgroup>
@@ -602,18 +696,6 @@ of the model.</p>
 <td><p>CN</p></td>
 <td><p>M</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="input.html#bulkdensity"><span class="std std-ref">Bulk density</span></a></p></td>
-<td><p>int</p></td>
-<td><p>‘’</p></td>
-<td><p>WS, CN</p></td>
-<td><p>M</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="input.html#rfactor-var"><span class="std std-ref">R factor</span></a></p></td>
-<td><p>float</p></td>
-<td><p>‘’</p></td>
-<td><p>WS</p></td>
-<td><p>M</p></td>
-</tr>
 <tr class="row-even"><td><p><a class="reference internal" href="input.html#lscorrection"><span class="std std-ref">LS correction</span></a></p></td>
 <td><p>float</p></td>
 <td><p>‘1’</p></td>
@@ -662,42 +744,6 @@ of the model.</p>
 <td><p>WS, CN</p></td>
 <td><p>C</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="input.html#parcelconncrop"><span class="std std-ref">Parcel connectivity cropland</span></a></p></td>
-<td><p>int</p></td>
-<td><p>‘’</p></td>
-<td><p>WS, CN</p></td>
-<td><p>M</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="input.html#parcelconnforest"><span class="std std-ref">Parcel connectivity forest</span></a></p></td>
-<td><p>int</p></td>
-<td><p>‘’</p></td>
-<td><p>R, WS, CN</p></td>
-<td><p>M</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="input.html#parcelconngras"><span class="std std-ref">Parcel connectivity grasstrips</span></a></p></td>
-<td><p>int</p></td>
-<td><p>‘100’</p></td>
-<td><p>R, WS, CN</p></td>
-<td><p>M</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="input.html#parceltrapppingcrop"><span class="std std-ref">Parcel trapping efficiency cropland</span></a></p></td>
-<td><p>int</p></td>
-<td><p>‘’</p></td>
-<td><p>R, WS, CN</p></td>
-<td><p>M</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="input.html#parceltrappingforest"><span class="std std-ref">Parcel trapping efficiency forest</span></a></p></td>
-<td><p>int</p></td>
-<td><p>‘’</p></td>
-<td><p>R, WS, CN</p></td>
-<td><p>M</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="input.html#parceltrappingpasture"><span class="std std-ref">Parcel trapping efficiency pasture</span></a></p></td>
-<td><p>int</p></td>
-<td><p>‘’</p></td>
-<td><p>R, WS, CN</p></td>
-<td><p>M</p></td>
-</tr>
 <tr class="row-even"><td><p><a class="reference internal" href="input.html#timestep"><span class="std std-ref">Desired timestep for model</span></a></p></td>
 <td><p>int</p></td>
 <td><p>‘’</p></td>
@@ -738,7 +784,7 @@ of the model.</p>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><a class="reference internal" href="choices.html#calibrate"><span class="std std-ref">Calibrate</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="model_extensions.html#calibrate"><span class="std std-ref">Calibrate</span></a></p></td>
 <td><p>boolean</p></td>
 <td><p>false</p></td>
 <td><p>WS, CN</p></td>
@@ -779,7 +825,7 @@ of the model.</p>
 <ul class="simple">
 <li><p>[<a class="reference internal" href="input.html#forcedroutingdata"><span class="std std-ref">Forced Routing X</span></a>]</p></li>
 </ul>
-<p>This section is only mandatory when <a class="reference internal" href="choices.html#forcerouting"><span class="std std-ref">Force Routing</span></a> is
+<p>This section is only mandatory when <a class="reference internal" href="model_extensions.html#forcerouting"><span class="std std-ref">Force Routing</span></a> is
 enabled. The section is repeated for every force routing vector (i.e. X ranges
 from 1 to <a class="reference internal" href="input.html#nrforcedrouting"><span class="std std-ref">Number of forced routing</span></a>.</p>
 <table class="docutils align-default">
@@ -828,7 +874,7 @@ from 1 to <a class="reference internal" href="input.html#nrforcedrouting"><span 
 <ul class="simple">
 <li><p><a class="reference internal" href="input.html#bufferdata"><span class="std std-ref">[Buffer X]</span></a></p></li>
 </ul>
-<p>This section is only mandatory when <a class="reference internal" href="choices.html#includebuffers"><span class="std std-ref">Include buffers</span></a> is
+<p>This section is only mandatory when <a class="reference internal" href="model_extensions.html#includebuffers"><span class="std std-ref">Include buffers</span></a> is
 enabled. The section is repeated for every buffer id (i.e. X ranges from 1 to
 <a class="reference internal" href="input.html#nrbuffers"><span class="std std-ref">Number of buffers</span></a>).</p>
 <table class="docutils align-default">
@@ -852,37 +898,37 @@ enabled. The section is repeated for every buffer id (i.e. X ranges from 1 to
 <td><p>float</p></td>
 <td><p>‘’</p></td>
 <td><p>R, WS, CN</p></td>
-<td><p>M</p></td>
+<td><p>C</p></td>
 </tr>
 <tr class="row-odd"><td><p>Height dam</p></td>
 <td><p>float</p></td>
 <td><p>‘’</p></td>
 <td><p>R, WS, CN</p></td>
-<td><p>M</p></td>
+<td><p>C</p></td>
 </tr>
 <tr class="row-even"><td><p>Height opening</p></td>
 <td><p>float</p></td>
 <td><p>‘’</p></td>
 <td><p>R, WS, CN</p></td>
-<td><p>M</p></td>
+<td><p>C</p></td>
 </tr>
 <tr class="row-odd"><td><p>Opening area</p></td>
 <td><p>float</p></td>
 <td><p>‘’</p></td>
 <td><p>R, WS, CN</p></td>
-<td><p>M</p></td>
+<td><p>C</p></td>
 </tr>
 <tr class="row-even"><td><p>Discharge coefficient</p></td>
 <td><p>float</p></td>
 <td><p>‘’</p></td>
 <td><p>R, WS, CN</p></td>
-<td><p>M</p></td>
+<td><p>C</p></td>
 </tr>
 <tr class="row-odd"><td><p>Width dam</p></td>
 <td><p>float</p></td>
 <td><p>‘’</p></td>
 <td><p>R, WS, CN</p></td>
-<td><p>M</p></td>
+<td><p>C</p></td>
 </tr>
 <tr class="row-even"><td><p>Trapping efficiency</p></td>
 <td><p>float</p></td>
@@ -936,14 +982,6 @@ segments</em> and <em>river routing filename</em></p></li>
 <li><p><strong>L model</strong> -&gt; <em>Desmet1996_McCool</em> or <em>Desmet1996_Vanoost2003</em></p></li>
 <li><p><strong>S model</strong> -&gt; <em>Desmet1996</em> or <em>Nearing1997</em></p></li>
 <li><p><strong>TC model</strong> -&gt; <em>VanOost2000</em> or <em>Verstraeten2007</em></p></li>
-</ul>
-</div>
-<div class="section" id="multi-year-long-term">
-<h2>Multi|year (long-term)<a class="headerlink" href="#multi-year-long-term" title="Permalink to this heading"></a></h2>
-<ul class="simple">
-<li><p>parcel filename -&gt; parcel filename X</p></li>
-<li><p>CN map filename -&gt; CN map SEASON X</p></li>
-<li><p>C factor map filename -&gt; C factor map SEASON X</p></li>
 </ul>
 </div>
 </div>

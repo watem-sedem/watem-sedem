@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Model Description &mdash; cn-ws  documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <title>Model Description &mdash; WaTEM/SEDEM  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -19,8 +21,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Erosion/sediment model: WaTEM/SEDEM" href="watem-sedem.html" />
-    <link rel="prev" title="CN-WS" href="index.html" /> 
+    <link rel="next" title="WaTEM/SEDEM: a spatially distributed soil erosion and sediment delivery model" href="watem-sedem.html" />
+    <link rel="prev" title="WaTEM/SEDEM" href="index.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -32,7 +34,7 @@
           
           
           <a href="index.html" class="icon icon-home">
-            cn-ws
+            WaTEM/SEDEM
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -45,12 +47,12 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Model Description</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="watem-sedem.html">Erosion/sediment model: WaTEM/SEDEM</a></li>
-<li class="toctree-l2"><a class="reference internal" href="curve-number.html">Run-off model: Curve Number</a></li>
+<li class="toctree-l2"><a class="reference internal" href="watem-sedem.html">WaTEM/SEDEM: a spatially distributed soil erosion and sediment delivery model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="formulas-units.html">Overview of formulas and units in WaTEM/SEDEM</a></li>
 <li class="toctree-l2"><a class="reference internal" href="routing.html">Routing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cn-ws.html">CN-WS</a></li>
-<li class="toctree-l2"><a class="reference internal" href="formulas-units.html">Overview of formulas and units</a></li>
-<li class="toctree-l2"><a class="reference internal" href="history.html">A short history of CN-WS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routing-extension.html">Routing in case of extensions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cn-ws.html">Curve Number extension</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html">A short history of WaTEM/SEDEM</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="usage.html">Model Usage</a></li>
@@ -69,7 +71,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">cn-ws</a>
+          <a href="index.html">WaTEM/SEDEM</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -82,8 +84,8 @@
               <a href="https://github.com/cn-ws/cn-ws/blob/master/docs/model.rst" class="fa fa-github"> Edit on GitHub</a>
       </li>
   </ul><div class="rst-breadcrumbs-buttons" role="navigation" aria-label="Sequential page navigation">
-        <a href="index.html" class="btn btn-neutral float-left" title="CN-WS" accesskey="p"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="watem-sedem.html" class="btn btn-neutral float-right" title="Erosion/sediment model: WaTEM/SEDEM" accesskey="n">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="index.html" class="btn btn-neutral float-left" title="WaTEM/SEDEM" accesskey="p"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="watem-sedem.html" class="btn btn-neutral float-right" title="WaTEM/SEDEM: a spatially distributed soil erosion and sediment delivery model" accesskey="n">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
   </div>
   <hr/>
 </div>
@@ -92,19 +94,13 @@
              
   <div class="section" id="model-description">
 <span id="modeldescription"></span><h1>Model Description<a class="headerlink" href="#model-description" title="Permalink to this heading"></a></h1>
-<p>CN-WS consists of three major parts. A routing algorithm and
-two models: WaTEM/SEDEM (WS) and the Curve Number model (CN).</p>
-<p>These parts are described in the subsequent chapters. The combination of the three parts
-is described in the chapter CN-WS, followed by a comprehensive overview
-of the used variables, formulas and their respective units.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The Curve Number model within CN-WS can be used as an extension to
-WaTEM/SEDEM.</p>
-</div>
+<p>The relevant parts of WaTEM/SEDEM to get started with the model are described in the
+subsequent chapters. The purpose of this description is to give an introduction to the
+operating equations within the model as well as the necessary parameter inputs and their
+units.</p>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="watem-sedem.html">Erosion/sediment model: WaTEM/SEDEM</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="watem-sedem.html">WaTEM/SEDEM: a spatially distributed soil erosion and sediment delivery model</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="watem-sedem.html#concept">Concept</a></li>
 <li class="toctree-l2"><a class="reference internal" href="watem-sedem.html#gross-versus-net-erosion">Gross versus net erosion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="watem-sedem.html#mean-annual-soil-erosion-rate">Mean annual soil erosion rate</a></li>
@@ -121,51 +117,48 @@ WaTEM/SEDEM.</p>
 <li class="toctree-l2"><a class="reference internal" href="watem-sedem.html#references">References</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="curve-number.html">Run-off model: Curve Number</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="curve-number.html#the-original-cn-method">The original CN method</a></li>
-<li class="toctree-l2"><a class="reference internal" href="curve-number.html#cn-based-module-in-cn-ws">CN-based module in CN-WS</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="curve-number.html#run-off-in-special-cases">Run-off in special cases</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="curve-number.html#references">References</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="formulas-units.html">Overview of formulas and units in WaTEM/SEDEM</a></li>
 <li class="toctree-l1"><a class="reference internal" href="routing.html">Routing</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="routing.html#definitions">Definitions</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="routing.html#flow-scheme-of-the-routing-algorithm">Flow scheme of the routing algorithm</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="routing.html#routing-in-buffers-conductive-ditches-and-conductive-buffer-dams">Routing in buffers, conductive ditches and conductive buffer dams</a></li>
-<li class="toctree-l4"><a class="reference internal" href="routing.html#one-and-two-target-routing">One- and two-target routing</a></li>
-<li class="toctree-l4"><a class="reference internal" href="routing.html#two-target-routing">Two-target routing</a></li>
-<li class="toctree-l4"><a class="reference internal" href="routing.html#one-target-routing">One-target routing</a><ul>
-<li class="toctree-l5"><a class="reference internal" href="routing.html#upstream-area-calculation">Upstream area calculation</a></li>
-<li class="toctree-l5"><a class="reference internal" href="routing.html#forced-routing">Forced routing</a></li>
-<li class="toctree-l5"><a class="reference internal" href="routing.html#routing-maps">Routing maps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routing.html#definitions">Definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routing.html#flow-scheme-of-the-routing-algorithm">Flow scheme of the routing algorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routing.html#one-and-two-target-routing">One- and two-target routing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="routing.html#two-target-routing">Two-target routing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="routing.html#one-target-routing">One-target routing</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="routing.html#upstream-area-calculation">Upstream area calculation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="routing-extension.html">Routing in case of extensions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="routing-extension.html#definitions">Definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routing-extension.html#routing-in-buffers-conductive-ditches-and-conductive-buffer-dams">Routing in buffers, conductive ditches and conductive buffer dams</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routing-extension.html#adjustment-upstream-area-and-outflux">Adjustment upstream area and outflux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routing-extension.html#forced-routing">Forced routing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routing-extension.html#routing-maps">Routing maps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="cn-ws.html">Curve Number extension</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="cn-ws.html#introduction-to-the-curve-number-method">Introduction to the Curve number method</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cn-ws.html#the-original-cn-method">The original CN method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cn-ws.html#cn-based-extension-in-watem-sedem">CN-based extension in WaTEM/SEDEM</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="cn-ws.html#run-off-in-special-cases">Run-off in special cases</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="routing.html#references">References</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cn-ws.html#cn-ws">CN-WS</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cn-ws.html#additional-model-features">Additional model features</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="cn-ws.html#buffer-basins">Buffer basins</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cn-ws.html#dams-and-ditches">Dams and ditches</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cn-ws.html#sewers-endpoints">Sewers/endpoints</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="cn-ws.html#references">References</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="cn-ws.html">CN-WS</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="cn-ws.html#description-of-the-cn-ws-model">Description of the CN-WS model</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cn-ws.html#additional-model-features">Additional model features</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="cn-ws.html#buffer-basins">Buffer basins</a></li>
-<li class="toctree-l3"><a class="reference internal" href="cn-ws.html#dams-and-ditches">Dams and ditches</a></li>
-<li class="toctree-l3"><a class="reference internal" href="cn-ws.html#sewers-endpoints">Sewers/endpoints</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="cn-ws.html#references">References</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="formulas-units.html">Overview of formulas and units</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="formulas-units.html#watem-sedem">WaTEM/SEDEM</a></li>
-<li class="toctree-l2"><a class="reference internal" href="formulas-units.html#ws-application">WS application</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="history.html">A short history of CN-WS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">A short history of WaTEM/SEDEM</a></li>
 </ul>
 </div>
 </div>
@@ -174,8 +167,8 @@ WaTEM/SEDEM.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="index.html" class="btn btn-neutral float-left" title="CN-WS" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="watem-sedem.html" class="btn btn-neutral float-right" title="Erosion/sediment model: WaTEM/SEDEM" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="index.html" class="btn btn-neutral float-left" title="WaTEM/SEDEM" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="watem-sedem.html" class="btn btn-neutral float-right" title="WaTEM/SEDEM: a spatially distributed soil erosion and sediment delivery model" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

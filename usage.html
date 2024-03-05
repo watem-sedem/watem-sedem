@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Model Usage &mdash; cn-ws  documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <title>Model Usage &mdash; WaTEM/SEDEM  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -20,7 +22,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Rasters" href="rasterinfo.html" />
-    <link rel="prev" title="A short history of CN-WS" href="history.html" /> 
+    <link rel="prev" title="A short history of WaTEM/SEDEM" href="history.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -32,7 +34,7 @@
           
           
           <a href="index.html" class="icon icon-home">
-            cn-ws
+            WaTEM/SEDEM
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -47,7 +49,8 @@
 <li class="toctree-l1"><a class="reference internal" href="model.html">Model Description</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Model Usage</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="rasterinfo.html">Rasters</a></li>
-<li class="toctree-l2"><a class="reference internal" href="choices.html">Model choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="choices.html">Model Choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="model_extensions.html">Model extensions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="input.html">Model input</a></li>
 <li class="toctree-l2"><a class="reference internal" href="output.html">Model output</a></li>
 <li class="toctree-l2"><a class="reference internal" href="calibration.html">Calibration</a></li>
@@ -69,7 +72,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">cn-ws</a>
+          <a href="index.html">WaTEM/SEDEM</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -82,7 +85,7 @@
               <a href="https://github.com/cn-ws/cn-ws/blob/master/docs/usage.rst" class="fa fa-github"> Edit on GitHub</a>
       </li>
   </ul><div class="rst-breadcrumbs-buttons" role="navigation" aria-label="Sequential page navigation">
-        <a href="history.html" class="btn btn-neutral float-left" title="A short history of CN-WS" accesskey="p"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="history.html" class="btn btn-neutral float-left" title="A short history of WaTEM/SEDEM" accesskey="p"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="rasterinfo.html" class="btn btn-neutral float-right" title="Rasters" accesskey="n">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
   </div>
   <hr/>
@@ -92,17 +95,19 @@
              
   <div class="section" id="model-usage">
 <span id="usage"></span><h1>Model Usage<a class="headerlink" href="#model-usage" title="Permalink to this heading"></a></h1>
-<p>The CN-WS model is a composite model simulating the hydrological and
-sediment mass balance for a given area. The aim of this page is to
+<p>The aim of this page is to
 give a full overview of the possible model choices, inputs and outputs.</p>
-<p>It is important to indicate that CN-WS is a raster-based model. In-
+<p>It is important to indicate that WaTEM-SEDEM is a raster-based model. The in-
 and outputs are therefore mainly defined by this raster-format (idrisi). In addition,
 a number of text-files are used to define additional inputs and model
-choices. In CN-WS, a lot of inputs are required, and many outputs and options are
-available. This is why, for a first introduction to the use of the CN-WS model,
+choices. WaTEM/SEDEM in its most simple implementation has a low number of model
+parameters. However, a number of optional user choices (e.g. to include management
+processes) or to consider parameters which are by-default fixed as variable will
+naturally extend this parameter dimensionality. This is why, for a first introduction to
+the use of WaTEM/SEDEM,
 one is referred to the tutorial (<a class="reference internal" href="tutorial.html#tutorial"><span class="std std-ref">click here</span></a>).</p>
 <p>All user choices, input, outputs and options are defined in an ini-file. The
-model reads the ini-file and uses this info to model the catchment according the
+model reads the ini-file and uses this info to model the catchment according to the
 user choices. In the following chapters all possible keywords of the ini-file are
 discussed. As the needed inputs and the generated outputs are largely dependent on the
 defined model choices, we first explain all possible model choices. The model choices
@@ -114,30 +119,13 @@ also give an overview of all the possibilities of the model.</p>
 <li class="toctree-l2"><a class="reference internal" href="rasterinfo.html#raster-coordinates">Raster Coordinates</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="choices.html">Model choices</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="choices.html#user-choices">User Choices</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="choices.html">Model Choices</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="choices.html#model-options">Model options</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="choices.html#l-model">L model</a></li>
 <li class="toctree-l3"><a class="reference internal" href="choices.html#s-model">S model</a></li>
 <li class="toctree-l3"><a class="reference internal" href="choices.html#tc-model">TC Model</a></li>
 <li class="toctree-l3"><a class="reference internal" href="choices.html#only-routing">Only Routing</a></li>
-<li class="toctree-l3"><a class="reference internal" href="choices.html#only-ws">Only WS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="choices.html#calculate-tillage-erosion">Calculate tillage erosion</a></li>
-<li class="toctree-l3"><a class="reference internal" href="choices.html#create-ktil-map">Create ktil map</a></li>
-<li class="toctree-l3"><a class="reference internal" href="choices.html#create-ktc-map">Create ktc map</a></li>
-<li class="toctree-l3"><a class="reference internal" href="choices.html#include-sewers">Include sewers</a></li>
-<li class="toctree-l3"><a class="reference internal" href="choices.html#include-buffers">Include buffers</a></li>
-<li class="toctree-l3"><a class="reference internal" href="choices.html#buffer-reduce-area">Buffer reduce area</a></li>
-<li class="toctree-l3"><a class="reference internal" href="choices.html#include-ditches">Include ditches</a></li>
-<li class="toctree-l3"><a class="reference internal" href="choices.html#include-dams">Include dams</a></li>
-<li class="toctree-l3"><a class="reference internal" href="choices.html#force-routing">Force Routing</a></li>
-<li class="toctree-l3"><a class="reference internal" href="choices.html#river-routing">River Routing</a></li>
-<li class="toctree-l3"><a class="reference internal" href="choices.html#cardinal-routing-river">Cardinal Routing River</a></li>
-<li class="toctree-l3"><a class="reference internal" href="choices.html#include-tillage-direction">Include tillage direction</a></li>
-<li class="toctree-l3"><a class="reference internal" href="choices.html#adjusted-slope">Adjusted Slope</a></li>
-<li class="toctree-l3"><a class="reference internal" href="choices.html#estimate-clay-content">Estimate Clay content</a></li>
-<li class="toctree-l3"><a class="reference internal" href="choices.html#calibrate">Calibrate</a></li>
-<li class="toctree-l3"><a class="reference internal" href="choices.html#output-per-river-segment">Output per river segment</a></li>
-<li class="toctree-l3"><a class="reference internal" href="choices.html#manual-outlet-selection">Manual outlet selection</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="choices.html#output">Output</a><ul>
@@ -151,10 +139,33 @@ also give an overview of all the possibilities of the model.</p>
 <li class="toctree-l3"><a class="reference internal" href="choices.html#write-rusle">write RUSLE</a></li>
 <li class="toctree-l3"><a class="reference internal" href="choices.html#write-sediment-export">write sediment export</a></li>
 <li class="toctree-l3"><a class="reference internal" href="choices.html#write-water-erosion">write water erosion</a></li>
-<li class="toctree-l3"><a class="reference internal" href="choices.html#write-rainfall-excess">write rainfall excess</a></li>
-<li class="toctree-l3"><a class="reference internal" href="choices.html#write-total-runoff">write total runoff</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="model_extensions.html">Model extensions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="model_extensions.html#create-ktil-map">Create ktil map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="model_extensions.html#create-ktc-map">Create ktc map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="model_extensions.html#calibrate">Calibrate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="model_extensions.html#curve-number">Curve Number</a></li>
+<li class="toctree-l2"><a class="reference internal" href="model_extensions.html#include-sewers">Include sewers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="model_extensions.html#include-buffers">Include buffers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="model_extensions.html#buffer-reduce-area">Buffer reduce area</a></li>
+<li class="toctree-l2"><a class="reference internal" href="model_extensions.html#include-ditches">Include ditches</a></li>
+<li class="toctree-l2"><a class="reference internal" href="model_extensions.html#include-dams">Include dams</a></li>
+<li class="toctree-l2"><a class="reference internal" href="model_extensions.html#force-routing">Force Routing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="model_extensions.html#river-routing">River Routing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="model_extensions.html#cardinal-routing-river">Cardinal Routing River</a></li>
+<li class="toctree-l2"><a class="reference internal" href="model_extensions.html#include-tillage-direction">Include tillage direction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="model_extensions.html#adjusted-slope">Adjusted Slope</a></li>
+<li class="toctree-l2"><a class="reference internal" href="model_extensions.html#estimate-clay-content">Estimate Clay content</a></li>
+<li class="toctree-l2"><a class="reference internal" href="model_extensions.html#output-per-river-segment">Output per river segment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="model_extensions.html#manual-outlet-selection">Manual outlet selection</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="model_extensions.html#output">Output</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="model_extensions.html#write-rainfall-excess">write rainfall excess</a></li>
+<li class="toctree-l2"><a class="reference internal" href="model_extensions.html#write-total-runoff">write total runoff</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="input.html">Model input</a><ul>
@@ -166,55 +177,58 @@ also give an overview of all the possibilities of the model.</p>
 <li class="toctree-l2"><a class="reference internal" href="input.html#files">Files</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="input.html#dtm-filename">DTM filename</a></li>
 <li class="toctree-l3"><a class="reference internal" href="input.html#parcel-filename">Parcel filename</a></li>
+<li class="toctree-l3"><a class="reference internal" href="input.html#p-factor-map-filename">P factor map filename</a></li>
+<li class="toctree-l3"><a class="reference internal" href="input.html#k-factor-filename">K factor filename</a></li>
+<li class="toctree-l3"><a class="reference internal" href="input.html#c-factor-map-filename">C factor map filename</a></li>
+<li class="toctree-l3"><a class="reference internal" href="input.html#ktc-map-filename">ktc map filename</a></li>
+<li class="toctree-l3"><a class="reference internal" href="input.html#outlet-map-filename">Outlet map filename</a></li>
+<li class="toctree-l3"><a class="reference internal" href="input.html#ktil-map-filename">ktil map filename</a></li>
 <li class="toctree-l3"><a class="reference internal" href="input.html#sewer-map-filename">Sewer map filename</a></li>
 <li class="toctree-l3"><a class="reference internal" href="input.html#tillage-direction-filename">Tillage direction filename</a></li>
 <li class="toctree-l3"><a class="reference internal" href="input.html#oriented-roughness-filename">Oriented roughness filename</a></li>
 <li class="toctree-l3"><a class="reference internal" href="input.html#buffer-map-filename">Buffer map filename</a></li>
 <li class="toctree-l3"><a class="reference internal" href="input.html#ditch-map-filename">Ditch map filename</a></li>
 <li class="toctree-l3"><a class="reference internal" href="input.html#dam-map-filename">Dam map filename</a></li>
-<li class="toctree-l3"><a class="reference internal" href="input.html#p-factor-map-filename">P factor map filename</a></li>
 <li class="toctree-l3"><a class="reference internal" href="input.html#river-segment-filename">River segment filename</a></li>
 <li class="toctree-l3"><a class="reference internal" href="input.html#adjectant-segments">adjectant segments</a></li>
 <li class="toctree-l3"><a class="reference internal" href="input.html#upstream-segments">upstream segments</a></li>
 <li class="toctree-l3"><a class="reference internal" href="input.html#river-routing-filename">river routing filename</a></li>
 <li class="toctree-l3"><a class="reference internal" href="input.html#routing-maps">Routing maps</a></li>
 <li class="toctree-l3"><a class="reference internal" href="input.html#cn-map-filename">CN map filename</a></li>
-<li class="toctree-l3"><a class="reference internal" href="input.html#outlet-map-filename">Outlet map filename</a></li>
-<li class="toctree-l3"><a class="reference internal" href="input.html#ktil-map-filename">ktil map filename</a></li>
 <li class="toctree-l3"><a class="reference internal" href="input.html#rainfall-filename">Rainfall filename</a></li>
-<li class="toctree-l3"><a class="reference internal" href="input.html#k-factor-filename">K factor filename</a></li>
-<li class="toctree-l3"><a class="reference internal" href="input.html#c-factor-map-filename">C factor map filename</a></li>
-<li class="toctree-l3"><a class="reference internal" href="input.html#ktc-map-filename">ktc map filename</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="input.html#variables">Variables</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="input.html#sewer-exit">Sewer exit</a></li>
-<li class="toctree-l3"><a class="reference internal" href="input.html#clay-content-parent-material">Clay content parent material</a></li>
-<li class="toctree-l3"><a class="reference internal" href="input.html#day-antecedent-rainfall">5-day antecedent rainfall</a></li>
-<li class="toctree-l3"><a class="reference internal" href="input.html#stream-velocity">stream velocity</a></li>
-<li class="toctree-l3"><a class="reference internal" href="input.html#alpha">alpha</a></li>
-<li class="toctree-l3"><a class="reference internal" href="input.html#beta">beta</a></li>
+<li class="toctree-l2"><a class="reference internal" href="input.html#parameters">Parameters</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="input.html#max-kernel">max kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="input.html#max-kernel-river">max kernel river</a></li>
 <li class="toctree-l3"><a class="reference internal" href="input.html#bulk-density">bulk density</a></li>
 <li class="toctree-l3"><a class="reference internal" href="input.html#r-factor">R factor</a></li>
-<li class="toctree-l3"><a class="reference internal" href="input.html#ls-correction">LS correction</a></li>
-<li class="toctree-l3"><a class="reference internal" href="input.html#number-of-buffers">Number of buffers</a></li>
-<li class="toctree-l3"><a class="reference internal" href="input.html#number-of-forced-routing">Number of forced routing</a></li>
-<li class="toctree-l3"><a class="reference internal" href="input.html#ktc-low">ktc low</a></li>
-<li class="toctree-l3"><a class="reference internal" href="input.html#ktc-high">ktc high</a></li>
-<li class="toctree-l3"><a class="reference internal" href="input.html#ktc-limit">ktc limit</a></li>
-<li class="toctree-l3"><a class="reference internal" href="input.html#ktil-default">ktil default</a></li>
-<li class="toctree-l3"><a class="reference internal" href="input.html#ktil-threshold">ktil threshold</a></li>
 <li class="toctree-l3"><a class="reference internal" href="input.html#parcel-connectivity-cropland">Parcel connectivity cropland</a></li>
 <li class="toctree-l3"><a class="reference internal" href="input.html#parcel-connectivity-grasstrips">Parcel connectivity grasstrips</a></li>
 <li class="toctree-l3"><a class="reference internal" href="input.html#parcel-connectivity-forest">Parcel connectivity forest</a></li>
 <li class="toctree-l3"><a class="reference internal" href="input.html#parcel-trapping-efficiency-cropland">Parcel trapping efficiency cropland</a></li>
 <li class="toctree-l3"><a class="reference internal" href="input.html#parcel-trapping-efficiency-pasture">Parcel trapping efficiency pasture</a></li>
 <li class="toctree-l3"><a class="reference internal" href="input.html#parcel-trapping-efficiency-forest">Parcel trapping efficiency forest</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="input.html#parameters-extensions">Parameters extensions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="input.html#ktc-low">ktc low</a></li>
+<li class="toctree-l3"><a class="reference internal" href="input.html#ktc-high">ktc high</a></li>
+<li class="toctree-l3"><a class="reference internal" href="input.html#ktc-limit">ktc limit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="input.html#ktil-default">ktil default</a></li>
+<li class="toctree-l3"><a class="reference internal" href="input.html#ktil-threshold">ktil threshold</a></li>
+<li class="toctree-l3"><a class="reference internal" href="input.html#ls-correction">LS correction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="input.html#sewer-exit">Sewer exit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="input.html#clay-content-parent-material">Clay content parent material</a></li>
+<li class="toctree-l3"><a class="reference internal" href="input.html#day-antecedent-rainfall">5-day antecedent rainfall</a></li>
+<li class="toctree-l3"><a class="reference internal" href="input.html#stream-velocity">stream velocity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="input.html#alpha">alpha</a></li>
+<li class="toctree-l3"><a class="reference internal" href="input.html#beta">beta</a></li>
 <li class="toctree-l3"><a class="reference internal" href="input.html#desired-timestep-for-model">Desired timestep for model</a></li>
 <li class="toctree-l3"><a class="reference internal" href="input.html#final-timestep-output">Final timestep output</a></li>
 <li class="toctree-l3"><a class="reference internal" href="input.html#endtime-model">Endtime model</a></li>
-<li class="toctree-l3"><a class="reference internal" href="input.html#max-kernel">max kernel</a></li>
-<li class="toctree-l3"><a class="reference internal" href="input.html#max-kernel-river">max kernel river</a></li>
+<li class="toctree-l3"><a class="reference internal" href="input.html#number-of-buffers">Number of buffers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="input.html#number-of-forced-routing">Number of forced routing</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="input.html#bufferdata">Bufferdata</a></li>
@@ -288,7 +302,6 @@ also give an overview of all the possibilities of the model.</p>
 <li class="toctree-l2"><a class="reference internal" href="inifile.html#overview">Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="inifile.html#conditionally-mandatory-dependencies-c">Conditionally mandatory Dependencies (C)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="inifile.html#controlled-vocabularies">Controlled vocabularies</a></li>
-<li class="toctree-l2"><a class="reference internal" href="inifile.html#multi-year-long-term">Multi|year (long-term)</a></li>
 </ul>
 </li>
 </ul>
@@ -299,7 +312,7 @@ also give an overview of all the possibilities of the model.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="history.html" class="btn btn-neutral float-left" title="A short history of CN-WS" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="history.html" class="btn btn-neutral float-left" title="A short history of WaTEM/SEDEM" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="rasterinfo.html" class="btn btn-neutral float-right" title="Rasters" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

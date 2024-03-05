@@ -1,27 +1,20 @@
 .. _formulasunits:
 
 
-##############################
-Overview of formulas and units
-##############################
+#############################################
+Overview of formulas and units in WaTEM/SEDEM
+#############################################
 
 The aim of this page is to present an overview of the formulas and the units
-used in CN-WS. The motivation for this page is to clarify the differences
+used in WaTEM/SEDEM. The motivation for this page is to clarify the differences
 between the units used in the :ref:`model description<modeldescription>`,
 :ref:`model inputs<modelinput>`, model states and :ref:`model
-outputs<modeloutput>`. This overview can help interpret the outputs of CN-WS.
-
-.. note::
-    This page is under construction. For now, the formula and units analysis
-    is only presented for WaTEM/SEDEM.
-
-WaTEM/SEDEM
-===========
+outputs<modeloutput>`. This overview can help interpret the outputs of WaTEM/SEDEM.
 
 As explained in :ref:`the model description <WS>` of WaTEM/SEDEM, the amount of erosion and deposition in
 each pixel is determined by comparing the mean annual soil erosion :math:`E`
 and incoming sediment :math:`S_i` with the transport capacity :math:`TC`.
-In the CN-WS code this is done by
+In the model code this is done by
 comparing **volumes** (:math:`m^3`) or with
 :math:`S_A =S_i+E` (see :ref:`concept <Concept>`):
 
@@ -54,19 +47,17 @@ values for the incoming sediment (:math:`S_i`) for every (river) pixel is
 also expressed in the model as volumes. These computations are all defined in
 the procedure `Water` in the file `lateralredistribution.pas`.
 
-WS application
-================
-The model inputs for the CN-WS model in the .inifile that are used to compute
+The model inputs for WaTEM/SEDEM in the .inifile that are used to compute
 :math:`E` and :math:`TC` are the :math:`R`-value, the :math:`C`-raster, the
 :math:`K`-raster, the :math:`P`-raster and the digital height model raster
 (:math:`LS`, slope). :math:`LS` and :math:`\tan(\text{slope})^{0.8}` are
 dimensionless, and are considered as model outputs as they are computed in
-CN-WS. The :math:`C`- and :math:`P`-rasters have no units.
+WaTEM/SEDEM. The :math:`C`- and :math:`P`-rasters have no units.
 
 The units of the :math:`R`-value and :math:`K`-raster are equal to:
 
  - :math:`R = \frac{\text{MJ.mm}}{\text{ha}.\text{h.year}}`. The unit of the
-   R-value is converted (in CN-WS) to
+   R-value is converted (in WaTEM/SEDEM) to
    :math:`\frac{\text{MJ.mm}}{\text{m}^2.\text{h.year}}`.
  - :math:`K = \frac{\text{kg.h}}{\text{MJ.mm}}`.
 

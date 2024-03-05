@@ -4,7 +4,7 @@
 Tutorial
 ########
 
-In this tutorial we will give a short overview on how the CN-WS model can be configured for practical use. 
+In this tutorial we will give a short overview on how the model can be configured for practical use.
 On the one hand, we will explain how the configuration file (``.ini``-file) should be made, and on the other hand, how the prefered model options are enabled or
 disabled.
 
@@ -17,7 +17,7 @@ in order to edit the configuration file (``.ini``-file). A GIS program is needed
 tutorial we will not explain how to use GIS, nor how to make the
 input rasters, these are basic GIS-tasks and these are explained in several
 tutorials online. We encourage readers to start the tutorial by using
-the tutorial_1.ini file, and adapt this file according to the exercise. This file can be found on the github page of CN-WS, under the folder: `docs/tutorials <https://github.com/cn-ws/cn-ws/tree/master/docs/tutorials>`_. The
+the tutorial_1.ini file, and adapt this file according to the exercise. This file can be found on the github page of CN-WS, under the folder: `docs/tutorials <https://github.com/watem-sedem/watem-sedem/tree/master/docs/tutorials>`_. The
 other tutorial ini-files in the tutorials folder can be used to check your
 adaptations.
 
@@ -26,16 +26,16 @@ exist for windows and linux. It is also possible to build the model from source.
 See :ref:`the installation page <install>` for more information.
 
 All example model runs described below make use of the test dataset which is
-available in the repository under `testfiles/molenbeek/modelinput <https://github.com/cn-ws/cn-ws/tree/master/testfiles/molenbeek>`_.
+available in the repository under `testfiles/molenbeek/modelinput <https://github.com/watem-sedem/watem-sedem/tree/master/testfiles/molenbeek>`_.
 
 .. _tutsection1:
 
 1. A basic model run with WaTEM/SEDEM
 *************************************
 
-As a first exercise in the tutorial we will make a basic model run with the
-WaTEM/SEDEM module of CN-WS. The basic model run includes only mandatory input files. 
-This run does not use advanced :ref:`model options <usage>`. All
+As a first exercise in the tutorial we will make a basic model run with
+WaTEM/SEDEM. The basic model run includes only mandatory input files.
+This run does not use advanced :ref:`model extensions <usage>`. All
 keywords used in an ini-file are explained in the :ref:`reference <usage>`.
 
 .. literalinclude:: tutorials/tutorial_1.ini
@@ -46,13 +46,13 @@ use your terminal to run the model, as follows:
 
 .. code-block:: bash
 
-    $ cn_ws "<path to cn-ws repository>/cn_ws/docs/tutorials/tutorial_1.ini"
+    $ cn_ws "<path to watem-sedem repository>/watem_sedem/docs/tutorials/tutorial_1.ini"
 
 When the model run starts you will see::
 
     CN_WS model
 
-    Inifile : <path to cn-ws repository>/cn_ws/docs/tutorials/tutorial_1.ini
+    Inifile : <path to watem-sedem repository>/watem_sedem/docs/tutorials/tutorial_1.ini
 
 After the completion of the calculations, the model reports the execution time::
 
@@ -78,14 +78,14 @@ much sediment enters the river pixels (Sediment leaving the catchment, via the
 river). The sediment leaving the catchment, not via the river is (mostly) a small
 fraction of the sediment that leaves the catchment via the borders (to nodata pixels).
 
-In the ini-file of this tutorial we have not defined any outlets
-(:ref:`Manual outlet selection = 0 <manualoutlet>`). Therefore, the
-model made an outlet itself: the model looked for the lowest (river) pixel treated
-in the routing algorithm. If you have a look in the model input folder, you will see
+It is important to note that the model made a catchment outlet itself: the model looked
+for the lowest (river) pixel treated in the routing algorithm and assigned this pixel
+as the model domain outlet. All the sediment is routed through the landscape to this pixel
+If you have a look in the model input folder, you will see
 that :ref:`Outlet.rst <outletmap>` appeared. All pixels in this raster have
 value '0' except one pixel with value 1. This pixel is the outlet of the model.
 
-Congratulations! You just finished your first model calculation with CN-WS!
+Congratulations! You just finished your first model calculation with WaTEM/SEDEM!
 
 2. Get more model output!
 *************************
@@ -100,11 +100,12 @@ we need to add a section in the ini-file with the desired output:
 
 .. literalinclude:: tutorials/tutorial_2.ini
     :language: ini
-    :lines: 28-30
+    :lines: 24-26
 
 To do so, you can make a copy of the `tutorial_1.ini`-file in a directory
 of your choice, adapt the ini-file with the lines stated above, and rename the file to 'tutorial_2.ini'.
 Then the adapted model can be ran using
+
 .. code-block::
 
     cn_ws $your_favorite_folder/tutorial_2.ini
@@ -116,7 +117,7 @@ file. If unsure, you can always check and run the reference `tutorial_2
 
 .. code-block::
 
-    cn_ws <path to cn-ws repository>/cn_ws/docs/tutorials/tutorial_2.ini
+    watem_sedem <path to watem-sedem repository>/watem-sedem/docs/tutorials/tutorial_2.ini
 
 The following output rasters will emerge in the output folder:
 
@@ -158,11 +159,12 @@ about all the possibilities!
 3. Adding buffer basins
 ***********************
 
-In the previous tutorials we learned how to make a model run with WS and how to
+In the previous tutorials we learned how to run WaTEM-SEDEM and how to
 enable or disable model output. In this tutorial we will explain how to enable
-one of the *advanced* features of CN-WS. The example will make use of the
-:ref:`Include Buffers <includebuffers>` option, but the same principles can be
-used for all other options!
+one of the *advanced* features of the model, the so-called model extensions.
+The example will make use of the
+:ref:`Include Buffers <includebuffers>` extension, but the same principles can be
+used for all other extensions!
 
 Buffer basins are infrastructural features that trap sediment. As described in
 :ref:`the reference  <includebuffers>`. Two extra parameters are needed in the
@@ -175,7 +177,7 @@ the buffer map filename and the number of buffers the ini-file looks like this:
 
 .. literalinclude:: tutorials/tutorial_3a.ini
     :language: ini
-    :emphasize-lines: 11,16,29
+    :emphasize-lines: 11,29-33
 
 If we run the model with this configuration (tutorial_3a.ini) we get::
 
@@ -212,19 +214,20 @@ in this model run than in the previous model run (see :ref:`section 1 <tutsectio
 of buffers in this model run is a good measure to reduce the sediment input
 in the rivers.
 
-4. Use the CN module
-********************
+4. Use the CN extension
+***********************
 
-To use the complete CN-WS model, we need to disable the
-:ref:`Only WS option <simple>` we used in the previous tutorials.
+To use the CN-extension of WaTEM-SEDEM, we need to enable it with the
+:ref:`curve number option <simple>`.
 
 .. code-block:: ini
 
-    [User Choices]
-    Only WS = 0
+    [Extensions]
+    Curve number = 1
 
-Using the CN-part implies we need to define additional input in the ini-file.
-At the bottom of the :ref:`Only WS <simple>`, the mandatory input is for running the full CN-WS model is described. We extend
+Using the CN-extension implies we need to define additional input in the ini-file.
+At the bottom of the :ref:`curve number <simple>`-section, the mandatory input is for running the
+WaTEM-SEDEM with the CN model extension is described. We extend
 the ini-file with this input:
 
 .. code-block:: ini
@@ -234,7 +237,7 @@ the ini-file with this input:
     cn map filename = CNmap.rst
     rainfall filename = LS09_15B_N_event_1_dummy.txt
     ...
-    [Variables]
+    [Parameters extensions]
     ...
     alpha = 0.4
     beta = 0.05
@@ -246,11 +249,12 @@ the ini-file with this input:
 
 The CN module will create some additional :ref:`output <CNoutput>`. Most output is
 automatically generated by enabling the CN module, however, it is posible to write
-an extra output raster, namely, the 'rainfall excess' raster (Remap.rst). This can be done by adding following line to the ini-file:
+an extra output raster, namely, the 'rainfall excess' raster (Remap.rst).
+This can be done by adding following line to the ini-file:
 
 .. code-block:: ini
 
-    [Output maps]
+    [Output]
     ...
     write rainfall excess = 1
     ...
@@ -260,7 +264,7 @@ We refer to the documentation about CN for the interpretation of the output.
 5. More examples?
 *****************
 
-Do you want to experiment even more with the options of CN-WS? The test files
+Do you want to experiment even more with the options of WaTEM-SEDEM? The test files
 in the repository contain an example project where following options are used:
 
 - river routing
@@ -269,6 +273,6 @@ in the repository contain an example project where following options are used:
 - create ktc map = 0
 - ...
 
-Have a look at them, and using the principles explained above you should be able to get these
-working!
+Have a look at them, and using the principles explained above you should be able to get
+these working!
 

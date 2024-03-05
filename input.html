@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Model input &mdash; cn-ws  documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <title>Model input &mdash; WaTEM/SEDEM  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -21,7 +23,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Model output" href="output.html" />
-    <link rel="prev" title="Model choices" href="choices.html" /> 
+    <link rel="prev" title="Model extensions" href="model_extensions.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -33,7 +35,7 @@
           
           
           <a href="index.html" class="icon icon-home">
-            cn-ws
+            WaTEM/SEDEM
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -48,7 +50,8 @@
 <li class="toctree-l1"><a class="reference internal" href="model.html">Model Description</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="usage.html">Model Usage</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="rasterinfo.html">Rasters</a></li>
-<li class="toctree-l2"><a class="reference internal" href="choices.html">Model choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="choices.html">Model Choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="model_extensions.html">Model extensions</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Model input</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#folders">Folders</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#input-directory">input directory</a></li>
@@ -58,55 +61,58 @@
 <li class="toctree-l3"><a class="reference internal" href="#files">Files</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#dtm-filename">DTM filename</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parcel-filename">Parcel filename</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#p-factor-map-filename">P factor map filename</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#k-factor-filename">K factor filename</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#c-factor-map-filename">C factor map filename</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ktc-map-filename">ktc map filename</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#outlet-map-filename">Outlet map filename</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ktil-map-filename">ktil map filename</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#sewer-map-filename">Sewer map filename</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#tillage-direction-filename">Tillage direction filename</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#oriented-roughness-filename">Oriented roughness filename</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#buffer-map-filename">Buffer map filename</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#ditch-map-filename">Ditch map filename</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#dam-map-filename">Dam map filename</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#p-factor-map-filename">P factor map filename</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#river-segment-filename">River segment filename</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#adjectant-segments">adjectant segments</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#upstream-segments">upstream segments</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#river-routing-filename">river routing filename</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#routing-maps">Routing maps</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cn-map-filename">CN map filename</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#outlet-map-filename">Outlet map filename</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#ktil-map-filename">ktil map filename</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#rainfall-filename">Rainfall filename</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#k-factor-filename">K factor filename</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#c-factor-map-filename">C factor map filename</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#ktc-map-filename">ktc map filename</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#variables">Variables</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#sewer-exit">Sewer exit</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#clay-content-parent-material">Clay content parent material</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#day-antecedent-rainfall">5-day antecedent rainfall</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#stream-velocity">stream velocity</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#alpha">alpha</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#beta">beta</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#parameters">Parameters</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#max-kernel">max kernel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#max-kernel-river">max kernel river</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#bulk-density">bulk density</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#r-factor">R factor</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#ls-correction">LS correction</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#number-of-buffers">Number of buffers</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#number-of-forced-routing">Number of forced routing</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#ktc-low">ktc low</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#ktc-high">ktc high</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#ktc-limit">ktc limit</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#ktil-default">ktil default</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#ktil-threshold">ktil threshold</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parcel-connectivity-cropland">Parcel connectivity cropland</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parcel-connectivity-grasstrips">Parcel connectivity grasstrips</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parcel-connectivity-forest">Parcel connectivity forest</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parcel-trapping-efficiency-cropland">Parcel trapping efficiency cropland</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parcel-trapping-efficiency-pasture">Parcel trapping efficiency pasture</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parcel-trapping-efficiency-forest">Parcel trapping efficiency forest</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#parameters-extensions">Parameters extensions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#ktc-low">ktc low</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ktc-high">ktc high</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ktc-limit">ktc limit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ktil-default">ktil default</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ktil-threshold">ktil threshold</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ls-correction">LS correction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sewer-exit">Sewer exit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#clay-content-parent-material">Clay content parent material</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#day-antecedent-rainfall">5-day antecedent rainfall</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stream-velocity">stream velocity</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#alpha">alpha</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#beta">beta</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#desired-timestep-for-model">Desired timestep for model</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#final-timestep-output">Final timestep output</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#endtime-model">Endtime model</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#max-kernel">max kernel</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#max-kernel-river">max kernel river</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#number-of-buffers">Number of buffers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#number-of-forced-routing">Number of forced routing</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#bufferdata">Bufferdata</a></li>
@@ -142,7 +148,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">cn-ws</a>
+          <a href="index.html">WaTEM/SEDEM</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -156,7 +162,7 @@
               <a href="https://github.com/cn-ws/cn-ws/blob/master/docs/input.rst" class="fa fa-github"> Edit on GitHub</a>
       </li>
   </ul><div class="rst-breadcrumbs-buttons" role="navigation" aria-label="Sequential page navigation">
-        <a href="choices.html" class="btn btn-neutral float-left" title="Model choices" accesskey="p"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="model_extensions.html" class="btn btn-neutral float-left" title="Model extensions" accesskey="p"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="output.html" class="btn btn-neutral float-right" title="Model output" accesskey="n">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
   </div>
   <hr/>
@@ -166,9 +172,11 @@
              
   <div class="section" id="model-input">
 <span id="modelinput"></span><h1>Model input<a class="headerlink" href="#model-input" title="Permalink to this heading"></a></h1>
-<p>This page describes all the possible model inputs.</p>
-<p>CN-WS accepts input files and <strong>a lot of</strong> parameters. Below, all possible input
-layers and parameters are described.</p>
+<p>This page describes all the possible model inputs. Both the model input for the basic
+version of WaTEM/SEDEM as the input for the model extensions is described.</p>
+<p>WaTEM/SEDEM accepts input files and parameters. Below, all possible input
+layers and parameters are described. Somer parameters and input files are dependent on
+the <a class="reference internal" href="choices.html#choicespage"><span class="std std-ref">choices</span></a> that were made by the user.</p>
 <div class="section" id="folders">
 <span id="id1"></span><h2>Folders<a class="headerlink" href="#folders" title="Permalink to this heading"></a></h2>
 <div class="section" id="input-directory">
@@ -197,7 +205,7 @@ catchment.
 The Idirisi raster must be formatted as float32.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>CN-WS does not take nodata values (e.g. -9999) into account. When a nodata
+<p>WaTEM/SEDEM does not take nodata values (e.g. -9999) into account. When a nodata
 value in the DTM raster is encountered, it is considered as an elevation value.
 Consequently, slopes will be calculated wrongly. Thus, the user must ensure that all
 pixels in the model domain have an elevation value, and that at least two
@@ -206,7 +214,7 @@ pixels outside the model domain have a valid elevation value.</p>
 </div>
 <div class="section" id="parcel-filename">
 <span id="prcmap"></span><h3>Parcel filename<a class="headerlink" href="#parcel-filename" title="Permalink to this heading"></a></h3>
-<p>The filename of the Parcel or Land cover map. CN-WS requires information about
+<p>The filename of the Parcel or Land cover map. WaTEM/SEDEM requires information about
 land cover
 and parcel boundaries in the routing algorithm, but also when distributing the
 sediment through the model domain. Every pixel in the model domain must therefore contain
@@ -270,10 +278,52 @@ definition of the parcel raster. In this manual, we aim to define this as
 land cover rather than land use.</p>
 </div>
 </div>
+<div class="section" id="p-factor-map-filename">
+<span id="pmap"></span><h3>P factor map filename<a class="headerlink" href="#p-factor-map-filename" title="Permalink to this heading"></a></h3>
+<p>The filename of the <a class="reference internal" href="watem-sedem.html#pfactor"><span class="std std-ref">P-factor</span></a> map.</p>
+<p>The datatype of the raster is float32.</p>
+</div>
+<div class="section" id="k-factor-filename">
+<span id="kmap"></span><h3>K factor filename<a class="headerlink" href="#k-factor-filename" title="Permalink to this heading"></a></h3>
+<p>The filename of the <a class="reference internal" href="watem-sedem.html#kfactor"><span class="std std-ref">K-factor</span></a> map. The soil erodibility factor or
+K-factor of the RUSLE-equation for every pixel in the model domain is stored in
+the K-factor map (in <span class="math notranslate nohighlight">\(kg.h.MJ^{-1}.mm^{-1}\)</span>).</p>
+<p>The datatype of the K-factor raster map is integer16.</p>
+</div>
+<div class="section" id="c-factor-map-filename">
+<span id="cmap"></span><h3>C factor map filename<a class="headerlink" href="#c-factor-map-filename" title="Permalink to this heading"></a></h3>
+<p>The filename  of the <a class="reference internal" href="watem-sedem.html#cfactor"><span class="std std-ref">C-factor</span></a> map. This raster contains values
+between 0 and 1 and represent the dimensionless C-factor in the RUSLE equation.
+Pixels outside the model domain are set to zero.</p>
+<p>The datatype of the outlet map is float32.</p>
+</div>
+<div class="section" id="ktc-map-filename">
+<span id="ktcmap"></span><h3>ktc map filename<a class="headerlink" href="#ktc-map-filename" title="Permalink to this heading"></a></h3>
+<p>The filename of the ktc map, a raster with transport capacity coefficients. This
+raster is only mandatory if the <a class="reference internal" href="model_extensions.html#extensionspage"><span class="std std-ref">Model extension</span></a>:
+<a class="reference internal" href="model_extensions.html#createktc"><span class="std std-ref">Create ktc map</span></a> is set to 0.</p>
+<p>The dataype of the ktc map is float32.</p>
+</div>
+<div class="section" id="outlet-map-filename">
+<span id="outletmap"></span><h3>Outlet map filename<a class="headerlink" href="#outlet-map-filename" title="Permalink to this heading"></a></h3>
+<p>The filename of the outlet map. This raster is only mandatory if the <a class="reference internal" href="model_extensions.html#extensionspage"><span class="std std-ref">Model extension</span></a>:
+<a class="reference internal" href="model_extensions.html#manualoutlet"><span class="std std-ref">Manual outlet selection</span></a> is set to 1.</p>
+<p>Every user defined river outlet needs a unique id (integers). The outlet pixels are given the value
+of their respective id’s in the outlet map. All other pixels have a value equal to zero.</p>
+<p>The datatype of the outlet map is integer16.</p>
+</div>
+<div class="section" id="ktil-map-filename">
+<span id="ktilmap"></span><h3>ktil map filename<a class="headerlink" href="#ktil-map-filename" title="Permalink to this heading"></a></h3>
+<p>The filename of the ktil map. The ktil map contains values for ktil, the transport
+capacity coefficient for tillage erosion (see <a class="reference internal" href="watem-sedem.html#tillageerosionmodel"><span class="std std-ref">here:</span></a> for
+more information about ktil an the tillage erosion model).
+This raster is only mandatory when <a class="reference internal" href="model_extensions.html#createktil"><span class="std std-ref">Create ktil map = 0</span></a>.</p>
+<p>The datatype of the ktil map is integer16.</p>
+</div>
 <div class="section" id="sewer-map-filename">
 <span id="sewermapfile"></span><h3>Sewer map filename<a class="headerlink" href="#sewer-map-filename" title="Permalink to this heading"></a></h3>
-<p>The filename of the sewer map. This raster is only mandatory if the <a class="reference internal" href="choices.html#choicespage"><span class="std std-ref">Model Choice</span></a>:
-<a class="reference internal" href="choices.html#inlcudesewers"><span class="std std-ref">Include sewers</span></a> is set to 1.</p>
+<p>The filename of the sewer map. This raster is only mandatory if the <a class="reference internal" href="model_extensions.html#extensionspage"><span class="std std-ref">Model extension</span></a>:
+<a class="reference internal" href="model_extensions.html#inlcudesewers"><span class="std std-ref">Include sewers</span></a> is set to 1.</p>
 <p>All pixels in the sewer map should contain values between 0 and 1. These values represent
 the fraction of the outgoing sediment in this pixel that is entering the sewer
 system. A pixel with value 0 can be interpreted as a pixel where no sewer is
@@ -283,54 +333,53 @@ present.</p>
 <div class="section" id="tillage-direction-filename">
 <span id="tildirmap"></span><h3>Tillage direction filename<a class="headerlink" href="#tillage-direction-filename" title="Permalink to this heading"></a></h3>
 <p>The filename of a raster with the tillage direction in degrees to the North.
-This raster is only mandatory if the <a class="reference internal" href="choices.html#choicespage"><span class="std std-ref">Model Choice</span></a>:
-<a class="reference internal" href="choices.html#includetillagedirection"><span class="std std-ref">Include tillage direction</span></a> is set to 1.</p>
+This raster is only mandatory if the :ref:<a class="reference internal" href="model_extensions.html#extensionspage"><span class="std std-ref">Model extension</span></a>:
+<a class="reference internal" href="model_extensions.html#includetillagedirection"><span class="std std-ref">Include tillage direction</span></a> is set to 1.</p>
 <p>The datatype of the tillage direction raster is float32.</p>
 </div>
 <div class="section" id="oriented-roughness-filename">
 <span id="orientedroughnessmap"></span><h3>Oriented roughness filename<a class="headerlink" href="#oriented-roughness-filename" title="Permalink to this heading"></a></h3>
 <p>The filename of a raster with the oriented roughness. The oriented roughness is the
 height of the microrelief (in cm) due to ploughing. This raster is only mandatory
-if the <a class="reference internal" href="choices.html#choicespage"><span class="std std-ref">Model Choice</span></a>: <a class="reference internal" href="choices.html#includetillagedirection"><span class="std std-ref">Include tillage direction</span></a> is set to 1.</p>
+if the <a class="reference internal" href="model_extensions.html#extensionspage"><span class="std std-ref">Model extension</span></a>:
+<a class="reference internal" href="model_extensions.html#includetillagedirection"><span class="std std-ref">Include tillage direction</span></a> is set to 1.</p>
 <p>The datatype of the oriented roughness raster is float32.</p>
 </div>
 <div class="section" id="buffer-map-filename">
 <span id="buffermap"></span><h3>Buffer map filename<a class="headerlink" href="#buffer-map-filename" title="Permalink to this heading"></a></h3>
-<p>The filename of the buffer map. This raster is only mandatory if the <a class="reference internal" href="choices.html#choicespage"><span class="std std-ref">Model Choice</span></a>:
-<a class="reference internal" href="choices.html#includebuffers"><span class="std std-ref">Include buffers</span></a> is set to 1.</p>
+<p>The filename of the buffer map. This raster is only mandatory if the <a class="reference internal" href="model_extensions.html#extensionspage"><span class="std std-ref">Model extension</span></a>:
+<a class="reference internal" href="model_extensions.html#includebuffers"><span class="std std-ref">Include buffers</span></a> is set to 1.</p>
 <p>The figure below shows an example of a buffermap with three buffer basins. The outlet
 of every buffer is marked with a buffer id (1, 2 and 3 in this example). The
 other pixels belonging to the buffer get the
 <a class="reference internal" href="#bufferdata"><span class="std std-ref">extension id</span></a>. All other pixels in the raster are set to
 zero.</p>
-<div class="figure align-center" id="id12">
+<div class="figure align-center" id="id11">
 <img alt="_images/buffermap.png" src="_images/buffermap.png" />
-<p class="caption"><span class="caption-text">Example of a buffermap with three buffer basins.</span><a class="headerlink" href="#id12" title="Permalink to this image"></a></p>
+<p class="caption"><span class="caption-text">Example of a buffermap with three buffer basins.</span><a class="headerlink" href="#id11" title="Permalink to this image"></a></p>
 </div>
 <p>The datatype of the buffermap is integer16.</p>
 </div>
 <div class="section" id="ditch-map-filename">
 <span id="ditchmap"></span><h3>Ditch map filename<a class="headerlink" href="#ditch-map-filename" title="Permalink to this heading"></a></h3>
-<p>The filename of the conductive ditch map. This raster is only mandatory if the <a class="reference internal" href="choices.html#choicespage"><span class="std std-ref">Model Choice</span></a>:
-<a class="reference internal" href="choices.html#includeditches"><span class="std std-ref">Include ditches</span></a> is set to 1.
+<p>The filename of the conductive ditch map.
+This raster is only mandatory if the <a class="reference internal" href="model_extensions.html#extensionspage"><span class="std std-ref">Model extension</span></a>:
+<a class="reference internal" href="model_extensions.html#includeditches"><span class="std std-ref">Include ditches</span></a> is set to 1.
 See <a class="reference internal" href="#routingmap"><span class="std std-ref">further</span></a> for
 more information on how to create these routing maps.</p>
 </div>
 <div class="section" id="dam-map-filename">
 <span id="dammap"></span><h3>Dam map filename<a class="headerlink" href="#dam-map-filename" title="Permalink to this heading"></a></h3>
-<p>The filename of the conductive dam map. This raster is only mandatory if the <a class="reference internal" href="choices.html#choicespage"><span class="std std-ref">Model Choice</span></a>:
-<a class="reference internal" href="choices.html#includedams"><span class="std std-ref">Include dams</span></a> is set to 1. See <a class="reference internal" href="#routingmap"><span class="std std-ref">further</span></a> for more
+<p>The filename of the conductive dam map.
+This raster is only mandatory if the <a class="reference internal" href="model_extensions.html#extensionspage"><span class="std std-ref">Model extension</span></a>:
+<a class="reference internal" href="model_extensions.html#includedams"><span class="std std-ref">Include dams</span></a> is set to 1. See <a class="reference internal" href="#routingmap"><span class="std std-ref">further</span></a> for more
 information on how to create these routing map.</p>
-</div>
-<div class="section" id="p-factor-map-filename">
-<span id="pmap"></span><h3>P factor map filename<a class="headerlink" href="#p-factor-map-filename" title="Permalink to this heading"></a></h3>
-<p>The filename of the <a class="reference internal" href="watem-sedem.html#pfactor"><span class="std std-ref">P-factor</span></a> map.</p>
-<p>The datatype of the raster is float32.</p>
 </div>
 <div class="section" id="river-segment-filename">
 <span id="riversegmentfile"></span><h3>River segment filename<a class="headerlink" href="#river-segment-filename" title="Permalink to this heading"></a></h3>
-<p>The filename of the river segment map. This raster is only mandatory if the <a class="reference internal" href="choices.html#choicespage"><span class="std std-ref">Model Choice</span></a>:
-<a class="reference internal" href="choices.html#outputsegment"><span class="std std-ref">Output per river segment</span></a> is set to 1.</p>
+<p>The filename of the river segment map.
+This raster is only mandatory if the <a class="reference internal" href="model_extensions.html#extensionspage"><span class="std std-ref">Model extension</span></a>:
+<a class="reference internal" href="model_extensions.html#outputsegment"><span class="std std-ref">Output per river segment</span></a> is set to 1.</p>
 <p>A river segment is a part of the river (usually a part between two confluences of the river
 with its tributaries). If detailed information about the sediment
 entering every river segment is requested, the user can make use of the river segment map option.</p>
@@ -339,24 +388,24 @@ entering every river segment is requested, the user can make use of the river se
 belongs to. Every segment has a unique (integer) id.</p>
 <p>In the figure below, an example of a river segment map with seven segments is
 given. All pixels which are no river pixels get the value 0.</p>
-<div class="figure align-center" id="id13">
+<div class="figure align-center" id="id12">
 <img alt="_images/riversegment.png" src="_images/riversegment.png" />
-<p class="caption"><span class="caption-text">Example of a river segment map with seven segments.</span><a class="headerlink" href="#id13" title="Permalink to this image"></a></p>
+<p class="caption"><span class="caption-text">Example of a river segment map with seven segments.</span><a class="headerlink" href="#id12" title="Permalink to this image"></a></p>
 </div>
 <p>The datatype of the river segment map is integer16.</p>
 </div>
 <div class="section" id="adjectant-segments">
 <span id="adjsegments"></span><h3>adjectant segments<a class="headerlink" href="#adjectant-segments" title="Permalink to this heading"></a></h3>
 <p>The filename of the Tab separated table with adjectant  river segments. T
-his table is only mandatory if the <a class="reference internal" href="choices.html#choicespage"><span class="std std-ref">Model Choice</span></a>:
-<a class="reference internal" href="choices.html#riverrouting"><span class="std std-ref">River routing</span></a> is set to 1. The table consists of two columns:
+his table is only mandatory if the <a class="reference internal" href="model_extensions.html#extensionspage"><span class="std std-ref">Model extension</span></a>:
+<a class="reference internal" href="model_extensions.html#riverrouting"><span class="std std-ref">River routing</span></a> is set to 1. The table consists of two columns:
 ‘from’ and ‘to’. Every row indicates a connection between two segments:
 segment <em>from</em> flows into segment <em>to</em>. The values in the table represent the
 segment-ids of the <a class="reference internal" href="#riversegmentfile"><span class="std std-ref">river segment map</span></a>.</p>
 <p>Based on the example <a class="reference internal" href="#riversegmentfile"><span class="std std-ref">river segment map</span></a>, an example
 table with adjectant river segments is displayed below:</p>
-<table class="docutils align-center" id="id14">
-<caption><span class="caption-text">example adjectant segment file</span><a class="headerlink" href="#id14" title="Permalink to this table"></a></caption>
+<table class="docutils align-center" id="id13">
+<caption><span class="caption-text">example adjectant segment file</span><a class="headerlink" href="#id13" title="Permalink to this table"></a></caption>
 <colgroup>
 <col style="width: 63%" />
 <col style="width: 38%" />
@@ -391,8 +440,8 @@ table with adjectant river segments is displayed below:</p>
 <div class="section" id="upstream-segments">
 <span id="upstrsegments"></span><h3>upstream segments<a class="headerlink" href="#upstream-segments" title="Permalink to this heading"></a></h3>
 <p>The filename of the tab separated table with upstream segments.
-This table is only mandatory if the <a class="reference internal" href="choices.html#choicespage"><span class="std std-ref">Model Choice</span></a>:
-<a class="reference internal" href="choices.html#riverrouting"><span class="std std-ref">River routing</span></a> is set to 1. In the table three columns are present, namely:</p>
+This table is only mandatory if the <a class="reference internal" href="model_extensions.html#extensionspage"><span class="std std-ref">Model extension</span></a>:
+<a class="reference internal" href="model_extensions.html#riverrouting"><span class="std std-ref">River routing</span></a> is set to 1. In the table three columns are present, namely:</p>
 <ul class="simple">
 <li><p>edge (integer): segment id of the receiving segment</p></li>
 <li><p>upstream edge (integer): segment id of one of the upstream segments of <em>edge</em></p></li>
@@ -402,8 +451,8 @@ upstream segment should flow into two downstream segments adding up to 1.</p></l
 </ul>
 <p>Based on the example <a class="reference internal" href="#riversegmentfile"><span class="std std-ref">river segment map</span></a>, an example
 table with adjectant upstream segments is displayed below:</p>
-<table class="docutils align-center" id="id15">
-<caption><span class="caption-text">example upstream segment file</span><a class="headerlink" href="#id15" title="Permalink to this table"></a></caption>
+<table class="docutils align-center" id="id14">
+<caption><span class="caption-text">example upstream segment file</span><a class="headerlink" href="#id14" title="Permalink to this table"></a></caption>
 <colgroup>
 <col style="width: 17%" />
 <col style="width: 47%" />
@@ -461,13 +510,14 @@ table with adjectant upstream segments is displayed below:</p>
 </div>
 <div class="section" id="river-routing-filename">
 <span id="riverroutingmap"></span><h3>river routing filename<a class="headerlink" href="#river-routing-filename" title="Permalink to this heading"></a></h3>
-<p>The filename of the river routing map. This raster is only mandatory if the <a class="reference internal" href="choices.html#choicespage"><span class="std std-ref">Model Choice</span></a>:
-<a class="reference internal" href="choices.html#riverrouting"><span class="std std-ref">River routing = 1</span></a> is set to 1.
+<p>The filename of the river routing map. This raster is only mandatory if the
+<a class="reference internal" href="model_extensions.html#extensionspage"><span class="std std-ref">Model extension</span></a>:
+<a class="reference internal" href="model_extensions.html#riverrouting"><span class="std std-ref">River routing = 1</span></a> is set to 1.
 See <a class="reference internal" href="#routingmap"><span class="std std-ref">further</span></a> for more information on how to create these routing maps.</p>
 </div>
 <div class="section" id="routing-maps">
 <span id="routingmap"></span><h3>Routing maps<a class="headerlink" href="#routing-maps" title="Permalink to this heading"></a></h3>
-<p>The routing algorithm of CN-WS can take into account rasters that impose a
+<p>The routing algorithm of WaTEM/SEDEM can take into account rasters that impose a
 single-flow routing along a line element in the
 landscape as defined by the user. The
 <a class="reference internal" href="#riverroutingmap"><span class="std std-ref">river routing map</span></a>, <a class="reference internal" href="#ditchmap"><span class="std std-ref">ditchmap</span></a> and
@@ -478,40 +528,25 @@ direction which the routing should follow. A pixel set to zero has no imposed ro
 upper cardinal cell, pixel X will get value 1 in the routing map. If the routing
 must flow from X to the lower left pixel, X will get value 6. All other
 directions are set in the same way, according to the numbers in the figure.</p>
-<div class="figure align-center" id="id16">
+<div class="figure align-center" id="id15">
 <img alt="_images/direction_routingmap.png" src="_images/direction_routingmap.png" />
-<p class="caption"><span class="caption-text">Definition of flow routing.</span><a class="headerlink" href="#id16" title="Permalink to this image"></a></p>
+<p class="caption"><span class="caption-text">Definition of flow routing.</span><a class="headerlink" href="#id15" title="Permalink to this image"></a></p>
 </div>
 <p>An example of a routing map with two imposed routings is given here:</p>
-<div class="figure align-center" id="id17">
+<div class="figure align-center" id="id16">
 <img alt="_images/routingmap.png" src="_images/routingmap.png" />
-<p class="caption"><span class="caption-text">Example of a routing map</span><a class="headerlink" href="#id17" title="Permalink to this image"></a></p>
+<p class="caption"><span class="caption-text">Example of a routing map</span><a class="headerlink" href="#id16" title="Permalink to this image"></a></p>
 </div>
 <p>The datatype of a routing raster is integer16.</p>
 </div>
 <div class="section" id="cn-map-filename">
 <span id="cnmap"></span><h3>CN map filename<a class="headerlink" href="#cn-map-filename" title="Permalink to this heading"></a></h3>
-<p>The filename of the CN map. This raster is only mandatory if the <a class="reference internal" href="choices.html#choicespage"><span class="std std-ref">Model Choice</span></a>:
-<a class="reference internal" href="choices.html#simple"><span class="std std-ref">Only WS</span></a> is set to 0.</p>
+<p>The filename of the CN map. This raster is only mandatory if the
+<a class="reference internal" href="model_extensions.html#extensionspage"><span class="std std-ref">Model extension</span></a>:
+<a class="reference internal" href="model_extensions.html#simple"><span class="std std-ref">Curve number</span></a> is set to 1.</p>
 <p>This raster contains a CN-value (between 0 and 100) for every pixel in the model
 domain.</p>
 <p>The datatype of the CN raster is float32.</p>
-</div>
-<div class="section" id="outlet-map-filename">
-<span id="outletmap"></span><h3>Outlet map filename<a class="headerlink" href="#outlet-map-filename" title="Permalink to this heading"></a></h3>
-<p>The filename of the outlet map. This raster is only mandatory if the <a class="reference internal" href="choices.html#choicespage"><span class="std std-ref">Model Choice</span></a>:
-<a class="reference internal" href="choices.html#manualoutlet"><span class="std std-ref">Manual outlet selection</span></a> is set to 1.</p>
-<p>Every user defined river outlet needs a unique id (integers). The outlet pixels are given the value
-of their respective id’s in the outlet map. All other pixels have a value equal to zero.</p>
-<p>The datatype of the outlet map is integer16.</p>
-</div>
-<div class="section" id="ktil-map-filename">
-<span id="ktilmap"></span><h3>ktil map filename<a class="headerlink" href="#ktil-map-filename" title="Permalink to this heading"></a></h3>
-<p>The filename of the ktil map. The ktil map contains values for ktil, the transport
-capacity coefficient for tillage erosion (see <a class="reference internal" href="watem-sedem.html#tillageerosionmodel"><span class="std std-ref">here:</span></a> for
-more information about ktil an the tillage erosion model).
-This raster is only mandatory when <a class="reference internal" href="choices.html#createktil"><span class="std std-ref">Create ktil map = 0</span></a>.</p>
-<p>The datatype of the ktil map is integer16.</p>
 </div>
 <div class="section" id="rainfall-filename">
 <span id="rainfallfile"></span><h3>Rainfall filename<a class="headerlink" href="#rainfall-filename" title="Permalink to this heading"></a></h3>
@@ -520,71 +555,28 @@ This raster is only mandatory when <a class="reference internal" href="choices.h
 time in minutes (starting from 0), the second column contains the rainfall in mm.
 The rainfall of the first timestamp must be zero.</p>
 </div>
-<div class="section" id="k-factor-filename">
-<span id="kmap"></span><h3>K factor filename<a class="headerlink" href="#k-factor-filename" title="Permalink to this heading"></a></h3>
-<p>The filename of the <a class="reference internal" href="watem-sedem.html#kfactor"><span class="std std-ref">K-factor</span></a> map. The soil erodibility factor or
-K-factor of the RUSLE-equation for every pixel in the model domain is stored in
-the K-factor map (in <span class="math notranslate nohighlight">\(kg.h.MJ^{-1}.mm^{-1}\)</span>).</p>
-<p>The datatype of the K-factor raster map is integer16.</p>
 </div>
-<div class="section" id="c-factor-map-filename">
-<span id="cmap"></span><h3>C factor map filename<a class="headerlink" href="#c-factor-map-filename" title="Permalink to this heading"></a></h3>
-<p>The filename  of the <a class="reference internal" href="watem-sedem.html#cfactor"><span class="std std-ref">C-factor</span></a> map. This raster contains values
-between 0 and 1 and represent the dimensionless C-factor in the RUSLE equation.
-Pixels outside the model domain are set to zero.</p>
-<p>The datatype of the outlet map is float32.</p>
+<div class="section" id="parameters">
+<span id="variables"></span><h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h2>
+<p>This section describes all parameters that can be used to make a basic WaTEM/SEDEM run,
+without the use of any extensions.</p>
+<div class="section" id="max-kernel">
+<span id="maxkernel"></span><h3>max kernel<a class="headerlink" href="#max-kernel" title="Permalink to this heading"></a></h3>
+<p>If the routing algorithm of WaTEM/SEDEM encounters a local minimum in the
+<a class="reference internal" href="#dtmmap"><span class="std std-ref">digital elevation model,</span></a> it will not find a lower, neighbouring
+pixel. Therefore, the algorithm is set to search for a lower pixel within a search
+radius around the local minimum (see <a class="reference internal" href="routing.html#onetarget"><span class="std std-ref">routing algorithm</span></a>.
+The variable ‘max kernel’ defines this search
+radius expressed in pixels.</p>
 </div>
-<div class="section" id="ktc-map-filename">
-<span id="ktcmap"></span><h3>ktc map filename<a class="headerlink" href="#ktc-map-filename" title="Permalink to this heading"></a></h3>
-<p>The filename of the ktc map, a raster with transport capacity coefficients. This
-raster is only mandatory if the <a class="reference internal" href="choices.html#choicespage"><span class="std std-ref">Model Choice</span></a>: <a class="reference internal" href="choices.html#createktc"><span class="std std-ref">Create ktc map</span></a> is set to 1.</p>
-<p>The dataype of the ktc map is float32.</p>
-</div>
-</div>
-<div class="section" id="variables">
-<span id="id3"></span><h2>Variables<a class="headerlink" href="#variables" title="Permalink to this heading"></a></h2>
-<div class="section" id="sewer-exit">
-<span id="sewerexit"></span><h3>Sewer exit<a class="headerlink" href="#sewer-exit" title="Permalink to this heading"></a></h3>
-<p>An integer value between 0 and 100 that represents the fration of the discharge
-that enters the sewer system. It is only applied on pixels where the
-<a class="reference internal" href="#sewermapfile"><span class="std std-ref">sewer map</span></a> is not zero.</p>
-<p>This variable is only mandatory if the <a class="reference internal" href="choices.html#choicespage"><span class="std std-ref">Model Choice</span></a>: <a class="reference internal" href="choices.html#simple"><span class="std std-ref">Only WS = 0</span></a> is set to 0.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>1. The values stored in the <a class="reference internal" href="#sewermapfile"><span class="std std-ref">sewer map</span></a> are not used in the
-discharge calculations of the CN module. The sewer map is only used to check
-if a pixel is a sewer or not.</p>
-<p>2. In the sediment calculations, a different trapping efficiency for every sewer
-pixel in the model can be defined, but this is not the case in the discharge
-calculations.</p>
-</div>
-</div>
-<div class="section" id="clay-content-parent-material">
-<span id="claycontent"></span><h3>Clay content parent material<a class="headerlink" href="#clay-content-parent-material" title="Permalink to this heading"></a></h3>
-<p>The average fraction of clay in the soil of the modelled catchment (in
-decimals; float32, between 0 and 1). This variable is only mandatory if the <a class="reference internal" href="choices.html#choicespage"><span class="std std-ref">Model Choice</span></a>:
-<a class="reference internal" href="choices.html#estimclay"><span class="std std-ref">estimate clay content</span></a> is set to 1.</p>
-</div>
-<div class="section" id="day-antecedent-rainfall">
-<span id="dayrainfall"></span><h3>5-day antecedent rainfall<a class="headerlink" href="#day-antecedent-rainfall" title="Permalink to this heading"></a></h3>
-<p>The total rainfall (in mm) during 5 days before the start of the rainfall event.
-This variable is only mandatory if the <a class="reference internal" href="choices.html#choicespage"><span class="std std-ref">Model Choice</span></a>: <a class="reference internal" href="choices.html#simple"><span class="std std-ref">Only WS = 0</span></a> is set to 0.</p>
-</div>
-<div class="section" id="stream-velocity">
-<span id="streamvelocity"></span><h3>stream velocity<a class="headerlink" href="#stream-velocity" title="Permalink to this heading"></a></h3>
-<p>As float, only mandatory if the <a class="reference internal" href="choices.html#choicespage"><span class="std std-ref">Model Choice</span></a>: <a class="reference internal" href="choices.html#simple"><span class="std std-ref">Only WS = 0</span></a> is set to 0.</p>
-</div>
-<div class="section" id="alpha">
-<span id="id4"></span><h3>alpha<a class="headerlink" href="#alpha" title="Permalink to this heading"></a></h3>
-<p>Alpha (as float) is a calibration parameter of the CN-model. It determines the relation
-between the runoff and the rainfall intensity. This parameter is only mandatory if the
-<a class="reference internal" href="choices.html#choicespage"><span class="std std-ref">Model Choice</span></a>: <a class="reference internal" href="choices.html#simple"><span class="std std-ref">Only WS</span></a> is set to 0.</p>
-</div>
-<div class="section" id="beta">
-<span id="id5"></span><h3>beta<a class="headerlink" href="#beta" title="Permalink to this heading"></a></h3>
-<p>Beta (as float) is a calibration parameter of the CN-model. It determines the
-relation between the runoff and the antecedent rainfall. This parameter is
-only mandatory if the <a class="reference internal" href="choices.html#choicespage"><span class="std std-ref">Model Choice</span></a>: <a class="reference internal" href="choices.html#simple"><span class="std std-ref">Only WS</span></a> is set to 0.</p>
+<div class="section" id="max-kernel-river">
+<span id="maxkernelriver"></span><h3>max kernel river<a class="headerlink" href="#max-kernel-river" title="Permalink to this heading"></a></h3>
+<p>If the routing algorithm of WaTEM/SEDEM encounters a local minimum in the
+<a class="reference internal" href="#dtmmap"><span class="std std-ref">digital elevation model</span></a> it will not find a lower, neighbouring
+pixel. If this pixel is a river pixel, the routing will remain in the river and
+the routing will look within a search radius around the local minimum with the
+same landuse (river). The variable ‘max kernel river’ defines the search radius
+expressed in pixels.</p>
 </div>
 <div class="section" id="bulk-density">
 <span id="bulkdensity"></span><h3>bulk density<a class="headerlink" href="#bulk-density" title="Permalink to this heading"></a></h3>
@@ -603,80 +595,8 @@ This input is mandatory, except <em>except</em> if the <a class="reference inter
 <p>1. the user must make sure that the R and C-factor are calculated for the same
 time span (year, month, week,…).</p>
 <p>2. R-factor values can be computed with the
-<a class="reference external" href="https://cn-ws.github.io/rfactor/">R-factor Python package</a>.</p>
+<a class="reference external" href="https://watem-sedem.github.io/rfactor/">R-factor Python package</a>.</p>
 </div>
-</div>
-<div class="section" id="ls-correction">
-<span id="lscorrection"></span><h3>LS correction<a class="headerlink" href="#ls-correction" title="Permalink to this heading"></a></h3>
-<p>Notebaert et al. (2005) describes that changes in spatial resolution have major
-scaling effects on topographic variables like the <a class="reference internal" href="watem-sedem.html#lsfactor"><span class="std std-ref">L and S-factor</span></a>.</p>
-<p>The LS-factor will
-decrease on a higher resolution (smaller pixels, more height information) and
-extreme LS values will occur more. To be able to compare the calculated RUSLE
-values on different spatial resolutions, a correction factor can be calculated.
-This correction factor <span class="math notranslate nohighlight">\(LS_{cor}\)</span> is calculated as:</p>
-<div class="math notranslate nohighlight">
-\[LS_{cor} = \frac{LS_{avg,x}}{LS_{avg,y}}\]</div>
-<p>with</p>
-<ul class="simple">
-<li><p><span class="math notranslate nohighlight">\(LS_{avg,x}\)</span>: the average LS factor in a catchment on resolution x</p></li>
-<li><p><span class="math notranslate nohighlight">\(LS_{avg,y}\)</span>: the average LS factor in a catchment on resolution y</p></li>
-</ul>
-<p>The input variable is a float (default value 1, i.e. no correction).
-The LS-factor in the model is divided by this variable.</p>
-</div>
-<div class="section" id="number-of-buffers">
-<span id="nrbuffers"></span><h3>Number of buffers<a class="headerlink" href="#number-of-buffers" title="Permalink to this heading"></a></h3>
-<p>The amount of buffers present in the <a class="reference internal" href="#buffermap"><span class="std std-ref">buffer map</span></a> is given in
-this parameter (as integer). The parameter is only mandatory if the
-<a class="reference internal" href="choices.html#choicespage"><span class="std std-ref">Model Choice</span></a>: <a class="reference internal" href="choices.html#includebuffers"><span class="std std-ref">Include buffers</span></a> is set to 1.</p>
-</div>
-<div class="section" id="number-of-forced-routing">
-<span id="nrforcedrouting"></span><h3>Number of forced routing<a class="headerlink" href="#number-of-forced-routing" title="Permalink to this heading"></a></h3>
-<p>The amount of locations where the user wants to force the routing is given by this
-parameter (as integer). This variable defines the number of
-<a class="reference internal" href="#forcedroutingdata"><span class="std std-ref">forced routing sections</span></a> in the
-ini-file.
-This variable is only mandatory if the <a class="reference internal" href="choices.html#choicespage"><span class="std std-ref">Model Choice</span></a>:
-<a class="reference internal" href="choices.html#forcerouting"><span class="std std-ref">Force Routing</span></a> is set to 1.</p>
-</div>
-<div class="section" id="ktc-low">
-<span id="ktclow"></span><h3>ktc low<a class="headerlink" href="#ktc-low" title="Permalink to this heading"></a></h3>
-<p>ktc low is the transport capacity coefficient (as float) for pixels with a low
-erosion potential (see <a class="reference internal" href="#ktclimit"><span class="std std-ref">ktc limit</span></a>).
-The parameter is only mandatory if the <a class="reference internal" href="choices.html#choicespage"><span class="std std-ref">Model Choice</span></a>:
-<a class="reference internal" href="choices.html#createktc"><span class="std std-ref">Create ktc map</span></a> is set to 1.</p>
-</div>
-<div class="section" id="ktc-high">
-<span id="ktchigh"></span><h3>ktc high<a class="headerlink" href="#ktc-high" title="Permalink to this heading"></a></h3>
-<p>ktc high is the transport capacity coefficient (float) for pixels with a high
-erosion potential (see <a class="reference internal" href="#ktclimit"><span class="std std-ref">ktc limit</span></a>). The parameter is only mandatory if
-the <a class="reference internal" href="choices.html#choicespage"><span class="std std-ref">Model Choice</span></a>: <a class="reference internal" href="choices.html#createktc"><span class="std std-ref">Create ktc map</span></a> is set to 1.</p>
-</div>
-<div class="section" id="ktc-limit">
-<span id="ktclimit"></span><h3>ktc limit<a class="headerlink" href="#ktc-limit" title="Permalink to this heading"></a></h3>
-<p>ktc limit is a threshold value (float). Pixels with a C-factor higher than
-ktc limit will get the value of <a class="reference internal" href="#ktchigh"><span class="std std-ref">ktc high</span></a> in the ktc map,
-pixels with a C-factor below ktc limit, will get <a class="reference internal" href="#ktclow"><span class="std std-ref">ktc low</span></a> in the
-ktc map. This parameter is only mandatory if the <a class="reference internal" href="choices.html#choicespage"><span class="std std-ref">Model Choice</span></a>
-<a class="reference internal" href="choices.html#createktc"><span class="std std-ref">Create ktc map</span></a> is set to 1 or <a class="reference internal" href="choices.html#calibrate"><span class="std std-ref">Calibrate = 1</span></a></p>
-</div>
-<div class="section" id="ktil-default">
-<span id="ktildefault"></span><h3>ktil default<a class="headerlink" href="#ktil-default" title="Permalink to this heading"></a></h3>
-<p>The transport capacity coefficient for tillage erosion on agricultural fields.
-This value (as integer) should be expressed in <span class="math notranslate nohighlight">\(kg.m{-1}.year{-1}\)</span>.
-A recommended default value is <span class="math notranslate nohighlight">\(600 kg.m{-1}.year{-1}\)</span>.</p>
-<p>This parameter is only mandatory if the <a class="reference internal" href="choices.html#choicespage"><span class="std std-ref">Model Choice</span></a>:
-<a class="reference internal" href="choices.html#createktil"><span class="std std-ref">Create ktil map</span></a> is set to 1.</p>
-</div>
-<div class="section" id="ktil-threshold">
-<span id="ktilthres"></span><h3>ktil threshold<a class="headerlink" href="#ktil-threshold" title="Permalink to this heading"></a></h3>
-<p>ktil threshold is a float between 0 and 1. Pixels with a C-factor higher than
-ktil threshold will get the value of <a class="reference internal" href="#ktildefault"><span class="std std-ref">ktil default</span></a> in the ktil map,
-pixels with a C-factor below ktil threshold, are set to 0. A typical value for
-ktil threshold is 0.01.</p>
-<p>This parameter is only mandatory if the <a class="reference internal" href="choices.html#choicespage"><span class="std std-ref">Model Choice</span></a>:
-<a class="reference internal" href="choices.html#createktil"><span class="std std-ref">Create ktil map</span></a> is set to 1.</p>
 </div>
 <div class="section" id="parcel-connectivity-cropland">
 <span id="parcelconncrop"></span><h3>Parcel connectivity cropland<a class="headerlink" href="#parcel-connectivity-cropland" title="Permalink to this heading"></a></h3>
@@ -709,7 +629,7 @@ land cover ‘forest’ (<a class="reference internal" href="#prcmap"><span clas
 <span id="parceltrapppingcrop"></span><h3>Parcel trapping efficiency cropland<a class="headerlink" href="#parcel-trapping-efficiency-cropland" title="Permalink to this heading"></a></h3>
 <p>The parcel trapping efficiency (PTEF) is used to compute the upstream area for
 every raster pixel (<span class="math notranslate nohighlight">\(A_{pixel}\)</span>) (see also <a class="reference internal" href="choices.html#lmodel"><span class="std std-ref">L-model</span></a>). The PTEF also
-takes the land-use, defined by <a class="reference internal" href="#prcmap"><span class="std std-ref">the CN-WS parcels raster</span></a>, into account.
+takes the land-use, defined by <a class="reference internal" href="#prcmap"><span class="std std-ref">the parcels raster</span></a>, into account.
 This then, contributes to the upstream area by a
 given percentage (100-PTEF).</p>
 <p>The parcel trapping efficiency for cropland is
@@ -731,6 +651,117 @@ efficiency forest’ (in % as integer e.g. PTEF = 25). For a definition of the P
 efficiency, see
 <a class="reference internal" href="#parceltrapppingcrop"><span class="std std-ref">Parcel trapping efficiency cropland</span></a></p>
 </div>
+</div>
+<div class="section" id="parameters-extensions">
+<h2>Parameters extensions<a class="headerlink" href="#parameters-extensions" title="Permalink to this heading"></a></h2>
+<p>This section contains all parameters that are used within model extensions. For every
+parameter in this section a description is given about the meaning of the parameter and
+when to use it (i.e. in combination with which extension).</p>
+<div class="section" id="ktc-low">
+<span id="ktclow"></span><h3>ktc low<a class="headerlink" href="#ktc-low" title="Permalink to this heading"></a></h3>
+<p>ktc low is the transport capacity coefficient (as float) for pixels with a low
+erosion potential (see <a class="reference internal" href="#ktclimit"><span class="std std-ref">ktc limit</span></a>).
+The parameter is only mandatory if the <a class="reference internal" href="model_extensions.html#extensionspage"><span class="std std-ref">Model extension</span></a>:
+<a class="reference internal" href="model_extensions.html#createktc"><span class="std std-ref">Create ktc map</span></a> is set to 1.</p>
+</div>
+<div class="section" id="ktc-high">
+<span id="ktchigh"></span><h3>ktc high<a class="headerlink" href="#ktc-high" title="Permalink to this heading"></a></h3>
+<p>ktc high is the transport capacity coefficient (float) for pixels with a high
+erosion potential (see <a class="reference internal" href="#ktclimit"><span class="std std-ref">ktc limit</span></a>). The parameter is only mandatory if
+the <a class="reference internal" href="model_extensions.html#extensionspage"><span class="std std-ref">Model extension</span></a>: <a class="reference internal" href="model_extensions.html#createktc"><span class="std std-ref">Create ktc map</span></a> is set to 1.</p>
+</div>
+<div class="section" id="ktc-limit">
+<span id="ktclimit"></span><h3>ktc limit<a class="headerlink" href="#ktc-limit" title="Permalink to this heading"></a></h3>
+<p>ktc limit is a threshold value (float). Pixels with a C-factor higher than
+ktc limit will get the value of <a class="reference internal" href="#ktchigh"><span class="std std-ref">ktc high</span></a> in the ktc map,
+pixels with a C-factor below ktc limit, will get <a class="reference internal" href="#ktclow"><span class="std std-ref">ktc low</span></a> in the
+ktc map. This parameter is only mandatory if the <a class="reference internal" href="model_extensions.html#extensionspage"><span class="std std-ref">Model extension</span></a>
+<a class="reference internal" href="model_extensions.html#createktc"><span class="std std-ref">Create ktc map</span></a> is set to 1 or <a class="reference internal" href="model_extensions.html#calibrate"><span class="std std-ref">Calibrate = 1</span></a></p>
+</div>
+<div class="section" id="ktil-default">
+<span id="ktildefault"></span><h3>ktil default<a class="headerlink" href="#ktil-default" title="Permalink to this heading"></a></h3>
+<p>The transport capacity coefficient for tillage erosion on agricultural fields.
+This value (as integer) should be expressed in <span class="math notranslate nohighlight">\(kg.m{-1}.year{-1}\)</span>.
+A recommended default value is <span class="math notranslate nohighlight">\(600 kg.m{-1}.year{-1}\)</span>.</p>
+<p>This parameter is only mandatory if the <a class="reference internal" href="model_extensions.html#extensionspage"><span class="std std-ref">Model extension</span></a>:
+<a class="reference internal" href="model_extensions.html#createktil"><span class="std std-ref">Create ktil map</span></a> is set to 1.</p>
+</div>
+<div class="section" id="ktil-threshold">
+<span id="ktilthres"></span><h3>ktil threshold<a class="headerlink" href="#ktil-threshold" title="Permalink to this heading"></a></h3>
+<p>ktil threshold is a float between 0 and 1. Pixels with a C-factor higher than
+ktil threshold will get the value of <a class="reference internal" href="#ktildefault"><span class="std std-ref">ktil default</span></a> in the ktil map,
+pixels with a C-factor below ktil threshold, are set to 0. A typical value for
+ktil threshold is 0.01.</p>
+<p>This parameter is only mandatory if the <a class="reference internal" href="model_extensions.html#extensionspage"><span class="std std-ref">Model extension</span></a>:
+<a class="reference internal" href="model_extensions.html#createktil"><span class="std std-ref">Create ktil map</span></a> is set to 1.</p>
+</div>
+<div class="section" id="ls-correction">
+<span id="lscorrection"></span><h3>LS correction<a class="headerlink" href="#ls-correction" title="Permalink to this heading"></a></h3>
+<p>Notebaert et al. (2005) describes that changes in spatial resolution have major
+scaling effects on topographic variables like the <a class="reference internal" href="watem-sedem.html#lsfactor"><span class="std std-ref">L and S-factor</span></a>.</p>
+<p>The LS-factor will
+decrease on a higher resolution (smaller pixels, more height information) and
+extreme LS values will occur more. To be able to compare the calculated RUSLE
+values on different spatial resolutions, a correction factor can be calculated.
+This correction factor <span class="math notranslate nohighlight">\(LS_{cor}\)</span> is calculated as:</p>
+<div class="math notranslate nohighlight">
+\[LS_{cor} = \frac{LS_{avg,x}}{LS_{avg,y}}\]</div>
+<p>with</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(LS_{avg,x}\)</span>: the average LS factor in a catchment on resolution x</p></li>
+<li><p><span class="math notranslate nohighlight">\(LS_{avg,y}\)</span>: the average LS factor in a catchment on resolution y</p></li>
+</ul>
+<p>The input variable is a float (default value 1, i.e. no correction).
+The LS-factor in the model is divided by this variable.</p>
+</div>
+<div class="section" id="sewer-exit">
+<span id="sewerexit"></span><h3>Sewer exit<a class="headerlink" href="#sewer-exit" title="Permalink to this heading"></a></h3>
+<p>An integer value between 0 and 100 that represents the fration of the discharge
+that enters the sewer system. It is only applied on pixels where the
+<a class="reference internal" href="#sewermapfile"><span class="std std-ref">sewer map</span></a> is not zero.</p>
+<p>This variable is only mandatory if the <a class="reference internal" href="model_extensions.html#extensionspage"><span class="std std-ref">Model extensions</span></a>:
+<a class="reference internal" href="model_extensions.html#simple"><span class="std std-ref">Curve number</span></a> and <a class="reference internal" href="model_extensions.html#inlcudesewers"><span class="std std-ref">Include sewers</span></a> are set to 1.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>1. The values stored in the <a class="reference internal" href="#sewermapfile"><span class="std std-ref">sewer map</span></a> are not used in the
+discharge calculations of the CN module. The sewer map is only used to check
+if a pixel is a sewer or not.</p>
+<p>2. In the sediment calculations, a different trapping efficiency for every sewer
+pixel in the model can be defined, but this is not the case in the discharge
+calculations.</p>
+</div>
+</div>
+<div class="section" id="clay-content-parent-material">
+<span id="claycontent"></span><h3>Clay content parent material<a class="headerlink" href="#clay-content-parent-material" title="Permalink to this heading"></a></h3>
+<p>The average fraction of clay in the soil of the modelled catchment (in
+decimals; float32, between 0 and 1). This variable is only mandatory if the
+<a class="reference internal" href="model_extensions.html#extensionspage"><span class="std std-ref">Model extension</span></a>: <a class="reference internal" href="model_extensions.html#estimclay"><span class="std std-ref">estimate clay content</span></a> is set
+to 1.</p>
+</div>
+<div class="section" id="day-antecedent-rainfall">
+<span id="dayrainfall"></span><h3>5-day antecedent rainfall<a class="headerlink" href="#day-antecedent-rainfall" title="Permalink to this heading"></a></h3>
+<p>The total rainfall (in mm) during 5 days before the start of the rainfall event.
+This variable is only mandatory if the <a class="reference internal" href="model_extensions.html#extensionspage"><span class="std std-ref">Model extension</span></a>:
+<a class="reference internal" href="model_extensions.html#simple"><span class="std std-ref">Curve number</span></a> is set to 1.</p>
+</div>
+<div class="section" id="stream-velocity">
+<span id="streamvelocity"></span><h3>stream velocity<a class="headerlink" href="#stream-velocity" title="Permalink to this heading"></a></h3>
+<p>As float, only mandatory if the <a class="reference internal" href="model_extensions.html#extensionspage"><span class="std std-ref">Model extension</span></a>:
+<a class="reference internal" href="model_extensions.html#simple"><span class="std std-ref">Curve number</span></a> is set to 1.</p>
+</div>
+<div class="section" id="alpha">
+<span id="id3"></span><h3>alpha<a class="headerlink" href="#alpha" title="Permalink to this heading"></a></h3>
+<p>Alpha (as float) is a calibration parameter of the CN-model. It determines the relation
+between the runoff and the rainfall intensity. This parameter is only mandatory if the
+<a class="reference internal" href="model_extensions.html#extensionspage"><span class="std std-ref">Model extension</span></a>: <a class="reference internal" href="model_extensions.html#simple"><span class="std std-ref">Curve number</span></a> is set to 1.</p>
+</div>
+<div class="section" id="beta">
+<span id="id4"></span><h3>beta<a class="headerlink" href="#beta" title="Permalink to this heading"></a></h3>
+<p>Beta (as float) is a calibration parameter of the CN-model. It determines the
+relation between the runoff and the antecedent rainfall. This parameter is
+only mandatory if the <a class="reference internal" href="model_extensions.html#extensionspage"><span class="std std-ref">Model extension</span></a>:
+<a class="reference internal" href="model_extensions.html#simple"><span class="std std-ref">Curve number</span></a> is set to 1.</p>
+</div>
 <div class="section" id="desired-timestep-for-model">
 <span id="timestep"></span><h3>Desired timestep for model<a class="headerlink" href="#desired-timestep-for-model" title="Permalink to this heading"></a></h3>
 <p>Runoff calculations are done using this timestep. The given timestep must comply
@@ -738,14 +769,18 @@ with the Courant Criterium. This criterium limits the timestep as a function of
 the spatial resolution (m) and the stream velocity of water over land (m/s).</p>
 <div class="math notranslate nohighlight">
 \[dt \leq \frac{spatial   resolution}{stream   velocity}\]</div>
-<p>The parameter is an integer value expressed in minutes.</p>
+<p>The parameter is an integer value expressed in minutes and is
+only mandatory if the <a class="reference internal" href="model_extensions.html#extensionspage"><span class="std std-ref">Model extension</span></a>:
+<a class="reference internal" href="model_extensions.html#simple"><span class="std std-ref">Curve number</span></a> is set to 1.</p>
 </div>
 <div class="section" id="final-timestep-output">
 <span id="finaltimestep"></span><h3>Final timestep output<a class="headerlink" href="#final-timestep-output" title="Permalink to this heading"></a></h3>
 <p>The user has the option to resample the time-dependent output (runoff, sediment
 concentration, sediment load) to a different timestep than the
 <a class="reference internal" href="#timestep"><span class="std std-ref">Desired timestep</span></a> of the model. The parameter is an integer value
-expressed in minutes.</p>
+expressed in minutes and is
+only mandatory if the <a class="reference internal" href="model_extensions.html#extensionspage"><span class="std std-ref">Model extension</span></a>:
+<a class="reference internal" href="model_extensions.html#simple"><span class="std std-ref">Curve number</span></a> is set to 1.</p>
 </div>
 <div class="section" id="endtime-model">
 <span id="endtime"></span><h3>Endtime model<a class="headerlink" href="#endtime-model" title="Permalink to this heading"></a></h3>
@@ -759,32 +794,33 @@ This, in order to ensure that the
 whole runoff peak is modelled. After the first simulation, the model user
 can shorten the endtime to optimise the calculation time of the model.</p>
 </div>
+<p>This parameter is
+only mandatory if the <a class="reference internal" href="model_extensions.html#extensionspage"><span class="std std-ref">Model extension</span></a>:
+<a class="reference internal" href="model_extensions.html#simple"><span class="std std-ref">Curve number</span></a> is set to 1.</p>
 </div>
-<div class="section" id="max-kernel">
-<span id="maxkernel"></span><h3>max kernel<a class="headerlink" href="#max-kernel" title="Permalink to this heading"></a></h3>
-<p>If the routing algorithm of CN-WS encounters a local minimum in the
-<a class="reference internal" href="#dtmmap"><span class="std std-ref">digital elevation model,</span></a> it will not find a lower, neighbouring
-pixel. Therefore, the algorithm is set to search for a lower pixel within a search
-radius around the local minimum (see <a class="reference internal" href="routing.html#onetarget"><span class="std std-ref">routing algorithm</span></a>.
-The variable ‘max kernel’ defines this search
-radius expressed in pixels.</p>
+<div class="section" id="number-of-buffers">
+<span id="nrbuffers"></span><h3>Number of buffers<a class="headerlink" href="#number-of-buffers" title="Permalink to this heading"></a></h3>
+<p>The amount of buffers present in the <a class="reference internal" href="#buffermap"><span class="std std-ref">buffer map</span></a> is given in
+this parameter (as integer). The parameter is only mandatory if the
+<a class="reference internal" href="model_extensions.html#extensionspage"><span class="std std-ref">Model extension</span></a>: <a class="reference internal" href="model_extensions.html#includebuffers"><span class="std std-ref">Include buffers</span></a> is set
+to 1.</p>
 </div>
-<div class="section" id="max-kernel-river">
-<span id="maxkernelriver"></span><h3>max kernel river<a class="headerlink" href="#max-kernel-river" title="Permalink to this heading"></a></h3>
-<p>If the routing algorithm of CN-WS encounters a local minimum in the
-<a class="reference internal" href="#dtmmap"><span class="std std-ref">digital elevation model</span></a> it will not find a lower, neighbouring
-pixel. If this pixel is a river pixel, the routing will remain in the river and
-the routing will look within a search radius around the local minimum with the
-same landuse (river). The variable ‘max kernel river’ defines the search radius
-expressed in pixels.</p>
+<div class="section" id="number-of-forced-routing">
+<span id="nrforcedrouting"></span><h3>Number of forced routing<a class="headerlink" href="#number-of-forced-routing" title="Permalink to this heading"></a></h3>
+<p>The amount of locations where the user wants to force the routing is given by this
+parameter (as integer). This variable defines the number of
+<a class="reference internal" href="#forcedroutingdata"><span class="std std-ref">forced routing sections</span></a> in the
+ini-file.
+This variable is only mandatory if the <a class="reference internal" href="model_extensions.html#extensionspage"><span class="std std-ref">Model extension</span></a>:
+<a class="reference internal" href="model_extensions.html#forcerouting"><span class="std std-ref">Force Routing</span></a> is set to 1.</p>
 </div>
 </div>
 <div class="section" id="bufferdata">
-<span id="id6"></span><h2>Bufferdata<a class="headerlink" href="#bufferdata" title="Permalink to this heading"></a></h2>
+<span id="id5"></span><h2>Bufferdata<a class="headerlink" href="#bufferdata" title="Permalink to this heading"></a></h2>
 <p>The inclusion of erosion control buffers is based on input rasters and
 buffer parameters. How these input rasters should be created, is described
-<a class="reference internal" href="#buffermap"><span class="std std-ref">here</span></a>. If the <a class="reference internal" href="choices.html#choicespage"><span class="std std-ref">Model Choice</span></a>:
-<a class="reference internal" href="choices.html#includebuffers"><span class="std std-ref">include buffers</span></a> is set to 1,
+<a class="reference internal" href="#buffermap"><span class="std std-ref">here</span></a>. If the <a class="reference internal" href="model_extensions.html#extensionspage"><span class="std std-ref">Model extension</span></a>:
+<a class="reference internal" href="model_extensions.html#includebuffers"><span class="std std-ref">include buffers</span></a> is set to 1,
 the buffer parameters must be defined in the ini-file in the following manner:</p>
 <div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[Buffer 1]</span>
 <span class="na">volume</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">329.0</span>
@@ -830,13 +866,15 @@ are given the value of the extension id, except the outlet pixel.</p></li>
 </div></blockquote>
 <p>The extension id and trapping efficiency are mandatory for every buffer.
 The other buffer parameters are only mandatory when the the CN-module seperately
-(i.e. the <a class="reference internal" href="choices.html#choicespage"><span class="std std-ref">Model Choice</span></a>: <a class="reference internal" href="choices.html#simple"><span class="std std-ref">Only WS</span></a> is set to 0).</p>
+(i.e. the <a class="reference internal" href="choices.html#choicespage"><span class="std std-ref">Model Choice</span></a>: <a class="reference internal" href="model_extensions.html#simple"><span class="std std-ref">Curve number</span></a> is set to 1).</p>
+<p>Note that the amount of sections with
+buffer data has to be defined with the variable <a class="reference internal" href="#nrbuffers"><span class="std std-ref">Number of buffers</span></a>.</p>
 <p>A full description of the CN calculation in buffers can be found
 <a class="reference internal" href="cn-ws.html#bufferbasins"><span class="std std-ref">here</span></a>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The definition of the buffer extension id equal to buffer id + 16384,
-implies only 16384 can be modelled.</p>
+implies only 16384 buffer basins can be modelled.</p>
 </div>
 </div>
 <div class="section" id="forced-routing-data">
@@ -864,8 +902,8 @@ forced routing vectors has to be defined with the variable
 </div>
 <div class="section" id="calibration-data">
 <span id="calibrationparamters"></span><h2>Calibration data<a class="headerlink" href="#calibration-data" title="Permalink to this heading"></a></h2>
-<p>The following parameters are only mandatory if the <a class="reference internal" href="choices.html#choicespage"><span class="std std-ref">Model Choice</span></a>:
-<a class="reference internal" href="choices.html#calibrate"><span class="std std-ref">Calibrate</span></a> is set to 1 .
+<p>The following parameters are only mandatory if the <a class="reference internal" href="model_extensions.html#extensionspage"><span class="std std-ref">Model extension</span></a>:
+<a class="reference internal" href="model_extensions.html#calibrate"><span class="std std-ref">Calibrate</span></a> is set to 1 .
 These parameters must be grouped in a seperate section in the ini-file with the
 header ‘Calibration’, as shown here:</p>
 <div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[Calibration]</span>
@@ -877,27 +915,27 @@ header ‘Calibration’, as shown here:</p>
 </pre></div>
 </div>
 <div class="section" id="ktchigh-lower">
-<span id="id7"></span><h3>KTcHigh_lower<a class="headerlink" href="#ktchigh-lower" title="Permalink to this heading"></a></h3>
+<span id="id6"></span><h3>KTcHigh_lower<a class="headerlink" href="#ktchigh-lower" title="Permalink to this heading"></a></h3>
 <p>The lower range of ktc-high values in the calibration mode. The value is a float
 and by default 5.</p>
 </div>
 <div class="section" id="ktchigh-upper">
-<span id="id8"></span><h3>KTcHigh_upper<a class="headerlink" href="#ktchigh-upper" title="Permalink to this heading"></a></h3>
+<span id="id7"></span><h3>KTcHigh_upper<a class="headerlink" href="#ktchigh-upper" title="Permalink to this heading"></a></h3>
 <p>The upper range of ktc-high values in the calibration mode. The value is a float
 and by default 40.</p>
 </div>
 <div class="section" id="ktclow-lower">
-<span id="id9"></span><h3>KTcLow_lower<a class="headerlink" href="#ktclow-lower" title="Permalink to this heading"></a></h3>
+<span id="id8"></span><h3>KTcLow_lower<a class="headerlink" href="#ktclow-lower" title="Permalink to this heading"></a></h3>
 <p>The lower range of ktc-low values in the calibration mode. The value is a float
 and by default 1.</p>
 </div>
 <div class="section" id="ktclow-upper">
-<span id="id10"></span><h3>KTcLow_upper<a class="headerlink" href="#ktclow-upper" title="Permalink to this heading"></a></h3>
+<span id="id9"></span><h3>KTcLow_upper<a class="headerlink" href="#ktclow-upper" title="Permalink to this heading"></a></h3>
 <p>The upper range of ktc-low values in the calibration mode. The value is a float
 and by default 20.</p>
 </div>
 <div class="section" id="steps">
-<span id="id11"></span><h3>steps<a class="headerlink" href="#steps" title="Permalink to this heading"></a></h3>
+<span id="id10"></span><h3>steps<a class="headerlink" href="#steps" title="Permalink to this heading"></a></h3>
 <p>The amount of steps between the lower and upper values for ktc low and ktc high
 during a calibration run. This value is an integer and by default 12.</p>
 </div>
@@ -914,7 +952,7 @@ Departement Omgeving, Brussel, 53 pp.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="choices.html" class="btn btn-neutral float-left" title="Model choices" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="model_extensions.html" class="btn btn-neutral float-left" title="Model extensions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="output.html" class="btn btn-neutral float-right" title="Model output" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

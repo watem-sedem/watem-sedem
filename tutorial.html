@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tutorial &mdash; cn-ws  documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <title>Tutorial &mdash; WaTEM/SEDEM  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -32,7 +34,7 @@
           
           
           <a href="index.html" class="icon icon-home">
-            cn-ws
+            WaTEM/SEDEM
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -52,7 +54,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#a-basic-model-run-with-watem-sedem">1. A basic model run with WaTEM/SEDEM</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#get-more-model-output">2. Get more model output!</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#adding-buffer-basins">3. Adding buffer basins</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#use-the-cn-module">4. Use the CN module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#use-the-cn-extension">4. Use the CN extension</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#more-examples">5. More examples?</a></li>
 </ul>
 </li>
@@ -69,7 +71,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">cn-ws</a>
+          <a href="index.html">WaTEM/SEDEM</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -92,7 +94,7 @@
              
   <div class="section" id="tutorial">
 <span id="id1"></span><h1>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this heading"></a></h1>
-<p>In this tutorial we will give a short overview on how the CN-WS model can be configured for practical use.
+<p>In this tutorial we will give a short overview on how the model can be configured for practical use.
 On the one hand, we will explain how the configuration file (<code class="docutils literal notranslate"><span class="pre">.ini</span></code>-file) should be made, and on the other hand, how the prefered model options are enabled or
 disabled.</p>
 <div class="section" id="getting-started">
@@ -103,20 +105,20 @@ in order to edit the configuration file (<code class="docutils literal notransla
 tutorial we will not explain how to use GIS, nor how to make the
 input rasters, these are basic GIS-tasks and these are explained in several
 tutorials online. We encourage readers to start the tutorial by using
-the tutorial_1.ini file, and adapt this file according to the exercise. This file can be found on the github page of CN-WS, under the folder: <a class="reference external" href="https://github.com/cn-ws/cn-ws/tree/master/docs/tutorials">docs/tutorials</a>. The
+the tutorial_1.ini file, and adapt this file according to the exercise. This file can be found on the github page of CN-WS, under the folder: <a class="reference external" href="https://github.com/watem-sedem/watem-sedem/tree/master/docs/tutorials">docs/tutorials</a>. The
 other tutorial ini-files in the tutorials folder can be used to check your
 adaptations.</p>
 <p>Then, you need to download the latest release of the model. Pre-build binaries
 exist for windows and linux. It is also possible to build the model from source.
 See <a class="reference internal" href="installation.html#install"><span class="std std-ref">the installation page</span></a> for more information.</p>
 <p>All example model runs described below make use of the test dataset which is
-available in the repository under <a class="reference external" href="https://github.com/cn-ws/cn-ws/tree/master/testfiles/molenbeek">testfiles/molenbeek/modelinput</a>.</p>
+available in the repository under <a class="reference external" href="https://github.com/watem-sedem/watem-sedem/tree/master/testfiles/molenbeek">testfiles/molenbeek/modelinput</a>.</p>
 </div>
 <div class="section" id="a-basic-model-run-with-watem-sedem">
 <span id="tutsection1"></span><h2>1. A basic model run with WaTEM/SEDEM<a class="headerlink" href="#a-basic-model-run-with-watem-sedem" title="Permalink to this heading"></a></h2>
-<p>As a first exercise in the tutorial we will make a basic model run with the
-WaTEM/SEDEM module of CN-WS. The basic model run includes only mandatory input files.
-This run does not use advanced <a class="reference internal" href="usage.html#usage"><span class="std std-ref">model options</span></a>. All
+<p>As a first exercise in the tutorial we will make a basic model run with
+WaTEM/SEDEM. The basic model run includes only mandatory input files.
+This run does not use advanced <a class="reference internal" href="usage.html#usage"><span class="std std-ref">model extensions</span></a>. All
 keywords used in an ini-file are explained in the <a class="reference internal" href="usage.html#usage"><span class="std std-ref">reference</span></a>.</p>
 <div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[Working directories]</span>
 <span class="na">input directory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">../testfiles/molenbeek/modelinput/</span>
@@ -129,11 +131,7 @@ keywords used in an ini-file are explained in the <a class="reference internal" 
 <span class="na">c factor map filename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">C_spring_2018_molenbeek_s1.rst</span>
 <span class="na">k factor filename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">K3_CNWS_molenbeek.rst</span>
 
-<span class="k">[User Choices]</span>
-<span class="na">only WS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1</span>
-<span class="na">use r factor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1</span>
-
-<span class="k">[Variables]</span>
+<span class="k">[Parameters]</span>
 <span class="na">ktc low</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">3</span>
 <span class="na">ktc high</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">12</span>
 <span class="na">ktc limit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">0.01</span>
@@ -148,13 +146,13 @@ keywords used in an ini-file are explained in the <a class="reference internal" 
 </div>
 <p>After navigating to the folder where you have build the model, or installed the binary, you can
 use your terminal to run the model, as follows:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>cn_ws<span class="w"> </span><span class="s2">&quot;&lt;path to cn-ws repository&gt;/cn_ws/docs/tutorials/tutorial_1.ini&quot;</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>cn_ws<span class="w"> </span><span class="s2">&quot;&lt;path to watem-sedem repository&gt;/watem_sedem/docs/tutorials/tutorial_1.ini&quot;</span>
 </pre></div>
 </div>
 <p>When the model run starts you will see:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CN_WS</span> <span class="n">model</span>
 
-<span class="n">Inifile</span> <span class="p">:</span> <span class="o">&lt;</span><span class="n">path</span> <span class="n">to</span> <span class="n">cn</span><span class="o">-</span><span class="n">ws</span> <span class="n">repository</span><span class="o">&gt;/</span><span class="n">cn_ws</span><span class="o">/</span><span class="n">docs</span><span class="o">/</span><span class="n">tutorials</span><span class="o">/</span><span class="n">tutorial_1</span><span class="o">.</span><span class="n">ini</span>
+<span class="n">Inifile</span> <span class="p">:</span> <span class="o">&lt;</span><span class="n">path</span> <span class="n">to</span> <span class="n">watem</span><span class="o">-</span><span class="n">sedem</span> <span class="n">repository</span><span class="o">&gt;/</span><span class="n">watem_sedem</span><span class="o">/</span><span class="n">docs</span><span class="o">/</span><span class="n">tutorials</span><span class="o">/</span><span class="n">tutorial_1</span><span class="o">.</span><span class="n">ini</span>
 </pre></div>
 </div>
 <p>After the completion of the calculations, the model reports the execution time:</p>
@@ -186,13 +184,13 @@ depth.</p>
 much sediment enters the river pixels (Sediment leaving the catchment, via the
 river). The sediment leaving the catchment, not via the river is (mostly) a small
 fraction of the sediment that leaves the catchment via the borders (to nodata pixels).</p>
-<p>In the ini-file of this tutorial we have not defined any outlets
-(<a class="reference internal" href="choices.html#manualoutlet"><span class="std std-ref">Manual outlet selection = 0</span></a>). Therefore, the
-model made an outlet itself: the model looked for the lowest (river) pixel treated
-in the routing algorithm. If you have a look in the model input folder, you will see
+<p>It is important to note that the model made a catchment outlet itself: the model looked
+for the lowest (river) pixel treated in the routing algorithm and assigned this pixel
+as the model domain outlet. All the sediment is routed through the landscape to this pixel
+If you have a look in the model input folder, you will see
 that <a class="reference internal" href="input.html#outletmap"><span class="std std-ref">Outlet.rst</span></a> appeared. All pixels in this raster have
 value ‘0’ except one pixel with value 1. This pixel is the outlet of the model.</p>
-<p>Congratulations! You just finished your first model calculation with CN-WS!</p>
+<p>Congratulations! You just finished your first model calculation with WaTEM/SEDEM!</p>
 </div>
 <div class="section" id="get-more-model-output">
 <h2>2. Get more model output!<a class="headerlink" href="#get-more-model-output" title="Permalink to this heading"></a></h2>
@@ -203,15 +201,14 @@ occurs, we can enable <a class="reference internal" href="output.html#modeloutpu
 we need to add a section in the ini-file with the desired output:
 <a class="reference internal" href="choices.html#writesedexport"><span class="std std-ref">write sediment export</span></a> and
 <a class="reference internal" href="choices.html#writerwatereros"><span class="std std-ref">write water erosion</span></a>.</p>
-<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[Output maps]</span>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[Output]</span>
 <span class="na">write sediment export</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1</span>
 <span class="na">write water erosion</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1</span>
 </pre></div>
 </div>
 <p>To do so, you can make a copy of the <cite>tutorial_1.ini</cite>-file in a directory
 of your choice, adapt the ini-file with the lines stated above, and rename the file to ‘tutorial_2.ini’.
-Then the adapted model can be ran using
-.. code-block:</p>
+Then the adapted model can be ran using</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>cn_ws $your_favorite_folder/tutorial_2.ini
 </pre></div>
 </div>
@@ -219,7 +216,7 @@ Then the adapted model can be ran using
 ‘<cite>your_favorite_folder</cite>’ is the folder where you saved the <cite>tutorial_2.ini</cite>-
 file. If unsure, you can always check and run the reference <cite>tutorial_2
 .ini</cite>-file present in the repository with:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cn_ws</span> <span class="o">&lt;</span><span class="n">path</span> <span class="n">to</span> <span class="n">cn</span><span class="o">-</span><span class="n">ws</span> <span class="n">repository</span><span class="o">&gt;/</span><span class="n">cn_ws</span><span class="o">/</span><span class="n">docs</span><span class="o">/</span><span class="n">tutorials</span><span class="o">/</span><span class="n">tutorial_2</span><span class="o">.</span><span class="n">ini</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">watem_sedem</span> <span class="o">&lt;</span><span class="n">path</span> <span class="n">to</span> <span class="n">watem</span><span class="o">-</span><span class="n">sedem</span> <span class="n">repository</span><span class="o">&gt;/</span><span class="n">watem</span><span class="o">-</span><span class="n">sedem</span><span class="o">/</span><span class="n">docs</span><span class="o">/</span><span class="n">tutorials</span><span class="o">/</span><span class="n">tutorial_2</span><span class="o">.</span><span class="n">ini</span>
 </pre></div>
 </div>
 <p>The following output rasters will emerge in the output folder:</p>
@@ -258,13 +255,14 @@ about all the possibilities!</p>
 </div>
 <div class="section" id="adding-buffer-basins">
 <h2>3. Adding buffer basins<a class="headerlink" href="#adding-buffer-basins" title="Permalink to this heading"></a></h2>
-<p>In the previous tutorials we learned how to make a model run with WS and how to
+<p>In the previous tutorials we learned how to run WaTEM-SEDEM and how to
 enable or disable model output. In this tutorial we will explain how to enable
-one of the <em>advanced</em> features of CN-WS. The example will make use of the
-<a class="reference internal" href="choices.html#includebuffers"><span class="std std-ref">Include Buffers</span></a> option, but the same principles can be
-used for all other options!</p>
+one of the <em>advanced</em> features of the model, the so-called model extensions.
+The example will make use of the
+<a class="reference internal" href="model_extensions.html#includebuffers"><span class="std std-ref">Include Buffers</span></a> extension, but the same principles can be
+used for all other extensions!</p>
 <p>Buffer basins are infrastructural features that trap sediment. As described in
-<a class="reference internal" href="choices.html#includebuffers"><span class="std std-ref">the reference</span></a>. Two extra parameters are needed in the
+<a class="reference internal" href="model_extensions.html#includebuffers"><span class="std std-ref">the reference</span></a>. Two extra parameters are needed in the
 ini-file if we want to enable this feature: the
 <a class="reference internal" href="input.html#buffermap"><span class="std std-ref">buffer map filename</span></a> and  the
 <a class="reference internal" href="input.html#nrbuffers"><span class="std std-ref">number of buffers</span></a>.</p>
@@ -282,12 +280,7 @@ the buffer map filename and the number of buffers the ini-file looks like this:<
 <span class="na">k factor filename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">K3_CNWS_molenbeek.rst</span>
 <span class="hll"><span class="na">buffer map filename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">buffers_molenbeek_s1.rst</span>
 </span>
-<span class="k">[User Choices]</span>
-<span class="na">only WS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1</span>
-<span class="na">use r factor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1</span>
-<span class="hll"><span class="na">include buffers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1</span>
-</span>
-<span class="k">[Variables]</span>
+<span class="k">[Parameters]</span>
 <span class="na">ktc low</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">3</span>
 <span class="na">ktc high</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">12</span>
 <span class="na">ktc limit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">0.01</span>
@@ -298,12 +291,17 @@ the buffer map filename and the number of buffers the ini-file looks like this:<
 <span class="na">parcel trapping efficiency pasture</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">75</span>
 <span class="na">bulk density</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1350</span>
 <span class="na">r factor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1250</span>
-<span class="hll"><span class="na">number of buffers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">31</span>
-</span>
-<span class="k">[Output maps]</span>
+
+<span class="k">[Output]</span>
 <span class="na">write sediment export</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1</span>
 <span class="na">write water erosion</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1</span>
-</pre></div>
+
+<span class="hll"><span class="k">[Extensions]</span>
+</span><span class="hll"><span class="na">include buffers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1</span>
+</span><span class="hll">
+</span><span class="hll"><span class="k">[Parameters extensions]</span>
+</span><span class="hll"><span class="na">number of buffers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">31</span>
+</span></pre></div>
 </div>
 <p>If we run the model with this configuration (tutorial_3a.ini) we get:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CN_WS</span> <span class="n">model</span>
@@ -317,7 +315,7 @@ the buffer map filename and the number of buffers the ini-file looks like this:<
 <p>Oh no, an error has occured. What does this mean? This error indicates that
 the input data in the configuration file is not correct. We read that the
 trapping efficiency value of Buffer 1 is missing or is given in a wrong data
-format. On the <a class="reference internal" href="choices.html#includebuffers"><span class="std std-ref">Model choices</span></a> page, more information can be found.
+format. On the <a class="reference internal" href="model_extensions.html#includebuffers"><span class="std std-ref">Model choices</span></a> page, more information can be found.
 There, you find that we need to define the trapping
 efficiency, the extension id and buffer id for every buffer in the configuration file (see
 <a class="reference internal" href="input.html#bufferdata"><span class="std std-ref">here</span></a>). This has not yet been done here. So, we need to add 31 sections,
@@ -334,12 +332,7 @@ one for every buffer, with these data (see also tutorials/tutorial_3b.ini):</p>
 <span class="na">k factor filename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">K3_CNWS_molenbeek.rst</span>
 <span class="na">buffer map filename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">buffers_molenbeek_s1.rst</span>
 
-<span class="k">[User Choices]</span>
-<span class="na">only WS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1</span>
-<span class="na">use r factor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1</span>
-<span class="na">include buffers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1</span>
-
-<span class="k">[Variables]</span>
+<span class="k">[Parameters]</span>
 <span class="na">ktc low</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">3</span>
 <span class="na">ktc high</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">12</span>
 <span class="na">ktc limit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">0.01</span>
@@ -350,11 +343,16 @@ one for every buffer, with these data (see also tutorials/tutorial_3b.ini):</p>
 <span class="na">parcel trapping efficiency pasture</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">75</span>
 <span class="na">bulk density</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1350</span>
 <span class="na">r factor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1250</span>
-<span class="na">number of buffers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">31</span>
 
-<span class="k">[Output maps]</span>
+<span class="k">[Output]</span>
 <span class="na">write sediment export</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1</span>
 <span class="na">write water erosion</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1</span>
+
+<span class="k">[Extensions]</span>
+<span class="na">include buffers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1</span>
+
+<span class="k">[Parameters extensions]</span>
+<span class="na">number of buffers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">31</span>
 
 <span class="k">[Buffer 1]</span>
 <span class="na">trapping efficiency</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">75</span>
@@ -502,23 +500,24 @@ in this model run than in the previous model run (see <a class="reference intern
 of buffers in this model run is a good measure to reduce the sediment input
 in the rivers.</p>
 </div>
-<div class="section" id="use-the-cn-module">
-<h2>4. Use the CN module<a class="headerlink" href="#use-the-cn-module" title="Permalink to this heading"></a></h2>
-<p>To use the complete CN-WS model, we need to disable the
-<a class="reference internal" href="choices.html#simple"><span class="std std-ref">Only WS option</span></a> we used in the previous tutorials.</p>
-<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[User Choices]</span>
-<span class="na">Only WS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">0</span>
+<div class="section" id="use-the-cn-extension">
+<h2>4. Use the CN extension<a class="headerlink" href="#use-the-cn-extension" title="Permalink to this heading"></a></h2>
+<p>To use the CN-extension of WaTEM-SEDEM, we need to enable it with the
+<a class="reference internal" href="model_extensions.html#simple"><span class="std std-ref">curve number option</span></a>.</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[Extensions]</span>
+<span class="na">Curve number</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1</span>
 </pre></div>
 </div>
-<p>Using the CN-part implies we need to define additional input in the ini-file.
-At the bottom of the <a class="reference internal" href="choices.html#simple"><span class="std std-ref">Only WS</span></a>, the mandatory input is for running the full CN-WS model is described. We extend
+<p>Using the CN-extension implies we need to define additional input in the ini-file.
+At the bottom of the <a class="reference internal" href="model_extensions.html#simple"><span class="std std-ref">curve number</span></a>-section, the mandatory input is for running the
+WaTEM-SEDEM with the CN model extension is described. We extend
 the ini-file with this input:</p>
 <div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[Files]</span>
 <span class="na">...</span>
 <span class="na">cn map filename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">CNmap.rst</span>
 <span class="na">rainfall filename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">LS09_15B_N_event_1_dummy.txt</span>
 <span class="na">...</span>
-<span class="k">[Variables]</span>
+<span class="k">[Parameters extensions]</span>
 <span class="na">...</span>
 <span class="na">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">0.4</span>
 <span class="na">beta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">0.05</span>
@@ -531,8 +530,9 @@ the ini-file with this input:</p>
 </div>
 <p>The CN module will create some additional <a class="reference internal" href="output.html#cnoutput"><span class="std std-ref">output</span></a>. Most output is
 automatically generated by enabling the CN module, however, it is posible to write
-an extra output raster, namely, the ‘rainfall excess’ raster (Remap.rst). This can be done by adding following line to the ini-file:</p>
-<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[Output maps]</span>
+an extra output raster, namely, the ‘rainfall excess’ raster (Remap.rst).
+This can be done by adding following line to the ini-file:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[Output]</span>
 <span class="na">...</span>
 <span class="na">write rainfall excess</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1</span>
 <span class="na">...</span>
@@ -542,7 +542,7 @@ an extra output raster, namely, the ‘rainfall excess’ raster (Remap.rst). Th
 </div>
 <div class="section" id="more-examples">
 <h2>5. More examples?<a class="headerlink" href="#more-examples" title="Permalink to this heading"></a></h2>
-<p>Do you want to experiment even more with the options of CN-WS? The test files
+<p>Do you want to experiment even more with the options of WaTEM-SEDEM? The test files
 in the repository contain an example project where following options are used:</p>
 <ul class="simple">
 <li><p>river routing</p></li>
@@ -551,8 +551,8 @@ in the repository contain an example project where following options are used:</
 <li><p>create ktc map = 0</p></li>
 <li><p>…</p></li>
 </ul>
-<p>Have a look at them, and using the principles explained above you should be able to get these
-working!</p>
+<p>Have a look at them, and using the principles explained above you should be able to get
+these working!</p>
 </div>
 </div>
 

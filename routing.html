@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Routing &mdash; cn-ws  documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <title>Routing &mdash; WaTEM/SEDEM  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -20,8 +22,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="CN-WS" href="cn-ws.html" />
-    <link rel="prev" title="Run-off model: Curve Number" href="curve-number.html" /> 
+    <link rel="next" title="Routing in case of extensions" href="routing-extension.html" />
+    <link rel="prev" title="Overview of formulas and units in WaTEM/SEDEM" href="formulas-units.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -33,7 +35,7 @@
           
           
           <a href="index.html" class="icon icon-home">
-            cn-ws
+            WaTEM/SEDEM
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -46,19 +48,22 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="model.html">Model Description</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="watem-sedem.html">Erosion/sediment model: WaTEM/SEDEM</a></li>
-<li class="toctree-l2"><a class="reference internal" href="curve-number.html">Run-off model: Curve Number</a></li>
+<li class="toctree-l2"><a class="reference internal" href="watem-sedem.html">WaTEM/SEDEM: a spatially distributed soil erosion and sediment delivery model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="formulas-units.html">Overview of formulas and units in WaTEM/SEDEM</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Routing</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#definitions">Definitions</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#flow-scheme-of-the-routing-algorithm">Flow scheme of the routing algorithm</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#references">References</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#definitions">Definitions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#flow-scheme-of-the-routing-algorithm">Flow scheme of the routing algorithm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#one-and-two-target-routing">One- and two-target routing</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#two-target-routing">Two-target routing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#one-target-routing">One-target routing</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#upstream-area-calculation">Upstream area calculation</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="cn-ws.html">CN-WS</a></li>
-<li class="toctree-l2"><a class="reference internal" href="formulas-units.html">Overview of formulas and units</a></li>
-<li class="toctree-l2"><a class="reference internal" href="history.html">A short history of CN-WS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routing-extension.html">Routing in case of extensions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cn-ws.html">Curve Number extension</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html">A short history of WaTEM/SEDEM</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="usage.html">Model Usage</a></li>
@@ -77,7 +82,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">cn-ws</a>
+          <a href="index.html">WaTEM/SEDEM</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -91,8 +96,8 @@
               <a href="https://github.com/cn-ws/cn-ws/blob/master/docs/routing.rst" class="fa fa-github"> Edit on GitHub</a>
       </li>
   </ul><div class="rst-breadcrumbs-buttons" role="navigation" aria-label="Sequential page navigation">
-        <a href="curve-number.html" class="btn btn-neutral float-left" title="Run-off model: Curve Number" accesskey="p"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="cn-ws.html" class="btn btn-neutral float-right" title="CN-WS" accesskey="n">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="formulas-units.html" class="btn btn-neutral float-left" title="Overview of formulas and units in WaTEM/SEDEM" accesskey="p"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="routing-extension.html" class="btn btn-neutral float-right" title="Routing in case of extensions" accesskey="n">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
   </div>
   <hr/>
 </div>
@@ -109,9 +114,9 @@ from a source pixel to one or two target pixel(s).</p>
 the source and <strong>potential</strong> target pixels, and the <strong>land cover</strong> class of
 the source and targets. In addition, it varies as a function of presence of
 conductive dams, conductive ditches and buffers (and forced routing, see
-further). The land cover is defined in the following table
+<a class="reference internal" href="routing-extension.html#routing-extensions"><span class="std std-ref">here</span></a>). The land cover is defined in the following table
 (see also <a class="reference internal" href="input.html#prcmap"><span class="std std-ref">here</span></a>). The codes (pixel id) listed in this table are
-used to define the routing in CN-WS. An important distinction is made between
+used to define the routing in WaTEM/SEDEM. An important distinction is made between
 the land cover of (a) target(s) being equal to the class <cite>river</cite> (-1) and not
 being equal to the class <cite>river</cite> (non-river pixels). Do note that in this
 manual the non-river pixels are sometimes referred to as <cite>land pixels</cite>.</p>
@@ -163,26 +168,16 @@ neighbouring pixels of the source pixel in the cardinal directions.</p></li>
 <li><p>The <strong>ordinal</strong> (or intercardinal) direction is defined by the northeast,
 southeast, southwest and northwest direction. <strong>Ordinal pixels</strong> are defined
 by the four neighbouring pixels of the source pixel in the ordinal directions.</p></li>
-<li><p><strong>Routing maps</strong> can be defined in rivers, conductive buffer dams and
-conductive ditches, see in the section <a class="reference internal" href="#riverrouting-exp"><span class="std std-ref">below</span></a>. In
-these routing maps specific routing directions can be defined,</p></li>
 <li><p><strong>Adjacent pixels</strong> are defined by the <strong>eight</strong> neighbouring pixels of the
 source pixel.</p></li>
 <li><p><strong>One-target</strong> routing is defined in the <strong>cardinal</strong> and
 <strong>ordinal</strong> directions (and any direction in between for
 <a class="reference internal" href="#onetarget"><span class="std std-ref">jumps</span></a>) while <strong>two-target</strong> routing is defined only by
 the <strong>cardinal</strong> direction.</p></li>
-<li><p>A <strong>buffer</strong> is not the same as a <strong>conductive buffer dam</strong> as
-<strong>buffers</strong> are defined as a
-<a class="reference internal" href="input.html#bufferdata"><span class="std std-ref">buffers with a buffer properties</span></a>, whereas
-<strong>conductive buffer dams</strong> are defined as one-target
-<a class="reference internal" href="input.html#routingmap"><span class="std std-ref">routing paths</span></a>. As such, it is
-up to the user to define a buffer measure as a <strong>buffer</strong> (with properties
-such as a trapping efficiency) (1) or a
-<strong>conductive buffer dam</strong> (with a routing raster) (2).</p></li>
 </ul>
+</div>
 <div class="section" id="flow-scheme-of-the-routing-algorithm">
-<h3>Flow scheme of the routing algorithm<a class="headerlink" href="#flow-scheme-of-the-routing-algorithm" title="Permalink to this heading"></a></h3>
+<h2>Flow scheme of the routing algorithm<a class="headerlink" href="#flow-scheme-of-the-routing-algorithm" title="Permalink to this heading"></a></h2>
 <p>In this section we will describe the routing algorithm in depth, with several
 flow charts as an illustration.</p>
 <p>The first step of the routing algorithm is to sort all pixels in the raster from
@@ -192,58 +187,23 @@ pixel:</p>
 <blockquote>
 <div><ul class="simple">
 <li><p>If the pixel is a <strong>land pixel</strong>, the default routing algorithm is used. If
-the user enables the <a class="reference internal" href="choices.html#forcerouting"><span class="std std-ref">Forced Routing</span></a>-option in the
+the user enables the <a class="reference internal" href="model_extensions.html#forcerouting"><span class="std std-ref">Forced Routing</span></a>-option in the
 ini-file, the calculation of the routing by the default routing algorithm
 is altered on user-defined pixels. Thus, for these pixels, the
-user-defined routing will overrule the rulebank of the routing algorithm.</p></li>
+user-defined routing will overrule the rulebank of the routing algorithm.
+This is an extension (see <a class="reference internal" href="routing-extension.html#forcedrouting-extension"><span class="std std-ref">here</span></a>)</p></li>
 <li><p>If the pixel is a <strong>river pixel</strong> and the river routing option is enabled
-(see <a class="reference internal" href="choices.html#riverrouting"><span class="std std-ref">here</span></a>), the algorithm will use the user-defined
+(see <a class="reference internal" href="model_extensions.html#riverrouting"><span class="std std-ref">here</span></a>), the algorithm will use the user-defined
 routing in the rivers. If the pixel is a river pixel and the river routing
-is not enabled, than no river routing is calculated.</p></li>
+is not enabled, than no river routing is calculated. This is an extension
+(see <a class="reference internal" href="model_extensions.html#riverrouting"><span class="std std-ref">here</span></a>)</p></li>
 <li><p>If the landcover of a pixel has a value of 0, it is skipped and no routing
 is calculated for this pixel.</p></li>
 </ul>
 </div></blockquote>
-<div class="section" id="routing-in-buffers-conductive-ditches-and-conductive-buffer-dams">
-<h4>Routing in buffers, conductive ditches and conductive buffer dams<a class="headerlink" href="#routing-in-buffers-conductive-ditches-and-conductive-buffer-dams" title="Permalink to this heading"></a></h4>
-<p>In the first part of the default routing algorithm, it is checked if the
-routing of a considered pixel is determined by a <strong>buffer</strong>,
-<strong>conductive ditch</strong> or <strong>conductive buffer dam</strong> or if the pixel is <strong>adjacent
-to</strong> a <strong>river</strong>, <strong>buffer</strong>, <strong>conductive ditch</strong> or <strong>conductive buffer dam</strong>. This part of the
-algorithm is illustrated in the figure below. There is only one target pixel
-if a pixel is a conductive ditch, conductive buffer dam or adjacent
-to a conductive ditch, conductive buffer dam or river. Note that the routing
-in conductive ditches and conductive buffer dams always
-routes to the lowest conductive ditch and conductive buffer dam pixel.
-Routing to the lowest conductive ditches and conductive buffer dam pixel can
-only be accepted from conductive ditches and conductive buffer dam pixels
-to avoid looped routing.</p>
-<div class="figure align-center" id="id2">
-<img alt="_images/flow_algorithm_part1.png" src="_images/flow_algorithm_part1.png" />
-<p class="caption"><span class="caption-text">Flow-chart of the routing algorithm in CN-WS describing the first steps in
-the algorithm.</span><a class="headerlink" href="#id2" title="Permalink to this image"></a></p>
-</div>
-<p>If the source pixel is a buffer pixel then two cases are defined:</p>
-<blockquote>
-<div><ol class="arabic simple">
-<li><p>The considered pixel has a buffer_id. This is the outlet pixel of the
-buffer. The default routing algorithm is used in this pixel. Note that
-only routing from extension-id pixel can be accepted to avoid looped
-routing.</p></li>
-<li><p>The considered pixel has a buffer extension-id. In this case there is
-only one target pixel: the pixel within the buffer with the buffer_id
-(i.e. the outlet of the buffer).</p></li>
-</ol>
-</div></blockquote>
-<p>We refer to the <a class="reference internal" href="choices.html#includebuffers"><span class="std std-ref">section on buffers</span></a> for a complete
-description of how buffers are defined. For description on the definition of
-conductive buffer dams and conductive ditches, we refer to the section on
-<a class="reference internal" href="#riverrouting-exp"><span class="std std-ref">routing maps</span></a>.</p>
-<p>In the second part of the default routing algorithm, two target routing is
-defined (see <a class="reference internal" href="#twotarget"><span class="std std-ref">section two target routing</span></a>).</p>
 </div>
 <div class="section" id="one-and-two-target-routing">
-<h4>One- and two-target routing<a class="headerlink" href="#one-and-two-target-routing" title="Permalink to this heading"></a></h4>
+<h2>One- and two-target routing<a class="headerlink" href="#one-and-two-target-routing" title="Permalink to this heading"></a></h2>
 <p>Routing over land pixels can be defined as two- (cardinal directions)
 or one-target (ordinal and cardinal directions) routing.</p>
 <blockquote>
@@ -264,27 +224,23 @@ using land cover and the digital elevation
 model. The starting point for one-target routing is the two-target routing.</p></li>
 </ul>
 </div></blockquote>
-<p>Two-target routing is computed first based on the digital elevation model and
-the tillage direction. This two-target routing can still be changed to
-one-target routing based on the land cover of the targets (see
+<p>Two-target routing is computed first based on the digital elevation model
+(and the tillage direction, extension). This two-target routing can still be
+changed to one-target routing based on the land cover of the targets (see
 <a class="reference internal" href="#onetarget"><span class="std std-ref">section one-target routing</span></a>). Note that the digital
 elevation information is still used in the one-target routing scheme
 (in case of jumps).</p>
-</div>
 <div class="section" id="two-target-routing">
-<span id="twotarget"></span><h4>Two-target routing<a class="headerlink" href="#two-target-routing" title="Permalink to this heading"></a></h4>
+<span id="twotarget"></span><h3>Two-target routing<a class="headerlink" href="#two-target-routing" title="Permalink to this heading"></a></h3>
 <p>If the routing is not determined by a buffer, conductive ditch, conductive
 buffer dam or a river, the routing algorithm checks whether the flow direction
-vector <strong>D</strong> is steered by the steepest descent direction or the
-<strong>tillage direction</strong> (for the format of the input of the tillage direction,
-see <a class="reference internal" href="input.html#tildirmap"><span class="std std-ref">here</span></a>). In this check, the angle of the
-<strong>steepest descent</strong> is compared with the tillage direction to define the
-routing (see Takken et al. (2001)). At the end of this step, the direction is
-mapped to the cardinal directions. These cardinal directions define the
-<cite>target1</cite> and <cite>target2</cite> pixels, and the weight
+vector <strong>D</strong> is steered by the steepest descent direction (or the
+<strong>tillage direction</strong>, see <a class="reference internal" href="input.html#tildirmap"><span class="std std-ref">here</span></a>). The cardinal directions
+define the <cite>target1</cite> and <cite>target2</cite> pixels, and the weight
 (<span class="math notranslate nohighlight">\(\in[0,1], \sum \text{weight} = 1\)</span>) they receive from the source
-pixel. This amount can be used to weigh the sediment load per pixel (WS), the
-direct run-off depth (CN) and upstream area (CN/WS) for each target pixel (see
+pixel. This amount can be used to weigh the sediment load per pixel
+(WaTEM/SEDEM), the direct run-off depth (Curve Number) and upstream area
+(WaTEM/SEDEM &amp; Curve Number) for each target pixel (see
 <a class="reference internal" href="#twotarget"><span class="std std-ref">next section</span></a>).</p>
 <p>In the figure below it is shown how the two targets are determined by the
 routing direction vector <strong>D</strong>. The routing direction (determined by the height
@@ -297,14 +253,14 @@ pixels. The amount of flow and sediment load that is routed to each of the two
 targets is calculated by computing the angle between the cardinal direction of
 the targets with the direction vector <strong>D</strong> (determined by height profile
 and -if included- the tillage direction).</p>
-<div class="figure align-center" id="id3">
+<div class="figure align-center" id="id2">
 <img alt="_images/cardinalflow.png" src="_images/cardinalflow.png" />
 <p class="caption"><span class="caption-text">Illustration of how two-target flow routing is determined. D = direction,
 T1 = Target1 (first clockwise target), T2 = Target2 (second clockwise
-target). I, II, III, IV = quadrant.</span><a class="headerlink" href="#id3" title="Permalink to this image"></a></p>
+target). I, II, III, IV = quadrant.</span><a class="headerlink" href="#id2" title="Permalink to this image"></a></p>
 </div>
-<table class="docutils align-center" id="id4">
-<caption><span class="caption-text">Index shifts (one unit) for the targets depending on the flow direction.</span><a class="headerlink" href="#id4" title="Permalink to this table"></a></caption>
+<table class="docutils align-center" id="id3">
+<caption><span class="caption-text">Index shifts (one unit) for the targets depending on the flow direction.</span><a class="headerlink" href="#id3" title="Permalink to this table"></a></caption>
 <colgroup>
 <col style="width: 17%" />
 <col style="width: 17%" />
@@ -355,7 +311,7 @@ target). I, II, III, IV = quadrant.</span><a class="headerlink" href="#id3" titl
 </table>
 </div>
 <div class="section" id="one-target-routing">
-<span id="onetarget"></span><h4>One-target routing<a class="headerlink" href="#one-target-routing" title="Permalink to this heading"></a></h4>
+<span id="onetarget"></span><h3>One-target routing<a class="headerlink" href="#one-target-routing" title="Permalink to this heading"></a></h3>
 <p>One-target routing is determined by the digital elevation model and the land
 cover of the two target pixels determined in the section above. The flow
 directions and weights (cardinal space) are adjusted according to elevation
@@ -364,15 +320,15 @@ two-target routing is adjusted to one-target routing. Cardinal directions
 are maintained in this transformation, except for jump routing. By considering
 jumps, a wider range of pixels are considered. As a consequence, the direction
 is not solely defined by the cardinal and ordinal direction for jumps.</p>
-<div class="figure align-center" id="id5">
+<div class="figure align-center" id="id4">
 <img alt="_images/sketch_flow_algorithm.png" src="_images/sketch_flow_algorithm.png" />
-<p class="caption"><span class="caption-text">Flow-chart of the routing algorithm in CN-WS - adjusting routing according
+<p class="caption"><span class="caption-text">Flow-chart of the routing algorithm in WaTEM/SEDEM - adjusting routing according
 to elevation and land cover. This scheme adjust two-target routing to
 one-target routing. Note that the transformation of two-target to
 one-target routing will follow the cardinal directions, expect for the
 jumps. By considering jumps, a wider range of pixels are considered.
 As a consequence, the direction is not solely defined by the cardinal and
-ordinal direction for jumps.</span><a class="headerlink" href="#id5" title="Permalink to this image"></a></p>
+ordinal direction for jumps.</span><a class="headerlink" href="#id4" title="Permalink to this image"></a></p>
 </div>
 <p>In this figure, the <cite>Flow(target1)</cite> or <cite>Flow(target2)</cite> tag indicate that
 routing will follow strictly the path of the first or second flow
@@ -413,10 +369,14 @@ is defined if the two target pixels and the source pixel all have different
 land cover codes (with one target pixel being a grass strip), and the target
 grass strip being higher than the other target: here the routing follows the
 direction of to the lowest pixel.</p></li>
+<li><p>Pixels next to a river always route to a river (unless an extension is
+used, see <a class="reference internal" href="routing-extension.html#routing-extensions"><span class="std std-ref">here</span></a>)</p></li>
 </ul>
 </div></blockquote>
+</div>
+</div>
 <div class="section" id="upstream-area-calculation">
-<span id="upstreamarea"></span><h5>Upstream area calculation<a class="headerlink" href="#upstream-area-calculation" title="Permalink to this heading"></a></h5>
+<span id="upstreamarea"></span><h2>Upstream area calculation<a class="headerlink" href="#upstream-area-calculation" title="Permalink to this heading"></a></h2>
 <p>Once the routing is known, the upstream area for all pixels is calculated. A
 distinction is made between the <em>influx</em> and the <em>upstream area</em> for a pixel.
 The influx is defined as area of all pixels flowing into the considered
@@ -438,68 +398,15 @@ considered as source pixel in case they directly route to the target pixel.</p><
 </dd>
 </dl>
 <p>The influx is defined as zero for all pixels that do not receive any flux from
-upstream pixels. These pixels are the first pixels treated in the CN-WS routing
+upstream pixels. These pixels are the first pixels treated in the WaTEM/SEDEM routing
 scheme. Their upstream area is equal to <span class="math notranslate nohighlight">\(a \cdot (1-PTEF)\)</span>. The PTEF is
 defined by the user for <a class="reference internal" href="input.html#parceltrapppingcrop"><span class="std std-ref">cropland</span></a>,
 <a class="reference internal" href="input.html#parceltrappingpasture"><span class="std std-ref">pasture</span></a> and <a class="reference internal" href="input.html#parceltrappingforest"><span class="std std-ref">forest</span></a>.</p>
 <p>Once the upstream area of a pixel is known, the <em>outflux</em>, or distribution
 of the upstream area to its target pixels, is calculated. By default this
-outflux is equal to the upstream area of the source pixel itself. In
-some special cases the outflux is reduced (for example in buffer outlets,
-sewers or when the landcover of a target pixel is different from the source
-pixel). The flow-chart below clarifies in which cases the reductions on the
-upstream area are applied in the calculation of the outflux.</p>
-<div class="figure align-center" id="id6">
-<img alt="_images/sketch_distribute_uparea.png" src="_images/sketch_distribute_uparea.png" />
-<p class="caption"><span class="caption-text">Flow-chart of the distribution of the outflux of a pixel in CN-WS.
-Part is the fraction of the tabulated outflux. Note that
-the sum of Part to target1 (part1) and target2 (part2) is equal to 1.</span><a class="headerlink" href="#id6" title="Permalink to this image"></a></p>
-</div>
-<p>When the outflux is known for a source pixel, this flux is added to the
-influx of the target pixels by (note that part1+part2 = 1)</p>
-<div class="math notranslate nohighlight">
-\[ \begin{align}\begin{aligned}\text{influx}_{\text{target1},+} = \text{influx}_{\text{target1},-} +
-\text{outflux} \cdot \text{part1}\\\text{influx}_{\text{target2},+} = \text{influx}_{\text{target2},-} +
-\text{outflux} \cdot \text{part2}\end{aligned}\end{align} \]</div>
-<p>with:</p>
-<blockquote>
-<div><ul class="simple">
-<li><p><span class="math notranslate nohighlight">\(\text{influx}_{\text{target1}}\)</span>: the influx of the first target
-1 pixel. +: posterior, -: priori.</p></li>
-<li><p><span class="math notranslate nohighlight">\(\text{influx}_{\text{target2}}\)</span>: the influx of the first target
-2 pixel. +: posterior, -: priori.</p></li>
-<li><p><span class="math notranslate nohighlight">\(\text{outflux}\)</span>: the outflux of the source pixel.</p></li>
-<li><p><span class="math notranslate nohighlight">\(\text{part1}\)</span>: the fraction of the routing from the source pixel to
-the first target pixel (-).</p></li>
-<li><p><span class="math notranslate nohighlight">\(\text{part2}\)</span>: the fraction of the routing from the source pixel to
-the second target pixel (-).</p></li>
-</ul>
-</div></blockquote>
-</div>
-<div class="section" id="forced-routing">
-<h5>Forced routing<a class="headerlink" href="#forced-routing" title="Permalink to this heading"></a></h5>
-<p><strong>Forced routing</strong> is typically used to force a routing vector from a specific
-source to a target pixel, in case of a local suboptimal routing pattern.
-Forced routing is user-defined. The instructions for defining forced routing
-are found <a class="reference internal" href="choices.html#forcerouting"><span class="std std-ref">here</span></a>.</p>
-</div>
-<div class="section" id="routing-maps">
-<span id="riverrouting-exp"></span><h5>Routing maps<a class="headerlink" href="#routing-maps" title="Permalink to this heading"></a></h5>
-<p><a class="reference internal" href="input.html#routingmap"><span class="std std-ref">Routing maps</span></a> maps  are used to define
-routing in <strong>rivers</strong>, <strong>conductive buffer dams</strong> and <strong>conductive ditches</strong>.
-We refer to separate sections for the definition of routing in
-<a class="reference internal" href="choices.html#riverrouting"><span class="std std-ref">rivers</span></a>, <a class="reference internal" href="input.html#ditchmap"><span class="std std-ref">ditches</span></a> and
-<a class="reference internal" href="input.html#dammap"><span class="std std-ref">dams</span></a>. The workflow on how to create these rasters is described
-in the section on <a class="reference internal" href="input.html#routingmap"><span class="std std-ref">routing maps</span></a>.</p>
-</div>
-</div>
-</div>
-<div class="section" id="references">
-<h3>References<a class="headerlink" href="#references" title="Permalink to this heading"></a></h3>
-<p>Takken, I., Govers, G., Jetten, V., Nachtergaele, J., Steegen, A., Poesen, J
-., 2001, Effects of tillage on runoff and erosion patterns. Soil and Tillage
-Research 61, 55–60. <a class="reference external" href="https://doi.org/10.1016/S0167-1987(01)00178-7">https://doi.org/10.1016/S0167-1987(01)00178-7</a></p>
-</div>
+outflux is equal to the upstream area of the source pixel itself.
+Adjustments to this outflux can be done in case of using extensions (see
+<a class="reference internal" href="routing-extension.html#upstreamarea-extentions"><span class="std std-ref">here</span></a>)</p>
 </div>
 </div>
 
@@ -507,8 +414,8 @@ Research 61, 55–60. <a class="reference external" href="https://doi.org/10.101
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="curve-number.html" class="btn btn-neutral float-left" title="Run-off model: Curve Number" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="cn-ws.html" class="btn btn-neutral float-right" title="CN-WS" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="formulas-units.html" class="btn btn-neutral float-left" title="Overview of formulas and units in WaTEM/SEDEM" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="routing-extension.html" class="btn btn-neutral float-right" title="Routing in case of extensions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

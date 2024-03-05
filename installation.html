@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Installation &mdash; cn-ws  documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <title>Installation &mdash; WaTEM/SEDEM  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -32,7 +34,7 @@
           
           
           <a href="index.html" class="icon icon-home">
-            cn-ws
+            WaTEM/SEDEM
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -58,7 +60,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#building-on-windows">Building on Windows</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#running-cn-ws">Running CN-WS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#running-watem-sedem">Running WaTEM/SEDEM</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
@@ -75,7 +77,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">cn-ws</a>
+          <a href="index.html">WaTEM/SEDEM</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -110,7 +112,7 @@ conda<span class="w"> </span>install<span class="w"> </span>cn_ws
 <h2>Linux (debian/linux)<a class="headerlink" href="#linux-debian-linux" title="Permalink to this heading"></a></h2>
 <div class="section" id="installing-on-linux-debian-linux">
 <h3>Installing on linux (debian/linux)<a class="headerlink" href="#installing-on-linux-debian-linux" title="Permalink to this heading"></a></h3>
-<p>Pre-built binary packages of cn-ws exist on apt.fluves.net or <a class="reference external" href="https://github.com/cn-ws/cn-ws/releases">https://github.com/cn-ws/cn-ws/releases</a> .
+<p>Pre-built binary packages of cn-ws exist on apt.fluves.net or <a class="reference external" href="https://github.com/watem-sedem/watem-sedem/releases">https://github.com/watem-sedem/watem-sedem/releases</a> .
 To install a specific version, go to <a class="reference external" href="https://apt.fluves.net/amd64/">https://apt.fluves.net/amd64/</a> and pick a
 file of your choosing. This file can then be installed using:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>dpkg<span class="w"> </span>-i<span class="w"> </span>https://apt.fluves.net/amd64/cn-ws_20200114-2~55.gbp527d54_amd64.deb
@@ -153,7 +155,7 @@ sudo<span class="w"> </span>dpkg<span class="w"> </span>-i<span class="w"> </spa
 <h2>Windows<a class="headerlink" href="#windows" title="Permalink to this heading"></a></h2>
 <div class="section" id="building-on-windows">
 <span id="buildwindows"></span><h3>Building on Windows<a class="headerlink" href="#building-on-windows" title="Permalink to this heading"></a></h3>
-<p>To build CN-WS on windows, you need to install the Lazarus IDE first.
+<p>To build WaTEM/SEDEM on windows, you need to install the Lazarus IDE first.
 This can be downloaded it from <a class="reference external" href="https://www.lazarus-ide.org/">https://www.lazarus-ide.org/</a>. Install it under <cite>c:lazarus</cite> use the provided <cite>make.bat</cite> script to build.</p>
 <p>Open the project in Lazarus (open the .lpi file, see subfolder cn_ws/cn_ws/cn_ws.lpi)
 and build the executable (Shift + F9). The executable is stored in the same folder as
@@ -165,11 +167,11 @@ the .lpi file and can be run without further installation.</p>
 </div>
 </div>
 </div>
-<div class="section" id="running-cn-ws">
-<h2>Running CN-WS<a class="headerlink" href="#running-cn-ws" title="Permalink to this heading"></a></h2>
-<p>When you want to use CN-WS from the command line you need a valid ini-file with
+<div class="section" id="running-watem-sedem">
+<h2>Running WaTEM/SEDEM<a class="headerlink" href="#running-watem-sedem" title="Permalink to this heading"></a></h2>
+<p>When you want to use WaTEM/SEDEM from the command line you need a valid ini-file with
 all references to input files and model choices. The model can be run with:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>C:<span class="se">\c</span>n_ws<span class="se">\c</span>n_ws.exe<span class="w"> </span>C:<span class="se">\m</span>odelinput<span class="se">\c</span>atchment.ini-file
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>C:<span class="se">\w</span>atem-sedem<span class="se">\w</span>atem_sedem.exe<span class="w"> </span>C:<span class="se">\m</span>odelinput<span class="se">\c</span>atchment.ini-file
 </pre></div>
 </div>
 <p>It is possible to run the executable of CN-WS in every directory by adding its

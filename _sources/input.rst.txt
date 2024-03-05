@@ -4,10 +4,12 @@
 Model input
 ###########
 
-This page describes all the possible model inputs.
+This page describes all the possible model inputs. Both the model input for the basic
+version of WaTEM/SEDEM as the input for the model extensions is described.
 
-CN-WS accepts input files and **a lot of** parameters. Below, all possible input
-layers and parameters are described.
+WaTEM/SEDEM accepts input files and parameters. Below, all possible input
+layers and parameters are described. Somer parameters and input files are dependent on
+the :ref:`choices <choicespage>` that were made by the user.
 
 .. _folders:
 
@@ -52,7 +54,7 @@ catchment.
 The Idirisi raster must be formatted as float32.
 
 .. note::
-	CN-WS does not take nodata values (e.g. -9999) into account. When a nodata
+	WaTEM/SEDEM does not take nodata values (e.g. -9999) into account. When a nodata
 	value in the DTM raster is encountered, it is considered as an elevation value.
 	Consequently, slopes will be calculated wrongly. Thus, the user must ensure that all
 	pixels in the model domain have an elevation value, and that at least two
@@ -63,7 +65,7 @@ The Idirisi raster must be formatted as float32.
 Parcel filename
 ***************
 
-The filename of the Parcel or Land cover map. CN-WS requires information about
+The filename of the Parcel or Land cover map. WaTEM/SEDEM requires information about
 land cover
 and parcel boundaries in the routing algorithm, but also when distributing the
 sediment through the model domain. Every pixel in the model domain must therefore contain
@@ -99,18 +101,85 @@ within a parcel. Note that the data type of this raster is integer 16.
     definition of the parcel raster. In this manual, we aim to define this as
     land cover rather than land use.
 
+.. _pmap:
+
+P factor map filename
+*********************
+
+The filename of the :ref:`P-factor <pfactor>` map. 
+
+The datatype of the raster is float32.
+
+.. _kmap:
+
+K factor filename
+*****************
+
+The filename of the :ref:`K-factor <kfactor>` map. The soil erodibility factor or
+K-factor of the RUSLE-equation for every pixel in the model domain is stored in
+the K-factor map (in :math:`kg.h.MJ^{-1}.mm^{-1}`).
+
+The datatype of the K-factor raster map is integer16.
+
+.. _cmap:
+
+C factor map filename
+*********************
+
+The filename  of the :ref:`C-factor <cfactor>` map. This raster contains values
+between 0 and 1 and represent the dimensionless C-factor in the RUSLE equation.
+Pixels outside the model domain are set to zero.
+
+The datatype of the outlet map is float32.
+
+.. _ktcmap:
+
+ktc map filename
+****************
+
+The filename of the ktc map, a raster with transport capacity coefficients. This
+raster is only mandatory if the :ref:`Model extension <extensionspage>`:
+:ref:`Create ktc map <createktc>` is set to 0.
+
+The dataype of the ktc map is float32.
+
+.. _outletmap:
+
+Outlet map filename
+*******************
+
+The filename of the outlet map. This raster is only mandatory if the :ref:`Model extension <extensionspage>`:
+:ref:`Manual outlet selection <manualoutlet>` is set to 1.
+
+Every user defined river outlet needs a unique id (integers). The outlet pixels are given the value
+of their respective id's in the outlet map. All other pixels have a value equal to zero.
+
+The datatype of the outlet map is integer16.
+
+.. _ktilmap:
+
+ktil map filename
+*****************
+
+The filename of the ktil map. The ktil map contains values for ktil, the transport
+capacity coefficient for tillage erosion (see :ref:`here: <tillageerosionmodel>` for
+more information about ktil an the tillage erosion model).
+This raster is only mandatory when :ref:`Create ktil map = 0 <createktil>`.
+
+The datatype of the ktil map is integer16.
+
 .. _sewermapfile:
 
 Sewer map filename
 ******************
 
-The filename of the sewer map. This raster is only mandatory if the :ref:`Model Choice <choicespage>`:
+The filename of the sewer map. This raster is only mandatory if the :ref:`Model extension <extensionspage>`:
 :ref:`Include sewers <inlcudesewers>` is set to 1.
 
 All pixels in the sewer map should contain values between 0 and 1. These values represent
 the fraction of the outgoing sediment in this pixel that is entering the sewer
 system. A pixel with value 0 can be interpreted as a pixel where no sewer is
-present. 
+present.
 
 The datatype of the sewer map is float32.
 
@@ -120,7 +189,7 @@ Tillage direction filename
 **************************
 
 The filename of a raster with the tillage direction in degrees to the North.
-This raster is only mandatory if the :ref:`Model Choice <choicespage>`: 
+This raster is only mandatory if the :ref::ref:`Model extension <extensionspage>`:
 :ref:`Include tillage direction <includetillagedirection>` is set to 1.
 
 The datatype of the tillage direction raster is float32.
@@ -131,8 +200,9 @@ Oriented roughness filename
 ***************************
 
 The filename of a raster with the oriented roughness. The oriented roughness is the
-height of the microrelief (in cm) due to ploughing. This raster is only mandatory 
-if the :ref:`Model Choice <choicespage>`: :ref:`Include tillage direction <includetillagedirection>` is set to 1.
+height of the microrelief (in cm) due to ploughing. This raster is only mandatory
+if the :ref:`Model extension <extensionspage>`:
+:ref:`Include tillage direction <includetillagedirection>` is set to 1.
 
 The datatype of the oriented roughness raster is float32.
 
@@ -141,7 +211,7 @@ The datatype of the oriented roughness raster is float32.
 Buffer map filename
 *******************
 
-The filename of the buffer map. This raster is only mandatory if the :ref:`Model Choice <choicespage>`: 
+The filename of the buffer map. This raster is only mandatory if the :ref:`Model extension <extensionspage>`:
 :ref:`Include buffers <includebuffers>` is set to 1.
 
 The figure below shows an example of a buffermap with three buffer basins. The outlet
@@ -162,7 +232,8 @@ The datatype of the buffermap is integer16.
 Ditch map filename
 ******************
 
-The filename of the conductive ditch map. This raster is only mandatory if the :ref:`Model Choice <choicespage>`: 
+The filename of the conductive ditch map.
+This raster is only mandatory if the :ref:`Model extension <extensionspage>`:
 :ref:`Include ditches <includeditches>` is set to 1.
 See :ref:`further <routingmap>` for
 more information on how to create these routing maps.
@@ -172,25 +243,18 @@ more information on how to create these routing maps.
 Dam map filename
 ****************
 
-The filename of the conductive dam map. This raster is only mandatory if the :ref:`Model Choice <choicespage>`: 
+The filename of the conductive dam map.
+This raster is only mandatory if the :ref:`Model extension <extensionspage>`:
 :ref:`Include dams <includedams>` is set to 1. See :ref:`further <routingmap>` for more
 information on how to create these routing map.
-
-.. _pmap:
-
-P factor map filename
-*********************
-
-The filename of the :ref:`P-factor <pfactor>` map. 
-
-The datatype of the raster is float32.
 
 .. _riversegmentfile:
 
 River segment filename
 **********************
 
-The filename of the river segment map. This raster is only mandatory if the :ref:`Model Choice <choicespage>`: 
+The filename of the river segment map.
+This raster is only mandatory if the :ref:`Model extension <extensionspage>`:
 :ref:`Output per river segment <outputsegment>` is set to 1.
 
 A river segment is a part of the river (usually a part between two confluences of the river
@@ -217,7 +281,7 @@ adjectant segments
 ******************
 
 The filename of the Tab separated table with adjectant  river segments. T
-his table is only mandatory if the :ref:`Model Choice <choicespage>`: 
+his table is only mandatory if the :ref:`Model extension <extensionspage>`:
 :ref:`River routing <riverrouting>` is set to 1. The table consists of two columns:
 'from' and 'to'. Every row indicates a connection between two segments:
 segment *from* flows into segment *to*. The values in the table represent the
@@ -251,7 +315,7 @@ upstream segments
 *****************
 
 The filename of the tab separated table with upstream segments. 
-This table is only mandatory if the :ref:`Model Choice <choicespage>`: 
+This table is only mandatory if the :ref:`Model extension <extensionspage>`:
 :ref:`River routing <riverrouting>` is set to 1. In the table three columns are present, namely:
 
 - edge (integer): segment id of the receiving segment
@@ -295,7 +359,8 @@ table with adjectant upstream segments is displayed below:
 river routing filename
 **********************
 
-The filename of the river routing map. This raster is only mandatory if the :ref:`Model Choice <choicespage>`: 
+The filename of the river routing map. This raster is only mandatory if the
+:ref:`Model extension <extensionspage>`:
 :ref:`River routing = 1 <riverrouting>` is set to 1.
 See :ref:`further <routingmap>` for more information on how to create these routing maps.
 
@@ -304,7 +369,7 @@ See :ref:`further <routingmap>` for more information on how to create these rout
 Routing maps
 ************
 
-The routing algorithm of CN-WS can take into account rasters that impose a
+The routing algorithm of WaTEM/SEDEM can take into account rasters that impose a
 single-flow routing along a line element in the
 landscape as defined by the user. The
 :ref:`river routing map <riverroutingmap>`, :ref:`ditchmap <ditchmap>` and
@@ -337,38 +402,14 @@ The datatype of a routing raster is integer16.
 CN map filename
 ***************
 
-The filename of the CN map. This raster is only mandatory if the :ref:`Model Choice <choicespage>`: 
-:ref:`Only WS <simple>` is set to 0.
+The filename of the CN map. This raster is only mandatory if the
+:ref:`Model extension <extensionspage>`:
+:ref:`Curve number <simple>` is set to 1.
 
 This raster contains a CN-value (between 0 and 100) for every pixel in the model
 domain.
 
 The datatype of the CN raster is float32.
-
-.. _outletmap:
-
-Outlet map filename
-*******************
-
-The filename of the outlet map. This raster is only mandatory if the :ref:`Model Choice <choicespage>`: 
-:ref:`Manual outlet selection <manualoutlet>` is set to 1.
-
-Every user defined river outlet needs a unique id (integers). The outlet pixels are given the value 
-of their respective id's in the outlet map. All other pixels have a value equal to zero.
-
-The datatype of the outlet map is integer16.
-
-.. _ktilmap:
-
-ktil map filename
-*****************
-
-The filename of the ktil map. The ktil map contains values for ktil, the transport
-capacity coefficient for tillage erosion (see :ref:`here: <tillageerosionmodel>` for
-more information about ktil an the tillage erosion model).
-This raster is only mandatory when :ref:`Create ktil map = 0 <createktil>`.
-
-The datatype of the ktil map is integer16.
 
 .. _rainfallfile:
 
@@ -378,108 +419,39 @@ Rainfall filename
 Filename of a textfile with rainfall values. The text file contains a table
 (tab-delimited) with two columns without header. The first column contains the
 time in minutes (starting from 0), the second column contains the rainfall in mm.
-The rainfall of the first timestamp must be zero. 
-
-.. _kmap:
-
-K factor filename
-*****************
-
-The filename of the :ref:`K-factor <kfactor>` map. The soil erodibility factor or
-K-factor of the RUSLE-equation for every pixel in the model domain is stored in
-the K-factor map (in :math:`kg.h.MJ^{-1}.mm^{-1}`).
-
-The datatype of the K-factor raster map is integer16.
-
-.. _cmap:
-
-C factor map filename
-*********************
-
-The filename  of the :ref:`C-factor <cfactor>` map. This raster contains values
-between 0 and 1 and represent the dimensionless C-factor in the RUSLE equation.
-Pixels outside the model domain are set to zero.
-
-The datatype of the outlet map is float32.
-
-.. _ktcmap:
-
-ktc map filename
-****************
-
-The filename of the ktc map, a raster with transport capacity coefficients. This
-raster is only mandatory if the :ref:`Model Choice <choicespage>`: :ref:`Create ktc map <createktc>` is set to 1.
-
-The dataype of the ktc map is float32.
+The rainfall of the first timestamp must be zero.
 
 .. _variables:
 
-Variables
-=========
+Parameters
+==========
 
-.. _sewerexit:
+This section describes all parameters that can be used to make a basic WaTEM/SEDEM run,
+without the use of any extensions.
 
-Sewer exit
+.. _maxkernel:
+
+max kernel
 **********
 
-An integer value between 0 and 100 that represents the fration of the discharge
-that enters the sewer system. It is only applied on pixels where the 
-:ref:`sewer map <sewermapfile>` is not zero. 
+If the routing algorithm of WaTEM/SEDEM encounters a local minimum in the
+:ref:`digital elevation model, <dtmmap>` it will not find a lower, neighbouring
+pixel. Therefore, the algorithm is set to search for a lower pixel within a search
+radius around the local minimum (see :ref:`routing algorithm <onetarget>`.
+The variable 'max kernel' defines this search
+radius expressed in pixels.
 
-This variable is only mandatory if the :ref:`Model Choice <choicespage>`: :ref:`Only WS = 0 <simple>` is set to 0.
+.. _maxkernelriver:
 
-.. note::
-   1. The values stored in the :ref:`sewer map <sewermapfile>` are not used in the
-   discharge calculations of the CN module. The sewer map is only used to check
-   if a pixel is a sewer or not. 
-   
-   2. In the sediment calculations, a different trapping efficiency for every sewer
-   pixel in the model can be defined, but this is not the case in the discharge
-   calculations.
+max kernel river
+****************
 
-.. _claycontent:
-
-Clay content parent material
-****************************
-
-The average fraction of clay in the soil of the modelled catchment (in
-decimals; float32, between 0 and 1). This variable is only mandatory if the :ref:`Model Choice <choicespage>`: 
-:ref:`estimate clay content <estimclay>` is set to 1.
-
-
-.. _5dayrainfall:
-
-5-day antecedent rainfall
-*************************
-
-The total rainfall (in mm) during 5 days before the start of the rainfall event.
-This variable is only mandatory if the :ref:`Model Choice <choicespage>`: :ref:`Only WS = 0 <simple>` is set to 0.
-
-.. _streamvelocity:
-
-stream velocity
-***************
-
-As float, only mandatory if the :ref:`Model Choice <choicespage>`: :ref:`Only WS = 0 <simple>` is set to 0.
-
-.. _alpha:
-
-alpha
-*****
-
-Alpha (as float) is a calibration parameter of the CN-model. It determines the relation
-between the runoff and the rainfall intensity. This parameter is only mandatory if the 
-:ref:`Model Choice <choicespage>`: :ref:`Only WS <simple>` is set to 0.
-
-.. _beta:
-
-beta
-****
-
-Beta (as float) is a calibration parameter of the CN-model. It determines the
-relation between the runoff and the antecedent rainfall. This parameter is 
-only mandatory if the :ref:`Model Choice <choicespage>`: :ref:`Only WS <simple>` is set to 0.
-
+If the routing algorithm of WaTEM/SEDEM encounters a local minimum in the
+:ref:`digital elevation model <dtmmap>` it will not find a lower, neighbouring
+pixel. If this pixel is a river pixel, the routing will remain in the river and
+the routing will look within a search radius around the local minimum with the
+same landuse (river). The variable 'max kernel river' defines the search radius
+expressed in pixels.
 
 .. _bulkdensity:
 
@@ -506,109 +478,7 @@ This input is mandatory, except *except* if the :ref:`Model Choice <choicespage>
     time span (year, month, week,...).
 
     2. R-factor values can be computed with the
-    `R-factor Python package <https://cn-ws.github.io/rfactor/>`_.
-
-.. _lscorrection:
-
-LS correction
-*************
-
-Notebaert et al. (2005) describes that changes in spatial resolution have major
-scaling effects on topographic variables like the :ref:`L and S-factor <lsfactor>`.
-
-The LS-factor will
-decrease on a higher resolution (smaller pixels, more height information) and
-extreme LS values will occur more. To be able to compare the calculated RUSLE
-values on different spatial resolutions, a correction factor can be calculated.
-This correction factor :math:`LS_{cor}` is calculated as:
-
-.. math::
-    LS_{cor} = \frac{LS_{avg,x}}{LS_{avg,y}}
-
-with
-
-- :math:`LS_{avg,x}`: the average LS factor in a catchment on resolution x
-- :math:`LS_{avg,y}`: the average LS factor in a catchment on resolution y
-
-The input variable is a float (default value 1, i.e. no correction).
-The LS-factor in the model is divided by this variable.
-
-.. _nrbuffers:
-
-Number of buffers
-*****************
-
-The amount of buffers present in the :ref:`buffer map <buffermap>` is given in
-this parameter (as integer). The parameter is only mandatory if the
-:ref:`Model Choice <choicespage>`: :ref:`Include buffers <includebuffers>` is set to 1.
-
-.. _nrforcedrouting:
-
-Number of forced routing
-************************
-
-The amount of locations where the user wants to force the routing is given by this
-parameter (as integer). This variable defines the number of 
-:ref:`forced routing sections <forcedroutingdata>` in the
-ini-file. 
-This variable is only mandatory if the :ref:`Model Choice <choicespage>`:
-:ref:`Force Routing <forcerouting>` is set to 1.
-
-.. _ktclow:
-
-ktc low
-*******
-
-ktc low is the transport capacity coefficient (as float) for pixels with a low
-erosion potential (see :ref:`ktc limit<ktclimit>`). 
-The parameter is only mandatory if the :ref:`Model Choice <choicespage>`:
-:ref:`Create ktc map <createktc>` is set to 1.
-
-.. _ktchigh:
-
-ktc high
-********
-
-ktc high is the transport capacity coefficient (float) for pixels with a high
-erosion potential (see :ref:`ktc limit <ktclimit>`). The parameter is only mandatory if 
-the :ref:`Model Choice <choicespage>`: :ref:`Create ktc map <createktc>` is set to 1.
-
-.. _ktclimit:
-
-ktc limit
-*********
-
-ktc limit is a threshold value (float). Pixels with a C-factor higher than
-ktc limit will get the value of :ref:`ktc high <ktchigh>` in the ktc map,
-pixels with a C-factor below ktc limit, will get :ref:`ktc low <ktclow>` in the
-ktc map. This parameter is only mandatory if the :ref:`Model Choice <choicespage>`
-:ref:`Create ktc map <createktc>` is set to 1 or :ref:`Calibrate = 1 <Calibrate>`
-
-
-.. _ktildefault:
-
-ktil default
-************
-
-The transport capacity coefficient for tillage erosion on agricultural fields. 
-This value (as integer) should be expressed in :math:`kg.m{-1}.year{-1}`.
-A recommended default value is :math:`600 kg.m{-1}.year{-1}`.
-
-This parameter is only mandatory if the :ref:`Model Choice <choicespage>`:
-:ref:`Create ktil map <createktil>` is set to 1.
-
-.. _ktilthres:
-
-ktil threshold
-***************
-
-ktil threshold is a float between 0 and 1. Pixels with a C-factor higher than
-ktil threshold will get the value of :ref:`ktil default <ktildefault>` in the ktil map,
-pixels with a C-factor below ktil threshold, are set to 0. A typical value for
-ktil threshold is 0.01.
-
-This parameter is only mandatory if the :ref:`Model Choice <choicespage>`:
-:ref:`Create ktil map <createktil>` is set to 1.
+    `R-factor Python package <https://watem-sedem.github.io/rfactor/>`_.
 
 .. _parcelconncrop:
 
@@ -632,7 +502,7 @@ Parcel connectivity grasstrips
 
 The 'parcel connectivity grasstrips' expresses the reduction of the upstream area (:math:`A_{pixel}`)
 at the boundary between a parcel and a grasstrip. It is an integer value between 0
-and 100. The reduction on the upstream area is applied when the target pixel is 
+and 100. The reduction on the upstream area is applied when the target pixel is
 of the land cover 'grasstrip' (:ref:`Parcel map value <prcmap>`: -6). The default value for this parameter is 100.
 
 .. math::
@@ -662,11 +532,11 @@ Parcel trapping efficiency cropland
 
 The parcel trapping efficiency (PTEF) is used to compute the upstream area for
 every raster pixel (:math:`A_{pixel}`) (see also :ref:`L-model <lmodel>`). The PTEF also
-takes the land-use, defined by :ref:`the CN-WS parcels raster <prcmap>`, into account. 
+takes the land-use, defined by :ref:`the parcels raster <prcmap>`, into account.
 This then, contributes to the upstream area by a
-given percentage (100-PTEF). 
+given percentage (100-PTEF).
 
-The parcel trapping efficiency for cropland is 
+The parcel trapping efficiency for cropland is
 defined by the 'Parcel trapping efficiency cropland' (in % as integer; e.g. PTEF = 87).
 
 .. math::
@@ -678,7 +548,7 @@ defined by the 'Parcel trapping efficiency cropland' (in % as integer; e.g. PTEF
 Parcel trapping efficiency pasture
 **********************************
 
-The parcel trapping efficiency for pasture is defined by the 'Parcel trapping 
+The parcel trapping efficiency for pasture is defined by the 'Parcel trapping
 efficiency pasture' (in % as integer e.g. PTEF = 25). For a definition of the Parcel trapping
 efficiency, see
 :ref:`Parcel trapping efficiency cropland <parceltrapppingcrop>`
@@ -688,10 +558,165 @@ efficiency, see
 Parcel trapping efficiency forest
 **********************************
 
-The parcel trapping efficiency for forest is defined by the 'Parcel trapping 
+The parcel trapping efficiency for forest is defined by the 'Parcel trapping
 efficiency forest' (in % as integer e.g. PTEF = 25). For a definition of the Parcel trapping
 efficiency, see
 :ref:`Parcel trapping efficiency cropland <parceltrapppingcrop>`
+
+Parameters extensions
+=====================
+
+This section contains all parameters that are used within model extensions. For every
+parameter in this section a description is given about the meaning of the parameter and
+when to use it (i.e. in combination with which extension).
+
+.. _ktclow:
+
+ktc low
+*******
+
+ktc low is the transport capacity coefficient (as float) for pixels with a low
+erosion potential (see :ref:`ktc limit<ktclimit>`).
+The parameter is only mandatory if the :ref:`Model extension <extensionspage>`:
+:ref:`Create ktc map <createktc>` is set to 1.
+
+.. _ktchigh:
+
+ktc high
+********
+
+ktc high is the transport capacity coefficient (float) for pixels with a high
+erosion potential (see :ref:`ktc limit <ktclimit>`). The parameter is only mandatory if
+the :ref:`Model extension <extensionspage>`: :ref:`Create ktc map <createktc>` is set to 1.
+
+.. _ktclimit:
+
+ktc limit
+*********
+
+ktc limit is a threshold value (float). Pixels with a C-factor higher than
+ktc limit will get the value of :ref:`ktc high <ktchigh>` in the ktc map,
+pixels with a C-factor below ktc limit, will get :ref:`ktc low <ktclow>` in the
+ktc map. This parameter is only mandatory if the :ref:`Model extension <extensionspage>`
+:ref:`Create ktc map <createktc>` is set to 1 or :ref:`Calibrate = 1 <Calibrate>`
+
+.. _ktildefault:
+
+ktil default
+************
+
+The transport capacity coefficient for tillage erosion on agricultural fields.
+This value (as integer) should be expressed in :math:`kg.m{-1}.year{-1}`.
+A recommended default value is :math:`600 kg.m{-1}.year{-1}`.
+
+This parameter is only mandatory if the :ref:`Model extension <extensionspage>`:
+:ref:`Create ktil map <createktil>` is set to 1.
+
+.. _ktilthres:
+
+ktil threshold
+***************
+
+ktil threshold is a float between 0 and 1. Pixels with a C-factor higher than
+ktil threshold will get the value of :ref:`ktil default <ktildefault>` in the ktil map,
+pixels with a C-factor below ktil threshold, are set to 0. A typical value for
+ktil threshold is 0.01.
+
+This parameter is only mandatory if the :ref:`Model extension <extensionspage>`:
+:ref:`Create ktil map <createktil>` is set to 1.
+
+.. _lscorrection:
+
+LS correction
+*************
+
+Notebaert et al. (2005) describes that changes in spatial resolution have major
+scaling effects on topographic variables like the :ref:`L and S-factor <lsfactor>`.
+
+The LS-factor will
+decrease on a higher resolution (smaller pixels, more height information) and
+extreme LS values will occur more. To be able to compare the calculated RUSLE
+values on different spatial resolutions, a correction factor can be calculated.
+This correction factor :math:`LS_{cor}` is calculated as:
+
+.. math::
+    LS_{cor} = \frac{LS_{avg,x}}{LS_{avg,y}}
+
+with
+
+- :math:`LS_{avg,x}`: the average LS factor in a catchment on resolution x
+- :math:`LS_{avg,y}`: the average LS factor in a catchment on resolution y
+
+The input variable is a float (default value 1, i.e. no correction).
+The LS-factor in the model is divided by this variable.
+
+.. _sewerexit:
+
+Sewer exit
+**********
+
+An integer value between 0 and 100 that represents the fration of the discharge
+that enters the sewer system. It is only applied on pixels where the
+:ref:`sewer map <sewermapfile>` is not zero.
+
+This variable is only mandatory if the :ref:`Model extensions <extensionspage>`:
+:ref:`Curve number <simple>` and :ref:`Include sewers <inlcudesewers>` are set to 1.
+
+.. note::
+   1. The values stored in the :ref:`sewer map <sewermapfile>` are not used in the
+   discharge calculations of the CN module. The sewer map is only used to check
+   if a pixel is a sewer or not.
+
+   2. In the sediment calculations, a different trapping efficiency for every sewer
+   pixel in the model can be defined, but this is not the case in the discharge
+   calculations.
+
+.. _claycontent:
+
+Clay content parent material
+****************************
+
+The average fraction of clay in the soil of the modelled catchment (in
+decimals; float32, between 0 and 1). This variable is only mandatory if the
+:ref:`Model extension <extensionspage>`: :ref:`estimate clay content <estimclay>` is set
+to 1.
+
+
+.. _5dayrainfall:
+
+5-day antecedent rainfall
+*************************
+
+The total rainfall (in mm) during 5 days before the start of the rainfall event.
+This variable is only mandatory if the :ref:`Model extension <extensionspage>`:
+:ref:`Curve number <simple>` is set to 1.
+
+.. _streamvelocity:
+
+stream velocity
+***************
+
+As float, only mandatory if the :ref:`Model extension <extensionspage>`:
+:ref:`Curve number <simple>` is set to 1.
+
+.. _alpha:
+
+alpha
+*****
+
+Alpha (as float) is a calibration parameter of the CN-model. It determines the relation
+between the runoff and the rainfall intensity. This parameter is only mandatory if the
+:ref:`Model extension <extensionspage>`: :ref:`Curve number <simple>` is set to 1.
+
+.. _beta:
+
+beta
+****
+
+Beta (as float) is a calibration parameter of the CN-model. It determines the
+relation between the runoff and the antecedent rainfall. This parameter is
+only mandatory if the :ref:`Model extension <extensionspage>`:
+:ref:`Curve number <simple>` is set to 1.
 
 .. _timestep:
 
@@ -705,7 +730,9 @@ the spatial resolution (m) and the stream velocity of water over land (m/s).
 .. math::
     dt \leq \frac{spatial   resolution}{stream   velocity}
 
-The parameter is an integer value expressed in minutes.
+The parameter is an integer value expressed in minutes and is
+only mandatory if the :ref:`Model extension <extensionspage>`:
+:ref:`Curve number <simple>` is set to 1.
 
 .. _finaltimestep:
 
@@ -715,7 +742,9 @@ Final timestep output
 The user has the option to resample the time-dependent output (runoff, sediment
 concentration, sediment load) to a different timestep than the
 :ref:`Desired timestep <timestep>` of the model. The parameter is an integer value
-expressed in minutes.
+expressed in minutes and is
+only mandatory if the :ref:`Model extension <extensionspage>`:
+:ref:`Curve number <simple>` is set to 1.
 
 .. _endtime:
 
@@ -732,29 +761,31 @@ model.
 	whole runoff peak is modelled. After the first simulation, the model user
 	can shorten the endtime to optimise the calculation time of the model.
 
-.. _maxkernel:
+This parameter is
+only mandatory if the :ref:`Model extension <extensionspage>`:
+:ref:`Curve number <simple>` is set to 1.
 
-max kernel
-**********
+.. _nrbuffers:
 
-If the routing algorithm of CN-WS encounters a local minimum in the
-:ref:`digital elevation model, <dtmmap>` it will not find a lower, neighbouring
-pixel. Therefore, the algorithm is set to search for a lower pixel within a search
-radius around the local minimum (see :ref:`routing algorithm <onetarget>`. 
-The variable 'max kernel' defines this search
-radius expressed in pixels.
+Number of buffers
+*****************
 
-.. _maxkernelriver:
+The amount of buffers present in the :ref:`buffer map <buffermap>` is given in
+this parameter (as integer). The parameter is only mandatory if the
+:ref:`Model extension <extensionspage>`: :ref:`Include buffers <includebuffers>` is set
+to 1.
 
-max kernel river
-****************
+.. _nrforcedrouting:
 
-If the routing algorithm of CN-WS encounters a local minimum in the
-:ref:`digital elevation model <dtmmap>` it will not find a lower, neighbouring
-pixel. If this pixel is a river pixel, the routing will remain in the river and
-the routing will look within a search radius around the local minimum with the
-same landuse (river). The variable 'max kernel river' defines the search radius
-expressed in pixels.
+Number of forced routing
+************************
+
+The amount of locations where the user wants to force the routing is given by this
+parameter (as integer). This variable defines the number of 
+:ref:`forced routing sections <forcedroutingdata>` in the
+ini-file. 
+This variable is only mandatory if the :ref:`Model extension <extensionspage>`:
+:ref:`Force Routing <forcerouting>` is set to 1.
 
 .. _bufferdata:
 
@@ -763,7 +794,7 @@ Bufferdata
 
 The inclusion of erosion control buffers is based on input rasters and
 buffer parameters. How these input rasters should be created, is described
-:ref:`here <buffermap>`. If the :ref:`Model Choice <choicespage>`:
+:ref:`here <buffermap>`. If the :ref:`Model extension <extensionspage>`:
 :ref:`include buffers <includebuffers>` is set to 1,
 the buffer parameters must be defined in the ini-file in the following manner:
 
@@ -800,7 +831,6 @@ with:
  - height opening: the height of the opening of the discharge pipe of the
    basin, :math:`H_{opening}` (m).
 
-
  - opening area: the area of the discharge opening :math:`A_0` (:math:`m^{2}`).
 
  - discharge coefficient: the discharge coefficient :math:`C_d` (-) of the
@@ -818,14 +848,17 @@ with:
 
 The extension id and trapping efficiency are mandatory for every buffer.
 The other buffer parameters are only mandatory when the the CN-module seperately
-(i.e. the :ref:`Model Choice <choicespage>`: :ref:`Only WS <simple>` is set to 0).
+(i.e. the :ref:`Model Choice <choicespage>`: :ref:`Curve number <simple>` is set to 1).
+
+Note that the amount of sections with
+buffer data has to be defined with the variable :ref:`Number of buffers <nrbuffers>`.
 
 A full description of the CN calculation in buffers can be found
 :ref:`here <bufferbasins>`.
 
 .. note::
     The definition of the buffer extension id equal to buffer id + 16384,
-    implies only 16384 can be modelled.
+    implies only 16384 buffer basins can be modelled.
 
 .. _forcedroutingdata:
 
@@ -860,7 +893,7 @@ forced routing vectors has to be defined with the variable
 Calibration data
 ================
 
-The following parameters are only mandatory if the :ref:`Model Choice <choicespage>`:
+The following parameters are only mandatory if the :ref:`Model extension <extensionspage>`:
 :ref:`Calibrate <Calibrate>` is set to 1 .
 These parameters must be grouped in a seperate section in the ini-file with the
 header 'Calibration', as shown here:
