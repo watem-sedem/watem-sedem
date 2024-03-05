@@ -53,6 +53,7 @@
 <li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#version-5-0-0">Version 5.0.0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#version-4-2-3">Version 4.2.3</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#version-4-2-2">Version 4.2.2</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#version-4-2-1">Version 4.2.1</a></li>
@@ -102,6 +103,38 @@
              
   <div class="section" id="changelog">
 <span id="changes"></span><h1>Changelog<a class="headerlink" href="#changelog" title="Permalink to this heading"></a></h1>
+<div class="section" id="version-5-0-0">
+<h2>Version 5.0.0<a class="headerlink" href="#version-5-0-0" title="Permalink to this heading"></a></h2>
+<p>This release contains a name change from CN-WS to WaTEM/SEDEM (in code watem_sedem)
+in order to follow the initial aim of the KU Leuven for developing WaTEM/SEDEM:
+CN was added in later versions. The CN-module is now refactored to an extension.
+With this release, a distinction is made between the basic WaTEM/SEDEM model
+and the extensions (CN, buffers, forced routing, etc..).</p>
+<p>In this version following changes were created:</p>
+<ul class="simple">
+<li><p>Restructuring the <a href="#id1"><span class="problematic" id="id2">*</span></a>.ini-file:</p>
+<ul>
+<li><p>The section “User Choices” was split in two new sections:</p>
+<ul>
+<li><p>Options</p></li>
+<li><p>Extensions</p></li>
+</ul>
+</li>
+<li><p>The section “Variables” was split in two new sections:</p>
+<ul>
+<li><p>Parameters</p></li>
+<li><p>Parameters Extensions</p></li>
+</ul>
+</li>
+<li><p>The section “Output maps” was renamed to “Output”</p></li>
+<li><p>The option “Only WS” was renamed to “Curve Number”</p></li>
+</ul>
+</li>
+<li><p>The executable/build cn_ws was renamed to watem_sedem</p></li>
+<li><p>The naming in the folder structure was updated from cn_ws to watem_sedem</p></li>
+<li><p>Multiple additions/corrections to the documentation</p></li>
+</ul>
+</div>
 <div class="section" id="version-4-2-3">
 <h2>Version 4.2.3<a class="headerlink" href="#version-4-2-3" title="Permalink to this heading"></a></h2>
 <ul class="simple">
