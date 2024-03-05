@@ -3,7 +3,7 @@ package:
   version: "{{ GIT_DESCRIBE_TAG }}_{{ GIT_BUILD_STR }}"
 
 source:
-  #git_url: https://github.com/cn-ws/cn-ws.git
+  #git_url: https://github.com/watem-sedem/watem-sedem.git
   #git_rev: {{ DRONE_COMMIT_SHA }}
   path: ..
 
@@ -18,4 +18,4 @@ requirements:
   run:
 
 about:
-  home: https://cn-ws.github.io/cn-ws/
+  home: https://watem-sedem.github.io/watem-sedem/

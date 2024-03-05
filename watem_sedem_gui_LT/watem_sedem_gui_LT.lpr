@@ -1,4 +1,4 @@
-program cn_ws_gui_LT;
+program watem_sedem_gui_LT;
 
 {$mode objfpc}{$H+}
 

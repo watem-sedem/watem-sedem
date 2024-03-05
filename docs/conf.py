@@ -21,7 +21,7 @@ import os
 
 # -- Project information -----------------------------------------------------
 
-project = 'cn-ws'
+project = 'WaTEM/SEDEM'
 copyright = '2020, Van de Wauw Johan, Renders Daan'
 author = 'Van de Wauw Johan, Renders Daan & contributors'
 
@@ -127,7 +127,7 @@ latex_elements = {
 # latex_domain_indices = True
 
 html_context = {
-    # "source_url_prefix": "https://github.com/cn-ws/cn-ws/blob/master/docs/",
+    # "source_url_prefix": "https://github.com/watem-sedem/watem-sedem/blob/master/docs/",
     # "display_vcs_links": 1,
     "display_github": True,
     "github_user": "cn-ws",

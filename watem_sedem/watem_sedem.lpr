@@ -1,5 +1,5 @@
 
-Program cn_ws;
+Program watem_sedem;
 
 {$mode objfpc}{$H+}
 
@@ -14,7 +14,7 @@ Classes, SysUtils, CustApp, Dos, Crt, runmodel;
 
 Type 
 
-  TCN_WSApplication = Class(TCustomApplication)
+  TWSApplication = Class(TCustomApplication)
     Protected 
       Procedure DoRun;
       override;
@@ -39,7 +39,7 @@ Begin
   result := floattostr(se2-se+(min2-mins)*60+(hr2-hr)*60*60+s1/100);
 End;
 
-Procedure TCN_WSApplication.DoRun;
+Procedure TWSApplication.DoRun;
 
 Var 
   Time: String;
@@ -53,7 +53,7 @@ Begin
   GetTime(hr,mins,se,s1);
   {$pop}
 
-  writeln('CN_WS model version: '+ version);
+  writeln('WaTEM/SEDEM model version: '+ version);
   writeln;
   filename := '';
   If ParamCount = 0 Then
@@ -78,23 +78,23 @@ Begin
   Terminate(0);
 End;
 
-constructor TCN_WSApplication.Create(TheOwner: TComponent);
+constructor TWSApplication.Create(TheOwner: TComponent);
 Begin
   inherited Create(TheOwner);
   StopOnException := True;
 End;
 
-destructor TCN_WSApplication.Destroy;
+destructor TWSApplication.Destroy;
 Begin
   inherited Destroy;
 End;
 
 
 Var 
-  Application: TCN_WSApplication;
+  Application: TWSApplication;
 
 Begin
-  Application := TCN_WSApplication.Create(Nil);
+  Application := TWSApplication.Create(Nil);
   Application.Run;
   Application.Free;
 End.

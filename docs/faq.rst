@@ -3,7 +3,7 @@ Frequently Asked Questions
 ##########################
 
 This page lists a few known problems that may occur during the installation
-or usage of CN-WS, and workarounds for them.
+or usage of WaTEM/SEDEM, and workarounds for them.
 
 If your issue is not mentioned in this list, please search for the issues on
 our issuetracker_, and file a new issue if it is needed.
@@ -16,7 +16,7 @@ model to stop. The last line of the error message indicates what happened.
 The parser repeats the offending section and displays a little ‘arrow’ pointing
 at the earliest point in the line where the error was detected.
 
-.. _issuetracker: https://github.com/cn-ws/cn-ws/issues
+.. _issuetracker: https://github.com/watem-sedem/watem-sedem/issues
 
 My system cannot find cn_ws
 ===========================

@@ -65,7 +65,7 @@ Begin
     writefloatfile(ncol,nrow,File_output_dir+'AspectMap'+ext,Aspect);
   //Aspectmap (.RST) is created
 
-  If Not simplified Then
+  If curve_number Then
     Begin
       If Write_TOTRUN Then
         writefloatfile(ncol,nrow,File_output_dir+'Total runoff'+ext,RunoffTotMap);

@@ -34,39 +34,6 @@ jobs:
           conda activate cn_ws
           pytest testfiles
 
-  build-conda:
-    runs-on: [self-hosted, linux]
-    container: registry.fluves.net/drone/cn_ws/conda
-    env:
-      DRONE_COMMIT_SHA: ${{ github.event.pull_request.head.sha }}
-      CONDA_BUILD: /.build/conda_build
-      GIT_DESCRIBE_TAG: ${{ github.run_number }}
-      GIT_BUILD_STR: ${{ github.run_number }}
-    steps:
-      - name: set build string
-        shell: bash
-        run: |
-          if [[  ${{ contains(github.ref , 'refs/tags/') }} ]]; then
-            GIT_DESCRIBE_TAG=${{  github.ref_name }}
-          fi
-          echo $GIT_DESCRIBE_TAG
-          exit 0
-      - uses: actions/checkout@v3
-      - name: build conda package
-        shell: bash
-        run: |
-          git fetch --tags 
-          git lfs pull
-          mkdir -p $CONDA_BUILD
-          conda build . --output-folder $CONDA_BUILD
-          conda index $CONDA_BUILD
-          ls -R $CONDA_BUILD
-
-      - uses: actions/upload-artifact@master
-        with:
-          name: conda-output
-          path: /.build/conda_build
-
   build-debian:
     runs-on: [self-hosted, linux]
     container: registry.fluves.net/drone/cn_ws/debian11-build
@@ -89,7 +56,7 @@ jobs:
           path: /package
           
   build-documentation:
-    needs: [build-debian,build-linux, build-conda]
+    needs: [build-debian,build-linux]
     runs-on: [self-hosted, linux]  
     container: registry.fluves.net/drone/cn_ws/conda
     steps:

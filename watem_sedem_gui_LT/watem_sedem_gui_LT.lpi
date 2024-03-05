@@ -37,7 +37,7 @@
     </RequiredPackages>
     <Units Count="9">
       <Unit0>
-        <Filename Value="cn_ws_gui_LT.lpr"/>
+        <Filename Value="watem_sedem_gui_LT.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Invoerform"/>
       </Unit0>
@@ -93,7 +93,7 @@
     <Version Value="11"/>
     <PathDelim Value="\"/>
     <Target>
-      <Filename Value="cn_ws_gui_LT"/>
+      <Filename Value="watem_sedem_gui_LT"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>

@@ -1,25 +1,25 @@
 SUBDIRS := $(wildcard */.)
 
-all: tests cn_ws
+all: tests watem_sedem
 
-cn_ws:
-	$(MAKE) -C cn_ws
+watem_sedem:
+	$(MAKE) -C watem_sedem
 
 tests:
-	$(MAKE) -C cn_ws
+	$(MAKE) -C watem_sedem
 	$(MAKE) -C tests
 
 integration_test:
-	$(MAKE) -C cn_ws
+	$(MAKE) -C watem_sedem
 	$(MAKE) -C tests
 	testfiles/test.sh
 	pytest testfiles
 
 clean:
-	$(MAKE) -C cn_ws clean
+	$(MAKE) -C watem_sedem clean
 	$(MAKE) -C tests clean
 
-install: cn_ws
-	install -D cn_ws/cn_ws $(DESTDIR)$(prefix)/bin/cn_ws
+install: watem_sedem
+	install -D watem_sedem/watem_sedem $(DESTDIR)$(prefix)/bin/watem_sedem
 
-.PHONY: all cn_ws tests
+.PHONY: all watem_sedem tests

@@ -4,7 +4,7 @@
 Model output
 ############
 
-In this section we will describe all possible outputs of the CN-WS model. Tables
+In this section we will describe all possible outputs of WaTEM/SEDEM. Tables
 are written as tab-delimited txt-files, rasters are written as
 `Idrisi-rasters <https://gdal.org/drivers/raster/Idrisi.html>`_ (or as
 `Saga-rasters <https://gdal.org/drivers/raster/sdat.html>`_ if the
@@ -18,7 +18,7 @@ The output returned by the model depends on some of the
 Only Routing output
 ###################
 
-Following output is generated if the model choice
+Following output is generated if the model option
 ‘:ref:`only routing <onlyrouting>`’ is enabled:
 
 .. _routingtxt:
@@ -108,7 +108,7 @@ LS.rst
 ******
 
 Raster with the calculated :ref:`LS-factor <lsfactor>` (-). This
-raster will only be written if the model choice ':ref:`write ls factor <writels>`' is enabled.
+raster will only be written if the model output option ':ref:`write ls factor <writels>`' is enabled.
 
 .. _aspectmap:
 
@@ -116,15 +116,15 @@ AspectMap.rst
 *************
 
 Raster with the direction of slope (the aspect) in radians. This raster will only be
-written if the model choice ':ref:`write aspect <writeaspect>`' is enabled.
+written if the model output option ':ref:`write aspect <writeaspect>`' is enabled.
 
 .. _slopemap:
 
 SLOPE.rst
 *********
 
-Raster with the calculated slope in radians. This raster will only be written if the model choice
-':ref:`write slope<writeslope>`' is enabled.
+Raster with the calculated slope in radians. This raster will only be written if the model
+output option ':ref:`write slope<writeslope>`' is enabled.
 
 .. _upareamap:
 
@@ -132,15 +132,15 @@ UPAREA.rst
 **********
 
 Raster with the total upstream area :math:`(m^2)` for every pixel. This raster will only be
-written if the model choice ':ref:`write upstream area <writeuparea>`' is enabled.
+written if the model output option ':ref:`write upstream area <writeuparea>`' is enabled.
 
 .. _watemsedemoutput:
 
 WaTEM/SEDEM output
 ##################
 
-When only the WaTEM/SEDEM module (see :ref:`Only WS <simple>`) or if the full CN-WS model is used, the following rasters and
-tables are written as output.
+When WaTEM/SEDEM is used (i.e. ‘:ref:`only routing <onlyrouting>` is disabled),
+the following rasters and tables can be written as output.
 
 .. _totalsedimenttxt:
 
@@ -158,12 +158,12 @@ Txt-file where the first rows give a summary of the results:
 * Sediment leaving the catchment, not via the river :math:`(kg)`: the amount of sediment
   that exits the model domain (not via river pixels)
   
-if the model choice ':ref:`Include buffers <includebuffers>`' is enabled, following row is added to the file: 
+if the model extension ':ref:`Include buffers <includebuffers>`' is enabled, following row is added to the file:
 
 * Sediment trapped in buffers :math:`(kg)`: the amount of sediment that is trapped in
   all buffer basins.
   
-if the model choice ':ref:`Include sewers <inlcudesewers>`' is enabled, following row is added to the file: 
+if the model extension ':ref:`Include sewers <inlcudesewers>`' is enabled, following row is added to the file:
 
 * Sediment entering sewer system :math:`(kg)`: the amount of sediment that enters the sewer pixels
 
@@ -182,7 +182,7 @@ Total Sediment segments.txt
 
 Tab-delimited table. Every row contains the id of a river segment and the total
 amount of sediment :math:`(kg)` entering the segment.
-This table is only generated if the model choice
+This table is only generated if the model extension
 ':ref:`Output per river segment <outputsegment>`' is enabled.
 
 An example output is given here:
@@ -195,10 +195,9 @@ An example output is given here:
 Cumulative sediment segments.txt
 ********************************
 
-
 Tab-delimited table. Every row contains the id of a river segment and the cumulative
 amount of sediment transported from all upstream segments towards this segment.
-This table is only generated if the model choice
+This table is only generated if the model extension
 ':ref:`Output per river segment <outputsegment>`' is enabled.
 
 .. _claycontentesedtxt:
@@ -207,7 +206,7 @@ Clay content sediment.txt
 *************************
 
 Tab-delimited table with the estimated mean clay content (in %) at every outlet. This table
-is only generated when if the model choice ':ref:`estimate clay content <estimclay>`' is enabled.
+is only generated when if the model extension ':ref:`estimate clay content <estimclay>`' is enabled.
 
 .. _claycontentesedsegmenttxt:
 
@@ -215,7 +214,7 @@ Clay content sediment segments.txt
 **********************************
 
 Tab-delimited table with the estimated mean clay content (in %) entering every river segment. This
-table is only generated if the model choices ':ref:`estimate clay content <estimclay>`' and
+table is only generated if the model extensions ':ref:`estimate clay content <estimclay>`' and
 ':ref:`Output per river segment <outputsegment>`' are enabled.
 
 .. _cumulativerst:
@@ -227,9 +226,7 @@ Raster with the cumulative amount of sediment in :math:`(kg)` in every river pix
 The most downstream pixel of the river network will have the highest value, because all
 upstream river pixels route to this pixel. 
 
-This raster is only written if the model choice ':ref:`River routing <riverrouting>`' is enabled.
-
-
+This raster is only written if the model extension ':ref:`River routing <riverrouting>`' is enabled.
 
 .. _sewerinrst:
 
@@ -237,7 +234,7 @@ sewer_in.rst
 ************
 
 Raster with the amount of sediment in :math:`(kg)` trapped in every sewer pixel.
-This raster is only generated if the model choice ':ref:`Include sewers <inlcudesewers>`' is enabled.
+This raster is only generated if the model extension ':ref:`Include sewers <inlcudesewers>`' is enabled.
 
 .. _sediexportrst:
 
@@ -245,7 +242,8 @@ SediExport_kg.rst
 *****************
 
 Raster with the calculated amounts of sediment input :math:`(kg)` for every river cell.
-This raster is only written if the model choice ':ref:`write sediment export <writesedexport>`' is enabled.
+This raster is only written if the model output option
+':ref:`write sediment export <writesedexport>`' is enabled.
 
 .. _sedioutrst:
 
@@ -254,7 +252,8 @@ SediOut_kg.rst
 
 Raster with the amount of sediment :math:`(kg)` that leaves every pixel and is
 distributed between its target pixels.
-This raster is only written if the model choise ':ref:`write sediment export <writesedexport>`' is enabled.
+This raster is only written if the model output option
+':ref:`write sediment export <writesedexport>`' is enabled.
 
 .. _sediinrst:
 
@@ -262,7 +261,7 @@ SediIn_kg.rst
 *************
 
 Raster with the amount of sediment :math:`(kg)` that enters a pixel from the upstream
-pixels. This raster is only written if the model choice
+pixels. This raster is only written if the model output option
 ':ref:`write sediment export <writesedexport>`' is enabled.
 
 .. _watereroskgrst:
@@ -272,7 +271,7 @@ WATEREROS (kg per gridcel).rst
 
 Raster with the net erosion or sedimentation in every pixel in
 (in :math:`kg`). Negative values indicate erosion, while positive values indicate
-sedimentation. This raster is only written if the model choice 
+sedimentation. This raster is only written if the model output option
 ':ref:`write water erosion <writerwatereros>`' is enabled. See the
 :ref:`concept of WaTEM-SEDEM <Concept>` for more information on the calculation of
 this value.
@@ -284,7 +283,7 @@ WATEREROS (mm per gridcel).rst
 
 Raster with net erosion or sedimentation in every pixel in
 (in :math:`mm`). Negative values indicate erosion, while positive values indicate
-sedimentation. This raster is only written if the model choice
+sedimentation. This raster is only written if the model output option
 ':ref:`write water erosion <writerwatereros>`' is en enabled. See the
 :ref:`concept of WaTEM-SEDEM <Concept>` for more information on the calculation of
 this value.
@@ -295,7 +294,8 @@ Capacity.rst
 ************
 
 Raster with the calculated transport capacity (TC) (in :math:` kg pixel^{-1} year^{-1}`) for every
-pixel. The values in this raster are calculated according the chosen formula in the model choice ':ref:`transport capacity <tcmodel>`'.
+pixel. The values in this raster are calculated according the chosen formula in the
+model option ':ref:`transport capacity <tcmodel>`'.
 
 .. _ruslerst:
 
@@ -303,36 +303,36 @@ RUSLE.rst
 *********
 
 Raster with the calculated RUSLE-values, the potential soil loss, for every
-pixel in (in:math:` kg m^{-2} year^{-1}`). This raster is only written if the model choice
-':ref:`write rusle <writerusle>`' is enabled.
+pixel in (in:math:` kg m^{-2} year^{-1}`). This raster is only written if the
+model output option ':ref:`write rusle <writerusle>`' is enabled.
 
 TILEROS (mm per gridcel).rst
 ****************************
 
 Raster with the calculated tillage erosion (in :math:`mm year^{-1}`). Negative values indicate
 erosion, while positive values indicate sedimentation.
-This raster is only written if the model choice ':ref:`calculate tillage erosion <calctileros>`' is enabled.
+This raster is only written if the model option ':ref:`calculate tillage erosion <calctileros>`' is enabled.
 
 TILEROS (kg per gridcel).rst
 ****************************
 
 Raster with the calculated tillage erosion (in :math:`kg year^{-1}`). Negative values indicate
 erosion, positive values indicate sedimentation.
-This raster is only written if the model choice ':ref:`calculate tillage erosion<calctileros>`' is enabled.
+This raster is only written if the model option ':ref:`calculate tillage erosion<calctileros>`' is enabled.
 
 SEDTIL_IN.rst
 *************
 
 Raster with the amount of sediment (in :math:`kg`) that enters a
 pixel from the upstream pixels, due to tillage erosion.
-This raster is only written if the model choice ':ref:`calculate tillage erosion <calctileros>`' is enabled.
+This raster is only written if the model option ':ref:`calculate tillage erosion <calctileros>`' is enabled.
 
 SEDTIL_OUT.rst
 **************
 
 Raster with the amount of sediment (in :math:`kg`) that leaves every
 pixel and is distributed between its target pixels, due to tillage erosion.
-This raster is only written if the model choice ':ref:`calculate tillage erosion <calctileros>`' is enabled.
+This raster is only written if the model option ':ref:`calculate tillage erosion <calctileros>`' is enabled.
 
 .. _calibrationtxt:
 
@@ -341,7 +341,7 @@ Calibration.txt
 
 This file contains the same output as
 :ref:`Total Sediment.txt <totalsedimenttxt>`, but for all possible ktc combinations defined
-in the :ref:`Calibration-option <calibration>`. This output is only written if the model choice
+in the :ref:`Calibration-option <calibration>`. This output is only written if the model extension
 ':ref:`Calibrate <calibrate>`' is enabled.
 
 This txt-file contains a ;-seperated table. The columns in the
@@ -359,7 +359,8 @@ An example output where ktc_low and ktc_high were varied from 1 to 5 is given he
 CN-output
 #########
 
-When the CN-module is enabled (i.e. :ref:`Only WS <simple>` is disabled) some additional output is generated.
+When the CN-extension is enabled (i.e. :ref:`curve number <simple>` is enabled) some additional
+output is, or, can be generated.
 
 Discharge.txt
 *************
@@ -372,7 +373,7 @@ Discharge_segments.txt
 **********************
 
 Table with discharge (in :math:`m^3 s^{-1}`) as a function of time for every river segment. This
-table is only generated if the model choice ':ref:`Output per river segment <outputsegment>`' is enabled.
+table is only generated if the model extension ':ref:`Output per river segment <outputsegment>`' is enabled.
 
 Sediment concentration.txt
 **************************
@@ -387,7 +388,7 @@ Sediment concentration segments.txt
 
 Table with the concentration of sediment (in :math:`g.l^{-1}`) as a function of time for every
 river segment.
-This table is only generated if the model choice ':ref:`Output per river segment <outputsegment>`' is enabled.
+This table is only generated if the model extension ':ref:`Output per river segment <outputsegment>`' is enabled.
 
 Sediment.txt
 ************
@@ -400,8 +401,8 @@ Sediment_segments.txt
 *********************
 
 Table with the sediment load (in :math:`kg`) as a function of time for the river
-segments. This table is only generated if the model choice
-':ref:`Output per river segment = 1 <outputsegment>`' is enabled.
+segments. This table is only generated if the model extension
+':ref:`Output per river segment <outputsegment>`' is enabled.
 
 Spillover per buffer.txt
 ************************
@@ -421,7 +422,7 @@ Remap.rst
 *********
 
 Rainfall Excess Raster, a raster with the total amount of discharge (in :math:`m^3 s^{-1}`) per pixel
-for a rainfall event. Here the discharce is defined by the amount of rainfall minus the ammount of infiltration.
+for a rainfall event. Here the discharce is defined by the amount of rainfall minus the amount of infiltration.
 
 .. _totalrunofrst:
 

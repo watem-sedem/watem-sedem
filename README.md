@@ -1,47 +1,49 @@
-# CN-WS
+# WaTEM/SEDEM
 
-CN-WS is a model that can be used to
-simulate soil erosion, sediment transport, water and sediment routing and
-flow run-off in time and space. The package combines three existing submodels:
+WaTEM/SEDEM is a soil erosion and sediment delivery model used for catchment-scale
+simulations. The model incorporates a Revised Universal Soil Loss Equation (RUSLE)
+module to simulate gross erosion, extended with a spatially-explicit sediment routing
+module to simulate sediment transport based on a cellular transport capacity. The model
+therefore provides the user with predictions of gross and net soil erosion at the
+catchment scale.
 
- - The Curve Number model (CN) for simulating flow run-off.
- - The WaTEM/SEDEM model (WS) for simulating erosion and over-land sediment
-   transport.
- - The routing algorithm for simulating water and sediment routing over land.
-
-CN-WS is developed to assess soil erosion on
-agricultural fields, sediment transport through the landscape and sediment
-delivery to watercourses and sewage systems. As the impact of soil erosion
-mitigation measures is incorporated, the model can also be used to evaluate soil
-erosion management measures and compare mitigation strategies.
+WaTEM/SEDEM has been applied for numerous applications considering both the on-site and
+off-site impacts of soil erosion. These applications include the predicted soil loss
+from fields, off-site deposition, predictions of catchment sediment yield. The model has
+also been extended for the simulation of transported heavy metals, nutrients and organic
+carbon. The default application of the model can be extended in several ways to simulate
+the impact of soil erosion mitigation measures in a spatially-explicit way. For example,
+additional options within the model allow for the consideration of other anthropogenic
+factors such as roads, sewage systems, water and sediment buffer basins, dams and
+ditches.
 
 ## Code
 
-The code can be found on [Github](https://github.com/cn-ws/cn-ws/). 
+The code can be found on [Github](https://github.com/watem-sedem/watem-sedem/). 
 Binaries for windows or linux of the releases can be 
-[downloaded](https://github.com/cn-ws/cn-ws/releases) too. 
+[downloaded](https://github.com/watem-sedem/watem-sedem/releases) too. 
 
 ## Documentation
 
 The extensive documentation can be found on the 
-[cn-ws documentation page](https://cn-ws.github.io/cn-ws/). 
+[watem-sedem documentation page](https://watem-sedem.github.io/watem-sedem/). 
 In this documentation, a theoretical background of the model and an overview
 of the model usage are given, as well as an installation guide followed by a
-[tutorial](https://cn-ws.github.io/cn_ws/tutorial.html).
+[tutorial](https://watem-sedem.github.io/watem-sedem/tutorial.html).
 
 ## Get started
 
 The fastest way to start modelling is to 
-[download](https://github.com/cn-ws/cn-ws/releases) the binary of the 
+[download](https://github.com/watem-sedem/watem-sedem/releases) the binary of the 
 most recent release and follow the 
-[installation instructions](https://cn-ws.github.io/cn-ws/installation.html) in 
-the documentation. A [tutorial](https://cn-ws.github.io/cn-ws/tutorial.html) is 
+[installation instructions](https://watem-sedem.github.io/watem-sedem/installation.html) in 
+the documentation. A [tutorial](https://watem-sedem.github.io/watem-sedem/tutorial.html) is 
 also available.  
 
 ## License
 
 This project is licensed under the GNU Lesser General Public License v3.0, see
-[LICENSE](https://github.com/cn-ws/cn-ws/blob/master/LICENSE) for more information.
+[LICENSE](https://github.com/watem-sedem/watem-sedem/blob/master/LICENSE) for more information.
 
 ## Contact
 

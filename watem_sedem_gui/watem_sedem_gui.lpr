@@ -1,4 +1,4 @@
-program cn_ws_gui;
+program watem_sedem_gui;
 
 {$mode objfpc}{$H+}
 
@@ -14,7 +14,7 @@ uses
 {$R *.res}
 
 begin
-  Application.Title:='CN_WS model';
+  Application.Title:='WaTEM/SEDEM model';
   RequireDerivedFormResource := True;
   Application.Initialize;
   Application.CreateForm(THoofdscherm_CN_form, Hoofdscherm_CN_form);

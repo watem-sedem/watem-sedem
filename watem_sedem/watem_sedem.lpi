@@ -10,7 +10,7 @@
       </Flags>
       <SessionStorage Value="InProjectDir"/>
       <MainUnit Value="0"/>
-      <Title Value="cn_ws"/>
+      <Title Value="watem_sedem"/>
       <UseAppBundle Value="False"/>
       <ResourceType Value="res"/>
     </General>
@@ -45,7 +45,7 @@
     </RequiredPackages>
     <Units Count="10">
       <Unit0>
-        <Filename Value="cn_ws.lpr"/>
+        <Filename Value="watem_sedem.lpr"/>
         <IsPartOfProject Value="True"/>
       </Unit0>
       <Unit1>
@@ -98,7 +98,7 @@
     <Version Value="11"/>
     <PathDelim Value="\"/>
     <Target>
-      <Filename Value="cn_ws"/>
+      <Filename Value="watem_sedem"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>

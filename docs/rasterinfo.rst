@@ -4,7 +4,7 @@
 Rasters
 #######
 
-The input and outputfiles of CN-WS are based on geospatial rasters. Every raster
+The input and outputfiles of WaTEM/SEDEM are based on geospatial rasters. Every raster
 is defined with a cell size (e.g. 20x20m or 20x50m) and a number of rows and
 columns. Geospatial rasters are placed within a reference system (e.g. WGS84 or
 EPSG:31370) to situate these rasters in the right location.
@@ -38,6 +38,6 @@ these two raster formats, use the :ref:`Saga grids <sagagrids>`-option.
 Raster Coordinates
 ==================
 
-The origin of the raster coordinatesytem in CN-WS lies in the upper left
+The origin of the raster coordinatesytem in WaTEM/SEDEM lies in the upper left
 rastercell. This cell has the raster coordinates (1,1).
 
