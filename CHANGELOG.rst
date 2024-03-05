@@ -2,6 +2,36 @@
 Changelog
 =========
 
+Version 5.0.0
+-------------
+This version contains several breaking changes to previous versions. 
+CN-WS was intially develloped on the basic WaTEM/SEDEM code. As
+CN-WS expierienced several important bug fixes and other improvements,
+it was decided to replace the old versions of WaTEM/SEDEM with the
+most recent CN-WS code, therefore CN-WS was renamed back WaTEM/SEDEM.
+
+In this version following changes were created:
+
+- Restructuring the *.ini-file:
+
+  - The section "User Choices" was split in two new sections:
+
+    - Options
+    - Extensions
+
+  - The section "Variables" was split in two new sections:
+
+    - Parameters
+    - Parameters Extensions
+
+  - The section "Output maps" was renamed to "Output"
+  - The option "Only WS" was renamed to "Curve Number"
+
+- The executable/build cn_ws was renamed to watem_sedem
+- The naming in the folder structure was updated from cn_ws to watem_sedem
+- Multiple additions/corrections to the documentation
+
+
 Version 4.2.3
 -------------
 - Multiple additions/corrections to the documentation.
