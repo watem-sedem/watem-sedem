@@ -2,6 +2,36 @@
 Changelog
 =========
 
+Version 5.0.0
+-------------
+This release contains a name change from CN-WS to WaTEM/SEDEM (in code watem_sedem) 
+in order to follow the initial aim of the KU Leuven for developing WaTEM/SEDEM: 
+CN was added in later versions. The CN-module is now refactored to an extension. 
+With this release, a distinction is made between the basic WaTEM/SEDEM model 
+and the extensions (CN, buffers, forced routing, etc..).
+
+In this version following changes were created:
+
+- Restructuring the *.ini-file:
+
+  - The section "User Choices" was split in two new sections:
+
+    - Options
+    - Extensions
+
+  - The section "Variables" was split in two new sections:
+
+    - Parameters
+    - Parameters Extensions
+
+  - The section "Output maps" was renamed to "Output"
+  - The option "Only WS" was renamed to "Curve Number"
+
+- The executable/build cn_ws was renamed to watem_sedem
+- The naming in the folder structure was updated from cn_ws to watem_sedem
+- Multiple additions/corrections to the documentation
+
+
 Version 4.2.3
 -------------
 - Multiple additions/corrections to the documentation.
