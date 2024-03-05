@@ -4,11 +4,11 @@ Changelog
 
 Version 5.0.0
 -------------
-This version contains several breaking changes to previous versions. 
-CN-WS was intially develloped on the basic WaTEM/SEDEM code. As
-CN-WS expierienced several important bug fixes and other improvements,
-it was decided to replace the old versions of WaTEM/SEDEM with the
-most recent CN-WS code, therefore CN-WS was renamed back WaTEM/SEDEM.
+This release contains a name change from CN-WS to WaTEM/SEDEM (in code watem_sedem) 
+in order to follow the initial aim of the KU Leuven for developing WaTEM/SEDEM: 
+CN was added in later versions. The CN-module is now refactored to an extension. 
+With this release, a distinction is made between the basic WaTEM/SEDEM model 
+and the extensions (CN, buffers, forced routing, etc..).
 
 In this version following changes were created:
 
