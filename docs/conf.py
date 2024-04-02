@@ -130,7 +130,7 @@ html_context = {
     # "source_url_prefix": "https://github.com/watem-sedem/watem-sedem/blob/master/docs/",
     # "display_vcs_links": 1,
     "display_github": True,
-    "github_user": "cn-ws",
-    "github_repo": "cn-ws",
+    "github_user": "watem-sedem",
+    "github_repo": "watem-sedem",
     "github_version": "master/docs/"
 }
