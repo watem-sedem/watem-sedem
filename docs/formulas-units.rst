@@ -12,11 +12,11 @@ between the units used in the :ref:`model description<modeldescription>`,
 outputs<modeloutput>`. This overview can help interpret the outputs of WaTEM/SEDEM.
 
 As explained in :ref:`the model description <WS>` of WaTEM/SEDEM, the amount of erosion and deposition in
-each pixel is determined by comparing the mean annual soil erosion :math:`E`
-and incoming sediment :math:`S_i` with the transport capacity :math:`TC`.
+each pixel, as well as the amount of sediment leaving a pixel downstream (So) is determined by comparing
+the mean annual soil erosion :math:`E`
+and incoming sediment :math:`S_i` with the transport capacity :math:`TC` at the pixel level.
 In the model code this is done by
-comparing **volumes** (:math:`m^3`) or with
-:math:`S_A =S_i+E` (see :ref:`concept <Concept>`):
+comparing **volumes** (:math:`m^3`):
 
 .. math::
     S_o = TC \quad\text{ if } S_i+E > TC
@@ -71,6 +71,12 @@ The model outputs `incoming sediment` :math:`S_i` (:ref:`SediIn
 
 Note that :math:`S_e` is equal to :math:`S_o`, yet masked respectively for
 river and land pixels.
+
+WaTEM/SEDEM outputs include an erosion map that expresses E in kg/m²/year,
+equivalent to area-specific erosion rates reported in most other studies.
+Values can be multiplied with 10 to obtain typical erosion rates in ton/ha/year.
+A transport capacity map is also provided as an output, whereby the amount of sediment that
+can be transported through a pixel in downstream direction is shown in kg/pixel/year.
 
 In the table below the units of import input and output values/rasters are
 listed.
