@@ -23,6 +23,7 @@ The contributors of Fluves, Departement Omgeving and VMM are Johan Van de Wauw, 
 Sacha Gobeyn, Niels De Vleesschouwer, Stijn Van Hoey and Jarne Amerlinck, Dries Luts,
 Seth Callewaert and Bashar Al-Barri. The supervision and coordination of the developments is done by
 Petra Deproost (Departement Omgeving) and Nele Van Ransbeeck (VMM).
+Model developments by Fluves are scientifically supported by KU Leuven.
 
 When using WaTEM/SEDEM, reference should be provided to the current model code on github
 and to the following publications:
