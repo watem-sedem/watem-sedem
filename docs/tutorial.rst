@@ -270,7 +270,7 @@ in the repository contain an example project where following options are used:
 - river routing
 - include ditches
 - include sewers
-- create ktc map = 0
+- create ktc map
 - ...
 
 Have a look at them, and using the principles explained above you should be able to get
