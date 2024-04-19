@@ -22,8 +22,8 @@ import os
 # -- Project information -----------------------------------------------------
 
 project = 'WaTEM/SEDEM'
-copyright = '2020, Van de Wauw Johan, Renders Daan'
-author = 'Van de Wauw Johan, Renders Daan & contributors'
+copyright = '2024, KU Leuven & Fluves, see https://watem-sedem.github.io/watem-sedem/authors.html for more information'
+# author = 'Van de Wauw Johan, Renders Daan & contributors'
 
 
 # -- General configuration ---------------------------------------------------

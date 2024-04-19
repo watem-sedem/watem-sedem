@@ -11,6 +11,20 @@ Anton Van Rompaey en Gert Verstraeten.
 The code has been further adjusted by Marijn Van Den Broeck and Jeroen Degerickx
 and several students.
 
+Since 2017, updates to the Free Pascal code and the maintenance of
+the Github WaTEM/SEDEM site is now mostly done by `Fluves <www.fluves.com>`_,
+funded by two organisations of the
+Flemish Government:
+
+- `Departement Omgeving <https://omgeving.vlaanderen.be>`_
+- `Vlaamse Milieu Maatschappij (VMM) <https://www.vmm.be/>`_
+
+The contributors of Fluves, Departement Omgeving and VMM are Johan Van de Wauw, Daan Renders,
+Sacha Gobeyn, Niels De Vleeschouwer, Stijn Van Hoey and Jarne Amerlinck, Dries Luts,
+Seth Callewaert and Bashar Al-Barri. The supervision and coordination of the developments is done by
+Petra Deproost (Departement Omgeving) and Nele Van Ransbeeck (VMM).
+Model developments by Fluves are scientifically supported by KU Leuven.
+
 When using WaTEM/SEDEM, reference should be provided to the current model code on github
 and to the following publications:
 
@@ -26,14 +40,6 @@ and to the following publications:
 
 Intellectual property rights remain at KU Leuven.
 
-Updates to the Free Pascal code and the maintenance of the Github WaTEM/SEDEM site is
-now mostly done at `Fluves <www.fluves.com>`_, funded by two organisations of the
-Flemish Government:
-
-
-- `Departement Omgeving <https://omgeving.vlaanderen.be>`_
-- `Vlaamse Milieu Maatschappij <https://www.vmm.be/>`_
-
 .. image:: _static/png/fluves_logo.png
     :width: 150
 
@@ -45,28 +51,3 @@ Flemish Government:
 
 .. image:: _static/png/VMM_logo.png
     :width: 150
-
-Supervision and coordination
-----------------------------
-
-* Petra Deproost
-* Nele Van Ransbeeck
-
-Development Lead
-----------------
-
-* Johan Van de Wauw
-
-Contributors
-------------
-
-* Daan Renders 
-* Sacha Gobeyn
-* Niels De Vleeschouwer
-* Dries Luts
-* Stijn Van Hoey
-* Jarne Amerlinck
-* Seth Callewaert
-
-Why not join?
-

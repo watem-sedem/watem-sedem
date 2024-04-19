@@ -246,9 +246,7 @@ function of time) is generated.
 
 WaTEM/SEDEM is used to model the total sediment load leaving the model domain
 via rivers or an outlet. The use of WaTEM/SEDEM in CN requires to precompute
-and R-factor and provide it as model input. In order to compute an R-factor
-value, the `R-factor python packge <https://watem-sedem.github.io/rfactor/>`_) can
-be used.
+an R-factor and provide it as model input.
 
 The output of both models is combined: the total sediment load is distributed
 over the hydrogram to obtain a sedigram (sediment concentration and sediment

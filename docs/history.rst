@@ -3,8 +3,10 @@
 A short history of WaTEM/SEDEM
 ==============================
 
-The developments of WaTEM/SEDEM was initialised by the KU Leuven
-(`Department of Earth and Environmental Sciences <https://ees.kuleuven.be//>`_),
+The developments of WaTEM/SEDEM was initialised at the turn of the 20th century by
+members of the former Laboratory for Experimental Geomorphology at KU Leuven,
+now the Geography and Tourism Research Group
+(`Geography and Tourism Research Group <https://ees.kuleuven.be/en/geography>`_),
 in 2000. A key component in the computation of sediment transport to the river was
 the coupling of the two models:
 
@@ -17,7 +19,8 @@ Since the original publications, the model has undergone numerous iterative deve
 within published scientific literature. These led to numerous additional options being
 available within the model which can typically selected as user-choice as options.
 
-The sediment export model CN-WS was developed between 2013
+The CN-WS extension of WaTEM/SEDEM whereby :ref:`the Curve Number model <CN>` is incorporated
+in WaTEM/SEDEM was developed between 2013
 and 2016 by KU Leuven in partnership with `Antea Belgium
 <https://anteagroup.be/>`_, and was commissioned by
 the Flemish government (Antea, 2016). The aim was to
