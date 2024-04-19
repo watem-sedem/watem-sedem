@@ -12,7 +12,7 @@ The code has been further adjusted by Marijn Van Den Broeck and Jeroen Degerickx
 and several students.
 
 Since 2017, updates to the Free Pascal code and the maintenance of
-the Github WaTEM/SEDEM site is now mostly done at `Fluves <www.fluves.com>`_,
+the Github WaTEM/SEDEM site is now mostly done by `Fluves <www.fluves.com>`_,
 funded by two organisations of the
 Flemish Government:
 
@@ -20,7 +20,7 @@ Flemish Government:
 - `Vlaamse Milieu Maatschappij (VMM) <https://www.vmm.be/>`_
 
 The contributors of Fluves, Departement Omgeving and VMM are Johan Van de Wauw, Daan Renders,
-Sacha Gobeyn, Niels De Vleesschouwer, Stijn Van Hoey and Jarne Amerlinck, Dries Luts,
+Sacha Gobeyn, Niels De Vleeschouwer, Stijn Van Hoey and Jarne Amerlinck, Dries Luts,
 Seth Callewaert and Bashar Al-Barri. The supervision and coordination of the developments is done by
 Petra Deproost (Departement Omgeving) and Nele Van Ransbeeck (VMM).
 Model developments by Fluves are scientifically supported by KU Leuven.
