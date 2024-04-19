@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.10997287.svg)](http://dx.doi.org/10.5281/zenodo.10997287)
+
 # WaTEM/SEDEM
 
 WaTEM/SEDEM is a soil erosion and sediment delivery model used for catchment-scale
