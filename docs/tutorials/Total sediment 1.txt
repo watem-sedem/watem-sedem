@@ -1,9 +1,9 @@
-Total erosion: -22676167.77 (kg)
-Total deposition: 18978534.3 (kg)
-Sediment leaving the catchment, via the river: 3268806.66 (kg)
-Sediment leaving the catchment, not via the river: 419793.77 (kg)
+Total erosion: -26917936.54 (kg)
+Total deposition: 22765482.64 (kg)
+Sediment leaving the catchment, via the river: 3694854.5 (kg)
+Sediment leaving the catchment, not via the river: 445206.09 (kg)
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 Total sediment passing at each outlet [kg]
 Outlet ID	Sediment
-1	3268804.75
+1	48886.38281

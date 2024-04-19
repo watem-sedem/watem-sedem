@@ -46,17 +46,17 @@ use your terminal to run the model, as follows:
 
 .. code-block:: bash
 
-    $ cn_ws "<path to watem-sedem repository>/watem_sedem/docs/tutorials/tutorial_1.ini"
+    $ watem_sedem "<path to watem-sedem repository>/watem_sedem/docs/tutorials/tutorial_1.ini"
 
 When the model run starts you will see::
 
-    CN_WS model
+    WATEM/SEDEM model version: 5.0.0
 
     Inifile : <path to watem-sedem repository>/watem_sedem/docs/tutorials/tutorial_1.ini
 
 After the completion of the calculations, the model reports the execution time::
 
-    Calculations completed. Program Execution Time: 5.96 sec
+    Calculations completed. Program Execution Time: 3.4 sec
 
 Now, you can have a look in the model output folder defined in the ini-file. A
 txt-file with a summary of the results is written:
@@ -108,7 +108,7 @@ Then the adapted model can be ran using
 
 .. code-block::
 
-    cn_ws $your_favorite_folder/tutorial_2.ini
+    watem_sedem $your_favorite_folder/tutorial_2.ini
 
 If this is not working as it should, please check if the reference
 '`your_favorite_folder`' is the folder where you saved the `tutorial_2.ini`-
@@ -181,7 +181,7 @@ the buffer map filename and the number of buffers the ini-file looks like this:
 
 If we run the model with this configuration (tutorial_3a.ini) we get::
 
-    CN_WS model
+    WaTEM/SEDEM model version: 5.0.0
 
     Inifile : <path to inifile>\docs\tutorials\tutorial_3a.ini
 
