@@ -177,7 +177,7 @@ the buffer map filename and the number of buffers the ini-file looks like this:
 
 .. literalinclude:: tutorials/tutorial_3a.ini
     :language: ini
-    :emphasize-lines: 11,29-33
+    :emphasize-lines: 12,27-31
 
 If we run the model with this configuration (tutorial_3a.ini) we get::
 
