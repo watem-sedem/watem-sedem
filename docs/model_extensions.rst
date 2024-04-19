@@ -148,9 +148,9 @@ To enable this option, the following line must be written in the ini-file:
 
 .. code-block:: ini
 
-    Create ktc map = 1
+    Include sewers = 1
 
-The default is: ``Create ktc map = 0``
+The default is: ``Include sewers = 0``
 
 
 .. note::
