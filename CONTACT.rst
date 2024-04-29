@@ -11,4 +11,5 @@ If you have questions about the history or concept of the model that are not ans
 the documentation please contact KU Leuven on watemsedem@kuleuven.be.
 
 Do you have questions about the application of WaTEM/SEDEM in Flanders?
-Please contact Departement Omgeving on cn-ws@omgeving.vlaanderen.be
+Please contact Departement Omgeving of the Government of Flanders
+on cn-ws@omgeving.vlaanderen.be

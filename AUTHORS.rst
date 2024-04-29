@@ -29,13 +29,13 @@ and to the following publications:
 
 - Van Oost K, Govers G, & Desmet PJJ, 2000. Evaluating the effects of changes in
   landscape structure on soil erosion by water and tillage. Landscape Ecology 15 (6),
-  579-591.
+  579-591. https://doi.org/10.1023/A:1008198215674
 - Van Rompaey A, Verstraeten G, Van Oost K, Govers G & Poesen J, 2001. Modelling mean
   annual sediment yield using a distributed approach. Earth Surface Processes and
-  Landforms 26 (11), 1221-1236.
+  Landforms 26 (11), 1221-1236. https://doi.org/10.1002/esp.275
 - Verstraeten G, Van Oost K, Van Rompaey A, Poesen J & Govers G, 2002. Evaluating an
   integrated approach to catchment management to reduce soil loss and sediment pollution
-  through modelling. Soil Use and Management, 18, 386-394.
+  through modelling. Soil Use and Management, 18, 386-394. https://doi.org/10.1079/SUM2002150
 
 The code can be cited as
 
