@@ -49,22 +49,31 @@ This project is licensed under the GNU Lesser General Public License v3.0, see
 
 ## Contact
 
-We encourage users to submit questions, suggestions and bug reports via
-the issues platform on GitHub. In case of other questions, one can mail
-to <cn-ws@omgeving.vlaanderen.be>
+For technical questions, we refer to the documentation and to the frequently asked
+questions in the documentation. If you have a technical issue with running the
+model, or if you encounter a bug, please use the issue-tracker on github:
+https://github.com/watem-sedem/watem-sedem/issues.
+
+If you have questions about the history or concept of the model that are not answered in
+the documentation please contact KU Leuven via watemsedem@kulevuen.be.
+
+Do you have questions about the application of WaTEM/SEDEM in Flanders?
+Please contact Departement Omgeving on cn-ws@omgeving.vlaanderen.be
 
 ## References
 
-Antea, 2016. Modellering van de sedimentaanvoer naar de waterlopen, het
-effect van erosiebestrijdingsmaatregelen en het transport van sediment in de
-onbevaarbare waterlopen. Departement Omgeving. Afdeling Gebiedsontwikkeling,
-Omgevingsplannen en -projecten. Land en Bodembescherming, Brussel.
-https://www.vlaanderen.be/publicaties/modellering-van-de-sedimentaanvoer-naar-de-waterlopen-het-effect-van-erosiebestrijdingsmaatregelen-en-het-transport-van-sediment-in-de-onbevaarbare-waterlopen
+When using WaTEM/SEDEM, reference should be provided to the current model code on github
+and to the following publications:
 
-Deproost, P., Renders, D., Van de Wauw, J., Van Ransbeeck, N.,
-Verstraeten, G., 2018, Herkalibratie van WaTEM/SEDEM met het DHMV-II als
-hoogtemodel: eindrapport. Brussel.
-https://archief.onderzoek.omgeving.vlaanderen.be/Onderzoek-1812384
+- Van Oost K, Govers G, & Desmet PJJ, 2000. Evaluating the effects of changes in
+  landscape structure on soil erosion by water and tillage. Landscape Ecology 15 (6),
+  579-591.
+- Van Rompaey A, Verstraeten G, Van Oost K, Govers G & Poesen J, 2001. Modelling mean
+  annual sediment yield using a distributed approach. Earth Surface Processes and
+  Landforms 26 (11), 1221-1236.
+- Verstraeten G, Van Oost K, Van Rompaey A, Poesen J & Govers G, 2002. Evaluating an
+  integrated approach to catchment management to reduce soil loss and sediment pollution
+  through modelling. Soil Use and Management, 18, 386-394.
 
 ## Powered by
 

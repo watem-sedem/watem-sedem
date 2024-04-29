@@ -19,7 +19,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: build linux
         run: |
-          git fetch --tags
+          git fetch --tags --force
           git lfs pull
           make
 
@@ -44,7 +44,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: build debian package
         run : |
-          git fetch --tags
+          git fetch --tags --force
           git lfs pull
           gbp dch --snapshot --ignore-branch --snapshot-number=$DRONE_BUILD_NUMBER
           debuild -b
