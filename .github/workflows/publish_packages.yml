@@ -14,6 +14,7 @@ env:
 jobs:
   build-packages:
     uses: ./.github/workflows/build.yml
+    uses: ./.github/workflows/build-windows.yml
  
   publish-github:
     - uses: actions/download-artifact@master
