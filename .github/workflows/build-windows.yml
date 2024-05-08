@@ -22,7 +22,7 @@ jobs:
       - name: Install Lazarus
         uses: gcarreno/setup-lazarus@v3
         with:
-          lazarus-version: 3.2
+          lazarus-version: "3.0"
           with-cache: true
       - name: fetch tags
         run: |
