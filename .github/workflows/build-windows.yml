@@ -29,10 +29,17 @@ jobs:
           git fetch --tags
           git lfs pull
 
+      - name: Get Git Tag
+        id: get_tag
+        run: |
+          echo "::set-output name=tag::$(git describe --abbrev=4 --always --tags)"
+      
+      - name: Write tag to File
+        run: echo "'${{ steps.get_tag.outputs.tag }}'" > watem_sedem/version.inc
+
       - name: build compiled version
         run: |
-          $var = git describe --abbrev=4 --always --tags
-          $var | Out-File -FilePath "watem_sedem\version.inc"
+          echo '"${{ steps.get_tag.outputs.tag }}"' > watem_sedem/version.inc
           lazbuild.exe watem_sedem\watem_sedem.lpr
           strip.exe watem_sedem\watem_sedem.exe
       - name: run tests
