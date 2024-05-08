@@ -36,7 +36,7 @@ jobs:
       - uses: actions/upload-artifact@master
         with:
           name: linux-amd64-binary
-          path: watem-sedem/watem-sedem
+          path: watem_sedem/watem_sedem
 
   build-debian:
     runs-on: [self-hosted, linux]
