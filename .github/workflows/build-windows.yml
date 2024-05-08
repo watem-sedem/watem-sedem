@@ -31,6 +31,8 @@ jobs:
 
       - name: build compiled version
         run: |
+          for /f "tokens=*" %%A in ('git describe --abbrev^=4 --always --tags') do set var=%%A
+          echo '%var%' > watem_sedem\version.inc
           lazbuild.exe watem_sedem\watem_sedem.lpr
           strip.exe watem_sedem\watem_sedem.exe
       - name: run tests
