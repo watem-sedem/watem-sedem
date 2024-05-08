@@ -31,8 +31,8 @@ jobs:
 
       - name: build compiled version
         run: |
-          c:\lazarus\lazbuild.exe watem_sedem\watem_sedem.lpr
-          c:\lazarus\fpc\3.2.2\bin\x86_64-win64\strip.exe cn_ws\cn_ws.exe
+          lazbuild.exe watem_sedem\watem_sedem.lpr
+          strip.exe cn_ws\cn_ws.exe
       - name: run tests
         run: |
            .\testfiles\test.bat
