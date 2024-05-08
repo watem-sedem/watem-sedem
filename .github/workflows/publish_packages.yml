@@ -19,6 +19,8 @@ jobs:
     uses: ./.github/workflows/build-windows.yml
 
   publish-github:
+    needs: [build-packages, build-windows-packages]
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/download-artifact@master
       with:
