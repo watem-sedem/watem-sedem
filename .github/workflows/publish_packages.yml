@@ -20,6 +20,7 @@ jobs:
 
   publish-github:
     needs: [build-packages, build-windows-packages]
+    if: contains(github.ref , 'refs/tags/')
     runs-on: ubuntu-latest
     steps:
     - uses: actions/download-artifact@master
