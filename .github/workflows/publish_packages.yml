@@ -14,7 +14,17 @@ env:
 jobs:
   build-packages:
     uses: ./.github/workflows/build.yml
-  
+ 
+  publish-linux:
+    - uses: actions/download-artifact@master
+      with:
+        name: linux-amd64-binary
+        path: linux
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: "linux/saga_watem"
+          omitBody: true
+
   publish-debian:
     needs: build-packages # build-debian
     if: contains(github.ref , 'refs/tags/')
