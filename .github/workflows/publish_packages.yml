@@ -15,14 +15,18 @@ jobs:
   build-packages:
     uses: ./.github/workflows/build.yml
  
-  publish-linux:
+  publish-github:
     - uses: actions/download-artifact@master
       with:
         name: linux-amd64-binary
         path: linux
+    - uses: actions/download-artifact@master
+      with:
+        name: windows-compiled
+        path: windows
       - uses: ncipollo/release-action@v1
         with:
-          artifacts: "linux/saga_watem"
+          artifacts: "linux/saga_watem,windows/*"
           omitBody: true
 
   publish-debian:
