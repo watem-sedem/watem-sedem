@@ -1,0 +1,42 @@
+---
+name: windows build
+
+on:
+  workflow_call:
+  workflow_dispatch:
+  push:
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+
+      matrix:
+        os: [windows-latest]
+        build_type: [Release]
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Lazarus
+        uses: gcarreno/setup-lazarus@v3
+        with:
+          lazarus-version: 3.2
+          with-cache: true
+      - name: fetch tags
+        run: |
+          git fetch --tags
+          git lfs pull
+
+      - name: build compiled version
+        run: |
+          c:\lazarus\lazbuild.exe watem_sedem\watem_sedem.lpr
+          c:\lazarus\fpc\3.2.2\bin\x86_64-win64\strip.exe cn_ws\cn_ws.exe
+      - name: run tests
+        run: |
+           .\testfiles\test.bat
+      - uses: actions/upload-artifact@master
+        with:
+          name: windows-compiled
+          path: watem_sedem/watem_sedem.exe
