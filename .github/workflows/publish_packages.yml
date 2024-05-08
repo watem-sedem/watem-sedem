@@ -33,7 +33,7 @@ jobs:
         path: windows
     - uses: ncipollo/release-action@v1
       with:
-        artifacts: "linux/saga_watem,windows/*"
+        artifacts: "linux/*,windows/*"
         omitBody: true
 
   publish-debian:
