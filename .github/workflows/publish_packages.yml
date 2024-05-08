@@ -17,8 +17,9 @@ jobs:
 
   build-windows-packages:
     uses: ./.github/workflows/build-windows.yml
- 
+
   publish-github:
+    steps:
     - uses: actions/download-artifact@master
       with:
         name: linux-amd64-binary
@@ -27,10 +28,10 @@ jobs:
       with:
         name: windows-compiled
         path: windows
-      - uses: ncipollo/release-action@v1
-        with:
-          artifacts: "linux/saga_watem,windows/*"
-          omitBody: true
+    - uses: ncipollo/release-action@v1
+      with:
+        artifacts: "linux/saga_watem,windows/*"
+        omitBody: true
 
   publish-debian:
     needs: build-packages # build-debian
