@@ -23,7 +23,7 @@ jobs:
           git lfs pull
           make
 
-      - name: test cnws runs without error
+      - name: test watem-sedem runs without error
         run: |
           testfiles/test.sh
 
@@ -33,6 +33,10 @@ jobs:
           source /etc/profile.d/conda.sh
           conda activate cn_ws
           pytest testfiles
+      - uses: actions/upload-artifact@master
+        with:
+          name: linux-amd64-binary
+          path: watem-sedem/watem-sedem
 
   build-debian:
     runs-on: [self-hosted, linux]
@@ -46,10 +50,10 @@ jobs:
         run : |
           git fetch --tags --force
           git lfs pull
-          gbp dch --snapshot --ignore-branch --snapshot-number=$DRONE_BUILD_NUMBER
+          gbp dch --ignore-branch --new-version=$(git describe --tags)
           debuild -b
           mkdir /package
-          mv ../cn-ws*amd64* /package
+          mv ../watem-sedem*amd64* /package
       - uses: actions/upload-artifact@master
         with:
           name: debian-output
