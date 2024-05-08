@@ -32,7 +32,7 @@ jobs:
       - name: build compiled version
         run: |
           lazbuild.exe watem_sedem\watem_sedem.lpr
-          strip.exe cn_ws\cn_ws.exe
+          strip.exe watem_sedem\watem_sedem.exe
       - name: run tests
         run: |
            .\testfiles\test.bat
