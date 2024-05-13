@@ -1,4 +1,4 @@
-FROM registry.fluves.net/drone/infrastructure/conda-bullseye
+FROM continuumio/miniconda3:24.3.0-0
 RUN apt-get update -q && \
     apt-get dist-upgrade -yq && \
     apt-get install -q -y --no-install-recommends \
