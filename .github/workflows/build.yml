@@ -11,8 +11,8 @@ env:
   RSYNC_HOST: ijzer
 jobs:
   build-linux:
-    runs-on: [self-hosted, linux]
-    container: registry.fluves.net/drone/cn_ws/conda-cn_ws:0.1
+    runs-on: [linux]
+    container: ghcr.io/watem-sedem/ci/watem-sedem-conda
     env:
       PYTHONPATH: ../CNWS-processing-scripts/pycnws/src
     steps:
@@ -60,9 +60,9 @@ jobs:
           path: /package
           
   build-documentation:
-    needs: [build-debian,build-linux]
+    needs: [build-linux]
     runs-on: [self-hosted, linux]  
-    container: registry.fluves.net/drone/cn_ws/conda
+    container: ghcr.io/watem-sedem/ci/watem-sedem-conda
     steps:
       - uses: actions/checkout@v3
       - name: fetch tags
