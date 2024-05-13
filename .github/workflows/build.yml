@@ -3,6 +3,7 @@ name: build_packages
 on:
   workflow_call:
   workflow_dispatch:
+  push:
 
 env:
   DEBIAN_RSYNC_TARGET: /appdata/static/apt/amd64
@@ -17,10 +18,11 @@ jobs:
       PYTHONPATH: ../CNWS-processing-scripts/pycnws/src
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-tags: true
+          lfs: true
       - name: build linux
         run: |
-          git fetch --tags --force
-          git lfs pull
           make
 
       - name: test watem-sedem runs without error
