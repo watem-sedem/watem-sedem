@@ -33,7 +33,8 @@ jobs:
         shell: bash
         run: |
           source /etc/profile.d/conda.sh
-          conda activate cn_ws
+          conda env create -f environment.yml
+          conda activate watem_sedem
           pytest testfiles
       - uses: actions/upload-artifact@master
         with:
@@ -48,10 +49,11 @@ jobs:
       DEBEMAIL: donotreply@fluves.net
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-tags: true
+          lfs: true
       - name: build debian package
         run : |
-          git fetch --tags --force
-          git lfs pull
           gbp dch --ignore-branch --new-version=$(git describe --tags) --snapshot-number=$DRONE_BUILD_NUMBER --snapshot
           debuild -b
           mkdir /package
