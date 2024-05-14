@@ -18,10 +18,14 @@ jobs:
       PYTHONPATH: ../CNWS-processing-scripts/pycnws/src
     steps:
       - uses: actions/checkout@v4
+        if: "!startsWith(github.ref, 'refs/tags/')"
         with:
           fetch-tags: true
           lfs: true
-          fetch-depth: 1
+      - uses: actions/checkout@v4
+        if: "startsWith(github.ref, 'refs/tags/')"
+        with:
+          lfs: true
       - name: build linux
         run: |
           make
@@ -49,9 +53,14 @@ jobs:
       DEBFULLNAME: "Fluves Drone CI"
       DEBEMAIL: donotreply@fluves.net
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+        if: "!startsWith(github.ref, 'refs/tags/')"
         with:
           fetch-tags: true
+          lfs: true
+      - uses: actions/checkout@v4
+        if: "startsWith(github.ref, 'refs/tags/')"
+        with:
           lfs: true
       - name: build debian package
         run : |
@@ -70,9 +79,13 @@ jobs:
     container: ghcr.io/watem-sedem/ci/watem-sedem-conda
     steps:
       - uses: actions/checkout@v4
+        if: "!startsWith(github.ref, 'refs/tags/')"
         with:
           fetch-tags: true
-          fetch-depth: 1
+          lfs: true
+      - uses: actions/checkout@v4
+        if: "startsWith(github.ref, 'refs/tags/')"
+        with:
           lfs: true
 
       - name: build website
