@@ -65,15 +65,13 @@ jobs:
           
   build-documentation:
     needs: [build-linux]
-    runs-on: [self-hosted, linux]  
+    runs-on: [linux]  
     container: ghcr.io/watem-sedem/ci/watem-sedem-conda
     steps:
       - uses: actions/checkout@v3
-      - name: fetch tags
-        shell: bash
-        run: |
-          git fetch --tags
-          git lfs pull
+        with:
+          fetch-tags: true
+          lfs: true
 
       - name: build website
         shell: bash
