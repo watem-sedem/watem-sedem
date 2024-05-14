@@ -17,10 +17,11 @@ jobs:
     env:
       PYTHONPATH: ../CNWS-processing-scripts/pycnws/src
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-tags: true
           lfs: true
+          fetch-depth: 1
       - name: build linux
         run: |
           make
@@ -68,9 +69,10 @@ jobs:
     runs-on: [linux]  
     container: ghcr.io/watem-sedem/ci/watem-sedem-conda
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-tags: true
+          fetch-depth: 1
           lfs: true
 
       - name: build website
