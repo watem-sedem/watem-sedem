@@ -42,7 +42,7 @@ jobs:
           path: watem_sedem/watem_sedem
 
   build-debian:
-    runs-on: [self-hosted, linux]
+    runs-on: [linux]
     container: registry.fluves.net/drone/cn_ws/debian11-build
     env:
       DEBFULLNAME: "Fluves Drone CI"
