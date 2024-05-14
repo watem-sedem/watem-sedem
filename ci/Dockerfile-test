@@ -1,2 +1,3 @@
 FROM debian:bookworm-slim
 RUN apt update && apt -y install git python3-setuptools python3-rasterio python3-fiona python3-geopandas python3-pytest python3-pip python3-pytest virtualenv && apt clean
+LABEL org.opencontainers.image.source https://github.com/watem-sedem/watem-sedem
