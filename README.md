@@ -49,8 +49,9 @@ This project is licensed under the GNU Lesser General Public License v3.0, see
 
 ## Contact
 
-For technical questions, we refer to the documentation and to the frequently asked
-questions in the documentation. If you have a technical issue with running the
+For technical questions, we refer to the documentation and to the 
+[frequently asked questions](https://watem-sedem.github.io/watem-sedem/faq.html) 
+in the documentation. If you have a technical issue with running the
 model, or if you encounter a bug, please use the issue-tracker on github:
 https://github.com/watem-sedem/watem-sedem/issues.
 
