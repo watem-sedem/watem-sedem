@@ -322,6 +322,7 @@ Following input-files are required when River Routing is enabled:
 When this option is disabled, the model will use the digital elevation model to
 determine the routing between all river pixels.
 
+.. _cardinalrouting:
 
 Cardinal Routing River
 ######################
