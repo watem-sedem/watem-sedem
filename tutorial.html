@@ -130,11 +130,9 @@ keywords used in an ini-file are explained in the <a class="reference internal" 
 <span class="na">parcel filename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">perceelskaart_2018_molenbeek_s1.rst</span>
 <span class="na">c factor map filename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">C_spring_2018_molenbeek_s1.rst</span>
 <span class="na">k factor filename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">K3_CNWS_molenbeek.rst</span>
+<span class="na">ktc map filename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">ktcmap_2018_molenbeek_s1.rst</span><span class="w"> </span>
 
 <span class="k">[Parameters]</span>
-<span class="na">ktc low</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">3</span>
-<span class="na">ktc high</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">12</span>
-<span class="na">ktc limit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">0.01</span>
 <span class="na">parcel connectivity cropland</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">90</span>
 <span class="na">parcel connectivity forest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">30</span>
 <span class="na">parcel trapping efficiency cropland</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">0</span>
@@ -146,31 +144,31 @@ keywords used in an ini-file are explained in the <a class="reference internal" 
 </div>
 <p>After navigating to the folder where you have build the model, or installed the binary, you can
 use your terminal to run the model, as follows:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>cn_ws<span class="w"> </span><span class="s2">&quot;&lt;path to watem-sedem repository&gt;/watem_sedem/docs/tutorials/tutorial_1.ini&quot;</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>watem_sedem<span class="w"> </span><span class="s2">&quot;&lt;path to watem-sedem repository&gt;/watem_sedem/docs/tutorials/tutorial_1.ini&quot;</span>
 </pre></div>
 </div>
 <p>When the model run starts you will see:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CN_WS</span> <span class="n">model</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">WATEM</span><span class="o">/</span><span class="n">SEDEM</span> <span class="n">model</span> <span class="n">version</span><span class="p">:</span> <span class="mf">5.0.0</span>
 
 <span class="n">Inifile</span> <span class="p">:</span> <span class="o">&lt;</span><span class="n">path</span> <span class="n">to</span> <span class="n">watem</span><span class="o">-</span><span class="n">sedem</span> <span class="n">repository</span><span class="o">&gt;/</span><span class="n">watem_sedem</span><span class="o">/</span><span class="n">docs</span><span class="o">/</span><span class="n">tutorials</span><span class="o">/</span><span class="n">tutorial_1</span><span class="o">.</span><span class="n">ini</span>
 </pre></div>
 </div>
 <p>After the completion of the calculations, the model reports the execution time:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Calculations</span> <span class="n">completed</span><span class="o">.</span> <span class="n">Program</span> <span class="n">Execution</span> <span class="n">Time</span><span class="p">:</span> <span class="mf">5.96</span> <span class="n">sec</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Calculations</span> <span class="n">completed</span><span class="o">.</span> <span class="n">Program</span> <span class="n">Execution</span> <span class="n">Time</span><span class="p">:</span> <span class="mf">3.4</span> <span class="n">sec</span>
 </pre></div>
 </div>
 <p>Now, you can have a look in the model output folder defined in the ini-file. A
 txt-file with a summary of the results is written:
 <a class="reference internal" href="output.html#totalsedimenttxt"><span class="std std-ref">Total sediment.txt</span></a>.</p>
-<div class="highlight-vim notranslate"><div class="highlight"><pre><span></span>Total erosion: <span class="m">-22676167</span>.<span class="m">77</span> <span class="p">(</span>kg<span class="p">)</span>
-Total deposition: <span class="m">18978534</span>.<span class="m">3</span> <span class="p">(</span>kg<span class="p">)</span>
-Sediment leaving the catchment<span class="p">,</span> via the river: <span class="m">3268806</span>.<span class="m">66</span> <span class="p">(</span>kg<span class="p">)</span>
-Sediment leaving the catchment<span class="p">,</span> not via the river: <span class="m">419793</span>.<span class="m">77</span> <span class="p">(</span>kg<span class="p">)</span>
+<div class="highlight-vim notranslate"><div class="highlight"><pre><span></span>Total erosion: <span class="m">-26917936</span>.<span class="m">54</span> <span class="p">(</span>kg<span class="p">)</span>
+Total deposition: <span class="m">22765482</span>.<span class="m">64</span> <span class="p">(</span>kg<span class="p">)</span>
+Sediment leaving the catchment<span class="p">,</span> via the river: <span class="m">3694854</span>.<span class="m">5</span> <span class="p">(</span>kg<span class="p">)</span>
+Sediment leaving the catchment<span class="p">,</span> not via the river: <span class="m">445206</span>.<span class="m">09</span> <span class="p">(</span>kg<span class="p">)</span>
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 Total sediment passing at each outlet [kg]
 Outlet ID	Sediment
-<span class="m">1</span>	<span class="m">3268804</span>.<span class="m">75</span>
+<span class="m">1</span>	<span class="m">48886</span>.<span class="m">38281</span>
 </pre></div>
 </div>
 <p>This table contains the sum of all pixels with a negative mass balance (Total
@@ -201,15 +199,13 @@ occurs, we can enable <a class="reference internal" href="output.html#modeloutpu
 we need to add a section in the ini-file with the desired output:
 <a class="reference internal" href="choices.html#writesedexport"><span class="std std-ref">write sediment export</span></a> and
 <a class="reference internal" href="choices.html#writerwatereros"><span class="std std-ref">write water erosion</span></a>.</p>
-<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[Output]</span>
-<span class="na">write sediment export</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1</span>
-<span class="na">write water erosion</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1</span>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">write water erosion</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1</span>
 </pre></div>
 </div>
 <p>To do so, you can make a copy of the <cite>tutorial_1.ini</cite>-file in a directory
 of your choice, adapt the ini-file with the lines stated above, and rename the file to ‘tutorial_2.ini’.
 Then the adapted model can be ran using</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>cn_ws $your_favorite_folder/tutorial_2.ini
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>watem_sedem $your_favorite_folder/tutorial_2.ini
 </pre></div>
 </div>
 <p>If this is not working as it should, please check if the reference
@@ -278,12 +274,10 @@ the buffer map filename and the number of buffers the ini-file looks like this:<
 <span class="na">parcel filename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">perceelskaart_2018_molenbeek_s1.rst</span>
 <span class="na">c factor map filename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">C_spring_2018_molenbeek_s1.rst</span>
 <span class="na">k factor filename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">K3_CNWS_molenbeek.rst</span>
+<span class="na">ktc map filename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">ktcmap_2018_molenbeek_s1.rst</span><span class="w"> </span>
 <span class="hll"><span class="na">buffer map filename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">buffers_molenbeek_s1.rst</span>
 </span>
 <span class="k">[Parameters]</span>
-<span class="na">ktc low</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">3</span>
-<span class="na">ktc high</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">12</span>
-<span class="na">ktc limit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">0.01</span>
 <span class="na">parcel connectivity cropland</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">90</span>
 <span class="na">parcel connectivity forest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">30</span>
 <span class="na">parcel trapping efficiency cropland</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">0</span>
@@ -304,7 +298,7 @@ the buffer map filename and the number of buffers the ini-file looks like this:<
 </span></pre></div>
 </div>
 <p>If we run the model with this configuration (tutorial_3a.ini) we get:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CN_WS</span> <span class="n">model</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">WaTEM</span><span class="o">/</span><span class="n">SEDEM</span> <span class="n">model</span> <span class="n">version</span><span class="p">:</span> <span class="mf">5.0.0</span>
 
 <span class="n">Inifile</span> <span class="p">:</span> <span class="o">&lt;</span><span class="n">path</span> <span class="n">to</span> <span class="n">inifile</span><span class="o">&gt;</span>\<span class="n">docs</span>\<span class="n">tutorials</span>\<span class="n">tutorial_3a</span><span class="o">.</span><span class="n">ini</span>
 
@@ -330,12 +324,10 @@ one for every buffer, with these data (see also tutorials/tutorial_3b.ini):</p>
 <span class="na">parcel filename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">perceelskaart_2018_molenbeek_s1.rst</span>
 <span class="na">c factor map filename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">C_spring_2018_molenbeek_s1.rst</span>
 <span class="na">k factor filename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">K3_CNWS_molenbeek.rst</span>
+<span class="na">ktc map filename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">ktcmap_2018_molenbeek_s1.rst</span><span class="w"> </span>
 <span class="na">buffer map filename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">buffers_molenbeek_s1.rst</span>
 
 <span class="k">[Parameters]</span>
-<span class="na">ktc low</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">3</span>
-<span class="na">ktc high</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">12</span>
-<span class="na">ktc limit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">0.01</span>
 <span class="na">parcel connectivity cropland</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">90</span>
 <span class="na">parcel connectivity forest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">30</span>
 <span class="na">parcel trapping efficiency cropland</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">0</span>
@@ -481,16 +473,16 @@ one for every buffer, with these data (see also tutorials/tutorial_3b.ini):</p>
 </div>
 <p>A buffer should trap sediment. So, after a successful model run with the above given ini-file, we
 can look at the Total sediment file in the output folder, to see that the ‘<em>sediment trapped in buffers</em>’ line is added.</p>
-<div class="highlight-vim notranslate"><div class="highlight"><pre><span></span>Total erosion: <span class="m">-21944111</span>.<span class="m">28</span> <span class="p">(</span>kg<span class="p">)</span>
-Total deposition: <span class="m">17805814</span>.<span class="m">73</span> <span class="p">(</span>kg<span class="p">)</span>
-Sediment leaving the catchment<span class="p">,</span> via the river: <span class="m">3165519</span>.<span class="m">57</span> <span class="p">(</span>kg<span class="p">)</span>
-Sediment leaving the catchment<span class="p">,</span> not via the river: <span class="m">419793</span>.<span class="m">77</span> <span class="p">(</span>kg<span class="p">)</span>
-<span class="hll">Sediment trapped <span class="k">in</span> <span class="k">buffers</span>: <span class="m">543950</span>.<span class="m">23</span> <span class="p">(</span>kg<span class="p">)</span>
+<div class="highlight-vim notranslate"><div class="highlight"><pre><span></span>Total erosion: <span class="m">-26815659</span>.<span class="m">39</span> <span class="p">(</span>kg<span class="p">)</span>
+Total deposition: <span class="m">21944564</span>.<span class="m">64</span> <span class="p">(</span>kg<span class="p">)</span>
+Sediment leaving the catchment<span class="p">,</span> via the river: <span class="m">3641522</span>.<span class="m">62</span> <span class="p">(</span>kg<span class="p">)</span>
+Sediment leaving the catchment<span class="p">,</span> not via the river: <span class="m">445206</span>.<span class="m">09</span> <span class="p">(</span>kg<span class="p">)</span>
+<span class="hll">Sediment trapped <span class="k">in</span> <span class="k">buffers</span>: <span class="m">771972</span>.<span class="m">72</span> <span class="p">(</span>kg<span class="p">)</span>
 </span>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 Total sediment passing at each outlet [kg]
 Outlet ID	Sediment
-<span class="m">1</span>	<span class="m">3165518</span>.<span class="m">25</span>
+<span class="m">1</span>	<span class="m">45451</span>.<span class="m">28516</span>
 </pre></div>
 </div>
 <p>This line gives us the total amount of sediment trapped in the 31
@@ -548,7 +540,7 @@ in the repository contain an example project where following options are used:</
 <li><p>river routing</p></li>
 <li><p>include ditches</p></li>
 <li><p>include sewers</p></li>
-<li><p>create ktc map = 0</p></li>
+<li><p>create ktc map</p></li>
 <li><p>…</p></li>
 </ul>
 <p>Have a look at them, and using the principles explained above you should be able to get
@@ -567,7 +559,7 @@ these working!</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2020, Van de Wauw Johan, Renders Daan.</p>
+    <p>&#169; Copyright 2024, KU Leuven &amp; Fluves, see https://watem-sedem.github.io/watem-sedem/authors.html for more information.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

@@ -164,11 +164,11 @@ the other pixels will be set to <em>ktc low</em>.</p>
 and this map should be given as input for the
 model by entering its filename next to
 <a class="reference internal" href="input.html#ktcmap"><span class="std std-ref">ktc map filename</span></a> in the ini-file.</p>
-<p>To disable this option, the following line must be written in the ini-file:</p>
-<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">Create ktc map</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">0</span>
+<p>To enable this option, the following line must be written in the ini-file:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">Create ktc map</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1</span>
 </pre></div>
 </div>
-<p>The default is: <code class="docutils literal notranslate"><span class="pre">Create</span> <span class="pre">ktc</span> <span class="pre">map</span> <span class="pre">=</span> <span class="pre">1</span></code></p>
+<p>The default is: <code class="docutils literal notranslate"><span class="pre">Create</span> <span class="pre">ktc</span> <span class="pre">map</span> <span class="pre">=</span> <span class="pre">0</span></code></p>
 </div>
 <div class="section" id="calibrate">
 <span id="id1"></span><h2>Calibrate<a class="headerlink" href="#calibrate" title="Permalink to this heading"></a></h2>
@@ -226,10 +226,10 @@ sediment of the pixel and the uparea of the target pixels are reduced by this fr
 <p>The amount of trapped sediment per pixel is written to the output raster
 <a class="reference internal" href="output.html#sewerinrst"><span class="std std-ref">sewer_in.rst</span></a>.</p>
 <p>To enable this option, the following line must be written in the ini-file:</p>
-<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">Create ktc map</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1</span>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">Include sewers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1</span>
 </pre></div>
 </div>
-<p>The default is: <code class="docutils literal notranslate"><span class="pre">Create</span> <span class="pre">ktc</span> <span class="pre">map</span> <span class="pre">=</span> <span class="pre">0</span></code></p>
+<p>The default is: <code class="docutils literal notranslate"><span class="pre">Include</span> <span class="pre">sewers</span> <span class="pre">=</span> <span class="pre">0</span></code></p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>This option is only fully tested for WaTEM/SEDEM,
@@ -513,7 +513,7 @@ Sediment concentration segments.txt, Cumulative sediment segments.txt</p></li>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2020, Van de Wauw Johan, Renders Daan.</p>
+    <p>&#169; Copyright 2024, KU Leuven &amp; Fluves, see https://watem-sedem.github.io/watem-sedem/authors.html for more information.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

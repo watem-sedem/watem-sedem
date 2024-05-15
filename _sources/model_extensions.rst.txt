@@ -62,13 +62,13 @@ and this map should be given as input for the
 model by entering its filename next to
 :ref:`ktc map filename <ktcmap>` in the ini-file.
 
-To disable this option, the following line must be written in the ini-file:
+To enable this option, the following line must be written in the ini-file:
 
 .. code-block:: ini
 
-    Create ktc map = 0
+    Create ktc map = 1
 
-The default is: ``Create ktc map = 1``
+The default is: ``Create ktc map = 0``
 
 .. _calibrate:
 
@@ -148,9 +148,9 @@ To enable this option, the following line must be written in the ini-file:
 
 .. code-block:: ini
 
-    Create ktc map = 1
+    Include sewers = 1
 
-The default is: ``Create ktc map = 0``
+The default is: ``Include sewers = 0``
 
 
 .. note::

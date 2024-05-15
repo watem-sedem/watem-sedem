@@ -13,7 +13,7 @@ WaTEM/SEDEM is a spatially distributed soil erosion and sediment delivery model 
 originally developed at the beginning of the 21st century at the Laboratory for
 Experimental Geomorphology (KU Leuven, Belgium – nowadays the Geography and Tourism
 Research Division at the KU Leuven Department of Earth and Environmental Sciences) as a
-user-friendly and optimised version of the WaTEM and SEDEM models  WaTEM stands for
+user-friendly and optimised version of the WaTEM and SEDEM models.  WaTEM stands for
 Water and Tillage Erosion Model (Van Oost et al., 2000) and SEDEM is the abbreviation of
 Sediment Delivery Model (Van Rompaey et al., 2001). The combined use as WaTEM/SEDEM was
 specifically developed to simulate the impact of soil conservation and sediment control
@@ -38,14 +38,12 @@ are calculated for every pixel in the model domain. Next, the model iterates
 over all pixels according to the order determined by the :ref:`routing algorithm <routing>`.
 During the iteration, the outgoing sediment for every pixel is calculated by
 comparing the total available sediment in the cell :math:`S_A` (incoming
-sediment, :math:`S_i` + :math:`E`) with the transport capacity. Note that the
-units in the equation of :math:`E` and :math:`TC` (see next sections) are
-different, yet this is handled in the section on :ref:`transport capacity <TC>`.
+sediment, :math:`S_i` + :math:`E`) with the transport capacity.
 
 Two cases exist:
  - :math:`S_A \leq TC`: the pixel can transport the total
    available sediment :math:`S_A`, so erosion will occur at the mean annual soil
-   erosion rate. The outgoing sediment :math:`S_o` is equals the total available
+   erosion rate. The outgoing sediment :math:`S_o` equals the total available
    sediment :math:`S_A`.
  - :math:`S_A` > :math:`TC`: the total available sediment :math:`S_A` is higher
    than the amount of sediment that can be transported. The outgoing sediment
@@ -122,7 +120,7 @@ Transport capacity calculation
 ==============================
 
 For every grid cell the transport capacity :math:`TC`
-(:math:`\frac{\text{kg}}{\text{m.year}}`) is calculated according to
+is calculated according to
 
 .. math::
     TC = ktc \cdot R \cdot K \cdot T
@@ -135,11 +133,7 @@ with
 - :math:`T`: topographical factor (-)
 
 It is important to note that the :math:`ktc` factor is identified as a
-calibration factor. In addition, in order to use :math:`TC` to compare with the
-available sediment in a pixel (see :ref:`here <Concept>`), units are converted
-to :math:`kg.pixel^{-1}` or
-:math:`m^3.pixel^{-1}` by making use of the model resolution
-(m) and bulk density (:math:`kg.m^{-3}`)
+calibration factor.
 
 WaTEM/SEDEM includes two ways to calculate :math:`T`. See
 :ref:`the section about the different TC models <TCmodel>` for more information.
@@ -213,7 +207,7 @@ R-factor
 
 The erosive power of rainfall is quantified via the rainfall erosivity factor
 (:math:`R`-factor). The R-factor quantifies the mean annual average rainfall erosivity,
-calculated by combining rainfall events over multiple yearss (22 years according to the
+calculated by combining rainfall events over multiple years (22 years according to the
 USLE definition) and is provided in :math:`\frac{\text{MJ.mm}}{\text{m}^2.\text{h.year}}`.
 
 Note that the R-factor is given as a single integer value representative for a small
@@ -247,20 +241,16 @@ LS-factor
 The effect of topography on erosion is quantified in the LS-factor. Erosion
 increases as the slope length increases - quantified in the slope length
 factor (L), and as the slope steepness factor (S) increases.
-The algorithm (Desmet en Govers 1996) uses a DEM (Digital Elevation Model) and a parcel
-map and was adjusted by Takken et al. (2001) so that tillage direction is taken into
-account. The location of roads is also included: water on a road will always follow that
-road to the lowest point. Both topographical parameters are derived from a DEM
-(Verstraeten et al. 2002).
-
-The L-factor within LS stands for the total upslope slope length of a pixel and is a way
-of dealing with water runoff.
-
 The effects of the L- and S-factor factors are typically evaluated together.
 In WaTEM/SEDEM model, contrary to the original RUSLE model, the LS-factor is
 computed by considering the two-dimensional stream flow algorithm of WaTEM/SEDEM
 (Desmet and Govers, 1996). This allows for computing concentrated erosion
 flow, such as rill and gully erosion.
+The algorithm (Desmet en Govers 1996) uses a DEM (Digital Elevation Model) and a parcel
+map and was adjusted by Takken et al. (2001) so that tillage direction is taken into
+account. The location of roads is also included: water on a road will always follow that
+road to the lowest point. Both topographical parameters are derived from a DEM
+(Verstraeten et al. 2002).
 
 Van Oost et al. (2000) showed that field parcel boundaries may have an important impact
 on erosion and sediment delivery at the catchment scale depending on how effective
@@ -326,16 +316,16 @@ However, briefly, the SLR for each time-period is composed of 5 sub-factors:
         SLR = PLU * SR * CC * SC * SM
 
 with
- - :math:`PLU`: previous soil usage sub-factor that takes the effects of such usage into account
+ - :math:`PLU`: prior landuse sub-factor
  - :math:`SR`: soil roughness sub-factor
- - :math:`CC`: foliage sub-factor
+ - :math:`CC`: crop canopy sub-factor
  - :math:`SC`: soil coverage sub-factor (i.e. crop residual value)
- - :math:`SM`: soil moistness sub-factor
+ - :math:`SM`: soil moisture sub-factor
 
 Within WaTEM/SEDEM, the user can provide a C-factor map representing the spatial
 variability in land use, e.g. on a field parcel basis. Alternatively, mean C-factor
 values for the most important land use categories can be provided and these values can
-be assigned to the land use categories in the land use map (link here).
+be assigned to the land use categories in the land use map.
 
 
 .. _pfactor:
@@ -416,10 +406,10 @@ patterns of hillslope sediment delivery to river channels in the
 Murrumbidgee catchment, Australia. Journal of Hydrology 334, 440–454.
 https://doi.org/10.1016/j.jhydrol.2006.10.025
 
-Verstraeten, G., Van Rompaey, A., Poesen, J., Van Oost, K., Govers, G.,
-2003, Evaluating the impact of watershed management scenarios on changes in
-sediment delivery to rivers? Hydrobiologia 494, 153–158.
-https://link.springer.com/chapter/10.1007/978-94-017-3366-3_21
+Verstraeten, G., Van Oost, K., Van Rompaey, A., Poesen, J., & Govers, G. (2002).
+Evaluating an integrated approach to catchment management to reduce soil loss
+and sediment pollution through modelling. Soil use and management, 18(4), 386-394
+https://doi.org/10.1111/j.1475-2743.2002.tb00257.x
 
 Wischmeier, W. H., & Smith, D. D. (1978). Predicting Rainfall Erosion Losses: A Guide
 to Conservation Planning. In United States Department of Agriculture. Hyattsville, Md.

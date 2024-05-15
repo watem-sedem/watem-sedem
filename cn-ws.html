@@ -184,10 +184,10 @@ type, land use, hydrologic condition, and initial moisture conditions.
 Combining last two equations, <span class="math notranslate nohighlight">\(Q\)</span> can thus be expressed solely as a
 function of <span class="math notranslate nohighlight">\(P\)</span> and <span class="math notranslate nohighlight">\(CN\)</span> like depicted in the graph below
 (source: USDA technical release 55, urban hydrology for small watersheds)</p>
-<div class="figure align-center" id="id2">
+<div class="figure align-center" id="id1">
 <a class="reference internal image-reference" href="_images/cn_graph.png"><img alt="_images/cn_graph.png" src="_images/cn_graph.png" style="width: 600px;" /></a>
 <p class="caption"><span class="caption-text">Run-off as a function of rainfall for different CN-values
-(USDA technical release 55, urban hydrology for small watersheds)</span><a class="headerlink" href="#id2" title="Permalink to this image"></a></p>
+(USDA technical release 55, urban hydrology for small watersheds)</span><a class="headerlink" href="#id1" title="Permalink to this image"></a></p>
 </div>
 <p>The simplistic nature of the original CN method explains its widespread use.
 It is important to note that original CN method is best suited for
@@ -313,9 +313,7 @@ For every outlet or (optionally) river segment a hydrogram (stream velocity as a
 function of time) is generated.</p>
 <p>WaTEM/SEDEM is used to model the total sediment load leaving the model domain
 via rivers or an outlet. The use of WaTEM/SEDEM in CN requires to precompute
-and R-factor and provide it as model input. In order to compute an R-factor
-value, the <a class="reference external" href="https://watem-sedem.github.io/rfactor/">R-factor python packge</a>) can
-be used.</p>
+an R-factor and provide it as model input.</p>
 <p>The output of both models is combined: the total sediment load is distributed
 over the hydrogram to obtain a sedigram (sediment concentration and sediment
 load as a function of time). The sediment concentration <span class="math notranslate nohighlight">\(SC\)</span> is
@@ -468,7 +466,7 @@ rates. Journal of geophysical research, 111. <a class="reference external" href=
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2020, Van de Wauw Johan, Renders Daan.</p>
+    <p>&#169; Copyright 2024, KU Leuven &amp; Fluves, see https://watem-sedem.github.io/watem-sedem/authors.html for more information.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

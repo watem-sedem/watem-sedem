@@ -102,11 +102,11 @@ between the units used in the <a class="reference internal" href="model.html#mod
 <a class="reference internal" href="input.html#modelinput"><span class="std std-ref">model inputs</span></a>, model states and <a class="reference internal" href="output.html#modeloutput"><span class="std std-ref">model
 outputs</span></a>. This overview can help interpret the outputs of WaTEM/SEDEM.</p>
 <p>As explained in <a class="reference internal" href="watem-sedem.html#ws"><span class="std std-ref">the model description</span></a> of WaTEM/SEDEM, the amount of erosion and deposition in
-each pixel is determined by comparing the mean annual soil erosion <span class="math notranslate nohighlight">\(E\)</span>
-and incoming sediment <span class="math notranslate nohighlight">\(S_i\)</span> with the transport capacity <span class="math notranslate nohighlight">\(TC\)</span>.
+each pixel, as well as the amount of sediment leaving a pixel downstream (<span class="math notranslate nohighlight">\(S_o\)</span>) is determined by comparing
+the mean annual soil erosion <span class="math notranslate nohighlight">\(E\)</span>
+and incoming sediment <span class="math notranslate nohighlight">\(S_i\)</span> with the transport capacity <span class="math notranslate nohighlight">\(TC\)</span> at the pixel level.
 In the model code this is done by
-comparing <strong>volumes</strong> (<span class="math notranslate nohighlight">\(m^3\)</span>) or with
-<span class="math notranslate nohighlight">\(S_A =S_i+E\)</span> (see <a class="reference internal" href="watem-sedem.html#concept"><span class="std std-ref">concept</span></a>):</p>
+comparing <strong>volumes</strong> (<span class="math notranslate nohighlight">\(m^3\)</span>):</p>
 <div class="math notranslate nohighlight">
 \[S_o = TC \quad\text{ if } S_i+E &gt; TC\]</div>
 <div class="math notranslate nohighlight">
@@ -152,6 +152,11 @@ R-value is converted (in WaTEM/SEDEM) to
 <span class="math notranslate nohighlight">\(\rho\)</span>). The model output RUSLE <span class="math notranslate nohighlight">\(E\)</span> value (<a class="reference internal" href="output.html#ruslerst"><span class="std std-ref">RUSLE</span></a>) is expressed in <span class="math notranslate nohighlight">\(\frac{\text{kg}}{\text{m}^2}\)</span>!</p>
 <p>Note that <span class="math notranslate nohighlight">\(S_e\)</span> is equal to <span class="math notranslate nohighlight">\(S_o\)</span>, yet masked respectively for
 river and land pixels.</p>
+<p>WaTEM/SEDEM outputs include an erosion map that expresses <span class="math notranslate nohighlight">\(E\)</span> in kg/m²/year,
+equivalent to area-specific erosion rates reported in most other studies.
+Values can be multiplied with 10 to obtain typical erosion rates in ton/ha/year.
+A transport capacity map is also provided as an output, whereby the amount of sediment that
+can be transported through a pixel in downstream direction is shown in kg/pixel/year.</p>
 <p>In the table below the units of import input and output values/rasters are
 listed.</p>
 <table class="docutils align-center">
@@ -281,7 +286,7 @@ listed.</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2020, Van de Wauw Johan, Renders Daan.</p>
+    <p>&#169; Copyright 2024, KU Leuven &amp; Fluves, see https://watem-sedem.github.io/watem-sedem/authors.html for more information.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
