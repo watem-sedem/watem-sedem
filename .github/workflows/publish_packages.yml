@@ -39,6 +39,7 @@ jobs:
       with:
         artifacts: "linux/*,windows/*,debian/*.deb"
         omitBody: true
+        draft: true
 
   publish-debian-fluves:
     # publish the apt package on the fluves repository
