@@ -44,6 +44,7 @@ jobs:
   publish-debian-fluves:
     # publish the apt package on the fluves repository
     needs: [build-packages]
+    if: contains(github.ref , 'refs/tags/')
     runs-on: [self-hosted, linux]
     container: registry.fluves.net/drone/cn_ws/debian11-build
     env:
