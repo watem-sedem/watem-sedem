@@ -3,6 +3,7 @@ name: build_packages
 on:
   workflow_call:
   workflow_dispatch:
+  push:
 
 env:
   DEBIAN_RSYNC_TARGET: /appdata/static/apt/amd64
@@ -11,19 +12,25 @@ env:
   RSYNC_HOST: ijzer
 jobs:
   build-linux:
-    runs-on: [self-hosted, linux]
-    container: registry.fluves.net/drone/cn_ws/conda-cn_ws:0.1
+    runs-on: [linux]
+    container: ghcr.io/watem-sedem/ci/watem-sedem-conda
     env:
       PYTHONPATH: ../CNWS-processing-scripts/pycnws/src
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+        if: "!startsWith(github.ref, 'refs/tags/')"
+        with:
+          fetch-tags: true
+          lfs: true
+      - uses: actions/checkout@v4
+        if: "startsWith(github.ref, 'refs/tags/')"
+        with:
+          lfs: true
       - name: build linux
         run: |
-          git fetch --tags --force
-          git lfs pull
           make
 
-      - name: test cnws runs without error
+      - name: test watem-sedem runs without error
         run: |
           testfiles/test.sh
 
@@ -31,41 +38,55 @@ jobs:
         shell: bash
         run: |
           source /etc/profile.d/conda.sh
-          conda activate cn_ws
+          conda env create -f environment.yml
+          conda activate watem_sedem
           pytest testfiles
+      - uses: actions/upload-artifact@master
+        with:
+          name: linux-amd64-binary
+          path: watem_sedem/watem_sedem
 
   build-debian:
-    runs-on: [self-hosted, linux]
+    runs-on: [linux]
     container: registry.fluves.net/drone/cn_ws/debian11-build
     env:
       DEBFULLNAME: "Fluves Drone CI"
       DEBEMAIL: donotreply@fluves.net
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+        if: "!startsWith(github.ref, 'refs/tags/')"
+        with:
+          fetch-tags: true
+          lfs: true
+      - uses: actions/checkout@v4
+        if: "startsWith(github.ref, 'refs/tags/')"
+        with:
+          lfs: true
       - name: build debian package
         run : |
-          git fetch --tags --force
-          git lfs pull
-          gbp dch --snapshot --ignore-branch --snapshot-number=$DRONE_BUILD_NUMBER
+          gbp dch --ignore-branch --new-version=$(git describe --tags) --snapshot-number=$DRONE_BUILD_NUMBER --snapshot
           debuild -b
           mkdir /package
-          mv ../cn-ws*amd64* /package
+          mv ../watem-sedem*amd64* /package
       - uses: actions/upload-artifact@master
         with:
           name: debian-output
           path: /package
           
   build-documentation:
-    needs: [build-debian,build-linux]
-    runs-on: [self-hosted, linux]  
-    container: registry.fluves.net/drone/cn_ws/conda
+    needs: [build-linux]
+    runs-on: [linux]  
+    container: ghcr.io/watem-sedem/ci/watem-sedem-conda
     steps:
-      - uses: actions/checkout@v3
-      - name: fetch tags
-        shell: bash
-        run: |
-          git fetch --tags
-          git lfs pull
+      - uses: actions/checkout@v4
+        if: "!startsWith(github.ref, 'refs/tags/')"
+        with:
+          fetch-tags: true
+          lfs: true
+      - uses: actions/checkout@v4
+        if: "startsWith(github.ref, 'refs/tags/')"
+        with:
+          lfs: true
 
       - name: build website
         shell: bash
@@ -77,29 +98,3 @@ jobs:
         with:
           name: documentation-output
           path: ./docs
-
-  # build-windows:
-  #   runs-on: [self-hosted, windows] 
-  #   container: registry.fluves.net/drone/cn_ws/lazarus-windows
-  #   steps: 
-  #     - uses: actions/checkout@v3
-  #     - name: fetch tags
-  #       run: |
-  #         git fetch --tags 
-  #         git lfs pull
-
-  #     - name: build compiled version
-  #       run: |
-  #         c:\lazarus\lazbuild.exe cn_ws\cn_ws.lpr
-  #         c:\lazarus\fpc\3.2.0\bin\x86_64-win64\strip.exe cn_ws\cn_ws.exe
-
-  #     - name: run tests
-  #       run: |
-  #         .\testfiles\test.bat
-
-  #     - name: build conda package
-  #       run: |
-  #         get-content c:/users/ContainerAdministrator/_netrc | out-file -encoding ASCII c:/users/ContainerAdministrator/_netrc_ascii
-  #         del c:/users/ContainerAdministrator/_netrc
-  #         mv c:/users/ContainerAdministrator/_netrc_ascii c:/users/ContainerAdministrator/_netrc
-  #         conda build conda --output-folder conda_build

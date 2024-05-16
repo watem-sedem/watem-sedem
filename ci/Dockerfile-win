@@ -1,5 +1,0 @@
-FROM mcr.microsoft.com/windows/servercore:ltsc2019
-# builds registry.fluves.net/drone/cn_ws/lazarus-windows
-LABEL maintainer=johan@fluves.com
-COPY lazarus-2.0.10-fpc-3.2.0-win64.exe c:/temp/
-RUN c:/temp/lazarus-2.0.10-fpc-3.2.0-win64.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-

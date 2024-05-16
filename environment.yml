@@ -1,4 +1,4 @@
-name: cn_ws
+name: watem_sedem
 channels:
   - conda-forge
 dependencies:

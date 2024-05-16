@@ -14,29 +14,37 @@ env:
 jobs:
   build-packages:
     uses: ./.github/workflows/build.yml
-  
-  publish-debian:
-    needs: build-packages # build-debian
+
+  build-windows-packages:
+    uses: ./.github/workflows/build-windows.yml
+
+  publish-github:
+    needs: [build-packages, build-windows-packages]
     if: contains(github.ref , 'refs/tags/')
-    runs-on: [self-hosted, linux]
-    container: registry.fluves.net/drone/cn_ws/debian11-build
-    env:
-      SSH_KEY: ${{secrets.SSH_KEY}}
-      PLUGIN_SOURCE: /package/*.deb
-    steps: 
-      - uses: actions/download-artifact@master
-        with:
-          name: debian-output
-          path: /package
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/download-artifact@master
+      with:
+        name: linux-amd64-binary
+        path: linux
+    - uses: actions/download-artifact@master
+      with:
+        name: windows-compiled
+        path: windows
+    - uses: actions/download-artifact@master
+      with:
+        name: debian-output
+        path: debian
+    - uses: ncipollo/release-action@v1
+      with:
+        artifacts: "linux/*,windows/*,debian/*.deb"
+        omitBody: true
+        draft: true
 
-      - name: rsync-apt
-        shell: bash
-        run: |
-          mkdir -p /.ssh && echo "$SSH_KEY" > /.ssh/private.key && chmod og-rwx /.ssh/private.key
-          rsync -av -e "ssh -p 22 -o StrictHostKeyChecking=no -i /.ssh/private.key" $PLUGIN_SOURCE $RSYNC_USER@$RSYNC_HOST:$DEBIAN_RSYNC_TARGET 
-
-  publish-all:
-    needs: [publish-debian, build-packages] #build-linux,]
+  publish-debian-fluves:
+    # publish the apt package on the fluves repository
+    needs: [build-packages]
+    if: contains(github.ref , 'refs/tags/')
     runs-on: [self-hosted, linux]
     container: registry.fluves.net/drone/cn_ws/debian11-build
     env:
@@ -49,11 +57,12 @@ jobs:
         with:
           name: debian-output
           path: /package
-
-      - uses: actions/download-artifact@master
-        with:
-          name: conda-output
-          path: .build/conda_build
+      
+      - name: rsync-apt
+        shell: bash
+        run: |
+          mkdir -p /.ssh && echo "$SSH_KEY" > /.ssh/private.key && chmod og-rwx /.ssh/private.key
+          rsync -av -e "ssh -p 22 -o StrictHostKeyChecking=no -i /.ssh/private.key" /package/*.deb $RSYNC_USER@$RSYNC_HOST:$DEBIAN_RSYNC_TARGET 
 
       - name: rsync
         shell: bash
