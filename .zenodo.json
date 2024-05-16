@@ -1,0 +1,185 @@
+{
+    "creators": [
+      {
+        "affiliations": [
+          {
+            "id": "05f950310",
+            "name": "KU Leuven"
+          }
+        ],
+        "person_or_org": {
+          "family_name": "Verstraeten",
+          "given_name": "Gert",
+          "name": "Verstraeten, Gert",
+          "type": "personal"
+        }
+      },
+      {
+        "affiliations": [
+          {
+            "id": "05f950310",
+            "name": "KU Leuven"
+          }
+        ],
+        "person_or_org": {
+          "family_name": "Govers",
+          "given_name": "Gerard",
+          "name": "Govers, Gerard",
+          "type": "personal"
+        }
+      },
+      {
+        "affiliations": [
+          {
+            "id": "05f950310",
+            "name": "KU Leuven"
+          }
+        ],
+        "person_or_org": {
+          "family_name": "Van Oost",
+          "given_name": "Kristof",
+          "name": "Van Oost, Kristof",
+          "type": "personal"
+        }
+      },
+      {
+        "affiliations": [
+          {
+            "id": "05f950310",
+            "name": "KU Leuven"
+          }
+        ],
+        "person_or_org": {
+          "family_name": "Van Rompaey",
+          "given_name": "Anton",
+          "name": "Van Rompaey, Anton",
+          "type": "personal"
+        }
+      },
+      {
+        "affiliations": [
+          {
+            "id": "05f950310",
+            "name": "KU Leuven"
+          }
+        ],
+        "person_or_org": {
+          "family_name": "Notebaert",
+          "given_name": "Bastiaan",
+          "name": "Notebaert, Bastiaan",
+          "type": "personal"
+        }
+      },
+      {
+        "affiliations": [
+          {
+            "name": "Fluves"
+          }
+        ],
+        "person_or_org": {
+          "family_name": "Van de Wauw",
+          "given_name": "Johan",
+          "name": "Van de Wauw, Johan",
+          "type": "personal"
+        }
+      },
+      {
+        "affiliations": [
+          {
+            "name": "Fluves"
+          }
+        ],
+        "person_or_org": {
+          "family_name": "Renders",
+          "given_name": "Daan",
+          "name": "Renders, Daan",
+          "type": "personal"
+        }
+      },
+      {
+        "affiliations": [
+          {
+            "name": "Fluves"
+          }
+        ],
+        "person_or_org": {
+          "family_name": "Gobeyn",
+          "given_name": "Sacha",
+          "name": "Gobeyn, Sacha",
+          "type": "personal"
+        }
+      },
+      {
+        "affiliations": [
+          {
+            "name": "Fluves"
+          }
+        ],
+        "person_or_org": {
+          "family_name": "Van Hoey",
+          "given_name": "Stijn",
+          "name": "Van Hoey, Stijn",
+          "type": "personal"
+        }
+      },
+      {
+        "affiliations": [
+          {
+            "name": "Fluves"
+          }
+        ],
+        "person_or_org": {
+          "family_name": "De Vleeschouwer",
+          "given_name": "Niels",
+          "name": "De Vleeschouwer, Niels",
+          "type": "personal"
+        }
+      },
+      {
+        "affiliations": [
+          {
+            "name": "Departement Omgeving, Vlaamse Overheid"
+          }
+        ],
+        "person_or_org": {
+          "family_name": "Callewaert",
+          "given_name": "Seth",
+          "name": "Callewaert, Seth",
+          "type": "personal"
+        }
+      },
+      {
+        "affiliations": [
+          {
+            "name": "Departement Omgeving, Vlaamse Overheid"
+          }
+        ],
+        "person_or_org": {
+          "family_name": "Deproost",
+          "given_name": "Petra",
+          "name": "Deproost, Petra",
+          "type": "personal"
+        }
+      }
+    ],
+  "description": "<div>\n<pre>WaTEM/SEDEM is a soil erosion and sediment delivery model used for catchment-scale <br>simulations. The model incorporates a Revised Universal Soil Loss Equation (RUSLE)<br>module to simulate gross erosion, extended with a spatially-explicit sediment routing<br>module to simulate sediment transport based on a cellular transport capacity. The model<br>therefore provides the user with predictions of gross and net soil erosion at the<br>catchment scale.<br><br>WaTEM/SEDEM has been applied for numerous applications considering both the on-site and<br>off-site impacts of soil erosion. These applications include the predicted soil loss<br>from fields, off-site deposition, predictions of catchment sediment yield. The model has<br>also been extended for the simulation of transported heavy metals, nutrients and organic<br>carbon. The default application of the model can be extended in several ways to simulate<br>the impact of soil erosion mitigation measures in a spatially-explicit way. For example,<br>additional options within the model allow for the consideration of other anthropogenic<br>factors such as roads, sewage systems, water and sediment buffer basins, dams and<br>ditches.</pre>\n</div>",
+    "languages": [
+      {
+        "id": "eng",
+        "title": {
+          "en": "English"
+        }
+      }
+    ],
+
+    "license": "gpl-3.0-or-later",
+
+    "title": "watem-sedem/watem-sedem",
+
+    "keywords": ["Water",
+      "Sediment",
+      "model",
+      "watem-sedem",
+      "sediment transport",
+      "soil erosion"]
+}
