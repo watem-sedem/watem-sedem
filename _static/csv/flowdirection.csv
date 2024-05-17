@@ -1,5 +1,0 @@
-quadrant direction,direction (degrees),i-index target 1 (y-direction),i-index target 2 (y-direction),j-index target 1 (x-direction),j-index target 2 (x-direction)
-I,"[0,90]",-1,0,0,1
-II,"]90,180[",0,1,1,0
-III,"[180,270]",1,0,0,-1
-IV,"]270,360[",0,-1,-1,0
