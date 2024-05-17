@@ -57,7 +57,7 @@ authors:
     given-names: Petra
     affiliation: Fluves
 cff-version: 1.2.0
-doi: "10.5281/zenodo.10997287"
+# doi: "10.5281/zenodo.10997287"
 keywords:
   - "erosion"
   - "soil"
