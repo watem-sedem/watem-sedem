@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Model Choices &mdash; WaTEM/SEDEM  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Model extensions" href="model_extensions.html" />
+    <link rel="prev" title="Rasters" href="rasterinfo.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            WaTEM/SEDEM
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="model.html">Model Description</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="usage.html">Model Usage</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="rasterinfo.html">Rasters</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Model Choices</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#model-options">Model options</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#l-model">L model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#s-model">S model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#tc-model">TC Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#only-routing">Only Routing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#calculate-tillage-erosion">Calculate tillage erosion</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#output">Output</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#saga-grids">Saga_Grids</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#write-aspect">write aspect</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#write-ls-factor">write LS factor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#write-upstream-area">write upstream area</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#write-slope">write slope</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#write-routing-table">write routing table</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#write-routing-column-row">write routing column/row</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#write-rusle">write RUSLE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#write-sediment-export">write sediment export</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#write-water-erosion">write water erosion</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="model_extensions.html">Model extensions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="input.html">Model input</a></li>
+<li class="toctree-l2"><a class="reference internal" href="output.html">Model output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="calibration.html">Calibration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inifile.html">Summary <code class="docutils literal notranslate"><span class="pre">ini</span></code>-file</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact.html">Contact</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">WaTEM/SEDEM</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="usage.html">Model Usage</a></li>
+      <li class="breadcrumb-item active">Model Choices</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/watem-sedem/watem-sedem/blob/master/docs/choices.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul><div class="rst-breadcrumbs-buttons" role="navigation" aria-label="Sequential page navigation">
+        <a href="rasterinfo.html" class="btn btn-neutral float-left" title="Rasters" accesskey="p"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="model_extensions.html" class="btn btn-neutral float-right" title="Model extensions" accesskey="n">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+  </div>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="model-choices">
+<span id="choicespage"></span><h1>Model Choices<a class="headerlink" href="#model-choices" title="Permalink to this heading"></a></h1>
+<p>Most model options are boolean options and can be enabled in the .ini-file with
+‘1’ and disabled with ‘0’. However, some options expect a string value. The possible
+strings are described together with the model option. Two large groups of model choices
+can be distinguished: ‘Model options’ and ‘Output options’. The Model options describe
+how the model will run: which options and/or extensions of WaTEM/SEDEM are used? The
+output choices describe which output that must be generated. On this page we describe
+the model choices for a basic run of WaTEM/SEDEM. Model choices that enable optional
+model extensions (e.g. incorporation of erosion management practices) are described in a
+seperate section.</p>
+<div class="section" id="model-options">
+<h2>Model options<a class="headerlink" href="#model-options" title="Permalink to this heading"></a></h2>
+<div class="section" id="l-model">
+<span id="lmodel"></span><h3>L model<a class="headerlink" href="#l-model" title="Permalink to this heading"></a></h3>
+<p>WaTEM/SEDEM allows the user to choose between two models to calculate the
+<a class="reference internal" href="watem-sedem.html#lsfactor"><span class="std std-ref">L-factor</span></a>. The L-factor defines the impact of the slope length
+and is used in the calculation of <a class="reference internal" href="watem-sedem.html#rusle"><span class="std std-ref">RUSLE</span></a> and
+<a class="reference internal" href="watem-sedem.html#tc"><span class="std std-ref">transport capacity (TC)</span></a>.</p>
+<p>The L-model is calculated according to the work of Desmet and Govers (1996):</p>
+<div class="math notranslate nohighlight">
+\[L = \frac{(A+D^2)^{m+1}-A^{m+1}}{D^{m+2}.x^m.22,13^m}\]</div>
+<dl class="simple">
+<dt>with</dt><dd><ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(A\)</span>: upstream area for every raster pixel (<span class="math notranslate nohighlight">\(\text{m}^2\)</span>).</p></li>
+<li><p><span class="math notranslate nohighlight">\(D\)</span>: grid resolution <span class="math notranslate nohighlight">\((m)\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(m\)</span>: length exponent <span class="math notranslate nohighlight">\((-)\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(x\)</span>: factor incorporating the flow direction <span class="math notranslate nohighlight">\((-)\)</span>.</p></li>
+</ul>
+</dd>
+</dl>
+<p><span class="math notranslate nohighlight">\(x\)</span> is calculated as a function of the aspect <span class="math notranslate nohighlight">\(\alpha\)</span> of the pixel:</p>
+<div class="math notranslate nohighlight">
+\[x = |sin(\alpha)| + |cos(\alpha)|\]</div>
+<p>The upstream area <span class="math notranslate nohighlight">\(A\)</span> in a pixel is determined by the stream flow
+algorithm, and considers the parcel trapping efficiencies and the parcel
+connectivities.</p>
+<p>For the computation of <span class="math notranslate nohighlight">\(m\)</span>, however, two options exist:</p>
+<p><strong>1. Van Oost et al. 2003:</strong></p>
+<p>Van Oost et al. (2003) uses an <span class="math notranslate nohighlight">\(m\)</span> depending on the surface of
+the upstream area <span class="math notranslate nohighlight">\(A\)</span>. If the upstream area is smaller than
+<span class="math notranslate nohighlight">\(A_{ref}\)</span> = 10.000 ha, <span class="math notranslate nohighlight">\(m\)</span> is calculated as:</p>
+<div class="math notranslate nohighlight">
+\[m = 0.3 + (\frac{A}{A_{ref}})^c\]</div>
+<p>otherwise <span class="math notranslate nohighlight">\(m\)</span> is set to 0.72. in the model <span class="math notranslate nohighlight">\(c\)</span> is ‘hard coded’ as
+0.8, meaning that this value is fixed for this model and cannot be changed by
+the user.</p>
+<p><strong>2. McCool et al. (1989):</strong></p>
+<p>McCool et al. (1989) calculates <span class="math notranslate nohighlight">\(m\)</span> as:</p>
+<div class="math notranslate nohighlight">
+\[m = \frac{\beta}{\beta + 1}\]</div>
+<p>with <span class="math notranslate nohighlight">\(\beta\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\beta = \frac{\frac{sin(\theta)}{0.0896}}{3.sin^{0.8}(\theta) + 0.56}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\theta\)</span> stands for the slope of the pixel in percentages.</p>
+<p>The preferred method (i.e. Van Oost et al. (2003) or McCool et al. (1989, 1987))
+can be selected by setting the model choice <em>L model</em> to ‘Desmet1996_Vanoost2003’
+or ‘Desmet1996_McCool’, respectively, in the ini-file.
+This should be done in the following manner (mind the quotes):</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">L model</span><span class="o">=</span><span class="s">&#39;Desmet1996_Vanoost2003&#39;</span>
+</pre></div>
+</div>
+<p>This is the default value for this model option. or:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">L model</span><span class="o">=</span><span class="s">&#39;Desmet1996_McCool&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="s-model">
+<span id="smodel"></span><h3>S model<a class="headerlink" href="#s-model" title="Permalink to this heading"></a></h3>
+<p>WaTEM/SEDEM allows the user to choose between two models to calculate the
+<a class="reference internal" href="watem-sedem.html#lsfactor"><span class="std std-ref">S-factor</span></a>. The S-factor defines the effect of slope steepness
+and is used in the calculation of <a class="reference internal" href="watem-sedem.html#rusle"><span class="std std-ref">RUSLE</span></a> and
+<a class="reference internal" href="watem-sedem.html#tc"><span class="std std-ref">transport capacity (TC)</span></a>.</p>
+<p>Both models are a function of <span class="math notranslate nohighlight">\(\theta\)</span>: the inclination angle or slope
+(%). The computation of the inclination angle is based on the four cardinal
+neighbouring pixels (Zevenbergen and Thorne, 1987).</p>
+<p>The two S-models are:</p>
+<p><strong>1. Nearing (1997)</strong>:</p>
+<div class="math notranslate nohighlight">
+\[S = -1,5+\frac{17}{1+e^{2,3-6.1.\sin{\theta}}}\]</div>
+<p><strong>2. McCool et al. (1987)</strong></p>
+<p>McCool et al. (1987) distinguishes between two cases, namely:</p>
+<div class="math notranslate nohighlight">
+\[100.tan(\theta) &lt; 9.0; and: 100.tan(\theta) \geq 9.0\]</div>
+<p>In the first case, S is calculated as:</p>
+<div class="math notranslate nohighlight">
+\[S = (10.8.sin(\theta)) + 0.03\]</div>
+<p>In the other case, S is calculated as:</p>
+<div class="math notranslate nohighlight">
+\[S = (16.8.sin(\theta)) - 0.5\]</div>
+<p>The preferred method (i.e. Nearing (1997) or McCool et al. (1987)) can be selected by setting
+the model choice <em>S model</em> to ‘Nearing1997’ or ‘McCool1987’, respectively, in the ini-file.
+This should be done in the following manner (mind the quotes):</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">S model</span><span class="o">=</span><span class="s">&#39;Nearing1997&#39;</span>
+</pre></div>
+</div>
+<p>This is the default method to calculate the S-factor. or:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">S model</span><span class="o">=</span><span class="s">&#39;McCool1987&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="tc-model">
+<span id="tcmodel"></span><h3>TC Model<a class="headerlink" href="#tc-model" title="Permalink to this heading"></a></h3>
+<p>The Transport Capacity (TC) can be calculated in two ways in WaTEM/SEDEM. The default
+method is the method proposed by Van Oost et al. (2000):</p>
+<div class="math notranslate nohighlight">
+\[TC = kTC.R.K.(LS - 4.12.S_g^{0.8})\]</div>
+<p>with</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(kTC\)</span>: transport capacity coeffient <span class="math notranslate nohighlight">\((m)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(R\)</span>: <a class="reference internal" href="watem-sedem.html#rfactor"><span class="std std-ref">rain fall erosivity</span></a></p></li>
+<li><p><span class="math notranslate nohighlight">\(K\)</span>: <a class="reference internal" href="watem-sedem.html#kfactor"><span class="std std-ref">soil erobility factor</span></a></p></li>
+<li><p><span class="math notranslate nohighlight">\(LS\)</span>: <a class="reference internal" href="watem-sedem.html#lsfactor"><span class="std std-ref">slope length and slope steepness factor</span></a></p></li>
+<li><p><span class="math notranslate nohighlight">\(S_g\)</span>: local slope (<span class="math notranslate nohighlight">\(\frac{\text{m}}{\text{m}}\)</span>)</p></li>
+</ul>
+<p>Most studies using WaTEM/SEDEM use this method by Van Oost et al. (2000).
+It can be activated in WaTEM/SEDEM by setting
+<em>TC model</em> to ‘VanOost2000’ in the ini-file (mind the quotes):</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">TC model</span><span class="o">=</span><span class="s">&#39;VanOost2000&#39;</span>
+</pre></div>
+</div>
+<p>However, a second method, proposed by Verstraeten et al. (2007), can be used as
+well, namely:</p>
+<div class="math notranslate nohighlight">
+\[TC = kTC.R.K.A^{1.4}.S_g^{1.4}\]</div>
+<p>with</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(A\)</span>: the upstream area <span class="math notranslate nohighlight">\((m^2)\)</span> of the pixel</p></li>
+</ul>
+<p>A detailed description and comparison of both TC models can be found in
+Verstraeten et al. (2007).</p>
+<p>The method of Verstraeten et al. (2007) can be activated in WaTEM/SEDEM by setting
+<em>TC model</em> to ‘Verstraeten2007’ in the ini-file (mind the quotes):</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">TC model</span><span class="o">=</span><span class="s">&#39;Verstraeten2007&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="only-routing">
+<span id="onlyrouting"></span><h3>Only Routing<a class="headerlink" href="#only-routing" title="Permalink to this heading"></a></h3>
+<p>By enabling the Only Routing option, only the routing algorithm will
+be run. This means that the WaTEM/SEDEM calculations are disabled, and
+no sediment calculations are done. When using this option only
+<a class="reference internal" href="output.html#onlyroutingoutput"><span class="std std-ref">a limited model output</span></a> will be returned by the model.</p>
+<p>This option is usefull in large catchments to evaluate the routing without
+calculating the sediment transport or discharges. It is enabled in the ini-file as follows:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">Only Routing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1</span>
+</pre></div>
+</div>
+<p>The default is: <code class="docutils literal notranslate"><span class="pre">Only</span> <span class="pre">Routing</span> <span class="pre">=</span> <span class="pre">0</span></code></p>
+</div>
+<div class="section" id="calculate-tillage-erosion">
+<span id="calctileros"></span><h3>Calculate tillage erosion<a class="headerlink" href="#calculate-tillage-erosion" title="Permalink to this heading"></a></h3>
+<p>This option enables the tillage erosion model of Van Oost et al. (2000). We
+refer to <a class="reference internal" href="watem-sedem.html#tillageerosionmodel"><span class="std std-ref">the dedicated section</span></a> for more information
+about this model. This option can be enabled by writing the following in the ini-file:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">Calculate Tillage Erosion</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1</span>
+</pre></div>
+</div>
+<p>The default is: <code class="docutils literal notranslate"><span class="pre">Calculate</span> <span class="pre">Tillage</span> <span class="pre">Erosion</span> <span class="pre">=</span> <span class="pre">0</span></code></p>
+</div>
+</div>
+<div class="section" id="output">
+<span id="outputchoices"></span><h2>Output<a class="headerlink" href="#output" title="Permalink to this heading"></a></h2>
+<p>The user has the option to generate extra (or change characteristics of the)
+output by defining following keys in
+the [<a class="reference internal" href="inifile.html#inioutput"><span class="std std-ref">Output</span></a>]-section of the .ini-file.</p>
+<div class="section" id="saga-grids">
+<span id="sagagrids"></span><h3>Saga_Grids<a class="headerlink" href="#saga-grids" title="Permalink to this heading"></a></h3>
+<p>(bool, default false): write output rasters as Saga Grids. If false, Idrisi
+rasters are written.</p>
+</div>
+<div class="section" id="write-aspect">
+<span id="writeaspect"></span><h3>write aspect<a class="headerlink" href="#write-aspect" title="Permalink to this heading"></a></h3>
+<p>(bool, default false): write <a class="reference internal" href="output.html#aspectmap"><span class="std std-ref">AspectMap.rst</span></a></p>
+</div>
+<div class="section" id="write-ls-factor">
+<span id="writels"></span><h3>write LS factor<a class="headerlink" href="#write-ls-factor" title="Permalink to this heading"></a></h3>
+<p>(bool, default false): write <a class="reference internal" href="output.html#lsmap"><span class="std std-ref">LS.rst</span></a></p>
+</div>
+<div class="section" id="write-upstream-area">
+<span id="writeuparea"></span><h3>write upstream area<a class="headerlink" href="#write-upstream-area" title="Permalink to this heading"></a></h3>
+<p>(bool, default false): write <a class="reference internal" href="output.html#upareamap"><span class="std std-ref">UPAREA.rst</span></a></p>
+</div>
+<div class="section" id="write-slope">
+<span id="writeslope"></span><h3>write slope<a class="headerlink" href="#write-slope" title="Permalink to this heading"></a></h3>
+<p>(bool, default false): write <a class="reference internal" href="output.html#slopemap"><span class="std std-ref">SLOPE.rst</span></a></p>
+</div>
+<div class="section" id="write-routing-table">
+<span id="writerouting"></span><h3>write routing table<a class="headerlink" href="#write-routing-table" title="Permalink to this heading"></a></h3>
+<p>(bool, default false): writes <a class="reference internal" href="output.html#routingtxt"><span class="std std-ref">routing.txt</span></a> and
+<a class="reference internal" href="output.html#missingroutingtxt"><span class="std std-ref">routing_missing.txt</span></a></p>
+</div>
+<div class="section" id="write-routing-column-row">
+<span id="writeroutingrc"></span><h3>write routing column/row<a class="headerlink" href="#write-routing-column-row" title="Permalink to this heading"></a></h3>
+<p>(bool, default false): writes <a class="reference internal" href="output.html#routingcolrow"><span class="std std-ref">routing_colrow.txt</span></a></p>
+</div>
+<div class="section" id="write-rusle">
+<span id="writerusle"></span><h3>write RUSLE<a class="headerlink" href="#write-rusle" title="Permalink to this heading"></a></h3>
+<p>(bool, default false): writes <a class="reference internal" href="output.html#ruslerst"><span class="std std-ref">RUSLE.rst</span></a></p>
+</div>
+<div class="section" id="write-sediment-export">
+<span id="writesedexport"></span><h3>write sediment export<a class="headerlink" href="#write-sediment-export" title="Permalink to this heading"></a></h3>
+<p>(bool, default false): writes <a class="reference internal" href="output.html#sediexportrst"><span class="std std-ref">SediExport_kg.rst</span></a>,
+<a class="reference internal" href="output.html#sedioutrst"><span class="std std-ref">SediOut_kg.rst</span></a>, and <a class="reference internal" href="output.html#sediinrst"><span class="std std-ref">SediIn_kg.rst</span></a></p>
+</div>
+<div class="section" id="write-water-erosion">
+<span id="writerwatereros"></span><h3>write water erosion<a class="headerlink" href="#write-water-erosion" title="Permalink to this heading"></a></h3>
+<p>(bool, default false): writes
+<a class="reference internal" href="output.html#watereroskgrst"><span class="std std-ref">WATEREROS (kg per gridcel).rst</span></a> and
+<a class="reference internal" href="output.html#watererosmmrst"><span class="std std-ref">WATEREROS (mm per gridcel).rst</span></a></p>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="rasterinfo.html" class="btn btn-neutral float-left" title="Rasters" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="model_extensions.html" class="btn btn-neutral float-right" title="Model extensions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, KU Leuven &amp; Fluves, see https://watem-sedem.github.io/watem-sedem/authors.html for more information.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

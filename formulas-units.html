@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Overview of formulas and units in WaTEM/SEDEM &mdash; WaTEM/SEDEM  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Routing" href="routing.html" />
+    <link rel="prev" title="WaTEM/SEDEM: a spatially distributed soil erosion and sediment delivery model" href="watem-sedem.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            WaTEM/SEDEM
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="model.html">Model Description</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="watem-sedem.html">WaTEM/SEDEM: a spatially distributed soil erosion and sediment delivery model</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Overview of formulas and units in WaTEM/SEDEM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routing.html">Routing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routing-extension.html">Routing in case of extensions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cn-ws.html">Curve Number extension</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html">A short history of WaTEM/SEDEM</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Model Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact.html">Contact</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">WaTEM/SEDEM</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="model.html">Model Description</a></li>
+      <li class="breadcrumb-item active">Overview of formulas and units in WaTEM/SEDEM</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/watem-sedem/watem-sedem/blob/master/docs/formulas-units.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul><div class="rst-breadcrumbs-buttons" role="navigation" aria-label="Sequential page navigation">
+        <a href="watem-sedem.html" class="btn btn-neutral float-left" title="WaTEM/SEDEM: a spatially distributed soil erosion and sediment delivery model" accesskey="p"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="routing.html" class="btn btn-neutral float-right" title="Routing" accesskey="n">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+  </div>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="overview-of-formulas-and-units-in-watem-sedem">
+<span id="formulasunits"></span><h1>Overview of formulas and units in WaTEM/SEDEM<a class="headerlink" href="#overview-of-formulas-and-units-in-watem-sedem" title="Permalink to this heading"></a></h1>
+<p>The aim of this page is to present an overview of the formulas and the units
+used in WaTEM/SEDEM. The motivation for this page is to clarify the differences
+between the units used in the <a class="reference internal" href="model.html#modeldescription"><span class="std std-ref">model description</span></a>,
+<a class="reference internal" href="input.html#modelinput"><span class="std std-ref">model inputs</span></a>, model states and <a class="reference internal" href="output.html#modeloutput"><span class="std std-ref">model
+outputs</span></a>. This overview can help interpret the outputs of WaTEM/SEDEM.</p>
+<p>As explained in <a class="reference internal" href="watem-sedem.html#ws"><span class="std std-ref">the model description</span></a> of WaTEM/SEDEM, the amount of erosion and deposition in
+each pixel, as well as the amount of sediment leaving a pixel downstream (<span class="math notranslate nohighlight">\(S_o\)</span>) is determined by comparing
+the mean annual soil erosion <span class="math notranslate nohighlight">\(E\)</span>
+and incoming sediment <span class="math notranslate nohighlight">\(S_i\)</span> with the transport capacity <span class="math notranslate nohighlight">\(TC\)</span> at the pixel level.
+In the model code this is done by
+comparing <strong>volumes</strong> (<span class="math notranslate nohighlight">\(m^3\)</span>):</p>
+<div class="math notranslate nohighlight">
+\[S_o = TC \quad\text{ if } S_i+E &gt; TC\]</div>
+<div class="math notranslate nohighlight">
+\[S_o = S_A = S_i + E \quad\text{ if } S_i \leq TC\]</div>
+<p>with the units for <span class="math notranslate nohighlight">\(E\)</span> and <span class="math notranslate nohighlight">\(TC\)</span>:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(E = \frac{\text{kg}}{\text{m}^{2}.\text{year}}\)</span> (see <a class="reference internal" href="watem-sedem.html#rusle"><span class="std std-ref">here</span></a>)</p></li>
+<li><p><span class="math notranslate nohighlight">\(TC = \frac{\text{kg}}{\text{m.year}}\)</span> (see <a class="reference internal" href="watem-sedem.html#tc"><span class="std std-ref">here</span></a>).</p></li>
+</ul>
+</div></blockquote>
+<p>These units are converted to <span class="math notranslate nohighlight">\(\frac{m^3}{year}\)</span> (<span class="math notranslate nohighlight">\(E_v\)</span> and
+<span class="math notranslate nohighlight">\(TC_v\)</span>) by making use of the pixel area (<span class="math notranslate nohighlight">\(A_c, unit: m^2\)</span>), the soil
+bulk density (<span class="math notranslate nohighlight">\(\rho, unit: \frac{kg}{m^3}\)</span>) and the slope correction factor for
+the grid cell dimension (<span class="math notranslate nohighlight">\(x\)</span>, resolution multiplied by <span class="math notranslate nohighlight">\(|sin
+(\alpha)|+|cos (\alpha)|\)</span>).</p>
+<div class="math notranslate nohighlight">
+\[E_v = \frac{E \cdot A_c}{\rho} (\frac{m^3}{year})\]</div>
+<div class="math notranslate nohighlight">
+\[TC_v = \frac{TC \cdot x}{\rho} (\frac{m^3}{year})\]</div>
+<p>The values for the outgoing sediment per pixel are in the code thus defined
+as state variables in <span class="math notranslate nohighlight">\(\frac{m^3}{year}\)</span>. Consequently, the
+values for the incoming sediment (<span class="math notranslate nohighlight">\(S_i\)</span>) for every (river) pixel is
+also expressed in the model as volumes. These computations are all defined in
+the procedure <cite>Water</cite> in the file <cite>lateralredistribution.pas</cite>.</p>
+<p>The model inputs for WaTEM/SEDEM in the .inifile that are used to compute
+<span class="math notranslate nohighlight">\(E\)</span> and <span class="math notranslate nohighlight">\(TC\)</span> are the <span class="math notranslate nohighlight">\(R\)</span>-value, the <span class="math notranslate nohighlight">\(C\)</span>-raster, the
+<span class="math notranslate nohighlight">\(K\)</span>-raster, the <span class="math notranslate nohighlight">\(P\)</span>-raster and the digital height model raster
+(<span class="math notranslate nohighlight">\(LS\)</span>, slope). <span class="math notranslate nohighlight">\(LS\)</span> and <span class="math notranslate nohighlight">\(\tan(\text{slope})^{0.8}\)</span> are
+dimensionless, and are considered as model outputs as they are computed in
+WaTEM/SEDEM. The <span class="math notranslate nohighlight">\(C\)</span>- and <span class="math notranslate nohighlight">\(P\)</span>-rasters have no units.</p>
+<p>The units of the <span class="math notranslate nohighlight">\(R\)</span>-value and <span class="math notranslate nohighlight">\(K\)</span>-raster are equal to:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(R = \frac{\text{MJ.mm}}{\text{ha}.\text{h.year}}\)</span>. The unit of the
+R-value is converted (in WaTEM/SEDEM) to
+<span class="math notranslate nohighlight">\(\frac{\text{MJ.mm}}{\text{m}^2.\text{h.year}}\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(K = \frac{\text{kg.h}}{\text{MJ.mm}}\)</span>.</p></li>
+</ul>
+</div></blockquote>
+<p>The model outputs <cite>incoming sediment</cite> <span class="math notranslate nohighlight">\(S_i\)</span> (<a class="reference internal" href="output.html#sediinrst"><span class="std std-ref">SediIn</span></a>), <cite>outgoing sediment</cite> <span class="math notranslate nohighlight">\(S_o\)</span> (<a class="reference internal" href="output.html#sedioutrst"><span class="std std-ref">SediOut</span></a>), <cite>sediment export</cite> <span class="math notranslate nohighlight">\(S_e\)</span> (<a class="reference internal" href="output.html#sediexportrst"><span class="std std-ref">SediExport</span></a>) and <cite>transport capacity</cite> <span class="math notranslate nohighlight">\(TC\)</span>
+(<a class="reference internal" href="output.html#capacityrst"><span class="std std-ref">Capacity</span></a>) all have unit <strong>kg</strong> (converted by using
+<span class="math notranslate nohighlight">\(\rho\)</span>). The model output RUSLE <span class="math notranslate nohighlight">\(E\)</span> value (<a class="reference internal" href="output.html#ruslerst"><span class="std std-ref">RUSLE</span></a>) is expressed in <span class="math notranslate nohighlight">\(\frac{\text{kg}}{\text{m}^2}\)</span>!</p>
+<p>Note that <span class="math notranslate nohighlight">\(S_e\)</span> is equal to <span class="math notranslate nohighlight">\(S_o\)</span>, yet masked respectively for
+river and land pixels.</p>
+<p>WaTEM/SEDEM outputs include an erosion map that expresses <span class="math notranslate nohighlight">\(E\)</span> in kg/m²/year,
+equivalent to area-specific erosion rates reported in most other studies.
+Values can be multiplied with 10 to obtain typical erosion rates in ton/ha/year.
+A transport capacity map is also provided as an output, whereby the amount of sediment that
+can be transported through a pixel in downstream direction is shown in kg/pixel/year.</p>
+<p>In the table below the units of import input and output values/rasters are
+listed.</p>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Variable</p></th>
+<th class="head"><p>Symbol</p></th>
+<th class="head"><p>Model input</p></th>
+<th class="head"><p>Model output</p></th>
+<th class="head"><p>Unit</p></th>
+<th class="head"><p>Type</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Potential soil loss</p></td>
+<td><p>E</p></td>
+<td></td>
+<td><p>x</p></td>
+<td><p>kg/[m^2.year]</p></td>
+<td><p>raster</p></td>
+</tr>
+<tr class="row-odd"><td><p>Transport capacity</p></td>
+<td><p>TC</p></td>
+<td></td>
+<td><p>x</p></td>
+<td><p>kg/[pixel.year]</p></td>
+<td><p>raster</p></td>
+</tr>
+<tr class="row-even"><td><p>R-factor</p></td>
+<td><p>R</p></td>
+<td><p>x</p></td>
+<td></td>
+<td><p>[MJ.mm]/[ha.h.year]</p></td>
+<td><p>value</p></td>
+</tr>
+<tr class="row-odd"><td><p>K-factor</p></td>
+<td><p>K</p></td>
+<td><p>x</p></td>
+<td></td>
+<td><p>[kg.h]/[MJ.mm]</p></td>
+<td><p>raster</p></td>
+</tr>
+<tr class="row-even"><td><p>C-factor</p></td>
+<td><p>C</p></td>
+<td><p>x</p></td>
+<td></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><p>raster</p></td>
+</tr>
+<tr class="row-odd"><td><p>P-factor</p></td>
+<td><p>P</p></td>
+<td><p>x</p></td>
+<td></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><p>raster</p></td>
+</tr>
+<tr class="row-even"><td><p>DTM</p></td>
+<td><p>DTM</p></td>
+<td><p>x</p></td>
+<td><p>x</p></td>
+<td><p>m</p></td>
+<td><p>raster</p></td>
+</tr>
+<tr class="row-odd"><td><p>LS</p></td>
+<td><p>LS</p></td>
+<td></td>
+<td><p>x</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><p>raster</p></td>
+</tr>
+<tr class="row-even"><td><p>Slope</p></td>
+<td><p>slope</p></td>
+<td></td>
+<td><p>x</p></td>
+<td><p>radians</p></td>
+<td><p>raster</p></td>
+</tr>
+<tr class="row-odd"><td><p>Sediment input</p></td>
+<td><p>Si</p></td>
+<td></td>
+<td><p>x</p></td>
+<td><p>kg/year</p></td>
+<td><p>raster</p></td>
+</tr>
+<tr class="row-even"><td><p>Sediment output</p></td>
+<td><p>So</p></td>
+<td></td>
+<td><p>x</p></td>
+<td><p>kg/year</p></td>
+<td><p>raster</p></td>
+</tr>
+<tr class="row-odd"><td><p>Sediment export</p></td>
+<td><p>Se</p></td>
+<td></td>
+<td><p>x</p></td>
+<td><p>kg/year</p></td>
+<td><p>raster</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="watem-sedem.html" class="btn btn-neutral float-left" title="WaTEM/SEDEM: a spatially distributed soil erosion and sediment delivery model" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="routing.html" class="btn btn-neutral float-right" title="Routing" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, KU Leuven &amp; Fluves, see https://watem-sedem.github.io/watem-sedem/authors.html for more information.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

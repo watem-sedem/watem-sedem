@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Model output &mdash; WaTEM/SEDEM  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Calibration" href="calibration.html" />
+    <link rel="prev" title="Model input" href="input.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            WaTEM/SEDEM
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="model.html">Model Description</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="usage.html">Model Usage</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="rasterinfo.html">Rasters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="choices.html">Model Choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="model_extensions.html">Model extensions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="input.html">Model input</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Model output</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#only-routing-output">Only Routing output</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#routing-txt">routing.txt</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#routing-missing-txt">routing_missing.txt</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#routing-rowcol-txt">routing_rowcol.txt</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ls-rst">LS.rst</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#aspectmap-rst">AspectMap.rst</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#slope-rst">SLOPE.rst</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#uparea-rst">UPAREA.rst</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#watem-sedem-output">WaTEM/SEDEM output</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#total-sediment-txt">Total Sediment.txt</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#total-sediment-segments-txt">Total Sediment segments.txt</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cumulative-sediment-segments-txt">Cumulative sediment segments.txt</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#clay-content-sediment-txt">Clay content sediment.txt</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#clay-content-sediment-segments-txt">Clay content sediment segments.txt</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cumulative-rst">cumulative.rst</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sewer-in-rst">sewer_in.rst</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sediexport-kg-rst">SediExport_kg.rst</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sediout-kg-rst">SediOut_kg.rst</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sediin-kg-rst">SediIn_kg.rst</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#watereros-kg-per-gridcel-rst">WATEREROS (kg per gridcel).rst</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#watereros-mm-per-gridcel-rst">WATEREROS (mm per gridcel).rst</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#capacity-rst">Capacity.rst</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rusle-rst">RUSLE.rst</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#tileros-mm-per-gridcel-rst">TILEROS (mm per gridcel).rst</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#tileros-kg-per-gridcel-rst">TILEROS (kg per gridcel).rst</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sedtil-in-rst">SEDTIL_IN.rst</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sedtil-out-rst">SEDTIL_OUT.rst</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#calibration-txt">Calibration.txt</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#cn-output">CN-output</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#discharge-txt">Discharge.txt</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#discharge-segments-txt">Discharge_segments.txt</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sediment-concentration-txt">Sediment concentration.txt</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sediment-concentration-segments-txt">Sediment concentration segments.txt</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sediment-txt">Sediment.txt</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sediment-segments-txt">Sediment_segments.txt</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#spillover-per-buffer-txt">Spillover per buffer.txt</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#total-discharge-txt">Total discharge.txt</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#remap-rst">Remap.rst</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#total-runoff-rst">Total runoff.rst</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="calibration.html">Calibration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inifile.html">Summary <code class="docutils literal notranslate"><span class="pre">ini</span></code>-file</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact.html">Contact</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">WaTEM/SEDEM</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="usage.html">Model Usage</a></li>
+      <li class="breadcrumb-item active">Model output</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/watem-sedem/watem-sedem/blob/master/docs/output.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul><div class="rst-breadcrumbs-buttons" role="navigation" aria-label="Sequential page navigation">
+        <a href="input.html" class="btn btn-neutral float-left" title="Model input" accesskey="p"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="calibration.html" class="btn btn-neutral float-right" title="Calibration" accesskey="n">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+  </div>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="model-output">
+<span id="modeloutput"></span><h1>Model output<a class="headerlink" href="#model-output" title="Permalink to this heading"></a></h1>
+<p>In this section we will describe all possible outputs of WaTEM/SEDEM. Tables
+are written as tab-delimited txt-files, rasters are written as
+<a class="reference external" href="https://gdal.org/drivers/raster/Idrisi.html">Idrisi-rasters</a> (or as
+<a class="reference external" href="https://gdal.org/drivers/raster/sdat.html">Saga-rasters</a> if the
+‘<a class="reference internal" href="choices.html#sagagrids"><span class="std std-ref">saga grids</span></a>’ option is enabled).</p>
+<p>The output returned by the model depends on some of the
+<a class="reference internal" href="choices.html#choicespage"><span class="std std-ref">user choices</span></a> that can be defined in the ini-file.</p>
+<div class="section" id="only-routing-output">
+<span id="onlyroutingoutput"></span><h2>Only Routing output<a class="headerlink" href="#only-routing-output" title="Permalink to this heading"></a></h2>
+<p>Following output is generated if the model option
+‘<a class="reference internal" href="choices.html#onlyrouting"><span class="std std-ref">only routing</span></a>’ is enabled:</p>
+<div class="section" id="routing-txt">
+<span id="routingtxt"></span><h3>routing.txt<a class="headerlink" href="#routing-txt" title="Permalink to this heading"></a></h3>
+<p>Tab-delimited table, containing a row for every pixel in the spatial domain.
+Following columns are present for every pixel (every pixel is a row in the
+table):</p>
+<ul class="simple">
+<li><p><strong>col</strong>: the vertical position of the pixel in the raster</p></li>
+<li><p><strong>row</strong>: the horizontal position of the pixel in the raster</p></li>
+<li><p><strong>target1col</strong>: the vertical position of the first target pixel in the raster.
+These values are -99 if target1 does not exist.</p></li>
+<li><p><strong>target1row</strong>: the horizontal position of the first target pixel in the raster.
+These values are -99 if target1 does not exist.</p></li>
+<li><p>part1: the relative amount of outgoing sediment/water to the first target
+pixel</p></li>
+<li><p>distance1: the distance (in m) between the source pixel and the first target
+pixel</p></li>
+<li><p><strong>target2col</strong>: the vertical position of the second target pixel in the raster.
+These values are -99 if target2 does not exist.</p></li>
+<li><p><strong>target2row</strong>: the horizontal position of the second target pixel in the raster.
+These values are -99 if target2 does not exist.</p></li>
+<li><p>part2: the relative amount of outgoing sediment/water to the second target
+pixel. <em>The sum of part1 and part2 must equal 1.</em></p></li>
+<li><p>distance2: the distance (in m) between the source pixel and the second target
+pixel</p></li>
+</ul>
+<p>The routing table will only be generated if the model choice
+‘<a class="reference internal" href="choices.html#writerouting"><span class="std std-ref">write routing table</span></a>’ is enabled.</p>
+<p>An example of (a part) of a routing.txt is given below</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>col	row	target1col	target1row	part1	distance1	target2col	target2row	part2	distance2
+68	6	-99	-99	0	0	69	6	1	20
+69	6	-99	-99	0	0	70	6	1	20
+70	6	71	6	0.92026302166966	20	70	7	0.0797369783303399	20
+71	6	72	6	0.850187001095911	20	71	7	0.149812998904089	20
+72	6	73	6	0.93733320878786	20	72	7	0.0626667912121402	20
+73	6	-99	-99	0	0	74	6	1	20
+74	6	-99	-99	0	0	75	6	1	20
+75	6	76	7	1	28.2842712474619	-99	-99	0	0
+76	6	-99	-99	0	0	77	6	1	20
+77	6	-99	-99	0	0	78	6	1	20
+78	6	79	7	1	28.2842712474619	-99	-99	0	0
+67	7	-99	-99	0	0	68	7	1	20
+68	7	68	6	0.0662259378181042	20	69	7	0.933774062181896	20
+69	7	-99	-99	0	0	70	7	1	20
+</pre></div>
+</div>
+<p>See <a class="reference internal" href="rasterinfo.html#gridcoordinates"><span class="std std-ref">the section on grid coordinates</span></a> for more
+information on the orientation of the rows and columns in this file.</p>
+</div>
+<div class="section" id="routing-missing-txt">
+<span id="missingroutingtxt"></span><h3>routing_missing.txt<a class="headerlink" href="#routing-missing-txt" title="Permalink to this heading"></a></h3>
+<p>Tab-delimited table with the same headers as <a class="reference internal" href="#routingtxt"><span class="std std-ref">routing.txt</span></a>.
+The records in this table are a subset of those in routing.txt and are only
+included if they were not treated in te model after the routing is calculated.
+This output is intended as debugging information for the model. Ideally, this
+file is empty.</p>
+<p>This table will only be generated if the model choice
+‘<a class="reference internal" href="choices.html#writerouting"><span class="std std-ref">write routing table</span></a>’ is enabled.</p>
+<p>See <a class="reference internal" href="rasterinfo.html#gridcoordinates"><span class="std std-ref">the section on grid coordinates</span></a> for more
+information on the orientation of the rows and columns in this file.</p>
+</div>
+<div class="section" id="routing-rowcol-txt">
+<span id="routingcolrow"></span><h3>routing_rowcol.txt<a class="headerlink" href="#routing-rowcol-txt" title="Permalink to this heading"></a></h3>
+<p>Tab-delimited table. Every row represents a pixel coordinate (column + row).
+The pixels are sorted according to the sequence they are treated in the modelrun:
+i.e. the first record int the table is the pixel treated first in the modelrun,
+the last record of the table is the last treated pixel of the modelrun.
+Together with the <a class="reference internal" href="#routingtxt"><span class="std std-ref">routing.txt</span></a>, the routing applied by the model
+can be fully reconstructed.</p>
+<p>This table will only be generated if the model choice
+‘<a class="reference internal" href="choices.html#writerouting"><span class="std std-ref">write routing table</span></a>’ is enabled.</p>
+<p>An example of (a part) of a routing_rowcol.txt is given below</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>col	row
+76	6
+67	7
+85	7
+99	7
+66	8
+69	8
+85	8
+91	8
+101	8
+104	8
+65	9
+81	9
+83	9
+92	9
+</pre></div>
+</div>
+<p>See <a class="reference internal" href="rasterinfo.html#gridcoordinates"><span class="std std-ref">the section on grid coordinates</span></a> for more
+information on the orientation of the rows and columns in this file.</p>
+</div>
+<div class="section" id="ls-rst">
+<span id="lsmap"></span><h3>LS.rst<a class="headerlink" href="#ls-rst" title="Permalink to this heading"></a></h3>
+<p>Raster with the calculated <a class="reference internal" href="watem-sedem.html#lsfactor"><span class="std std-ref">LS-factor</span></a> (-). This
+raster will only be written if the model output option ‘<a class="reference internal" href="choices.html#writels"><span class="std std-ref">write ls factor</span></a>’ is enabled.</p>
+</div>
+<div class="section" id="aspectmap-rst">
+<span id="aspectmap"></span><h3>AspectMap.rst<a class="headerlink" href="#aspectmap-rst" title="Permalink to this heading"></a></h3>
+<p>Raster with the direction of slope (the aspect) in radians. This raster will only be
+written if the model output option ‘<a class="reference internal" href="choices.html#writeaspect"><span class="std std-ref">write aspect</span></a>’ is enabled.</p>
+</div>
+<div class="section" id="slope-rst">
+<span id="slopemap"></span><h3>SLOPE.rst<a class="headerlink" href="#slope-rst" title="Permalink to this heading"></a></h3>
+<p>Raster with the calculated slope in radians. This raster will only be written if the model
+output option ‘<a class="reference internal" href="choices.html#writeslope"><span class="std std-ref">write slope</span></a>’ is enabled.</p>
+</div>
+<div class="section" id="uparea-rst">
+<span id="upareamap"></span><h3>UPAREA.rst<a class="headerlink" href="#uparea-rst" title="Permalink to this heading"></a></h3>
+<p>Raster with the total upstream area <span class="math notranslate nohighlight">\((m^2)\)</span> for every pixel. This raster will only be
+written if the model output option ‘<a class="reference internal" href="choices.html#writeuparea"><span class="std std-ref">write upstream area</span></a>’ is enabled.</p>
+</div>
+</div>
+<div class="section" id="watem-sedem-output">
+<span id="watemsedemoutput"></span><h2>WaTEM/SEDEM output<a class="headerlink" href="#watem-sedem-output" title="Permalink to this heading"></a></h2>
+<p>When WaTEM/SEDEM is used (i.e. ‘<a class="reference internal" href="choices.html#onlyrouting"><span class="std std-ref">only routing</span></a> is disabled),
+the following rasters and tables can be written as output.</p>
+<div class="section" id="total-sediment-txt">
+<span id="totalsedimenttxt"></span><h3>Total Sediment.txt<a class="headerlink" href="#total-sediment-txt" title="Permalink to this heading"></a></h3>
+<p>Txt-file where the first rows give a summary of the results:</p>
+<ul class="simple">
+<li><p>Total erosion <span class="math notranslate nohighlight">\((kg)\)</span>: the total amount of sediment eroded in the landscape.
+Erosion is expressed as a negative value.</p></li>
+<li><p>Total deposition <span class="math notranslate nohighlight">\((kg)\)</span>: the total amount of sediment deposited in the landscape
+(not entering sewers or rivers)</p></li>
+<li><p>Sediment leaving the catchment, via the river <span class="math notranslate nohighlight">\((kg)\)</span>: the amount of sediment
+that enters any of the river pixels</p></li>
+<li><p>Sediment leaving the catchment, not via the river <span class="math notranslate nohighlight">\((kg)\)</span>: the amount of sediment
+that exits the model domain (not via river pixels)</p></li>
+</ul>
+<p>if the model extension ‘<a class="reference internal" href="model_extensions.html#includebuffers"><span class="std std-ref">Include buffers</span></a>’ is enabled, following row is added to the file:</p>
+<ul class="simple">
+<li><p>Sediment trapped in buffers <span class="math notranslate nohighlight">\((kg)\)</span>: the amount of sediment that is trapped in
+all buffer basins.</p></li>
+</ul>
+<p>if the model extension ‘<a class="reference internal" href="model_extensions.html#inlcudesewers"><span class="std std-ref">Include sewers</span></a>’ is enabled, following row is added to the file:</p>
+<ul class="simple">
+<li><p>Sediment entering sewer system <span class="math notranslate nohighlight">\((kg)\)</span>: the amount of sediment that enters the sewer pixels</p></li>
+</ul>
+<p>After the above mentioned rows, a tab-separated table where for every outlet
+the amount of incoming sediment is reported.</p>
+<p>An example output is given here:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Total erosion: -22656028.85 (kg)
+Total deposition: 18383994.81 (kg)
+Sediment leaving the catchment, via the river: 1627019.71 (kg)
+Sediment leaving the catchment, not via the river: 435276.68 (kg)
+Sediment trapped in buffers: 306598.86 (kg)
+Sediment entering sewer system: 1963295.93 (kg)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+Total sediment passing at each outlet [kg]
+Outlet ID	Sediment
+1	1626467.5
+</pre></div>
+</div>
+</div>
+<div class="section" id="total-sediment-segments-txt">
+<span id="totalsedimentsegmenttxt"></span><h3>Total Sediment segments.txt<a class="headerlink" href="#total-sediment-segments-txt" title="Permalink to this heading"></a></h3>
+<p>Tab-delimited table. Every row contains the id of a river segment and the total
+amount of sediment <span class="math notranslate nohighlight">\((kg)\)</span> entering the segment.
+This table is only generated if the model extension
+‘<a class="reference internal" href="model_extensions.html#outputsegment"><span class="std std-ref">Output per river segment</span></a>’ is enabled.</p>
+<p>An example output is given here:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Total sediment flowing into each river segment [kg]
+segment_id	Sediment
+1	14.47907066
+2	833.5774536
+3	16578.52734
+4	19290.51758
+5	5772.96582
+6	1590.167236
+7	134240.5625
+8	810.6271973
+9	419013.375
+10	133863.4375
+11	45281.28125
+12	129736.7812
+13	112005.4062
+14	6804.628906
+15	53051.43359
+16	1516.412964
+17	804.9072266
+18	2015.383301
+19	76564.71094
+20	326974.8438
+21	83046.32812
+22	57209.46484
+</pre></div>
+</div>
+</div>
+<div class="section" id="cumulative-sediment-segments-txt">
+<span id="cumsedsegmenttxt"></span><h3>Cumulative sediment segments.txt<a class="headerlink" href="#cumulative-sediment-segments-txt" title="Permalink to this heading"></a></h3>
+<p>Tab-delimited table. Every row contains the id of a river segment and the cumulative
+amount of sediment transported from all upstream segments towards this segment.
+This table is only generated if the model extension
+‘<a class="reference internal" href="model_extensions.html#outputsegment"><span class="std std-ref">Output per river segment</span></a>’ is enabled.</p>
+</div>
+<div class="section" id="clay-content-sediment-txt">
+<span id="claycontentesedtxt"></span><h3>Clay content sediment.txt<a class="headerlink" href="#clay-content-sediment-txt" title="Permalink to this heading"></a></h3>
+<p>Tab-delimited table with the estimated mean clay content (in %) at every outlet. This table
+is only generated when if the model extension ‘<a class="reference internal" href="model_extensions.html#estimclay"><span class="std std-ref">estimate clay content</span></a>’ is enabled.</p>
+</div>
+<div class="section" id="clay-content-sediment-segments-txt">
+<span id="claycontentesedsegmenttxt"></span><h3>Clay content sediment segments.txt<a class="headerlink" href="#clay-content-sediment-segments-txt" title="Permalink to this heading"></a></h3>
+<p>Tab-delimited table with the estimated mean clay content (in %) entering every river segment. This
+table is only generated if the model extensions ‘<a class="reference internal" href="model_extensions.html#estimclay"><span class="std std-ref">estimate clay content</span></a>’ and
+‘<a class="reference internal" href="model_extensions.html#outputsegment"><span class="std std-ref">Output per river segment</span></a>’ are enabled.</p>
+</div>
+<div class="section" id="cumulative-rst">
+<span id="cumulativerst"></span><h3>cumulative.rst<a class="headerlink" href="#cumulative-rst" title="Permalink to this heading"></a></h3>
+<p>Raster with the cumulative amount of sediment in <span class="math notranslate nohighlight">\((kg)\)</span> in every river pixel.
+The most downstream pixel of the river network will have the highest value, because all
+upstream river pixels route to this pixel.</p>
+<p>This raster is only written if the model extension ‘<a class="reference internal" href="model_extensions.html#riverrouting"><span class="std std-ref">River routing</span></a>’ is enabled.</p>
+</div>
+<div class="section" id="sewer-in-rst">
+<span id="sewerinrst"></span><h3>sewer_in.rst<a class="headerlink" href="#sewer-in-rst" title="Permalink to this heading"></a></h3>
+<p>Raster with the amount of sediment in <span class="math notranslate nohighlight">\((kg)\)</span> trapped in every sewer pixel.
+This raster is only generated if the model extension ‘<a class="reference internal" href="model_extensions.html#inlcudesewers"><span class="std std-ref">Include sewers</span></a>’ is enabled.</p>
+</div>
+<div class="section" id="sediexport-kg-rst">
+<span id="sediexportrst"></span><h3>SediExport_kg.rst<a class="headerlink" href="#sediexport-kg-rst" title="Permalink to this heading"></a></h3>
+<p>Raster with the calculated amounts of sediment input <span class="math notranslate nohighlight">\((kg)\)</span> for every river cell.
+This raster is only written if the model output option
+‘<a class="reference internal" href="choices.html#writesedexport"><span class="std std-ref">write sediment export</span></a>’ is enabled.</p>
+</div>
+<div class="section" id="sediout-kg-rst">
+<span id="sedioutrst"></span><h3>SediOut_kg.rst<a class="headerlink" href="#sediout-kg-rst" title="Permalink to this heading"></a></h3>
+<p>Raster with the amount of sediment <span class="math notranslate nohighlight">\((kg)\)</span> that leaves every pixel and is
+distributed between its target pixels.
+This raster is only written if the model output option
+‘<a class="reference internal" href="choices.html#writesedexport"><span class="std std-ref">write sediment export</span></a>’ is enabled.</p>
+</div>
+<div class="section" id="sediin-kg-rst">
+<span id="sediinrst"></span><h3>SediIn_kg.rst<a class="headerlink" href="#sediin-kg-rst" title="Permalink to this heading"></a></h3>
+<p>Raster with the amount of sediment <span class="math notranslate nohighlight">\((kg)\)</span> that enters a pixel from the upstream
+pixels. This raster is only written if the model output option
+‘<a class="reference internal" href="choices.html#writesedexport"><span class="std std-ref">write sediment export</span></a>’ is enabled.</p>
+</div>
+<div class="section" id="watereros-kg-per-gridcel-rst">
+<span id="watereroskgrst"></span><h3>WATEREROS (kg per gridcel).rst<a class="headerlink" href="#watereros-kg-per-gridcel-rst" title="Permalink to this heading"></a></h3>
+<p>Raster with the net erosion or sedimentation in every pixel in
+(in <span class="math notranslate nohighlight">\(kg\)</span>). Negative values indicate erosion, while positive values indicate
+sedimentation. This raster is only written if the model output option
+‘<a class="reference internal" href="choices.html#writerwatereros"><span class="std std-ref">write water erosion</span></a>’ is enabled. See the
+<a class="reference internal" href="watem-sedem.html#concept"><span class="std std-ref">concept of WaTEM-SEDEM</span></a> for more information on the calculation of
+this value.</p>
+</div>
+<div class="section" id="watereros-mm-per-gridcel-rst">
+<span id="watererosmmrst"></span><h3>WATEREROS (mm per gridcel).rst<a class="headerlink" href="#watereros-mm-per-gridcel-rst" title="Permalink to this heading"></a></h3>
+<p>Raster with net erosion or sedimentation in every pixel in
+(in <span class="math notranslate nohighlight">\(mm\)</span>). Negative values indicate erosion, while positive values indicate
+sedimentation. This raster is only written if the model output option
+‘<a class="reference internal" href="choices.html#writerwatereros"><span class="std std-ref">write water erosion</span></a>’ is en enabled. See the
+<a class="reference internal" href="watem-sedem.html#concept"><span class="std std-ref">concept of WaTEM-SEDEM</span></a> for more information on the calculation of
+this value.</p>
+</div>
+<div class="section" id="capacity-rst">
+<span id="capacityrst"></span><h3>Capacity.rst<a class="headerlink" href="#capacity-rst" title="Permalink to this heading"></a></h3>
+<p>Raster with the calculated transport capacity (TC) (in :math:` kg pixel^{-1} year^{-1}`) for every
+pixel. The values in this raster are calculated according the chosen formula in the
+model option ‘<a class="reference internal" href="choices.html#tcmodel"><span class="std std-ref">transport capacity</span></a>’.</p>
+</div>
+<div class="section" id="rusle-rst">
+<span id="ruslerst"></span><h3>RUSLE.rst<a class="headerlink" href="#rusle-rst" title="Permalink to this heading"></a></h3>
+<p>Raster with the calculated RUSLE-values, the potential soil loss, for every
+pixel in (in:math:` kg m^{-2} year^{-1}`). This raster is only written if the
+model output option ‘<a class="reference internal" href="choices.html#writerusle"><span class="std std-ref">write rusle</span></a>’ is enabled.</p>
+</div>
+<div class="section" id="tileros-mm-per-gridcel-rst">
+<h3>TILEROS (mm per gridcel).rst<a class="headerlink" href="#tileros-mm-per-gridcel-rst" title="Permalink to this heading"></a></h3>
+<p>Raster with the calculated tillage erosion (in <span class="math notranslate nohighlight">\(mm year^{-1}\)</span>). Negative values indicate
+erosion, while positive values indicate sedimentation.
+This raster is only written if the model option ‘<a class="reference internal" href="choices.html#calctileros"><span class="std std-ref">calculate tillage erosion</span></a>’ is enabled.</p>
+</div>
+<div class="section" id="tileros-kg-per-gridcel-rst">
+<h3>TILEROS (kg per gridcel).rst<a class="headerlink" href="#tileros-kg-per-gridcel-rst" title="Permalink to this heading"></a></h3>
+<p>Raster with the calculated tillage erosion (in <span class="math notranslate nohighlight">\(kg year^{-1}\)</span>). Negative values indicate
+erosion, positive values indicate sedimentation.
+This raster is only written if the model option ‘<a class="reference internal" href="choices.html#calctileros"><span class="std std-ref">calculate tillage erosion</span></a>’ is enabled.</p>
+</div>
+<div class="section" id="sedtil-in-rst">
+<h3>SEDTIL_IN.rst<a class="headerlink" href="#sedtil-in-rst" title="Permalink to this heading"></a></h3>
+<p>Raster with the amount of sediment (in <span class="math notranslate nohighlight">\(kg\)</span>) that enters a
+pixel from the upstream pixels, due to tillage erosion.
+This raster is only written if the model option ‘<a class="reference internal" href="choices.html#calctileros"><span class="std std-ref">calculate tillage erosion</span></a>’ is enabled.</p>
+</div>
+<div class="section" id="sedtil-out-rst">
+<h3>SEDTIL_OUT.rst<a class="headerlink" href="#sedtil-out-rst" title="Permalink to this heading"></a></h3>
+<p>Raster with the amount of sediment (in <span class="math notranslate nohighlight">\(kg\)</span>) that leaves every
+pixel and is distributed between its target pixels, due to tillage erosion.
+This raster is only written if the model option ‘<a class="reference internal" href="choices.html#calctileros"><span class="std std-ref">calculate tillage erosion</span></a>’ is enabled.</p>
+</div>
+<div class="section" id="calibration-txt">
+<span id="calibrationtxt"></span><h3>Calibration.txt<a class="headerlink" href="#calibration-txt" title="Permalink to this heading"></a></h3>
+<p>This file contains the same output as
+<a class="reference internal" href="#totalsedimenttxt"><span class="std std-ref">Total Sediment.txt</span></a>, but for all possible ktc combinations defined
+in the <a class="reference internal" href="calibration.html#calibration"><span class="std std-ref">Calibration-option</span></a>. This output is only written if the model extension
+‘<a class="reference internal" href="model_extensions.html#calibrate"><span class="std std-ref">Calibrate</span></a>’ is enabled.</p>
+<p>This txt-file contains a ;-seperated table. The columns in the
+table are: ktc_low, ktc_high, tot_erosion, tot_sedimentation, sed_river,
+sed_noriver, sed_buffer, sed_openwater, outlet_1, outlet_2.</p>
+<p>An example output where ktc_low and ktc_high were varied from 1 to 5 is given here:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ktc_low;ktc_high;tot_erosion;tot_sedimentation;sed_river;sed_noriver;sed_buffer;sed_sewerin;sed_openwater;outlet_1;outlet_2
+1.00;1.00;-627979379.26;514574554.13;231339.64;8896.25;71724.65;260129.37;;231167.5156;0
+1.00;2.00;-632696440.26;518184663.86;405240.54;17166.45;101842.74;426675.25;;405068.4375;0
+1.00;3.00;-639642724.05;523585249.77;576168.04;25436.65;131506.39;592960.73;;575996;0
+1.00;4.00;-648812473.97;530780075.68;746478.36;33706.85;160120.08;755026.43;;746306;0
+1.00;5.00;-660173490.63;539747289.35;912155.57;41977.05;188069.31;913366.72;;911983.5;0
+2.00;2.00;-1261007333.59;1028087833.50;448818.28;17697.47;136372.77;503596.40;;448549.3125;0
+2.00;3.00;-1268097313.93;1033455825.38;625334.76;25967.67;168541.61;672772.04;;625065.9375;0
+2.00;4.00;-1277375447.57;1040576398.51;798198.20;34237.87;198783.37;836517.36;;797929.1875;0
+2.00;5.00;-1288832475.48;1049452529.64;966610.77;42508.07;227373.72;995285.54;;966341.875;0
+3.00;3.00;-1894436657.81;1537813531.05;662558.45;26214.00;198834.62;735909.78;;662192.875;0
+3.00;4.00;-1903834979.49;1544904138.87;840642.92;34484.20;231322.89;903336.31;;840276.625;0
+3.00;5.00;-1915374842.09;1553705345.22;1011777.27;42754.40;261891.44;1064571.75;;1011411.5;0
+4.00;4.00;-2524961912.13;2041720419.64;871706.06;34669.78;260025.96;956905.02;;871243.125;0
+4.00;5.00;-2536602784.17;2050490187.32;1047676.06;42939.98;291937.65;1122679.46;;1047213.625;0
+5.00;5.00;-3149564702.42;2537883023.67;1076870.91;43103.19;319931.23;1170443.07;;1076311.75;0
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="cn-output">
+<span id="cnoutput"></span><h2>CN-output<a class="headerlink" href="#cn-output" title="Permalink to this heading"></a></h2>
+<p>When the CN-extension is enabled (i.e. <a class="reference internal" href="model_extensions.html#simple"><span class="std std-ref">curve number</span></a> is enabled) some additional
+output is, or, can be generated.</p>
+<div class="section" id="discharge-txt">
+<h3>Discharge.txt<a class="headerlink" href="#discharge-txt" title="Permalink to this heading"></a></h3>
+<p>Table with discharge (in <span class="math notranslate nohighlight">\(m^3 s^{-1}\)</span>) as a function of time for every outlet.</p>
+</div>
+<div class="section" id="discharge-segments-txt">
+<span id="dischargesegment"></span><h3>Discharge_segments.txt<a class="headerlink" href="#discharge-segments-txt" title="Permalink to this heading"></a></h3>
+<p>Table with discharge (in <span class="math notranslate nohighlight">\(m^3 s^{-1}\)</span>) as a function of time for every river segment. This
+table is only generated if the model extension ‘<a class="reference internal" href="model_extensions.html#outputsegment"><span class="std std-ref">Output per river segment</span></a>’ is enabled.</p>
+</div>
+<div class="section" id="sediment-concentration-txt">
+<h3>Sediment concentration.txt<a class="headerlink" href="#sediment-concentration-txt" title="Permalink to this heading"></a></h3>
+<p>Table with the concentration of sediment (in <span class="math notranslate nohighlight">\(g.l^{-1}\)</span>) as a function of time for every
+outlet.</p>
+</div>
+<div class="section" id="sediment-concentration-segments-txt">
+<span id="sedconcensegment"></span><h3>Sediment concentration segments.txt<a class="headerlink" href="#sediment-concentration-segments-txt" title="Permalink to this heading"></a></h3>
+<p>Table with the concentration of sediment (in <span class="math notranslate nohighlight">\(g.l^{-1}\)</span>) as a function of time for every
+river segment.
+This table is only generated if the model extension ‘<a class="reference internal" href="model_extensions.html#outputsegment"><span class="std std-ref">Output per river segment</span></a>’ is enabled.</p>
+</div>
+<div class="section" id="sediment-txt">
+<h3>Sediment.txt<a class="headerlink" href="#sediment-txt" title="Permalink to this heading"></a></h3>
+<p>Table with the sediment load (in <span class="math notranslate nohighlight">\(kg\)</span>) as a function of time for every outlet.</p>
+</div>
+<div class="section" id="sediment-segments-txt">
+<span id="sedsegmenttxt"></span><h3>Sediment_segments.txt<a class="headerlink" href="#sediment-segments-txt" title="Permalink to this heading"></a></h3>
+<p>Table with the sediment load (in <span class="math notranslate nohighlight">\(kg\)</span>) as a function of time for the river
+segments. This table is only generated if the model extension
+‘<a class="reference internal" href="model_extensions.html#outputsegment"><span class="std std-ref">Output per river segment</span></a>’ is enabled.</p>
+</div>
+<div class="section" id="spillover-per-buffer-txt">
+<h3>Spillover per buffer.txt<a class="headerlink" href="#spillover-per-buffer-txt" title="Permalink to this heading"></a></h3>
+<p>Table with the total amount of water (in <span class="math notranslate nohighlight">\(m^3\)</span>) that leaves every buffer basin via the
+overflow.</p>
+</div>
+<div class="section" id="total-discharge-txt">
+<h3>Total discharge.txt<a class="headerlink" href="#total-discharge-txt" title="Permalink to this heading"></a></h3>
+<p>Table with the total amount of water (in <span class="math notranslate nohighlight">\(m^3\)</span>) that arrives in every outlet
+after a rainfall event.</p>
+</div>
+<div class="section" id="remap-rst">
+<span id="remaprst"></span><h3>Remap.rst<a class="headerlink" href="#remap-rst" title="Permalink to this heading"></a></h3>
+<p>Rainfall Excess Raster, a raster with the total amount of discharge (in <span class="math notranslate nohighlight">\(m^3 s^{-1}\)</span>) per pixel
+for a rainfall event. Here the discharce is defined by the amount of rainfall minus the amount of infiltration.</p>
+</div>
+<div class="section" id="total-runoff-rst">
+<span id="totalrunofrst"></span><h3>Total runoff.rst<a class="headerlink" href="#total-runoff-rst" title="Permalink to this heading"></a></h3>
+<p>Raster with total runoff (in <span class="math notranslate nohighlight">\(m^3\)</span>) generated in every pixel during a rainfall event.
+The value in every pixel is the sum of the amount of rainfall and the amount of
+water flowing from upstream pixels, minus the infiltration in the pixel.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="input.html" class="btn btn-neutral float-left" title="Model input" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="calibration.html" class="btn btn-neutral float-right" title="Calibration" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, KU Leuven &amp; Fluves, see https://watem-sedem.github.io/watem-sedem/authors.html for more information.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

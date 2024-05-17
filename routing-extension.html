@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Routing in case of extensions &mdash; WaTEM/SEDEM  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Curve Number extension" href="cn-ws.html" />
+    <link rel="prev" title="Routing" href="routing.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            WaTEM/SEDEM
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="model.html">Model Description</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="watem-sedem.html">WaTEM/SEDEM: a spatially distributed soil erosion and sediment delivery model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="formulas-units.html">Overview of formulas and units in WaTEM/SEDEM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routing.html">Routing</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Routing in case of extensions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#definitions">Definitions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#routing-in-buffers-conductive-ditches-and-conductive-buffer-dams">Routing in buffers, conductive ditches and conductive buffer dams</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#adjustment-upstream-area-and-outflux">Adjustment upstream area and outflux</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#forced-routing">Forced routing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#routing-maps">Routing maps</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cn-ws.html">Curve Number extension</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html">A short history of WaTEM/SEDEM</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Model Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact.html">Contact</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">WaTEM/SEDEM</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="model.html">Model Description</a></li>
+      <li class="breadcrumb-item active">Routing in case of extensions</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/watem-sedem/watem-sedem/blob/master/docs/routing-extension.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul><div class="rst-breadcrumbs-buttons" role="navigation" aria-label="Sequential page navigation">
+        <a href="routing.html" class="btn btn-neutral float-left" title="Routing" accesskey="p"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="cn-ws.html" class="btn btn-neutral float-right" title="Curve Number extension" accesskey="n">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+  </div>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="routing-in-case-of-extensions">
+<h1>Routing in case of extensions<a class="headerlink" href="#routing-in-case-of-extensions" title="Permalink to this heading"></a></h1>
+<p>In a number of case, the use of an extension will have an impact on the
+routing. In this page, these impacts will be discussed.</p>
+<div class="section" id="definitions">
+<h2>Definitions<a class="headerlink" href="#definitions" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Routing maps</strong> can be defined in rivers, conductive buffer dams and
+conductive ditches, see <a class="reference internal" href="#riverrouting-exp"><span class="std std-ref">here</span></a>. In
+these routing maps specific routing directions can be defined,</p></li>
+<li><p>A <strong>buffer</strong> is not the same as a <strong>conductive buffer dam</strong> as
+<strong>buffers</strong> are defined as a
+<a class="reference internal" href="input.html#bufferdata"><span class="std std-ref">buffers with a buffer properties</span></a>, whereas
+<strong>conductive buffer dams</strong> are defined as one-target
+<a class="reference internal" href="input.html#routingmap"><span class="std std-ref">routing paths</span></a>. As such, it is
+up to the user to define a buffer measure as a <strong>buffer</strong> (with properties
+such as a trapping efficiency) (1) or a
+<strong>conductive buffer dam</strong> (with a routing raster) (2).</p></li>
+</ul>
+</div>
+<div class="section" id="routing-in-buffers-conductive-ditches-and-conductive-buffer-dams">
+<span id="routing-extensions"></span><h2>Routing in buffers, conductive ditches and conductive buffer dams<a class="headerlink" href="#routing-in-buffers-conductive-ditches-and-conductive-buffer-dams" title="Permalink to this heading"></a></h2>
+<p>The routing algorithm is adapted according to extensions that can be used in
+WS, such as <strong>buffers</strong>, <strong>conductive ditches</strong> or <strong>conductive buffer dams</strong>
+These exceptions are described in the figure below. There is only one target pixel
+if a pixel is a conductive ditch, conductive buffer dam or adjacent
+to a conductive ditch, conductive buffer dam or river. Note that the routing
+in conductive ditches and conductive buffer dams always
+routes to the lowest conductive ditch and conductive buffer dam pixel.
+Routing to the lowest conductive ditches and conductive buffer dam pixel can
+only be accepted from conductive ditches and conductive buffer dam pixels
+to avoid looped routing.</p>
+<div class="figure align-center" id="id1">
+<img alt="_images/flow_algorithm_part1.png" src="_images/flow_algorithm_part1.png" />
+<p class="caption"><span class="caption-text">Flow-chart of the routing algorithm in WaTEM/SEDEM describing the method
+in case buffers, conductive ditches and conductive buffer dams are used.</span><a class="headerlink" href="#id1" title="Permalink to this image"></a></p>
+</div>
+<p>If the source pixel is a buffer pixel then two cases are defined:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>The considered pixel has a buffer_id. This is the outlet pixel of the
+buffer. The default routing algorithm is used in this pixel. Note that
+only routing from extension-id pixel can be accepted to avoid looped
+routing.</p></li>
+<li><p>The considered pixel has a buffer extension-id. In this case there is
+only one target pixel: the pixel within the buffer with the buffer_id
+(i.e. the outlet of the buffer).</p></li>
+</ol>
+</div></blockquote>
+<p>We refer to the <a class="reference internal" href="model_extensions.html#includebuffers"><span class="std std-ref">section on buffers</span></a> for a complete
+description of how buffers are defined. For description on the definition of
+conductive buffer dams and conductive ditches, we refer to the section on
+<a class="reference internal" href="#riverrouting-exp"><span class="std std-ref">routing maps</span></a>.</p>
+<p>In the second part of the default routing algorithm, two target routing is
+defined (see <a class="reference internal" href="routing.html#twotarget"><span class="std std-ref">section two target routing</span></a>).</p>
+</div>
+<div class="section" id="adjustment-upstream-area-and-outflux">
+<span id="upstreamarea-extentions"></span><h2>Adjustment upstream area and outflux<a class="headerlink" href="#adjustment-upstream-area-and-outflux" title="Permalink to this heading"></a></h2>
+<p>In some special cases the outflux is reduced (for example in buffer outlets,
+sewers or when the landcover of a target pixel is different from the source
+pixel). The flow-chart below clarifies in which cases the reductions on the
+upstream area are applied in the calculation of the outflux.</p>
+<div class="figure align-center" id="id2">
+<img alt="_images/sketch_distribute_uparea.png" src="_images/sketch_distribute_uparea.png" />
+<p class="caption"><span class="caption-text">Flow-chart of the distribution of the outflux of a pixel in WaTEM/SEDEM.
+Part is the fraction of the tabulated outflux. Note that
+the sum of Part to target1 (part1) and target2 (part2) is equal to 1.</span><a class="headerlink" href="#id2" title="Permalink to this image"></a></p>
+</div>
+<p>When the outflux is known for a source pixel, this flux is added to the
+influx of the target pixels by (note that part1+part2 = 1)</p>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}\text{influx}_{\text{target1},+} = \text{influx}_{\text{target1},-} +
+\text{outflux} \cdot \text{part1}\\\text{influx}_{\text{target2},+} = \text{influx}_{\text{target2},-} +
+\text{outflux} \cdot \text{part2}\end{aligned}\end{align} \]</div>
+<p>with:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\text{influx}_{\text{target1}}\)</span>: the influx of the first target
+1 pixel. +: posterior, -: priori.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\text{influx}_{\text{target2}}\)</span>: the influx of the first target
+2 pixel. +: posterior, -: priori.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\text{outflux}\)</span>: the outflux of the source pixel.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\text{part1}\)</span>: the fraction of the routing from the source pixel to
+the first target pixel (-).</p></li>
+<li><p><span class="math notranslate nohighlight">\(\text{part2}\)</span>: the fraction of the routing from the source pixel to
+the second target pixel (-).</p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="forced-routing">
+<span id="forcedrouting-extension"></span><h2>Forced routing<a class="headerlink" href="#forced-routing" title="Permalink to this heading"></a></h2>
+<p><strong>Forced routing</strong> is typically used to force a routing vector from a specific
+source to a target pixel, in case of a local suboptimal routing pattern.
+Forced routing is user-defined. The instructions for defining forced routing
+are found <a class="reference internal" href="model_extensions.html#forcerouting"><span class="std std-ref">here</span></a>.</p>
+</div>
+<div class="section" id="routing-maps">
+<span id="riverrouting-exp"></span><h2>Routing maps<a class="headerlink" href="#routing-maps" title="Permalink to this heading"></a></h2>
+<p><a class="reference internal" href="input.html#routingmap"><span class="std std-ref">Routing maps</span></a> maps  are used to define
+routing in <strong>rivers</strong>, <strong>conductive buffer dams</strong> and <strong>conductive ditches</strong>.
+We refer to separate sections for the definition of routing in
+<a class="reference internal" href="model_extensions.html#riverrouting"><span class="std std-ref">rivers</span></a>, <a class="reference internal" href="input.html#ditchmap"><span class="std std-ref">ditches</span></a> and
+<a class="reference internal" href="input.html#dammap"><span class="std std-ref">dams</span></a>. The workflow on how to create these rasters is described
+in the section on <a class="reference internal" href="input.html#routingmap"><span class="std std-ref">routing maps</span></a>.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="routing.html" class="btn btn-neutral float-left" title="Routing" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="cn-ws.html" class="btn btn-neutral float-right" title="Curve Number extension" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, KU Leuven &amp; Fluves, see https://watem-sedem.github.io/watem-sedem/authors.html for more information.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
