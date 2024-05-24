@@ -40,6 +40,9 @@ Var
   Result_Discharge, Result_Discharge_segm : FloatArray2;
 
 
+Const
+  gravitational_acceleration = 9.81;
+
 Implementation
 
 //******************************************************************************
@@ -597,10 +600,17 @@ Begin
       End;
 
   //If buffers are included the maximum discharge and dead volume for every buffer are calculated
+  // The maximum outflow  (m3/s) is equal to = Cd*A0*(sqrt(2*g*H_dam-H_opening))
+  // with 
+  // - Cd (-) = outflowcoefficient
+  // - A0 (m2) = opening area
+  // - g (m/s2)  = gravitational acceleration
+  // - H_dam = height of the dam
+  // - H_opening  = height of the opening
   If (Include_buffer) Then
     For i := 1 To Number_of_Buffers Do
       Begin
-        BufferData[i].Qmax := BufferData[i].Cd * BufferData[i].Opening_area * sqrt(2*9.91*(
+        BufferData[i].Qmax := BufferData[i].Cd * BufferData[i].Opening_area * sqrt(2*gravitational_acceleration*(
                               BufferData[i].height_dam - BufferData[i].Height_opening));
         BufferData[i].Volume_dead := (BufferData[i].Height_opening / BufferData[i].Height_dam) *
                                      BufferData[i].Volume;
