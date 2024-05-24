@@ -681,7 +681,7 @@ Begin
                 Begin
                   spill := BufferData[BufferMap[k,l]].Cd*
                            BufferData[BufferMap[k,l]].width_dam*
-                           sqrt(9.81)*
+                           sqrt(gravitational_acceleration)*
                            Power(((RunoffMap[k,l]-BufferData[BufferMap[k,l]].Volume)/BufferData[BufferMap[k,l]].area),(3/2))* Timestep_model;
 
                   // calculate maximum amount of water flowing over dam (formula from project Pieter Meert p.68)
