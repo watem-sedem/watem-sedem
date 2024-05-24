@@ -602,7 +602,7 @@ Begin
   //If buffers are included the maximum discharge and dead volume for every buffer are calculated
   // The maximum outflow  (m3/s) is equal to = Cd*A0*(sqrt(2*g*H_dam-H_opening))
   // with 
-  // - Cd (-) = outflowcoefficient
+  // - Cd (-) = outflow coefficient
   // - A0 (m2) = opening area
   // - g (m/s2)  = gravitational acceleration
   // - H_dam = height of the dam
