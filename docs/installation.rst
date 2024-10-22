@@ -4,29 +4,20 @@
 Installation
 ############
 
-Conda (windows/linux)
-*********************
-Conda packages are currently build for every commit to master. These can be installed in your environment by running:
+Windows
+********
 
-.. code-block:: shell
+Windows packages 
+================
+Windows binaries of watem_sedem can be found under `watem-sedem releases <https://github.com/watem-sedem/watem-sedem/releases>`_
 
-	conda config --add channels https://conda.static.fluves.net
-	conda install cn_ws
-
-Linux (debian/linux)
+Linux (debian/ubuntu)
 ********************
 
 Installing on linux (debian/linux)
 ==================================
 
-Pre-built binary packages of cn-ws exist on apt.fluves.net or https://github.com/watem-sedem/watem-sedem/releases .
-To install a specific version, go to https://apt.fluves.net/amd64/ and pick a
-file of your choosing. This file can then be installed using:
-
-.. code-block:: shell
-
-	sudo dpkg -i https://apt.fluves.net/amd64/cn-ws_20200114-2~55.gbp527d54_amd64.deb
-
+Pre-built binary packages of watem-sedem exist on https://github.com/watem-sedem/watem-sedem/releases .
 
 Building on linux
 =================
