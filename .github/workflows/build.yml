@@ -58,12 +58,9 @@ jobs:
         with:
           fetch-tags: true
           lfs: true
-      - uses: actions/checkout@v4
-        if: "startsWith(github.ref, 'refs/tags/')"
-        with:
-          lfs: true
       - name: build debian package
         run : |
+          git config --global --add safe.directory /__w/watem-sedem/watem-sedem
           gbp dch --ignore-branch --new-version=$(git describe --tags) --snapshot-number=$DRONE_BUILD_NUMBER --snapshot
           debuild -b
           mkdir /package
