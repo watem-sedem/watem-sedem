@@ -48,7 +48,7 @@ jobs:
 
   build-debian:
     runs-on: [linux]
-    container: registry.fluves.net/drone/cn_ws/debian11-build
+    container: ghcr.io/watem-sedem/ci/debian11-build
     env:
       DEBFULLNAME: "Fluves Drone CI"
       DEBEMAIL: donotreply@fluves.net
