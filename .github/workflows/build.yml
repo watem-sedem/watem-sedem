@@ -12,7 +12,7 @@ env:
   RSYNC_HOST: ijzer
 jobs:
   build-linux:
-    runs-on: [linux]
+    runs-on: [ubuntu-latest]
     container: ghcr.io/watem-sedem/ci/watem-sedem-conda
     env:
       PYTHONPATH: ../CNWS-processing-scripts/pycnws/src
@@ -47,7 +47,7 @@ jobs:
           path: watem_sedem/watem_sedem
 
   build-debian:
-    runs-on: [linux]
+    runs-on: [ubuntu-latest]
     container: ghcr.io/watem-sedem/ci/debian11-build
     env:
       DEBFULLNAME: "Fluves Drone CI"
@@ -75,7 +75,7 @@ jobs:
           
   build-documentation:
     needs: [build-linux]
-    runs-on: [linux]  
+    runs-on: [ubuntu-latest]  
     container: ghcr.io/watem-sedem/ci/watem-sedem-conda
     steps:
       - uses: actions/checkout@v4
