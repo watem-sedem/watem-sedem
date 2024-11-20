@@ -76,3 +76,4 @@ The model code can be cited as:
 Verstraeten, G., Govers, G., Van Oost, K., Van Rompaey, A., Notebaert, B., Van de Wauw, J., Renders, D., Gobeyn, S., Van Hoey, S., De Vleeschouwer, N., Callewaert, S., & Deproost, P. (2024). watem-sedem/watem-sedem: 5.0.1 (5.0.1). Zenodo. https://doi.org/10.5281/zenodo.10997288"
 repository-code: "https://github.com/watem-sedem/watem-sedem"
 title: "watem-sedem/watem-sedem: "
+type: "software"
