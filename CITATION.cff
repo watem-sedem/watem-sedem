@@ -10,7 +10,9 @@ catchment sediment yield. The model has also been extended for the simulation of
 nutrients and organic carbon. The default application of the model can be extended in several ways to simulate
 the impact of soil erosion mitigation measures in a spatially-explicit way. For example, additional options within
 the model allow for the consideration of other anthropogenic factors such as roads, sewage systems, water and sediment
-buffer basins, dams and ditches."
+buffer basins, dams and ditches.
+
+Version 5.0.2 was created to auto-publish the binaries for watem-sedem on GitHub."
 authors:
   - family-names: Verstraeten
     given-names: Gert
@@ -73,7 +75,7 @@ Van Rompaey A, Verstraeten G, Van Oost K, Govers G & Poesen J, 2001. Modelling m
 Verstraeten G, Van Oost K, Van Rompaey A, Poesen J & Govers G, 2002. Evaluating an integrated approach to catchment management to reduce soil loss and sediment pollution through modelling. Soil Use and Management, 18, 386-394. https://doi.org/10.1079/SUM2002150
 The model code can be cited as:
 
-Verstraeten, G., Govers, G., Van Oost, K., Van Rompaey, A., Notebaert, B., Van de Wauw, J., Renders, D., Gobeyn, S., Van Hoey, S., De Vleeschouwer, N., Callewaert, S., & Deproost, P. (2024). watem-sedem/watem-sedem: 5.0.1 (5.0.1). Zenodo. https://doi.org/10.5281/zenodo.10997288"
-repository-code: "https://github.com/watem-sedem/watem-sedem"
-title: "watem-sedem/watem-sedem: "
+Verstraeten, G., Govers, G., Van Oost, K., Van Rompaey, A., Notebaert, B., Van de Wauw, J., Renders, D., Gobeyn, S., Van Hoey, S., De Vleeschouwer, N., Callewaert, S., & Deproost, P. (2024). watem-sedem/watem-sedem: 5.0.2 (5.0.2). Zenodo. https://doi.org/10.5281/zenodo.10997287"
+repository: "https://github.com/watem-sedem/watem-sedem"
+title: "watem-sedem/watem-sedem: 5.0.2"
 type: "software"
