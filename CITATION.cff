@@ -57,6 +57,14 @@ authors:
     given-names: Petra
     affiliation: Departement Omgeving, Vlaamse Overheid
 cff-version: 1.2.0
+keywords:
+  - "erosion"
+  - "soil"
+  - "sediment"
+  - "sediment transport"
+  - "modelling"
+  - "watem/sedem"
+  - "RUSLE"
 message: "When using WaTEM/SEDEM, reference should be provided to the current model code on github and to the following publications:
 
 Van Oost K, Govers G, & Desmet PJJ, 2000. Evaluating the effects of changes in landscape structure on soil erosion by water and tillage. Landscape Ecology 15 (6), 579-591. https://doi.org/10.1023/A:1008198215674
