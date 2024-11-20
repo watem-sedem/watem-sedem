@@ -2,6 +2,19 @@
 Changelog
 =========
 
+Version 5.0.2
+-------------
+This release was created to auto-publish the binaries for watem-sedem on GitHub.
+
+For windows: watem_sedem.exe
+For linux: watem_sedem
+For debian/ubuntu linux als on apt package is provided.
+
+Version 5.0.1
+-------------
+This release contains some small updates to the documentation and all
+extensions are disabled by default.
+
 Version 5.0.0
 -------------
 This release contains a name change from CN-WS to WaTEM/SEDEM (in code watem_sedem) 
