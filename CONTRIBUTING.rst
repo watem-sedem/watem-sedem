@@ -163,3 +163,8 @@ When a new release will be published on GitHub make sure following steps are tak
 When the release is done check the following:
 - Are the binaries added to the release page of your latest release on GitHub?
 - Is the release visible on Zenodo? Check if all the metadata on Zenodo is correct, adjust them if necassary.
+
+.. warning::
+    When making a release for a test, make sure that the automatic syncing with zenodo is disabled,
+    otherwise, your test will published on zenodo and will get an DOI.
+
