@@ -151,3 +151,15 @@ folders with pascal code can be found:
 We refer to the documentation of `Pascal <https://www.freepascal.org/docs.html>`_
 and the `Lazarus IDE <https://www.lazarus-ide.org/>`_ to get started with
 developping.
+
+Making a new release
+--------------------
+
+When a new release will be published on GitHub make sure following steps are taken:
+- Update the CHANGELOG.rst file with all changes compared to the previous version
+- Make sure that the release number is updated in 'watem-sedem/watem-sedem/version.inc'
+- Make sure that the release number and the abstract is updated in 'CITATION.CFF'
+
+When the release is done check the following:
+- Are the binaries added to the release page of your latest release on GitHub?
+- Is the release visible on Zenodo? Check if all the metadata on Zenodo is correct, adjust them if necassary.
