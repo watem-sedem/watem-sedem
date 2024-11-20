@@ -1,4 +1,4 @@
-abstract: "TWaTEM/SEDEM is a soil erosion and sediment delivery model used for catchment-scale simulations.
+abstract: "WaTEM/SEDEM is a soil erosion and sediment delivery model used for catchment-scale simulations.
 The model incorporates a Revised Universal Soil Loss Equation (RUSLE) module to simulate gross erosion,
 extended with a spatially-explicit sediment routing module to simulate sediment transport based on a cellular
 transport capacity. The model therefore provides the user with predictions of gross and net soil erosion at
@@ -11,72 +11,5 @@ WaTEM/SEDEM has been applied for numerous applications considering both the on-s
  the impact of soil erosion mitigation measures in a spatially-explicit way. For example, additional options within
  the model allow for the consideration of other anthropogenic factors such as roads, sewage systems, water and sediment
  buffer basins, dams and ditches."
-authors:
-  - family-names: Verstraeten
-    given-names: Gert
-    orcid: https://orcid.org/0000-0002-6529-7381
-    affiliation: KU Leuven
-  - family-names: Govers
-    given-names: Gerard
-    orcid: https://orcid.org/0000-0001-9884-4778
-    affiliation: KU Leuven
-  - family-names: Van Oost
-    given-names: Kristof
-    orcid: https://orcid.org/0000-0002-4938-9438
-    affiliation: KU Leuven
-  - family-names: Van Rompaey
-    given-names: Anton
-    orcid: https://orcid.org/0000-0001-5435-6887
-    affiliation: KU Leuven
-  - family-names: Notebaert
-    given-names: Bastiaan
-    orcid: https://orcid.org/0000-0001-7886-2610
-    affiliation: KU Leuven
-  - family-names: Van de Wauw
-    given-names: Johan
-    affiliation: Fluves
-    orcid: https://orcid.org/0000-0003-0150-3315
-  - family-names: Renders
-    given-names: Daan
-    affiliation: Fluves
-  - family-names: Gobeyn
-    given-names: Sacha
-    orcid: https://orcid.org/0000-0002-4615-6655
-    affiliation: Fluves
-  - family-names: Van Hoey
-    given-names: Stijn
-    orcid: https://orcid.org/0000-0001-6413-3185
-    affiliation: Fluves
-  - family-names: De Vleeschouwer
-    given-names: Niels
-    affiliation: Fluves
-  - family-names: Callewaert
-    given-names: Seth
-    affiliation: Departement
-  - family-names: Deproost
-    given-names: Petra
-    affiliation: Fluves
-cff-version: 1.2.0
-# doi: "10.5281/zenodo.10997287"
-keywords:
-  - "erosion"
-  - "soil"
-  - "sediment"
-  - "sediment transport"
-  - "modelling"
-  - "watem/sedem"
-  - "RUSLE"
-license:
- - "LGPL-3.0-or-later"
-message: "When using WaTEM/SEDEM, reference should be provided to the current model code on github and to the following publications:
 
-Van Oost K, Govers G, & Desmet PJJ, 2000. Evaluating the effects of changes in landscape structure on soil erosion by water and tillage. Landscape Ecology 15 (6), 579-591. https://doi.org/10.1023/A:1008198215674
-Van Rompaey A, Verstraeten G, Van Oost K, Govers G & Poesen J, 2001. Modelling mean annual sediment yield using a distributed approach. Earth Surface Processes and Landforms 26 (11), 1221-1236. https://doi.org/10.1002/esp.275
-Verstraeten G, Van Oost K, Van Rompaey A, Poesen J & Govers G, 2002. Evaluating an integrated approach to catchment management to reduce soil loss and sediment pollution through modelling. Soil Use and Management, 18, 386-394. https://doi.org/10.1079/SUM2002150
-The model code can be cited as:
-
-Verstraeten, G., Govers, G., Van Oost, K., Van Rompaey, A., Notebaert, B., Van de Wauw, J., Renders, D., Gobeyn, S., Van Hoey, S., De Vleeschouwer, N., Callewaert, S., & Deproost, P. (2024). watem-sedem/watem-sedem: 5.0.1 (5.0.1). Zenodo. https://doi.org/10.5281/zenodo.10997288"
-repository-code: "https://github.com/watem-sedem/watem-sedem"
-title: "WaTEM/SEDEM"
-type: "software"
 
