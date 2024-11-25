@@ -98,7 +98,7 @@ Mean annual soil erosion rate
 For every pixel in the model domain or catchment, the mean annual soil
 erosion rate is calculated with an adapted version of the RUSLE (Revised
 Universal Soil Loss Equation, Renard et al., 1997). The mean annual soil
-erosion rate :math:`E` (:math:`\frac{\text{kg}}{\text{m}^{2}.\text{year}}`) is
+erosion rate :math:`E` (:math:`\frac{\text{kg}}{\text{ha.year}}`) is
 calculated by
 
 .. math::
@@ -106,7 +106,7 @@ calculated by
 
 with
 
-- :math:`R`: rainfall erosivity factor (:math:`\frac{\text{MJ.mm}}{\text{m}^2.\text{h.year}}`)
+- :math:`R`: rainfall erosivity factor (:math:`\frac{\text{MJ.mm}}{\text{ha.h.year}}`)
 - :math:`K`: soil erodibility factor (:math:`\frac{\text{kg.h}}{\text{MJ.mm}}`)
 - :math:`LS`: topographical slope and length factor (-)
 - :math:`C`: crop management factor (-, :math:`\in [0,1]`)
@@ -208,7 +208,7 @@ R-factor
 The erosive power of rainfall is quantified via the rainfall erosivity factor
 (:math:`R`-factor). The R-factor quantifies the mean annual average rainfall erosivity,
 calculated by combining rainfall events over multiple years (22 years according to the
-USLE definition) and is provided in :math:`\frac{\text{MJ.mm}}{\text{m}^2.\text{h.year}}`.
+USLE definition) and is provided in :math:`\frac{\text{MJ.mm}}{\text{ha.h.year}}`.
 
 Note that the R-factor is given as a single integer value representative for a small
 (e.g. a small catchment) spatial area. For larger areas, spatial variability in rainfall
@@ -304,7 +304,7 @@ calculated for a field according to the weighted sum of the soil loss ratio (SLR
 
 
 with
- - :math:`R_i`: rainfall erosivity factor (:math:`\frac{\text{J.mm}}{\text{m}^2.\text{h.TR}}`) with
+ - :math:`R_i`: rainfall erosivity factor (:math:`\frac{\text{MJ.mm}}{\text{ha.h.TR}}`) with
    :math:`\text{TR}`: temporal resolution (typically 15-days).
  - :math:`t`: the maximum number of the increments.
  - :math:`SLR`: the soil loss ratio (-).
