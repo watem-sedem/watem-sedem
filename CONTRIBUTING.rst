@@ -168,3 +168,25 @@ When the release is done check the following:
     When making a release for a test, make sure that the automatic syncing with zenodo is disabled,
     otherwise, your test will published on zenodo and will get an DOI.
 
+Zenodo
+~~~~~~
+
+`Zenodo <https://zenodo.org/>`_ is used to create a DOI and a citable reference
+for the model code. For every version of the model a new publication on Zenodo is made based
+on the CITATION.cff file in the root directory of the repository. You can find the publication of
+watem-sedem on Zenodo `here <10.5281/zenodo.10997287>`_.
+
+Every owner of the
+`watem-sedem organisation on GitHub <https://github.com/watem-sedem>`_ can enable or
+disable the automatic publication of a new version of the code on Zenodo. The automatic publication
+is prefered, otherwise all metadata of CITATION.cff must be entered manually in Zenodo.
+
+How to check if the automatic publication is enabled in Zenodo?
+- Log in on Zenodo with your GitHub account
+- Go to the menu 'GitHub repositories' under 'Settings' and check if watem-sedem/watem-sedem is listed
+  under the 'enabled repositories'.
+- If the repository is enabled, all is fine and after a new release on GitHub, the metadata will be published on
+  Zenodo automatically
+- If the repository is listed under repositories, but not enabled, the metadata will not be published automatically on a
+  new release. Set the switch in the menu to 'on'.
+- If the repository is not listed under repositories, make sure you have synced your GitHub repositories on Zenodo.
