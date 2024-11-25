@@ -1,14 +1,14 @@
 abstract: "WaTEM/SEDEM is a soil erosion and sediment delivery model used for catchment-scale simulations.
 The model incorporates a Revised Universal Soil Loss Equation (RUSLE) module to simulate gross erosion,
-extended with a spatially-explicit sediment routing module to simulate sediment transport based on a cellular
-transport capacity. The model therefore provides the user with predictions of gross and net soil erosion at
+extended with a spatially explicit sediment routing module to simulate sediment transport based on a cellular
+transport capacity. The model therefore provides the user with estimations of gross and net soil erosion at
 the catchment scale.
 
 WaTEM/SEDEM has been applied for numerous applications considering both the on-site and off-site impacts of soil
-erosion. These applications include the predicted soil loss from fields, off-site deposition, predictions of
+erosion. These applications include the predicted soil loss from fields, off-site deposition, estimations of
 catchment sediment yield. The model has also been extended for the simulation of transported heavy metals,
-nutrients and organic carbon. The default application of the model can be extended in several ways to simulate
-the impact of soil erosion mitigation measures in a spatially-explicit way. For example, additional options within
+nutrients, organic carbon and runoff (CN). The default application of the model can be extended in several ways to simulate
+the impact of soil erosion mitigation measures in a spatially explicit way. For example, additional options within
 the model allow for the consideration of other anthropogenic factors such as roads, sewage systems, water and sediment
 buffer basins, dams and ditches.
 
