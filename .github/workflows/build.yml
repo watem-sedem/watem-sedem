@@ -12,7 +12,7 @@ env:
   RSYNC_HOST: ijzer
 jobs:
   build-linux:
-    runs-on: [linux]
+    runs-on: [ubuntu-latest]
     container: ghcr.io/watem-sedem/ci/watem-sedem-conda
     env:
       PYTHONPATH: ../CNWS-processing-scripts/pycnws/src
@@ -47,8 +47,8 @@ jobs:
           path: watem_sedem/watem_sedem
 
   build-debian:
-    runs-on: [linux]
-    container: registry.fluves.net/drone/cn_ws/debian11-build
+    runs-on: [ubuntu-latest]
+    container: ghcr.io/watem-sedem/ci/debian11-build
     env:
       DEBFULLNAME: "Fluves Drone CI"
       DEBEMAIL: donotreply@fluves.net
@@ -58,12 +58,9 @@ jobs:
         with:
           fetch-tags: true
           lfs: true
-      - uses: actions/checkout@v4
-        if: "startsWith(github.ref, 'refs/tags/')"
-        with:
-          lfs: true
       - name: build debian package
         run : |
+          git config --global --add safe.directory /__w/watem-sedem/watem-sedem
           gbp dch --ignore-branch --new-version=$(git describe --tags) --snapshot-number=$DRONE_BUILD_NUMBER --snapshot
           debuild -b
           mkdir /package
@@ -75,7 +72,7 @@ jobs:
           
   build-documentation:
     needs: [build-linux]
-    runs-on: [linux]  
+    runs-on: [ubuntu-latest]  
     container: ghcr.io/watem-sedem/ci/watem-sedem-conda
     steps:
       - uses: actions/checkout@v4
