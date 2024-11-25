@@ -8,12 +8,13 @@ This release was created to auto-publish the binaries for watem-sedem on GitHub.
 
 For windows: watem_sedem.exe
 For linux: watem_sedem
-For debian/ubuntu linux als on apt package is provided.
+For debian/ubuntu linux also an apt package is provided.
 
 Version 5.0.1
 -------------
 This release contains some small updates to the documentation and all
-extensions are disabled by default.
+model extensions are disabled by default in the model code. The user has to
+enable them in the ini-file. 
 
 Version 5.0.0
 -------------
