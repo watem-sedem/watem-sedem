@@ -14,10 +14,10 @@ jobs:
     uses: ./.github/workflows/build.yml
 
   publish-documentation:
-    if: github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/documentation'
     needs: [build-packages] 
-    runs-on: [self-hosted, linux] 
-    container: registry.fluves.net/drone/cn_ws/debian11-build
+    runs-on: ubuntu-latest
+    container: ghcr.io/watem-sedem/ci/debian11-build
     steps:
       - uses: actions/download-artifact@master
         with:
