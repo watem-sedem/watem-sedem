@@ -9,8 +9,6 @@ on:
 env:
   DEBIAN_RSYNC_TARGET: /appdata/static/apt/amd64
   DRONE_BUILD_NUMBER: ${{ github.run_number }}
-  RSYNC_USER: docs
-  RSYNC_HOST: ijzer
 jobs:
   build-packages:
     uses: ./.github/workflows/build.yml
