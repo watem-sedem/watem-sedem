@@ -49,14 +49,17 @@
 <li class="toctree-l1"><a class="reference internal" href="model.html">Model Description</a></li>
 <li class="toctree-l1"><a class="reference internal" href="usage.html">Model Usage</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#conda-windows-linux">Conda (windows/linux)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#linux-debian-linux">Linux (debian/linux)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#windows">Windows</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#windows-packages">Windows packages</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#linux-debian-ubuntu">Linux (debian/ubuntu)</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#installing-on-linux-debian-linux">Installing on linux (debian/linux)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#building-on-linux">Building on linux</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#compiling-a-debian-package">Compiling a debian package</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#windows">Windows</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">Windows</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#building-on-windows">Building on Windows</a></li>
 </ul>
 </li>
@@ -100,24 +103,18 @@
              
   <div class="section" id="installation">
 <span id="install"></span><h1>Installation<a class="headerlink" href="#installation" title="Permalink to this heading"></a></h1>
-<div class="section" id="conda-windows-linux">
-<h2>Conda (windows/linux)<a class="headerlink" href="#conda-windows-linux" title="Permalink to this heading"></a></h2>
-<p>Conda packages are currently build for every commit to master. These can be installed in your environment by running:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>config<span class="w"> </span>--add<span class="w"> </span>channels<span class="w"> </span>https://conda.static.fluves.net
-conda<span class="w"> </span>install<span class="w"> </span>cn_ws
-</pre></div>
+<div class="section" id="windows">
+<h2>Windows<a class="headerlink" href="#windows" title="Permalink to this heading"></a></h2>
+<div class="section" id="windows-packages">
+<h3>Windows packages<a class="headerlink" href="#windows-packages" title="Permalink to this heading"></a></h3>
+<p>Windows binaries of watem_sedem can be found under <a class="reference external" href="https://github.com/watem-sedem/watem-sedem/releases">watem-sedem releases</a></p>
 </div>
 </div>
-<div class="section" id="linux-debian-linux">
-<h2>Linux (debian/linux)<a class="headerlink" href="#linux-debian-linux" title="Permalink to this heading"></a></h2>
+<div class="section" id="linux-debian-ubuntu">
+<h2>Linux (debian/ubuntu)<a class="headerlink" href="#linux-debian-ubuntu" title="Permalink to this heading"></a></h2>
 <div class="section" id="installing-on-linux-debian-linux">
 <h3>Installing on linux (debian/linux)<a class="headerlink" href="#installing-on-linux-debian-linux" title="Permalink to this heading"></a></h3>
-<p>Pre-built binary packages of cn-ws exist on apt.fluves.net or <a class="reference external" href="https://github.com/watem-sedem/watem-sedem/releases">https://github.com/watem-sedem/watem-sedem/releases</a> .
-To install a specific version, go to <a class="reference external" href="https://apt.fluves.net/amd64/">https://apt.fluves.net/amd64/</a> and pick a
-file of your choosing. This file can then be installed using:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>dpkg<span class="w"> </span>-i<span class="w"> </span>https://apt.fluves.net/amd64/cn-ws_20200114-2~55.gbp527d54_amd64.deb
-</pre></div>
-</div>
+<p>Pre-built binary packages of watem-sedem exist on <a class="reference external" href="https://github.com/watem-sedem/watem-sedem/releases">https://github.com/watem-sedem/watem-sedem/releases</a> .</p>
 </div>
 <div class="section" id="building-on-linux">
 <h3>Building on linux<a class="headerlink" href="#building-on-linux" title="Permalink to this heading"></a></h3>
@@ -151,8 +148,8 @@ sudo<span class="w"> </span>dpkg<span class="w"> </span>-i<span class="w"> </spa
 </div>
 </div>
 </div>
-<div class="section" id="windows">
-<h2>Windows<a class="headerlink" href="#windows" title="Permalink to this heading"></a></h2>
+<div class="section" id="id1">
+<h2>Windows<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h2>
 <div class="section" id="building-on-windows">
 <span id="buildwindows"></span><h3>Building on Windows<a class="headerlink" href="#building-on-windows" title="Permalink to this heading"></a></h3>
 <p>To build WaTEM/SEDEM on windows, you need to install the Lazarus IDE first.

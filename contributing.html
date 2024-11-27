@@ -64,6 +64,10 @@
 <li class="toctree-l2"><a class="reference internal" href="#pull-request-guidelines">Pull Request Guidelines</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#building-the-documentation">Building the documentation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#code-structure">Code structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#making-a-new-release">Making a new release</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#zenodo">Zenodo</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
@@ -232,6 +236,45 @@ folders with pascal code can be found:</p>
 <p>We refer to the documentation of <a class="reference external" href="https://www.freepascal.org/docs.html">Pascal</a>
 and the <a class="reference external" href="https://www.lazarus-ide.org/">Lazarus IDE</a> to get started with
 developping.</p>
+</div>
+<div class="section" id="making-a-new-release">
+<h2>Making a new release<a class="headerlink" href="#making-a-new-release" title="Permalink to this heading"></a></h2>
+<p>When a new release will be published on GitHub make sure following steps are taken:
+- Update the CHANGELOG.rst file with all changes compared to the previous version
+- Make sure that the release number is updated in ‘watem-sedem/watem-sedem/version.inc’
+- Make sure that the release number and the abstract is updated in ‘CITATION.CFF’</p>
+<p>When the release is done check the following:
+- Are the binaries added to the release page of your latest release on GitHub?
+- Is the release visible on Zenodo? Check if all the metadata on Zenodo is correct, adjust them if necassary.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>When making a release for a test, make sure that the automatic syncing with zenodo is disabled,
+otherwise, your test will published on zenodo and will get an DOI.</p>
+</div>
+<div class="section" id="zenodo">
+<h3>Zenodo<a class="headerlink" href="#zenodo" title="Permalink to this heading"></a></h3>
+<p><a class="reference external" href="https://zenodo.org/">Zenodo</a> is used to create a DOI and a citable reference
+for the model code. For every version of the model a new publication on Zenodo is made based
+on the CITATION.cff file in the root directory of the repository. You can find the publication of
+watem-sedem on Zenodo <a class="reference external" href="10.5281/zenodo.10997287">here</a>.</p>
+<p>Every owner of the
+<a class="reference external" href="https://github.com/watem-sedem">watem-sedem organisation on GitHub</a> can enable or
+disable the automatic publication of a new version of the code on Zenodo. The automatic publication
+is prefered, otherwise all metadata of CITATION.cff must be entered manually in Zenodo.</p>
+<p>How to check if the automatic publication is enabled in Zenodo?
+- Log in on Zenodo with your GitHub account
+- Go to the menu ‘GitHub repositories’ under ‘Settings’ and check if watem-sedem/watem-sedem is listed</p>
+<blockquote>
+<div><p>under the ‘enabled repositories’.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>If the repository is enabled, all is fine and after a new release on GitHub, the metadata will be published on
+Zenodo automatically</p></li>
+<li><p>If the repository is listed under repositories, but not enabled, the metadata will not be published automatically on a
+new release. Set the switch in the menu to ‘on’.</p></li>
+<li><p>If the repository is not listed under repositories, make sure you have synced your GitHub repositories on Zenodo.</p></li>
+</ul>
+</div>
 </div>
 </div>
 
