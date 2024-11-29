@@ -182,6 +182,7 @@ disable the automatic publication of a new version of the code on Zenodo. The au
 is prefered, otherwise all metadata of CITATION.cff must be entered manually in Zenodo.
 
 How to check if the automatic publication is enabled in Zenodo?
+
 - Log in on Zenodo with your GitHub account
 - Go to the menu 'GitHub repositories' under 'Settings' and check if watem-sedem/watem-sedem is listed
   under the 'enabled repositories'.
