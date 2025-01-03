@@ -265,8 +265,9 @@ Type
       ReadRDC.nrow := strtoint(dumstr);
       readln(docfileIMG, dumstr);
       delete(dumstr,1,14);
-      If (dumstr='plane') Or (dumstr='') Then ReadRDC.Raster_Projection := plane
-      Else Raster_Projection := LATLONG;
+      If (dumstr='latlong') or (dumstr='lat/long')
+      then ReadRDC.Raster_Projection:= LATLONG
+      Else Raster_Projection := PLANE;
       readln(docfileIMG);
       readln(docfileIMG);
       readln(docfileIMG,dumstr);
