@@ -37,6 +37,7 @@ Except
         Begin
           TextColor(red);
           writeln(E.Message);
+          writeln('Exception Address: ', BackTraceStrFunc(ExceptAddr));
           NormVideo();
           Halt(1);
           Exit
@@ -135,6 +136,7 @@ on E: Exception Do
       Begin
         TextColor(red);
         writeln(E.Message);
+        writeln('Exception Address: ', BackTraceStrFunc(ExceptAddr));
         NormVideo();
         Halt(1);
         Exit;
