@@ -156,11 +156,13 @@ Making a new release
 --------------------
 
 When a new release will be published on GitHub make sure following steps are taken:
+
 - Update the CHANGELOG.rst file with all changes compared to the previous version
 - Make sure that the release number is updated in 'watem-sedem/watem-sedem/version.inc'
 - Make sure that the release number and the abstract is updated in 'CITATION.CFF'
 
 When the release is done check the following:
+
 - Are the binaries added to the release page of your latest release on GitHub?
 - Is the release visible on Zenodo? Check if all the metadata on Zenodo is correct, adjust them if necassary.
 
@@ -182,6 +184,7 @@ disable the automatic publication of a new version of the code on Zenodo. The au
 is prefered, otherwise all metadata of CITATION.cff must be entered manually in Zenodo.
 
 How to check if the automatic publication is enabled in Zenodo?
+
 - Log in on Zenodo with your GitHub account
 - Go to the menu 'GitHub repositories' under 'Settings' and check if watem-sedem/watem-sedem is listed
   under the 'enabled repositories'.
