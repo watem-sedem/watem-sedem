@@ -198,6 +198,7 @@ Type
 
        readsgrd.maxx:= readsgrd.minx + readsgrd.res * readsgrd.ncol;
        readsgrd.maxy:= readsgrd.miny + readsgrd.res * readsgrd.nrow;
+       readsgrd.Raster_Projection:=plane;
 
      closefile(header_file);
 
