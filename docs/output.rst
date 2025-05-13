@@ -151,21 +151,66 @@ Txt-file where the first rows give a summary of the results:
 
 * Total erosion :math:`(kg)`: the total amount of sediment eroded in the landscape.
   Erosion is expressed as a negative value.
+
+  For every pixel in the model domain that is not a buffer exit, sewer, river or outside the model domain where
+
+  .. math::
+      S_i - S_o < 0
+
+  with
+
+  - :math:`S_i`: the incoming sediment of a pixel
+  - :math:`S_o`: the outgoing sediment of a pixel
+
+  the erosion :math:`E (kg)` is calculated as
+
+  .. math::
+      E = (S_i - S_o) * BD
+
+  with :math:`BD`the :ref:`bulk density <bulkdensity>`
+
+  The total erosion is calculated as the sum of all erosion values in the model domain.
+
+
 * Total deposition :math:`(kg)`: the total amount of sediment deposited in the landscape
   (not entering sewers or rivers)
-* Sediment leaving the catchment, via the river :math:`(kg)`: the amount of sediment
-  that enters any of the river pixels
+
+  For every pixel in the model domain that is not a buffer exit, sewer, river or outside the model domain where
+
+  .. math::
+      S_i - S_o \geqslant 0
+
+  with
+
+  - :math:`S_i`: the incoming sediment of a pixel
+  - :math:`S_o`: the outgoing sediment of a pixel
+
+  the deposition :math:`D (kg)` is calculated as
+
+  .. math::
+      D = (S_i - S_o) * BD
+
+  with :math:`BD`the :ref:`bulk density <bulkdensity>`
+
+  The total deposition is calculated as the sum of all erosion values in the model domain.
+
+* Sediment leaving the catchment, via the river :math:`(kg)`: the total amount of sediment
+  that enters any of the river pixels. This amount of sediment is not included in the calculation of the total
+  deposition value.
+
 * Sediment leaving the catchment, not via the river :math:`(kg)`: the amount of sediment
-  that exits the model domain (not via river pixels)
+  that exits the model domain (not via river pixels). This amount of sediment is not included in the calculation of the
+  total deposition value.
   
 if the model extension ':ref:`Include buffers <includebuffers>`' is enabled, following row is added to the file:
 
 * Sediment trapped in buffers :math:`(kg)`: the amount of sediment that is trapped in
-  all buffer basins.
+  all buffer basins. This amount of sediment is not included in the calculation of the total deposition value.
   
 if the model extension ':ref:`Include sewers <inlcudesewers>`' is enabled, following row is added to the file:
 
-* Sediment entering sewer system :math:`(kg)`: the amount of sediment that enters the sewer pixels
+* Sediment entering sewer system :math:`(kg)`: the amount of sediment that enters the sewer pixels.
+  This amount of sediment is not included in the Total deposition value.
 
 After the above mentioned rows, a tab-separated table where for every outlet
 the amount of incoming sediment is reported.
