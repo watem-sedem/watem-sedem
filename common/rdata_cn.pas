@@ -31,9 +31,9 @@ Type
   THeader = record
     ncol, nrow: integer;
     res, minx, maxx, miny, maxy, nodata_value, minz, maxz: double;
+    Raster_Projection: TRaster_Projection;
     datafile: string;
     datatype: string; // byte, integer in RDC
-    raster_projection: TRaster_Projection;
     asciidatatype: boolean;
     toptobottom: boolean;
     end;
@@ -50,7 +50,7 @@ Type
       NROW,NCOL: integer;
       //fixed resolution for plane proj and dx=dy
       RES, MINX, MAXX, MINY, MAXY : double;
-      Raster_Projection: TRaster_Projection;
+      raster_projection: TRaster_Projection;
       ncolAR, nrowAR: array Of integer;
       // array waarin resp. nrow, ncol en
       resAR: array Of double;
@@ -198,6 +198,7 @@ Type
 
        readsgrd.maxx:= readsgrd.minx + readsgrd.res * readsgrd.ncol;
        readsgrd.maxy:= readsgrd.miny + readsgrd.res * readsgrd.nrow;
+       readsgrd.Raster_Projection:=plane;
 
      closefile(header_file);
 
@@ -265,8 +266,9 @@ Type
       ReadRDC.nrow := strtoint(dumstr);
       readln(docfileIMG, dumstr);
       delete(dumstr,1,14);
-      If (dumstr='plane') Or (dumstr='') Then ReadRDC.Raster_Projection := plane
-      Else Raster_Projection := LATLONG;
+      If (dumstr='latlong') or (dumstr='lat/long')
+      then readrdc.Raster_Projection:= LATLONG
+      Else readrdc.Raster_Projection := PLANE;
       readln(docfileIMG);
       readln(docfileIMG);
       readln(docfileIMG,dumstr);
@@ -334,6 +336,7 @@ Type
       maxx := header.maxx;
       miny := header.miny;
       maxy := header.maxy;
+      raster_projection := header.raster_projection;
 
 
       //Er wordt geheugen vrijgemaakt voor de kaart (array) in kwestie
