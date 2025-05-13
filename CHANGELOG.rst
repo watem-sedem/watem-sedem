@@ -2,6 +2,12 @@
 Changelog
 =========
 
+Version 5.0.3
+-------------
+- Bugfix when working with utm grids, see https://github.com/watem-sedem/watem-sedem/pull/171
+- Improving documentation
+- Adding more debugging information via adr2line 
+
 Version 5.0.2
 -------------
 This release was created to auto-publish the binaries for watem-sedem on GitHub.
