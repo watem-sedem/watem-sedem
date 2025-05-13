@@ -338,7 +338,16 @@ Type
       maxy := header.maxy;
       raster_projection := header.raster_projection;
 
+      // ensure lat/long is not used incorrectly
+      if raster_projection = LATLONG then
+        Begin
+            if (minx < -180) or (maxx > 180) then
+               raise Exception.Createfmt('Error in %s: Longitude (minx/maxx) out of range: must be between -180 and 180', [filename]);
+            if (miny < -90) or (maxy > 90) then
+               raise Exception.Createfmt('Error in %s: Latitude (miny/maxy) out of range: must be between -90 and 90', [filename]);
+        end;
 
+      
       //Er wordt geheugen vrijgemaakt voor de kaart (array) in kwestie
       SetDynamicRData(Z);
 
