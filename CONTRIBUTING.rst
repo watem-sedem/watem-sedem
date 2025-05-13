@@ -187,6 +187,19 @@ When the release is done check the following:
     When making a release for a test, make sure that the automatic syncing with zenodo is disabled,
     otherwise, your test will published on zenodo and will get an DOI.
 
+Release number
+~~~~~~~~~~~~~~
+
+We use the Semantic Versioning Specification (SemVer)  
+for the release numbers. For more information about this numbering we refer to
+`the documentation page <https://semver.org/#semantic-versioning-200>`_ of SemVer.
+
+It is important to note that this repository of WaTEM-SEDEM was build from
+the original code of WaTEM-SEDEM of KULeuven. Before GitHub was used, 
+WaTEM-SEDEM was versioned with the year of the build. E.g. the most recent
+binary publicaly available before GitHub was used was WaTEM-SEDEM 2006. This
+versioning sheme will not be used anymore. 
+
 Zenodo
 ~~~~~~
 
