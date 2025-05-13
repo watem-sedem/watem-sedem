@@ -152,6 +152,23 @@ We refer to the documentation of `Pascal <https://www.freepascal.org/docs.html>`
 and the `Lazarus IDE <https://www.lazarus-ide.org/>`_ to get started with
 developping.
 
+Debugging
+---------
+
+In case errors occur during execution, it is best to try to run the code directly in debug mode from
+lazarus (F9). This allows will catch most exceptions and allows inspection of values at that point.
+If this is not an option and unexpected errors occur, it is possible that the executable generates an
+exception address:
+
+   Invalid floating point operation
+   Exception Address:   $00000000004AFA28
+   
+When used with the exact same binary, this exception can be decoded using addr2line:
+
+   addr2line -e watem_sedem 00000000004AFA28
+   watem-sedem/watem_sedem//../common/raster_calculations.pas:355
+
+
 Making a new release
 --------------------
 
