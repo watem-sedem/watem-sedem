@@ -330,8 +330,6 @@ Begin
   GetRFile(DTM, DTM_Filename);
   GetGFile(PRC, PARCEL_filename);
 
-  PRC.SetRasterBorders;
-
   GetRFile(P_factor, Pf_Data_filename);
 
   If Include_sewer Then
