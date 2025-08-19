@@ -105,7 +105,7 @@ Function intArrayIsEqual (inputArray: Array Of Integer): boolean;
 Function doubArrayIsEqual (inputarray: Array Of double): boolean;
 Procedure ReadDownstreamSegments(filename: String; var kvArray: tintkvarray);
 Procedure ReadUpstreamSegments(filename: String; var upstream: tintkvarray;var proportion: tdoublekvarray);
-
+Function isCropland(i: integer): boolean;
 
 Var
   //internal variables
@@ -285,6 +285,10 @@ begin
   getItem:=0;
 end;
 
+Function isCropland(i: integer): boolean;inline;
+begin
+  isCropland:=i>0;
+end;
 
 Function Distance1(r: TRoutingArray;i,j: integer):double;
 begin

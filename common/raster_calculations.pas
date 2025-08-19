@@ -972,7 +972,7 @@ Begin
               If PRC[i+k2,j+l2]<>PRC[i,j] Then
                 //indien deze ene cel tot een ander perceel behoort dan..
                 Begin
-                  If (PRC[i+k2,j+l2] = GRASS_STRIP) Then
+                  If isCropLand(PRC[i,j]) and (PRC[i+k2,j+l2] = GRASS_STRIP) Then
                     // If the target cell is a grass buffer strip it receives everything
                     Begin
                       part2 := 1.0;
@@ -1002,7 +1002,7 @@ Begin
             Begin
               If PRC[i+k1,j+l1] <> PRC[i,j] Then
                 Begin
-                  If (PRC[i+k1,j+l1] = GRASS_STRIP) Then
+                  If isCropLand(PRC[i,j]) and (PRC[i+k1,j+l1] = GRASS_STRIP) Then
                     // If the target cell is a grass buffer strip it receives everything
                     Begin
                       part1 := 1.0;
@@ -1030,9 +1030,9 @@ Begin
                 Begin
                   If PRC[i+k2,j+l2]<>PRC[i,j] Then // If both target cell have a different parcel ID
                     Begin
-                      If PRC[i+k1,j+l1] = GRASS_STRIP Then // If the first one is a grass buffer strip
+                      If isCropLand(PRC[i,j]) and (PRC[i+k1,j+l1] = GRASS_STRIP) Then // If the first one is a grass buffer strip
                         Begin
-                          If PRC[i+k2,j+l2] = GRASS_STRIP Then
+                          If isCropLand(PRC[i,j]) and (PRC[i+k2,j+l2] = GRASS_STRIP) Then
                             // If both target cells are grass buffer strips
                             Begin
                               PART1 := PART1;
@@ -1048,7 +1048,7 @@ Begin
                         End
                       Else
                         Begin
-                          If (PRC[i+k2,j+l2] = GRASS_STRIP) Then
+                          If  isCropLand(PRC[i,j]) and (PRC[i+k2,j+l2] = GRASS_STRIP) Then
                             // if only the 2nd target cell is a grass buffer strip
                             Begin
                               PART2 := 1.0;
@@ -1064,7 +1064,7 @@ Begin
                     End
                   Else // als targetcel 1 tot ander perceel behoort, maar targetcel 2 niet...
                     Begin
-                      If PRC[i+k1,j+l1] = GRASS_STRIP Then   // Target cell 1 is a grass buffer strip
+                      If isCropLand(PRC[i,j]) and  (PRC[i+k1,j+l1] = GRASS_STRIP) Then   // Target cell 1 is a grass buffer strip
                         Begin
                           PART1 := PART1;
                           PART2 := PART2;
@@ -1082,7 +1082,7 @@ Begin
                   If PRC[i+k2,j+l2]<>PRC[i,j] Then
                     // als enkel targetcel 2 tot ander perceel behoort...
                     Begin
-                      If PRC[i+k2,j+l2] = GRASS_STRIP Then
+                      If isCropLand(PRC[i,j]) and (PRC[i+k2,j+l2] = GRASS_STRIP) Then
                         // als targetcel 2 een grasbufferstrook of grasgang is...
                         Begin
                           PART1 := PART1;
