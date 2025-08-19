@@ -6,8 +6,6 @@ on:
   create:
     tags:
 
-env:
-  DRONE_BUILD_NUMBER: ${{ github.run_number }}
 jobs:
   build-packages:
     if: github.ref == 'refs/heads/master'
