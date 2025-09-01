@@ -6,9 +6,6 @@ on:
     tags:
   workflow_dispatch:
 
-env:
-  DEBIAN_RSYNC_TARGET: /appdata/static/apt/amd64
-  DRONE_BUILD_NUMBER: ${{ github.run_number }}
 jobs:
   build-packages:
     uses: ./.github/workflows/build.yml
