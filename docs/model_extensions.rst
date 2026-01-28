@@ -95,8 +95,14 @@ To enable this option, the following line must be written in the ini-file:
 The default is: ``Calibrate = 0``
 
 When this option is enabled, the user will have to provide additional input,
-in the section Parameters extensions (see :ref:`here <calibrationparamters>`)
-needs to be added to the ini-file in the :ref:`according manner <inicalib>`.
+in the section Parameters extensions (see :ref:`here <extensionspage>`).
+Following parameters must be defined:
+
+- :ref:`ktc low lower <ktclow_lower>`
+- :ref:`ktc low upper <ktclow_upper>`
+- :ref:`ktc high lower <ktchigh_lower>`
+- :ref:`ktc high upper <ktchigh_upper>`
+- :ref:`steps <steps>`
 
 .. _simple:
 
