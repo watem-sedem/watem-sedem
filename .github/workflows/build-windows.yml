@@ -40,8 +40,9 @@ jobs:
            .\testfiles\test.bat
       - name: rename compiled artifact
         run: |
-          move-item watem_sedem\\watem_sedem.exe watem_sedem\\watem_sedem_$($var).exe
+          $var = git describe --abbrev=4 --always --tags
+          move-item watem_sedem\\watem_sedem.exe watem_sedem\\watem_sedem_$var.exe
       - uses: actions/upload-artifact@master
         with:
           name: windows-compiled
-          path: watem_sedem/watem_sedem_$var.exe
+          path: watem_sedem/watem_sedem*.exe
