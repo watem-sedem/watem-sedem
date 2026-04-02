@@ -44,4 +44,4 @@ jobs:
       - uses: actions/upload-artifact@master
         with:
           name: windows-compiled
-          path: watem_sedem/watem_sedem_$($var).exe
+          path: watem_sedem/watem_sedem_$var.exe
