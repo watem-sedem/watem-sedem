@@ -127,7 +127,7 @@ is calculated according to
 
 with
 
-- :math:`ktc`: transport capacity coeffient :math:`(m)`
+- :math:`ktc`: transport capacity coefficient :math:`(m)`
 - :math:`R`: :ref:`rainfall erosivity factor <rfactor>`
 - :math:`K`: :ref:`soil erobility factor <kfactor>`
 - :math:`T`: topographical factor (-)
