@@ -41,8 +41,8 @@ jobs:
       - name: rename compiled artifact
         run: |
           $var = git describe --abbrev=4 --always --tags
-          move-item watem_sedem\\watem_sedem.exe watem_sedem\\watem_sedem_$var.exe
+          Compress-Archive watem_sedem\\watem_sedem.exe watem_sedem\\watem_sedem_$var.zip
       - uses: actions/upload-artifact@master
         with:
           name: windows-compiled
-          path: watem_sedem/watem_sedem*.exe
+          path: watem_sedem/watem_sedem*.zip
