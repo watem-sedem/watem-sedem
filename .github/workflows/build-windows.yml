@@ -24,11 +24,11 @@ jobs:
         with:
           lazarus-version: "3.0"
           with-cache: true
+          fetch-tags: true
       - name: fetch tags
         run: |
           git fetch --tags
           git lfs pull
-
       - name: build compiled version
         run: |
           $var = git describe --abbrev=4 --always --tags
