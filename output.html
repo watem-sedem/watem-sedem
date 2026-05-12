@@ -253,7 +253,14 @@ raster will only be written if the model output option ‘<a class="reference in
 </div>
 <div class="section" id="aspectmap-rst">
 <span id="aspectmap"></span><h3>AspectMap.rst<a class="headerlink" href="#aspectmap-rst" title="Permalink to this heading"></a></h3>
-<p>Raster with the direction of slope (the aspect) in radians. This raster will only be
+<p>Raster with the direction of slope (the aspect) in radians. The variable boundaries are between 0 and 2π.</p>
+<ul class="simple">
+<li><p>N: 0 or 2π rad</p></li>
+<li><p>E: π/2 rad</p></li>
+<li><p>S: π rad</p></li>
+<li><p>W: 3/2 π rad</p></li>
+</ul>
+<p>This raster will only be
 written if the model output option ‘<a class="reference internal" href="choices.html#writeaspect"><span class="std std-ref">write aspect</span></a>’ is enabled.</p>
 </div>
 <div class="section" id="slope-rst">
@@ -274,24 +281,55 @@ the following rasters and tables can be written as output.</p>
 <div class="section" id="total-sediment-txt">
 <span id="totalsedimenttxt"></span><h3>Total Sediment.txt<a class="headerlink" href="#total-sediment-txt" title="Permalink to this heading"></a></h3>
 <p>Txt-file where the first rows give a summary of the results:</p>
-<ul class="simple">
+<ul>
 <li><p>Total erosion <span class="math notranslate nohighlight">\((kg)\)</span>: the total amount of sediment eroded in the landscape.
-Erosion is expressed as a negative value.</p></li>
+Erosion is expressed as a negative value.</p>
+<p>For every pixel in the model domain that is not a buffer exit, sewer, river or outside the model domain where</p>
+<div class="math notranslate nohighlight">
+\[S_i - S_o &lt; 0\]</div>
+<p>with</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(S_i\)</span>: the incoming sediment of a pixel</p></li>
+<li><p><span class="math notranslate nohighlight">\(S_o\)</span>: the outgoing sediment of a pixel</p></li>
+</ul>
+<p>the erosion <span class="math notranslate nohighlight">\(E (kg)\)</span> is calculated as</p>
+<div class="math notranslate nohighlight">
+\[E = (S_i - S_o) * BD\]</div>
+<p>with <span class="math notranslate nohighlight">\(BD\)</span></p>
+<p>The total erosion is calculated as the sum of all erosion values in the model domain.</p>
+</li>
 <li><p>Total deposition <span class="math notranslate nohighlight">\((kg)\)</span>: the total amount of sediment deposited in the landscape
-(not entering sewers or rivers)</p></li>
-<li><p>Sediment leaving the catchment, via the river <span class="math notranslate nohighlight">\((kg)\)</span>: the amount of sediment
-that enters any of the river pixels</p></li>
+(not entering sewers or rivers)</p>
+<p>For every pixel in the model domain that is not a buffer exit, sewer, river or outside the model domain where</p>
+<div class="math notranslate nohighlight">
+\[S_i - S_o \geqslant 0\]</div>
+<p>with</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(S_i\)</span>: the incoming sediment of a pixel</p></li>
+<li><p><span class="math notranslate nohighlight">\(S_o\)</span>: the outgoing sediment of a pixel</p></li>
+</ul>
+<p>the deposition <span class="math notranslate nohighlight">\(D (kg)\)</span> is calculated as</p>
+<div class="math notranslate nohighlight">
+\[D = (S_i - S_o) * BD\]</div>
+<p>with <span class="math notranslate nohighlight">\(BD\)</span></p>
+<p>The total deposition is calculated as the sum of all erosion values in the model domain.</p>
+</li>
+<li><p>Sediment leaving the catchment, via the river <span class="math notranslate nohighlight">\((kg)\)</span>: the total amount of sediment
+that enters any of the river pixels. This amount of sediment is not included in the calculation of the total
+deposition value.</p></li>
 <li><p>Sediment leaving the catchment, not via the river <span class="math notranslate nohighlight">\((kg)\)</span>: the amount of sediment
-that exits the model domain (not via river pixels)</p></li>
+that exits the model domain (not via river pixels). This amount of sediment is not included in the calculation of the
+total deposition value.</p></li>
 </ul>
 <p>if the model extension ‘<a class="reference internal" href="model_extensions.html#includebuffers"><span class="std std-ref">Include buffers</span></a>’ is enabled, following row is added to the file:</p>
 <ul class="simple">
 <li><p>Sediment trapped in buffers <span class="math notranslate nohighlight">\((kg)\)</span>: the amount of sediment that is trapped in
-all buffer basins.</p></li>
+all buffer basins. This amount of sediment is not included in the calculation of the total deposition value.</p></li>
 </ul>
 <p>if the model extension ‘<a class="reference internal" href="model_extensions.html#inlcudesewers"><span class="std std-ref">Include sewers</span></a>’ is enabled, following row is added to the file:</p>
 <ul class="simple">
-<li><p>Sediment entering sewer system <span class="math notranslate nohighlight">\((kg)\)</span>: the amount of sediment that enters the sewer pixels</p></li>
+<li><p>Sediment entering sewer system <span class="math notranslate nohighlight">\((kg)\)</span>: the amount of sediment that enters the sewer pixels.
+This amount of sediment is not included in the Total deposition value.</p></li>
 </ul>
 <p>After the above mentioned rows, a tab-separated table where for every outlet
 the amount of incoming sediment is reported.</p>

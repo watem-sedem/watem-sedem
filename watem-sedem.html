@@ -195,13 +195,13 @@ is defined.</p>
 <p>For every pixel in the model domain or catchment, the mean annual soil
 erosion rate is calculated with an adapted version of the RUSLE (Revised
 Universal Soil Loss Equation, Renard et al., 1997). The mean annual soil
-erosion rate <span class="math notranslate nohighlight">\(E\)</span> (<span class="math notranslate nohighlight">\(\frac{\text{kg}}{\text{m}^{2}.\text{year}}\)</span>) is
+erosion rate <span class="math notranslate nohighlight">\(E\)</span> (<span class="math notranslate nohighlight">\(\frac{\text{kg}}{\text{ha.year}}\)</span>) is
 calculated by</p>
 <div class="math notranslate nohighlight">
 \[E = R \cdot K \cdot LS \cdot C \cdot P\]</div>
 <p>with</p>
 <ul class="simple">
-<li><p><span class="math notranslate nohighlight">\(R\)</span>: rainfall erosivity factor (<span class="math notranslate nohighlight">\(\frac{\text{MJ.mm}}{\text{m}^2.\text{h.year}}\)</span>)</p></li>
+<li><p><span class="math notranslate nohighlight">\(R\)</span>: rainfall erosivity factor (<span class="math notranslate nohighlight">\(\frac{\text{MJ.mm}}{\text{ha.h.year}}\)</span>)</p></li>
 <li><p><span class="math notranslate nohighlight">\(K\)</span>: soil erodibility factor (<span class="math notranslate nohighlight">\(\frac{\text{kg.h}}{\text{MJ.mm}}\)</span>)</p></li>
 <li><p><span class="math notranslate nohighlight">\(LS\)</span>: topographical slope and length factor (-)</p></li>
 <li><p><span class="math notranslate nohighlight">\(C\)</span>: crop management factor (-, <span class="math notranslate nohighlight">\(\in [0,1]\)</span>)</p></li>
@@ -217,7 +217,7 @@ is calculated according to</p>
 \[TC = ktc \cdot R \cdot K \cdot T\]</div>
 <p>with</p>
 <ul class="simple">
-<li><p><span class="math notranslate nohighlight">\(ktc\)</span>: transport capacity coeffient <span class="math notranslate nohighlight">\((m)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(ktc\)</span>: transport capacity coefficient <span class="math notranslate nohighlight">\((m)\)</span></p></li>
 <li><p><span class="math notranslate nohighlight">\(R\)</span>: <a class="reference internal" href="#rfactor"><span class="std std-ref">rainfall erosivity factor</span></a></p></li>
 <li><p><span class="math notranslate nohighlight">\(K\)</span>: <a class="reference internal" href="#kfactor"><span class="std std-ref">soil erobility factor</span></a></p></li>
 <li><p><span class="math notranslate nohighlight">\(T\)</span>: topographical factor (-)</p></li>
@@ -279,7 +279,7 @@ single constant, ktil (the diffusion constant) which need to be given by the use
 <p>The erosive power of rainfall is quantified via the rainfall erosivity factor
 (<span class="math notranslate nohighlight">\(R\)</span>-factor). The R-factor quantifies the mean annual average rainfall erosivity,
 calculated by combining rainfall events over multiple years (22 years according to the
-USLE definition) and is provided in <span class="math notranslate nohighlight">\(\frac{\text{MJ.mm}}{\text{m}^2.\text{h.year}}\)</span>.</p>
+USLE definition) and is provided in <span class="math notranslate nohighlight">\(\frac{\text{MJ.mm}}{\text{ha.h.year}}\)</span>.</p>
 <p>Note that the R-factor is given as a single integer value representative for a small
 (e.g. a small catchment) spatial area. For larger areas, spatial variability in rainfall
 erosivity may be more important, however. If this is the case, this can be compensated
@@ -357,7 +357,7 @@ calculated for a field according to the weighted sum of the soil loss ratio (SLR
 \[C = \frac{\sum_i^t{R_i} \cdot SLR_i}{\sum_i^t{R_i}}\]</div>
 <dl class="simple">
 <dt>with</dt><dd><ul class="simple">
-<li><p><span class="math notranslate nohighlight">\(R_i\)</span>: rainfall erosivity factor (<span class="math notranslate nohighlight">\(\frac{\text{J.mm}}{\text{m}^2.\text{h.TR}}\)</span>) with
+<li><p><span class="math notranslate nohighlight">\(R_i\)</span>: rainfall erosivity factor (<span class="math notranslate nohighlight">\(\frac{\text{MJ.mm}}{\text{ha.h.TR}}\)</span>) with
 <span class="math notranslate nohighlight">\(\text{TR}\)</span>: temporal resolution (typically 15-days).</p></li>
 <li><p><span class="math notranslate nohighlight">\(t\)</span>: the maximum number of the increments.</p></li>
 <li><p><span class="math notranslate nohighlight">\(SLR\)</span>: the soil loss ratio (-).</p></li>
