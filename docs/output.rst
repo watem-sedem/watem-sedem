@@ -115,7 +115,14 @@ raster will only be written if the model output option ':ref:`write ls factor <w
 AspectMap.rst
 *************
 
-Raster with the direction of slope (the aspect) in radians. This raster will only be
+Raster with the direction of slope (the aspect) in radians. The variable boundaries are between 0 and 2π.
+
+- N: 0 or 2π rad
+- E: π/2 rad
+- S: π rad
+- W: 3/2 π rad
+
+This raster will only be
 written if the model output option ':ref:`write aspect <writeaspect>`' is enabled.
 
 .. _slopemap:
