@@ -376,7 +376,7 @@ Raster with the calculated tillage erosion (in :math:`kg year^{-1}`). Negative v
 erosion, positive values indicate sedimentation.
 This raster is only written if the model option ':ref:`calculate tillage erosion<calctileros>`' is enabled.
 
-.. sedtilinrst:
+.. _sedtilinrst:
 
 SEDTIL_IN.rst
 *************
@@ -385,7 +385,7 @@ Raster with the amount of sediment (in :math:`kg`) that enters a
 pixel from the upstream pixels, due to tillage erosion.
 This raster is only written if the model option ':ref:`calculate tillage erosion <calctileros>`' is enabled.
 
-.. sedtiloutrst:
+.. _sedtiloutrst:
 
 SEDTIL_OUT.rst
 **************
