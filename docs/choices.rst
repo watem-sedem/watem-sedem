@@ -31,7 +31,7 @@ and is used in the calculation of :ref:`RUSLE <rusle>` and
 The L-model is calculated according to the work of Desmet and Govers (1996):
 
 .. math::
-    L = \frac{(A+D^2)^{m+1}-A^{m+1}}{D^{m+2}.x^m.22,13^m}
+    L = \frac{(A+D^2)^{m+1}-A^{m+1}}{D^{m+2}.x^m.22.13^m}
 
 with
  - :math:`A`: upstream area for every raster pixel (:math:`\text{m}^2`).
@@ -111,7 +111,7 @@ The two S-models are:
 **1. Nearing (1997)**:
 
 .. math::
-    S = -1,5+\frac{17}{1+e^{2,3-6.1.\sin{\theta}}}
+    S = -1.5+\frac{17}{1+e^{2.3-6.1.\sin{\theta}}}
 
 
 **2. McCool et al. (1987)**
