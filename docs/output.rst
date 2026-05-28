@@ -358,12 +358,16 @@ Raster with the calculated RUSLE-values, the potential soil loss, for every
 pixel in (in:math:` kg m^{-2} year^{-1}`). This raster is only written if the
 model output option ':ref:`write rusle <writerusle>`' is enabled.
 
+.. _tilerosmmrst:
+
 TILEROS (mm per gridcel).rst
 ****************************
 
 Raster with the calculated tillage erosion (in :math:`mm year^{-1}`). Negative values indicate
 erosion, while positive values indicate sedimentation.
 This raster is only written if the model option ':ref:`calculate tillage erosion <calctileros>`' is enabled.
+
+.. _tileroskgrst:
 
 TILEROS (kg per gridcel).rst
 ****************************
@@ -372,12 +376,16 @@ Raster with the calculated tillage erosion (in :math:`kg year^{-1}`). Negative v
 erosion, positive values indicate sedimentation.
 This raster is only written if the model option ':ref:`calculate tillage erosion<calctileros>`' is enabled.
 
+.. _sedtilinrst:
+
 SEDTIL_IN.rst
 *************
 
 Raster with the amount of sediment (in :math:`kg`) that enters a
 pixel from the upstream pixels, due to tillage erosion.
 This raster is only written if the model option ':ref:`calculate tillage erosion <calctileros>`' is enabled.
+
+.. _sedtiloutrst:
 
 SEDTIL_OUT.rst
 **************
@@ -414,6 +422,8 @@ CN-output
 When the CN-extension is enabled (i.e. :ref:`curve number <simple>` is enabled) some additional
 output is, or, can be generated.
 
+.. _dischargetxt:
+
 Discharge.txt
 *************
 
@@ -426,6 +436,8 @@ Discharge_segments.txt
 
 Table with discharge (in :math:`m^3 s^{-1}`) as a function of time for every river segment. This
 table is only generated if the model extension ':ref:`Output per river segment <outputsegment>`' is enabled.
+
+.. _seconcentrationtxt:
 
 Sediment concentration.txt
 **************************
@@ -442,6 +454,8 @@ Table with the concentration of sediment (in :math:`g.l^{-1}`) as a function of 
 river segment.
 This table is only generated if the model extension ':ref:`Output per river segment <outputsegment>`' is enabled.
 
+.. _sedimentxt:
+
 Sediment.txt
 ************
 
@@ -456,11 +470,15 @@ Table with the sediment load (in :math:`kg`) as a function of time for the river
 segments. This table is only generated if the model extension
 ':ref:`Output per river segment <outputsegment>`' is enabled.
 
+.. _spillbuffertxt:
+
 Spillover per buffer.txt
 ************************
 
 Table with the total amount of water (in :math:`m^3`) that leaves every buffer basin via the
 overflow.
+
+.. _totaldischargetxt:
 
 Total discharge.txt
 *******************
