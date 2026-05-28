@@ -600,6 +600,56 @@ pixels with a C-factor below ktc limit, will get :ref:`ktc low <ktclow>` in the
 ktc map. This parameter is only mandatory if the :ref:`Model extension <extensionspage>`
 :ref:`Create ktc map <createktc>` is set to 1 or :ref:`Calibrate = 1 <Calibrate>`
 
+.. _ktchigh_lower:
+
+KTcHigh_lower
+*************
+
+The lower range of ktc-high values in the calibration mode. The value is a float
+and by default 5.
+This parameter is only mandatory if the :ref:`Model extension <extensionspage>`:
+:ref:`Calibrate <Calibrate>` is set to 1 .
+
+.. _ktchigh_upper:
+
+KTcHigh_upper
+*************
+
+The upper range of ktc-high values in the calibration mode. The value is a float
+and by default 40.
+This parameter is only mandatory if the :ref:`Model extension <extensionspage>`:
+:ref:`Calibrate <Calibrate>` is set to 1 .
+
+.. _ktclow_lower:
+
+KTcLow_lower
+*************
+
+The lower range of ktc-low values in the calibration mode. The value is a float
+and by default 1.
+This parameter is only mandatory if the :ref:`Model extension <extensionspage>`:
+:ref:`Calibrate <Calibrate>` is set to 1 .
+
+.. _ktclow_upper:
+
+KTcLow_upper
+*************
+
+The upper range of ktc-low values in the calibration mode. The value is a float
+and by default 20.
+This parameter is only mandatory if the :ref:`Model extension <extensionspage>`:
+:ref:`Calibrate <Calibrate>` is set to 1 .
+
+.. _steps:
+
+steps
+*****
+
+The amount of steps between the lower and upper values for ktc low and ktc high
+during a calibration run. This value is an integer and by default 12.
+This parameter is only mandatory if the :ref:`Model extension <extensionspage>`:
+:ref:`Calibrate <Calibrate>` is set to 1 .
+
 .. _ktildefault:
 
 ktil default
@@ -887,65 +937,6 @@ row of both the source and target pixel in the ini-file, as shown here:
 Note that the amount of sections with
 forced routing vectors has to be defined with the variable
 :ref:`Number of forced routing <nrforcedrouting>`
-
-.. _calibrationparamters:
-
-Calibration data
-================
-
-The following parameters are only mandatory if the :ref:`Model extension <extensionspage>`:
-:ref:`Calibrate <Calibrate>` is set to 1 .
-These parameters must be grouped in a seperate section in the ini-file with the
-header 'Calibration', as shown here:
-
-.. code-block:: ini
-
-    [Calibration]
-    KTcHigh_lower=1
-    KTcHigh_upper=20
-    KTcLow_lower=1
-    KTcLow_upper=20
-    steps=20
-
-.. _ktchigh_lower:
-
-KTcHigh_lower
-*************
-
-The lower range of ktc-high values in the calibration mode. The value is a float
-and by default 5.
-
-.. _ktchigh_upper:
-
-KTcHigh_upper
-*************
-
-The upper range of ktc-high values in the calibration mode. The value is a float
-and by default 40.
-
-.. _ktclow_lower:
-
-KTcLow_lower
-*************
-
-The lower range of ktc-low values in the calibration mode. The value is a float
-and by default 1.
-
-.. _ktclow_upper:
-
-KTcLow_upper
-*************
-
-The upper range of ktc-low values in the calibration mode. The value is a float
-and by default 20.
-
-.. _steps:
-
-steps
-*****
-
-The amount of steps between the lower and upper values for ktc low and ktc high
-during a calibration run. This value is an integer and by default 12.
 
 References
 ==========
