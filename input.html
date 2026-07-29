@@ -99,6 +99,11 @@
 <li class="toctree-l4"><a class="reference internal" href="#ktc-low">ktc low</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#ktc-high">ktc high</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#ktc-limit">ktc limit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ktchigh-lower">KTcHigh_lower</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ktchigh-upper">KTcHigh_upper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ktclow-lower">KTcLow_lower</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ktclow-upper">KTcLow_upper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#steps">steps</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#ktil-default">ktil default</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#ktil-threshold">ktil threshold</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#ls-correction">LS correction</a></li>
@@ -117,14 +122,6 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#bufferdata">Bufferdata</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#forced-routing-data">Forced routing data</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#calibration-data">Calibration data</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#ktchigh-lower">KTcHigh_lower</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#ktchigh-upper">KTcHigh_upper</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#ktclow-lower">KTcLow_lower</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#ktclow-upper">KTcLow_upper</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#steps">steps</a></li>
-</ul>
-</li>
 <li class="toctree-l3"><a class="reference internal" href="#references">References</a></li>
 </ul>
 </li>
@@ -678,6 +675,41 @@ pixels with a C-factor below ktc limit, will get <a class="reference internal" h
 ktc map. This parameter is only mandatory if the <a class="reference internal" href="model_extensions.html#extensionspage"><span class="std std-ref">Model extension</span></a>
 <a class="reference internal" href="model_extensions.html#createktc"><span class="std std-ref">Create ktc map</span></a> is set to 1 or <a class="reference internal" href="model_extensions.html#calibrate"><span class="std std-ref">Calibrate = 1</span></a></p>
 </div>
+<div class="section" id="ktchigh-lower">
+<span id="id3"></span><h3>KTcHigh_lower<a class="headerlink" href="#ktchigh-lower" title="Permalink to this heading"></a></h3>
+<p>The lower range of ktc-high values in the calibration mode. The value is a float
+and by default 5.
+This parameter is only mandatory if the <a class="reference internal" href="model_extensions.html#extensionspage"><span class="std std-ref">Model extension</span></a>:
+<a class="reference internal" href="model_extensions.html#calibrate"><span class="std std-ref">Calibrate</span></a> is set to 1 .</p>
+</div>
+<div class="section" id="ktchigh-upper">
+<span id="id4"></span><h3>KTcHigh_upper<a class="headerlink" href="#ktchigh-upper" title="Permalink to this heading"></a></h3>
+<p>The upper range of ktc-high values in the calibration mode. The value is a float
+and by default 40.
+This parameter is only mandatory if the <a class="reference internal" href="model_extensions.html#extensionspage"><span class="std std-ref">Model extension</span></a>:
+<a class="reference internal" href="model_extensions.html#calibrate"><span class="std std-ref">Calibrate</span></a> is set to 1 .</p>
+</div>
+<div class="section" id="ktclow-lower">
+<span id="id5"></span><h3>KTcLow_lower<a class="headerlink" href="#ktclow-lower" title="Permalink to this heading"></a></h3>
+<p>The lower range of ktc-low values in the calibration mode. The value is a float
+and by default 1.
+This parameter is only mandatory if the <a class="reference internal" href="model_extensions.html#extensionspage"><span class="std std-ref">Model extension</span></a>:
+<a class="reference internal" href="model_extensions.html#calibrate"><span class="std std-ref">Calibrate</span></a> is set to 1 .</p>
+</div>
+<div class="section" id="ktclow-upper">
+<span id="id6"></span><h3>KTcLow_upper<a class="headerlink" href="#ktclow-upper" title="Permalink to this heading"></a></h3>
+<p>The upper range of ktc-low values in the calibration mode. The value is a float
+and by default 20.
+This parameter is only mandatory if the <a class="reference internal" href="model_extensions.html#extensionspage"><span class="std std-ref">Model extension</span></a>:
+<a class="reference internal" href="model_extensions.html#calibrate"><span class="std std-ref">Calibrate</span></a> is set to 1 .</p>
+</div>
+<div class="section" id="steps">
+<span id="id7"></span><h3>steps<a class="headerlink" href="#steps" title="Permalink to this heading"></a></h3>
+<p>The amount of steps between the lower and upper values for ktc low and ktc high
+during a calibration run. This value is an integer and by default 12.
+This parameter is only mandatory if the <a class="reference internal" href="model_extensions.html#extensionspage"><span class="std std-ref">Model extension</span></a>:
+<a class="reference internal" href="model_extensions.html#calibrate"><span class="std std-ref">Calibrate</span></a> is set to 1 .</p>
+</div>
 <div class="section" id="ktil-default">
 <span id="ktildefault"></span><h3>ktil default<a class="headerlink" href="#ktil-default" title="Permalink to this heading"></a></h3>
 <p>The transport capacity coefficient for tillage erosion on agricultural fields.
@@ -750,13 +782,13 @@ This variable is only mandatory if the <a class="reference internal" href="model
 <a class="reference internal" href="model_extensions.html#simple"><span class="std std-ref">Curve number</span></a> is set to 1.</p>
 </div>
 <div class="section" id="alpha">
-<span id="id3"></span><h3>alpha<a class="headerlink" href="#alpha" title="Permalink to this heading"></a></h3>
+<span id="id8"></span><h3>alpha<a class="headerlink" href="#alpha" title="Permalink to this heading"></a></h3>
 <p>Alpha (as float) is a calibration parameter of the CN-model. It determines the relation
 between the runoff and the rainfall intensity. This parameter is only mandatory if the
 <a class="reference internal" href="model_extensions.html#extensionspage"><span class="std std-ref">Model extension</span></a>: <a class="reference internal" href="model_extensions.html#simple"><span class="std std-ref">Curve number</span></a> is set to 1.</p>
 </div>
 <div class="section" id="beta">
-<span id="id4"></span><h3>beta<a class="headerlink" href="#beta" title="Permalink to this heading"></a></h3>
+<span id="id9"></span><h3>beta<a class="headerlink" href="#beta" title="Permalink to this heading"></a></h3>
 <p>Beta (as float) is a calibration parameter of the CN-model. It determines the
 relation between the runoff and the antecedent rainfall. This parameter is
 only mandatory if the <a class="reference internal" href="model_extensions.html#extensionspage"><span class="std std-ref">Model extension</span></a>:
@@ -816,7 +848,7 @@ This variable is only mandatory if the <a class="reference internal" href="model
 </div>
 </div>
 <div class="section" id="bufferdata">
-<span id="id5"></span><h2>Bufferdata<a class="headerlink" href="#bufferdata" title="Permalink to this heading"></a></h2>
+<span id="id10"></span><h2>Bufferdata<a class="headerlink" href="#bufferdata" title="Permalink to this heading"></a></h2>
 <p>The inclusion of erosion control buffers is based on input rasters and
 buffer parameters. How these input rasters should be created, is described
 <a class="reference internal" href="#buffermap"><span class="std std-ref">here</span></a>. If the <a class="reference internal" href="model_extensions.html#extensionspage"><span class="std std-ref">Model extension</span></a>:
@@ -899,46 +931,6 @@ row of both the source and target pixel in the ini-file, as shown here:</p>
 <p>Note that the amount of sections with
 forced routing vectors has to be defined with the variable
 <a class="reference internal" href="#nrforcedrouting"><span class="std std-ref">Number of forced routing</span></a></p>
-</div>
-<div class="section" id="calibration-data">
-<span id="calibrationparamters"></span><h2>Calibration data<a class="headerlink" href="#calibration-data" title="Permalink to this heading"></a></h2>
-<p>The following parameters are only mandatory if the <a class="reference internal" href="model_extensions.html#extensionspage"><span class="std std-ref">Model extension</span></a>:
-<a class="reference internal" href="model_extensions.html#calibrate"><span class="std std-ref">Calibrate</span></a> is set to 1 .
-These parameters must be grouped in a seperate section in the ini-file with the
-header ‘Calibration’, as shown here:</p>
-<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[Calibration]</span>
-<span class="na">KTcHigh_lower</span><span class="o">=</span><span class="s">1</span>
-<span class="na">KTcHigh_upper</span><span class="o">=</span><span class="s">20</span>
-<span class="na">KTcLow_lower</span><span class="o">=</span><span class="s">1</span>
-<span class="na">KTcLow_upper</span><span class="o">=</span><span class="s">20</span>
-<span class="na">steps</span><span class="o">=</span><span class="s">20</span>
-</pre></div>
-</div>
-<div class="section" id="ktchigh-lower">
-<span id="id6"></span><h3>KTcHigh_lower<a class="headerlink" href="#ktchigh-lower" title="Permalink to this heading"></a></h3>
-<p>The lower range of ktc-high values in the calibration mode. The value is a float
-and by default 5.</p>
-</div>
-<div class="section" id="ktchigh-upper">
-<span id="id7"></span><h3>KTcHigh_upper<a class="headerlink" href="#ktchigh-upper" title="Permalink to this heading"></a></h3>
-<p>The upper range of ktc-high values in the calibration mode. The value is a float
-and by default 40.</p>
-</div>
-<div class="section" id="ktclow-lower">
-<span id="id8"></span><h3>KTcLow_lower<a class="headerlink" href="#ktclow-lower" title="Permalink to this heading"></a></h3>
-<p>The lower range of ktc-low values in the calibration mode. The value is a float
-and by default 1.</p>
-</div>
-<div class="section" id="ktclow-upper">
-<span id="id9"></span><h3>KTcLow_upper<a class="headerlink" href="#ktclow-upper" title="Permalink to this heading"></a></h3>
-<p>The upper range of ktc-low values in the calibration mode. The value is a float
-and by default 20.</p>
-</div>
-<div class="section" id="steps">
-<span id="id10"></span><h3>steps<a class="headerlink" href="#steps" title="Permalink to this heading"></a></h3>
-<p>The amount of steps between the lower and upper values for ktc low and ktc high
-during a calibration run. This value is an integer and by default 12.</p>
-</div>
 </div>
 <div class="section" id="references">
 <h2>References<a class="headerlink" href="#references" title="Permalink to this heading"></a></h2>
