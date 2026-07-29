@@ -13,4 +13,4 @@ https://ees.kuleuven.be/en/geography/modelling/erosion/watem-sedem/contact.
 
 Do you have questions about the application of WaTEM/SEDEM in Flanders?
 Please contact Departement Omgeving of the Government of Flanders
-on cn-ws@omgeving.vlaanderen.be
+on watemsedem@omgeving.vlaanderen.be
