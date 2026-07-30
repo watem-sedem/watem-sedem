@@ -75,7 +75,7 @@ with :math:`\beta`:
 .. math::
     \beta = \frac{\frac{sin(\theta)}{0.0896}}{3.sin^{0.8}(\theta) + 0.56}
 
-where :math:`\theta` stands for the slope of the pixel in percentages.
+where :math:`\theta` stands for the slope of the pixel in radians.
 
 The preferred method (i.e. Van Oost et al. (2003) or McCool et al. (1989, 1987))
 can be selected by setting the model choice *L model* to 'Desmet1996_Vanoost2003'
@@ -103,7 +103,7 @@ and is used in the calculation of :ref:`RUSLE <rusle>` and
 :ref:`transport capacity (TC) <TC>`.
 
 Both models are a function of :math:`\theta`: the inclination angle or slope
-(%). The computation of the inclination angle is based on the four cardinal
+in radians. The computation of the inclination angle is based on the four cardinal
 neighbouring pixels (Zevenbergen and Thorne, 1987).
 
 The two S-models are:
