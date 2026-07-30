@@ -60,7 +60,7 @@ the documentation please contact KU Leuven via
 https://ees.kuleuven.be/en/geography/modelling/erosion/watem-sedem/contact.
 
 Do you have questions about the application of WaTEM/SEDEM in Flanders?
-Please contact Departement Omgeving on cn-ws@omgeving.vlaanderen.be
+Please contact Departement Omgeving on watemsedem@omgeving.vlaanderen.be
 
 ## References
 
