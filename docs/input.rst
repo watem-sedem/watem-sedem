@@ -516,9 +516,9 @@ Parcel connectivity forest
 **************************
 
 The 'parcel connectivity forest' expresses the reduction of the upstream area (:math:`A_{pixel}`)
-at a boundary of a forest. It is an integer value between 0 and 100. The
+at a boundary of a forest or pasture. It is an integer value between 0 and 100. The
 reduction on the upstream area is applied when the target pixel is of the
-land cover 'forest' (:ref:`Parcel map value<prcmap>`: -3).
+land cover 'forest' (:ref:`Parcel map value<prcmap>`: -3) or 'pasture' (:ref:`Parcel map value<prcmap>`: -4).
 
 .. math::
 
