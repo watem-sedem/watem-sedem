@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DistributeTilDirEvent_Routing</title>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'base',
+      flowchart: {
+        nodeSpacing: 70,
+        rankSpacing: 130,
+        diagramPadding: 16
+      }
+    });
+  </script>
+  <style>
+    body { margin: 0; font-family: Georgia, serif; background: #f6f1e8; color: #1f2933; }
+    main { max-width: 1600px; margin: 0 auto; padding: 24px; }
+    a { color: #0f766e; text-decoration: none; }
+    .frame { background: #fffdf8; border: 1px solid #d8c8a3; border-radius: 14px; padding: 18px; overflow: auto; margin-bottom: 22px; }
+    .hint { color: #52606d; }
+    h2 { margin-top: 0; }
+    .nav { margin: 12px 0 18px; padding: 12px 14px; background: #fffbeb; border: 1px solid #fde68a; border-radius: 10px; }
+    .footer-nav { margin-top: 18px; display: flex; gap: 16px; justify-content: space-between; align-items: center; padding: 12px 14px; background: #fffbeb; border: 1px solid #fde68a; border-radius: 10px; }
+    .note { margin: 0 0 22px; padding: 14px 16px; background: #fff7ed; border: 1px solid #fdba74; border-radius: 10px; color: #7c2d12; line-height: 1.55; }
+    .phase-a { background: #eff6ff; border: 2px solid #93c5fd; }
+    .phase-b { background: #fefce8; border: 2px solid #fcd34d; }
+    .phase-label { display: inline-block; margin-bottom: 10px; padding: 4px 10px; border-radius: 999px; font-size: 0.82rem; font-weight: 700; letter-spacing: 0.02em; }
+    .phase-a .phase-label { background: #dbeafe; color: #1d4ed8; }
+    .phase-b .phase-label { background: #fef3c7; color: #92400e; }
+  </style>
+</head>
+<body>
+  <main>
+    <p><a href="index.html">Back to index</a></p>
+    <h1>DistributeTilDirEvent_Routing</h1>
+    <p class="hint">This page splits the non-river routing logic into a preparation phase and a detailed candidate-target decision phase.</p>
+    <div class="nav">
+      Previous file: <a href="02-river-routing.html">DistributeRiver_Routing</a>. Next file: <a href="04-find-lower.html">FindLower</a>, then <a href="05-apply-routing.html">Apply_Routing</a>.
+    </div>
+    <div class="note">
+      <strong>When is Part A used?</strong> Part A is always entered first for a non-river cell. It handles the early-exit cases: buffers, ditches, dams, cells directly routing into a nearby river, and cells directly routing into a nearby ditch or dam.
+      <br>
+      <strong>When is Part B used?</strong> Part B is only reached if none of those early-exit cases applied. In that case Part A computes a flow direction, chooses two candidate target cells, and then passes control to Part B.
+      <br>
+      <strong>So the rule is:</strong> if Part A exits early, Part B is skipped completely. If Part A reaches the node <em>Continue to detailed parcel and elevation decision logic</em>, then Part B is applied.
+    </div>
+
+    <div class="frame phase-a">
+      <div class="phase-label">Part A: early-exit and direction setup</div>
+      <h2>Part A: special cases and direction choice</h2>
+      <p class="hint">Part A ends immediately for buffer, ditch, dam, nearby-river, and nearby-ditch-or-dam cases. Only the bottom branch of this diagram continues into Part B.</p>
+      <pre class="mermaid">
+flowchart TD
+    A[Start DistributeTilDirEvent_Routing for non-river cell i,j] --> B{Is the cell part of a buffer?}
+    B -- Yes --> C[Call Apply_Buffer]
+    C --> D[Buffer logic assigns one target and exits]
+
+    B -- No --> E{Is the cell part of a ditch?}
+    E -- Yes --> F[Call Follow_Direction using ditch_map]
+    F --> G[Assign one ditch target and exit]
+
+    E -- No --> H{Is the cell part of a dam?}
+    H -- Yes --> I[Call Follow_Direction using dam_map]
+    I --> J[Assign one dam target and exit]
+
+    H -- No --> K[Inspect the 3x3 neighborhood around the cell]
+    K --> L{Is there an adjacent river cell that may be used under the cardinal routing rule?}
+    L -- Yes --> M[Choose the lowest allowed river neighbor]
+    M --> N[Assign that river cell as Target1]
+    N --> O[Set Part1 to 1.0 and exit]
+
+    L -- No --> P{Is there an adjacent ditch or dam cell?}
+    P -- Yes --> Q[Choose the lowest adjacent ditch or dam cell]
+    Q --> R[Assign that ditch or dam cell as Target1]
+    R --> S[Set Part1 to 1.0 and exit]
+
+    P -- No --> T{Use tillage direction instead of aspect?}
+    T -- Yes --> U[Use tillage direction]
+    U --> V[If needed, reverse it so it points downslope]
+    V --> W[Continue with this direction]
+
+    T -- No --> X[Use aspect direction]
+    X --> W[Continue with this direction]
+
+    W --> Y[Compute CSN and SN]
+    Y --> Z[Determine the quadrant of the direction]
+    Z --> AA[Select candidate Target1 and Target2 in that quadrant]
+    AA --> AB[Initialize Part1 and Part2 from the directional split]
+    AB --> AC[Continue to detailed parcel and elevation decision logic]
+
+    click C href "04-find-lower.html" "Open FindLower context"
+    click D href "04-find-lower.html" "Open FindLower context"
+    click O href "02-river-routing.html" "Compare with river routing"
+    click S href "04-find-lower.html" "Open FindLower context"
+    click AC href "03-land-routing.html#part-b" "Go to Part B on this page"
+
+    classDef start fill:#86efac,stroke:#166534,stroke-width:2px,color:#1f2933;
+    classDef process fill:#fcd34d,stroke:#92400e,stroke-width:1.5px,color:#1f2933;
+    classDef decision fill:#a5b4fc,stroke:#4338ca,stroke-width:1.5px,color:#1f2933;
+    classDef endnode fill:#f9a8d4,stroke:#9d174d,stroke-width:1.5px,color:#1f2933;
+
+    class A start;
+    class C,D,F,G,I,J,K,M,N,O,Q,R,S,U,V,W,X,Y,Z,AA,AB,AC process;
+    class B,E,H,L,P,T decision;
+      </pre>
+    </div>
+
+    <div class="frame phase-b" id="part-b">
+      <div class="phase-label">Part B: candidate-target filtering</div>
+      <h2>Part B: simplified candidate target filtering</h2>
+      <p class="hint">Part B starts only after Part A has already chosen two candidate targets from the flow direction. It keeps the split only when both targets are downslope and land-cover compatible; otherwise it falls back to FindLower.</p>
+      <pre class="mermaid">
+    flowchart TD
+    A[Two candidate targets already chosen] --> B{Is Target1 or Target2 higher than the source cell?}
+    B -- Yes --> C[Set Part1 to 0 and Part2 to 0]
+    B -- No --> D{Are both targets land-cover compatible with the source?}
+    D -- Yes --> E[Keep Part1 and Part2 from the directional split]
+    D -- No --> C
+
+    C --> F{Are both Part1 and Part2 equal to 0 now?}
+    E --> G[Write the chosen target information into Routing]
+    F -- Yes --> H[Call FindLower fallback]
+    F -- No --> G
+    G --> I[If Part1 is 0, clear Target1]
+    I --> J[If Part2 is 0, clear Target2]
+    J --> K[Return to Calculate_routing]
+    H --> K
+
+    D -. rule .-> R1[For each target: same parcel as source OR grass strip when source is a parcel]
+
+    click H href "04-find-lower.html" "Open FindLower"
+    click K href "01-routing-overview.html" "Return to Calculate_routing overview"
+
+    classDef start fill:#86efac,stroke:#166534,stroke-width:2px,color:#1f2933;
+    classDef process fill:#fdba74,stroke:#9a3412,stroke-width:1.5px,color:#1f2933;
+    classDef decision fill:#93c5fd,stroke:#1d4ed8,stroke-width:1.5px,color:#1f2933;
+    classDef endnode fill:#f9a8d4,stroke:#9d174d,stroke-width:1.5px,color:#1f2933;
+    classDef note fill:#fff7ed,stroke:#c2410c,stroke-width:1px,color:#7c2d12;
+
+    class A,K start;
+    class C,E,G,H,I,J process;
+    class B,D,F decision;
+    class R1 note;
+      </pre>
+    </div>
+    <div class="footer-nav">
+      <span><a href="02-river-routing.html">Previous: DistributeRiver_Routing</a></span>
+      <span><a href="index.html">Up: index</a></span>
+      <span><a href="04-find-lower.html">Next: FindLower</a></span>
+    </div>
+  </main>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apply_Routing</title>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'base' });
+  </script>
+  <style>
+    body { margin: 0; font-family: Georgia, serif; background: #f6f1e8; color: #1f2933; }
+    main { max-width: 1500px; margin: 0 auto; padding: 24px; }
+    a { color: #0f766e; text-decoration: none; }
+    .frame { background: #fffdf8; border: 1px solid #d8c8a3; border-radius: 14px; padding: 18px; overflow: auto; margin-bottom: 22px; }
+    .hint { color: #52606d; }
+    .nav { margin: 12px 0 18px; padding: 12px 14px; background: #fdf2f8; border: 1px solid #f9a8d4; border-radius: 10px; }
+    .footer-nav { margin-top: 18px; display: flex; gap: 16px; justify-content: space-between; align-items: center; padding: 12px 14px; background: #fdf2f8; border: 1px solid #f9a8d4; border-radius: 10px; }
+  </style>
+</head>
+<body>
+  <main>
+    <p><a href="index.html">Back to index</a></p>
+    <h1>Apply_Routing</h1>
+    <p class="hint">Post-processing of the routing graph: inversion, queue ordering, and optional reporting of unresolved routes.</p>
+    <div class="nav">
+      Previous file: <a href="04-find-lower.html">FindLower</a>. After this, go back to <a href="01-routing-overview.html">Calculate_routing overview</a> if you want the full loop again.
+    </div>
+
+    <div class="frame">
+      <pre class="mermaid">
+flowchart TD
+    A[Start Apply_Routing] --> B[Call Invert_routing on the Routing table]
+    B --> C[For each cell, collect all upstream parents]
+    C --> D[Break problematic pairwise rings when necessary]
+    D --> E[If a cell has no target, FindLower may assign one here]
+    E --> F[Initialize treated-state arrays]
+    F --> G[Allocate row and column arrays for processing order]
+    G --> H[Find starting points with no upstream parents]
+    H --> I[Put those starting points into the queue]
+    I --> J{Are there still cells left in the queue?}
+    J -- Yes --> K[Take the next queued cell]
+    K --> L[If Part1 exists, mark this parent relation as treated for Target1]
+    L --> M[If Part2 exists, mark this parent relation as treated for Target2]
+    M --> N{Did a target cell now receive all of its upstream parents?}
+    N -- Yes --> O[Append that target cell to the queue]
+    N -- No --> P[Continue]
+    O --> Q[Advance to the next queue entry]
+    P --> Q
+    Q --> J
+    J -- No --> R{Is Write_routing enabled?}
+    R -- Yes --> S[Write routing_missing.txt for unresolved cases]
+    R -- No --> T[Finish]
+    S --> T
+
+    click B href "01-routing-overview.html" "Return to Calculate_routing overview"
+    click E href "04-find-lower.html" "Open FindLower"
+    click T href "index.html" "Back to routing diagrams index"
+
+    classDef start fill:#86efac,stroke:#166534,stroke-width:2px,color:#1f2933;
+    classDef process fill:#fdba74,stroke:#9a3412,stroke-width:1.5px,color:#1f2933;
+    classDef decision fill:#93c5fd,stroke:#1d4ed8,stroke-width:1.5px,color:#1f2933;
+
+    class A,T start;
+    class B,C,D,E,F,G,H,I,K,L,M,O,P,Q,S process;
+    class J,N,R decision;
+      </pre>
+    </div>
+    <div class="footer-nav">
+      <span><a href="04-find-lower.html">Previous: FindLower</a></span>
+      <span><a href="index.html">Up: index</a></span>
+      <span><a href="01-routing-overview.html">Next: back to Calculate_routing overview</a></span>
+    </div>
+  </main>
+</body>
+</html>

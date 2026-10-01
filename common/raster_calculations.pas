@@ -745,6 +745,7 @@ Var
   CSN,SN,PART1,PART2,extremum : extended;
   K1,K2,l1,L2,ROWMIN,COLMIN,K,L, Area : integer;
   closeriver, closeditchdam, criterium: boolean;
+  target1_lc_ok, target2_lc_ok, keep_two_targets: boolean;
   Direction : single;
 Begin
   closeriver := false;
@@ -958,145 +959,26 @@ Begin
         End;
 
 
-//In het volgende deel worden part1 en part2 ingevuld of niet naargelang de ontvangende cellen hoger liggen of tot een ander perceel behoren
-      If DTM[i+k1,j+l1]>DTM[i,j] Then //If the first target cell has a higher elevation
-        Begin
-          If DTM[i+k2,j+l2] > DTM[i,j] Then //If both cells have a higher elevation
-            Begin
+// Simplified candidate-filtering phase:
+// keep the original two-target split only when both targets are downslope
+// and land-cover compatible with the source; otherwise use FindLower.
+      if (DTM[i+k1,j+l1] > DTM[i,j]) or (DTM[i+k2,j+l2] > DTM[i,j]) then
+        begin
+          part1 := 0.0;
+          part2 := 0.0;
+        end
+      else
+        begin
+          target1_lc_ok := (PRC[i+k1,j+l1] = PRC[i,j]) or ((PRC[i,j] >= 1) and (PRC[i+k1,j+l1] = GRASS_STRIP));
+          target2_lc_ok := (PRC[i+k2,j+l2] = PRC[i,j]) or ((PRC[i,j] >= 1) and (PRC[i+k2,j+l2] = GRASS_STRIP));
+          keep_two_targets := target1_lc_ok and target2_lc_ok;
+
+          if not keep_two_targets then
+            begin
               part1 := 0.0;
               part2 := 0.0;
-              //twee ontvangende cellen liggen hoger dan huidige cel en krijgen dus niets meer
-            End
-          Else // Only target cell 1 has a higher elevation
-            Begin
-              If PRC[i+k2,j+l2]<>PRC[i,j] Then
-                //indien deze ene cel tot een ander perceel behoort dan..
-                Begin
-                  If (PRC[i+k2,j+l2] = GRASS_STRIP) Then
-                    // If the target cell is a grass buffer strip it receives everything
-                    Begin
-                      part2 := 1.0;
-
-                   // In the distributionflux_LS procedure this is corrected for parcel connectivity
-                      part1 := 0;
-                    End
-                  Else
-                    Begin
-                      part2 := 0.0;
-                      part1 := 0.0;
-
-         //... ontvangt deze cel (voorlopig) niets (preferentiële afstroming langs perceelsgrenzen)
-                    End;
-                End
-              Else //If the parcel of the target cell is the same as the source cell...
-                Begin
-                      PART2 := 1.0;
-                      //...it receives everything
-                      PART1 := 0.0;
-                End;
-            End;
-        End
-      Else //If the first target cell does not have a higher elevation
-        Begin
-          If DTM[i+k2,j+l2]>DTM[i,j] Then    //cel 1 lagergelegen maar cel 2 hoger...
-            Begin
-              If PRC[i+k1,j+l1] <> PRC[i,j] Then
-                Begin
-                  If (PRC[i+k1,j+l1] = GRASS_STRIP) Then
-                    // If the target cell is a grass buffer strip it receives everything
-                    Begin
-                      part1 := 1.0;
-                      //(part1+part2)*(TFSED_forest/100);
-                      part2 := 0;
-                    End
-                  Else
-                    Begin
-                      part1 := 0.0;
-
-               // cellen ontvangen voorlopig niets (preferentiële afstroming langs perceelsgrenzen)
-                      part2 := 0.0;
-                    End;
-                End
-              Else                          // als tot zelfde perceel behoort../
-                Begin
-                      part1 := 1.0;
-                      // ... ontvangt ze alles
-                      part2 := 0.0;
-                End;
-            End
-          Else //Beide targetcellen liggen lager dan de broncel
-            Begin
-              If PRC[i+k1,j+l1]<>PRC[i,j] Then
-                Begin
-                  If PRC[i+k2,j+l2]<>PRC[i,j] Then // If both target cell have a different parcel ID
-                    Begin
-                      If PRC[i+k1,j+l1] = GRASS_STRIP Then // If the first one is a grass buffer strip
-                        Begin
-                          If PRC[i+k2,j+l2] = GRASS_STRIP Then
-                            // If both target cells are grass buffer strips
-                            Begin
-                              PART1 := PART1;
-                              PART2 := PART2;
-                            End
-                          Else
-                            // if only the first target cell is a grass buffer strip
-                            Begin
-
-                                  PART1 := 1.0;
-                                  PART2 := 0.0;
-                            End;
-                        End
-                      Else
-                        Begin
-                          If (PRC[i+k2,j+l2] = GRASS_STRIP) Then
-                            // if only the 2nd target cell is a grass buffer strip
-                            Begin
-                              PART2 := 1.0;
-                              PART1 := 0.0;
-                            End
-                          Else
-                            // If none of the target cells is a grass buffer strip
-                            Begin
-                              Part1 := 0.0;
-                              PART2 := 0.0;
-                            End;
-                        End;
-                    End
-                  Else // als targetcel 1 tot ander perceel behoort, maar targetcel 2 niet...
-                    Begin
-                      If PRC[i+k1,j+l1] = GRASS_STRIP Then   // Target cell 1 is a grass buffer strip
-                        Begin
-                          PART1 := PART1;
-                          PART2 := PART2;
-                        End
-                      Else            // Target cell 1 is not a grass buffer strip
-                        Begin
-                              PART2 := 1.0;
-                              PART1 := 0.0;
-                        End;
-                    End;
-                End
-                // If target cell 1 has the same parcel ID
-              Else
-                Begin
-                  If PRC[i+k2,j+l2]<>PRC[i,j] Then
-                    // als enkel targetcel 2 tot ander perceel behoort...
-                    Begin
-                      If PRC[i+k2,j+l2] = GRASS_STRIP Then
-                        // als targetcel 2 een grasbufferstrook of grasgang is...
-                        Begin
-                          PART1 := PART1;
-                          PART2 := PART2;
-                        End
-                      Else                 // targetcel 2 is geen grasbufferstrook of grasgang
-                        Begin
-                              PART1 := 1.0;
-                              PART2 := 0.0;
-                        End;
-                    End;
-                End;
-            End;
-        End;
+            end;
+        end;
 
       If ((PART1=0.0)And(PART2=0.0)) Then
         FindLower(i,j,  max_kernel)
@@ -1161,8 +1043,8 @@ check_differentparcel, check_river, check_sameparcel: boolean;
             If ((i+k)<1)Or(i+k>=nrow)Or(j+l<1)Or(j+l>=ncol) Then continue;
             //The cells at the border of the map are not looked at
             If ((DTM[I+K,J+L]<MINIMUM)And(DTM[I+K,J+L]<DTM[I,J])
-               //Als de bestemmingscel lager gelegen is dan broncel
-               And(PRC[I+K,J+L]=PRC[I,J]))Then
+              //Als de bestemmingscel lager gelegen is dan broncel
+              And((PRC[I+K,J+L]=PRC[I,J]) or ((PRC[I,J] >= 1) and (PRC[I+K,J+L] = GRASS_STRIP))))Then
               //En de bestemminscel nog niet behandeld is EN binnen hetzelfde perceel ligt
               Begin
                 check_sameparcel:= true;
