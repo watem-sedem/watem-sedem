@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Routing Diagrams Index (Updated Routing Logic)</title>
+  <style>
+    :root {
+      --bg: #f7f4ea;
+      --card: #fffdf7;
+      --ink: #1f2933;
+      --muted: #52606d;
+      --line: #d9c9a3;
+      --accent: #0f766e;
+      --accent-2: #b45309;
+    }
+    body {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      background: radial-gradient(circle at top, #fffaf0 0%, var(--bg) 65%);
+      color: var(--ink);
+    }
+    main {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 32px 20px 48px;
+    }
+    h1 {
+      margin: 0 0 12px;
+      font-size: 2.2rem;
+    }
+    p {
+      line-height: 1.55;
+      color: var(--muted);
+    }
+    .grid {
+      display: grid;
+      gap: 16px;
+      margin-top: 28px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 20px;
+      box-shadow: 0 10px 24px rgba(62, 39, 10, 0.08);
+    }
+    .card h2 {
+      margin: 0 0 8px;
+      font-size: 1.25rem;
+    }
+    .card a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 700;
+    }
+    .card a:hover {
+      text-decoration: underline;
+    }
+    .tag {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: #fef3c7;
+      color: var(--accent-2);
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Routing Diagrams (Updated Routing Logic)</h1>
+    <p>
+      These pages split the routing logic from <strong>Raster_calculations.pas</strong> into smaller readable diagrams.
+      This copy reflects the updated simplified Part B and adjusted FindLower parcel-to-grass behavior.
+      Open them separately in a browser so the Mermaid graphs stay legible.
+    </p>
+    <p>
+      Recommended reading order:
+      <a href="01-routing-overview.html">overview</a> ->
+      <a href="02-river-routing.html">river routing</a> ->
+      <a href="03-land-routing.html">land routing</a> ->
+      <a href="04-find-lower.html">FindLower</a> ->
+      <a href="05-apply-routing.html">Apply_Routing</a>
+    </p>
+
+    <div class="grid">
+      <section class="card">
+        <h2><a href="01-routing-overview.html">1. Calculate_routing overview</a></h2>
+        <p>Top-level flow: initialize routing table, choose river versus non-river routing, apply forced routing, then finalize with Apply_Routing.</p>
+        <span class="tag">overview</span>
+      </section>
+
+      <section class="card">
+        <h2><a href="02-river-routing.html">2. DistributeRiver_Routing</a></h2>
+        <p>Decision flow for river cells: explicit river direction, downstream segment search, and fallback when no next segment cell can be found.</p>
+        <span class="tag">river routing</span>
+      </section>
+
+      <section class="card">
+        <h2><a href="03-land-routing.html">3. DistributeTilDirEvent_Routing</a></h2>
+        <p>Main routing logic for non-river cells: buffers, ditches, dams, rivers nearby, tillage versus aspect direction, and the two-target parcel checks.</p>
+        <span class="tag">land routing</span>
+      </section>
+
+      <section class="card">
+        <h2><a href="04-find-lower.html">4. FindLower</a></h2>
+        <p>Fallback behavior when no valid local target remains and the search expands outward for a lower or acceptable target.</p>
+        <span class="tag">fallback</span>
+      </section>
+
+      <section class="card">
+        <h2><a href="05-apply-routing.html">5. Apply_Routing</a></h2>
+        <p>Post-processing of the routing table: inversion, queue construction, and optional reporting of unresolved routes.</p>
+        <span class="tag">finalization</span>
+      </section>
+    </div>
+  </main>
+</body>
+</html>

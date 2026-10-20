@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FindLower</title>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'base' });
+  </script>
+  <style>
+    body { margin: 0; font-family: Georgia, serif; background: #f6f1e8; color: #1f2933; }
+    main { max-width: 1500px; margin: 0 auto; padding: 24px; }
+    a { color: #0f766e; text-decoration: none; }
+    .frame { background: #fffdf8; border: 1px solid #d8c8a3; border-radius: 14px; padding: 18px; overflow: auto; margin-bottom: 22px; }
+    .hint { color: #52606d; }
+    .nav { margin: 12px 0 18px; padding: 12px 14px; background: #fdf2f8; border: 1px solid #f9a8d4; border-radius: 10px; }
+    .footer-nav { margin-top: 18px; display: flex; gap: 16px; justify-content: space-between; align-items: center; padding: 12px 14px; background: #fdf2f8; border: 1px solid #f9a8d4; border-radius: 10px; }
+  </style>
+</head>
+<body>
+  <main>
+    <p><a href="index.html">Back to index</a></p>
+    <h1>FindLower</h1>
+    <p class="hint">Fallback routing when no valid local routing target remains.</p>
+    <div class="nav">
+      Previous file: <a href="03-land-routing.html">DistributeTilDirEvent_Routing</a>. Next file: <a href="05-apply-routing.html">Apply_Routing</a>.
+    </div>
+
+    <div class="frame">
+      <pre class="mermaid">
+flowchart TD
+    A[Start FindLower for cell i,j] --> B[Initialize search window W = 1]
+    B --> C[Clear best same-parcel, river, and different-parcel candidates]
+    C --> D[Inspect only the outer ring of the current search window]
+    D --> E{Is there a lower cell in the same parcel?}
+    E -- Yes --> F[Store the lowest lower same-parcel cell]
+    F --> G[Mark check_sameparcel as true]
+    G --> H{Is there also a river candidate or a different-parcel candidate?}
+    H -- Any --> I[Same-parcel candidate still has priority]
+
+    E -- No --> J{Is there a river cell in the search window?}
+    J -- Yes --> K[Store the lowest river cell]
+    K --> L[Mark check_river as true]
+
+    J -- No --> M{Is there a lower cell in a different parcel?}
+    M -- Yes --> N[Store the lowest lower different-parcel cell]
+    N --> O[Mark check_differentparcel as true]
+    M -- No --> P[No valid candidate found in this window]
+
+    I --> Q{Any valid candidate found?}
+    L --> Q
+    O --> Q
+    P --> Q
+
+    Q -- No --> R[Increase W]
+    R --> S{Is W greater than max_kernel?}
+    S -- No --> D
+    S -- Yes --> T[Mark the cell as having no valid fallback target]
+    T --> U[Set all targets and parts to invalid values]
+    U --> V[Return False]
+
+    Q -- Yes --> W{Was a same-parcel candidate found?}
+    W -- Yes --> X[Assign the same-parcel candidate as Target1]
+    W -- No --> Y[Assign the river or different-parcel candidate as Target1]
+    X --> Z[Set One_Target to True, Part1 to 1, Part2 to 0]
+    Y --> Z
+    Z --> AA[Return True]
+
+    click AA href "01-routing-overview.html" "Return to Calculate_routing overview"
+    click V href "01-routing-overview.html" "Return to Calculate_routing overview"
+
+    classDef start fill:#86efac,stroke:#166534,stroke-width:2px,color:#1f2933;
+    classDef process fill:#fcd34d,stroke:#92400e,stroke-width:1.5px,color:#1f2933;
+    classDef decision fill:#a5b4fc,stroke:#4338ca,stroke-width:1.5px,color:#1f2933;
+    classDef endnode fill:#f9a8d4,stroke:#9d174d,stroke-width:1.5px,color:#1f2933;
+
+    class A,AA start;
+    class B,C,D,F,G,I,K,L,N,O,P,R,T,U,X,Y,Z process;
+    class E,H,J,M,Q,S,W decision;
+    class V endnode;
+      </pre>
+    </div>
+    <div class="footer-nav">
+      <span><a href="03-land-routing.html">Previous: DistributeTilDirEvent_Routing</a></span>
+      <span><a href="index.html">Up: index</a></span>
+      <span><a href="05-apply-routing.html">Next: Apply_Routing</a></span>
+    </div>
+  </main>
+</body>
+</html>

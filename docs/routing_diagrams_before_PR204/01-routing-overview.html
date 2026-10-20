@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculate_routing Overview</title>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'base' });
+  </script>
+  <style>
+    body { margin: 0; font-family: Georgia, serif; background: #f6f1e8; color: #1f2933; }
+    main { max-width: 1400px; margin: 0 auto; padding: 24px; }
+    a { color: #0f766e; text-decoration: none; }
+    .frame { background: #fffdf8; border: 1px solid #d8c8a3; border-radius: 14px; padding: 18px; overflow: auto; }
+    .hint { color: #52606d; }
+    .nav { margin: 12px 0 18px; padding: 12px 14px; background: #ecfdf5; border: 1px solid #99f6e4; border-radius: 10px; }
+    .footer-nav { margin-top: 18px; display: flex; gap: 16px; justify-content: space-between; align-items: center; padding: 12px 14px; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px; }
+    .note { margin: 0 0 18px; padding: 14px 16px; background: #fff7ed; border: 1px solid #fdba74; border-radius: 10px; color: #7c2d12; line-height: 1.55; }
+  </style>
+</head>
+<body>
+  <main>
+    <p><a href="index.html">Back to index</a></p>
+    <h1>Calculate_routing overview</h1>
+    <p class="hint">This page shows only the top-level orchestration in Calculate_routing.</p>
+    <div class="nav">
+      Next files to open from this page: <a href="02-river-routing.html">DistributeRiver_Routing</a>, <a href="03-land-routing.html">DistributeTilDirEvent_Routing</a>, then <a href="04-find-lower.html">FindLower</a>, and finally <a href="05-apply-routing.html">Apply_Routing</a>.
+    </div>
+    <div class="note">
+      <strong>Important:</strong> the `DistributeTilDirEvent_Routing` branch is internally split into two phases.
+      First there is an <strong>early-exit phase</strong> for buffers, ditches, dams, nearby rivers, and nearby ditch or dam routing.
+      Only if none of those cases applies does the code continue into the <strong>candidate-target phase</strong>, where two targets are chosen and filtered using elevation, parcel, and grass-strip rules.
+    </div>
+    <div class="frame">
+      <pre class="mermaid">
+flowchart TD
+    A[Start Calculate_routing] --> B[Allocate Routing array with one record per raster cell]
+    B --> C[Initialize each cell with invalid targets and zero parts]
+    C --> D[Loop over all rows]
+    D --> E[Loop over all columns]
+    E --> F{Is the cell outside the study area?}
+    F -- Yes --> G[Skip the cell]
+    G --> H{More cells left?}
+    F -- No --> I{Is the cell a river cell?}
+    I -- Yes --> J{Is river_routing enabled?}
+    J -- Yes --> K[Call DistributeRiver_Routing for this cell]
+    J -- No --> L[Do nothing for this river cell here]
+    I -- No --> M[Call DistributeTilDirEvent_Routing for this cell]
+    K --> H
+    L --> H
+    M --> H
+    H -- Yes --> E
+    H -- No --> N{Is force_routing enabled?}
+    N -- No --> O[Call Apply_Routing]
+    N -- Yes --> P[Loop over forced_routing definitions]
+    P --> Q[Overwrite Target1 with the forced target cell]
+    Q --> R[Set Target2 invalid, Part1 to 1, Part2 to 0, One_Target to True]
+    R --> S{More forced routes left?}
+    S -- Yes --> P
+    S -- No --> O
+    O --> T[Invert routing and build processing order]
+    T --> U[End Calculate_routing]
+
+    click K href "02-river-routing.html" "Open DistributeRiver_Routing"
+    click M href "03-land-routing.html" "Open DistributeTilDirEvent_Routing"
+    click O href "05-apply-routing.html" "Open Apply_Routing"
+    click T href "05-apply-routing.html" "Open Apply_Routing"
+
+    classDef start fill:#d9f99d,stroke:#365314,stroke-width:2px,color:#1f2933;
+    classDef process fill:#fde68a,stroke:#92400e,stroke-width:1.5px,color:#1f2933;
+    classDef decision fill:#bfdbfe,stroke:#1d4ed8,stroke-width:1.5px,color:#1f2933;
+    classDef final fill:#fecdd3,stroke:#be123c,stroke-width:1.5px,color:#1f2933;
+
+    class A,U start;
+    class B,C,D,E,G,K,L,M,P,Q,R,O,T process;
+    class F,I,J,H,N,S decision;
+      </pre>
+    </div>
+    <div class="footer-nav">
+      <span><a href="index.html">Up: index</a></span>
+      <span><a href="02-river-routing.html">Next: DistributeRiver_Routing</a></span>
+    </div>
+  </main>
+</body>
+</html>

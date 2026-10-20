@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DistributeRiver_Routing</title>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'base' });
+  </script>
+  <style>
+    body { margin: 0; font-family: Georgia, serif; background: #f6f1e8; color: #1f2933; }
+    main { max-width: 1400px; margin: 0 auto; padding: 24px; }
+    a { color: #0f766e; text-decoration: none; }
+    .frame { background: #fffdf8; border: 1px solid #d8c8a3; border-radius: 14px; padding: 18px; overflow: auto; }
+    .hint { color: #52606d; }
+    .nav { margin: 12px 0 18px; padding: 12px 14px; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 10px; }
+    .footer-nav { margin-top: 18px; display: flex; gap: 16px; justify-content: space-between; align-items: center; padding: 12px 14px; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 10px; }
+  </style>
+</head>
+<body>
+  <main>
+    <p><a href="index.html">Back to index</a></p>
+    <h1>DistributeRiver_Routing</h1>
+    <p class="hint">Routing for river cells only.</p>
+    <div class="nav">
+      Previous file: <a href="01-routing-overview.html">Calculate_routing overview</a>. Next file: <a href="03-land-routing.html">DistributeTilDirEvent_Routing</a>.
+    </div>
+    <div class="frame">
+      <pre class="mermaid">
+flowchart TD
+    A[Start DistributeRiver_Routing for river cell i,j] --> B[Read current river segment from RivSeg i,j]
+    B --> C[Initialize OK as false and clear rowmin and colmin]
+    C --> D{Does river_routing_map contain an explicit direction for this cell?}
+    D -- Yes --> E[Call Follow_Direction using river_routing_map]
+    E --> F[Set OK to true]
+    F --> G[Return with one explicit target]
+
+    D -- No --> H[Read nextsegment from river_adjectant for the current segment]
+    H --> I{Is nextsegment equal to 0?}
+    I -- Yes --> J[Exit without assigning a downstream segment target]
+    I -- No --> K[Start outward search with kernel size W = 1]
+    K --> L[Inspect only the outer ring of the current search window]
+    L --> M{Does the search ring contain a cell whose RivSeg equals nextsegment?}
+    M -- Yes --> N[Store row and column offset as ROWMIN and COLMIN]
+    N --> O[Mark check as true]
+    O --> P{Did we find a valid downstream segment cell?}
+    M -- No --> Q[Increase the kernel size]
+    Q --> R{Has W become larger than max_kernel?}
+    R -- No --> K
+    R -- Yes --> S[Mark this river cell as having no valid target]
+    S --> T[Set One_Target to false]
+    T --> U[Set Target1 to invalid coordinates]
+    U --> V[Set Part1 to 0]
+    V --> W[Exit]
+
+    P -- Yes --> X{Is rowmin or colmin different from 0?}
+    X -- Yes --> Y[Assign Target1 to i + ROWMIN and j + COLMIN]
+    Y --> Z[Set One_Target to true]
+    Z --> AA[Set Part1 to 1.0]
+    AA --> AB[End river routing for this cell]
+    X -- No --> AC[End without further assignment]
+
+    click D href "01-routing-overview.html" "Back to Calculate_routing overview"
+    click G href "03-land-routing.html" "Continue to non-river routing"
+    click AB href "03-land-routing.html" "Continue to non-river routing"
+    click AC href "04-find-lower.html" "Open FindLower"
+
+    classDef start fill:#86efac,stroke:#166534,stroke-width:2px,color:#1f2933;
+    classDef process fill:#fdba74,stroke:#9a3412,stroke-width:1.5px,color:#1f2933;
+    classDef decision fill:#93c5fd,stroke:#1d4ed8,stroke-width:1.5px,color:#1f2933;
+    classDef endnode fill:#f9a8d4,stroke:#9d174d,stroke-width:1.5px,color:#1f2933;
+
+    class A,AB start;
+    class B,C,E,F,H,K,L,N,O,Q,S,T,U,V,Y,Z,AA process;
+    class D,I,M,P,R,X decision;
+    class G,J,W,AC endnode;
+      </pre>
+    </div>
+    <div class="footer-nav">
+      <span><a href="01-routing-overview.html">Previous: Calculate_routing overview</a></span>
+      <span><a href="index.html">Up: index</a></span>
+      <span><a href="03-land-routing.html">Next: DistributeTilDirEvent_Routing</a></span>
+    </div>
+  </main>
+</body>
+</html>
